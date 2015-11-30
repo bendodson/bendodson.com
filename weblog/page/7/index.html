@@ -37,7 +37,7 @@
 			<time datetime="2013-10-16" pubdate=""><a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/">October 16, 2013</a></time>
     	</header>
     	<div>
-			<p>Back in June 2011, <a href="http://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I&#39;ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
+			<p>Back in June 2011, <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I&#39;ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
 
 <p>The previous behaviour for iPads was that they would run a 320x480px boxed version of your app in the center of the display. If you pressed the 2x button, the app would be enlarged to 640x960px but would still use the same assets leading to a fuzzy mess. The retina iPads had it slightly better as they would use the larger assets and retina font smoothing leading to a better experience. In iOS 7, retina iPads (currently the 3rd and 4th generation) still allow this same toggle but the non-retina iPads (only the iPad 2 and iPad Mini on iOS 7) are now locked at 2x using your retina assets and font smoothing.</p>
 
@@ -134,17 +134,17 @@
 
 <p>The project became a lot more popular than I imagined and I was soon inundated with requests to add new features such as searching across international iTunes stores and adding movie artwork. More recently, I&#39;ve been asked to add iBooks artwork.</p>
 
-<p>I had a bit of spare time this morning so I&#39;ve updated <a href="http://bendodson.com/projects/itunes-artwork-finder/">the project page</a> and added a fair few new features.</p>
+<p>I had a bit of spare time this morning so I&#39;ve updated <a href="https://bendodson.com/projects/itunes-artwork-finder/">the project page</a> and added a fair few new features.</p>
 
 <ul>
 <li><p><strong>Media Types</strong> - I&#39;ve extended the iTunes Artwork Finder to now work with not only TV Shows and Movies, but also iBooks, Apps, and Music Albums.</p></li>
 <li><p><strong>Resolution</strong> - I discovered that I was able to get higher than 600x600px artwork in some instances. Movies can be upto 1800x2400px and I&#39;ve seen some TV shows at 2400x2400px. Apps will always be at 512px square or 1024px square depending on when the app was released or last updated. iBooks, Movies, and Music Albums are a bit problematic as licensing issues often prevent the high resolution artwork being made visible. I&#39;ve left the link there as it does work with some (seems to depend on the studio) but there is a caveat listeed as I don&#39;t expect you&#39;ll get good results.</p></li>
-<li><p><strong>Countries</strong> - There are now 5 iTunes Stores that can be searched across; UK, US, Germany, Sweden, and the Netherlands. If you want your country added, just <a href="http://bendodson.com/contact/">get in touch</a>.</p></li>
+<li><p><strong>Countries</strong> - There are now 5 iTunes Stores that can be searched across; UK, US, Germany, Sweden, and the Netherlands. If you want your country added, just <a href="https://bendodson.com/contact/">get in touch</a>.</p></li>
 </ul>
 
-<p>I&#39;m pretty pleased with the update, particularly now that I&#39;ve managed to get album covers and iBooks worked out (and I think the app icon search could be useful). <a href="http://bendodson.com/projects/itunes-artwork-finder/">Give it a try</a> and let me know how you get on!</p>
+<p>I&#39;m pretty pleased with the update, particularly now that I&#39;ve managed to get album covers and iBooks worked out (and I think the app icon search could be useful). <a href="https://bendodson.com/projects/itunes-artwork-finder/">Give it a try</a> and let me know how you get on!</p>
 
-<p><a href="http://bendodson.com/projects/itunes-artwork-finder/">Try out the iTunes Artwork Finder</a></p>
+<p><a href="https://bendodson.com/projects/itunes-artwork-finder/">Try out the iTunes Artwork Finder</a></p>
 
 		</div>
 	</article>
@@ -181,11 +181,11 @@
 			<time datetime="2013-01-29" pubdate=""><a href="/weblog/2013/01/29/ca-current-media-time/">January 29, 2013</a></time>
     	</header>
     	<div>
-			<p>You may remember me <a href="http://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">extolling the virtues of CACurrentMediaTime()</a> a few days ago in relation to keeping track of time on iOS (specifically in allowing me to sync up the WallaBee Store to the nearest second around the world).</p>
+			<p>You may remember me <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">extolling the virtues of CACurrentMediaTime()</a> a few days ago in relation to keeping track of time on iOS (specifically in allowing me to sync up the WallaBee Store to the nearest second around the world).</p>
 
 <p>This is a retraction of that.</p>
 
-<p>The problem is that CACurrentMediaTime() has a fatal flaw. Whilst it’s designed to be a counter, it only actually works whilst the iPhone (or iPad) is active. Here is how it’s described by Apple in <a href="http://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">their documentation</a>:</p>
+<p>The problem is that CACurrentMediaTime() has a fatal flaw. Whilst it’s designed to be a counter, it only actually works whilst the iPhone (or iPad) is active. Here is how it’s described by Apple in <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">their documentation</a>:</p>
 
 <blockquote>
 <p>Returns the current absolute time, in seconds. A <em>CFTimeInterval</em> derived by calling <em>mach<em>absolute</em>time()</em> and converting the result to seconds.</p>
@@ -197,7 +197,7 @@
 
 <p>See, the interesting thing about mach<em>absolute</em>time() is that it appears to be the ‘active’ time of the device, that is to say it’s the number of seconds that you iPhone has been active. However, it’s more sneaky than that as putting your device in standby mode will actually leave the device ‘active’ for a few minutes whilst core components are turned off. In effect, if you are relying on mach<em>absolute</em>time() and, by extension, CACurrentMediaTime(), you’ll find that the ticks suddenly pause when your iDevice has been in standby for a few minutes.</p>
 
-<p>So how did this come to light? My game, <a href="http://wallab.ee/">WallaBee</a>, required a way to count time accurately independent of the system clock (which can be changed by the user). <a href="http://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">I built a system</a> which allowed me to get the time from my server, account for some lag, and then render elements from CoreData at specific times based on what I believed was a steady ticking in seconds. When the app was sent out to my testers, it seemed to work but occassionally putting the device to sleep and then resuming would lead to some odd behaviour; the clock was running slightly behind. I tried replicating this several times to no avail and eventually left it ‘as is’ since it seemed to be occurring very infrequently and there was no way to work out exactly was happening.</p>
+<p>So how did this come to light? My game, <a href="http://wallab.ee/">WallaBee</a>, required a way to count time accurately independent of the system clock (which can be changed by the user). <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">I built a system</a> which allowed me to get the time from my server, account for some lag, and then render elements from CoreData at specific times based on what I believed was a steady ticking in seconds. When the app was sent out to my testers, it seemed to work but occassionally putting the device to sleep and then resuming would lead to some odd behaviour; the clock was running slightly behind. I tried replicating this several times to no avail and eventually left it ‘as is’ since it seemed to be occurring very infrequently and there was no way to work out exactly was happening.</p>
 
 <p>After the code made it into the App Store, there were a few more people commenting that the Store seemed to be running a few seconds behind (or in some cases, minutes behind). I again ran some builds and couldn’t find any errors and it was only after considering that my Xcode build and Testflight build (read “Ad Hoc”) could be different that I discovered the error; any build that wasn’t tethered to my laptop suffered from a slowing down of time. As the Store automatically corrects itself at ~8 minute intervals, and the bug only presented itself after a few minutes of standby, it was quite tricky to replicate exactly.</p>
 
@@ -239,7 +239,7 @@
 			<time datetime="2013-01-22" pubdate=""><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">January 22, 2013</a></time>
     	</header>
     	<div>
-			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn&#39;t count up when an iPhone is in standby mode. <a href="http://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
+			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn&#39;t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
 
 <p>If you’ve played <a href="http://wallab.ee/">WallaBee</a> you’ll know that one of the key areas of the app is the Store, a place where you can buy items with the app currency you collect. The Store has a 3 x 4 grid of items with a timer under each; when the timer runs out, a new item is displayed for purchase. This all sounds straightforward, but when the WallaBee API started getting 3 million hits per day, the Store was one of the first areas to suffer. In this article, I want to run through a few of the problems I experienced when building it the first time, and go into details on the improvements I’ve just added in v1.1.5 of the app which will be available this week.</p>
 
@@ -459,7 +459,7 @@
     	<div>
 			<p>I&#39;ve been neglecting this website of late as I&#39;ve been working fulltime on <a href="http://wallab.ee/">WallaBee</a> for the past few months. However, I&#39;m currently available for a short (&lt; 3 month) freelance iOS contract or project ideally on a remote basis although I can obviously travel for key meetings, etc. If you have something you think may be of interest, then <a href="/contact/">please get in touch</a>.</p>
 
-<p>I&#39;ll be getting around to updating this website more fully at some point but you can always follow me on <a href="http://alpha.app.net/bendodson">App.net</a> or <a href="http://twitter.com/bendodson">Twitter</a> or read my personal blog at <a href="http://bendodson.com/">bendodson.com</a>.</p>
+<p>I&#39;ll be getting around to updating this website more fully at some point but you can always follow me on <a href="http://alpha.app.net/bendodson">App.net</a> or <a href="http://twitter.com/bendodson">Twitter</a> or read my personal blog at <a href="https://bendodson.com/">bendodson.com</a>.</p>
 
 		</div>
 	</article>
