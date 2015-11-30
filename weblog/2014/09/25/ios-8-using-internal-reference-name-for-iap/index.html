@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Today I noticed a slightly worrying bug in iOS. In-App Purchases seem to be using the internal reference name rather than the localized display name. As an example here is my config for one of the consumable IAPs in WallaBee:">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>iOS using internal reference name for IAP</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/09/25/ios-8-using-internal-reference-name-for-iap/">iOS using internal reference name for IAP</a></h1>
+			
+			<time datetime="2014-09-25" pubdate=""><a href="/weblog/2014/09/25/ios-8-using-internal-reference-name-for-iap/">September 25, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Today I noticed a slightly worrying bug in iOS. In-App Purchases seem to be using the internal reference name rather than the localized display name. As an example here is my config for one of the consumable IAPs in <a href="http://wallab.ee/">WallaBee</a>:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-edit.png" alt="iTunes Connect Edit IAP Language"></p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-summary.png" alt="iTunes Connect Edit IAP Summary"></p>
+
+<p>The reference name is &#39;v1.1 25000 Honeycombs&#39;<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> and the display name for UK English is &#39;pack of 25000 honeycombs&#39;. This means the purchase screen ends up looking like this:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-app.png" alt="iOS 8 IAP Display Name incorrect"></p>
+
+<p>Hardly ideal.</p>
+
+<p>I double checked the <a href="https://developer.apple.com/library/ios/documentation/LanguagesUtilities/Conceptual/iTunesConnectInAppPurchase_Guide/Chapters/CreatingInAppPurchaseProducts.html#//apple_ref/doc/uid/TP40013727-CH3-SW3">In-App Purchase Configuration Guide</a> and it still states that:</p>
+
+<blockquote>
+<p><em>In the Reference Name field, enter an internal name for the product.</em></p>
+</blockquote>
+
+<p>I&#39;ve not been able to see this in other apps as most people will use the same display name and reference name. I&#39;ve reported a bug with the Apple Bug Reporter <a href="http://openradar.io/18454842">Filed as 18454842</a>.</p>
+
+<p>You may want to check your own IAPs to make sure the reference name looks ok until this gets fixed. You can change them without going through App Review (as they aren&#39;t supposed to be visible to end users).</p>
+
+<p><strong>Update (26th September 2014):</strong> Tony McBride emailed me to say that he was experiencing the same issues on iOS 7 building against the iOS 7 SDK. I&#39;ve confirmed it is happening in WallaBee v1.4.1 (built with iOS 8 SDK) running on iOS 7. Looks like it may be an App Store issue rather than an iOS 8 issue. I&#39;ve updated this post to remove references to it being a solely iOS 8 problem.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>In case you are wondering why, I forget exactly. I think there were different packs in v1.0 which we then increased in v1.1 - some of the increases overlapped (i.e. 15000 became 25000) and so I had to use a different name. Prepending the version seemed to be a sensible choice as nobody would see it.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2014/09/26/islandbreak/" title="Next Article" class="pagination-next">IslandBreak &raquo;</a>
+    
+	 
+		<a href="/weblog/2014/09/24/how-not-to-deliver-a-speech/" title="Previous Article" class="pagination-previous">&laquo; How not to deliver a speech</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

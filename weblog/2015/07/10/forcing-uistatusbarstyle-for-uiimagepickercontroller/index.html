@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I stumbled upon an interesting problem today which I&#39;ve experienced a couple of times before; if you are using white text for the status bar in your application (UIStatusBarStyle.LightContent) then it will be turned black once you present a UIImagePickerController. This can not only look ugly but will remain when you dismiss the controller. Usually I just change the appearance of the navigation bar within the picker to get around this (and set it back to the correct colour upon dismissing the controller) but on this particular app I wanted to force the UIImagePickerController to use the light style status bar. Fortunately it is quite easy.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Forcing UIStatusBarStyle for UIImagePickerController</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">Forcing UIStatusBarStyle for UIImagePickerController</a></h1>
+			
+			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">July 10, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I stumbled upon an interesting problem today which I&#39;ve experienced a couple of times before; if you are using white text for the status bar in your application (<code>UIStatusBarStyle.LightContent</code>) then it will be turned black once you present a UIImagePickerController. This can not only look ugly but will remain when you dismiss the controller. Usually I just change the appearance of the navigation bar within the picker to get around this (and set it back to the correct colour upon dismissing the controller) but on this particular app I wanted to force the UIImagePickerController to use the light style status bar. Fortunately it is quite easy.</p>
+
+<p>When you use the UIImagePickerControllerDelegate, you are also required to adopt the UINavigationControllerDelegate. This has a method named <code>navigationController:willShowViewController:animated:</code> which will be called both when you present the controller and when you navigate between albums. Using this, it is trivial to force the status bar to remain the same<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="nl">navigationController</span><span class="p">:</span> <span class="bp">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
+    <span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">statusBarStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">LightContent</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>This is of course assuming you have <em>View controller-based status bar appearance</em> set to NO in your Info.plist file so that you can use UIApplication to change the status bar.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2015/07/14/uk-apple-pay/" title="Next Article" class="pagination-next">UK Apple Pay &raquo;</a>
+    
+	 
+		<a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/" title="Previous Article" class="pagination-previous">&laquo; Optical media and the pain of Remote Disc</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

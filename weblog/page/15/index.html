@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+
+	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/02/28/google-extended-encoding-made-easy/">Google extended encoding made easy!</a></h1>
+			
+			<time datetime="2008-02-28" pubdate=""><a href="/weblog/2008/02/28/google-extended-encoding-made-easy/">February 28, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've been having a play around with <a href="http://code.google.com/apis/chart" rel="external">Google Charts</a> recently but came across a problem with the range of values that can be used. With <a href="http://code.google.com/apis/chart/#simple" rel="external">simple encoding</a>, you can only have values between 0 and 64, and with <a href="http://code.google.com/apis/chart/#text" rel="external">text encoding</a> only values between 0 to 100.  This is annoying when dealing with things such as tracking website hits or weight when values are typically much higher.</p>
+
+<p>I played around with some functions to try and factorise the numbers so that they would be in the range of 0 to 100 but this didn't go so well so I decided to tackle Google's <a href="http://code.google.com/apis/chart/#extended" rel="external">extended encoding</a>.</p>
+
+<p>This is a system of encoding that basically takes a pair of alphanumeric characters and translates them into a number between 0 and 4095 (much better!).  So for example, B9 translates to 125 and .a would translate to 4058.  However, although this has a much larger range, it's a bit harder to get your head around and so what is needed is a simple function (or two) to convert to and from the extended encoding.  Predictably, I have said PHP functions here:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="k">function</span> <span class="nf">array_to_extended_encoding</span><span class="p">(</span><span class="nv">$array</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$characters</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.&#39;</span><span class="p">;</span>
+
+    <span class="nv">$encoding</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$first</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="nv">$value</span> <span class="o">/</span> <span class="mi">64</span><span class="p">);</span>
+        <span class="nv">$second</span> <span class="o">=</span> <span class="nv">$value</span> <span class="o">%</span> <span class="mi">64</span><span class="p">;</span>
+        <span class="nv">$encoding</span> <span class="o">.=</span> <span class="nv">$characters</span><span class="p">[</span><span class="nv">$first</span><span class="p">]</span> <span class="o">.</span> <span class="nv">$characters</span><span class="p">[</span><span class="nv">$second</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$encoding</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="k">function</span> <span class="nf">extended_encoding_to_array</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$characters</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.&#39;</span><span class="p">;</span>  
+
+    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$characters</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$first</span><span class="p">[</span><span class="nv">$characters</span><span class="p">[</span><span class="nv">$i</span><span class="p">]]</span> <span class="o">=</span> <span class="nv">$i</span> <span class="o">*</span> <span class="mi">64</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$characters</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$second</span><span class="p">[</span><span class="nv">$characters</span><span class="p">[</span><span class="nv">$i</span><span class="p">]]</span> <span class="o">=</span> <span class="nv">$i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$pairs</span> <span class="o">=</span> <span class="nb">str_split</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$pairs</span> <span class="k">as</span> <span class="nv">$pair</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$first</span><span class="p">[</span><span class="nv">$pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
+        <span class="nv">$value</span> <span class="o">+=</span> <span class="nv">$second</span><span class="p">[</span><span class="nv">$pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+        <span class="nv">$values</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>They work fairly simply by taking advantage of PHP's casting methods in that a string can be interpreted as an array.</p>
+
+<p>In the first function, <code>array_to_extended_encoding()</code>, an array of numbers should be passed e.g. <code>array(250,39,400,1904,2)</code>.  The function first lists all of the extended encoding characters in order as one string named <code>$characters</code>.  It then loops through our array of numbers, and creates two variables; <code>$first</code> and <code>$second</code>.  In <code>$first</code>, we store the number from our array divided by 64 and rounded down using the <a href="http://www.php.net/floor" rel="external"><code>floor()</code></a> function.  For <code>$second</code>, we use the modulus operator (<code>%</code>) to find the remainder once the number from the array is divided by 64.  We then take both <code>$first</code> and <code>$second</code> and work out the encoding by looking up the numbers from within the <code>$characters</code> cast as an array.  This gives us 2 characters which make up the extended encoding for the number.  We keep extending the value of <code>$encoding</code> until we end up with a string representing the full extended encoding of the array passed to the function.</p>
+
+<p>The second function, <code>extended_encoding_to_array()</code>, is slightly more advanced.  It accepts a string as its only parameter which should be an extended encoding (e.g. <code>$encoding = 'AA..B9aC'</code>).  We first list all of the characters in a string as we did for our previous function, but then we create two arrays which will contain all of the numbers we need to decode the extended encoding.  In <code>$first</code>, we create an array of each character in the <code>$characters</code> string as a number multiplied by 64 (so the letter b would be 64 as it is signified by number 1 in the array multiplied by 64).  Within <code>$second</code> we perform a similar operation but instead just assign the number of the character rather than multiplying it by 64.  This gives us two arrays, with keys relating to each character that can be used as an encoding and values as the numerical equivalent.  It is now a simple case of splitting the string that was passed to the function into chunks of 2 characters using <a href="http://www.php.net/str_split" rel="external"><code>str_split()</code></a> and looping through the returned array setting the value of each character within the pair from the arrays we created.  We then add the two returned numbers together to give us the decoded figure and add it to an array which will be returned by the function.</p>
+
+<p>Simple?  It has certainly made things a lot easier for the functions I'm writing for a PHP wrapper for Google Charts and hopefully it will help somebody else as well.   If you have any questions or comments, please <a href="http://bendodson.com/contact/">get in touch</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/02/26/firefox-extensions-page-will-brb/">Firefox Extensions page will be right back!</a></h1>
+			
+			<time datetime="2008-02-26" pubdate=""><a href="/weblog/2008/02/26/firefox-extensions-page-will-brb/">February 26, 2008</a></time>
+    	</header>
+    	<div>
+			<p>As some of you may have noticed, the new site design has caused the Firefox Extensions page to go awry.  This will return shortly (along with a few new extensions) but for the time being you are better to go the Mozilla Addons site to download the extensions.</p>
+
+<p>
+<strong>Stop! Hammertime</strong> - <a href="https://addons.mozilla.org/en-US/firefox/addon/974" rel="external">https://addons.mozilla.org/en-US/firefox/addon/974</a><br />
+<strong>Font Finder</strong> - <a href="https://addons.mozilla.org/en-US/firefox/addon/4415" rel="external">https://addons.mozilla.org/en-US/firefox/addon/4415</a><br />
+<strong>Stop in the Name of Love</strong> - <a href="https://addons.mozilla.org/en-US/firefox/addon/3771" rel="external">https://addons.mozilla.org/en-US/firefox/addon/3771</a>
+</p>
+<p><strong>Update: </strong> The extensions page is now up and running again and can be viewed at <a href="http://bendodson.com/weblog/extensions/">http://bendodson.com/weblog/extensions/</a></p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/02/25/phpmyopenid-beta-testers-required/">phpMyOpenID Beta Testers Required!</a></h1>
+			
+			<time datetime="2008-02-25" pubdate=""><a href="/weblog/2008/02/25/phpmyopenid-beta-testers-required/">February 25, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've finally got around to adding full multi-user support for my <a href="http://labs.bendodson.com/weblog/phpmyopenid/">phpMyOpenID</a> script and I'm now looking for some beta testers to help find any bugs that are lurking around.</p>
+
+		</div>
+	</article>
+    
+	
+</section>
+
+
+<section id="pagination">
+     
+	
+    
+      
+      	<a href="/weblog/page/14/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
+      
+    
+</section>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

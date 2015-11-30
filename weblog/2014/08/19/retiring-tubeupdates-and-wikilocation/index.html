@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Today I&#39;m sad to announce that both TubeUpdates.com and WikiLocation.org have been retired.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Retiring TubeUpdates and WikiLocation</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">Retiring TubeUpdates and WikiLocation</a></h1>
+			
+			<time datetime="2014-08-19" pubdate=""><a href="/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">August 19, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Today I&#39;m sad to announce that both TubeUpdates.com and WikiLocation.org have been retired.</p>
+
+<h2>TubeUpdates</h2>
+
+<p>Started in 2009 as part of the <a href="http://niksilver.com/2009/08/02/guardian-hack-day-2/">Guardian Hack Day 2</a>, TubeUpdates.com was an API that allowed you to find out the status of each of the London Underground lines. It worked by screen scraping the TfL website every minute of the day and for the past 5 years it has stored data on every status update.</p>
+
+<p>Back in March of this year, the API stopped fetching new data due to changes to the TfL website. As TfL were now providing their own richer API, I announced it would be retired in May.</p>
+
+<p>The API will now return a 404 error for all endpoints. I&#39;d recommend checking out <a href="http://www.tfl.gov.uk/info-for/open-data-users/our-feeds#on-this-page-1">the TfL API</a> as a replacement for live status information. If you are interested in historical information, you can <a href="https://bendodson.s3.amazonaws.com/tubeupdates.sql.zip">download a MySQL dump</a> of all of the status updates I retrieved during the 5 year period.</p>
+
+<h2>WikiLocation</h2>
+
+<p>I built WikiLocation in 2010 as I was working on an app which needed to fetch Wikipedia articles that were nearby. As it turned out, I never got around to building that app but the API took off and has been used around the world. At the time of writing, there was only one unofficial API that fetched geocoded articles and it was woefully out of date. I was informed by a Wikipedia staff member recently (quite rudely) that they now have their own API.</p>
+
+<p>I&#39;ve been meaning to retire WikiLocation for a while but some issues with my hosting company this week have accelerated this as some automatic updates they added have killed my infrastructure. WikiLocation was the last site on the old hardware and the time it would take to rewrite it and put it onto new hosting is time I don&#39;t have (especially considering that donations for the service from those who have used it haven&#39;t covered a single week of the hosting I&#39;ve been paying for over the last 4 years).</p>
+
+<p>The API will now return a 404 error for all endpoints. You may want to take a look at <a href="https://www.mediawiki.org/wiki/Extension:GeoData#API">the official API from Wikipedia</a> (I haven&#39;t looked into it myself) or you can <a href="https://bendodson.s3.amazonaws.com/wikilocation-dumps/index.html">download the latest MySQL dumps</a> (in 38 languages) of the data I retrieved. Alternatively, you can take a look at the <a href="https://wiki.toolserver.org/view/Ghel">original python script</a> that crawls the Wikipedia linking tables to build your own scraper.</p>
+
+<p>It is always a shame to have to terminate a service and I apologise for the inconvenience this may cause as there was no deprecation time. However, it just isn&#39;t feasible for me to rewrite the entire API for new hosting when there are other alternatives available.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2014/09/03/font-finder-featured/" title="Next Article" class="pagination-next">Font Finder Featured &raquo;</a>
+    
+	 
+		<a href="/weblog/2014/07/23/off-on-honeymoon/" title="Previous Article" class="pagination-previous">&laquo; Off on honeymoon!</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="A few weeks ago, Gowalla released version 4.0 of their app to an overwhelmingly negative response. I myself will be posting a review soon but in this quick post I wanted to share a few tips on how to use the new API that is powering the app as an official API is apparently not coming until Q1 2012.   In a post entitled "Where the Gowalla API is going" on the official Gowalla Developers Group, it was revealed that most bits of the existing API "should be working" but a version 2 of the API would be coming in 2012 that enables developers to leverage the new features such as stories, lists, likes, guides, and so on. Unfortunately, several parts of the existing API broke on launch of the new app (including OAuth integration which took out nearly all 3rd party apps, trips, and an advanced search API) and some parts were completely removed (such as PubSubhubbub, one of the key things that actually made the Gowalla API a compelling thing to use). I have a number of apps that use the old API and were affected in small ways (I learnt long ago never to make direct calls to the Gowalla API) but there were a few things like trips that I needed direct access to more immediately. So, I spent a few minutes digging into the new Gowalla app and found the new connection details that are required to talk to the new API.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>The API behind Gowalla v4</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">The API behind Gowalla v4</a></h1>
+			
+			<time datetime="2011-10-24" pubdate=""><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">October 24, 2011</a></time>
+    	</header>
+    	<div>
+			<p>A few weeks ago, Gowalla released version 4.0 of their app to an overwhelmingly negative response. I myself will be posting a review soon but in this quick post I wanted to share a few tips on how to use the new API that is powering the app as an official API is apparently not coming until Q1 2012.   
+In a post entitled "<a href="http://groups.google.com/group/gowalla-dev/browse_thread/thread/880cc4a5de51e016">Where the Gowalla API is going</a>" on the official Gowalla Developers Group, it was revealed that most bits of the existing API "should be working" but a version 2 of the API would be coming in 2012 that enables developers to leverage the new features such as stories, lists, likes, guides, and so on. Unfortunately, several parts of the existing API broke on launch of the new app (including OAuth integration which took out nearly all 3rd party apps, trips, and an advanced search API) and some parts were completely removed (such as PubSubhubbub, one of the key things that actually made the Gowalla API a compelling thing to use). I have a number of apps that use the old API and were affected in small ways (I learnt long ago never to make direct calls to the Gowalla API) but there were a few things like trips that I needed direct access to more immediately. So, I spent a few minutes digging into the new Gowalla app and found the new connection details that are required to talk to the new API.</p>
+
+<p>It's actually fairly easy! Firstly, instead of connecting to http://api.gowalla.com/ change the URL to <strong>https://api9000.gowalla.com/</strong></p>
+
+<p>Next, there are 4 headers you have to send with every request. 2 of them, "<code>Accept: application/json</code>" and "<code>X-Gowalla-API-Key</code>", were required for the old API but Gowalla have also added an "<code>X-Gowalla-Bruce-Lee</code>" header (with a password so they know it's the Gowalla app using the API) and an "<code>X-Gowalla-API-Version</code>" header which seems to suggest they are taking my advice of 18 months ago and versioning the API rather than just breaking existing apps. So, the full headers you need to send are:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Accept: application/json
+X-Gowalla-API-Key: YOUR-API-KEY-HERE
+X-Gowalla-Bruce-Lee: l33tkuned0
+X-Gowalla-API-Version: 2</code></pre></div>
+
+<p>If you do that, you should be able to call an API endpoint such as users/bendodson where you'll find a load of new data that isn't in the normal API. That should also give you a good idea of the naming conventions of new endpoints (e.g. /lists rather than /trips). In all of my testing, existing features such as OAuth have worked fine.</p>
+
+<p>As a final example, the trips detail API is still broken on the current API (despite this being "looked into" 2 weeks ago). If you were to request <code>trips/168</code> you'll get a 404 not found error. This is one of the many broken API calls that is affecting apps that are currently out in the wild. However, if you change your code to use the new URL and the new headers, you can request <code>lists/168</code> to get full details of the trip you are after. Some of the keys will have changed name but it should be enough to get your app at least up and running.</p>
+
+<p>Obviously, you use all of the above at your own risk. Gowalla are unlikely to break anything immediately as any changes to the headers, endpoints, or keys will break their app. However, there will probably be changes as and when they release new versions of their apps.</p>
+
+<p>I have been very vocal on both <a href="http://bendodson.com/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">the good</a> and <a href="http://techcrunch.com/2010/05/12/gowalla-api-problems/">the bad</a> points of the Gowalla API in the past. There had been a real effort to alert 3rd party developers to changes in recent months but the new v4 app fundamentally broke important parts of the API (particularly OAuth login) and fixes were slow coming or have still yet to come with regards to the /trips endpoint. Putting an API out for the new app in Q1 of next year is a very long time to wait for something that really should have launched alongside or shortly after the new app particularly as the API does already exist. In short, Gowalla really have a long way to improve in their dealings with 3rd party developers. Personally, I'm moving my apps away from Gowalla and starting to use other services but I'll be posting more about that soon.</p>
+
+<p><strong>Update [25th Oct 2011]:</strong> Andrew Dupont responded to this article on the Gowalla Devs Group with:</p>
+
+<blockquote><p>At any rate, we've fixed the trips API. Let me know if anything's still out of order.</p></blockquote>
+
+<p>Turns out Gowalla will fix things if you complain enough...</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2011/12/03/goodbye-gowalla/" title="Next Article" class="pagination-next">Goodbye Gowalla &raquo;</a>
+    
+	 
+		<a href="/weblog/2011/08/20/highlights-v1-1-gowalla-trips-last-fm-events-and-translations/" title="Previous Article" class="pagination-previous">&laquo; Highlights v1.1 - Gowalla Trips, Last.fm Events, and Translations</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

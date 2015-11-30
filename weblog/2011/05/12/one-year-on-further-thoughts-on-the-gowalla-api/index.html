@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Today is the one-year anniversary of a letter I put together entitled "Thoughts on the Gowalla API", a very critical look at the ever-changing API provided for the popular location-based service.  The article was picked up on TechCrunch and has been mentioned at conferences and events but I also like to think that it prompted a few changes. In this post, I want to revisit some of the points I made and hopefully highlight some of the changes that have come about as well showing where further improvements could be made.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>One year on: further thoughts on the Gowalla API</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">One year on: further thoughts on the Gowalla API</a></h1>
+			
+			<time datetime="2011-05-12" pubdate=""><a href="/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">May 12, 2011</a></time>
+    	</header>
+    	<div>
+			<p>Today is the one-year anniversary of a letter I put together entitled "<a href="http://gowallatools.com/api/">Thoughts on the Gowalla API</a>", a very critical look at the ever-changing API provided for the popular location-based service.  The article was picked up on <a href="http://techcrunch.com/2010/05/12/gowalla-api-problems/">TechCrunch</a> and has been <a href="http://blog.apigee.com/detail/api_design_rules/">mentioned at conferences</a> and events but I also like to think that it prompted a few changes. In this post, I want to revisit some of the points I made and hopefully highlight some of the changes that have come about as well showing where further improvements could be made.</p>
+
+<h2>History</h2>
+<p>When I first put the post together, I was running a service called Gowalla Tools and coming up against constant changes to the API and a very unresponsive developer community.  I decided to put the tools and services I was building on indefinite hiatus whilst I waited for some changes to take place.  The most important of these was putting in place a process of notifying API developers when changes were going to happen rather than making them and only occasionally sending out a notification a few days later. Fortunately this is now the case and Gowalla have assembled a fantastic team of developers who are constantly available on the <a href="http://groups.google.com/group/gowalla-dev">Gowalla Developers Google Group</a>. The big changes really started to happen in August 2010 when <a href="http://blog.gowalla.com/post/977720465/hello-3rd-party-apps-gowalla-checks-in-with-oauth">Gowalla announced that their OAuth 2.0 implementation</a> was now complete and you could now make secure authenticated calls including the ability to check users in at a spot (something which hadn't existed up until that point).</p>
+
+<p>Once OAuth 2.0 was introduced, I started to play around with the API again and launched a new service called <a href="http://wallab.ee/">Wallabee</a> in September.  The first application was entitled "<a href="http://wallab.ee/apps/travel-edition/">Wallabee: Travel Edition</a>" and allowed users to check-in using over 95% less data than the official app making it a) much faster and b) a lot cheaper when you are travelling overseas.  The app was a big success, frequently appearing in the "What's Hot" section of the App Store, and several of the Gowalla employees have used it whilst travelling. Over Christmas I made a number of announcements about future app plans and in March 2011 I, along with a number of contributors, launched The Wallabee Pouch. It was a new player guide, a directory of information, and home to <a href="http://wallab.ee/pouch/items/directory/">The Item Directory</a>, the largest and most up-to-date repository of Gowalla items.  This was all made possible due to an API that no longer changed and the incredibly helpful advice provided by many of the Gowalla Developers. I'd like to personally thank <a href="http://twitter.com/amcmanus/">Adam McManus</a> who provided a lot of advice and support whilst I was working on The Item Directory, probably the biggest drain on their API at present.</p>
+
+<p>I went to SXSW in March and was very privileged to meet the Gowalla team and spend some time chatting to their developers. I also listened to some incredibly powerful talks by <a href="http://schedule.sxsw.com/events/event_IAP6984">Josh Williams</a> and <a href="http://schedule.sxsw.com/events/event_IAP5756">Jon Carroll</a> which made me make some fundamental changes to the way I was working with Gowalla - you can read all about that on my <a href="http://bendodson.com/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">SXSW and Gamification post</a>.  It eventually led to me handing over Wallabee to another developer so I could focus on some of my own Gowalla apps that were focussed on the story and travelling elements of the service rather than the item and game based sections, but I'll get back to this shortly.</p>
+
+<h2>The API</h2>
+
+<blockquote><p>We accept that changes have to happen but these just need to be conveyed to developers in a better way. We propose that any changes be submitted to the Gowalla Developer Group at least 1 week in advance of a change so that we can update our code as necessary. We also suggest that a “version” parameter be added across the API so that legacy scripts can continue to work without changes. In this way, a developer can move to the next API version to take advantage of any new features and data but won’t risk having their hard work undone by what could be a very minor change (e.g. renaming a parameter).</p></blockquote>
+
+<p>This is probably the biggest area of improvement that the Gowalla API has undergone. This time last year, parameters were changed without consultation and code breakage was a frequent distraction. Now however, many changes are submitted to the Developer Group in advance and opinion is sought on the best ways to improve the API. This was highlighted most recently to me by Rob Mack who sent out an <a href="http://groups.google.com/group/gowalla-dev/browse_thread/thread/412852f04007ab4a#">incredibly detailed post about changes</a> they were going to make to the Check-In API. The changes were detailed along with a timeline of when they'd go into effect (3 weeks in future) and a promise that anybody who wouldn't be able to meet the deadline would be able to get an extension if they emailed. This was followed up weekly with reminders of the impending changes. It's this kind of conversation and service that goes beyond what I had originally suggested and makes it such a pleasure to work with the API now. There have been numerous suggestions from the community that have been added to the API in recent months and responses to bugs or questions are incredibly fast.  Whilst versioning hasn't come into effect, it hasn't really needed to as any changes have been non-destructive or have had a sensible transition period.</p>
+
+<blockquote><p>It may also be worth setting up a dedicated Twitter account for API changes as Foursquare has done with @foursquareapi - this would allow you to make quick posts to the community about any changes or downtime.</p></blockquote>
+
+<p>Whilst posts on the Developer Board have been greatly improved, I still believe that having a Twitter account for broadcasts about downtime or any major changes would be a good idea. I currently subscribe to the full emails of the board and so I can get an email whenever anybody posts something new - sometimes these are API developers asking basic questions yet sometimes they are important posts by the Gowalla devs that could easily get lost in the noise (especially if you have digests on). By having a feed that just posted notices from the Gowalla developers, visibility of changes would be greatly improved.</p>
+
+
+<h2>Cheating</h2>
+
+<p>I originally wrote a section about cheaters purely because the option to check-in was not available in the API despite the fact it could be done easily using a JavaScript hack on the mobile site. The main reason for not having it in the API was that it would increase the ease for cheaters to make false check-ins just to collect stamps and items. Whilst the API was eventually updated to allow check-ins, the number of people cheating the system is still very high.  A lot of trips are completed by people that haven't been to the spots and increases in check-in radius (which was a sliding scale depending on spot size and is now 5km regardless) have only exacerbated the problem. A lot of Gowalla players report these users to Gowalla via GetSatisfaction or email but there isn't any visibility on action taken. There have, however, been instances where users have been suspended for checking-in too fast, oftentimes incorrectly just on the basis of community feedback.  In my letter last year, I said:</p>
+
+<blockquote><p>With regards to cheating, it should be fairly simple to ascertain if somebody is checking-in illegally as you can measure the time and distance between two spots and see if the speed is over a certain threshold (e.g. if you have checked-in at Austin and London within 2 minutes then there is obviously a problem). An automated system could monitor such things and then suspend an account giving it limited permissions (e.g. no item trading) until a Gowalla developer (or STE member) has a chance to review the account and unlock or ban the user.</p></blockquote>
+
+<p>I know that this is possible as I decided to build my own system to do exactly this detection in order to stop the vigilante justice that had been seen.  However, many of the cheating accounts are private and are therefore unaccessible through the API which means Gowalla needs to tackle this problem themselves. I still believe that an automated system could work and involving the STE members would allow for a certain level of visibility on solving the issue.</p>
+
+<p>These issues are particularly troubling at the moment due to the launch of Gowalla Rewards, the ability to pick up items at certain locations which have some form of real world reward attached to them. This issue has been solved slightly by <a href="http://wallab.ee/pouch/items/tips/">a policy Gowalla put in place</a> which basically limits how many items you receive based on the number of check-ins you make - whilst a good system, it did essentially pitch those players who like items against those that like the stamps and trips (again read my <a href="http://bendodson.com/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">post on gamification</a> for more details on this) and it wasn't relayed to the community very well at all.  There is still a lot of work to be done in this area in my opinion.</p>
+
+
+<h2>Publicising</h2>
+
+<p>One of other items I suggested was:</p>
+
+<blockquote><p>Creating a directory of applications that use the API (such as Foursquare has)</p></blockquote>
+
+<p>Again, this is something that hasn't happened yet but there have been some very small moves to publicise things that have been made with the Gowalla API.  On the post announcing OAuth integration, a couple of projects that used the API were mentioned and on the official Gowalla twitter feed, a couple of web apps have been mentioned (they both did the same thing about 4 months apart, but still).  However, making brief reference to 4 apps over the course of a year doesn't really promote all of the cool things that people are making. It also doesn't encourage other developers to get involved as, without promotion by Gowalla, the API feels a little like an afterthought which is a shame given the huge amount of improvement that has been made.</p>
+
+<p>A page highlighting some of the applications made using the API would enable new developers to see a benefit to writing apps for the service - it also enables developers to get their app across to the core audience (as most apps developed are going to be targeting users already on the Gowalla service). I'm hopeful that the Gowalla twitter account will be posting out a few more of the great 3rd party apps that people have made over the coming months.</p>
+
+<h2>Documentation</h2>
+
+<p>One of the final criticisms I had was in the documentation of the API as it was particularly sparse.  Most of the comments on the Developer Boards were about errors being returned that weren't documented anywhere or about nuances in the API calls (e.g. why can't I check-in at the same place twice within an hour?) - However, the documentation has improved dramatically over the last few months with the Gowalla team listening to feedback from developers and patching up the docs or adding new pages as requested. A particularly difficult area was the new <a href="http://hub.gowalla.com/">PubSubHubbub</a> feature (which should really be publicised more - it's amazing) yet <a href="http://gowalla.com/api/docs/pshb">documentation was put up within a few days</a> of a request on the boards.</p>
+
+<h2>Summary</h2>
+
+<p>Overall, the Gowalla API has improved dramatically in the past year. With a solid foundation and regular updates from developers, there is now very little risk to basing an app on the API as opposed to last year when maintenance was taking longer than development.  There are still a few areas which could use improvement, particularly around publicising of 3rd party endeavours and communicating better around misdemeanours, but on the whole I can wholeheartedly recommend the API to any developer interested in location based services. There have been a lot of new API calls created and I get the feeling that there is some very exciting stuff around the corner. I would also recommend looking into the <a href="http://hub.gowalla.com/">PubSubHubbub</a> functionality as this puts Gowalla way ahead of its competitors by providing real-time notification of check-ins.</p>
+
+<p>Finally, I'd like to thank all the developers at Gowalla who have put so much time and effort into improving the API, particularly <a href="http://twitter.com/therealadam">Adam Keys</a>, <a href="http://twitter.com/andrewdupont">Andrew Dupont</a>, and <a href="http://twitter.com/robmack">Rob Mack</a> who have been incredibly responsive on the Developer Boards.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2011/05/28/wikilocation-adds-support-for-36-locales/" title="Next Article" class="pagination-next">WikiLocation adds support for 36 locales &raquo;</a>
+    
+	 
+		<a href="/weblog/2011/05/10/font-finder-now-available-for-firefox-4-and-safari-5/" title="Previous Article" class="pagination-previous">&laquo; Font Finder: Now available for Firefox 4 and Safari 5</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

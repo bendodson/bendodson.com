@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Over the past week I&#39;ve had a lot of fun working on some small scripts to aid my general day-to-day living. My wife is currently waiting to take her driving test but our local area only has one test instructor with a waiting list of over 6 months! Occassionally slots open up due to cancellations and so she has been logging into the Government website multiple times a day to check for a nearer date. Time for some automation!">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Finding the next available driving test with Goutte PHP Scraper</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">Finding the next available driving test with Goutte PHP Scraper</a></h1>
+			
+			<time datetime="2015-07-24" pubdate=""><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">July 24, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Over the past week I&#39;ve had a lot of fun working on some small scripts to aid my general day-to-day living. My wife is currently waiting to take her driving test but our local area only has one test instructor with a waiting list of over 6 months! Occassionally slots open up due to cancellations and so she has been logging into the <a href="https://driverpracticaltest.direct.gov.uk/login">Government website</a> multiple times a day to check for a nearer date. Time for some automation!</p>
+
+<p>To stop her having to constantly go to a website, I decided to knock up a quick PHP script that would basically pretend to be a browser, log in, go to the correct page, and rip out the next available appointment. It&#39;s been a while since I wrote a script like this so I had a look around for something better than <code>SimpleXML</code> and found <a href="https://github.com/FriendsOfPHP/Goutte">Goutte, a simple PHP Web Scraper</a>. Within 10 minutes, my script was working. It looks something like this:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="k">require</span> <span class="s1">&#39;vendor/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Goutte\Client</span><span class="p">;</span>
+
+<span class="nv">$licenseNumber</span> <span class="o">=</span> <span class="s1">&#39;xxx&#39;</span><span class="p">;</span> <span class="c1">// Driving License Number</span>
+<span class="nv">$referenceNumber</span> <span class="o">=</span> <span class="s1">&#39;xxx&#39;</span><span class="p">;</span> <span class="c1">// Reference number for current test date as looking to rebook</span>
+
+<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
+
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;https://driverpracticaltest.direct.gov.uk/login&#39;</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;h2&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">each</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$node</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$node</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Sorry, you can’t use this service right now&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">&#39;Site is down.&#39;</span><span class="p">;</span><span class="k">exit</span><span class="p">;</span> <span class="c1">// Inexplicably, the site goes offline from 9pm-6am. It thinks it&#39;s an office!</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;Continue&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;username&#39;</span> <span class="o">=&gt;</span> <span class="nv">$licenseNumber</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span> <span class="o">=&gt;</span> <span class="nv">$referenceNumber</span><span class="p">));</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Change Date and time of test&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">click</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;Find available dates&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;testChoice&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ASAP&#39;</span><span class="p">));</span>
+
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;.slotDateTime&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">each</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$node</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$date</span> <span class="o">=</span> <span class="nv">$node</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">();</span>
+    <span class="k">echo</span> <span class="nv">$date</span><span class="o">.</span><span class="s1">&#39; is the next available test slot.&#39;</span><span class="p">;</span>
+    <span class="c1">// Here I check if it has changed since last time and send an email if it has and nearer than currently booked test. Left out for brevity.</span>
+    <span class="k">exit</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>As you can see, the code is pretty simple, readable, and powerful. Within minutes, I was able to jump through 3 pages without worrying about sessions, cookies, or any of the other nonsense that often occurred when dealing with this kind of scraping. I run this every 5 minutes on a <a href="http://fortrabbit.com/">FortRabbit server</a> and we both get emailed if a closer test date appears. For just a few minutes work, this means better peace of mind as we don&#39;t have to check manually and this checks far more frequently than we ever could. Now to wait and hope for a nearer test date...</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2015/07/28/the-mobile-web/" title="Next Article" class="pagination-next">The mobile web &raquo;</a>
+    
+	 
+		<a href="/weblog/2015/07/17/transferwise/" title="Previous Article" class="pagination-previous">&laquo; TransferWise</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+
+	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/11/27/brapp-v1.1/">Brapp v1.1</a></h1>
+			
+			<time datetime="2015-11-27" pubdate=""><a href="/weblog/2015/11/27/brapp-v1.1/">November 27, 2015</a></time>
+    	</header>
+    	<div>
+			<p>A big update I worked on for <a href="https://www.brapp.tv">Brapp</a> went live today on the App Store. It&#39;s the first major update for the app and adds the following:</p>
+
+<blockquote>
+<ul>
+<li>You can now adjust audio levels of yourself and the beat after recording. Sweet.</li>
+<li>You can now rotate videos after recording so you’re not sideways when you don’t want to be.</li>
+<li>We’ve added 5 new video filters! Ice, Whitewash, Planet Rock, Purple Haze and Blackout.</li>
+<li>We’ve added controls for brightness and video filter intensity so there are infinite variations.</li>
+<li>The new video player is faster, smoother, lighter to control and does not overlay on top of videos. </li>
+<li>Producer’s names now show on videos made on their beats.</li>
+<li>The new beat player shows real waveforms because real waveforms rule.</li>
+<li>You can now loop beats by pressing the ∞ button.</li>
+<li>Spins now show on beats! Spins are all the plays of a beat INCLUDING plays of videos made on them.</li>
+<li>You can now filter your Saved Beats by title, producer name, #hashtag and bpm.</li>
+<li>You can now edit info on your beats &amp; videos. Phew.</li>
+<li>When you make a video you can see it’s progress as it uploads, you no longer have to wait hopingly!</li>
+<li>When you tap the beat icon on any video it shows you the beat, now it also shows you all the other - videos made on that beat on the same page.</li>
+<li>When commenting on a beat/video it won’t stop playing what you are listening to.</li>
+<li>You can tap profile pictures to make them big.</li>
+<li>It is now easier to find your Facebook and Twitter friends, and connect with popular users on Brapp.</li>
+<li>And there’s a heap of other handsome UI, UX and stability updates. P.s. We’re just getting started!</li>
+</ul>
+</blockquote>
+
+<p>If you haven&#39;t checked it out yet, you can get Brapp for free on <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">the App Store</a>. You can also <a href="http://bendodson.com/weblog/2015/09/24/brapp-the-rap-app/">read about the initial build and release</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp'd, an app for sharing personal messages</a></h1>
+			
+			<time datetime="2015-11-19" pubdate=""><a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">November 19, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m happy to announce that an iPhone app I&#39;ve been working on since September this year has gone live in the App Store; <a href="https://itunes.apple.com/gb/app/chippd/id570739404?mt=8">Chipp&#39;d v2.0</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/chippd-app.jpg" width="800"></p>
+
+<p>Chipp&#39;d is an app that works with real world products (available at <a href="http://www.johnlewis.com/search?Ntt=chipp%27d">John Lewis</a>) to let you share secrets or private messages with your friends. You simply scan the QR code on the sticker, create your secret (with video, audio, photos, and text), and send the sticker or card; your friend will then be able to see that secret when they scan it with the app or any other QR scanner.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/chippd-code.jpg" width="600"></p>
+
+<p>It is also possible to share secrets for free using the app via auto-generated URLs that can be sent via email or SMS.</p>
+
+<p>I was the sole iOS developer on the project and worked closely with the CTO of Chipp&#39;d to integrate their existing API into the product on an incredibly agressive timescale<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. Everything was written in Swift 2.0 and used AutoLayout for flexible layouts on all iPhone screen sizes. I&#39;m particularly proud of the QR scanner which I custom built when it transpired that the products that had been printed and shipped to distributors were too light for a conventional QR scanner to detect; I used GPUImage to manipulate the live video feed with multiple filters per second in order to quickly scan at different brightnesses and solve the issue before it caused major problems.</p>
+
+<p>You can check out <a href="https://itunes.apple.com/gb/app/chippd/id570739404?mt=8">Chipp&#39;d on the App Store</a> (it&#39;s free) and you can purchase the stickers and cards to use with it at <a href="http://www.johnlewis.com/search?Ntt=chipp%27d">John Lewis</a>.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>The stickers and cards were printed, sitting in a warehouse, and about to be available for sale from John Lewis for Christmas 2015!&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">A simple Audio Recorder controller in Swift (for iPhone)</a></h1>
+			
+			<time datetime="2015-10-20" pubdate=""><a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">October 20, 2015</a></time>
+    	</header>
+    	<div>
+			<p>iOS provides a number of useful modal views within it&#39;s system frameworks with everything from sending email to taking photos or video. However, there is still not a standard way to perform what is a fairly basic task; recording a voice memo.</p>
+
+<p>I had a need for such a feature on a project recently and so I put together <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController</a>. It&#39;s a basic modal view controller that allows you to record, playback, re-record, and save audio locally in mp4 format. </p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/audiorecorderviewcontroller.jpg" width="800"></p>
+
+<p>Usage is insanely simple and modelled on such classes as <code>UIImagePickerController</code>:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">presentAudioRecorder</span><span class="p">(</span><span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">AudioRecorderViewController</span><span class="p">()</span>
+    <span class="n">controller</span><span class="p">.</span><span class="n">audioRecorderDelegate</span> <span class="o">=</span> <span class="nb">self</span>
+    <span class="n">presentViewController</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">audioRecorderViewControllerDismissed</span><span class="p">(</span><span class="n">withFileURL</span> <span class="nl">fileURL</span><span class="p">:</span> <span class="bp">NSURL</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something with fileURL</span>
+    <span class="n">dismissViewControllerAnimated</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Check out <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController-Swift on GitHub</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">HKHealthStore Extension, deleteSamplesOfType</a></h1>
+			
+			<time datetime="2015-10-06" pubdate=""><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">October 06, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Following on from <a href="/weblog/2015/10/05/healthkit-radar-22977320/">my post yesterday</a> about the broken implementation of the <code>HKHealthStore</code> method <code>deleteObjectsOfType:predicate:withCompletion:</code>, I&#39;ve put together <a href="https://gist.github.com/bendodson/c0f0a6a1f601dc4573ba">a gist</a> which provides a fixed method that works with <code>HKSampleType</code> objects; <code>deleteSamplesOfType:predicate:withCompletion:</code></p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">Foundation</span>
+<span class="k">import</span> <span class="n">HealthKit</span>
+
+<span class="k">extension</span> <span class="n">HKHealthStore</span> <span class="p">{</span>
+    
+    <span class="k">func</span> <span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="nl">sampleType</span><span class="p">:</span> <span class="n">HKSampleType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="bp">NSPredicate</span><span class="p">,</span> <span class="n">withCompletion</span> <span class="nl">completion</span><span class="p">:</span> <span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="n">HKSampleQuery</span><span class="p">(</span><span class="nl">sampleType</span><span class="p">:</span> <span class="n">sampleType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">limit</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">sortDescriptors</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+            
+            <span class="k">if</span> <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">false</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="k">let</span> <span class="n">objects</span> <span class="o">=</span> <span class="n">results</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="n">objects</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+                    <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nb">self</span><span class="p">.</span><span class="n">deleteObjects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+                        <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="n">objects</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
+                    <span class="p">})</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+        <span class="nb">self</span><span class="p">.</span><span class="n">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span></code></pre></div>
+
+<p>It simply uses the <code>NSPredicate</code> within a <code>HKSampleQuery</code> in order to find any objects that match the <code>HKSampleType</code> and then deletes them with the <code>HKHealthStore</code> method <code>deleteObjects:withCompletion:</code> - this correctly ensures that you are only deleting objects that match both the predicate and type.</p>
+
+<p>By way of example, this simply extends <code>HKHealthStore</code> so you can do something like this:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="nl">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">stepType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) step objects: \(error)&quot;</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">stepQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">stepSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+
+<span class="k">let</span> <span class="n">flightsType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) flight objects: \(error)&quot;</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">flightsQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">flightsSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="p">}</span>
+<span class="p">})</span></code></pre></div>
+
+<p>As a reminder, you can file a duplicate of (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) if you&#39;d like to see the original bug fixed but in the meantime the above should allow you to carry on with your HealthKit app without worrying about deleting other data.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a></h1>
+			
+			<time datetime="2015-10-05" pubdate=""><a href="/weblog/2015/10/05/healthkit-radar-22977320/">October 05, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Working with any code, it is inevitable that you&#39;ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a &quot;radar&quot; so that they can track and hopefully fix any issues that arise. The issue is that the <a href="http://bugreport.apple.com/">Apple Bug Reporter</a> is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it&#39;s fix. This has led to sites like <a href="https://openradar.appspot.com/">Open Radar</a> that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.</p>
+
+<p>In any case, today I found an interesting bug in HealthKit. iOS 9 added a new method named <code>deleteObjectsOfType:predicate:withCompletion</code> which is supposed to let you delete any objects you have written to HealthKit nice and easily. For example, I might have an app which constantly checks your step count and flights climbed throughout the day and so it will want to delete any steps and flights from 00.00 to 23.59 before it adds the updated count. Unfortunately, the method doesn&#39;t seem to respect the <code>type</code> parameter and so it will delete everything that matches your query regardless of what <code>HKObjectType</code> it is.</p>
+
+<p>For example, consider the following code:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="nl">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">stepType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) step objects: \(error)&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="k">let</span> <span class="n">stepQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">stepSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="n">flightsType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) flight objects: \(error)&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="k">let</span> <span class="n">flightsQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">flightsSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+<span class="p">}</span></code></pre></div>
+
+<p>The expected result is that you&#39;ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you&#39;ll only get the Flights Climbed entry as the line <code>healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code>HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don&#39;t add up with what is expected:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
+
+<p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I&#39;ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you&#39;ll need to do a manual search for objects with <code>HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
+
+<p><strong>Update:</strong> I&#39;ve put together a fix for this issue with a new <code>HKHealthStore</code> method, <a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/"><code>deleteSamplesOfType:predicate:withCompletion:</code></a></p>
+
+<p><strong>Update:</strong> Whilst iOS 9.1 hasn&#39;t fixed this issue, my bug report has today (23rd Oct 2015) been marked as a duplicate of issue 23097982 so looks like they may be getting around to fixing it. iOS 9.2 perhaps?</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">The Times They Are A-Changin'</a></h1>
+			
+			<time datetime="2015-09-25" pubdate=""><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">September 25, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Over three and a half years ago I <a href="/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">announced the launch of WallaBee</a>, &quot;the ultimate collectibles game for iOS&quot;. Whilst it has been a labour of love for me for over the past four years, it has also been incredibly stressful and draining at times. Today I was very happy to announce that I&#39;d <a href="http://wallab.ee/blog/sep-2015/wallazee">sold WallaBee to Munzee</a>. I won&#39;t go into the details of how that will work for players (you can find out all about it on the <a href="http://wallab.ee/blog/">WallaBee Blog</a>) but I did want to talk a bit about how a relatively simple game became a huge business.</p>
+
+<p>I created WallaBee as it was a game I wanted to play<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. I&#39;d built several iOS apps in the past (including several that were featured by Apple) and my day job previously had been as a PHP developer so it was fairly trivial for me to throw the basic building blocks together. Over a few months of testing and iteration the game went live; it was free but monetised by using In-App Purchases for in game currency as well as a pro subscription for $5 a month which gave additional benefits to players. The feedback was great and I iterated quickly to a v1.1 product which launched at Nonick 012 where WallaBee was voted the &#39;Best European Gaming Startup of 2012&#39;. Over the coming years I&#39;d add extra bits of complexity and hidden secrets<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> and generally expand things out.</p>
+
+<p>However, my big plan was to launch a version 2 product. I&#39;d always considered v1.* to be a proof of concept and I had a ton of ideas for things I wanted to improve on. I pitched the idea to my co-founders in November 2012 and we showed off some screens and concepts to our players on April 1st 2013<sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup>. It was around that time that the number of players was expanding rapidly and so I spent most of my time dealing with server issues and scalability. Over time, the fast iteration I&#39;d started with slowed to a halt as I dealt with server scaling and that lead to issues when the innovation of iOS overtook us; for example, we didn&#39;t implement AutoLayout and so weren&#39;t equipped to deal with things like the iPhone 6 resolution change. This eventually led to nearly every issue needing the same solution; a complete rewrite of both the app and API. Unfortunately this was difficult to manage as all of my time as the sole developer was being taken up either trying to hold the server issues together enough for another release or dealing with player issues that crop up when you have thousands of people able to communicate with each other.</p>
+
+<p>After a while, it just wasn&#39;t fun for me anymore so I made the decision that I would <a href="http://wallab.ee/blog/aug-2015/the-end">shut it down</a>. A few minutes after that announcement, Rob Vardeman from Munzee got in touch and asked if we could speak. I&#39;d met him before when he was in London for a Munzee event and after a discussion, some emails, and a lot of thinking, I decided to let Munzee acquire the company so that they could continue to grow it in the way I had wanted to. I am confident that they will do an excellent job at maintaining the quirky side of WallaBee<sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> whilst also being able to add some amazing new features; I&#39;m so sure of it that I have remained as a shareholder of the company.</p>
+
+<p>Based on my experiences, I have a few pieces of wisdom to share:</p>
+
+<ul>
+<li><p>It&#39;s fine to get something launched but don&#39;t forget to put in the groundwork for scalability. If you don&#39;t know what you&#39;re doing, find someone who does.</p></li>
+<li><p>Monetise your game from the start. We never had any issues but I see startups every day that get a big of investment and think that if they build it they can monetise it later; don&#39;t do that. We launched with 30-day and 90-day subscriptions and most players bought a 90-day one straight off. It is much easier to alter your existing payment structure (as we did when we went from subscriptions to single payments for goods) than to try and add one when everything was free previously.</p></li>
+<li><p>Never announce something before it is built. This is a lesson that few people have mastered as it is insanely difficult trying to keep something awesome from the people who are going to love it most; it is also easy to announce something as then you feel like it forces you to launch it by that date but it doesn&#39;t work. Take a leaf out of Apple&#39;s book and only announce something when it is done and going to ship within the next 2 weeks (and when it comes to software, announcing something that is available &quot;Today&quot; should be the rule).</p></li>
+<li><p>Do not underestimate how difficult it is to manage a community of players or how crucial it is that you do. I frequently had to deal with issues such as bullying, stalking, and just generally petty squabbles. We had births, deaths, celebrations, and everything in between<sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup>. There was also the inevitable bugs and server issues that required an apology. However, because of the way we handled those issues publicly and fairly, it cut us a lot of slack when things went wrong. A good community is the key thing for any social app and must be nurtured.</p></li>
+</ul>
+
+<p>So what now? Without WallaBee to manage over the past few weeks, I&#39;ve found myself at a bit of a loose end with so much more free time! I&#39;ve written three apps so far including a content blocker, an app based on HealthKit, and an app to let me fly my Bebop Drone with an iOS MFI controller<sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup>; all of them will be available on the App Store at some point. I&#39;m also collaborating on an Apple TV game with another developer which will hopefully be live in November. Beyond that I haven&#39;t decided what the future has in store but I&#39;m enjoying working on small, offline apps for the time being.</p>
+
+<p>The final thing to mention is a slight change to the way I do my freelance work. Due to WallaBee becoming my main business for a while, I changed my company name from Ben Dodson Apps Ltd to WallaBee Ltd. As Munzee are based in the US, they have no need for a UK Limited company and so they have simply purchased the rights and assets of the WallaBee app and brand. I&#39;ve therefore changed the company name to Dodo Apps Ltd<sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup> and that is what I&#39;ll be using for all of my freelance business from now on.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>And the nice thing now is that I get to play it and enjoy it!&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>One of our players, &#39;SkipOkane&#39; put together <a href="http://skipslists.wikidot.com/stuff-to-try">a list of some of the secrets</a>. My favourite is probably the &#39;Mirage&#39; item which would always appear as a #1 when you purchased it (although the &#39;Boomerang&#39; item that comes back if you try and recycle it is a close second as is the jousting minigame...)&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn3">
+<p>My reasoning was that if they hated it, we could pretend it was a joke.&nbsp;<a href="#fnref3" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn4">
+<p>They&#39;ve done well so far; the first set they created is made entirely of dancing cats. I think it&#39;s in safe hands!&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn5">
+<p>I would never have believed that somebody would want to speak with me in the final weeks leading up to their death as they wanted to make arrangements for how their game items could be distributed. It&#39;s humbling and hard to deal with.&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn6">
+<p>I would love to do a Steve Jobs &quot;<a href="https://www.youtube.com/watch?v=vZYlhShD2oQ&amp;t=2m19s">these are not 3 separate devices</a>&quot; but they are.&nbsp;<a href="#fnref6" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn7">
+<p>I first used the name &quot;Dodo Apps&quot; when I was doing my A-Level IT course. I built a choral robe management system in Microsoft Access and had to choose a name for the about page; I chose &quot;Dodo Apps&quot; as I was a big fan of the dodo from Alice in Wonderland and because it used letters from my surname.&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/09/25/brapp-the-rap-app/">Brapp, the rap app</a></h1>
+			
+			<time datetime="2015-09-25" pubdate=""><a href="/weblog/2015/09/25/brapp-the-rap-app/">September 25, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m happy to announce that an iPhone app I&#39;ve been working on since March this year has gone live in the App Store; <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">Brapp</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/brapp.jpg" width="800"></p>
+
+<p>Brapp is a free and easy way to create and discover exciting musical collaborations all over the world. Producers can share their beats allowing anyone to make mini music videos right on their phone. When you choose a beat and hit record, the camera starts rolling and the custom studio technology balances your audio (be it singing, rapping, or playing an instrument) onto the beat ready for you to add video filters and share with the world.</p>
+
+<p>I was the sole iOS developer on the project and worked closely with the app creator<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> and his API developer to bring it all to life. I was able to write the app in Swift and use AutoLayout to make sure everything scales beautifully on all 4 sizes of iPhone from the 3.5&quot; iPhone 4S upto the 5.5&quot; iPhone 6S Plus. In addition, I made use of GPUImage for the custom video filters and a whole load of low-level audio APIs to get the audio balance just right as well as real time waveforms and switching between external microphones. The design went through a number of iterations, each better than the last, and I was able to use my extensive UX knowledge to help shape the end result.</p>
+
+<p>This was a great project to work on with a load of interesting technologies plus I got to lay down some sick beats<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>. You can check out <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">Brapp on the App Store</a> (it&#39;s free) or <a href="http://www.brapp.tv">learn more on the official website</a>.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>These were great guys to work with. During a Slack conversation, they made the mistake of saying &quot;Yes @bendodson, that is right&quot; to which I said &quot;I want that on a t-shirt&quot;. A couple weeks later, <a href="https://bendodson.s3.amazonaws.com/weblog/2015/thatisright.jpg">this</a> arrived in the post...&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>Thankfully all now removed.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/09/23/appindex-interview/">AppIndex Interview</a></h1>
+			
+			<time datetime="2015-09-23" pubdate=""><a href="/weblog/2015/09/23/appindex-interview/">September 23, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Earlier this month I was interviewed by <a href="http://appindex.com/">AppIndex</a> about my work as a freelance app developer. You can <a href="http://appindex.com/blog/ben-dodson-ios-dev-talks-app-development/">read the full article on their website</a> but I&#39;ve also put their questions and my answers below:</p>
+
+<h3>How long have you been involved in developing apps for?</h3>
+
+<blockquote>
+<p>I started developing apps professionally in August 2009, shortly after iOS 3.0 was released, but I tinkered around with the iOS SDK when it was first announced the year before.</p>
+</blockquote>
+
+<h3>What types of apps do you work on?</h3>
+
+<blockquote>
+<p>I have quite a varied portfolio but for a long time the apps I worked on were location based (i.e. travel guides, restaurant finders, interesting places nearby, etc). Nowadays I tend to work on a lot of social network type apps but that’s probably more indicative of what clients are looking for at the moment.</p>
+</blockquote>
+
+<h3>What platforms, tools and languages do you work with?</h3>
+
+<blockquote>
+<p>On the mobile side I only deal with iOS and all my new projects are written in Xcode using Swift 2.0 (with only a couple of legacy apps written in Objective-C). However, I also do backend development for APIs which I write exclusively in PHP. All my work is done on OS X.</p>
+</blockquote>
+
+<h3>What apps have you worked on that you are most proud of?</h3>
+
+<blockquote>
+<p>I think the app I was most proud of with was the “Horse Tracker” for the Grand National horse race. I worked with a company that attached trackers to the horses so we could see in realtime where they were on the field and display that to the user. It was really nice to use, especially on the iPad which had a full map view of the racecourse (which was never released in the end) and used lots of really cool technology such as audio indexing to perfectly match the time of the race on your TV screen to the data coming from the trackers, even if you were watching on a delayed stream or via a catch-up service hours later. Of course, nothing makes me more proud than the apps I write and publish myself so they will always beat client projects but that one was special.</p>
+</blockquote>
+
+<h3>What are the big trends you see in app development right now?</h3>
+
+<blockquote>
+<p>I’m starting to see a lot more thoughtful design coming through at the moment. Previously everybody was still trying to work out how to get data onto a small screen and most designers I worked with via clients had experience in print or web which didn’t always translate across; nowadays the level of design work seems to be much improved and everybody wants a slicker experience with more animation. The transition to the iOS 7 style of design (flat and minimal) seems to have helped as well.</p>
+</blockquote>
+
+<h3>What is the best thing about working in apps and mobile?</h3>
+
+<blockquote>
+<p>I really enjoy the varied work. It can be difficult sometimes with deadlines and quite a big responsibility if your app is in millions of peoples hands but there is a huge amount of variety. I never really know what I’m going to be working on next which I find exciting.</p>
+</blockquote>
+
+<h3>What is the one thing you’d like to change about app development?</h3>
+
+<blockquote>
+<p>I have two big gripes which are more to do with people than app development itself; being told I should port my apps to Android (“you’d make so much more money”) and being pitched an idea which isn’t so much an app as a service that requires servers, infrastructure, and has large operating costs (“I want an app that can let people upload photos and videos – I’ll give you 25% of the profit if you build it for free”).</p>
+</blockquote>
+
+<h3>What mobile devices do you use?</h3>
+
+<blockquote>
+<p>I use an iPhone 6 Plus and an iPad Air at the moment. I’m particularly interested in the rumoured 12” iPad Pro although I have something similar in the form of the 12” Macbook which I take to client meetings.</p>
+</blockquote>
+
+<h3>What are your favourite apps / games?</h3>
+
+<blockquote>
+<p>Ironically I don’t actually use that many apps beyond the stock things like mail. I’d say my most used 3rd party apps are Dark Sky for their weather alerts and Philips Hue for turning the lights on and off in my house. With games, I tend to play something solidly for a week and then get bored of it; I’m currently playing Alto’s Adventure, Rollercoaster Tycoon 3, and Kindo.</p>
+</blockquote>
+
+<h3>What do you think of the Apple Watch?</h3>
+
+<blockquote>
+<p>I love my Apple Watch. It’s definitely a luxury rather than a necessity but I love getting notifications on my wrist, the fitness features, and Apple Pay. I’m looking forward to watchOS 2 especially as then I’ll be able to log a swim and have it count towards my exercise totals. It’ll be interesting to see how much better the 3rd party app experience is when the update arrives – I’ve dabbled with developing a few apps but the lag talking to the iPhone always limited the amount I could do.</p>
+</blockquote>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/08/19/microsoft-bridge-and-the-app-gap/">Microsoft Bridge and the "App Gap"</a></h1>
+			
+			<time datetime="2015-08-19" pubdate=""><a href="/weblog/2015/08/19/microsoft-bridge-and-the-app-gap/">August 19, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I was recently asked my opinion on <a href="https://github.com/Microsoft/WinObjC/">Windows Bridge</a> and the &quot;App Gap&quot; between iOS, Android, and Windows Phone by <a href="http://www.fiercedeveloper.com/story/will-windows-bridge-be-enough-get-ios-developers-cross-over-microsoft-terri/2015-08-18">FierceDeveloper</a>. You can read <a href="http://www.fiercedeveloper.com/story/will-windows-bridge-be-enough-get-ios-developers-cross-over-microsoft-terri/2015-08-18">the article on their website</a> but I&#39;ve also put the full questions that were put to me along with my answers below:</p>
+
+<h3>Would something like Windows Bridge make you any more likely to bring your apps to Windows Phone? Why or why not?</h3>
+
+<blockquote>
+<p>It wouldn’t convince me as there are two big problems: firstly, it only works with Objective-C whilst I have already made the switch over to Swift so I wouldn’t be able to make use of this (and the benefits of Swift massively outnumber the benefits of being on Windows Phone for me); secondly, whilst it may be easy to port an Objective-C app over, I would still need to build a custom Windows UI which would take a long time. In addition, this custom UI would need to be supported as and when new devices and screen sizes come out and I’d need to maintain feature parity between iOS and Windows making every release take significantly longer to bring to market.</p>
+</blockquote>
+
+<h3>What do you think are the biggest reasons for the &quot;app gap&quot; between Apple&#39;s App Store and what&#39;s available in Microsoft&#39;s app store?</h3>
+
+<blockquote>
+<p>There are lots of reasons for this but I think the two bigs ones are developer usage and money. When the iPhone came out, it was revolutionary and most developers who work in mobile began due to using an iPhone and wanting to write apps on it (that is certainly true in my case). That meant the iPhone got a lot of exciting apps developed on it first as the people that made those apps used iPhones. Over time, this has compounded into giving an Apple a massive advantage and whilst Android has caught up in many regards they haven’t got anywhere close when it comes to money. Simply put, iOS users spend more than Android users. I don’t know if that is due to the security and convenience of iTunes and TouchID or whether it is a more social thing (you’ve spent $700 on a phone so what is $100 a year on apps) but in all of the research I’ve done it has been the case that iOS users are willing to pay where Android users are not. It is for that reason I don’t port any of my apps to Android. Back to Microsoft though, the reason there is an app gap is that all of the developers started on iOS (and now Android) leading to a shortage of apps - this led to less customers and thus less money so they are now in the situation where it is very hard to attract developers as there are neither usage numbers nor financial figures to entice us.</p>
+</blockquote>
+
+<h3>Is there more Microsoft could/should do to make developers more interested in creating apps and games for their platform?</h3>
+
+<blockquote>
+<p>To be honest, I don’t think there is much Microsoft can do at this point. Consumers are simply not buying Windows Phones and that is the real problem. Whilst their initiatives such as building one app that can run on Windows 10, Xbox One, and Windows Phone are interesting, there simply isn’t enough consumer interest nor money to get iOS and Android developers to create apps on those platforms. Ultimately, Microsoft would probably be better chasing the gaming market over the app market - produce a Windows Phone that is more akin to a Playstation Vita and is able to run games that can also run on Xbox One and Windows 10. These wouldn’t be massively powerful games but would fit in with the &quot;write once, run everywhere&quot; better than apps do (typically games are used to having to scale at different resolutions and have custom UIs whereas regular apps tend to be designed to the UI of the platform making &quot;write once, run everywhere&quot; unfeasible).</p>
+</blockquote>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/07/31/lego-scooby-doo/">LEGO Scooby-Doo</a></h1>
+			
+			<time datetime="2015-07-31" pubdate=""><a href="/weblog/2015/07/31/lego-scooby-doo/">July 31, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m a huge fan of the Hanna-Barbera cartoons but Scooby-Doo has always been my favourite so I&#39;ve been looking forward to the <a href="http://www.lego.com/en-gb/scoobydoo">LEGO Scooby-Doo sets</a> which officially launch tomorrow. Luckily, due to an error on the part of Argos<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>, I was able to get all five sets a week early so I&#39;ve put together a very brief review. Make sure you scroll to the bottom to see the coolest feature which appears in every set!</p>
+
+<h3>Mummy Museum Mystery</h3>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mummy-mystery.jpg" width="600" height="600">
+This is the cheapest of the sets but it has a lot of detail for such a small set. Scooby and Shaggy come in every set but are joined by a mummy complete with headpiece. The museum itself has a hidden compartment with jewels and a liftable sarcophagus in which to hide the mummy.</p>
+
+<h3>Mystery Plane Adventures</h3>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-plane.jpg" width="600" height="600">
+This is my least favourite set but you do get a fair amount for the low price. Scooby, Shaggy, and a headless horseman complete with a bi-plane with revolving propellor and (for some reason) burger bombs<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> that you can detach. The Scooby model in this one is slightly different to the others in that he is wearing flying goggles.</p>
+
+<h3>The Mystery Machine</h3>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-machine.jpg" width="600" height="600">
+Now we&#39;re getting to the good stuff. The Mystery Machine is iconic and I&#39;ve no doubt that, at the low price, this will be the most purchased set in this series. For under £30, you get Scooby, Shaggy, Fred, a zombie, a scary tree, and the Mystery Machine itself. The model is much smaller than I&#39;d originally anticipated but it is very detailed and opens up allowing access to the inside which contains a kitchen and some props like a camera and torch. Overall, this is a fantastic set although it does use a huge amount of stickers which are prominently visible.</p>
+
+<h3>Haunted Lighthouse</h3>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/haunted-lighthouse.jpg" width="600" height="600">
+This may be my favourite set as it captures everything great about Scooby-Doo. You get a lighthouse keeper (it must have been him), swamp creature, Scooby, Shaggy, Daphne, a speedboat (with skis), and an awesome rock formation with lighthouse and secret pirate cave. There are nice little touches such as scratches inside the prison cell to show that somebody had been counting days, a wonky &quot;keep out&quot; sign, and a face on the hidden cave complete with gold tooth.</p>
+
+<h3>Mystery Mansion</h3>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-mansion.jpg" width="600" height="600">
+The biggest and most expensive of the sets, the Mystery Mansion shares a lot in common with the retired &quot;<a href="http://lego.wikia.com/wiki/Monster_Fighters">Monster Fighters</a>&quot; sets that LEGO released in 2012 (of which I have the <a href="http://shop.lego.com/en-GB/Haunted-House-10228">Haunted House</a>, my all time favourite LEGO set). The mansion is broken into 3 core areas; a greenhouse (with man eating plant), kitchen, and the tower. I personally think the greenhouse is the most interesting as there is good use of transparent panes and wedges to give the impression of smashed glass. The tower also has a nice feature in that when you turn a knob at the back, the clock hand advances and a column in the middle rotates to switch from a bat to a place where you can stand the vampire minifigure. There are a lot of stickers although the majority are on transparent panes which I find transfer better than on bricks where a slight misplacement can look terrible. In terms of minifigures, you get Scooby, Shaggy, Daphne, Velma<sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup>, a suit of armour, a ghost, and a vampire. Both the vampire and ghost glow in the dark if you shine light on them first. Overall, this is a great set for both adult collectors and for kids to play with.</p>
+
+<h3>Minifigures</h3>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg" width="600" height="600">
+The main draw for most adult collectors will be the minifigures. Whilst Scooby<sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> and Shaggy come in every set, Daphne appears in two, and Fred and Velma only appear in one each so you&#39;ll need practically every set if you want all 5 of them. In terms of the figures themselves, the designs are perfect and I believe this is the first time that LEGO have done custom arms on licensed models (note how Shaggy&#39;s arms show a t-shirt style rather than extending to the hand). However, the best thing of all in these sets are the villains...</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-villains-1.jpg" width="600" height="600"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-villains-2.jpg" width="600" height="600">
+Every villain<sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup> has a double-printed head so you can unmask them and mimic the whole &quot;I would have gotten away with it too if it weren&#39;t for you meddling kids&quot; speech! This for me shows how much thought LEGO have put into these sets and makes every minifigure one worth having (whereas on face value<sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup> they seem a little bland being mainly reprints from other sets).</p>
+
+<p>Overall I highly recommend the Scooby-Doo LEGO sets. They offer great value for money, especially for licensed sets, and will look good as display models for adult collectors whilst also being high in playability for kids. Don&#39;t forget that the <a href="https://ideas.lego.com/blogs/1-blog/post/33">LEGO Big Bang Theory set</a> also launches tomorrow though!</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>They accidentally broke the embargoe and were selling them instore - I managed to rush to my local branch and get all 5 sets about an hour before the mistake was fixed and they were pulled.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>Every set has Scooby and Shaggy but they also always have either a sandwich or a burger. On the cheaper sets they&#39;re a bit oddly placed (i.e. in the Mummy Museum they are used as the lever for the sarcophagus) but they are quite nice as mini models.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn3">
+<p>&quot;<a href="https://www.youtube.com/watch?v=mugwhe_nGL0&amp;t=2m3s">Nice read, Velma</a>&quot;&nbsp;<a href="#fnref3" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn4">
+<p>It&#39;s worth noting that there are <a href="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg">4 Scooby variants</a>; one paw up, one paw up and scared, sat down and scared, and sat down with flying goggles.&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn5">
+<p>OK, almost every villain. The zombie doesn&#39;t have anything to cover the back so instead they have put a crease and some buttons to show it&#39;s a mask. Genius.&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn6">
+<p><em><em>chortle</em></em>&nbsp;<a href="#fnref6" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	
+</section>
+
+
+<section id="pagination">
+     
+    	<a href="/weblog/page/2/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
+     
+	
+    
+</section>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

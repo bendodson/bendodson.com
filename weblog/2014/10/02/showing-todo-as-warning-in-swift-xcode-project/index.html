@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I rarely use comments when I&#39;m coding1. I do make one exception though; using // TODO: and // FIXME: to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:If your code needs commenting, it isn&#39;t clear enough. Refactor until it is. If it doesn&#39;t make sense because of semantics, rethink your naming conventions.&nbsp;&#8617;">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Showing TODO as a warning in a Swift Xcode project</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">Showing TODO as a warning in a Swift Xcode project</a></h1>
+			
+			<time datetime="2014-10-02" pubdate=""><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">October 02, 2014</a></time>
+    	</header>
+    	<div>
+			<p>I rarely use comments when I&#39;m coding<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. I do make one exception though; using <code>// TODO:</code> and <code>// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-jump-bar.jpg" alt="TODO comments in the Xcode jump bar"></p>
+
+<p>The issue I have with this is that it is very easy to forget about them unless you are using the jump bar frequently. I used to log them in my todo manager, <a href="http://culturedcode.com/things/">Things</a>, but that duplicates the workload. It would be much more useful if those errors were flagged in some way...</p>
+
+<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code>TODO:</code> and <code>FIXME:</code> as warnings in a Swift project:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;searching ${SRCROOT} for ${TAGS}&quot;</span>
+find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;($TAGS).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/($TAGS)/ warning: \$1/&quot;</span></code></pre></div>
+
+<p>The result is an unmissable warning whenever you run your project. </p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-warning.jpg" alt="TODO warnings in an Xcode Swift project"></p>
+
+<p>I don&#39;t know about you, but I feel more compelled to clean up these yellow warnings than ticking things off in a todo list.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>If your code needs commenting, it isn&#39;t clear enough. Refactor until it is. If it doesn&#39;t make sense because of semantics, rethink your naming conventions.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/" title="Next Article" class="pagination-next">The problem with Allow Full Access on iOS 8 keyboards &raquo;</a>
+    
+	 
+		<a href="/weblog/2014/09/30/donating-blood/" title="Previous Article" class="pagination-previous">&laquo; Donating blood</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

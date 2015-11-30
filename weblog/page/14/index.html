@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+
+	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">How to control a Mac Mini from your iPhone including waking, sleeping, and audio / video</a></h1>
+			
+			<time datetime="2008-09-08" pubdate=""><a href="/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">September 08, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I was recently cleaning through the "technology cupboard" in my flat (every geek has one - it's a place where all the useless electronics we've collected over the years live) when I came across an idea for creating a home entertainment system for my bedroom.  The main driver for this was a forgotten Mac Mini (512MB of RAM and an old G4 processor) which I realised could hold all of my music on its 40GB hard drive and send it wirelessly to all of my other equipment.</p>
+
+<p>The problem I have is that at present I have 3 computers at home and 1 at work (plus my iPhone 3G) which all have a complete copy of all of my music files (around 20GB - obviously the iPhone doesn't have all of that as it doesn't fit but that's a separate issue) - the downside to this is that when I update one machine the others are then out of sync.  My original plan was to have the mac mini hold everything and then the other computers would use it's hard drive over my network as the master copy.  That way if I added music to the mac mini, the others would all be in sync.  I have since completely given up on this idea as I needed to a) access music on my laptop all the time and b) access music on my work iMac without having to leave everything on at home and broadcast through a static IP (which would also have been a little slow especially when I skip through lots of tracks - I'm very picky at what I listen to).</p>
+
+<p>However, since I started writing this article there have been <a href="http://forums.macrumors.com/showthread.php?t=557826" rel="external">rumours flying around</a> about the 9th September "Lets Rock" event being staged by Apple.  Several sources are touting that iTunes 8 is going to be released and will have an option to stream your music wirelessly to other machines (or an iPhone) through the internet.  Let's hope this is true!</p>
+
+<p>With the initial problem left alone for now, I decided to think on another problem I have.  If I want to listen to music in my bedroom, then I have to bring my laptop in and listen to it from there.  This isn't a huge difficulty but the sound quality isn't great and I don't like using my laptop in my bedroom (mainly because I try to keep some separation between work / computer based activities from other things I enjoy like reading and writing - the ideal separation is a physical one so I don't use my computer in my bedroom at all).  I could buy a cheap hi-fi system but then it wouldn't be connected to my iTunes library.  Alternatively I could get an iPhone dock but they are quite expensive (due to the magnetic shielding) and also I can't fit all my music on there so it wasn't really an option.  At this point I'd like to point out that yes I could have used <a href="http://www.apple.com/uk/airportexpress/" rel="external">AirTunes</a> (plugging a hi-fi unit into the 3mm audio jack on an Airport Express in order to pick up a shared iTunes library) but that would require me leaving the laptop on in the other room.  Not a great hardship but I'd have to get out of bed to turn it off (which would be a hardship).</p>
+
+<p>After a bit of thought and a look at the components I had, I worked out that I could put the mac mini under my bed with a wireless card and some speakers and then play music through it using the <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284417350&mt=8" rel="external">Apple Remote application</a> available from the App Store for iPhone.  I could also install a VNC client so that I could control the mac mini remotely if necessary (in the case of copying music onto it, installing updates, etc).  Perfect.</p>
+
+<p>I'm quite pedantic however and so the above solution wasn't yet 100% perfect.  The main problem I had was that the mac mini would need to be on 24 hours a day when I'd only be using it for around an hour a day at most. This doesn't bother me from an environmental perspective (I'm not into "green") but did bother me from the point of view that I'd be paying for electricity I wasn't using (around 45-50W an hour I believe which would be around 16p a day - that works out at nearly &pound;60 a year for nothing!) and that the components would be wearing down from overuse.  It would probably become a little unstable as well and I'd worry it would burst into flames or something!  So, the mac mini needed to be put to sleep and needed to be woken up.  I could do this by pressing the power button but it's under my bed and I can't be bothered with the movement involved.  Thus a solution had to be created that would let me wake it and put it to sleep remotely with my iPhone being the obvious candidate for this as it was already choosing the songs being played.</p>
+
+<h3>Challenge One - Make the mac go to sleep remotely</h3>
+
+<p>Waking up a machine is easy with Wake-on-LAN (as we'll see shortly) but there seems to be no easy way to put one to sleep.  My initial ideas of having an inactivity timer were quickly discarded as I realised that either the machine wouldn't go to sleep if music was left playing or it might go to sleep too quickly.  A better solution was needed and I eventually came across a terminal command which will make your mac sleep:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;;</span></code></pre></div>
+
+<p>You can try the above in Terminal and watch in awe as your mac succumbs to tiredness.  So this is all well and good but can only be run on the machine which you want to put to sleep; it can't be done remotely.</p>
+
+<p>A solution to the problem comes in the form of the Apache2 web server that comes installed by default on all OS X Leopard installations.  If I could set the mac mini up as a server, knock up a bit of PHP to pass the sleep command directly to the machine, and then broadcast the IP so that the command could be run via Safari on the iPhone, then I would be on to a winner!  This is exactly what I ended up doing and the instructions are below for your delectation.</p>
+
+<p>First of all we need to activate the Apache2 web server in Leopard.  To do this, go to "System Preferences" and then to the "Sharing" icon.  If you tick the "Web Sharing" checkbox, then the server will come to life and will be enabled whenever you start the machine.  You can check this has worked by going to <a href="http://localhost/" rel="external">http://localhost/</a> on the machine and checking you get an apache default installation message.  Now this is done, we need to set our Computer Name for easy access to this page from anywhere on our home network.  The setting for this is also in the "Sharing" control panel and so I set mine to mini.  This allows the web server to be reached by any computer on the network by going to <a href="http://mini.local/" rel="external">http://mini.local/</a> - try it yourself by changing it to whatever name you want (the URL to access your computer will be shown on the same screen).</p>
+
+<p>Now that we can connect to the web server, we need to get PHP up and running and write our script.  PHP 5 doesn't come enabled by default so we have to do this by opening up terminal and typing the code below.  I am assuming at this point that you have the excellent <a href="http://macromates.com/" rel="external">TextMate</a> installed which is accessed from the 'mate' command in Terminal.  If you don't have it, either install it or substitute 'mate' for some other text editor command like 'pico' or 'vi'.</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mate /etc/apache2/httpd.conf</code></pre></div>
+
+<p>You may need to type in your administrative password if prompted.  Now you have the Apache2 configuration file open, scroll down to somewhere around line 114 where you will find the line:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"># LoadModule php5_module libexec/apache2/libphp5.so</code></pre></div>
+
+<p>You'll need to uncomment this (by removing the proceeding hash) and then save the file.  Once this is done, you'll need to restart Apache in order for your changes to be made available.  You do this with the command:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo apachectl graceful</code></pre></div>
+
+<p>You can use 'restart' in place of 'graceful' to do a full restart, but a graceful restart won't kick off anyone that is currently using your server.  This isn't going to matter here but it's a good habit to get into in case you ever need to restart an apache server in the future.</p>
+
+<p>You now have PHP5 installed and ready to go so lets write the PHP script that is going to power our sleep command.  You'll need to go to your Apache DocumentRoot (which by default is in a folder called Sites in your home folder) and delete any files that are in there.  Now create a new file called "index.php" with the following code in it:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span>
+<span class="x">    &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">&lt;head&gt;</span>
+<span class="x">    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</span>
+<span class="x">    &lt;title&gt;Mac Mini Sleeping App&lt;/title&gt;</span>
+<span class="x">&lt;/head&gt;</span>
+<span class="x">&lt;body&gt;</span>
+<span class="x">    &lt;h1&gt;Goodnight...&lt;/h1&gt;</span>
+<span class="x">&lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+<span class="cp">&lt;?php</span>
+<span class="nb">exec</span><span class="p">(</span><span class="s1">&#39;./sleep.scpt&#39;</span><span class="p">);</span>
+<span class="k">exit</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>All this code is doing is outputting a message that says "goodnight" and then executes an applescript file (in this case sleep.scpt) which contains the code from earlier:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;</span></code></pre></div>
+
+<p>I find it's easier to include a file in this way rather than typing the command into a function such as <a href="http://uk3.php.net/passthru" rel="external">passthru()</a> as it allows for easier control over quotes, etc.  The <a href="http://uk3.php.net/manual/en/function.exec.php" rel="external">exec()</a> command used in the above is pretty much telling PHP to type the command we used earlier into Terminal.  Unfortunately this won't actually do anything at present (at least it shouldn't do) as the Apache webserver is not authorised by default to perform such important system commands as are available through exec().  To do this we need to go back to the Apache2 config file and set the user and group of the web server to be the same as that of the user of the machine.  Now this is a calculated security risk as it means any scripts on the server can have full access to your machine and thus compromise it.  However, this is for personal home use and no-one will be able to access it unless they are on your network let alone run scripts on it so I think it's ok.  Let's set the permissions by opening up the config file:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mate /etc/apache2/httpd.conf</code></pre></div>
+
+<p>Now go to around line 126 and amend the User to your own username and Group to 'staff'.  In my case this was:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">User ben
+Group staff</code></pre></div>
+
+<p>Yours will differ (unless you're called ben) but you can find out what yours is by going to your home folder - the name of the folder is the name of your user.</p>
+
+<p>Now restart the apache server (remember our graceful command from earlier?) and try out your site.  You should find that your mac goes fast to sleep.  Success!  Simply go to the URL with safari on your iPhone, tap the '+' icon, and then choose "save to home screen" in order to set it up as a web app.  If you want a fancy icon, then stick a square PNG named "apple-touch-icon.png" in the same folder as the index.php file and you'll notice that it appears on your home screen when you bookmark the page.</p>
+
+<h3>Challenge Two - Wake the mac up</h3>
+
+<p>Ok, you now have a sleeping mac that you want to wake up.  Most computers have a little feature built in to them called Wake-on-LAN.  The idea is that when the computer is asleep, the ethernet port is actually still active and listening for data.  If a certain command is sent (referred to as a "magic packet") then the ethernet card will tell the rest of the computer to wake up.  This is exactly what we need but unfortunately will not work over a wireless connection (as a wireless card doesn't stay awake when the computer is asleep).  If you have connected your mac to an ethernet connection then you can ignore the next few steps, but for me a long cable wasn't really an option.  I therefore came across a solution that would allow me to pretend I was on ethernet; wireless bridging.</p>
+
+<p>The idea behind wireless bridging is fairly simple.  Rather than having an ethernet cable from your router to your computer, you instead have 2 wireless routers that are connected via ethernet to each machine (or modem) which then act like an ethernet link between the two.  Now I already had an <a href="http://www.apple.com/uk/airportextreme/" rel="external">Airport Extreme</a> which was broadcasting my network / internet wirelessly and so all I needed was another router on the other end.  After a bit of headscratching with a BT router that was lying around, I decided the best way to proceed was to pop to the Apple Store and buy an <a href="http://www.apple.com/uk/airportexpress/" rel="external">Airport Express</a>.  The Airport Express is plugged into a standard power socket and then broadcasts a wireless signal.  On it's base it has 3 inputs; ethernet, USB, and 3mm Audio.  Usually the Airport Express is connected to a wired modem via ethernet so it can quickly and easily broadcast internet to the rest of your house however you can also plug in a printer to share that to wireless devices or plug in a standard hi-fi unit in order to utilise the AirTunes feature I mentioned earlier.</p>
+
+<p>I instead used it's network bridging service in order to connect it to the mac mini via ethernet and then extend the wireless network created by my Airport Extreme.  This is fairly easy to do from the Airport Utility - I won't go into the exact process here as it is mimicked in <a href="http://www.macosxhints.com/article.php?story=20040927125820995" rel="external">several other places</a>, but the end result that the Airport Express connects to the wireless network created by the Airport Extreme and sends this to the mac mini via ethernet.  This means that we can now send a Wake-on-LAN command as both the Airport Extreme and Airport Express are "always on" allowing the packet to go through the bridge, down the ethernet cable, and straight into the ethernet port.  Simple!</p>
+
+<p>Now we just need to find a way to send the magic packet from the iPhone.  The application <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=286568674&mt=8" rel="external">iWOL</a> allows us to do this easily and has a very quick setup.  Simply type in a name to reference the machine and the MAC address of the ethernet card (this can be found by going to "System Preferences"->"Network" and selecting your ethernet card.  Now click on "advanced" and then on the "Ethernet" tab.  Your MAC Address is the "Ethernet ID").  Now enable "LAN Broadcast" mode and you should be good to go.  Once your computer is asleep, open up iWol and you should be able to wake it up at the press of a button.</p>
+
+<h3>Further Enhancements</h3>
+
+<p>At present, my setup is working in the same way as detailed in the steps above.  I am in the process of making the sleeping web app slightly tidier with a fancy interface and icon, etc, and this will be available for download from my site shortly - the working title is "Rohypnol"&hellip;</p>
+
+<p>In addition to the above steps, I have installed a freeware application called <a href="http://www.robbiehanson.com/alarmclock/index.html" rel="external">Alarm Clock 2</a> on the mac mini which allows me to use it as an alarm clock.  Various options are available including a "wake from sleep" mode which is perfect for this project.  I now have a special playlist on my mac mini which starts off quietly and over 5 minutes gently increases in volume.  Nothing says wake up in the morning like <a href="http://www.youtube.com/watch?v=oHg5SJYRHA0" rel="external">Rick Rollin'</a> music&hellip;</p>
+
+<p>In order to control the mac mini better, I also installed a freeware VNC server called <a href="http://sourceforge.net/projects/osxvnc/" rel="external">Vine Server</a> that allows me to control the machine remotely. I won't go into the finer details of VNC setup as this has also been covered in detail <a href="http://www.xawk.com/apple-htpc-step01-setup-and-vnc.html" rel="external">elsewhere on the net</a>.  I will however mention the excellent <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284984448&amp;mt=8" rel="external">VNC Lite</a> app for iPhone which allows you to access VNC controlled machines.  It's easy to use and very intuitive - it's also free!</p>
+
+<p>In the future I plan to make some improvements to this system by plugging in a monitor which can then sit on the end of the bed allowing me to watch movies and tv shows downloaded through iTunes as well as DVDs etc but this is an upgrade for another day.  For now I'm quite happy with the setup which was achieved relatively easily and cheaply as I had all the components to hand.  I probably wouldn't recommend it if you were going to buy all the parts as the whole system would cost about &pound;500 but as a small project it's worked very well.  Now I just have to wait to see what iTunes 8 will add to this setup&hellip;</p>
+
+<p>If you have any questions or comments, then please use the comments box below or <a href="http://bendodson.com/contact/">contact me</a>!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/08/17/twitter-stops-sending-sms-to-uk-europe-australia/">Twitter stops sending SMS to UK / Europe / Australia</a></h1>
+			
+			<time datetime="2008-08-17" pubdate=""><a href="/weblog/2008/08/17/twitter-stops-sending-sms-to-uk-europe-australia/">August 17, 2008</a></time>
+    	</header>
+    	<div>
+			<p>Undoubtedly the biggest web app of 2007 was <a href="http://twitter.com/" rel="external">Twitter</a>, the simple web app that allowed you to send a text message and have that sent for free to anyone that followed you.  Combined with a simple API, useful web apps could be created to send you txts when your train was going to be delayed or when you got a new email, etc.  However, this has all stopped in the UK, Europe, and Australia for the time being as Twitter has finally turned off the ability to send messages (although you can still update your status by sending a txt).  The full details are below in an email that was received by those registered with the service in affected areas and also on the <a href="http://blog.twitter.com/2008/08/changes-for-some-sms-usersgood-and-bad.html" rel="external">twitter blog</a>:</p>
+
+<blockquote>
+<p>Hi,</p>
+<p>I'm sending you this note because you registered a mobile device to work with Twitter over our UK number. I wanted to let you know that we are making some changes to the way SMS works on Twitter. There is some good news and some bad news.<p>
+<p>I'll start with the bad news. Beginning today, Twitter is no longer delivering outbound SMS over our UK number. If you enjoy receiving updates from Twitter via +44 762 480 1423, we are recommending that you explore some suggested alternatives.</p>
+<p>Note: You will still be able to UPDATE over our UK number.</p>
+<p>Before I go into more detail, here's a bit of good news: Twitter will be introducing several new, local SMS numbers in countries throughout Europe in the coming weeks and months. These new numbers will make Twittering more accessible for you if you've been using SMS to send long-distance updates from outside the UK.</p>
+<p>Why are we making these changes?</p>
+<p>Mobile operators in most of the world charge users to send updates. When you send one message to Twitter and we send it to ten followers, you aren't charged ten times--that's because we've been footing the bill. When we launched our free SMS service to the world, we set the clock ticking. As the service grew in popularity, so too would the price.</p>
+<p>Our challenge during this window of time was to establish relationships with mobile operators around the world such that our SMS services could become sustainable from a cost perspective.</p>
+<p>We achieved this goal in Canada, India, and the United States. We can provide full incoming and outgoing SMS service without passing along operator fees in these countries.</p>
+<p>We took a risk hoping to bring more nations onboard and more mobile operators around to our way of thinking but we've arrived at a point where the responsible thing to do is slow our costs and take a different approach. Since you probably don't live in Canada, India, or the US, we recommend receiving your Twitter
+updates via one of the following methods.</p>
+<p><a href="http://m.twitter.com" rel="external">m.twitter.com</a> works on browser-enabled phones<br />
+<a href="http://m.slandr.net" rel="external">m.slandr.net</a> works on browser-enabled phones<br />
+<a href="http://twittermail.com" rel="external">TwitterMail.com</a> works on email-enabled phones<br />
+<a href="http://bit.ly/12bw4R" rel="external">Cellity [http://bit.ly/12bw4R]</a> works on java-enabled phones<br />
+<a href="http://bit.ly/MFAfJ" rel="external">TwitterBerry [http://bit.ly/MFAfJ]</a> works on BlackBerry phones<br />
+<a href="http://bit.ly/1WxjwQ" rel="external">Twitterific [http://bit.ly/1WxjwQ]</a> works on iPhones</p>
+<p>Twitter SMS by The Numbers</p>
+<p>It pains us to take this measure. However, we need to avoid placing undue burden on our company and our service. Even with a limit of 250 messages received per week, it could cost Twitter about $1,000 per user, per year to send SMS outside of Canada, India, or the US. It makes more sense for us to establish fair billing arrangements with mobile operators than it does to pass these high fees on to our users.</p>
+<p>Twitter will continue to negotiate with mobile operators in Europe, Asia, China, and The Americas to forge relationships that benefit all our users. Our goal is to provide full, two-way service with Twitter via SMS to every nation in a way that is sustainable from a cost perspective. Talks with mobile companies around the world continue. In the meantime, more local numbers for updating via SMS are on the way. We'll keep you posted.</p>
+<p>Thank you for your attention,<br />
+Biz Stone, Co-founder<br />
+Twitter, Inc.<br />
+<a href="http://twitter.com/biz" rel="external">http://twitter.com/biz</a></p></blockquote>
+
+<p>Now this has upset a LOT of users (especially in Australia) but is the general outcry from the web community really justified?  As Twitter themselves say, it could cost them nearly $1000 per user per year to send txts and with 2.2 million users that ain't cheap.  It has always been a mystery to me as to how Twitter makes money and how they are able to send all these txts for free so it comes as no surprise that they have finally stopped doing it.</p>
+
+<p>But what about the alternatives?  I'm using a mac and an iPhone so I've gone for the obvious choice of <a href="http://iconfactory.com/software/twitterrific" rel="external">Twitteriffic</a> on both which does a pretty good job.  On my mac, I get a little chirpy noise and a popup when I get a tweet which works a lot better than an SMS in a lot of ways and this is similar on the iPhone.  The only downside is that the iPhone doesn't support 3rd party apps running in the background so at present you have to open the app to see if there are any updates which is a bit of a pain.  However, this is due to change with iPhone Firmware 2.1 which is hopefully going to be with us some time in September.</p>
+
+<p>Once the ability to receive twitters from Twitteriffic seamlessly occurs, I think it will prove a lot more successful than the txt message route.  Firstly, because it will cost nothing to reply (whereas previously it was very easy to reply to a twitter from a txt and thus get charged for it) and secondly because new features can be added to the service.  Twitteriffic already supports location awareness on the iPhone so people can see where I am twittering from - a small improvement but an improvement none the less.</p>
+
+<p>In response to everybody shouting at Twitter about this issue, why don't they instead complain about the mobile phone companies who are so greedy in the affected countries that they refuse to do a deal with Twitter?  It comes as no surprise to me that in the UK the cellular networks refused to budge on pricing but that is no fault of Twitter who have been paying so much over the last year and a half to make a great service at absolutely no cost to the end user (not even adding advertising to tweets which would seem an obvious money making route).</p>
+
+<p>So in answer to <em>"is Twitter now dead"</em> I would say no!  There are still several uses for it (e.g. I use it to keep a <a href="http://bendodson.com/weblog">micro blog on my homepage</a>) and with several applications for all types of phones it is still easy to stay updated.  It will become really useful for me however when Apple release the next iPhone update with push technology - then it will be as if nothing had even changed.</p>
+
+<p><strong>Update:</strong> Amusingly it looks like someone is already trying to cash in on the lack of SMS from Twitter around most of the world.  Apparently <a href="http://www.tweetSMS.com/" rel="external">tweetSMS</a> will "send you individual, hourly or daily updates from all (or just some) of your friends" for a "very small fee".  We'll see how small that fee is when they launch I suppose&hellip;</p> 
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/08/04/kampyle-an-easy-way-to-get-web-user-feedback/">Kampyle - An easy way to get web user feedback</a></h1>
+			
+			<time datetime="2008-08-04" pubdate=""><a href="/weblog/2008/08/04/kampyle-an-easy-way-to-get-web-user-feedback/">August 04, 2008</a></time>
+    	</header>
+    	<div>
+			<p><a href="http://www.kampyle.com/" rel="external">Kampyle</a> is an easy to set-up javascript widget that gives users the opportunity to comment on your site either for the purposes of a bug report or simply to say "you have a nice site".  On clicking the feedback icon, a new window opens that gives the user various different options on how to comment on the site.  The default options are Bug, Site Content, Suggestion, Compliment, and Other. Each of these has several sub-options such as "browser issues" or "feature request" which are all completely customisable by the website owner.  The user can then fill in a bit of text to describe the problem or suggestion, etc, and can choose from 5 different emoticons to say how they feel about the website in general.  All of this information is then logged in your account at the Kampyle website for you to look over at your leisure - they can also email daily reports to you so that you can stay on top of all your adoring fans or pissed off IE6 users.</p>
+
+<p>I've installed Kampyle on my site (using a custom icon as their default choices are pretty bad - animated gif anyone?) and I've already had quite a few pieces of feedback.  The great thing is that I've been able to fix a few bugs people have alerted me to and then have Kampyle email them back to let them know that the issue has been resolved.</p>
+
+<p>Kampyle is pretty good as it is, but the thing that is putting Kampyle on the map is their recent <a href="http://www.kampyle.com/blog/?p=53" rel="external">integration with Google Analytics</a> which means you can see all of your feedback stats within your Google Analytics account.  The way they have done this is particularly clever - You need to download the <a href="https://addons.mozilla.org/en-US/firefox/addon/748" rel="external">Grease Monkey Firefox Extension</a> and install the <a href="https://www.kampyle.com/zlib_off/kampyle.user.js" rel="external">Kampyle Grease Monkey script</a>, but then when you go to your Google Analytics account you'll see the Kampyle stats showing up in their own dashboard widgets.  Pretty clever really.  This was a major incentive for me as it means I can now see all of my stats in one place rather than having multiple accounts across the internet.</p>
+
+<p>So, if you'd like to leave any feedback on the site just click on the "Leave Feedback" banner in the bottom right hand corner!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/07/21/stop-bug-found-in-stop-hammertime-firefox-extension-on-windows-xp-vista/">Stop! Bug found in "Stop! Hammertime!" Firefox Extension on Windows XP / Vista</a></h1>
+			
+			<time datetime="2008-07-21" pubdate=""><a href="/weblog/2008/07/21/stop-bug-found-in-stop-hammertime-firefox-extension-on-windows-xp-vista/">July 21, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've had a few reports from people saying that the latest version of the Stop! Hammertime! firefox extension hasn't been working properly on Windows XP and Windows Vista.  A new version will be coming soon but here is a fix for the time being.</p>
+
+<p>The problem that people are reporting is that when you go to the preferences section for the extension and try to change the stop button to the custom hammertime button, it won't let you press the "ok" button to proceed with the change.  It is currently only affecting Firefox 3 on Windows XP and Windows Vista but I'll be making a patch to fix it shortly.  For the time being, if you can't live without a hammertime button (despite the fact the stop button still works and plays the sound), then you can follow the steps below to get it working.</p>
+
+<p>First of all, you need to type "about:config" in the address bar of the browser.  This allows you access some of the internal preferences and config settings of firefox and all of your installed extensions.  You will most likely get a "here be dragons" warning but you can skip this - you do know what you're doing right?</p>
+
+<p>You will then need to use the filter option to locate the Stop! Hammertime! preferences.  You can do this by typing "hammertime" in the filter box - this should give you one result which by default is set to "false".  You need to double click to change it to "true".</p>
+
+<p>Once you've done this, simply restart firefox and the new hammertime button will be there for you to enjoy!  To change it back to the stop button, simply follow the steps above but make sure the hammertime config entry is set to "false".</p>
+
+<p>An update will hopefully be available in the next fews days so that you won't have to perform the above to switch between the two, but this should do for the time being.  Alternatively you can buy an Apple Mac or install Linux!</p>
+
+<p>In other Stop! Hammertime! news, it seems that the copyright holders for the song "U Can't Touch This" have noticed it's popularity and are attempting to cash in on it.  I recently had an email from the <a href="http://www.icgcopyright.com/icg/" rel="external">Integrated Copyright Group (ICG)</a> informing me that I'd need to purchase a license in order to play the 2 second sound clip in the firefox extension otherwise I would be in breach of copyright.  After a few back and forths we came to the conclusion that they could send a "cease and desist" letter from their lawyers but that the extension wasn't being removed (and I wasn't paying for a license).  So, we'll see what happens - expect updates on this shortly!!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/07/21/iphone3g-apps-mobileme-and-iphone-specific-sites/">iPhone 3G, Apps, MobileMe, and iPhone specific sites</a></h1>
+			
+			<time datetime="2008-07-21" pubdate=""><a href="/weblog/2008/07/21/iphone3g-apps-mobileme-and-iphone-specific-sites/">July 21, 2008</a></time>
+    	</header>
+    	<div>
+			<p>So, you've probably heard of the iPhone (unless you've been living under a rock in Redmond) - Apple's debut outing into the mobile phone arena, and what a debut it has been!  The interface is easy to use, the build quality is good, and it has a number of interesting features (e.g. visual voicemail) which make up for it's huge lacking of the most basic features (e.g. MMS).  I've been using one for the past 3 months but have just recently upgraded to the iPhone 3G after <a href="http://flickr.com/photos/bendodson/2665427230/" rel="external">queueing for a couple of hours outside the Fleet Street branch of O2</a> on launch day.  But what are the new features and have they really improved the "jesus phone"?</p>
+
+<p>Well the most talked about features that have been added are 3G support (which allows for faster data transfer) and GPS (pin-point location service).  The difference in speed between 3G and Edge is not that noticeable on most websites I've found, but when using applications like maps or mail it is an absolute godsend.  Having said that, although pages take about the same amount of time to load, they seem to render a lot quicker (e.g. the screen stays white for a long period of time before suddenly filling up with content incredibly quickly).  GPS was the main thing I was looking forward to and it seems to be a bit hit and miss.  Sometimes I can enable it and it will have my exact location within about 4 seconds whereas other times it just never gets a lock.  What makes this so annoying is that it doesn't seem to use cell tower triangulation or wireless networks to get a rough approximation of my location as the old iPhone did. It just keeps hoping it will see a GPS satellite.  I had been hoping that there would be an app that would automatically send my current location to a service such as <a href="http://fireeagle.yahoo.net/" rel="external">Fire Eagle</a> at regular intervals so that I could make some cool location mashups but with the current support it seems unlikely that it would work. Oh, and these 2 features drain the battery like you would not believe!  Fortunately I don't move too far outdoors so I'm always near a healthy electric supply!</p>
+
+<p>The other differences between the iPhone and the iPhone 3G are very small but have actually meant more to me so far than 3G or GPS.  The first is that the back is no longer metal but plastic.  At first I thought this would be absolutely terrible but it actually makes the phone feel a lot more comfortable.  Also, all of the buttons (such as the silent switch and power button) are all brushed metal so they feel a lot more reliable and well built.  The other big improvement is that the sound quality is much improved on both the internal and external speaker.  I can actually use the loudspeaker now whereas before it just sounded like a normal phone with the volume turned up a bit (very muffled).</p>
+
+<p>The main enhancement has definitely been the introduction of iPhone 2.0, the much anticipated software upgrade available to both the old iPhone and the iPod Touch.  With the software you can now have Exchange mail, contact searching, and run 3rd party applications on the device.  It is this that seems to have become the main reason people want an iPhone 3G although to be honest I probably could have kept the old iPhone that I paid a ridiculous sum of money for only 3-4 months ago!  I have several apps installed now including services for Twitter, Flickr, Last.fm, and Facebook, a VNC client, a lightsabre, a <a href="http://tapulous.com/taptap/" rel="external">Guitar Hero style tapping game</a>, Super Monkey Ball, and a mobile version of <a href="http://culturedcode.com/things/" rel="external">Things</a> (which doesn't sync yet but <a href="http://culturedcode.com/things/forums/read.php?6,4239" rel="external">they promised a free upgrade</a> that will).  I'll be posting some updates over the coming days about various exciting apps that have arrived or are hopefully coming soon.  At the moment there is a real gap for an MSN Messenger client as I haven't found one yet but they seem to be adding 10-20 apps per day so there should be one in the near future.</p>
+
+<p>Another interesting development which Apple have introduced is <a href="http://www.apple.com/mobileme/" rel="external">MobileMe</a> which is supposedly "Exchange for the rest of us".  It also has some of the best functioning "Web 2.0" apps that I have ever seen at <a href="http://www.me.com" rel="external">me.com</a>.  The idea is that all of your email, contacts, and calendar entries are stored online in a "cloud" and are then automatically pushed to your phone and computers.  Now this seemed great for me as I'm always updating things on the phone and then either having to plug it into my mac or update it on there manually.  I have both a MacBook and an iMac so it becomes a hassle trying to sync them all so it seemed like a very good idea.  Unfortunately the launch has been marred by huge problems over the launch weekend (e.g. it didn't work), some pissed off customers who didn't agree with Apple's marketing of the push system (e.g. showing a MacBook making a change that replicates instantly on the "cloud" but in reality it's a 15 minute automated sync rather than the push capability used by the phone), and also with a small error in which they took &pound;121 off your credit card instead of $1 to authorise the payments.  However, all of this aside, MobileMe is absolutely great!  I add items to my calendar on my mac and they then show up on my iPhone.  I take a picture of someone on my iPhone and add it to their section in my address book and sure enough the photo is displayed on my MacBook the next time they email me.  It all works incredibly well but then it should do for &pound;59 per year!</p>
+
+<p>My final thoughts on the whole iPhone thing revolve around iPhone specific sites.  That is to say taking a normal website (e.g. facebook) and then having it detect if you are using an iPhone or not and then displaying specific content or styling for that device.  Now normally I would be against such practices (remember IE4?) but in this case I have to say "why not"?  The iPhone has completely redefined mobile internet (in my opinion and doubtless many others) and has a unique interface and styling that are begging to be exploited.  The Facebook site is probably the best example for the way in which it seamlessly detects the iPhone and then displays a site that has been completely optimised for it (and styled to make it look like a native app).  Now that there is the opportunity to run apps natively on the iPhone I'm sure a number of these sites will disappear but for those of us that can't write objective-C (and I can't say I have a great desire to start learning it) then it is the closest way we can get to writing apps for the iPhone.  I am going to be making some sites specifically for the iPhone as well as some of my own personal systems which I'll be able to now access remotely and do some cool stuff with.  This debate is currently waging on the <a href="http://webstandardsgroup.org/" rel="external">Web Standards Group</a> Mailing List so I'd urge anyone with an opinion to sign up and discuss it there.  Alternatively you can put your thoughts on this issue here by using the comment box below.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/07/21/does-anybody-really-use-rss-feeds/">Does anybody really use RSS Feeds?</a></h1>
+			
+			<time datetime="2008-07-21" pubdate=""><a href="/weblog/2008/07/21/does-anybody-really-use-rss-feeds/">July 21, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've been using RSS feeds for several years now and find them incredibly useful for keeping up to date with blogs and news sites.  However, today I was talking to another web developer who said that he hates RSS feeds and would much rather have email updates when a site gets updated rather than having to add an RSS feed to his email client.</p>
+
+<p>Now I wouldn't find this strange coming from a lot of people as I can understand that a lot of people have no idea about RSS and would get confused trying to work out what an aggregator is.  But from a web developer?  Come on!  If the people that develop websites with RSS can't even be bothered to use it then what chance is there of the general populous using it?</p>
+
+<p>I use mac mail to manage all of my RSS feeds and find that it does a fairly good job - everything gets synced over to my iPhone as well so I can keep up to date when I'm on the train etc.  I also have a few RSS feeds on my <a href="http://www.google.com/ig" rel="external">iGoogle homepage</a> so I can see the latest <a href="http://xkcd.com/" rel="external">xkcd</a> or <a href="http://www.dilbert.com/" rel="external">dilbert</a> strip whilst I'm pretending to work.  Now I'm fairly sure you can set Outlook up to receive RSS feeds - so why doesn't this developer do that?  Apparently, if Windows were to crash (unlikely but stay with me on this) then he would lose all of the RSS feeds he was tracking and therefore have to add them again so it's not worth doing.  "You could use <a href="http://www.google.com/help/reader/tour.html" rel="external">Google Reader</a> or any other number of online aggregators" say I.  "Too much effort" says he.  I give up.</p>
+
+<p>So, in the next day or so there will be a "sign up" button on this site so that those of you who can't be bothered with RSS can get email alerts when a new message is posted.  I've also set up a twitter account which will be syndicating the posts on this site as and when they happen - the account to follow is <a href="http://twitter.com/bendodson_com/" title="Stay up to date with bendodson.com/weblog on Twitter" rel="external">bendodson_com</a>.  Oh, and for those of you that have moved into the 21st century, here is the <a href="http://bendodson.com/weblog/rss.xml" rel="external">good old RSS feed</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/07/19/website-upgrades-finally-completed/">Website upgrades finally completed</a></h1>
+			
+			<time datetime="2008-07-19" pubdate=""><a href="/weblog/2008/07/19/website-upgrades-finally-completed/">July 19, 2008</a></time>
+    	</header>
+    	<div>
+			<p>Some of the more regular visitors amongst you may have noticed that for the past month or so, <a href="http://bendodson.com/weblog/" title="PHP Developer Ben Dodson">bendodson.com/weblog</a> has been in a mild state of flux - I'm happy to say that everything is now completed and working fully!</p>
+
+<p>I hurried the uploading of the new design as I had some spare time at <a href="http://flickr.com/photos/bendodson/sets/72157605753188176/" title="Mashed 08 at Alexandra Palace" rel="external">Mashed</a> and thought it would be a good idea to get the new site up and running in any state.  Then, the knowledge that my site might not be working would spur me on to fixing it.  A good theory, but apparently not good in practice.</p>
+
+<p>There were several bugs in IE6 (there always are), the site was taking too long to load, and the contact form didn't work at all.</p>
+
+<p>But now, the site has been optimised to a grade A level (according to <a href="http://developer.yahoo.com/yslow/" rel="external">YSlow</a>), the IE6 bugs have been fixed, and email now works from my server so the contact form is working again!</p>
+
+<p>I'll be continuing to make little tweaks and upgrades here and there, but I'll also be returning to the blogging scene and keeping the site regularly updated with various development news.  As a taster, I have recently been playing with a new iPhone 3G, fire eagle, a montage making script that uses flickr, and Google Optimizer (although not all at the same time) so stay tuned!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/06/21/new-website-goes-live/">New website goes live!</a></h1>
+			
+			<time datetime="2008-06-21" pubdate=""><a href="/weblog/2008/06/21/new-website-goes-live/">June 21, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've finally got around to giving the site a visual refresh which can now be viewed here at <a href="http://bendodson.com/weblog/">bendodson.com/weblog</a> - There are a few bugs (mainly IE6) to iron out but on the whole it should be working!</p>
+
+<p>The site was redesigned by <a href="http://lizahayes.co.uk" rel="external">Liza Hayes</a> who took her inspiration mainly from Doctor Who!  I've been building it slowly over the past few months, but I'm currently at <a href="http://upcoming.yahoo.com/event/472718" rel="external">Mashed</a> so decided whilst I had the time dedicated to coding I really should get on and finish it!</p>
+<p>There will be various updates to the site over the next few days so keep posted!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/03/16/rss-feed-of-the-london-underground-tube-status/">RSS Feed of the London Underground Tube Status</a></h1>
+			
+			<time datetime="2008-03-16" pubdate=""><a href="/weblog/2008/03/16/rss-feed-of-the-london-underground-tube-status/">March 16, 2008</a></time>
+    	</header>
+    	<div>
+			<p><strong>Please note that this page is now outdated - for any updates to the London Underground, you should use my dedicated <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">Tube Status API and RSS feeds</a></strong></p>
+
+<p>I've been spending some time making an RSS feed of the London Underground tube status as I've been working on a few projects that could use one.  You would think that <a href="http://www.tfl.gov.uk" rel="external">Transport for Londons</a> nice web 2.0 style website would provide this basic requirement but alas they don't.  There are a few developers out there who have written some scraping scripts to convert this information, but most of them no longer work as they haven't been updated to work with the new site.</p>
+
+<p>Previously I have used the script at <a href="http://conor.net/code/tube/" rel="external">conor.net</a> to power any projects requiring a tube RSS feed but this went down a few weeks ago when I was in the middle of some crucial testing. So, like any other crazy developer would, I decided to write my own PHP scraping script that would generate me a nice RSS feed to basically tell me TFL had messed up my journey home!</p>
+
+<p>For those of you just looking for an RSS feed of the London Underground tube delays, you can find it at <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/rss/" rel="external">http://tubeupdates.com/rss/</a> - This is automatically updated every minute and will email me if anything goes wrong so I can fix it!  If you are going to use it for any projects, please <a href="http://bendodson.com/contact/">let me know</a> so that I can monitor bandwidth, etc.  If you are interested in how it works, then the code that powers this is below - feel free to use and modify it for your own projects:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="c1">// This file should be run on a CRON job every 5 minutes.</span>
+<span class="c1">// The server will need to be able to write to this folder in order to create the XML file.</span>
+
+<span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;bakerloo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;central&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;circle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;district&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;east london&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;hammersmith &amp; city&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;jubilee&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;metropolitan&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;northern&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;piccadilly&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;victoria&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;waterloo &amp; city&#39;</span>
+        <span class="p">);</span>
+
+<span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$ref</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="nv">$ref</span><span class="p">);</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span><span class="s1">&#39;and&#39;</span><span class="p">,</span><span class="nv">$id</span><span class="p">);</span>
+
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="p">;</span>
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">ucwords</span><span class="p">(</span><span class="nv">$ref</span><span class="p">);</span>
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> 
+        <span class="s1">&#39;http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/tube-&#39;</span> <span class="o">.</span> <span class="nv">$id</span> <span class="o">.</span> <span class="s1">&#39;-now.html&#39;</span><span class="p">;</span>
+
+    <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$lines</span> <span class="k">as</span> <span class="nv">$line</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$file</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]);</span>
+    <span class="nv">$needle</span> <span class="o">=</span> <span class="nb">strtoupper</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;ref&#39;</span><span class="p">])</span> <span class="o">.</span> <span class="s1">&#39; LINE:&#39;</span><span class="p">;</span>
+    <span class="nv">$pos</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span><span class="nv">$needle</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$pos</span> <span class="o">!==</span> <span class="k">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$pos</span> <span class="o">+=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$needle</span><span class="p">);</span>
+        <span class="nv">$end</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span><span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">,</span><span class="nv">$pos</span><span class="p">);</span>
+         <span class="nv">$status</span> <span class="o">=</span> <span class="nb">strip_tags</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span><span class="nv">$pos</span><span class="p">,(</span><span class="nv">$end</span><span class="o">-</span><span class="nv">$pos</span><span class="p">)));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$status</span> <span class="o">=</span> <span class="s1">&#39;A good service is currently running.&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$status</span><span class="p">;</span>
+    <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
+
+<span class="nv">$xml</span> <span class="o">=</span> <span class="o">&lt;&lt;&lt;</span><span class="nx">XML</span>
+
+<span class="o">&lt;</span><span class="nx">rss</span> <span class="nx">version</span><span class="o">=</span><span class="s2">&quot;2.0&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">channel</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">London</span> <span class="nx">Tube</span> <span class="nx">Updates</span><span class="o">&lt;/</span><span class="nx">title</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/</span><span class="nx">tfl</span><span class="o">/</span><span class="nx">livetravelnews</span><span class="o">/</span><span class="nx">realtime</span><span class="o">/</span><span class="nx">tube</span><span class="o">/</span><span class="k">default</span><span class="o">.</span><span class="nx">html</span><span class="o">&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">description</span><span class="o">&gt;</span><span class="nx">The</span> <span class="nx">latest</span> <span class="nx">London</span> <span class="nx">Underground</span> <span class="nx">tube</span> <span class="nx">update</span> <span class="nx">information</span><span class="o">&lt;/</span><span class="nx">description</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">language</span><span class="o">&gt;</span><span class="nx">en</span><span class="o">&lt;/</span><span class="nx">language</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">pubDate</span><span class="o">&gt;</span><span class="nv">$now</span><span class="o">&lt;/</span><span class="nx">pubDate</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">lastBuildDate</span><span class="o">&gt;</span><span class="nv">$now</span><span class="o">&lt;/</span><span class="nx">lastBuildDate</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">docs</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">tube</span><span class="o">.</span><span class="nx">bendodson</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">weblog</span><span class="o">/&lt;/</span><span class="nx">docs</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">webMaster</span><span class="o">&gt;</span><span class="nx">ben</span><span class="o">@</span><span class="nx">bendodson</span><span class="o">.</span><span class="nx">com</span> <span class="p">(</span><span class="nx">Ben</span> <span class="nx">Dodson</span><span class="p">)</span><span class="o">&lt;/</span><span class="nx">webMaster</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">generator</span><span class="o">&gt;</span><span class="nx">PHP</span> <span class="nx">script</span> <span class="nx">by</span> <span class="nx">Ben</span> <span class="nx">Dodson</span><span class="o">&lt;/</span><span class="nx">generator</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">ttl</span><span class="o">&gt;</span><span class="mi">5</span><span class="o">&lt;/</span><span class="nx">ttl</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">image</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Transport</span> <span class="k">for</span> <span class="nx">London</span><span class="o">&lt;/</span><span class="nx">title</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">url</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/</span><span class="nx">tfl</span><span class="o">-</span><span class="k">global</span><span class="o">/</span><span class="nx">images</span><span class="o">/</span><span class="nx">roundel</span><span class="o">.</span><span class="nx">gif</span><span class="o">&lt;/</span><span class="nx">url</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">width</span><span class="o">&gt;</span><span class="mi">52</span><span class="o">&lt;/</span><span class="nx">width</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">height</span><span class="o">&gt;</span><span class="mi">44</span><span class="o">&lt;/</span><span class="nx">height</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">description</span><span class="o">&gt;</span><span class="nx">Transport</span> <span class="k">for</span> <span class="nx">London</span> <span class="nx">Logo</span><span class="o">&lt;/</span><span class="nx">description</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="nx">image</span><span class="o">&gt;</span>
+<span class="nx">XML</span><span class="p">;</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$lines</span> <span class="k">as</span> <span class="nv">$line</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;item&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;title&gt;&#39;</span> <span class="o">.</span> <span class="nb">htmlentities</span><span class="p">(</span><span class="nb">ucwords</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]))</span> <span class="o">.</span> <span class="s1">&#39;&lt;/title&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;link&gt;&#39;</span> <span class="o">.</span> <span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s1">&#39;&lt;/link&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;description&gt;&#39;</span> <span class="o">.</span> <span class="nb">htmlentities</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">])</span> <span class="o">.</span> <span class="s1">&#39;&lt;/description&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/item&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+        
+<span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/channel&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/rss&gt;&#39;</span><span class="p">;</span>
+
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;rss.xml&#39;</span><span class="p">,</span><span class="nv">$xml</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>As I mentioned earlier, I am working on a few projects that utilise this script and I shall be making those available shortly.  However, for a sneak peek, you can check out <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/" rel="external">Tube Updates</a>, an API for any developer that would like to make use of this data.  There are still a few improvements to be made but you get the general idea!</p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/03/01/firefox-extensions-updated-for-beta-3-compatibility/">Firefox extensions updated for Beta 3 compatibility</a></h1>
+			
+			<time datetime="2008-03-01" pubdate=""><a href="/weblog/2008/03/01/firefox-extensions-updated-for-beta-3-compatibility/">March 01, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've spent some time updating my firefox extensions so that all of them work with <a href="http://www.mozilla.com/en-US/firefox/all-beta.html" rel="external">Firefox 3 Beta 3</a>. At present they can only be downloaded from this site as it takes the Mozilla Addons team a few days to approve updates.  My <a href="http://bendodson.com/weblog/extensions/">extensions page</a> is now back up and running though and contains details on all 3 of my Firefox Extensions (Font Finder, Stop! Hammertime!, and STOP in the name of love) as well as download links for the new releases.</p>
+
+<p>I won't be making any further updates to the stop buttons (apart from making them work with future version of Firefox) but I will be continuing development on Font Finder which could benefit from a visual overhaul as well as a clipboard function!  I'll be updating on here when it happens so sign up to the <a href="http://bendodson.com/weblog/rss.xml">RSS feed</a> for the latest news!</p>
+
+		</div>
+	</article>
+    
+	
+</section>
+
+
+<section id="pagination">
+     
+    	<a href="/weblog/page/15/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
+     
+	
+    
+      
+      	<a href="/weblog/page/13/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
+      
+    
+</section>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Following on from my post yesterday about the broken implementation of the HKHealthStore method deleteObjectsOfType:predicate:withCompletion:, I&#39;ve put together a gist which provides a fixed method that works with HKSampleType objects; deleteSamplesOfType:predicate:withCompletion:">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>HKHealthStore Extension, deleteSamplesOfType</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">HKHealthStore Extension, deleteSamplesOfType</a></h1>
+			
+			<time datetime="2015-10-06" pubdate=""><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">October 06, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Following on from <a href="/weblog/2015/10/05/healthkit-radar-22977320/">my post yesterday</a> about the broken implementation of the <code>HKHealthStore</code> method <code>deleteObjectsOfType:predicate:withCompletion:</code>, I&#39;ve put together <a href="https://gist.github.com/bendodson/c0f0a6a1f601dc4573ba">a gist</a> which provides a fixed method that works with <code>HKSampleType</code> objects; <code>deleteSamplesOfType:predicate:withCompletion:</code></p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">Foundation</span>
+<span class="k">import</span> <span class="n">HealthKit</span>
+
+<span class="k">extension</span> <span class="n">HKHealthStore</span> <span class="p">{</span>
+    
+    <span class="k">func</span> <span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="nl">sampleType</span><span class="p">:</span> <span class="n">HKSampleType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="bp">NSPredicate</span><span class="p">,</span> <span class="n">withCompletion</span> <span class="nl">completion</span><span class="p">:</span> <span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="n">HKSampleQuery</span><span class="p">(</span><span class="nl">sampleType</span><span class="p">:</span> <span class="n">sampleType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">limit</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">sortDescriptors</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+            
+            <span class="k">if</span> <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">false</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="k">let</span> <span class="n">objects</span> <span class="o">=</span> <span class="n">results</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="n">objects</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+                    <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nb">self</span><span class="p">.</span><span class="n">deleteObjects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+                        <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="n">objects</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
+                    <span class="p">})</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+        <span class="nb">self</span><span class="p">.</span><span class="n">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span></code></pre></div>
+
+<p>It simply uses the <code>NSPredicate</code> within a <code>HKSampleQuery</code> in order to find any objects that match the <code>HKSampleType</code> and then deletes them with the <code>HKHealthStore</code> method <code>deleteObjects:withCompletion:</code> - this correctly ensures that you are only deleting objects that match both the predicate and type.</p>
+
+<p>By way of example, this simply extends <code>HKHealthStore</code> so you can do something like this:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="nl">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">stepType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) step objects: \(error)&quot;</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">stepQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">stepSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+
+<span class="k">let</span> <span class="n">flightsType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) flight objects: \(error)&quot;</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">flightsQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">flightsSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+    <span class="nb">self</span><span class="p">.</span><span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="p">}</span>
+<span class="p">})</span></code></pre></div>
+
+<p>As a reminder, you can file a duplicate of (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) if you&#39;d like to see the original bug fixed but in the meantime the above should allow you to carry on with your HealthKit app without worrying about deleting other data.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/" title="Next Article" class="pagination-next">A simple Audio Recorder controller in Swift (for iPhone) &raquo;</a>
+    
+	 
+		<a href="/weblog/2015/10/05/healthkit-radar-22977320/" title="Previous Article" class="pagination-previous">&laquo; HealthKit Radar 22977320</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Like many people, Yosemite has been a total killer for my WiFi. I finally broke down over the weekend when my WiFI was disconnecting every 10 seconds or so1. There is now a workaround available but it requires losing the ability to AirDrop which I use frequently. I&#39;ve eventually fixed it with a long winded solution which I thought I&#39;d share, but first a little backstory...When I buy a house rather than rent, the first thing going in will be a gigabit LAN throughout. WiFi isn&#39;t good enough for a media server and work machine.&nbsp;&#8617;">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Yosemite WiFi Workaround&#58; Airport Express and USB Ethernet Adapter</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">Yosemite WiFi Workaround&#58; Airport Express and USB Ethernet Adapter</a></h1>
+			
+			<time datetime="2014-11-26" pubdate=""><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">November 26, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Like many people, Yosemite has been a total killer for my WiFi. I finally broke down over the weekend when my WiFI was disconnecting every 10 seconds or so<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. There is now a <a href="http://www.tuaw.com/2014/11/25/heres-the-root-cause-and-a-workaround-for-ios-8-and-yosemite-wi/">workaround available</a> but it requires losing the ability to AirDrop which I use frequently. I&#39;ve eventually fixed it with a long winded solution which I thought I&#39;d share, but first a little backstory...</p>
+
+<p>My WiFi is completely Apple-centric. I have an Airport Extreme (the newest 802.11ac model) and nothing but Apple computers. There are a couple of Apple TVs in the house and a few Airport Express&#39; for AirPlaying music. A little while ago <a href="http://bendodson.com/weblog/2014/10/17/issues-with-airport-express-airport-extreme-and-yosemite/">I detailed how Yosemite was erroneously connecting through an Airport Express</a> causing serious slowdown; the solution I had at that time was to separate my WiFi into 5GHz and 2.4GHz channels (with all AirPlay on 2.4 and all devices on 5). That was the setup.</p>
+
+<p>Now, I&#39;ve had to revert to doing this for my work computer:</p>
+
+<p><img src="http://playground.bendodson.com/airport-lan-yosemite.jpg" alt="Fixing Yosemite with an Airport Express and USB Ethernet cable"></p>
+
+<p>That&#39;s right, I&#39;ve had to plug in a USB Ethernet adapter and use a LAN cable to an Airport Express operating as a wireless bridge! As far as Yosemite is concerned, that&#39;s a LAN connection and so it doesn&#39;t drop out continuously. Problem solved!</p>
+
+<p>There was one issue though; that Apple USB Ethernet adapter (which they <a href="http://store.apple.com/uk/product/MC704ZM/A/apple-usb-ethernet-adapter">still sell</a>) doesn&#39;t work in Mavericks yet alone Yosemite. To fix it, you need to download the drivers for the chip it is built on (helpfully <a href="http://www.asix.com.tw/download.php?sub=driverdetail&amp;PItemID=136">available from ASIX</a>), restart Yosemite, then manually add a USB Ethernet connection within Network in System Settings.</p>
+
+<p>It&#39;s all working like a charm, complete with full AirDrop support and no dropped connections. My new Retina iMac is coming today<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> so I&#39;m hoping that it having an 802.11ac chip will forgoe the need for this ridiculous workaround. At the very least I&#39;ll be able to leave out the ethernet adapter!</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>When I buy a house rather than rent, the first thing going in will be a gigabit LAN throughout. WiFi isn&#39;t good enough for a media server and work machine.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>&quot;Out For Delivery&quot;. Feels like I&#39;ve been waiting forever!&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/" title="Next Article" class="pagination-next">SKProduct localized price in Swift &raquo;</a>
+    
+	 
+		<a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/" title="Previous Article" class="pagination-previous">&laquo; Dishwasher tablets and app competition</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

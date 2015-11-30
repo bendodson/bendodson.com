@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="iOS 5.1 Beta 1 was released to developers back in November 2011. Since then there have only been 2 additional betas (the last of which was just over 3 weeks ago) but not one of them has added anything worthy of a 5.x update. There are only two additions of note for developers.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>What's happening with iOS 5.1?</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2012/01/31/whats-happening-with-ios-5-1/">What's happening with iOS 5.1?</a></h1>
+			
+			<time datetime="2012-01-31" pubdate=""><a href="/weblog/2012/01/31/whats-happening-with-ios-5-1/">January 31, 2012</a></time>
+    	</header>
+    	<div>
+			<p>iOS 5.1 Beta 1 was released to developers back in November 2011. Since then there have only been 2 additional betas (the last of which was just over 3 weeks ago) but not one of them has added anything worthy of a 5.x update. There are only two additions of note for developers.</p>
+
+<p><a href="http://www.macrumors.com/2012/01/09/apple-seeds-ios-5-1-beta-3-to-developers/">MacRumors reports</a>:</p>
+
+<blockquote>
+<p>iOS 5.1 introduces a new API to mark files or directories that should not be backed up. For NSURL objects, add the NSURLIsExcludedFromBackupKey attribute to prevent the corresponding file from being backed up.</p>
+</blockquote>
+
+<p>Whilst <a href="http://www.anandtech.com/show/5158/apple-seeds-ios-51-beta-to-developers">AnandTech reports</a>:</p>
+
+<blockquote>
+<p>On supported devices, iOS automatically inserts recognized phrases into the current text view when the user has chosen dictation input. The new UIDictationPhrase class (declared in UITextInput.h) provides you with a string representing a phrase that a user has dictated. In the case of ambiguous dictation results, the new class provides an array containing alternative strings. New methods in the UITextInput protocol allow your app to respond to the completion of dictation.</p>
+</blockquote>
+
+<p>Neither of these things are worthy of a 5.x update as the first is just a reworking of a bug fix in 5.0.1 and the second doesn&#39;t really have much of a practical use. If we look back at previous .x updates, Apple always puts something in that will appeal (and can be marketed) to the end user:</p>
+
+<ul>
+<li><strong>iOS 4.1</strong> - GameCenter, HDR Photo Capture, iTunes Ping (haha), HD Video Uploads</li>
+<li><strong>iOS 4.2</strong> - AirPrint, AirPlay, Fonts for Notes (it&#39;s a big deal), Voice Memos App - was also the release that bought iOS 4 to the iPad</li>
+<li><strong>iOS 4.3</strong> - Personal Hotspot, AirPlay in 3rd Party Apps, Home Sharing, 2x faster JavaScript in Safari, Mute Switch preference for iPad</li>
+</ul>
+
+<p>These are all big updates and carry a number of new features which end users can relate to (i.e. they are not all dependent on developers integrating a new API). That&#39;s what I don&#39;t understand about iOS 5.1 so far – there are no end user features and the new bits that are there are very minor API updates that most developers won&#39;t use.</p>
+
+<p>In addition to these rather minor updates, there is also the question of timing. iOS 5.1 has been with developers for over 2 months with a very slow release cycle.</p>
+
+<p>So what&#39;s happening?</p>
+
+<p>My theory (and this is all speculation) is that iOS 5.1 does indeed add something big but we won&#39;t see it until mid-February when the iPad 3 is announced. This is because the iPad 3 will come with iOS 5.1 pre-installed and so a number of the new features will be directly tied to that. As soon as the event is over, developers will be given a 5.1 GM along with around 3 weeks to submit apps to the App Store if they want to update to the new features.</p>
+
+<p>My current guess is that Siri will be prominent in iOS 5.1 as the introduction of the iPad 3 means there will be another device out there with Siri support (and that&#39;s if they don&#39;t open Siri up to the iPad 2 / iPhone 4). A 3rd party API for Siri will allow all kinds of amazing apps to appear (take a look at my <a href="http://bendodson.com/weblog/2011/12/06/hows-the-london-underground-ask-siri/">Tube Updates plugin for SiriProxy</a> for example) and will look great during the iPad 3 announcement keynote when Scott Forstall gets a number of prominent development studios to show off what they&#39;ve done in 2 weeks of having access to the API.</p>
+
+<p>However, Siri APIs do not a .x release make as that isn&#39;t enough to make most people upgrade (such as the iPhone 4 and iPad 2 which I doubt are going to get Siri). A few other things I would hope to see in iOS 5.1 are:</p>
+
+<ul>
+<li><strong>Widgets</strong> - the ability for developers to create Notification Center widgets such as the Weather and Stocks ones which come preinstalled. This is an area when Android is nominally &quot;winning&quot; and is something which should have been in iOS 5 in my opinion.</li>
+<li><strong>Facebook Integration</strong> - I&#39;m not a big fan of Facebook but I can see it getting iOS level integration similar to Twitter.</li>
+<li><strong>Improved Siri</strong> - Aside from 3rd party dev support, allowing things like &quot;read my mail&quot; or &quot;open this app&quot;. I&#39;d really like a &quot;lower brightness&quot; command.</li>
+<li><strong>iBooks</strong> - Not really a big announcement but <a href="http://bendodson.com/weblog/2012/01/30/retina-display-graphics-reappear-in-ibooks-2/">I speculated yesterday that iBooks might become part of the core OS</a>.</li>
+</ul>
+
+<p>Aside from that I can&#39;t really think of anything they can add to this release. I&#39;d like to see a new maps app without Google (Apple have aquired enough mapping companies) and profiles on the iPad (so you can have multiple accounts) but I think these are more likely for iOS 6.0. Not related to iOS 5.1, but I&#39;d also like to see iMessages bought over to the Mac App Store as well.</p>
+
+<p>One thing is for certain though – iOS 5.1 beta 3 is a long way off from what iOS 5.1 will actually be. It just isn&#39;t a 5.x update at the moment but I&#39;m certain all will be revealed at the iPad 3 keynote sometime in mid-February. If you&#39;ve got any ideas for what you expect to see in iOS 5.1 <a href="http://bendodson.com/contact/">send me an email</a> or <a href="http://twitter.com/bendodson">tweet at @bendodson</a> and I&#39;ll add the best ideas to the list.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2012/01/31/calling-all-beta-testers/" title="Next Article" class="pagination-next">Calling all beta testers &raquo;</a>
+    
+	 
+		<a href="/weblog/2012/01/30/retina-display-graphics-reappear-in-ibooks-2/" title="Previous Article" class="pagination-previous">&laquo; Retina display graphics reappear in iBooks 2</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

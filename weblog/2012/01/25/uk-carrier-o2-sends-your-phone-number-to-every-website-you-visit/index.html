@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Lewis Peckover:">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>UK Carrier O2 sends your phone number to every website you visit</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="http://lew.io/headers.php" class="external">UK Carrier O2 sends your phone number to every website you visit</a></h1>
+			
+			<time datetime="2012-01-25" pubdate=""><a href="/weblog/2012/01/25/uk-carrier-o2-sends-your-phone-number-to-every-website-you-visit/">January 25, 2012</a></time>
+    	</header>
+    	<div>
+			<p>Lewis Peckover:</p>
+
+<blockquote>
+<p>If you&#39;re on O2&#39;s UK mobile network (not ADSL), you&#39;ll (probably) see a line beginning with <code>x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
+</blockquote>
+
+<p>Looks like O2 is sending users mobile phone numbers in plain text over HTTP headers to every site they visit whilst using their network. At the moment the issue appears to be limited to certain APNS on the UK O2 network.</p>
+
+<p>When asked about it, <a href="https://twitter.com/o2/status/161872584634408960">O2 responded with</a>:</p>
+
+<blockquote>
+<p>The mobile number in the HTML is linked to how the site determines that your browsing from a mobile device</p>
+</blockquote>
+
+<p>As Lewis points out, a &quot;<a href="https://twitter.com/lewispeckover/status/161879864159383552">User-agent header ID&#39;s the device</a>&quot; so this seems a slightly odd stance (particularly as it isn&#39;t happening on all mobile devices).</p>
+
+<p><strong>Update:</strong> O2 say that it&#39;s a technical error and that this header should only be sent to whitelisted servers. It does beg the question, which servers are whitelisted? Presumably just O2&#39;s own websites but it&#39;s still not good to be sending information like this in plaintext.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2012/01/26/bendodsoncom-gets-an-update/" title="Next Article" class="pagination-next">BenDodson.com gets an update &raquo;</a>
+    
+	 
+		<a href="/weblog/2011/12/12/how-not-to-ask-for-an-ios-app-review-a-review-of-jumpship-thrust-control-2/" title="Previous Article" class="pagination-previous">&laquo; How not to ask for an iOS app review - A review of Jumpship Thrust Control 2</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Today I purchased one of the brand new iMacs that were released yesterday. One of the first things I installed was Steam and Portal 2 (as I'm looking forward to playing co-operatively with a friend on Windows) but I was surprised when trying to play that it required OS X 10.6.7">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Portal 2 on the new iMac (10.6.6)</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/05/04/portal-2-on-the-new-imac-10-6-6/">Portal 2 on the new iMac (10.6.6)</a></h1>
+			
+			<time datetime="2011-05-04" pubdate=""><a href="/weblog/2011/05/04/portal-2-on-the-new-imac-10-6-6/">May 04, 2011</a></time>
+    	</header>
+    	<div>
+			<p>Today I purchased one of the brand new iMacs that were released yesterday. One of the first things I installed was Steam and Portal 2 (as I'm looking forward to playing co-operatively with a friend on Windows) but I was surprised when trying to play that it required OS X 10.6.7</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/05/Screen-shot-2011-05-04-at-20.24.23.png" alt="Portal 2 requires Mac OS 10.6.7" title="Screen shot 2011-05-04 at 20.24.23.png" border="0" width="420" height="122" />
+
+<p>This is surprising because 10.6.7 has been around for a little while now so why wasn't it on the new iMacs by default.  After trying a system update, I found that there was no update for the 10.6.6 iMacs and other people had tried the Combo Update downloadable from Apple to no avail.</p>
+
+<p>After downloading all of Portal 2, I decided not to give up easily and see if there was a way around it. Developers are generally lazy and so they are probably just checking for the string 10.6.6 in the system version.  As this version of 10.6.6 has all of the drivers for the new graphics card required for Portal 2, I thought there would probably be no harm in changing that system version to 10.6.7 to get past the Steam requirements. Turns out I was right!</p>
+
+<p>To get your copy of Portal 2 running on your new iMac, navigate to <code>/System/Library/CoreServices/</code> - now copy the file <code>SystemVersion.plist</code> to your desktop and open it for editing. Change the references to 10.6.6 to 10.6.7 and save. Now you'll want to delete the existing version and then copy your new file in it's place - you will need admin rights to do this.</p>
+
+<p>Once that's done, fire up Portal 2 - you may get the "System requirements failed" message but if you press "Continue anyway" then Portal 2 will load and be perfectly playable (at 1080p).</p>
+
+<p>Now, go forth and continue testing!</p>
+
+<p><strong>Note:</strong> when a 10.6.7 fix does come available for the new iMac, you should probably edit the <code>SystemVersion.plist</code> file and change the references back to 10.6.6 just to make sure nothing bad happens...</p>
+
+<p><strong>[20/05/11] Update:</strong> OS X 10.6.7 is now available through System Update for the new iMacs - make sure you reverse the process above before updating.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2011/05/10/font-finder-now-available-for-firefox-4-and-safari-5/" title="Next Article" class="pagination-next">Font Finder: Now available for Firefox 4 and Safari 5 &raquo;</a>
+    
+	 
+		<a href="/weblog/2011/05/01/review-worldictionary-for-ios/" title="Previous Article" class="pagination-previous">&laquo; Review: Worldictionary for iOS</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

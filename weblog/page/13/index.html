@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+
+	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/25/twitterfollowers-php-class-a-better-way-to-track-twitter-followers-quitters-and-returning-followers/">TwitterFollowers PHP Class - A Better Way To Track Followers, Quitters, and Returning Followers on Twitter</a></h1>
+			
+			<time datetime="2009-05-25" pubdate=""><a href="/weblog/2009/05/25/twitterfollowers-php-class-a-better-way-to-track-twitter-followers-quitters-and-returning-followers/">May 25, 2009</a></time>
+    	</header>
+    	<div>
+			<p>Over the past few months, there have been a number of web apps that have popped up with the task of feeding your ego (or indeed deflating it) by telling you exactly who is following you on Twitter and giving you pretty graphs to show you how your followers are increasing - some of them even go so far as to estimate how many followers you are likely to have in a weeks time!  However, the key thing for me that is missing from Twitter is the ability to see who has stopped following you and also those people that stopped but are now following you again as you don't get email alerts from Twitter for these two things.  This is a useful piece of information to have as it will let you know when people drop off and whether they are important (e.g. friends who don't care what you are talking about thus suggesting you should stop talking crap) or not (e.g. spam bots).</p>
+<p>I did a bit of research and the only real web app to fulfill this need that I could find was the beautifully designed <a href="http://useqwitter.com/">Qwitter</a>.  However, the problem with Qwitter is that it only gives you the details for one person with the idea being that you say "tell me when this username stops following me" - it's a little bit stalkerish in my opinion!  Like any PHP developer, I decided that I could build my own little system to give me my Twitter ego boost and so have come up with the class below which you can all now take and use as you see fit.</p>
+<p><strong>Update:</strong> Turns out I was wrong about Qwitter as the username you put in to follow is supposed to be yours, not the person you want to watch when they leave you.  They need to do better copywriting! In any case, the class below serves as a good demo of the public Twitter data and allows you to extend it the way you want.</p>
+<p><strong>Note:</strong> This won't work straight out of the box - I've put in a few comments which say "SQL Required".  This is because you may well have your own schema (although I do provide one) and you may have your own framework or DB connection functions (I know I do).  Once you've done those, just substitute the constants for your own details and it should all work</p>
+
+<h3>TwitterFollowers.class.php</h3>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Crawls Twitter Followers and sends an email alert to show you who has started following, stopped following, and started re-following</span>
+<span class="sd"> *</span>
+<span class="sd"> * @author Ben Dodson</span>
+<span class="sd"> **/</span>
+<span class="k">class</span> <span class="nc">TwitterFollowers</span>
+<span class="p">{</span>
+	<span class="c1">// define constants</span>
+	<span class="k">const</span> <span class="no">username</span>	<span class="o">=</span> <span class="s1">&#39;bendodson&#39;</span><span class="p">;</span>
+	<span class="k">const</span> <span class="no">email</span> 	<span class="o">=</span> <span class="s1">&#39;ben@bendodson.com&#39;</span><span class="p">;</span>
+	<span class="k">const</span> <span class="no">subject</span>	<span class="o">=</span> <span class="s1">&#39;Twitter Updates&#39;</span><span class="p">;</span>
+	<span class="k">const</span> <span class="no">from</span>	<span class="o">=</span> <span class="s1">&#39;TwitterBot &lt;twitter@bendodson.com&gt;&#39;</span><span class="p">;</span>
+	
+	<span class="c1">// define internal variables</span>
+	<span class="k">protected</span> <span class="nv">$actualFollowers</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">protected</span> <span class="nv">$internalFollowers</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">protected</span> <span class="nv">$followerChanges</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">protected</span> <span class="nv">$now</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	
+	<span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">);</span>
+		
+		<span class="nv">$json</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://twitter.com/followers/ids/&#39;</span><span class="o">.</span><span class="nx">self</span><span class="o">::</span><span class="na">username</span><span class="o">.</span><span class="s1">&#39;.json&#39;</span><span class="p">);</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actualFollowers</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">internalFollowers</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getInternalFollowers</span><span class="p">();</span>
+		
+		<span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actualFollowers</span> <span class="k">as</span> <span class="nv">$actualFollower</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$actualFollower</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">internalFollowers</span><span class="p">))</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getTweeter</span><span class="p">(</span><span class="nv">$actualFollower</span><span class="p">))</span> <span class="p">{</span>
+					<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">[</span><span class="s1">&#39;returning follower&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$actualFollower</span><span class="p">;</span>
+					<span class="cm">/*</span>
+<span class="cm">					--SQL REQUIRED--</span>
+<span class="cm">					UPDATE TwitterFollowers SET start = $this-&gt;now, end = NULL WHERE id = $actualFollower</span>
+<span class="cm">					*/</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">[</span><span class="s1">&#39;new follower&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$actualFollower</span><span class="p">;</span>
+					<span class="cm">/*</span>
+<span class="cm">					--SQL REQUIRED--</span>
+<span class="cm">					INSERT INTO TwitterFollowers (id) VALUES ($actualFollower)</span>
+<span class="cm">					*/</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		
+		<span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">internalFollowers</span> <span class="k">as</span> <span class="nv">$internalFollower</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$internalFollower</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actualFollowers</span><span class="p">))</span> <span class="p">{</span>
+				<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">[</span><span class="s1">&#39;stopped following&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$internalFollower</span><span class="p">;</span>
+				<span class="cm">/*</span>
+<span class="cm">				--SQL REQUIRED--</span>
+<span class="cm">				UPDATE TwitterFollowers SET end = $this-&gt;now WHERE id = $internalFollower</span>
+<span class="cm">				*/</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sendEmail</span><span class="p">();</span>	
+	<span class="p">}</span>
+	
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">getInternalFollowers</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+		<span class="nv">$raw</span> <span class="o">=</span> 
+		<span class="cm">/*</span>
+<span class="cm">		--SQL REQUIRED--</span>
+<span class="cm">		SELECT id FROM TwitterFollowers WHERE end IS NULL</span>
+<span class="cm">		*/</span>
+		<span class="k">foreach</span> <span class="p">(</span><span class="nv">$raw</span> <span class="k">as</span> <span class="nv">$r</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nv">$data</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nv">$data</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">getTweeter</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">return</span>
+		<span class="cm">/*</span>
+<span class="cm">		--SQL REQUIRED--</span>
+<span class="cm">		SELET * FROM TwitterFollowers WHERE id = $id LIMIT 1</span>
+<span class="cm">		*/</span>		
+	<span class="p">}</span>
+	
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">getTweeterDetails</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$json</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://twitter.com/users/show/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;.json&#39;</span><span class="p">);</span>
+		<span class="nv">$tweeter</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nv">$tweeter</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">.</span> <span class="s1">&#39; (&#39;</span><span class="o">.</span><span class="nv">$tweeter</span><span class="o">-&gt;</span><span class="na">screen_name</span> <span class="o">.</span> <span class="s1">&#39;)&#39;</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">sendEmail</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nv">$to</span>      <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">email</span><span class="p">;</span>
+		<span class="nv">$subject</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">subject</span><span class="p">;</span>
+		<span class="nv">$headers</span> <span class="o">=</span> <span class="s1">&#39;From: &#39;</span> <span class="o">.</span> <span class="nx">self</span><span class="o">::</span><span class="na">from</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="s1">&#39;Reply-To: &#39;</span> <span class="o">.</span> <span class="nx">self</span><span class="o">::</span><span class="na">from</span><span class="p">;</span>
+
+		<span class="nv">$message</span> <span class="o">=</span> <span class="s1">&#39;Hi,&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+		<span class="nv">$message</span> <span class="o">.=</span> <span class="s1">&#39;Here are your Twitter Updates:&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span> <span class="k">as</span> <span class="nv">$changeType</span> <span class="o">=&gt;</span> <span class="nv">$change</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nv">$message</span> <span class="o">.=</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="s1">&#39;--&#39;</span><span class="o">.</span><span class="nb">strtoupper</span><span class="p">(</span><span class="nv">$changeType</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;--&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+				<span class="k">foreach</span> <span class="p">(</span><span class="nv">$change</span> <span class="k">as</span> <span class="nv">$tweeter</span><span class="p">)</span> <span class="p">{</span>
+					<span class="nv">$message</span> <span class="o">.=</span> <span class="s1">&#39;*&#39;</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getTweeterDetails</span><span class="p">(</span><span class="nv">$tweeter</span><span class="p">)</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nv">$message</span> <span class="o">.=</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="s1">&#39;--NO UPDATES FOUND--&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+		<span class="p">}</span>
+		
+		<span class="nb">mail</span><span class="p">(</span><span class="nv">$to</span><span class="p">,</span> <span class="nv">$subject</span><span class="p">,</span> <span class="nv">$message</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<h3>MySQL Database Schema</h3>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">TwitterFollowers</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="k">start</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+  <span class="o">`</span><span class="k">end</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">MyISAM</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span></code></pre></div>
+
+<h3>How does it work?</h3>
+
+<p>First of all, you will need to substitute the SQL sections for your own particular schema and database functions.  Once you've done that, alter the class constants so that they are your own username and the email address you want to send your updates to.  Finally, set up a CRON job so that it runs at a certain point every day.  I currently have mine set to run at 9am every morning but I may well change it to run every time I post a tweet as then I'd be able to see which tweet had made people start or stop following me.</p>
+
+<p>The script works by checking the publicly accessible JSON feed of your followers and getting all of their IDs.  I say it's publicly accessible, but I don't think it is if you have protected your updates which will of course cause problems!  Once it has all of the IDs, it checks this against the IDs stored in your database - if there aren't any then everyone will show up as following you on the first run.  If it finds an ID in your database that isn't in your JSON string then you've been dumped!  Conversely, if it finds an ID in the JSON string but not in the DB then, congratulations, you've got a new follower.  The final instance is if it finds an ID in the JSON string that is in the DB but has an end datetime assigned to it.  This means the person was following you, stopped, and has now decided to re-follow you.</p>
+
+<p>The whole lot then gets packaged up and emailed to you with each section broken down so you can read it clearly.  In order to do this, it looks up each ID that goes into the email against that persons publicly available Twitter information to give you both their "real name" and "username".</p>
+
+<h3>Known Problems</h3>
+<ul>
+<li>I don't think it will work if you have your updates set to hidden.</li>
+<li>If one of your followers gets banned from Twitter, then their name won't show up in the email (it will just be blank)</li>
+<li>This script won't work if you have more than 5000 followers - this is because that is the maximum result set from the JSON string.  You'd need to add paging information to get more than 5000 although this would be fairly easily.  Alas I don't have that many followers to be able to test that out!</li>
+</ul>
+
+<h3>Conclusion</h3>
+
+<p>So now you can easily (if you know PHP) get updates on all your Twitter followers and non-followers.  Feel free to use all the above code and modify to your hearts content - if you found it to be useful, then please leave a comment below.  Oh, and I couldn't possibly write a post about Twitter without reminding you that you can follow me <a href="http://twitter.com/bendodson/">@bendodson</a> ;)</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">Getting Xbox Live Achievements Data: Part 2 - The AppleScript Solution</a></h1>
+			
+			<time datetime="2009-05-19" pubdate=""><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">May 19, 2009</a></time>
+    	</header>
+    	<div>
+			<p>Following on from the <a href="http://bendodson.com/weblog/2009/05/12/getting-xbox-live-achievements-with-php-part-1-the-problems/">first of this series of tutorials</a> on how to extract Xbox Live achievement data using PHP and AppleScript, I thought I would use this second part to look at the AppleScript that powers one side of the system I've put together.  In the next part, I'll be explaining the PHP class I've built, and in the fourth part (the last of the series) I'll be showing you how the two talk together and how you can use the collected data with other APIs such as Facebook Connect.</p>
+
+<p>So, let's have a look at some code!</p>
+
+<h3>XboxLive AppleScript</h3>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
+<span class="k">set</span> <span class="nv">dataFilePath</span> <span class="k">to</span> <span class="s2">&quot;server:XboxLive:data.txt&quot;</span>
+<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span>
+
+<span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+<span class="nb">set eof</span> <span class="k">of</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="mi">0</span>
+<span class="nb">close access</span> <span class="nv">dataFile</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+	<span class="nb">open location</span> <span class="nv">urlFilePath</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="nv">do</span> <span class="nv">JavaScript</span> <span class="s2">&quot;window.location.reload()&quot;</span> <span class="k">in</span> <span class="nb">the</span> <span class="nb">front</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="k">try</span>
+		<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="p">(</span><span class="nb">the</span> <span class="nb">text</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="na">document</span><span class="p">)</span>
+	<span class="k">end</span> <span class="k">try</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">if</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">toCrawl</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">open location</span> <span class="nv">toCrawl</span>
+	<span class="nb">delay</span> <span class="mi">15</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+		<span class="k">set</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nb">the</span> <span class="na">source</span> <span class="k">of</span> <span class="nb">front</span> <span class="na">document</span> <span class="k">as </span><span class="nc">string</span>
+		<span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+		<span class="nb">write</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nv">dataFile</span> <span class="nv">starting</span> <span class="nb">at</span> <span class="nv">eof</span>
+		<span class="nb">close access</span> <span class="nv">dataFile</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="k">if</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></div>
+
+<p>This is the first time I've used AppleScript for anything other than just playing around and I have to say that as a language it's incredibly good.  Just by reading through the above, you'll probably be able to work out what's going on even if you've never seen any type of programming code in the past.  Even so, I'll go through each section and explain what it does along with the reasons why I decided to do it in this particular way rather than some of the other ways I could have chosen.</p>
+
+<p><em><strong>Note:</strong> All of this AppleScript is completely self-taught from searching around on the internet.  I was going to buy the book <a href="http://www.amazon.co.uk/AppleScript-Missing-Manual-Adam-Goldstein/dp/0596008503/ref=sr_11_1?ie=UTF8&qid=1242776373&sr=11-1">AppleScript: The Missing Manual</a> but I was able to read all the sections I needed on <a href="http://books.google.com/books?id=-ynfWvkwzpwC">Google Books</a> which was convenient - I'll probably buy the book anyway to brush up on a few other areas.  If you are an AppleScript guru and you know a way to optimize my code, please use the comments section below so others can learn and so I can update it.</em></p>
+
+<p>Before we get on to looking at the code, it might be worth briefly recapping how everything will work.  My server will check the XboxLive API in order to see if my gamerscore has increased.  If it has, then it saves the URL of the achievements page for my most recently played game (which it can't itself read due you needing to login to Xbox Live with javascript enabled - something cURL can't do!) in a text file on the server.  My mac mini at home then runs the above AppleScript in order to retrieve the saved URL, open it in Safari, and save the HTML in it's own text file that is available via the internet.  My server will then check this text file, parse the HTML, and save the achievements to a database.</p>
+
+<h3>How does it all work?</h3>
+
+<p>Now we've got that out of the way, let's look at that AppleScript in more detail:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
+<span class="k">set</span> <span class="nv">dataFilePath</span> <span class="k">to</span> <span class="s2">&quot;server:XboxLive:data.txt&quot;</span>
+<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span></code></pre></div>
+
+<p>These three lines of code are used to define variables which we will use later on in the code.  The first one, <code>urlFilePath</code>, is the URL of the text file on my server that will tell our script what URL we need to retrieve the HTML from.  You'll see how we populate that text file with my XboxLive php class which will be discussed in part three of this four part series.  The second variable, <code>dataFilePath</code>, is interesting as it contains the path to the file we are going to save the HTML to on the local machine.  So why the strange syntax?  This is referred to as Finder syntax and is a way for AppleScript to reference a particular section within Finder, in this case a text file.  It is essentially the same as "/server/XboxLive/data.txt" which we could have used - the difference is that we would have had to have converted that into the Finder syntax in order to use some of the file editing commands we'll use later so I thought it best just to save it correctly at the beginning.</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+<span class="nb">set eof</span> <span class="k">of</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="mi">0</span>
+<span class="nb">close access</span> <span class="nv">dataFile</span></code></pre></div>
+
+<p>These three lines are again fairly easy to follow.  We set a variable of <code>dataFile</code> to be the handler of the file declared in the path of <code>dataFilePath</code>.  Note that we have specifically mentioned we want to use write permissions as the default is just to use read permissions.  The next line sets the eof or "end of file" within the handler to 0 whilst the following line tidies up by closing the file handler (which isn't strictly necessary but good practice).  The reason for setting <code>eof</code> to 0 is that we want to delete the contents of the file before we put anything else in later.  This is practical for the simple reason that we don't want our PHP script on the server to parse a load of data in the text file (or even download it) if it's something it has already read as that would be a waste of processing power and bandwidth.</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+	<span class="nb">open location</span> <span class="nv">urlFilePath</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="nv">do</span> <span class="nv">JavaScript</span> <span class="s2">&quot;window.location.reload()&quot;</span> <span class="k">in</span> <span class="nb">the</span> <span class="nb">front</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="k">try</span>
+		<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="p">(</span><span class="nb">the</span> <span class="nb">text</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="na">document</span><span class="p">)</span>
+	<span class="k">end</span> <span class="k">try</span>
+<span class="k">end</span> <span class="k">tell</span></code></pre></div>
+
+<p>Now we get to the first real section of the code that deals with our problem.  In these lines, the application Safari is made to open the text file on the server that may contain the URLs, refresh that page using JavaScript, and then attempt to set the variable <code>toCrawl</code> to the text of the file.  Before we even examine this in depth, you may be wondering something along the lines of "why don't you download the file or read it with FTP rather than opening it in Safari" and this would be sensible.  My initial thoughts on how to get the text on the server into a variable in my AppleScript was to access the file via FTP.  OS X has very basic FTP support (read only unfortunately) that can be mounted through Finder and then accessed using the Finder syntax we used earlier on.  I had originally written some AppleScript that would run in the startup process of the mac mini which would mount the drive.  Then, this AppleScript read the file in using <code>open for access file urlFilePath</code> and set the variable that way.  It all worked perfectly until the server changed the contents of the URL text file.  No matter what I did, the text file came back the same as it had when first fetched and it was that that I realised that the FTP built into Finder is fundamentally flawed as everything is cached.  If you don't edit the file through Finder (e.g. by using a mac application that saves it again through Finder) then it will never know it's updated and thus can't be used in this scenario.</p>
+
+<p>With that out of the way, let's look at my workaround.  The first and last lines are the opening and closing of a <code>tell</code>; a way to get an application to do what we want.  In this instance we are going to tell Safari to open the URL saved in the variable <code>urlFilePath</code> and then delay for one second.  This delay is needed as Safari may take this long to open the URL.  Without the delay, we may be in danger of running code on a page that hasn't loaded.  In the next line, we tell JavaScript to reload the document before waiting another second for this to complete.  This refresh is necessary to clear any caching of the document.  The final section is used to set the variable <code>toCrawl</code> to the contents of the browser window.  You may wonder why there is a <code>try</code> statement wrapped around it?  This is because if the text file was empty and you tried to get <code>the text of the front document</code>, the script would error.  To get around that, we initially set the variable (in the very first block of code if you remember?) and then use <code>try</code> to reset the variable only if no error would be caused in doing so.  Very useful!</p>
+
+<p>By the end of this block of code, we will have a variable which will either contain a URL if the text file on the server had one, or it will be empty, meaning that the server is not requesting any HTML.  Let's move on to the next section:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">if</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">toCrawl</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">open location</span> <span class="nv">toCrawl</span>
+	<span class="nb">delay</span> <span class="mi">15</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+		<span class="k">set</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nb">the</span> <span class="na">source</span> <span class="k">of</span> <span class="nb">front</span> <span class="na">document</span> <span class="k">as </span><span class="nc">string</span>
+		<span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+		<span class="nb">write</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nv">dataFile</span> <span class="nv">starting</span> <span class="nb">at</span> <span class="nv">eof</span>
+		<span class="nb">close access</span> <span class="nv">dataFile</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="k">if</span></code></pre></div>
+
+<p>This is the core piece of functionality that I was trying to achieve all in this block of 11 lines.  This script will open a URL in Safari, and then save the source code of the loaded page in a text file.  You'll notice that the first and last lines are an <code>if</code> statement relating to the length of the <code>toCrawl</code> variable.  I don't unlock achievements every 5 minutes of the day and so, more often than not, the <code>toCrawl</code> variable will be empty.  If it is, then we want to completely ignore the next section of code as there is no reason whatsoever to run it!</p>
+
+<p>The next line is a one line <code>tell</code> to make Safari open the URL we saved which is then followed by a 15 second delay.  You'll notice this is a lot longer than the 1 second delays earlier.  The reason for this is that, in the first case, it was a simple text file with around 100 characters in it and so loaded incredibly quickly.  This URL, conversely, will be a very large page (around the 100kb mark) that may go through a series of 5 redirects depending on how recently the page was accessed.  This is because after 15 minutes of inactivity, the site forces you back to the login page but I have a cookie stored that will then automatically log me back in.  It just takes a few seconds to go through the process of all the redirects to get to the actual page hence the long time delay.</p>
+
+<p>The last section is a simple expansion of the code we used at the beginning.  We tell Safari to set a variable of <code>sourceCode</code> to be the source of the page that's open - we also tell it to be forced as a string in case there are any casting issues.  Next, we open the <code>dataFilePath</code> and set a handler of <code>dataFile</code> so that we can then write the <code>sourceCode</code> variable into the file starting at the end of the file (which we all know is masquerading as the beginning of the file also as we set it earlier on... keep up!) before tidying up after ourselves and closing access to the handler.  Easy!</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></div>
+
+<p>In the very final line of code, we tell Safari to close all of it's windows in preparation for the next iteration.  This may not seem terribly important, but trust me, if you neglect to put it in and then unlock 10 achievements, you'll find your mac now has 20 open Safari windows!</p>
+
+<h3>Conclusion</h3>
+
+<p>So that's all there is to this section - a large chunk of AppleScript and a rationale as to why I had to open Safari to get at a text document rather than doing it a slightly more simple way via FTP (due to massive caching issues).  I hope this post has introduced some of you to AppleScript which I have found to be a rather powerful tool when it comes to mac development.  It's very easy to understand and is a great way of transitioning from a web-based language to a desktop-based one especially as you can save AppleScript as a standard mac application.</p>
+
+<p>Join me again for part three of this four part series when I'll be looking at this from the other angle; the PHP server that needs to parse the HTML we have gathered using this AppleScript.  To make sure you don't miss a section, you can <a href="http://bendodson.com/weblog/feed/">subscribe to the RSS Feed</a> or <a href="http://twitter.com/bendodson/">follow me on Twitter</a>.  Please feel free to leave any comments or suggestions on this page.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/18/iphone-30-push-notification-testing-with-ap-news/">iPhone 3.0 "push" Notification Testing with AP News</a></h1>
+			
+			<time datetime="2009-05-18" pubdate=""><a href="/weblog/2009/05/18/iphone-30-push-notification-testing-with-ap-news/">May 18, 2009</a></time>
+    	</header>
+    	<div>
+			<p>As a member of the iPhone Developer Network, I received an email from Apple today inviting me to "test the Apple Push Notification service" by downloading a new version of the Associated Press app.  They'd given me a special code to use in iTunes that would redeem into a download of the app but unfortunately the code only works in the US Store.  Furthermore, trying to switch to the US Store didn't work as my account is tied to the UK Store.  I was going to give up but then I had an idea on how to get around this problem.  Here's how I did it:</p>
+
+<h3>Creating a new account</h3>
+
+<p>When you use the "redeem" section of iTunes, you type in your code and if you're not logged in already it prompts you to.  However, you can also register at this stage so I decided to set myself up a nice new US account.  You have to link a credit card or payment method to your account and I initially tried to do this but it blocked me as the payment method wasn't based in the US (either using a credit card or paypal).  However, as I was redeeming a code, they have to give you the option of registering without a credit card as it might be you've given a $25 gift card to your nephew or something like that.  Therefore, all I had to do was choose "no payment method" and then fill out the rest of the form.  Email was easy as I run my own domain so just created a dummy email account, and faking an address is made very easy thanks to reverse geocoding.  I simply went to <a href="http://getlatlon.com/">getlatlon.com</a>, picked a random place in Florida, and then used a reverse geo-coding app to convert that lat lon into a street address.  Easy!</p>
+
+<h3>The app</h3>
+
+<p>Now that the account was created, my code was automatically redeemed and the app downloaded to my machine.  It synced across to my iPhone with no problems and is now running happily.  I've attached some screenshots below:</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/05/img_0010.png" alt="Push Notification Prompt" title="Push Notification Prompt" width="320" height="480" />
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/05/img_0011.png" alt="Settings" title="Settings" width="320" height="480" />
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/05/img_0012.png" alt="Notification Settings" title="Notification Settings" width="320" height="480" />
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/05/img_0013.png" alt="AP News Notification Settings" title="AP News Notification Settings" width="320" height="480" />
+<p>So as you can see, the app triggers a new "notifications" panel where you can enable or disable individual apps and the alerts that they are allowed to send you.  I haven't yet received any notifications but will update photos and any additional functionality as and when it happens.</p>
+
+<p><strong>Update:</strong> Just received my first push notification!  I remember during the last Apple Keynote (the launch of the 3.0 beta) that the reason push hadn't been introduced before is because it's a complex system that has to be set up differently for every mobile provider.  After an hour with no updates, I had begun to think that O2 wasn't set up but it would appear that they are!</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/05/img_0014.png" alt="AP News Push Notification" title="AP News Push Notification" width="320" height="480" />
+
+<p><em><strong>Note:</strong> Technically, this should fall under the iPhone Developer NDA.  However, ever since iPhone Beta 3.0 was released to the development community, every Mac blog has published photos and detailed information without any kind of reproach from Apple so I feel that there is no problem in publishing these photos.</em></p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/17/duplicate-messages-bug-fixed-on-tubeupdatescom/">Duplicate Messages Bug Fixed on TubeUpdates.com</a></h1>
+			
+			<time datetime="2009-05-17" pubdate=""><a href="/weblog/2009/05/17/duplicate-messages-bug-fixed-on-tubeupdatescom/">May 17, 2009</a></time>
+    	</header>
+    	<div>
+			<p>As you may already know, I run a website called <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">TubeUpdates.com</a> which provides a RESTful API for the <a href="http://www.tfl.gov.uk">TFL Underground</a> network so you can build apps that utilize that data.  Unlike some other services or XML files that try to provide this data, my API scrapes all of the pages on the TFL site in order to give out the specific messages for each line e.g. rather than having "Minor Delays" you'll be given an array of each message from their site about the delays such as "Sunday 17 May, suspended between Liverpool Street and Leytonstone. Two rail replacement bus services operate." which is obviously a lot more useful.</p>
+
+<p>However, as my script relies on screen scraping, problems do occur when TFL decide to change their HTML or site structure which has happened recently.  Previously, every tube line had it's own page with it's messages listed on it but now there is <a href="http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html">one single page</a> with all of them shown and hidden with javascript.  This meant that for a short period, my API was posting out the messages for every single line with each line returned (so if you wanted to look at circle line messages, you would in fact get every line).</p>
+
+<p>This has now been fixed and actually makes the service slightly better for me as it now means I can crawl just 3 pages rather than the 14 I was crawling before (thus better for both bandwidth and CPU cycles).  I have a number of functions set up to report when TFL change their site structure as the usual problem is that a site redesign changes class names or markup in such a way that the API just breaks.  However, in this case none of these warnings kicked in as it was getting the data correctly and all seemed to be ok.</p>
+
+<p>So, a big thank you to those of you that emailed in to report the bug!  If you have any questions about the Tube Updates API, then please <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">check out the site</a> or <a href="http://bendodson.com/contact/">drop me an email</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/12/getting-xbox-live-achievements-with-php-part-1-the-problems/">Getting Xbox Live Achievements Data: Part 1 - The PHP Problems</a></h1>
+			
+			<time datetime="2009-05-12" pubdate=""><a href="/weblog/2009/05/12/getting-xbox-live-achievements-with-php-part-1-the-problems/">May 12, 2009</a></time>
+    	</header>
+    	<div>
+			<p>Those of you with an Xbox 360 (or indeed some "Games for Windows" titles) will know all to well about the achievements system prevalent in every game.  For those that don't know, every gamer has a profile which has a gamerscore.  This score goes up by completing certain tasks within each game as laid down by the developer.  This could be something you would do anyway such as "finish the game" or something random such as "destory 10 cars in 10 seconds".  Every full game can give out 1000 gamerpoints (1250 with expansion packs) and an Xbox Arcade title can give out 200.  These points are somewhat of a geek badge of honour for most Xbox gamers who will try and do everything to get the full 1000 in each of their games - there are also those that want to increase the number as quickly as possible so you can find numerous guides online for the easiest way to get 1000 points (it seems Avatar is still the best way giving you the full 1000 with about 3 minutes of gameplay!)</p>
+
+<p>When I was trying to compete with my ex-boss over the number of gamerpoints we each had (I lost by the way), I found that there was no public API from Microsoft to allow you to get at the Xbox Live data.  There was however an internal API and one Microsoft associate had set up a restful API so that you could publicly call the internal one.  This worked well enough for the basic site I put together to compare two gamerscores but I've been wanting to do more with the API for some time.</p>
+
+<p>My overall idea is that I'll be able to type in my userid and then have my server poll Xbox Live at a certain time and then update my Facebook Wall when I unlock new achievements.  The message would be something along the lines of "Ben just completed the 'Fuzz Off' achievement in Banjo Kazooie: N&B and earned 20G" and would have the correct 32x32px image for the achievement.  I initially thought that this would be fairly easy but I was unfortunately very wrong!  In this series, I'm going to show you the problems I encountered as well as the final (rather complex) workaround I'm creating in order to get it all to work!  If you've got any questions, please leave a comment or <a href="http://bendodson.com/contact/">get in touch</a>.</p>
+
+<h3>Attempt #1: Using the API</h3>
+
+<p>When I first sat down to work on this project, my initial thoughts were "I can just reuse the public API I used for my gamerscore comparison site - there's bound to be an achievement section in the returned data".  After eagerly re-downloading all the code, I discovered that although there was some achievement data, it was nowhere near as detailed as the information that I would need.  The problem was that the API only shows you your recently played games and how many achievements you have unlocked in each one as well as the overall number of points you have earned for that game.  Theoretically, I could check the API every few minutes and compare the number of points with a local copy in order to work out when a new achievement had been unlocked but I'd only be able to say that an achievement had been unlocked in a certain game worth a number of points.  To make things even trickier, if I unlocked more than one achievement within the timeframe of the API check, then the results would be wrong (e.g. it might say I'd unlocked one achievement worth 45G when in fact I'd done two; one for 20G and one for 25G).  This would become even more complex if I unlocked an achievement, then switched games and unlocked one in that game before the API had been called.  In short, the public API, useful though it can be, was not going to work for this.</p>
+
+<h3>Attempt #2: Screen Scraping</h3>
+
+<p>So now we move to option two; screen scraping.  This is the process of getting the server to request pages from a website as if it were a browser and then just ripping the content out of the HTML.  It's messier than an API as it relies on the websites HTML not changing and it's also a lot more processor intensive (as you're parsing an entire XHTML page - possibly marked up invalidly - rather than a nice small XML or JSON file).  I've done lots of screen scraping in the past, both for my <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">Tube Updates API</a> and for the <a href="http://packrattools.com/tracker/">Packrat Market Tracker</a> (a tracking system for a Facebook game), so I didn't think it would be too much hassle.  But then I hadn't banked on Microsoft...</p>
+
+<p>The first hurdle is that although my Xbox Live data is set to be shown publicly, you still have to be logged in with a Windows Live account to view it.  This is annoying because it means my script is going to have to log in to Windows Live in order to get the HTML of my achievements listings.  The second hurdle is that there is no single page listing my latest unlocked achievements - the main profile page shows my last played game (and it's last unlocked achievements) but that's no good as they are not in order and it might be that I've switched games after unlocking something so the last achievement on the profile page may not be the last achievement I've unlocked.  This isn't such a big problem as there are pages for each game so I'll just have to crawl each of my recently played games pages and get the achievements on each one but it's slightly more hassle than having one page of latest achievements (as it means I have to make several requests thus increasing bandwidth and script run time).</p>
+
+<h3>Logging In to Windows Live</h3>
+
+<p>Generally, logging into a site is quite easy using cURL.  You need to work out where the form is posting to, put all of the data to be posted in an array, and then make a cURL request that sends that array to that URL.  You will also need to enable both a cookie file and a cookie jar (a basic text file that is used for all of the cookies during the requests) as you will probably only want to login once and then have each future request know that you are already logged in as this will save on overall requests per execution of the task.</p>
+
+<p>The Windows Live login, on the other hand, is an entirely different kettle of fish!  The URL you are posting to changes on each request as do the variables that you are posting.  This means we need to make a request to the login page first of all and extract all of the data from the hidden input fields as well as the action attribute of the form.  We can then go about posting that data (along with our email address and password) to the URL we just extracted.  This POST goes through a HTTPS connection though, so we need to modify our cURL request further in order to ensure that SSL certificates are just accepted without question.  Our overall cURL request, with all of these options, will look roughly like this:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="c1">// set up cURL request - the $url would be the action URL that you&#39;re POSTing to</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="c1">// make sure the script follows all redirects and sets each one as the referer of the next request</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_AUTOREFERER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+
+<span class="c1">// ssl options - don&#39;t verify each certificate, just accept it</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+
+<span class="c1">// fake the user-agent so the site thinks we are a browser, in this case Safari 3.2.1</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="s1">&#39;Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1&#39;</span><span class="p">);</span>
+
+<span class="c1">// tell cURL to use a text file for all cookies used in the request - $cookie should be a path to a txt file with 755 permissions</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_COOKIEFILE</span><span class="p">,</span> <span class="nv">$cookie</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_COOKIEJAR</span><span class="p">,</span> <span class="nv">$cookie</span><span class="p">);</span>
+
+<span class="c1">// post options - the data that is going to be sent to the server.  $post should be an array with key=&gt;var pairs of each piece to be sent</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$post</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$var</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="nv">$postfields</span> <span class="o">.=</span> <span class="nv">$key</span> <span class="o">.</span> <span class="s1">&#39;=&#39;</span> <span class="o">.</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nv">$var</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$postfields</span><span class="p">);</span>
+
+<span class="c1">// make the request and save the result as $response - then close the request</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>I had thought that this would be the end of it and that the returned data would be the first page after logging into Windows Live.  Instead, I got nothing.  Absolutely nothing.  No matter what settings I tinkered with or parts of the code I changed, it was just returning blank.  It was then that I noticed the rather unpleasant JavaScript files on the page and some suspicious &lt;noscript&gt; code at the top of the page.  If you load the login page without JavaScript in a normal browser, then the code in the &lt;noscript&gt; section gets read which has a meta redirect to send you to a page telling you that you must have JavaScript enabled!  I hadn't noticed this previously as my cURL request doesn't understand HTML, it was just returning it as a big lump so I was able to get all of the variables, etc, out without being redirected as I would be in a normal browser.</p>
+
+<p>I didn't think too much of this as obviously the page worked without JavaScript - it must just be a rudimentary way to make people upgrade their browser (although it didn't actually give you any advice - very bad usability!).  But no, the login does require JavaScript as when you submit the form a huge amount of obfuscated code does some crazy code-fu to the POST request and encrypts it all before sending thus making JavaScript a requirement to log in to Windows Live.  To my mind, this has obviously been done to prevent people from screen scraping their sites such as Hotmail but it really is a pain!</p>
+
+<h3>The AppleScript Idea</h3>
+
+<p>It was about 3am by the time I'd realised that screen scraping wasn't going to work and I'd been playing with the code for around 5-6 hours so was pretty annoyed with it.  So today I sat down and listed all of the obstacles so I could work out a way round them:</p>
+
+<ul>
+<li>The data from the API wasn't good enough so couldn't be used</li>
+<li>Although I could screen scrape the Xbox Live profile page / game pages, I couldn't get to them as needed to be logged in to Windows Live</li>
+<li>I couldn't log in to Windows Live without JavaScript</li>
+</ul>
+
+<p>After writing this down and having a think, I realised that I have a static IP address and a mac mini which is always turned on and connected to the internet.  I also realised that all my server needed to parse the Xbox Live pages was the HTML itself - it didn't necessarily have to come from a cURL request or even from my server.  After this 'mini' enlightenment I set about writing a plan that would allow me to get around the Windows Live login using a combination of a server running some PHP and cURL requests and a mac mini running some AppleScript.  It will work roughly like this...</p>
+
+<p>The server will store a record of all of my game achievements in a MySQL database.  It will therefore know my gamerscore and be able to compare it to the gamerscore found using the API.  Every five minutes it will check this and if it notices a difference in the numbers, it will know that I have earned an achievement and thus needs the HTML that alluded me yesterday.  It knows the URL it needs so it will log this in a text file on the server that will be publicly available via a URL.</p>
+
+<p>Meanwhile, the Mac Mini will use AppleScript to check the URL list on the server every five minutes.  If it finds a URL, it knows that the server needs some HTML so it will oblige by loading the URL in Safari (which will be set to be permanently logged in to Windows Live thanks to authenticating and choosing "save my email address and password" which stores a cookie) and then getting the source of the page and dumping it in a text file on the Mac Mini.</p>
+
+<p>The text file on the Mac Mini (with the HTML we need) will be available to my server thanks to my Static IP and so when the next CRON job on the server runs, it will see that it wanted some HTML (based on their being some URLs in its own text file) and so will check the text file on the Mac Mini and thus get the HTML it needs.  It can then parse this, work out the new achievements and log them in the database accordingly.  It will then clear the URL list (so that the mac mini doesn't try and do an update when it doesn't need to) and then continue on it's cycle by checking if the gamerscore is equal to the (now updated) database.</p>
+
+<h3>The Next Step</h3>
+
+<p>So, after a failed evenings development, I have now come up with a solid plan to get around several key hurdles.  I'll be posting part two of this series shortly once I have built the application and it will have all of the source code included for those of you that want to replicate a similar system.  In the mean time, I hope this post will show you that problems do pop up in application development and that they can be resolved easily by writing out a list of each hurdle before formulating a plan to get around them.</p>
+
+<p><strong>Update:</strong> Part two of this tutorial is <a href="http://bendodson.com/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">now available</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/08/designing-for-the-social-web/">Designing for the Social Web</a></h1>
+			
+			<time datetime="2009-05-08" pubdate=""><a href="/weblog/2009/05/08/designing-for-the-social-web/">May 08, 2009</a></time>
+    	</header>
+    	<div>
+			<p>A couple of weeks ago, I went to the <a href="http://www.meetup.com/londonwebstandards/">London Web Standards Meetup</a> where we discussed the book "<a href="http://www.amazon.co.uk/Designing-Social-Voices-That-Matter/dp/0321534921">Designing for the Social Web</a>" by Joshua Porter.  The organiser of the event, <a href="http://twitter.com/otrops">Jeff Van Campen</a>, very kindly managed to get a couple of the books for us for free on the basis that we wrote up a review of the book on our respective blogs.</p>
+
+<a href="http://www.flickr.com/photos/bendodson/3394810309/" title="[54/365] Designing for the Social Web by Ben Dodson, on Flickr"><img src="http://farm4.static.flickr.com/3588/3394810309_19db8a7dbb.jpg" width="500" height="333" alt="[54/365] Designing for the Social Web" class="featured" /></a>
+
+<p>On the whole, I found the book to be very good although it was rather simple and basically consisted of a similar message to the excellent book "<a href="http://www.amazon.co.uk/Dont-Make-Me-Think-Usability/dp/0321344758">Don't Make Me Think</a> by Steve Krug - that is to say, "use some common sense"!</p>
+
+<p>The book is broken down into 8 chapters with each one becoming slightly shorter and slightly more off topic.</p>
+
+<h3>1. The Rise of the Social Web</h3>
+
+<p>This opening chapter really sets the scene by explaining what is meant by the term "social web" and investigating the move from one-way communication to two-way and then many-way communication.  Joshua also looks at something he calls "The Amazon Effect"; the behavioural trait that people will quite often use Amazon for product research even if they have no intention of purchasing there.  He also investigates something that I come across more and more these days; "The Paradox of Choice".  This is a term given to the problem of having so much choice in front of us that in the end we actually do nothing as we spend all of our time comparing.  Whilst not offering any solutions to this problem, it is worth noting that it is present in order to stop the more content happy of us trying to offer every single solution to a user when oftentimes it's better just to give them one or two - this again enforces the idea of keeping things simple.</p>
+
+<p>The chapter goes on to look at how "social software is accelerating" and how at some point the entire internet will be taken over by the social movement.  I have a few issues with the figures bandied about at this point (and indeed in many other similar books).  The most frequently used statistic is from Technorati in that there are "120,000 blogs being added every day" thus somehow showing that the very face of the internet is changing.  To my mind, this is nonsense as for every new blog being added to the blogosphere, there are probably a good few that are just fading into non-existent as their owners fail to update them or their accounts get closed down.  Whilst I do appreciate that the take up of social media is indeed growing, it is nowhere near the levels that people would have us believe.</p>
+
+<h3>2. A Framework for Social Web Design</h3>
+
+<p>This is another excellent chapter that focuses on the bane of all agency-bound developers; feature creep.  This is one of the key problems in current web application development as people think that more features means more users and thus a better application.  This is of course completely wrong and many would do well to remember the old maxim "quality not quantity".  Joshua looks at a wide range of social network sites such as YouTube, Digg, Delicious, Twitter, etc, in order to point out what their key function is and therefore highlight that the most successful social apps are those that stick to what they know.</p>
+
+<p>There is, however, a rather peculiar section regarding giving social objects a URL.  Apparently, Flickr was initially a flash application and it wasn't until people had their own page to show off their photos that Flickr really began to grow.  The issue here is that a lot of emphasis is placed on having a URL and that this is the main reason that Flickr grew whereas in actual fact it was just the idea that somebody could have their own profile page and their core model went away from flash application to a real web application that probably increased their user base.  I'm not contending that social objects should have their own URL but rather that this is fairly obvious and that it probably wasn't the defining feature that turned Flickr around.</p>
+
+<h3>3. Authentic Conversations</h3>
+
+<p>This is the point in the book that I began to notice that it was slipping away from it's titled purpose of "design" and instead looking at very general good business practice.  The entire contents of this chapter can be summarised by "respect your customers and talk to them".  There is quite a large section about the "Dell Hell" situation from 2005 and how Dell had basically received complaints and not responded to them.  To make it worse, a blogger created a website to publicise this and they still came back and said nothing giving them a very bad image.  Joshua's dichotomy of this is to show an incident in which the technical editor of the book posted a message on her blog about a problem she had experienced with Plaxo and that they had then commented on her blog to try and help resolve her problem.  In it's way, it is a good example as it shows a company commenting on an issue on somebody elses blog in order to correct them.  What isn't pointed out is that the original poster should have just contacted their help desk (or in fact read the instructions in the first place) rather than writing a rant on her blog which the company had to find and then correct her.  However, this is probably very realistic of most online conversations as there is always a group of people (especially prevelant on YouTube comments) who will just shout loudly when anything changes.  This is exemplified later in Chapter 5 with Facebook.  In my opinion, the response from Plaxo wasn't particularly good either as it was far too formal a response (felt a bit auto-generated) and they had performed some rudimentary anti-spam protection on their email address (listing it as "privacy @t plaxo.com" rather than just putting "privacy@plaxo.com").  If the person complaining couldn't read the simple instructions on the task she was performing or search for the technical support when she had a problem, it is probably fairly likely that she'll just copy and paste what is there and then write a follow up article entitled "They never reply to my emails - they just send bounces!".</p>
+
+<p>The chapter does move into a few interesting articles of PR situations that have gone very wrong such as Dreamhost calling an overcharge to their customers of $7.5million a "teensy eensy weensy little billing error" and a good section on how to apologise correctly.  However, this isn't dealing with design and isn't what I expected to find inside this book.  It's welcome advise but I would consider it to fall under "common sense" or some sort of management category rather than the encompassing role of "design" as the title suggests.</p>
+
+<h3>4. Design for Sign-up</h3>
+
+<p>Now we get back to intended idea of the book ("design") and approach how to get people over the all important hurdle of signing up to your website.  I particularly like this section as it reinforces one of the first eye-opening pieces of knowledge I received about writing copy for the web; keep it very short and very simple.  This method was taught to me many years ago as such:</p>
+
+<blockquote><p>Most people will write copy for the web as if they were writing for a broadsheet newspaper such as The Times or The Telegraph whereas it should be written as if for a tabloid such as The Sun or The Daily Mirror.  Notice how tabloids tend to <strong>highlight key phrases</strong> and keep sentences short.  The first thing you should do with any copy you write for the internet is delete 50% of it.  Then, once you think it's the right size, remove another 50%.</p></blockquote>
+
+<p>This obviously doesn't apply to articles or blog posts but is a key tactic for writing easily digestible content for homepages or sign up forms.  This chapter espouses this view by forcing people to state very clearly who, what, where, when, why, and how.  With these key questions in mind, you can make your inviting text all the more succinct and likely to generate conversions.</p>
+
+<p>The other half of this chapter details how to "reduce sign-up friction" which basically boils down to making your registration form as small as possible.  One thing that is missing here which should definitely have been mentioned is the removal of captcha forms and human readable tests.  There is no reason at all why companies should still be using these ridiculously outdated methods of spam prevention.  They are inaccessible (I have trouble reading a large number of them) and time consuming yet more to the point they are completely useless as a spam bot can be fooled easily by simply having a hidden field named something enticing like "email" and then have your script check to see if it's full.  If it is, you'll know it was a spam bot as there is no way for a human to fill it in.  To prevent humans submitting applications over and over, use an automated system such as Akismet (which I use for spam prevention on this blog) or just impose an IP limit so you can't have more than one registration from the same address every 15 minutes.  This will slow down spammers enough that they won't bother but won't interfere too much with those on shared networks, etc.</p>
+
+<h3>5. Design for Ongoing Participation</h3>
+
+<p>This is another good chapter as it focuses a lot on the psychology of users and essentially on the mass insecurity they have and the need for them to be able to create their own little home on your site.  Any social network these days has to have a profile page and again I find it strange that this needs reiterating as this is surely a given.</p>
+
+<p>There are one or two good points made about encouraging efficacy (a way of giving active users a boost in reputation) and in giving people solid control over privacy options (something that Facebook neglected initially to the general outcry of the public) but these things really are fairly obvious to anybody intent on creating a social network. I think this chapter could have offered a bit more constructive advice and maybe a few more case studies of sites doing the right and wrong things in order to make it as good as some of the previous chapters.</p>
+
+<h3>6. Design for the Collective Intelligence</h3>
+
+<p>Collective Intelligence is a term used to describe how social applications can be shaped by the users of the system in order to make it work as they would like it and promote content that they would like to use.  This is highlighted by the real world example of Digg which obviously works based on the idea of collaboration and in voting on particular pieces of content to move them up and down the social chain.  </p>
+
+<p>There is an excellent section on "leverage points" which goes into detail on how your social application will have many points at which the users can control something and how this can be managed correctly e.g. how a homepage of content voted on by users is displayed, what happens when somebody votes, etc. but I would contend that this is all fairly obvious to anybody who has used a social application before.</p>
+
+<h3>7. Design for Sharing</h3>
+
+<p>Sharing on the internet has supposedly boomed with the invent of networks such as StumbleUpon, Delicious, and Digg yet I am a firm believer that social network badges and sharing forms don't actually get used by the majority of users.  This is also true of RSS feeds as I've <a href="http://bendodson.com/weblog/2008/07/21/does-anybody-really-use-rss-feeds/">mentioned in a previous blog posting</a> as these are still mainly the domain of geekier users of the net. It is true that most websites around at the moment have these social badges or sharing forms but I don't think it is true of most social applications that people are going to be building.  If you look at the title of the book, you are almost expecting to be taught how to make the next Delicious, not on how to integrate it.  There are few social networks that have badges for other social networks on them as they are all very precious about their own traffic (although this has changed to a certain degree with Facebook Connect).  This chapter is focusing on entirely the wrong angle as most social apps don't make sharing easy - blogs certainly do, but apps don't.</p>
+
+<p>The one part that interested me was the criticism of too many social network badges which has become a phenomenon of the growth of social networks.  As there are so many to choose from, how do you keep all your bases covered?  More and more blogs are moving over to systems such as <a href="http://www.addthis.com/">AddThis</a> which do show all of the badges in a hidden button overlay but again this is still rather clunky and doesn't generate much conversion as people are overwhelmed by choice (as discussed in Chapter One).  Having said that, I have written a jQuery plugin called <a href="http://labs.bendodson.com/weblog/jtardis/" title="Access browser history with JavaScript">jTardis</a> which allows you to show only social networks that the user subscribes to thanks to some javascript trickery but I'll be blogging on this in more detail in the future!</p>
+
+<p>One of the things that frustrated me about this chapter was the fact that the sharing forms that Joshua had designed and used as good examples were in fact really bad!  All of the examples look like they had fallen out of the pre-dot com era of web design and didn't really show the basic simplicity of sending a page to someone else.  He does note that most people tend to copy and paste the URL and just email.  However, writing a form or widget to do this is not difficult yet he seems to have not done it particularly well - I'm sure there are better examples he could have used.</p>
+
+<b>8. The Funnel Analysis</b>
+
+<p>The final chapter is one that to my mind is far too short and doesn't really have a place in this book at all.  It is a chapter designed to show how you can monitor the statistics of your social network via funnel analysis - a basic way of monitoring where people drop off from your site (e.g. are they falling at registration signup or at registration confirmation?).  This is all very well and good but the chapter is far too short when you consider there are books of many hundreds of pages that still only scratch the surface of site analytics.  There are also numbers used to show what small percentages of people actually sign up to certain sites but these are totally irrelevant as the apps involved aren't mentioned and every app is different so your figures could be differ greatly.  They may as well have been made up!</p>
+
+<p>I also found this chapter to be a little strange as I read the final sentence about how funnel analysis helps to illustrate that people do drop off as they progress through the site, and then turned the page to immediately drop off... into the index.  The book was over with no summary, no recapping of the key points (remember the "writing for a tabloid" I <strong>highlighted</strong> earlier?).   There was just a feeling of "oh, it's finished".</p>
+
+<h3>Conclusion</h3>
+
+<p>Overall the book is fairly good and does highlight a few interesting ideas.  However it strays far too much from it's key focus of "designing for the social web" and thus fails to meet one of the key things it espouses; keeping your application simple by basing it around a single piece of functionality.  The book was supposed to be about design and specifically on how to build great social web apps, yet too often the conversation moved to general business ideas such as "talk to your customers" or looking at how to analyse your web stats when it should instead have focused on the key components in a social app and how they work.  To an extent this does happen (particularly in chapter 4) yet I don't feel it happened enough.</p>
+
+<p>If you haven't used a great many social applications and are interested in a broad overview rather than a detailed analysis of the social web, then this book might be worth the £28.99 list price.  However, if you are looking to build the next great web app and are already an avid user of the social web, then this is probably one you can afford to miss as it will just be covering well-trodden ground.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/04/28/poor-usability-on-the-web-part-1-online-banking/">Poor Usability on the Web - Part 1: Online Banking</a></h1>
+			
+			<time datetime="2009-04-28" pubdate=""><a href="/weblog/2009/04/28/poor-usability-on-the-web-part-1-online-banking/">April 28, 2009</a></time>
+    	</header>
+    	<div>
+			<p>For some reason, I get frustrated really easily on the internet when I come across something that doesn't work intuitively.  It seems that the majority of people are desensitised to the various hurdles of thought on both the internet and computers in general (e.g. pressing "Start" in windows to get to the "Shut Down" option) yet more and more I find myself getting annoyed that people can't get the most basic things right on the internet.  Now that I'm working as a web consultant, I'm hoping to be able to get a lot of clients to just look at the systems and sites they have created and apply a bit more common sense to them in the way popularised by the excellent "<a href="http://www.amazon.co.uk/Dont-Make-Think-Usability-Circle-Com/dp/0789723107">Don't Make Me Think</a>" by Steve Krug.  This is a view extended by Joshua Porter's "<a href="http://www.amazon.co.uk/Designing-Social-Voices-That-Matter/dp/0321534921">Designing for the Social Web</a>" (which I shall be reviewing here shortly) although that is geared slightly more towards customer service and social networks than the all encompassing issue of usability and best practice.</p>
+
+<p>So, for my first real post on <a href="http://bendodson.com/weblog/">my new website</a> I thought I'd perform a basic usability study of the online banking system from the <a href="http://www.rbs.co.uk/">Royal Bank of Scotland</a>; a website that frustrates me every time I want to check my bank balance online.</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/homepage-1024x718.png" alt="The RBS Homepage" title="RBS Homepage" width="640" height="448" class="size-large wp-image-62" />
+
+<p>I'm using the <a href="http://www.apple.com/safari/">Safari 4 Beta</a> on a MacBook for the purpose of this demonstration and wanted to demonstrate that the RBS homepage (above) loads absolutely fine in this configuration.  However, as soon as you click on the "Log In" button on the right hand side, you get this page:</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/unsupported-640x449.png" alt="Unsupported browser on RBS Digital Banking" title="RBS Unsupported Browser" width="640" height="449" class="size-large wp-image-71" />
+
+<p>To be fair, the unsupported browser thing isn't a problem for me as Safari 4 has a very useful 'Develop' menu in the toolbar that lets me choose a different user-agent so I can pretend it's Safari 3.2.1 (which I'll do shortly to let me into the banking).  What does annoy me is that there is no reason for them to detect your browser as the site isn't any different depending on your browser.  At the very least, if the browser isn't supported (for some sort of CSS hacking rules perhaps?) it should load up a plain text version rather than just lock you out completely.  It really adds insult to injury seeing as by changing the user-agent, the site works absolutely fine.  Now I'm not suggesting that they should be updating their site every time a new browser comes out to avoid this message.  On the contrary, I'm suggesting that they should completely abolish the specific browser sniffing and just detect browsers (by functionality rather than name) which definitely don't work (e.g. IE 5.5 or Netscape 4) and offer them a textual fallback.</p>
+
+<p>Other usability problems with this page include a "Log Out" button when you haven't logged in yet, and a "Restart Log In" button which just reloads the page.  On the plus side, they do have a link to "<a href="http://www.rbs.co.uk/personal/online-banking.ashx">Information on supported browsers</a>" but this rapidly turns to a negative as there is absolutely no information there at all on supported browsers - the problem isn't even acknowledged!  At the very least there should be a list of supported browsers with links so you can upgrade, etc, but to have a link which goes to no meaningful information is just ridiculous.</p>
+
+<p>Anyway, if we happen to be using a supported browser (or if we spoof our user-agent as I have to do), then we'll move on to the next page; the first stage of actually logging in.</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/login-640x449.png" alt="RBS Login: Entering your customer number" title="RBS Login" width="640" height="449" class="size-large wp-image-75" />
+
+<p>Now this page in itself isn't too bad.  Yes you have to enter a 10 digit number decided by the bank rather than an email address or an easy-to-remember username and it's only one field when it could in fact have been added to the previous page (e.g. enter number and then begin log in as <a href="http://www.hsbc.co.uk/1/2/HSBCINTEGRATION/CAM10;jsessionid=0000jNdUUpybSyihihLj-yc9J_m:11j71ffl3?IDV_URL=hsbc.MyHSBC_pib">HSBC</a> does it) but compared to the other pages it's fairly acceptable.  The only thing I would change is minimising the amount of text and enlarging the 'Next' button - it doesn't need to be small and hidden away at the bottom of the page!</p>
+
+<p>We now come on to my favourite page; security clearance.</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/security-640x449.png" alt="RBS Login: Entering security details" title="RBS Login Security Page" width="640" height="449" class="size-large wp-image-78" />
+
+<p>For me, this page is where all notion of web standards, accessibility, and best practice fall apart.  Before I begin, I would like to say that I understand fully the need to break up a security number and only enter certain digits for authorisation - it's obviously to stop anything like keyloggers or people watching you type as they'll only get a portion of the password and the next time you come to login you'll be asked to enter a different part.  I don't have a problem with that.  I do, however, have a problem with being asked to enter parts of my password in a completely random order.  Is there any particular reason why I have to enter 1st digit, 4th digit, then 2nd digit?  It makes every attempt a brain-teaser in itself as I have to conciously remember the security code, count up the number of digits, and then do it twice more to work out the order.  More often than not I'll be saying it under my breath in order to keep it in my fairly poor short-term memory so anybody near me would get the code anyway!</p>
+
+<p>To make it even worse, once you've typed a digit, some javascript runs that automatically moves your cursor to the next input box.  I have never liked this convention as it falls against best practice and expected behaviour.  Nobody expects it to automatically move you to the next box as there are few websites that do it - it's not the default action on input forms.  The only time I have ever been able to see an acceptable use for this is when entering in a product key or something similar e.g. a long (over 20 characters) string of randomly generated text that has been broken apart into smaller chunks of 4 or 5 to make it easier for humans to transcribe.  That is the only situation that people expect the behaviour as it is the only place that the majority will have seen it happen before (although one could argue that my description of a product key could equally apply to a telephone number and I wouldn't dispute that).  However, for a single digit number that is masked by an asterix, it is completely unneccessary and confusing.  The part that really gets me though is that if you mistype, you can't tab back and delete it as you'll be automatically moved forward to the next input.  You either have to press <kbd>shift + tab</kbd> and then <kbd>backspace</kbd> incredibly quickly or disable javascript.  I'm quite quick on a keyboard thanks to a lifetime of being sat behind one but I can imagine that this is incredibly frustrating for a user who doesn't know what's going on or is a little slower at typing!</p>
+
+<p>Speaking of slow typers or disabled users, we come to the "Users with Special Needs" section.  This seems to have been bolted on to the end of the login process almost as an afterthought or simple nod to the fact that people may have accessibility issues preventing them from accessing the system.  Rather than disabling the javascript or making the buttons bigger, the "Users with Special Needs" checkbox simply serves to disable the automatic refreshing of the page when the security timer expires.  Like most online services of a secure nature, the website will lock you out if you're inactive for a certain period of time.  In the case of the RBS banking system, this is done with JavaScript and you are physically kicked out of the system rather than getting an error when you navigate to a page after the timeout.  I've no idea why disabling this feature falls under "special needs" but there we go!</p>
+
+<p>So, if you managed to decipher your password, enter it correctly first time, and scrolled down and squinted to find the next button, you will move to your welcome screen where you can get the basic overview of your accounts, right?  Wrong!</p>
+
+<p>Occasionally a screen will appear with something in capitals along the lines of *WARNING* WATCH OUT FOR PHISHING ATTACKS - WE DON'T EMAIL YOU.  I don't really mind these as they don't happen all of the time and it's good to know that the bank is trying to protect it's customers by reminding them of common sense.  It does have a ridiculously small 'next' button under-the-fold (similar to the other pages) but it's not a regular occurrence so not a major gripe for me.  This next screen which does show up every time is though&hellip;</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/final-628x600.png" alt="RBS Login: The confirmation page" title="RBS Login Final Page" width="628" height="600" class="size-large wp-image-82" />
+
+<p>This page has been designed for the sole purpose of getting people to keep their information up to date as well as advertising new products / services.  There is absolutely no benefit to the user as far as I can tell.  If we look at the first part, it tells the user when they last logged in, part of their address, and their email address.  Knowing when you last logged in might be useful as that way you can see if someone else has logged in than wasn't you - however, in reality most people don't remember exactly when they last logged in and I would assume that the vast majority of people don't even read that sentence.  The address section is completely redundant as it only shows a small section and again people are unlikely to read it.  If you move house, you are quite obviously going to change your bank details and I don't think a reminder every time you log in to your internet banking is necessary.  The final section about your email address is again redundant as the bank never emails it's customers.  Why?  There are too many phishing attacks in this day and age so the majority of emails from banks look like spam!  Besides, what are they going to email you?  Probably just adverts for other services such as advanced bank accounts and mortgages.</p>
+
+<p>Everything below-the-fold (including the next button again!) is just advertising space.  In this screenshot, they are advertising paperless billing (which you probably already know about if you're using online banking) and the misleading "Even safer online banking" which is advertising for it's free security suite which basically tells you that you're connected to the banks website and not another website.  It only works on 32-bit windows running either IE or Firefox and won't work with screen readers.  Whilst this 'advertising' is inevitable, it does not need to be shown every time the user logs in especially not on the confirmation of login page!  It's also ironic that they choose to advertise their free software to make you more secure after you've logged in rather than at the start of the journey (where they do mention it but in much smaller writing rather than the large banner ad they use here).</p>
+
+<p>Once you have clicked the next button, you are finally taken into the online banking system and you can get on with whatever task you need to perform such as checking your balance or making a payment (which requires an external card reader and a whole lot of hassle, but that's a rant for another day!)</p>
+
+<h3>Summary</h3>
+
+<p>As I've tried to point out above, there are numerous accessibility and usability problems in the above scenario of logging into a mainstream online banking system.  As a brief recount, I need to:</p>
+
+<ol>
+<li>Go to homepage</li>
+<li>Fake my user-agent</li>
+<li>Type in my 10-digit 'customer number'</li>
+<li>Fill out random digits from both a security number and password (in a random order)</li>
+<li>Occassionally see a notices page</li>
+<li>View a reminder of my last login, part of my address, and email address as well as bank service advertising</li>
+<li>Finally get to my online banking overview</li>
+</ol>
+
+<p>That weighs in at an astonishing <strong>6 pages</strong> just to login to my account!  That doesn't include going back to the start if you happen to mistype some of the details or if you get trapped in the "ever advancing javascript inputs of doom" (patent pending).</p>
+
+<h3>Recommendations</h3>
+
+<p>There are several basic steps that RBS can take to rectify the process of logging onto their online banking system.</p>
+
+<p>Firstly, they need to remove the browser sniffing and instead take up the practice of graceful degradation, that is to say show the best way of doing it and then fall back to more simple methods if the browser is too old.  There is no good reason why the latest browsers (which are by virtue more secure) should not be allowed access to the site.</p>
+
+<p>Next, the javascript 'enhancements' need to be completely removed not only due to accessibility concerns but also because they break traditional UI design and user expectation.  This goes for both the self-advancing input boxes and the automatic logout - you shouldn't need to tick a box to say that you don't want to be redirected from a site with JavaScript.</p>
+
+<p>Finally, the entire process can be minimised down to 2 pages.  This is done by adding the 'customer number' input next to the initial 'Log In' box on the RBS homepage, and then having a single page to have both the two security checks (no random ordering of input boxes please!) and details of their antivirus package.  Once you've passed security, you should be taken to the overview page where you can then at the top of the page have a small section about when you last logged in and then use sidebars for advertising of services such as 'paperless billing' or reminding customers to keep their address details up to date.</p>
+
+<p>With these three simple steps, the headaches for all customers can be removed, and the process would become easy-to-use rather than a constant struggle!</p>
+
+<p>I'd be interested to know of anyone's views on accessibility and usability with regards to online banking systems - please use the comments box below or <a href="http://bendodson.com/contact/">contact me</a>.  You can also let me know if there are any particular sites that have glaring usability issues that you'd like me to investigate in the future.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/04/26/london-underground-tube-updates-api-is-live/">London Underground Tube Updates API is live!</a></h1>
+			
+			<time datetime="2009-04-26" pubdate=""><a href="/weblog/2009/04/26/london-underground-tube-updates-api-is-live/">April 26, 2009</a></time>
+    	</header>
+    	<div>
+			<p>I <a href="http://bendodson.com/weblog/2008/03/16/rss-feed-of-the-london-underground-tube-status/">posted an article</a> just over a year ago about an RSS feed of the London Underground Tube Status that I'd created by scraping the <a href="http://www.tfl.gov.uk/">TFL website</a>.  I was overwhelmed not only by the response via comments and emails, but also by the sheer number of people using it (my apache access logs increased by 7GB per month!) that I decided to make a full blown API so that it would be easier for developers like me to create great mashups using data that should always have been publicly accessible.</p>
+
+<p>I'm happy to announce that after a good test run at the <a href="http://rewiredstate.org/">Rewired State</a> event a couple of weeks ago, the Tube Updates API is now live and ready to be used at <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/" title="An API for TFL London Underground Tube Update data">tubeupdates.com/</a> - You can request updates from any line (including the Docklands Light Railway) in either JSON or XML format and everything is structured to give you as much information as possible e.g. station closures, why there are 'minor delays', etc.</p>
+
+<p>But that's not all!  I am caching the data (and have been since 1st Jan 2009) so you can also go back in time and look at the underground system at any point in time!  I wrote a rather rudimentary <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/stats/">stats analyser</a> for my <a href="http://rewiredstate.org/projects/tfl-statistics">Rewired State project</a> which shows you the basic reliability over the past couple of months but that is just a taster of what you can do with the information now available.</p>
+
+<p>I'll be releasing new versions of the RSS feed shortly so that non-developer types can still access the data - I'll be announcing those <a href="http://bendodson.com/weblog/">on this blog</a> and on <a href="http://twitter.com/bendodson/">my twitter feed</a> once they are ready in the next few days.  In the mean time, please play around with the API.  There are no real usage terms but I'd love to know how you are using it so please <a href="http://bendodson.com/contact/">get in touch</a> if you make use of it!</p>
+
+<p><em>For those that come to this site regularly, you may have noticed that it's undergone a major overhaul!  I've done a complete redesign (looks best in Safari) and replaced the blog engine with Wordpress so I should be blogging a lot more frequently.  I'm also about to become a full time freelance PHP developer and web consultant but I'll be posting more details about that soon!!</em></p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/12/09/updates-coming-soon-to-london-underground-rss-feed/">Updates coming soon to London Underground RSS Feed</a></h1>
+			
+			<time datetime="2008-12-09" pubdate=""><a href="/weblog/2008/12/09/updates-coming-soon-to-london-underground-rss-feed/">December 09, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I've had a large number of emails over the last week or so about my <a href="http://bendodson.com/weblog/2008/03/16/rss-feed-of-the-london-underground-tube-status/">RSS Feed that displays the latest updates from the London Underground</a> asking for more data or for a slightly different service.  I hadn't realised how many people were using the feed (which I put up as a tutorial on how to site scrape and to demonstrate the lack of tools on the new TFL site) until my server nearly died as the access logs had ballooned to 7GB!</p>
+<p>So, I'm pleased to say that I'm working on some major updates which will provide not only the current RSS feed but also a full REST API and dedicated site so you can get more data and more flexibility into your applications.</p>
+<p>I should have everything ready in the next few days so sign up to my <a href="/rss.xml">RSS feed</a> to be notified when the new service goes live!  If you have any suggestions, please <a href="/contact/">contact me</a>.</p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2008/09/14/iphone-2-1-firmware-update-released-fast-stable-fixed/">iPhone 2.1 Firmware Update Released - Fast? Stable? Fixed?</a></h1>
+			
+			<time datetime="2008-09-14" pubdate=""><a href="/weblog/2008/09/14/iphone-2-1-firmware-update-released-fast-stable-fixed/">September 14, 2008</a></time>
+    	</header>
+    	<div>
+			<p>So the firmware that all iPhone users have been waiting for has finally arrived. Even before it&#x27;s announcement at <a href="http://events.apple.com.edgesuite.net/0809dt4bs89/event/index.html" rel="external">Apple&#x27;s &quot;Let&#x27;s Rock&quot; event</a>, speculation was rife about what would be included. Many people wanted new features such as copy &amp; paste and MMS support (it&#x27;s never going to happen!) whereas others be-cried the fact that their beloved iPhone just didn&#x27;t work that well due to app crashes, slow typing, and painfully long backups.</p>
+<p>However, Steve Jobs finally announced that firmware 2.1 would be with us on Friday 12th September and would be a bug-fix only release. He claimed that the phone would be faster, backup time would be &quot;dramatically reduced&quot;, would have a &quot;decrease in call set-up failures and call drops&quot;, &quot;faster installation of 3rd party applications&quot;, would fix a lot of app crashing bugs, and would have &quot;improved performance in text messaging&quot;. There are 2 new features as far as I can see which are Genius playlist creation which came with iTunes 8 and a secure wipe of the phone in the event that the keypad lock is entered incorrectly too many times.</p><p>So does the update live up to all of the promises listed above? Well, yes it does on this occasion! The whole experience of using the phone is back to how it was with version 1.1.4 in that it&#x27;s fast, responsive, and doesn&#x27;t crash every few minutes. I&#x27;ll go over a few of the key improvements i&#x27;ve seen from my own use over the last few days:</p><h3>Application Installation / Crashes</h3><p>I regularly install and uninstall apps on to my iPhone as I love trying out the latest new things to come along. However, in the past it would take an absolute age to install anything on the phone - in fact I gave up doing it via the App Store on the iPhone itself as that usually didn&#x27;t work (or would take an hour or so by which point the battery was dead) and so had resorted to sideloading apps via iTunes. This still could take a good 10 minutes or so though which wasn&#x27;t really acceptable. Once the apps were on, they would frequently crash or hang - several times I had to do a hard reset of the phone (hold the home button and power button down together for about 10 seconds). Amusingly, I only learnt about the hard reset after the 3rd time my iPhone crashed (screen wouldn&#x27;t come on) and I thought the only way to fix it was to do a restore via iTunes.</p><p>Anyway, this is all water under the bridge now as I managed to get 26 applications installed via iTunes in less than 5 minutes and have installed several apps via the App Store on the iPhone itself in a couple of minutes. A vast improvement! Additionally, I haven&#x27;t had a single app crash on me yet which is also much improved on previous performance. Apps seem to be quitting correctly and quickly as well. For instance, in the past if I closed down &quot;<a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284972147&amp;mt=8" rel="external">Tap Tap Revenge</a>&quot; by pressing the home button, the app would disappear and the home screen would appear but the music would keep playing for another 5-10 seconds or so. Now it just quits as it should have done in the first place.</p><h3>Location Services</h3><p>I hadn&#x27;t seen it reported widely but my location service was incredibly patchy. If I was in my house or at work, then pressing the &quot;locate me&quot; button would just lead to a little blue spinning circle which would never find me. I put this down to the iPhone 3G saying &quot;I&#x27;ve got GPS - Use it even though it&#x27;ll never work in this building&quot; - there appeared to be no fallback to cell tower triangulation. This is fixed now though as within 2 seconds of pressing the button in my living room, I had been located to within 50m or so. GPS also seems to be a little faster outside but again it does a cell tower triangulation instantly before it even bothers with the GPS locater. </p><p>Now it just needs a decent turn-by-turn GPS app to make it really good - I managed to fake this the other day whilst I was lost in Manchester by loading up Google Maps and making it do directions from my current location to my destination. This all showed up fine and then I literally scrolled across the map as the little GPS dot moved. This worked absolutely fine but I couldn&#x27;t help but think it would have worked a whole lot better if when the blue dot got near the edge of the screen then the map scrolled automatically!</p><h3>SMS Typing</h3><p>By far the most annoying bug was that after a little bit of use, going to type an SMS message became painfully slow. The keyboard just had a huge amount of lag for no reason! I eventually found a fix for this which was to quit the SMS app, then open it again and delete a character - it would then go back to full speed. No need for this now though as I&#x27;ve had no laggy text messages in the last few days!</p><h3>iTunes Backup</h3><p>Whether this is a fix in the firmware or for iTunes 8 I&#x27;m not sure but the iPhone now backs up in about 10 seconds. I have seen the same iPhone (with less apps and music) take an hour and a half to backup before now so this really is very impressive! I had previously disabled my backups by using the following command in Terminal (make sure iTunes is turned off)</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">defaults write com.apple.iTunes DeviceBackupsDisabled -bool true</code></pre></div>
+
+<p>This stops the iPhone doing a backup when it&#x27;s connected to iTunes. However, I&#x27;ve now amended this to:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">defaults write com.apple.iTunes DeviceBackupsDisabled -bool false</code></pre></div>
+
+<p>Now my backups are back up and running and are incredibly fast so I&#x27;ll be leaving it on for the time being (although hopefully there won&#x27;t be a need for a restore).</p><p>On a separate note, I&#x27;m again not sure if this is an iPhone 2.1 update or an iTunes 8 update but when you are looking at your iPhone through iTunes, it actually shows how much space is used up by Apps rather than sticking them under the category of Other. Very helpful!</p><h3>Passcode Locking / Secure Wipe</h3><p>Talking about doing backups leads me nicely into a new feature of iPhone 2.1 - the ability to have your iPhone wipe itself if someone enters in the passcode incorrectly more than 10 times. This in response to the controversy surrounding Apple when it turned out that you could <a href="http://www.macrumors.com/2008/08/27/iphone-passcode-flaw-already-addressed-for-future-firmware-update/" rel="external">bypass the passcode</a> if you had a certain setting enabled. Now most people commented that no-one used the passcode and I agreed with them as I had never had it enabled before. However, now there is a secure wipe option, I have put it back on so that if someone steals my phone I know my data is safe. If they enter the code in wrong more than 10 times then my iPhone will just wipe itself similar to the Exchange Remote Wipe feature. My only bug bear with the process is that 10 times is a long time. I&#x27;d like to be able to change that number to 3 - I&#x27;m not going to enter it in wrong that many times (and if I do then my fast backup process as detailed above means I can restore it fairly quickly). One <a href="http://forums.macrumors.com/showthread.php?t=561173#post_message_6215873" rel="external">commentator</a> said they&#x27;d like it changed so it wipes if you get it wrong the first time making each unlock a little like an episode of 24!</p><h3>Genius Playlists</h3><p>I haven&#x27;t had much experience of this on my iPhone as I only have a small portion of my library loaded on to it, but it appears to work in the same way as genius within iTunes 8. The idea is that every time you sync, your library is sent up to the Apple Genius &quot;cloud&quot; where it is analysed and compared with other peoples libraries. it can then recommend you music in your library that goes with other music in your library leading to a nice playlist that blends together quite well. It&#x27;s essentially the same as recommendations from last.fm but seems to work quite well. It should get better as more and more people use it as the cloud will have more data to analyse. The only improvement I can see to this (which is a long shot and won&#x27;t ever happen) is if there was a way to get the tracks to mix into each other as you went between them in a playlist. I listen to a lot of dance music and it would be great if genius was clever enough to do a DJ style mix between them. There was an application on Dragons Den a few years ago that did that but I&#x27;m not sure what happened to it!</p><h3>Summary</h3><p>So the new firmware is a vast improvement and offers a few little extras as well such as secure wipe and Genius playlists. The other thing I&#x27;ve noticed is that the icons for the different networks you are on (e.g. GPRS, Edge, 3G) have been changed slightly - Why I don&#x27;t know but they do look a little clearer!</p><p>If you don&#x27;t have it already, then upgrade to both <a href="http://www.apple.com/iphone/softwareupdate/" rel="external">iPhone 2.1</a> and <a href="http://www.apple.com/itunes/overview/" rel="external">iTunes 8</a> - you&#x27;ll be glad you did!</p>
+
+		</div>
+	</article>
+    
+	
+</section>
+
+
+<section id="pagination">
+     
+    	<a href="/weblog/page/14/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
+     
+	
+    
+      
+      	<a href="/weblog/page/12/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
+      
+    
+</section>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

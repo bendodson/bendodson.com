@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="You can watch the Gadget Show episode online and download Social Beacon from the App Store.A couple of months ago, I was asked if I'd like to appear on Channel Five's "The Gadget Show" to take part in a challenge about iPhone applications with Jason Bradbury and Suzi Perry.  I had only been developing iPhone apps for a short while but decided to enter into the spirit of the challenge by jumping head first into some of the trickier aspects of the iPhone SDK.  The show and results of the challenge aired last night so I thought it was time for me to do a write up of the application and the process of building it.The Early StagesMy day-to-day job involves me working as a freelance PHP developer but I'm a huge Apple fan and have owned every iteration of the iPhone.  It wasn't long before I started toying with the idea of building iPhone apps, but the programming language was different to anything I'd ever done before.  As a PHP developer, I found it very hard initially learning how to code in Objective-C (the coding language for iPhone apps).  However, I purchased a couple of books including the excellent "iPhone SDK Development" and "Learn Objective-C on the Mac" and it wasn't too long before I became an iPhone developer.After making it on to the App Store with Magnetic Flux & Metal Detector [iTunes Link], I was asked if I'd be interested in making the iPhone Application for "The Gadget Show".  The initial concept was fairly simple: an application that allowed you to quickly choose from a list of questions to build a sentence which could be sent to your social networks.  I agreed immediately and began working with my friend Liza Hayes on the design but hadn't realised exactly what I'd let myself in for.In order to work as expected, the application would need to access an SQLite database on the device, be able to store custom sentences input by the user to that database, be able to build a sentence based on building an SQL query, and use the networking features of the iPhone to post to both Facebook and Twitter.  I had done a lot of work with Facebook Connect and the Twitter API in my web development work and I knew that Facebook had a custom integration of its API for the iPhone.  Even so, the networking problems were going to be tricky to overcome.  To add to all of this, Jason suggested that he'd like a way to show off the accelerometer in the iPhone, and I was interested in the settings panes and how we could make the app easily customisable.Developing the appThe iPhone 3.0 OS had just been released, yet as a registered iPhone developer I was working on iPhone 3.1 so there were enumerable problems in switching my Xcode environment and devices back and forth between the two versions.  This was compounded with problems with Facebook Connect in that it had been written for the 2.1 OS and so was not 100% compatible with 3.0 leading to some caffeine fuelled Googling!We had decided that the accelerometer could be used in what Jason called "Fingerless Functionality" whereby you could shake the phone left and right to navigate around the Social Beacon wheel, and then tip the phone up and down to progress backwards and forwards through the option.  A simple shake of the phone would be enough to regenerate a sentence.  These parts were all very straightforward (especially the shake, which can be detected with one line of code in OS 3.0) yet we came to a usability problem once we thought about sending the message.  We couldn't use the shake or the down gesture, as these were used for regenerating the sentence on the final screen, so we needed to find another fingerless input method to post the message.  The answer eventually came in the guise of the microphone: we could detect sound so that blowing into the mic would blow your message to the internet!  Of course, this meant learning yet another aspect of the SDK that I had previously left untouched -- Core Audio -- but I'm always up for a challenge!Distribution and the App StoreWith various bugs overcome and a final test version working on my device, we were ready to distribute the app via the App Store.  You may have heard some of the horror stories from the App Store -- it can take a very long time and you end up being rejected without reason -- but I have to say that I found the process to work incredibly well.  It took 14 days from submission before Apple got back to us to say that the Application had been rejected due to a bug in the networking code (if you weren't connected to the internet the app would hang, or worse, say that the message had been sent).  They were incredibly helpful and gave a detailed explanation of the problem as well as including some sample code to show how the networking portion could be handled better.  After a couple of hours fixing it up, we resubmitted and the app was available around the world a few days later.We were of course competing against Suzi's "Biker Blast-Off! [iTunes Link]" which was distributed at the same time, but crucially neither app was publicised on either Twitter or any other medium without mentioning the other with the same weight (so we'd invite people to try both apps).  Within 3 days, Social Beacon was in the top 20 free social media applications whilst Biker Blast-Off was climbing up the overall free application charts worldwide and racking up a huge number of downloads.  Interestingly, as both of our apps climbed higher, the reviews became more negative and I realised that this was true of nearly every app in the store.  It seems that even if you are willing to give away a free product which could easily be charged for, people will still rip the idea to pieces (some comments on the game even saying "you'd need to pay me to play this game" - no pleasing some people!).The AftermathThe show was aired last night (and is available to watch online) and has the full story as well as the final figures and the winner of the challenge, but the story of the apps continues.  Since the show, both applications have now shot back up into the charts with both apps appearing in the top 10 free applications in the UK App Store.  Social Beacon is currently sitting pretty at spot number 4 and I couldn't be happier with it.A big thank you to the Gadget Show team (especially Colin Byrne, Chris Payne, and Jason Bradbury) and to Liza Hayes for her fantastic design work.  It was a great experience and it looks like I'm going to be developing iPhone applications for a long time to come!">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Social Beacon: Developing An iPhone App for "The Gadget Show"</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/">Social Beacon: Developing An iPhone App for "The Gadget Show"</a></h1>
+			
+			<time datetime="2009-10-14" pubdate=""><a href="/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/">October 14, 2009</a></time>
+    	</header>
+    	<div>
+			<p><strong>You can <a href="http://fwd.five.tv/gadget-show/videos/challenge/apps-complete">watch the Gadget Show episode online</a> and <a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=326303505&mt=8">download Social Beacon from the App Store</a></strong>.</p>
+
+<p>A couple of months ago, I was asked if I'd like to appear on Channel Five's "<a href="http://fwd.five.tv/gadget-show">The Gadget Show</a>" to take part in a challenge about iPhone applications with Jason Bradbury and Suzi Perry.  I had only been developing iPhone apps for a short while but decided to enter into the spirit of the challenge by jumping head first into some of the trickier aspects of the iPhone SDK.  The show and results of the challenge <a href="http://fwd.five.tv/gadget-show/videos/challenge/apps-complete">aired last night</a> so I thought it was time for me to do a write up of the application and the process of building it.</p>
+<h3>The Early Stages</h3>
+
+<p>My day-to-day job involves me working as a freelance PHP developer but I'm a huge Apple fan and have owned every iteration of the iPhone.  It wasn't long before I started toying with the idea of building iPhone apps, but the programming language was different to anything I'd ever done before.  As a PHP developer, I found it very hard initially learning how to code in Objective-C (the coding language for iPhone apps).  However, I purchased a couple of books including the excellent "<a href="http://www.pragprog.com/titles/amiphd/iphone-sdk-development">iPhone SDK Development</a>" and "<a href="http://www.amazon.co.uk/Learn-Objective-C-Mac-Knaster-Dalrymple/dp/1430218150/ref=sr_1_3?ie=UTF8&s=books&qid=1255475410&sr=1-3">Learn Objective-C on the Mac</a>" and it wasn't too long before I became an iPhone developer.</p>
+
+<p>After making it on to the App Store with <a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=321813152&mt=8">Magnetic Flux & Metal Detector</a> [iTunes Link], I was asked if I'd be interested in making the iPhone Application for "The Gadget Show".  The initial concept was fairly simple: an application that allowed you to quickly choose from a list of questions to build a sentence which could be sent to your social networks.  I agreed immediately and began working with my friend <a href="http://www.lizahayes.co.uk">Liza Hayes</a> on the design but hadn't realised exactly what I'd let myself in for.</p>
+
+<p>In order to work as expected, the application would need to access an SQLite database on the device, be able to store custom sentences input by the user to that database, be able to build a sentence based on building an SQL query, and use the networking features of the iPhone to post to both Facebook and Twitter.  I had done a lot of work with Facebook Connect and the Twitter API in my web development work and I knew that Facebook had a custom integration of its API for the iPhone.  Even so, the networking problems were going to be tricky to overcome.  To add to all of this, Jason suggested that he'd like a way to show off the accelerometer in the iPhone, and I was interested in the settings panes and how we could make the app easily customisable.</p>
+
+<h3>Developing the app</h3>
+
+<p>The iPhone 3.0 OS had just been released, yet as a registered iPhone developer I was working on iPhone 3.1 so there were enumerable problems in switching my Xcode environment and devices back and forth between the two versions.  This was compounded with problems with Facebook Connect in that it had been written for the 2.1 OS and so was not 100% compatible with 3.0 leading to some caffeine fuelled Googling!</p>
+
+<p>We had decided that the accelerometer could be used in what Jason called "Fingerless Functionality" whereby you could shake the phone left and right to navigate around the Social Beacon wheel, and then tip the phone up and down to progress backwards and forwards through the option.  A simple shake of the phone would be enough to regenerate a sentence.  These parts were all very straightforward (especially the shake, which can be detected with one line of code in OS 3.0) yet we came to a usability problem once we thought about sending the message.  We couldn't use the shake or the down gesture, as these were used for regenerating the sentence on the final screen, so we needed to find another fingerless input method to post the message.  The answer eventually came in the guise of the microphone: we could detect sound so that blowing into the mic would blow your message to the internet!  Of course, this meant learning yet another aspect of the SDK that I had previously left untouched -- Core Audio -- but I'm always up for a challenge!</p>
+
+<h3>Distribution and the App Store</h3>
+
+<p>With various bugs overcome and a final test version working on my device, we were ready to distribute the app via the App Store.  You may have heard some of the horror stories from the App Store -- it can take a very long time and you end up being rejected without reason -- but I have to say that I found the process to work incredibly well.  It took 14 days from submission before Apple got back to us to say that the Application had been rejected due to a bug in the networking code (if you weren't connected to the internet the app would hang, or worse, say that the message had been sent).  They were incredibly helpful and gave a detailed explanation of the problem as well as including some sample code to show how the networking portion could be handled better.  After a couple of hours fixing it up, we resubmitted and the app was available around the world a few days later.</p>
+
+<p>We were of course competing against Suzi's "<a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=326437408&mt=8">Biker Blast-Off!</a> [iTunes Link]" which was distributed at the same time, but crucially neither app was publicised on either Twitter or any other medium without mentioning the other with the same weight (so we'd invite people to try both apps).  Within 3 days, Social Beacon was in the top 20 free social media applications whilst Biker Blast-Off was climbing up the overall free application charts worldwide and racking up a huge number of downloads.  Interestingly, as both of our apps climbed higher, the reviews became more negative and I realised that this was true of nearly every app in the store.  It seems that even if you are willing to give away a free product which could easily be charged for, people will still rip the idea to pieces (some comments on the game even saying "you'd need to pay me to play this game" - no pleasing some people!).</p>
+
+<h3>The Aftermath</h3>
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/10/Screen-shot-2009-10-13-at-22.26.33.png" alt="Jason Bradbury and Ben Dodson" title="Jason Bradbury and Ben Dodson" width="511" height="288" class="featured" />
+<p>The show was aired last night (and is available to <a href="http://fwd.five.tv/gadget-show/videos/challenge/apps-complete">watch online</a>) and has the full story as well as the final figures and the winner of the challenge, but the story of the apps continues.  Since the show, both applications have now shot back up into the charts with both apps appearing in the top 10 free applications in the UK App Store.  Social Beacon is currently sitting pretty at spot number 4 and I couldn't be happier with it.</p>
+
+<p>A big thank you to the Gadget Show team (especially <a href="http://twitter.com/colbyrne">Colin Byrne</a>, <a href="http://twitter.com/ChrisPyUK">Chris Payne</a>, and <a href="http://jasonbradbury.com/">Jason Bradbury</a>) and to <a href="http://www.lizahayes.co.uk/">Liza Hayes</a> for her fantastic design work.  It was a great experience and it looks like I'm going to be developing iPhone applications for a long time to come!</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2009/10/16/how-to-pitch-an-app-idea-to-an-iphone-developer/" title="Next Article" class="pagination-next">How to pitch an app idea to an iPhone developer &raquo;</a>
+    
+	 
+		<a href="/weblog/2009/10/07/gowalla-tools-web-app-find-your-missing-gowalla-items/" title="Previous Article" class="pagination-previous">&laquo; Gowalla Tools Web App: Find your missing Gowalla items!</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

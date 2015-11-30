@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="It's taken a little while longer than I expected to but I've managed to put together a script to make any HTML 5 video playable through Safari on the iPad.  With the advent of iOS 4.3, Apple are now allowing websites to add a special tag to their video markup in order to enable video streaming (as with the current 4.2 version you only get audio streaming).  However, with one simple JavaScript bookmarklet, you can now enable AirPlay video for any website.   First of all, you'll need to save the following bookmark - the best way is to save the link below as a bookmark on your computer and then sync it to your iPad via iTunes or MobileMe: HTML5 AirPlay Bookmarklet.  Alternatively, bookmark this page on your iPad and then copy the text below:">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Enabling any HTML5 Video to work over AirPlay</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/01/13/enabling-any-html5-video-to-work-over-airplay-e-g-vimeo/">Enabling any HTML5 Video to work over AirPlay</a></h1>
+			
+			<time datetime="2011-01-13" pubdate=""><a href="/weblog/2011/01/13/enabling-any-html5-video-to-work-over-airplay-e-g-vimeo/">January 13, 2011</a></time>
+    	</header>
+    	<div>
+			<p>It's taken a little while longer than I expected to but I've managed to put together a script to make any HTML 5 video playable through Safari on the iPad.  With the advent of iOS 4.3, Apple are now allowing websites to add a special tag to their video markup in order to enable video streaming (as with the current 4.2 version you only get audio streaming).  However, with one simple JavaScript bookmarklet, you can now enable AirPlay video for any website.   
+First of all, you'll need to save the following bookmark - the best way is to save the link below as a bookmark on your computer and then sync it to your iPad via iTunes or MobileMe: <strong><a href="javascript:d=document,e=d.createElement('script');e.src='http://bendodson.com/bookmarklets/ios-airplay.js?'+(new%20Date()*1);void(d.body.appendChild(e));">HTML5 AirPlay Bookmarklet</a></strong>.  Alternatively, bookmark this page on your iPad and then copy the text below:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">javascript</span><span class="o">:</span><span class="nx">d</span><span class="o">=</span><span class="nb">document</span><span class="p">,</span><span class="nx">e</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span><span class="nx">e</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="s1">&#39;http://bendodson.com/bookmarklets/ios-airplay.js?&#39;</span><span class="o">+</span><span class="p">(</span><span class="k">new</span><span class="o">%</span><span class="mi">20</span><span class="nb">Date</span><span class="p">()</span><span class="o">*</span><span class="mi">1</span><span class="p">);</span><span class="k">void</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">e</span><span class="p">));</span></code></pre></div>
+
+<p>You now need to edit the bookmark you saved for this page and paste the code above into the URL (you'll probably want to rename it as well).</p>
+
+<p>Once the bookmark is saved, you just need to go to any HTML 5 video (such as cnn.com or tvcatchup.com) online and start playing it.  You'll notice if you look at the AirPlay window that you can only stream audio.  If you now load the bookmark, the video should disappear, and then come back with AirPlay now enabled for video.  This short video below will demonstrate the process a little better:</p>
+
+<iframe src="http://player.vimeo.com/video/18730809?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="500" height="375" frameborder="0"></iframe>
+
+<p>So how does it work?  To get AirPlay to send a video stream in Safari, you need to add the attribute <code>x-webkit-airplay="allow"</code> to the <code>video</code> tag.  I assumed that by adding this to an existing video via JavaScript then it would automatically work.  However, Apple have been slightly clever and ignore any parameters you add via JavaScript.  So, I instead use JavaScript to add the new attribute before cloning the video, removing it from the DOM, and then re-adding it.  This re-addition to the DOM seems to trigger something in Safari which causes it to re-read the AirPlay attribute and allow you to stream the video.  Please note that this will only work with iOS 4.3 on the iPad with iOS 4.3 on the Apple TV.  If you try and stream to an Apple TV running older software, Safari will crash.</p>
+
+<p>This is currently in a very rough stage yet so far has been tested and works with vimeo.com as well as native HTML 5 video on websites such as apple.com - it doesn't work with any HTML 5 video wrapped in a custom skin (e.g. the BBC iPlayer) but who knows what will be possible in the future.  If you have any additions or improvements, please <a href="http://bendodson.com/contact/">get in touch</a>.</p>
+
+<p><strong>Update:</strong> A few people have contacted me about embedded videos such as the one on this page. Unfortunately, with Vimeo at least, these don't work as they are packaged up in an iFrame rather than being native <code>&lt;video&gt;</code> content.  JavaScript isn't able to access the contents of an iFrame from a different domain due to the cross-domain security policy.  If videos are embedded natively, then they'll play fine, but for iFrame content you'll need to go to the original website.</p>
+
+<p><strong>Update:</strong> This workaround is still functioning in iOS 4.3 beta 2.</p>
+
+<p><strong>Update:</strong> And it is still working in iOS 4.3 beta 3.</p>
+
+<p><strong>Update:</strong> And finally, this works in the publicly available version of iOS 4.3 - enjoy!</p>
+
+<p><strong>Update:</strong> I've altered the article slightly as vimeo.com is now adding the AirPlay functionality automatically to their website (so I've changed the examples given). I've also added a copy-paste section of code as that may be easier for getting the bookmarklet onto your iPad.</p>
+
+<p><strong>Update:</strong> I've taken a look at using this on iOS 5.0 beta 1 but so far the AirPlay functionality isn't working well. This is more likely an issue with the beta (which is fairly buggy).</p>
+
+<p><strong>Update:</strong> iOS 5 has changed the defaults for how AirPlay works. This means that all online video is now classed as AirPlay enabled (unless the content provider opts out) making this bookmark now redundant.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2011/01/23/review-worldcard-mobile-for-android/" title="Next Article" class="pagination-next">Review: WorldCard Mobile for Android and iPhone &raquo;</a>
+    
+	 
+		<a href="/weblog/2011/01/12/ios-4-3/" title="Previous Article" class="pagination-previous">&laquo; iOS 4.3</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

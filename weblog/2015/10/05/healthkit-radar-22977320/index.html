@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Working with any code, it is inevitable that you&#39;ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a &quot;radar&quot; so that they can track and hopefully fix any issues that arise. The issue is that the Apple Bug Reporter is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it&#39;s fix. This has led to sites like Open Radar that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>HealthKit Radar 22977320</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a></h1>
+			
+			<time datetime="2015-10-05" pubdate=""><a href="/weblog/2015/10/05/healthkit-radar-22977320/">October 05, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Working with any code, it is inevitable that you&#39;ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a &quot;radar&quot; so that they can track and hopefully fix any issues that arise. The issue is that the <a href="http://bugreport.apple.com/">Apple Bug Reporter</a> is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it&#39;s fix. This has led to sites like <a href="https://openradar.appspot.com/">Open Radar</a> that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.</p>
+
+<p>In any case, today I found an interesting bug in HealthKit. iOS 9 added a new method named <code>deleteObjectsOfType:predicate:withCompletion</code> which is supposed to let you delete any objects you have written to HealthKit nice and easily. For example, I might have an app which constantly checks your step count and flights climbed throughout the day and so it will want to delete any steps and flights from 00.00 to 23.59 before it adds the updated count. Unfortunately, the method doesn&#39;t seem to respect the <code>type</code> parameter and so it will delete everything that matches your query regardless of what <code>HKObjectType</code> it is.</p>
+
+<p>For example, consider the following code:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="nl">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">stepType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) step objects: \(error)&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="k">let</span> <span class="n">stepQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">stepSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="n">flightsType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) flight objects: \(error)&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="k">let</span> <span class="n">flightsQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">flightsSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+<span class="p">}</span></code></pre></div>
+
+<p>The expected result is that you&#39;ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you&#39;ll only get the Flights Climbed entry as the line <code>healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code>HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don&#39;t add up with what is expected:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
+
+<p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I&#39;ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you&#39;ll need to do a manual search for objects with <code>HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
+
+<p><strong>Update:</strong> I&#39;ve put together a fix for this issue with a new <code>HKHealthStore</code> method, <a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/"><code>deleteSamplesOfType:predicate:withCompletion:</code></a></p>
+
+<p><strong>Update:</strong> Whilst iOS 9.1 hasn&#39;t fixed this issue, my bug report has today (23rd Oct 2015) been marked as a duplicate of issue 23097982 so looks like they may be getting around to fixing it. iOS 9.2 perhaps?</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/" title="Next Article" class="pagination-next">HKHealthStore Extension, deleteSamplesOfType &raquo;</a>
+    
+	 
+		<a href="/weblog/2015/09/25/the-times-they-are-a-changin/" title="Previous Article" class="pagination-previous">&laquo; The Times They Are A-Changin'</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

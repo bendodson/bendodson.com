@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="As you may already know, I run a website called TubeUpdates.com which provides a RESTful API for the TFL Underground network so you can build apps that utilize that data.  Unlike some other services or XML files that try to provide this data, my API scrapes all of the pages on the TFL site in order to give out the specific messages for each line e.g. rather than having "Minor Delays" you'll be given an array of each message from their site about the delays such as "Sunday 17 May, suspended between Liverpool Street and Leytonstone. Two rail replacement bus services operate." which is obviously a lot more useful.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Duplicate Messages Bug Fixed on TubeUpdates.com</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/17/duplicate-messages-bug-fixed-on-tubeupdatescom/">Duplicate Messages Bug Fixed on TubeUpdates.com</a></h1>
+			
+			<time datetime="2009-05-17" pubdate=""><a href="/weblog/2009/05/17/duplicate-messages-bug-fixed-on-tubeupdatescom/">May 17, 2009</a></time>
+    	</header>
+    	<div>
+			<p>As you may already know, I run a website called <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">TubeUpdates.com</a> which provides a RESTful API for the <a href="http://www.tfl.gov.uk">TFL Underground</a> network so you can build apps that utilize that data.  Unlike some other services or XML files that try to provide this data, my API scrapes all of the pages on the TFL site in order to give out the specific messages for each line e.g. rather than having "Minor Delays" you'll be given an array of each message from their site about the delays such as "Sunday 17 May, suspended between Liverpool Street and Leytonstone. Two rail replacement bus services operate." which is obviously a lot more useful.</p>
+
+<p>However, as my script relies on screen scraping, problems do occur when TFL decide to change their HTML or site structure which has happened recently.  Previously, every tube line had it's own page with it's messages listed on it but now there is <a href="http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html">one single page</a> with all of them shown and hidden with javascript.  This meant that for a short period, my API was posting out the messages for every single line with each line returned (so if you wanted to look at circle line messages, you would in fact get every line).</p>
+
+<p>This has now been fixed and actually makes the service slightly better for me as it now means I can crawl just 3 pages rather than the 14 I was crawling before (thus better for both bandwidth and CPU cycles).  I have a number of functions set up to report when TFL change their site structure as the usual problem is that a site redesign changes class names or markup in such a way that the API just breaks.  However, in this case none of these warnings kicked in as it was getting the data correctly and all seemed to be ok.</p>
+
+<p>So, a big thank you to those of you that emailed in to report the bug!  If you have any questions about the Tube Updates API, then please <a href="http://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">check out the site</a> or <a href="http://bendodson.com/contact/">drop me an email</a>.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	 
+		<a href="/weblog/2009/05/18/iphone-30-push-notification-testing-with-ap-news/" title="Next Article" class="pagination-next">iPhone 3.0 "push" Notification Testing with AP News &raquo;</a>
+    
+	 
+		<a href="/weblog/2009/05/12/getting-xbox-live-achievements-with-php-part-1-the-problems/" title="Previous Article" class="pagination-previous">&laquo; Getting Xbox Live Achievements Data: Part 1 - The PHP Problems</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

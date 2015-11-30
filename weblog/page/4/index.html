@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-11-19.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Code</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+
+	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/03/25/loly-v2/">LOLy 2.0</a></h1>
+			
+			<time datetime="2015-03-25" pubdate=""><a href="/weblog/2015/03/25/loly-v2/">March 25, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m happy to announce that an app I worked on late last year has finally gone live on the App Store; <a href="https://itunes.apple.com/us/app/loly/id893477100?ls=1&amp;mt=8">LOLy</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/loly-v2.jpg" width="800"></p>
+
+<p>LOLy is an app that allows you to send stylish and beautifully designed large emoji, many of which are animated.</p>
+
+<p>I was asked to work on the v2 app update as the previous app suffered from a few performance issues and there were requirements for new functionality. I completely rebuilt the app from the ground up using Swift along with <a href="http://realm.io">Realm</a> as a super-fast local database. The app is now super-smooth and images, even animated ones, appear instantly. I also used AutoLayout to ensure that the app looked great on all 4 sizes of iPhone from the tiny iPhone 4S to the massive iPhone 6 Plus. I came up with a lot of the UX changes and integrated iCloud to enable syncing of favourites. Remember that blog post I did about <a href="http://bendodson.com/weblog/2014/12/10/skproduct-localized-price-in-swift/">localising prices in Swift</a>? That was also for this project.</p>
+
+<p>However, the big thing with this update isn&#39;t just the speed and performance boosts but the headline new feature: an iOS 8 keyboard.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/loly-keyboard.jpg" width="800"></p>
+
+<p>This was a real challenge and I came across design issues, the technical constraints of the iOS 8 keyboards, and various requirements from the App Store review team. With design, it was important to make the keyboard match the app as much as possible and to try and show as many of these stickers as possible whilst also syncing &quot;recently used&quot; and &quot;favourites&quot; with the parent app. The technical constraints were far harder. There is only a limited amount of memory available to these extensions so trying to show animated images along with the fairly complex design was tricky. Add in the general problem of image-based keyboards requiring full keyboard access (<a href="http://bendodson.com/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">which I&#39;ve discussed before</a>) and being limited to copy/paste for inserting images into apps and it became trickier than expected! Finally, the App Store insisted that the keyboard also contain a full text keyboard and numeric keyboard which had to be added fairly late on. Despite all this, he keyboard looks and works great. I&#39;ve been using it a lot over the past few months and it really is a great way for sending a message with more playfulness than the stock emoji.</p>
+
+<p>In addition to the above, I also built an online admin system so that the packs can be updated, added to, or re-ordered remotely without going through the App Store review process. This is all pushed via an innovative patch system I designed which allows for delta updates to keep bandwidth costs to a minimum both for users and the clients servers.</p>
+
+<p>I had great fun working on this app and I&#39;m really proud of the result. You can check out <a href="https://itunes.apple.com/us/app/loly/id893477100?ls=1&amp;mt=8">LOLy on the App Store</a> - it&#39;s a free app with lots of stickers but, at the time of writing, you can download additional packs for $0.99/£0.79.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">Albums on iTunes Artwork Finder now at higher resolution</a></h1>
+			
+			<time datetime="2015-02-26" pubdate=""><a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">February 26, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;ve made a quick update to the <a href="http://bendodson.com/code/itunes-artwork-finder/">iTunes Artwork Finder</a> today in that album artwork is now available at a resolution of 1500x1500px.</p>
+
+<p><a href="https://bendodson.s3.amazonaws.com/weblog/2015/high-res-album.jpg"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/high-res-album.jpg" alt="High Res Album Artwork from iTunes Artwork Finder" width="800" /></a></p>
+
+<p>You can try it out now by <a href="http://bendodson.com/code/itunes-artwork-finder/">searching for an album</a> and then clicking the <strong>High Resolution</strong> link.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/02/23/introducing-blind-bags/">Introducing "Blind Bags"</a></h1>
+			
+			<time datetime="2015-02-23" pubdate=""><a href="/weblog/2015/02/23/introducing-blind-bags/">February 23, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Ever since I was little, I&#39;ve loved collecting. As far as I can remember, the first thing I collected seriously was <a href="http://en.wikipedia.org/wiki/Gogo&#x27;s_Crazy_Bones">Gogo&#39;s Crazy Bones</a> when I was at school in the 90s<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. They came in blind bags so the first couple of times you bought them you&#39;d get all new stuff but then, as your collection got more complete, the chances of getting something you already owned increased. This mode of selling seems to have really caught on over the past few years and I find myself collecting a number of things that work this way, primarily <a href="https://infinity.disney.com/en-gb/power-discs">Disney Infinity Power Discs</a> and <a href="http://www.lego.com/en-gb/minifigures/">LEGO Minifigures</a>.</p>
+
+<p>Whilst trying to sort through my Disney Infinity collection last week, I did a quick search on the App Store and found only one app that hadn&#39;t been updated for a while and was a bit basic. After having several weeks away from coding whilst being on jury duty, I thought it might be fun to get back into the swing of things over the weekend by building a basic prototype app to solve my collecting need but also pick up a few new skills along the way. Thus, &quot;Blind Bags&quot; was born:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-promo.jpg" width="800"></p>
+
+<p>The app is fairly basic in that it lists all of the series of power discs available and then lets you tap through to see a list view showing which ones you own and which ones you don&#39;t (as denoted by whether they are slightly-transparent or not). You can hold your finger down on a disc to change its state making for a quick way of logging new additions to the collection. If you tap on an item, you go through to a bigger detail view which gives you a bit of description text and allows you to enter a number of spares if applicable:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-detail.jpg" width="400"></p>
+
+<p>The spares piece is particularly important as you can then build up a list of which items you have spares of and how many:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-spares.jpg" width="400"></p>
+
+<p>Finally, everything is synced online which allows me to generate a basic page showing which discs I&#39;m missing and which discs I have available to trade:</p>
+
+<p><a href="http://blindba.gs/users/bendodson"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-site.jpg" width="800"></a></p>
+
+<p>The best bit of all of this is that the entire project took just 4 hours<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> thanks to using <a href="https://parse.com">Parse</a>. I was able to get their SDK integrated quickly into a new app (using Swift 1.2) and begin prototyping within 20 minutes which is pretty cool as I&#39;ve never used it before. From there, it was a simple case of building some basic UICollectionViews and some CRUD functionality. Parse also has a PHP SDK so within a few minutes I had <a href="http://blindba.gs/users/bendodson/">a basic page</a> which allowed me to output the data that the app was saving. Whilst there is no fallback for loss of connection, etc, at the moment (this is just a prototype after all) these are all things that could be added fairly easily.</p>
+
+<p>The final step was to get a domain name<sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup> and purchase a <a href="http://themeforest.net/item/hype-app-landing-page/6671565">site template</a><sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> to build a basic landing page showing off a few screenshots of the app and giving anybody interested the chance to register their email address.</p>
+
+<p>At the moment the app is solely geared towards one thing for one user but it could easily be expanded outwards into a full service for other collectors to use. Using Parse and a cheap site template, I&#39;ve been able to get a prototype app up and running and a decent landing page in just 4 hours. If there is enough interest, I think 2 days of work is all that is needed to migrate the database to a different hosting solution<sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup> and release it as a full app most likely using a subscription model.</p>
+
+<p>If you&#39;re interested, check out <a href="http://blindba.gs">the Blind Bags site</a> and add your email address to get notified as more details become available.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>Although, now I think of it, I also collected <a href="http://en.wikipedia.org/wiki/Pogs">Pogs</a> and (believe it or not) Panini Football Stickers!&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>Of which at least 1 hour was choosing a font.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn3">
+<p>Obviously I had to go for one in a similar pattern to <a href="http://wallab.ee">wallab.ee</a> and <a href="http://pouchcreatur.es">pouchcreatur.es</a> and settled for <a href="http://blindba.gs">blindba.gs</a>&nbsp;<a href="#fnref3" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn4">
+<p>Seriously, templates make this so much easier. I&#39;ve not done any serious HTML work in years and I can&#39;t be bothered getting things working on mobile let alone Internet Explorer. For just $13, I was able to get a fully responsive template full of animations along with the original PSDs so I could quickly integrate promo shots. The site was up and running in under an hour with the majority of that time being me writing copy and choosing the right screenshots.&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn5">
+<p>I think Parse is great for prototyping but I wouldn&#39;t use it for a live app - for one thing the relational database just isn&#39;t powerful enough for the kind of queries I&#39;d like to do.&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/02/16/3-years-of-wallabee/">Three years of WallaBee</a></h1>
+			
+			<time datetime="2015-02-16" pubdate=""><a href="/weblog/2015/02/16/3-years-of-wallabee/">February 16, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Today I&#39;m celebrating three years since <a href="http://wallab.ee">WallaBee</a> was released into the world. Originally conceived as an extension to the item collecting side of Gowalla, it launched in February 2012 as a completely standalone game with beautiful artwork and a very dedicated group of players. Since then it has won awards and grown far beyond what I originally anticipated.</p>
+
+<p>It hasn&#39;t been an easy (or cheap<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>) journey, but today we have a large player base and we&#39;ve stuck to the <a href="http://bendodson.com/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">principles I laid out</a> when I first launched the game:</p>
+
+<blockquote>
+<p><em>We are focussed on a single thing; items. We have a location database and we allow players and developers to add to this database but it&#39;s not our key focus. We are fundamentally not a check-in service.</em></p>
+
+<p><em>We don&#39;t just want to build a community of players, we also want to build a community of developers. If you build something on our platform, we&#39;ll promote it.</em></p>
+
+<p><em>The most important thing, the item that is at the core of who we are, is that we are dedicated to the player. We promise to listen, adapt, and make changes that the community wants rather than just blazing our own trail. We will never fundamentally change our product on a whim when we know that it&#39;s not what our community wants. We built this app because it&#39;s the app we wanted to use. We will never deviate from that course or that core belief.</em></p>
+</blockquote>
+
+<p>If there is just one thing I could choose about WallaBee that I&#39;m proud of, it would be that we stuck to those initial promises. We haven&#39;t taken any external funding nor done things simply to boost user numbers or revenue. Every decision we make is based on a simple philosophy: <em>do we like it?</em></p>
+
+<p>Over the coming months, we&#39;re going to be launching a lot of new things which will grow WallaBee from one game to a global brand. Even so, we won&#39;t change from those core beliefs.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>For anybody wondering about the financials of such a game, you need at least $30000 to get started and you will lose a lot of money for the first 18 months (great artists and servers are both expensive and necessary). I started WallaBee on the basis that if it wasn&#39;t break even by year 2 then we&#39;d shut it down. Happily, we&#39;ve been turning a profit since September 2013.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/02/12/iap-icons-featured-app-store/">IAP and icons in the 'Featured' section of the App Store</a></h1>
+			
+			<time datetime="2015-02-12" pubdate=""><a href="/weblog/2015/02/12/iap-icons-featured-app-store/">February 12, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Apple did something slightly different with their weekly update of the <em>Featured</em> section of the App Store today that is bound to get people talking: they singled out Apps without In-App Purchases:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-pay-once.jpg" alt="Pay Once and Play on the App Store"></p>
+
+<p>This section contains a number of great games that have no IAP within them. Unfortunately this section is hidden by the first few slides in the top banner the most prominent of which is for King of Thieves, a new freemium game by ZeptoLab (of Cut The Rope fame):</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-king.jpg" alt="King of Thieves on the App Store"></p>
+
+<p>What I find particularly distasteful about this is that it is a timer-filled game in which the top IAP costs £40<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> and is obviously the complete opposite of what Apple are trying to achieve with the above campaign.</p>
+
+<p>In any case, I noticed some other interesting editorial decisions this week all based in the <em>What&#39;s New</em> section.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-abc.jpg" alt="ABC App Icons"></p>
+
+<p>Is it just me or does that say A B C?</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-7.jpg" alt="7 App Icons"></p>
+
+<p>Two apps placed next to each other using a number 7 for their icon.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-m.jpg" alt="M App Icons"></p>
+
+<p>Two apps placed next to each other using an M in a circle for their icon.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-tick.jpg" alt="Tick App Icons"></p>
+
+<p>Two apps placed next to each other using a tick for their icon.</p>
+
+<p>It seems strange that with so much choice in the App Store, Apple chose to feature so many apps with similar icons and then place them directly next to each other. I can&#39;t remember the last time I found a truly good app on the front page of the App Store (that wasn&#39;t featured elsewhere beforehand) but I really hope they find a way to improve App Store discovery soon<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p><del>What is worse is that if you view the King of Thieves app in the App Store, the section called &quot;In-App Purchases&quot; isn&#39;t listed so you can&#39;t see these IAPs until you download the game. With WallaBee, we keep our prices intentionally low and you can see that reflected in that list. I&#39;m not sure why King of Thieves is exempt from this.</del> It looks like this was just a timing issue - as of now, there are two IAPs listed (the cheapest) so I&#39;m assuming that this is simply a &quot;most popular&quot; list that gets slowly populated over time.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>On which note, <a href="http://www.macrumors.com/2015/02/12/pinterest-app-pins/">the App Store joined Pinterest today and added a feature called App Pins</a> that allows users to install apps without leaving the app - I&#39;m not sure why this is being pitched as a new thing as this kind of modal App Store pane has been available to developers since iOS 7...&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/02/08/xcode-6-essentials/">Xcode 6 Essentials</a></h1>
+			
+			<time datetime="2015-02-08" pubdate=""><a href="/weblog/2015/02/08/xcode-6-essentials/">February 08, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m happy to announce that a book I worked on as a technical reviewer is now available; <a href="https://www.packtpub.com/application-development/xcode-6-essentials">Xcode 6 Essentials</a> by Jayant Varma. The book works as a good overview of Xcode 6 and the Swift language and is suitable for both OS X and iOS developers. My role was to ensure technical accuracy and to make sure that all of the code samples work as expected.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/xcode-6-essentials.jpg" alt="Xcode 6 Essentials"></p>
+
+<p>You can get it now in both print and eBook formats from <a href="https://www.packtpub.com/application-development/xcode-6-essentials">Packt Publishing</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/">SKProduct localized price in Swift</a></h1>
+			
+			<time datetime="2014-12-10" pubdate=""><a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/">December 10, 2014</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m currently working on a Swift project which uses In App Purchasing (IAP). One of the many pitfalls of IAP is displaying the cost of a product in the correct format; all too often developers use the default US formatting leading to apps showing prices of $0.99 in the UK. Gross!</p>
+
+<p>You may think you can use the locale of the device to format the number and you&#39;d be correct apart from the user may be using an App Store in a different locale to that of their device (i.e. a UK account but they have their device sent to French if that is their primary language). The SKProduct object that iTunes returns has a locale attached so it is fairly simple to format the price with that in order to get the localized version:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">StoreKit</span>
+
+<span class="k">extension</span> <span class="bp">SKProduct</span> <span class="p">{</span>
+    
+    <span class="k">func</span> <span class="n">localizedPrice</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">formatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
+        <span class="n">formatter</span><span class="p">.</span><span class="n">numberStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">CurrencyStyle</span>
+        <span class="n">formatter</span><span class="p">.</span><span class="n">locale</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">priceLocale</span>
+        <span class="k">return</span> <span class="n">formatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">price</span><span class="p">)</span><span class="o">!</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span></code></pre></div>
+
+<p>The above is a simple Swift extension (also <a href="https://github.com/bendodson/SKProduct-LocalizedPrice-Swift">available on GitHub</a>) which, if it is in your project, will automatically be available on any SKProduct object (similar to using Categories in Objective-C). If we assume we have an SKProduct called product, we can now run:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;The price of this product is \(product.localizedPrice())&quot;</span><span class="p">)</span>
+<span class="c1">// Example output: The price of this product is £0.69</span></code></pre></div>
+
+<p>It&#39;s amazing how many apps either don&#39;t display the price of an IAP in advance or display it in the wrong locale. Don&#39;t let your app be one of them. </p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">Yosemite WiFi Workaround&#58; Airport Express and USB Ethernet Adapter</a></h1>
+			
+			<time datetime="2014-11-26" pubdate=""><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">November 26, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Like many people, Yosemite has been a total killer for my WiFi. I finally broke down over the weekend when my WiFI was disconnecting every 10 seconds or so<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. There is now a <a href="http://www.tuaw.com/2014/11/25/heres-the-root-cause-and-a-workaround-for-ios-8-and-yosemite-wi/">workaround available</a> but it requires losing the ability to AirDrop which I use frequently. I&#39;ve eventually fixed it with a long winded solution which I thought I&#39;d share, but first a little backstory...</p>
+
+<p>My WiFi is completely Apple-centric. I have an Airport Extreme (the newest 802.11ac model) and nothing but Apple computers. There are a couple of Apple TVs in the house and a few Airport Express&#39; for AirPlaying music. A little while ago <a href="http://bendodson.com/weblog/2014/10/17/issues-with-airport-express-airport-extreme-and-yosemite/">I detailed how Yosemite was erroneously connecting through an Airport Express</a> causing serious slowdown; the solution I had at that time was to separate my WiFi into 5GHz and 2.4GHz channels (with all AirPlay on 2.4 and all devices on 5). That was the setup.</p>
+
+<p>Now, I&#39;ve had to revert to doing this for my work computer:</p>
+
+<p><img src="http://playground.bendodson.com/airport-lan-yosemite.jpg" alt="Fixing Yosemite with an Airport Express and USB Ethernet cable"></p>
+
+<p>That&#39;s right, I&#39;ve had to plug in a USB Ethernet adapter and use a LAN cable to an Airport Express operating as a wireless bridge! As far as Yosemite is concerned, that&#39;s a LAN connection and so it doesn&#39;t drop out continuously. Problem solved!</p>
+
+<p>There was one issue though; that Apple USB Ethernet adapter (which they <a href="http://store.apple.com/uk/product/MC704ZM/A/apple-usb-ethernet-adapter">still sell</a>) doesn&#39;t work in Mavericks yet alone Yosemite. To fix it, you need to download the drivers for the chip it is built on (helpfully <a href="http://www.asix.com.tw/download.php?sub=driverdetail&amp;PItemID=136">available from ASIX</a>), restart Yosemite, then manually add a USB Ethernet connection within Network in System Settings.</p>
+
+<p>It&#39;s all working like a charm, complete with full AirDrop support and no dropped connections. My new Retina iMac is coming today<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> so I&#39;m hoping that it having an 802.11ac chip will forgoe the need for this ridiculous workaround. At the very least I&#39;ll be able to leave out the ethernet adapter!</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>When I buy a house rather than rent, the first thing going in will be a gigabit LAN throughout. WiFi isn&#39;t good enough for a media server and work machine.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>&quot;Out For Delivery&quot;. Feels like I&#39;ve been waiting forever!&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/">Dishwasher tablets and app competition</a></h1>
+			
+			<time datetime="2014-11-18" pubdate=""><a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/">November 18, 2014</a></time>
+    	</header>
+    	<div>
+			<p>This week I bought some new dishwasher tablets online that happened to be on offer. When they arrived, their packaging had a banner at the top saying <em>&#39;switch &amp; see the difference&#39;</em> which got me thinking about app competition.</p>
+
+<p>I noticed it today when I loaded the dishwasher after breakfast. Where I usually rinse the plates, I instead put them straight in so I could test if these tablets really were any better. When I unloaded the dishes and found them not as clean as usual, I immediately thought not to buy those tablets again. The strange thing about the above is that it was a totally subconcious decision both to forgo rinsing and to blame the new tablets rather than my change of habit.</p>
+
+<p>This relates to app competition as it shows something which is hardwired in us; <em><strong>a competitor must be much better in order to affect a change</strong></em>. If your app is competing by having the same features or slightly more features, that might not be enough to make your competitors customers switch.</p>
+
+<p>When I look at competitors for <a href="http://wallab.ee/">WallaBee</a>, the main one is <a href="https://apps.facebook.com/packrat/">PackRat</a>, a collecting game that runs on Facebook. Whilst we have better artwork and features, it is still a struggle to make people switch as there isn&#39;t necessarily a killer reason for them to make that switch. That&#39;s the task I&#39;m focussing on now. I need to go that extra mile to get players to change to my game; I need to wash their non-rinsed plates.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/10/20/speeding-up-your-dns/">Speeding up your DNS</a></h1>
+			
+			<time datetime="2014-10-20" pubdate=""><a href="/weblog/2014/10/20/speeding-up-your-dns/">October 20, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Following on from my <a href="http://bendodson.com/weblog/2014/10/17/issues-with-airport-express-airport-extreme-and-yosemite/">post last week</a> about speeding up my home network, I noticed that my connection has still been quite slow when viewing websites. I have a steady 72Mbps down / 19Mbps up connection so that wasn&#39;t the issue which narrowed it down to being either something wrong with my laptop or my DNS.</p>
+
+<p>A little while ago, I found a great little app called <a href="https://code.google.com/p/namebench/">namebench</a> which searches through all kinds of DNS providers to find you the best speed. It was created by some Google engineers during their 20% time and works on OS X, Windows, and Linux. I usually use it as soon as I get a new machine but I&#39;d forgotten to run it following my update to Yosemite which involved a fresh install. As it turns out, my home BT DNS is terrible and namebench managed to find some BT DNS servers that were 245% faster! Now my browser is flying along and it feels like I have a totally new connection.</p>
+
+<p>I&#39;d thoroughly recommend giving <a href="https://code.google.com/p/namebench/">namebench</a> a try - it&#39;s totally free and takes around 15 minutes but you may end up with a much faster connection at the end of it.</p>
+
+		</div>
+	</article>
+    
+	
+</section>
+
+
+<section id="pagination">
+     
+    	<a href="/weblog/page/5/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
+     
+	
+    
+      
+      	<a href="/weblog/page/3/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
+      
+    
+</section>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>
