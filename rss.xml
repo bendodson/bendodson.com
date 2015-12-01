@@ -6,9 +6,78 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Mon, 30 Nov 2015 15:11:48 +0000</pubDate>
-    <lastBuildDate>Mon, 30 Nov 2015 15:11:48 +0000</lastBuildDate>
+    <pubDate>Tue, 01 Dec 2015 15:31:05 +0000</pubDate>
+    <lastBuildDate>Tue, 01 Dec 2015 15:31:05 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>HomeKit enabled Christmas tree lights with Siri control</title>
+      <link>https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/</link>
+      <pubDate>Tue, 01 Dec 2015 15:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/</guid>
+      <description>&lt;p&gt;Every year we seem to buy a bigger Christmas tree. This year is no exception and it is now proving difficult to manouveur around it to turn the lights on and off. To fix this, I&amp;#39;ve connected my lights up to a &lt;a href=&quot;http://www.belkin.com/uk/F7C027/p/P-F7C027/&quot;&gt;Belkin WeMo&lt;/a&gt; and I&amp;#39;m running the excellent &lt;a href=&quot;https://github.com/nfarina/homebridge&quot;&gt;Homebridge&lt;/a&gt;&lt;sup id=&quot;fnref1&quot;&gt;&lt;a href=&quot;#fn1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; server so that I can control it all via Siri:&lt;/p&gt;
+
+&lt;iframe width=&quot;800&quot; height=&quot;450&quot; src=&quot;https://www.youtube.com/embed/xBuMQ-PMyeY?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;To get this up and running on your own machine, you&amp;#39;ll need to do the following in the Mac Terminal:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ruby -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;&lt;/span&gt;
+brew install node
+sudo npm install -g homebridge
+sudo npm install -g homebridge-wemo
+homebridge&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will install brew, install node, install Homebridge, install the WeMo plugin for Homebridge, and then attempt to run Homebridge (which will fail as you have no config file). Next, you&amp;#39;ll want to go to &lt;code&gt;~/.homebridge&lt;/code&gt; and create a config.json file that looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;bridge&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Homebridge&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;quot;username&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;CC:22:3D:E3:CE:30&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;quot;port&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;51826&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;quot;pin&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;031-45-154&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;This is an example configuration file with all supported devices. You can use this as a template for creating your own configuration file containing devices you actually own.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;accessories&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;accessory&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;WeMo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Christmas Tree&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;This shim supports Belkin WeMo devices on the same network as this server. You can create duplicate entries for this device and change the &amp;#39;name&amp;#39; attribute to reflect what device is plugged into the WeMo, for instance &amp;#39;Air Conditioner&amp;#39; or &amp;#39;Coffee Maker&amp;#39;. This name will be used by Siri. Make sure to update the &amp;#39;wemo_name&amp;#39; attribute with the EXACT name of the device in the WeMo app itself. This can be the same value as &amp;#39;name&amp;#39; but it doesn&amp;#39;t have to be.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;wemo_name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Christmas Tree&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The important part is to make sure that the &lt;code&gt;wemo_name&lt;/code&gt; matches the name of your device within the WeMo app; the &lt;code&gt;name&lt;/code&gt; attribute is what you want your device to be called on HomeKit. Run the &lt;code&gt;homebridge&lt;/code&gt; command again and you should see that your device is found and Homebridge is running.&lt;/p&gt;
+
+&lt;p&gt;Next, you&amp;#39;ll need to get a HomeKit enabled app to run all of this. My recommendation is to use the one that Apple provides to developers, &lt;a href=&quot;https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html&quot;&gt;HomeKit Catalog&lt;/a&gt;, although that will require you to know how to sideload apps from Xcode. Alternatively you can download the &lt;a href=&quot;https://itunes.apple.com/app/elgato-eve/id917695792&quot;&gt;Elgato Eve app&lt;/a&gt;. Once you have an app, you&amp;#39;ll need to add the Homebridge using the pin that is in your config file. You can play around with the app and create rooms, scenes, zones, etc, but for now the basic commands should work. If you can turn your device on and off via the HomeKit enabled app, you will be able to activate Siri and say &amp;quot;&lt;em&gt;turn on the Christmas tree&lt;/em&gt;&amp;quot;, &amp;quot;&lt;em&gt;turn off the Christmas tree&lt;/em&gt;&amp;quot;, and &amp;quot;&lt;em&gt;is the Christmas tree on?&lt;/em&gt;&amp;quot;.&lt;/p&gt;
+
+&lt;p&gt;Added bonus: if you have an Apple TV, you are signed into iCloud, and you use iCloud keychain, then you&amp;#39;ll be able to use all of these voice commands when you&amp;#39;re outside of your house! It&amp;#39;s a pretty useful way to activate these devices and I have several of them dotted&lt;sup id=&quot;fnref2&quot;&gt;&lt;a href=&quot;#fn2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Homebridge also supports many other services such as Philips Hue (without the need for their HomeKit bridge) and you can write your own plugins very easily&lt;sup id=&quot;fnref3&quot;&gt;&lt;a href=&quot;#fn3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;My next task is to dig out some code I wrote last year to turn the tree lights on and off automatically depending on if I&amp;#39;m in the house using an iBeacon...&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+
+&lt;li id=&quot;fn1&quot;&gt;
+&lt;p&gt;Hat tip to &lt;a href=&quot;http://lukeredpath.co.uk/&quot;&gt;Luke Redpath&lt;/a&gt; for introducing me to Homebridge.&amp;nbsp;&lt;a href=&quot;#fnref1&quot; rev=&quot;footnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id=&quot;fn2&quot;&gt;
+&lt;p&gt;After my wife asked me for the 62nd time if she&amp;#39;d left her straighteners plugged in whilst we were driving in the car, I set up the plug near her dresser with a WeMo so she can use Siri to ask &amp;quot;&lt;em&gt;are my straighteners turned on?&lt;/em&gt;&amp;quot; and &amp;quot;&lt;em&gt;turn off the straighteners&lt;/em&gt;&amp;quot; if need be!&amp;nbsp;&lt;a href=&quot;#fnref2&quot; rev=&quot;footnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li id=&quot;fn3&quot;&gt;
+&lt;p&gt;I&amp;#39;ve written a &lt;a href=&quot;https://github.com/bendodson/homebridge-prismatik&quot;&gt;very basic plugin&lt;/a&gt; for the &lt;a href=&quot;http://lightpack.tv/&quot;&gt;Prismatik Light Pack&lt;/a&gt;.&amp;nbsp;&lt;a href=&quot;#fnref3&quot; rev=&quot;footnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Brapp v1.1</title>
