@@ -32,6 +32,41 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/">SKProduct localized price in Swift</a></h1>
+			
+			<time datetime="2014-12-10" pubdate=""><a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/">December 10, 2014</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m currently working on a Swift project which uses In App Purchasing (IAP). One of the many pitfalls of IAP is displaying the cost of a product in the correct format; all too often developers use the default US formatting leading to apps showing prices of $0.99 in the UK. Gross!</p>
+
+<p>You may think you can use the locale of the device to format the number and you&#39;d be correct apart from the user may be using an App Store in a different locale to that of their device (i.e. a UK account but they have their device sent to French if that is their primary language). The SKProduct object that iTunes returns has a locale attached so it is fairly simple to format the price with that in order to get the localized version:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">StoreKit</span>
+
+<span class="k">extension</span> <span class="bp">SKProduct</span> <span class="p">{</span>
+    
+    <span class="k">func</span> <span class="n">localizedPrice</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">formatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
+        <span class="n">formatter</span><span class="p">.</span><span class="n">numberStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">CurrencyStyle</span>
+        <span class="n">formatter</span><span class="p">.</span><span class="n">locale</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">priceLocale</span>
+        <span class="k">return</span> <span class="n">formatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">price</span><span class="p">)</span><span class="o">!</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span></code></pre></div>
+
+<p>The above is a simple Swift extension (also <a href="https://github.com/bendodson/SKProduct-LocalizedPrice-Swift">available on GitHub</a>) which, if it is in your project, will automatically be available on any SKProduct object (similar to using Categories in Objective-C). If we assume we have an SKProduct called product, we can now run:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;The price of this product is \(product.localizedPrice())&quot;</span><span class="p">)</span>
+<span class="c1">// Example output: The price of this product is £0.69</span></code></pre></div>
+
+<p>It&#39;s amazing how many apps either don&#39;t display the price of an IAP in advance or display it in the wrong locale. Don&#39;t let your app be one of them. </p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">Yosemite WiFi Workaround&#58; Airport Express and USB Ethernet Adapter</a></h1>
 			
 			<time datetime="2014-11-26" pubdate=""><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">November 26, 2014</a></time>
@@ -339,38 +374,6 @@ find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -
 
 <li id="fn1">
 <p>Especially if you have a rare blood type. I&#39;m AB- which has the smallest amount of <a href="http://www.blood.co.uk/about-blood/stock-levels-statistics/">stock in the national blood bank</a>.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
-</li>
-
-</ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/09/29/private-lives/">Private lives</a></h1>
-			
-			<time datetime="2014-09-29" pubdate=""><a href="/weblog/2014/09/29/private-lives/">September 29, 2014</a></time>
-    	</header>
-    	<div>
-			<p>This weekend the news broke that <a href="http://www.bbc.co.uk/news/uk-politics-29396942">Brooks Newmark had resigned from the government</a> due to a sting by the Sunday Mirror. A journalist posed as a young female Conservative activist and they ended up flirting via Whatsapp with him eventually sending some lewd photos.</p>
-
-<p>To my mind, this is a fairly simple case of entrapment with a journalist pretending to be somebody in order to get a gossip story for a newspaper. This does not require a resignation and is a further indication of what is wrong with our politics; MPs are not held to account the same as regular people.</p>
-
-<p>If you worked on the checkout in ASDA and you started flirting with someone on Whatsapp despite being married, you don&#39;t have to resign when everybody finds out. However, you do have to resign if you take money from the till<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>.</p>
-
-<p>So it should be for MPs. They are regular people and they shouldn&#39;t have to give up their career for stupid things they have done in their private lives that are totally legal. The argument &quot;<a href="http://www.mirror.co.uk/news/uk-news/brooks-newmark-lied-wife---4342177">he lied to his wife so what stops him lying to voters</a>&quot; is idiotic; unless there is proof that his private life is affecting his work, then it is certainly not in the public interest.</p>
-
-<p>If an MP or any other public figure is doing something illegal, then it is fair to hold them to account. It is not fair to use their private life especially if they have been manipulated into it.</p>
-
-<div class="footnotes">
-<hr>
-<ol>
-
-<li id="fn1">
-<p>Well, you&#39;d be sacked actually.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
 </li>
 
 </ol>
