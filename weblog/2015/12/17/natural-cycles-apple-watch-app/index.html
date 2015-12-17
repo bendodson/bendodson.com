@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I&#39;m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; Natural Cycles.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-12-16.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Natural Cycles Apple Watch app</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles Apple Watch app</a></h1>
+			
+			<time datetime="2015-12-17" pubdate=""><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">December 17, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">Natural Cycles</a>.</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-app.jpg" width="800" height="450"></p>
+
+<p><a href="https://www.naturalcycles.com/en/">Natural Cycles</a> is a popular iPhone and Android app that allows you to track your fertility or plan a pregnancy. It can tell you when you are fertile, when you are ovulating, when your next period is due, when you are pregnant, and the progress of your pregnancy. I was hired as a freelance Swift developer to build an Apple Watch app that would be bundled in with their big v2.0 update and would allow viewing and logging of this critical information. The app allows you to see your current fertility level, body temperature, and progress of your period as well as viewing messages from Natural Cycles. In addition, you can quickly update your current body temperature and menstrual flow within the app:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-log.jpg" width="800" height="450"></p>
+
+<p>As well as the core Apple Watch app, I also added support for Notifications and Glances making for an even quicker way to view your information:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-glance.jpg" width="800" height="450"></p>
+
+<p>My favourite feature, however, is the addition of full text Complications so you can see your current body temperature and fertility status on your watch face:<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup></p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-complication.jpg" width="800" height="450"></p>
+
+<p>The project was quite difficult (but rewarding!) for a few reasons. Firstly, the design was very ambitious when watchOS severely limits the amount of customisation that can be performed. Secondly, the iOS app was a Cordova app<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> rather than a native app which meant I had to write a JavaScript plugin and set up some build scripts in order for the native Swift watchOS code to be able to speak with the iPhone. There was also a requirement to make the app as easy as possible to update (i.e. updating the iOS app shouldn&#39;t break the watchOS app) and so I built everything such that the phone takes care of all logic and a lot of the UI so the watch app can be altered without going through the App Store review process.</p>
+
+<p>This was a really exciting project to work on and I&#39;m very happy with the end results. You can <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">download Natural Cycles from the App Store</a> or <a href="https://www.naturalcycles.com/en/">learn more on their website</a>.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>This did lead to an awkward situation when I&#39;d left the complication enabled on my Mickey Mouse face that I use at weekends; the weekend after testing was complete, I switched to my Mickey Mouse face to be greeted with the words &quot;Not Fertile&quot; underneath his tapping foot!&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>I don&#39;t usually work on non-native apps but I was willing to make an exception as the bulk of code I&#39;d write would be fully native (as there is no way to write non-native apps on the Apple Watch due to the lack of a UIWebView)&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2015/12/16/the-divide-4-getting-into-code/" title="Previous Article" class="pagination-previous">&laquo; The Divide #4 - Getting into code</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>
