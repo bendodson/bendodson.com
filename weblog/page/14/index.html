@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2015-12-16.css" />
+	<link rel="stylesheet" href="/styles-2015-12-20.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
 </head>
@@ -29,6 +29,25 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2009/05/17/duplicate-messages-bug-fixed-on-tubeupdatescom/">Duplicate Messages Bug Fixed on TubeUpdates.com</a></h1>
+			
+			<time datetime="2009-05-17" pubdate=""><a href="/weblog/2009/05/17/duplicate-messages-bug-fixed-on-tubeupdatescom/">May 17, 2009</a></time>
+    	</header>
+    	<div>
+			<p>As you may already know, I run a website called <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">TubeUpdates.com</a> which provides a RESTful API for the <a href="http://www.tfl.gov.uk">TFL Underground</a> network so you can build apps that utilize that data.  Unlike some other services or XML files that try to provide this data, my API scrapes all of the pages on the TFL site in order to give out the specific messages for each line e.g. rather than having "Minor Delays" you'll be given an array of each message from their site about the delays such as "Sunday 17 May, suspended between Liverpool Street and Leytonstone. Two rail replacement bus services operate." which is obviously a lot more useful.</p>
+
+<p>However, as my script relies on screen scraping, problems do occur when TFL decide to change their HTML or site structure which has happened recently.  Previously, every tube line had it's own page with it's messages listed on it but now there is <a href="http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html">one single page</a> with all of them shown and hidden with javascript.  This meant that for a short period, my API was posting out the messages for every single line with each line returned (so if you wanted to look at circle line messages, you would in fact get every line).</p>
+
+<p>This has now been fixed and actually makes the service slightly better for me as it now means I can crawl just 3 pages rather than the 14 I was crawling before (thus better for both bandwidth and CPU cycles).  I have a number of functions set up to report when TFL change their site structure as the usual problem is that a site redesign changes class names or markup in such a way that the API just breaks.  However, in this case none of these warnings kicked in as it was getting the data correctly and all seemed to be ok.</p>
+
+<p>So, a big thank you to those of you that emailed in to report the bug!  If you have any questions about the Tube Updates API, then please <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">check out the site</a> or <a href="https://bendodson.com/contact/">drop me an email</a>.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -518,31 +537,6 @@ Twitter, Inc.<br />
 <p>Kampyle is pretty good as it is, but the thing that is putting Kampyle on the map is their recent <a href="http://www.kampyle.com/blog/?p=53" rel="external">integration with Google Analytics</a> which means you can see all of your feedback stats within your Google Analytics account.  The way they have done this is particularly clever - You need to download the <a href="https://addons.mozilla.org/en-US/firefox/addon/748" rel="external">Grease Monkey Firefox Extension</a> and install the <a href="https://www.kampyle.com/zlib_off/kampyle.user.js" rel="external">Kampyle Grease Monkey script</a>, but then when you go to your Google Analytics account you'll see the Kampyle stats showing up in their own dashboard widgets.  Pretty clever really.  This was a major incentive for me as it means I can now see all of my stats in one place rather than having multiple accounts across the internet.</p>
 
 <p>So, if you'd like to leave any feedback on the site just click on the "Leave Feedback" banner in the bottom right hand corner!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2008/07/21/stop-bug-found-in-stop-hammertime-firefox-extension-on-windows-xp-vista/">Stop! Bug found in "Stop! Hammertime!" Firefox Extension on Windows XP / Vista</a></h1>
-			
-			<time datetime="2008-07-21" pubdate=""><a href="/weblog/2008/07/21/stop-bug-found-in-stop-hammertime-firefox-extension-on-windows-xp-vista/">July 21, 2008</a></time>
-    	</header>
-    	<div>
-			<p>I've had a few reports from people saying that the latest version of the Stop! Hammertime! firefox extension hasn't been working properly on Windows XP and Windows Vista.  A new version will be coming soon but here is a fix for the time being.</p>
-
-<p>The problem that people are reporting is that when you go to the preferences section for the extension and try to change the stop button to the custom hammertime button, it won't let you press the "ok" button to proceed with the change.  It is currently only affecting Firefox 3 on Windows XP and Windows Vista but I'll be making a patch to fix it shortly.  For the time being, if you can't live without a hammertime button (despite the fact the stop button still works and plays the sound), then you can follow the steps below to get it working.</p>
-
-<p>First of all, you need to type "about:config" in the address bar of the browser.  This allows you access some of the internal preferences and config settings of firefox and all of your installed extensions.  You will most likely get a "here be dragons" warning but you can skip this - you do know what you're doing right?</p>
-
-<p>You will then need to use the filter option to locate the Stop! Hammertime! preferences.  You can do this by typing "hammertime" in the filter box - this should give you one result which by default is set to "false".  You need to double click to change it to "true".</p>
-
-<p>Once you've done this, simply restart firefox and the new hammertime button will be there for you to enjoy!  To change it back to the stop button, simply follow the steps above but make sure the hammertime config entry is set to "false".</p>
-
-<p>An update will hopefully be available in the next fews days so that you won't have to perform the above to switch between the two, but this should do for the time being.  Alternatively you can buy an Apple Mac or install Linux!</p>
-
-<p>In other Stop! Hammertime! news, it seems that the copyright holders for the song "U Can't Touch This" have noticed it's popularity and are attempting to cash in on it.  I recently had an email from the <a href="http://www.icgcopyright.com/icg/" rel="external">Integrated Copyright Group (ICG)</a> informing me that I'd need to purchase a license in order to play the 2 second sound clip in the firefox extension otherwise I would be in breach of copyright.  After a few back and forths we came to the conclusion that they could send a "cease and desist" letter from their lawyers but that the extension wasn't being removed (and I wasn't paying for a license).  So, we'll see what happens - expect updates on this shortly!!</p>
 
 		</div>
 	</article>
