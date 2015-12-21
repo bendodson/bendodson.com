@@ -6,3 +6,9 @@ RewriteRule ^(.*)$ https://bendodson.com/$1 [R,L]
 
 RewriteCond %{HTTP_HOST} ^www.bendodson.com [NC]
 RewriteRule ^(.*)$ https://bendodson.com/$1 [L,R=301]
+
+<FilesMatch "\.(php|html)$"> 
+ExpiresActive Off 
+Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform" 
+Header set Pragma "no-cache" 
+</FilesMatch> 
