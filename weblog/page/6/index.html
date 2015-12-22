@@ -32,6 +32,49 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2014/10/10/no-results-found-on-itunes-artwork-finder/">‘No results found’ on iTunes Artwork Finder</a></h1>
+			
+			<time datetime="2014-10-10" pubdate=""><a href="/weblog/2014/10/10/no-results-found-on-itunes-artwork-finder/">October 10, 2014</a></time>
+    	</header>
+    	<div>
+			<p>My <a href="https://bendodson.com/code/itunes-artwork-finder/">iTunes Artwork Finder</a> has proven very popular over the last couple of years. The issue with popularity is that the amount of correspondence increases. In the past two years, the top requests via email have been:</p>
+
+<ol>
+<li>Support for a specific country</li>
+<li>Asking for artwork of a specific show or film</li>
+</ol>
+
+<p>I fixed the first a little while ago by automatically listing all of the iTunes countries but the second continues to be a constant issue in my inbox.</p>
+
+<p>The way the finder works is to use the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html">iTunes Search API</a> to find the item you are interested in and then retrieve the artwork. This basically means that if the item isn&#39;t on iTunes<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>, this tool won&#39;t find the artwork for you. If you email me asking for a specific show or movie cover, I can&#39;t help you.<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup></p>
+
+<p>To try and limit the amount of email I get like this, I put in a disclaimer on the website. This got buried at the bottom of the page when I had a redesign so now I&#39;ve added a note within the results. </p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/itunes-artwork-finder-no-results.png" alt="&quot;No results found&quot; on iTunes Artwork Finder"></p>
+
+<p>Hopefully that should work!</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>It might that a film hasn&#39;t been released yet, the TV show is only on Netflix, or there is some other reason why iTunes doesn&#39;t stock the film, show, or album you are looking for.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>I will generally use <a href="https://code.google.com/p/subler/">Subler</a> or <a href="https://www.google.co.uk/imghp?gws_rd=ssl">Google Image Search</a> if the iTunes Artwork Finder comes up blank.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">The problem with Allow Full Access on iOS 8 keyboards</a></h1>
 			
 			<time datetime="2014-10-07" pubdate=""><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">October 07, 2014</a></time>
@@ -401,37 +444,6 @@ find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -
 <p>I stopped using Firefox a long time ago and so when it came to update the app a developer named <a href="https://addons.mozilla.org/en-US/firefox/user/AndyPortmen/">Andy Portmen</a> asked if he could continue to work on the extension. He published an update in July which bought the extension up-to-date with the latest version of Firefox and Font Finder has now been <a href="https://blog.mozilla.org/addons/2014/09/01/september-featured-add-ons-2/">featured by Mozilla</a>!</p>
 
 <p>If you&#39;re a designer that uses Firefox, be sure to <a href="http://addons.mozilla.org/en-US/firefox/addon/font-finder/">check it out</a>. My thanks to Andy for keeping Font Finder alive for those users who have found it useful over the years.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">Retiring TubeUpdates and WikiLocation</a></h1>
-			
-			<time datetime="2014-08-19" pubdate=""><a href="/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">August 19, 2014</a></time>
-    	</header>
-    	<div>
-			<p>Today I&#39;m sad to announce that both TubeUpdates.com and WikiLocation.org have been retired.</p>
-
-<h2>TubeUpdates</h2>
-
-<p>Started in 2009 as part of the <a href="http://niksilver.com/2009/08/02/guardian-hack-day-2/">Guardian Hack Day 2</a>, TubeUpdates.com was an API that allowed you to find out the status of each of the London Underground lines. It worked by screen scraping the TfL website every minute of the day and for the past 5 years it has stored data on every status update.</p>
-
-<p>Back in March of this year, the API stopped fetching new data due to changes to the TfL website. As TfL were now providing their own richer API, I announced it would be retired in May.</p>
-
-<p>The API will now return a 404 error for all endpoints. I&#39;d recommend checking out <a href="http://www.tfl.gov.uk/info-for/open-data-users/our-feeds#on-this-page-1">the TfL API</a> as a replacement for live status information. If you are interested in historical information, you can <a href="https://bendodson.s3.amazonaws.com/tubeupdates.sql.zip">download a MySQL dump</a> of all of the status updates I retrieved during the 5 year period.</p>
-
-<h2>WikiLocation</h2>
-
-<p>I built WikiLocation in 2010 as I was working on an app which needed to fetch Wikipedia articles that were nearby. As it turned out, I never got around to building that app but the API took off and has been used around the world. At the time of writing, there was only one unofficial API that fetched geocoded articles and it was woefully out of date. I was informed by a Wikipedia staff member recently (quite rudely) that they now have their own API.</p>
-
-<p>I&#39;ve been meaning to retire WikiLocation for a while but some issues with my hosting company this week have accelerated this as some automatic updates they added have killed my infrastructure. WikiLocation was the last site on the old hardware and the time it would take to rewrite it and put it onto new hosting is time I don&#39;t have (especially considering that donations for the service from those who have used it haven&#39;t covered a single week of the hosting I&#39;ve been paying for over the last 4 years).</p>
-
-<p>The API will now return a 404 error for all endpoints. You may want to take a look at <a href="https://www.mediawiki.org/wiki/Extension:GeoData#API">the official API from Wikipedia</a> (I haven&#39;t looked into it myself) or you can <a href="https://bendodson.s3.amazonaws.com/wikilocation-dumps/index.html">download the latest MySQL dumps</a> (in 38 languages) of the data I retrieved. Alternatively, you can take a look at the <a href="https://wiki.toolserver.org/view/Ghel">original python script</a> that crawls the Wikipedia linking tables to build your own scraper.</p>
-
-<p>It is always a shame to have to terminate a service and I apologise for the inconvenience this may cause as there was no deprecation time. However, it just isn&#39;t feasible for me to rewrite the entire API for new hosting when there are other alternatives available.</p>
 
 		</div>
 	</article>
