@@ -32,6 +32,38 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</a></h1>
+			
+			<time datetime="2016-01-06" pubdate=""><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">January 06, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. However, this doesn&#39;t work for the CALayer properties <code>shadowColor</code> and <code>borderColor</code> as they expect a CGColor rather than a UIColor.</p>
+
+<p>To fix this in a recent project, <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">I created a very basic CALayer extension</a> (in Swift) that adds UIColor accessors so you can set them via the User Defined Runtime Attributes as so:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib.png" width="750" height="300"></p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib-example.png" width="600" height="140"></p>
+
+<p>You can <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">get the extension on GitHub</a>.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>You basically just set <code>layer.cornerRadius</code> as the key path and use an NSNumber within the User Defined Runtime attributes and then Interface Builder will handle the rest - no more filling your code with <code>button.layer.cornerRadius = 8</code>, etc.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/">The Divide #5 - "Jar Jar Abrams", a Star Wars special!</a></h1>
 			
 			<time datetime="2016-01-04" pubdate=""><a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/">January 04, 2016</a></time>
@@ -432,43 +464,6 @@ homebridge</code></pre></div>
 
 </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/11/27/brapp-v1.1/">Brapp v1.1</a></h1>
-			
-			<time datetime="2015-11-27" pubdate=""><a href="/weblog/2015/11/27/brapp-v1.1/">November 27, 2015</a></time>
-    	</header>
-    	<div>
-			<p>A big update I worked on for <a href="https://www.brapp.tv">Brapp</a> went live today on the App Store. It&#39;s the first major update for the app and adds the following:</p>
-
-<blockquote>
-<ul>
-<li>You can now adjust audio levels of yourself and the beat after recording. Sweet.</li>
-<li>You can now rotate videos after recording so you’re not sideways when you don’t want to be.</li>
-<li>We’ve added 5 new video filters! Ice, Whitewash, Planet Rock, Purple Haze and Blackout.</li>
-<li>We’ve added controls for brightness and video filter intensity so there are infinite variations.</li>
-<li>The new video player is faster, smoother, lighter to control and does not overlay on top of videos. </li>
-<li>Producer’s names now show on videos made on their beats.</li>
-<li>The new beat player shows real waveforms because real waveforms rule.</li>
-<li>You can now loop beats by pressing the ∞ button.</li>
-<li>Spins now show on beats! Spins are all the plays of a beat INCLUDING plays of videos made on them.</li>
-<li>You can now filter your Saved Beats by title, producer name, #hashtag and bpm.</li>
-<li>You can now edit info on your beats &amp; videos. Phew.</li>
-<li>When you make a video you can see it’s progress as it uploads, you no longer have to wait hopingly!</li>
-<li>When you tap the beat icon on any video it shows you the beat, now it also shows you all the other - videos made on that beat on the same page.</li>
-<li>When commenting on a beat/video it won’t stop playing what you are listening to.</li>
-<li>You can tap profile pictures to make them big.</li>
-<li>It is now easier to find your Facebook and Twitter friends, and connect with popular users on Brapp.</li>
-<li>And there’s a heap of other handsome UI, UX and stability updates. P.s. We’re just getting started!</li>
-</ul>
-</blockquote>
-
-<p>If you haven&#39;t checked it out yet, you can get Brapp for free on <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">the App Store</a>. You can also <a href="https://bendodson.com/weblog/2015/09/24/brapp-the-rap-app/">read about the initial build and release</a>.</p>
 
 		</div>
 	</article>

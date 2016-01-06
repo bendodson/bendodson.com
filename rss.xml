@@ -6,9 +6,38 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Mon, 04 Jan 2016 16:57:24 +0000</pubDate>
-    <lastBuildDate>Mon, 04 Jan 2016 16:57:24 +0000</lastBuildDate>
+    <pubDate>Wed, 06 Jan 2016 08:26:07 +0000</pubDate>
+    <lastBuildDate>Wed, 06 Jan 2016 08:26:07 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</title>
+      <link>https://bendodson.com/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/</link>
+      <pubDate>Wed, 06 Jan 2016 08:30:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/</guid>
+      <description>&lt;p&gt;I&amp;#39;ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes&lt;sup id=&quot;fnref1&quot;&gt;&lt;a href=&quot;#fn1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. However, this doesn&amp;#39;t work for the CALayer properties &lt;code&gt;shadowColor&lt;/code&gt; and &lt;code&gt;borderColor&lt;/code&gt; as they expect a CGColor rather than a UIColor.&lt;/p&gt;
+
+&lt;p&gt;To fix this in a recent project, &lt;a href=&quot;https://github.com/bendodson/calayer-cgcolor-for-ib-swift&quot;&gt;I created a very basic CALayer extension&lt;/a&gt; (in Swift) that adds UIColor accessors so you can set them via the User Defined Runtime Attributes as so:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib.png&quot; width=&quot;750&quot; height=&quot;300&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib-example.png&quot; width=&quot;600&quot; height=&quot;140&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;You can &lt;a href=&quot;https://github.com/bendodson/calayer-cgcolor-for-ib-swift&quot;&gt;get the extension on GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+
+&lt;li id=&quot;fn1&quot;&gt;
+&lt;p&gt;You basically just set &lt;code&gt;layer.cornerRadius&lt;/code&gt; as the key path and use an NSNumber within the User Defined Runtime attributes and then Interface Builder will handle the rest - no more filling your code with &lt;code&gt;button.layer.cornerRadius = 8&lt;/code&gt;, etc.&amp;nbsp;&lt;a href=&quot;#fnref1&quot; rev=&quot;footnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Divide #5 - "Jar Jar Abrams", a Star Wars special!</title>

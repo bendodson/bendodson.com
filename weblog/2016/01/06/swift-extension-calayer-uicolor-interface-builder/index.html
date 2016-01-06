@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I&#39;ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes1. However, this doesn&#39;t work for the CALayer properties shadowColor and borderColor as they expect a CGColor rather than a UIColor.You basically just set layer.cornerRadius as the key path and use an NSNumber within the User Defined Runtime attributes and then Interface Builder will handle the rest - no more filling your code with button.layer.cornerRadius = 8, etc.&nbsp;&#8617;">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/weblog/">Blog</a></li><li><a href="/archive/">Archive</a></li><li><a href="/about/">About</a></li><li><a href="/apps/">Apps</a></li><li><a href="/code/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</a></h1>
+			
+			<time datetime="2016-01-06" pubdate=""><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">January 06, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I&#39;ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. However, this doesn&#39;t work for the CALayer properties <code>shadowColor</code> and <code>borderColor</code> as they expect a CGColor rather than a UIColor.</p>
+
+<p>To fix this in a recent project, <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">I created a very basic CALayer extension</a> (in Swift) that adds UIColor accessors so you can set them via the User Defined Runtime Attributes as so:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib.png" width="750" height="300"></p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib-example.png" width="600" height="140"></p>
+
+<p>You can <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">get the extension on GitHub</a>.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>You basically just set <code>layer.cornerRadius</code> as the key path and use an NSNumber within the User Defined Runtime attributes and then Interface Builder will handle the rest - no more filling your code with <code>button.layer.cornerRadius = 8</code>, etc.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/" title="Previous Article" class="pagination-previous">&laquo; The Divide #5 - "Jar Jar Abrams", a Star Wars special!</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>
