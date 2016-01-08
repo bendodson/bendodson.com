@@ -1,8 +1,89 @@
-      <!DOCTYPE html>
-      <meta charset=utf-8>
-      <title>Redirecting...</title>
-      <link rel=canonical href="/code/itunes-artwork-finder/index.html">
-      <meta http-equiv=refresh content="0; url=/code/itunes-artwork-finder/index.html">
-      <h1>Redirecting...</h1>
-      <a href="/code/itunes-artwork-finder/index.html">Click here if you are not redirected.</a>
-      <script>location='/code/itunes-artwork-finder/index.html'</script>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>iTunes Artwork Finder by Ben Dodson</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Clients</a></li><li><a href="/apps/">Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="itunes-artwork-finder">
+
+	<article>
+			<header>
+				<h3>iTunes Artwork Finder</h3>
+				<form action="" method="get" accept-charset="utf-8" id="iTunesSearch">
+					<select name="entity" id="entity">
+						<option value="tvSeason">TV Show</option>
+						<option value="movie">Movie</option>
+						<option value="ebook">iBook</option>
+						<option value="album">Album</option>
+						<option value="software">App</option>
+						<option value="audiobook">Audiobook</option>
+						<option value="podcast">Podcast</option>
+						<option value="musicVideo">Music Video (may not work)</option>
+						<option value="id">Apple ID (Movies)</option>
+						<option value="shortFilm">Short Film</option>
+					</select>
+					<input type="text" class="text" name="query" id="query" />
+					<select name="country" id="country">
+						<option value='us'>United States of America</option>
+						<option value='gb'>United Kingdom</option>
+						<option value=''>---</option>
+					</select>
+					<input type="submit" class="submit" value="Get the artwork" />
+				</form>
+			</header>
+
+			<div id="results">
+
+			</div>
+		</article>
+
+	<article>
+			<p>This project started out as a simple tool for using the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html">iTunes Search API</a> to download 600x600px artwork for TV shows. However, it became a lot more popular than I expected and requests were made to add movie and iBook artwork. I've added these in addition to incorporating album artwork and app icons from the App Store.</p>
+			<p>To find artwork, simply type the name below and choose the media type and country from the dropdowns.</p>
+			<p>I've included two links at the top of each piece of artwork; standard resolution and high resolution. The standard resolution will generally be 600x600px and is the size that is displayed inline. The high resolution can be anything; I've found instances of movie artwork at 1600x2400px and TV shows up to 2400x2400px. However, the high resolution does not always work, particularly for iBooks, Movies, <strike>and Albums</strike> <em>(albums are now working thanks to a tip from John Leustek)</em>. It seems to depend on the country and studio involved but you generally need a special key to get that high res artwork and you can only get that key by purchasing something from iTunes (and then it only lasts a short while). With app icons, there is only one artwork link which will give you a 1024x1024px file; just click on the app icon.</p>
+			<p>Some movies weren't being found even though they could be viewed in iTunes. To fix this, copy the URL from iTunes and paste the numbers after 'id' into the 'Apple ID (Movies)' section. For example, if the iTunes URL is <code>https://itunes.apple.com/gb/movie/harry-potter-philosophers/id314918278</code> you would put <code>314918278</code> as the id (the country must be correct as well for this to work).</p>
+
+			<p><strong>IMPORTANT:</strong> This website gets artwork directly from iTunes. If the film / TV show you are looking for is not available on iTunes (i.e. it's a film that hasn't been released yet or is a network exclusive like a Netflix show) then you won't find it here. Please <strong>do not</strong> email me asking to add extra artwork as it doesn't work that way - this is just a quick way of getting artwork from iTunes.</p>
+
+			<p><strong>NOTE TO DEVELOPERS:</strong> If you want to do any automation or hit the API I've written directly, please consider getting the <a href="https://github.com/bendodson/itunes-artwork-finder">source code I've made publicly available on GitHub</a> and hosting it yourself. I can't guarantee uptime nor give permission for you to hit my server from your own apps so please host the code above on your own server if you wish to do anything like that.</p>
+		</article>
+
+	
+	
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/itunes-2015-11-30.js"></script>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

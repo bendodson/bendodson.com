@@ -1,8 +1,134 @@
-      <!DOCTYPE html>
-      <meta charset=utf-8>
-      <title>Redirecting...</title>
-      <link rel=canonical href="/code/index.html">
-      <meta http-equiv=refresh content="0; url=/code/index.html">
-      <h1>Redirecting...</h1>
-      <a href="/code/index.html">Click here if you are not redirected.</a>
-      <script>location='/code/index.html'</script>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Projects and Code by Ben Dodson</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Clients</a></li><li><a href="/apps/">Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="code">
+
+	<article>
+		<p>iOS app development and PHP web development aren't just my job; they're also my hobby. As well as the <a href="/apps/">apps I've built in my spare time</a> and the <a href="/clients/">work I've done commercially</a>, I spend a lot of time on the various projects listed on this page. These vary from podcasts to coding, and APIs to voice control hacks. I try and give back to the development community so you may find <a href="https://github.com/bendodson">my GitHub profile</a> useful for code samples and downloads. If you have any questions about my various projects, please <a href="/contact/">get in touch</a>.</p>
+	</article>
+
+	<article>
+		<header>
+			<a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">
+				<h3>The Divide</h3>
+				<p>A fortnightly podcast on various geeky topics</p>
+			</a>
+		</header>
+		<p>In November 2015 I started doing a fortnightly podcast with <a href="http://misterford.co.uk/">Chris Ford</a> and <a href="http://johnwordsworth.com/">Dr John Wordsworth</a>. We take a pub-meet approach to a specific geeky topic varying from our favourite video games to the debate about tablets vs laptops to how we consume media in the digital age. New episodes launch every other Wednesday with a full list available at <a href="http://thedivide.co.uk">thedivide.co.uk</a> - you can also follow us on Twitter via <a href="https://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
+		<p><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">Subscribe via iTunes</a> | <a href="https://overcast.fm/itunes1063410638/the-divide">Listen online with Overcast</a></p>
+	</article>
+
+	<article>
+		<header>
+			<a href="/projects/itunes-artwork-finder/">
+				<h3>iTunes Artwork Finder</h3>
+				<p>A simple way to get music, movie, and TV show artwork</p>
+			</a>
+		</header>
+		<p>I have a large number of TV shows stored in iTunes but not all of them were purchased there. The only issue I've had is that I lacked hi-res artwork for each show to display on my Apple TV so I knocked up a script to pull the artwork down from iTunes. Whilst this project was originally for TV shows, it gained so much popularity that I've updated it to include movies, iBooks, app icons, podcasts, and music albums along with searching across international iTunes stores.</p>
+		<p><a href="/projects/itunes-artwork-finder/">Use the iTunes Artwork Finder &raquo;</a></p>
+	</article>
+
+	<article>
+		<header>
+			<a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">
+				<h3>Wikilocation</h3>
+				<p>An API for finding Wikipedia articles by location</p>
+			</a>
+		</header>
+
+		<p>I had always assumed that there was an API for Wikipedia that would allow you to search for entries based on geo-location information. It turns out that there is such a service (from a 3rd party) but it is woefully out of date and contains less than a fifth of the geo-coded data that is available on Wikipedia.</p>
+		<p>I intended to change that.</p>
+		<p>WikiLocation is a full REST-ful API service for developers wishing to search for Wikipedia articles by location. The data is gathered by downloading the Wikipedia database on a weekly basis and then parsing all of the geocoded entries. This data is then stored in a database where it is able to be accessed via the API. At present, there are almost 1 million entries from en.wikipedia.org and this number increases every week (at a rate of about 3000 entries). Over time, I will be adding support for other languages provided by the various Wikipedia locales.</p>
+		<p>In addition to searching via location, you can also search via the venue and spot IDs of the two most popular geo-location networks; Foursquare and Gowalla as well as by Yahoo! WOEID. I will be adding other networks as and when they become available. There is also the ability to download a full MySQL dump of each of the 37 locale based databases that power WikiLocation.</p>
+	
+	</article>
+
+	<article>
+		<header>
+			<a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">
+				<h3>Tube Updates</h3>
+				<p>The latest updates to the London Underground in a RESTful API</p>
+			</a>
+		</header>
+	
+		<p>Ever since the Transport For London site was updated, I've wondered why they didn't provide a basic way of accessing their data which so many developers could make use of. I expected that they would have an RSS feed of the tube status updates but instead the only way to access this information was through a set of pre-built widgets. Not any more!</p>
+		<p>I created a full REST-ful API service for developers wishing to get better access to the TFL data on tube updates. The data is gathered using a custom built crawler (codename 'lemmiwinks') which scrapes the TFL site every minute of every day. This data is then stored in a database where it is able to be accessed via the API. I've been storing every single update since 1st Jan 2009 which should allow people to build some great apps whilst being able to look back over historic data (e.g. you could build a graph to show reliability for each line)</p>
+		<p>If you have an iPhone 4S, you may want to take a look at <a href="https://github.com/bendodson/SiriProxy-TubeUpdates">SiriProxy-TubeUpdates</a>, a SiriProxy plugin I built that allows you to ask Siri for the latest updates on the London Underground.</p>	
+	
+	
+	</article>
+
+	<article>
+		<header>
+			<a href="/projects/browser-extensions/">
+				<h3>Browser Extensions</h3>
+				<p>Various extensions for Firefox, Safari, and Chrome</p>
+			</a>
+		</header>
+	
+		<p>In 2006 I spent a fair amount of time playing around with writing extensions for Firefox. Since then, I've written a few more and also written extensions for Safari 5 and Google Chrome. These vary from extensions to <a href="/projects/browser-extensions/#fontfinder">help identify fonts</a> to those that <a href="/projects/browser-extensions/#hammertime">replace your 'stop' button with MC Hammer</a> (downloaded over a ¼ million times and I was sued by <a href="http://www.youtube.com/watch?v=w8WYh8uz3pQ">Hammerman</a> himself - bonus!)</p>
+
+	</article>
+
+	<article>
+		<header>
+			<a href="https://github.com/bendodson/jTARDIS">
+				<h3>jTARDIS</h3>
+				<p>Time travel for browser history</p>
+			</a>
+		</header>
+	
+		<p>jTARDIS is a jQuery plugin I wrote which allows you to see what sites a user has visited by going back through their browser history. This highlights a fairly major security flaw in modern browsers today.</p>
+
+	</article>
+
+	<article>
+		<header>
+			<a href="https://github.com/bendodson/phpMyOpenID">
+				<h3>phpMyOpenID</h3>
+				<p>Your own OpenID server</p>
+			</a>
+		</header>
+		
+		<p>phpMyOpenID is a simple to use install routine I wrote for the popular phpMyID library which allows you to host an OpenID server on your own hosting package. This project is no longer maintained but may be useful to someone!</p>
+
+	</article>
+
+	
+</section>
+
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>
