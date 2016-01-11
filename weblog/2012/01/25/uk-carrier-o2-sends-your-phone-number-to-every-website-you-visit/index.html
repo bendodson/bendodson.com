@@ -40,7 +40,7 @@
 			<p>Lewis Peckover:</p>
 
 <blockquote>
-<p>If you&#39;re on O2&#39;s UK mobile network (not ADSL), you&#39;ll (probably) see a line beginning with <code>x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
+  <p>If you’re on O2’s UK mobile network (not ADSL), you’ll (probably) see a line beginning with <code>x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
 </blockquote>
 
 <p>Looks like O2 is sending users mobile phone numbers in plain text over HTTP headers to every site they visit whilst using their network. At the moment the issue appears to be limited to certain APNS on the UK O2 network.</p>
@@ -48,12 +48,12 @@
 <p>When asked about it, <a href="https://twitter.com/o2/status/161872584634408960">O2 responded with</a>:</p>
 
 <blockquote>
-<p>The mobile number in the HTML is linked to how the site determines that your browsing from a mobile device</p>
+  <p>The mobile number in the HTML is linked to how the site determines that your browsing from a mobile device</p>
 </blockquote>
 
-<p>As Lewis points out, a &quot;<a href="https://twitter.com/lewispeckover/status/161879864159383552">User-agent header ID&#39;s the device</a>&quot; so this seems a slightly odd stance (particularly as it isn&#39;t happening on all mobile devices).</p>
+<p>As Lewis points out, a “<a href="https://twitter.com/lewispeckover/status/161879864159383552">User-agent header ID’s the device</a>” so this seems a slightly odd stance (particularly as it isn’t happening on all mobile devices).</p>
 
-<p><strong>Update:</strong> O2 say that it&#39;s a technical error and that this header should only be sent to whitelisted servers. It does beg the question, which servers are whitelisted? Presumably just O2&#39;s own websites but it&#39;s still not good to be sending information like this in plaintext.</p>
+<p><strong>Update:</strong> O2 say that it’s a technical error and that this header should only be sent to whitelisted servers. It does beg the question, which servers are whitelisted? Presumably just O2’s own websites but it’s still not good to be sending information like this in plaintext.</p>
 
 		</div>
 	</article>

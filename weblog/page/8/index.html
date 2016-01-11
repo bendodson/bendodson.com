@@ -37,11 +37,11 @@
 			<time datetime="2014-07-03" pubdate=""><a href="/weblog/2014/07/03/awesome-client/">July 03, 2014</a></time>
     	</header>
     	<div>
-			<p>I&#39;ve been working on an app for a client for the past few months that is due to launch very shortly. To thank me for my work, they bought me this. I love my clients!</p>
+			<p>I’ve been working on an app for a client for the past few months that is due to launch very shortly. To thank me for my work, they bought me this. I love my clients!</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/photos/10514038_800218873345445_1427415910_n.jpg" alt="LEGO R2D2 from awesome client"></p>
+<p><img src="https://bendodson.s3.amazonaws.com/photos/10514038_800218873345445_1427415910_n.jpg" alt="LEGO R2D2 from awesome client" /></p>
 
-<p>I&#39;ll post a review once I get around to building it - I&#39;ve already promised them they&#39;ve delayed any bug fixes until it&#39;s built...</p>
+<p>I’ll post a review once I get around to building it - I’ve already promised them they’ve delayed any bug fixes until it’s built…</p>
 
 <p><strong>Update:</strong> the app is now live and I can now reveal that my awesome client is <a href="http://kontentapp.com">kontent</a>.</p>
 
@@ -56,19 +56,25 @@
 			<time datetime="2013-10-16" pubdate=""><a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/">October 16, 2013</a></time>
     	</header>
     	<div>
-			<p>Back in June 2011, <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I&#39;ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
+			<p>Back in June 2011, <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I’ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
 
 <p>The previous behaviour for iPads was that they would run a 320x480px boxed version of your app in the center of the display. If you pressed the 2x button, the app would be enlarged to 640x960px but would still use the same assets leading to a fuzzy mess. The retina iPads had it slightly better as they would use the larger assets and retina font smoothing leading to a better experience. In iOS 7, retina iPads (currently the 3rd and 4th generation) still allow this same toggle but the non-retina iPads (only the iPad 2 and iPad Mini on iOS 7) are now locked at 2x using your retina assets and font smoothing.</p>
 
-<p>This is fantastic news as it signals the end of non-retina device support. If you are making an iPhone app that is iOS 7 only (sensible if it&#39;s a new app), you no longer have to worry about supporting non-retina devices as the iPads will use your retina assets. For developers, this has 3 key benefits:</p>
+<p>This is fantastic news as it signals the end of non-retina device support. If you are making an iPhone app that is iOS 7 only (sensible if it’s a new app), you no longer have to worry about supporting non-retina devices as the iPads will use your retina assets. For developers, this has 3 key benefits:</p>
 
 <ul>
-<li><p><strong>You only need @2x files in your app bundle:</strong> This leads to smaller sizes for your app bundle and less hassle in creating all of your 1x assets in the first place.</p></li>
-<li><p><strong>Less complex code for images fetched over network as you only need one size:</strong> For example, in <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> I have a UIImageView subclass that fetches images for me based on the scale of the UIScreen. If the UIImageView is 100 points square, it would download a 200x200px image on retina devices and 100x100px image on non-retina devices. This is no longer necessary saving some complexity.</p></li>
-<li><p><strong>You can use finer design elements:</strong> for example, using 1px (rather than 1pt) dividing lines. You can also use images that have an odd number of pixels (previously a 99px image was generally forbidden as you&#39;d need a 49.5px image for non-retina displays which wouldn&#39;t work). Nearly every designer I&#39;ve worked with has designed at retina resolution with odd numbered sizes for key elements so this is very welcome!</p></li>
+  <li>
+    <p><strong>You only need @2x files in your app bundle:</strong> This leads to smaller sizes for your app bundle and less hassle in creating all of your 1x assets in the first place.</p>
+  </li>
+  <li>
+    <p><strong>Less complex code for images fetched over network as you only need one size:</strong> For example, in <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> I have a UIImageView subclass that fetches images for me based on the scale of the UIScreen. If the UIImageView is 100 points square, it would download a 200x200px image on retina devices and 100x100px image on non-retina devices. This is no longer necessary saving some complexity.</p>
+  </li>
+  <li>
+    <p><strong>You can use finer design elements:</strong> for example, using 1px (rather than 1pt) dividing lines. You can also use images that have an odd number of pixels (previously a 99px image was generally forbidden as you’d need a 49.5px image for non-retina displays which wouldn’t work). Nearly every designer I’ve worked with has designed at retina resolution with odd numbered sizes for key elements so this is very welcome!</p>
+  </li>
 </ul>
 
-<p>I&#39;m really excited that we can now drop support for non-retina displays; it&#39;ll definitely speed up some of my workflows. You will obviously still need to support non-retina devices if you are building a Universal or iPad only app though.</p>
+<p>I’m really excited that we can now drop support for non-retina displays; it’ll definitely speed up some of my workflows. You will obviously still need to support non-retina devices if you are building a Universal or iPad only app though.</p>
 
 		</div>
 	</article>
@@ -81,9 +87,9 @@
 			<time datetime="2013-05-10" pubdate=""><a href="/weblog/2013/05/10/dr-frasier-crane/">May 10, 2013</a></time>
     	</header>
     	<div>
-			<p>I&#39;ve been rewatching Frasier recently (just finished the 7th season) and it is still an absolutely fantastic show. Witty writing, great characters, and very few bad episodes (rare in most comedy series - there are usually a lot of duds as they age).</p>
+			<p>I’ve been rewatching Frasier recently (just finished the 7th season) and it is still an absolutely fantastic show. Witty writing, great characters, and very few bad episodes (rare in most comedy series - there are usually a lot of duds as they age).</p>
 
-<p>In any case, one of the episodes I&#39;ve just watched, <a href="http://www.imdb.com/title/tt0582564/">They&#39;re Playing Our Song</a>, has Frasier composing his own theme tune for his radio show. Rather than being a 10 second jingle, it turns into a 2-minute orchestral track with a voiceover from Niles.</p>
+<p>In any case, one of the episodes I’ve just watched, <a href="http://www.imdb.com/title/tt0582564/">They’re Playing Our Song</a>, has Frasier composing his own theme tune for his radio show. Rather than being a 10 second jingle, it turns into a 2-minute orchestral track with a voiceover from Niles.</p>
 
 <p>Watch and enjoy:</p>
 
@@ -100,43 +106,43 @@
 			<time datetime="2013-05-09" pubdate=""><a href="/weblog/2013/05/09/lego-super-star-destroyer/">May 09, 2013</a></time>
     	</header>
     	<div>
-			<p>I finally fulfilled one of my longterm dreams and bought the <a href="http://shop.lego.com/en-GB/Super-Star-Destroyer-10221">LEGO Super Star Destroyer</a> whilst it was on offer for Star Wars Day (May 4th). The Super Star Destroyer (also known as <a href="http://starwars.wikia.com/wiki/Executor">&#39;The Executor&#39;</a>) is a complete beast; it measures in at around 4.2 feet long and 8 pounds in weight. It&#39;s the most expensive set LEGO currently sell but is 3rd in terms of number of pieces (it has 3152 pieces compared to the <a href="http://shop.lego.com/en-GB/Death-Star-10188">Death Star</a> with 3803 and <a href="http://shop.lego.com/en-GB/Tower-Bridge-10214">Tower Bridge</a> with 4295 - I don&#39;t really like either of those sets).</p>
+			<p>I finally fulfilled one of my longterm dreams and bought the <a href="http://shop.lego.com/en-GB/Super-Star-Destroyer-10221">LEGO Super Star Destroyer</a> whilst it was on offer for Star Wars Day (May 4th). The Super Star Destroyer (also known as <a href="http://starwars.wikia.com/wiki/Executor">‘The Executor’</a>) is a complete beast; it measures in at around 4.2 feet long and 8 pounds in weight. It’s the most expensive set LEGO currently sell but is 3rd in terms of number of pieces (it has 3152 pieces compared to the <a href="http://shop.lego.com/en-GB/Death-Star-10188">Death Star</a> with 3803 and <a href="http://shop.lego.com/en-GB/Tower-Bridge-10214">Tower Bridge</a> with 4295 - I don’t really like either of those sets).</p>
 
-<p><a href="http://www.flickr.com/photos/bendodson/8722376957/in/set-72157633440335423/"><img src="http://farm8.staticflickr.com/7329/8722376957_887287b307_c.jpg" alt="LEGO Super Star Destroyer"></a></p>
+<p><a href="http://www.flickr.com/photos/bendodson/8722376957/in/set-72157633440335423/"><img src="http://farm8.staticflickr.com/7329/8722376957_887287b307_c.jpg" alt="LEGO Super Star Destroyer" /></a></p>
 
 <p>You can see some photos of the build process and completed model in <a href="http://www.flickr.com/photos/bendodson/sets/72157633440335423/">my Flickr set</a> but I will include a few shots here to highlight some of the best (and worst) bits of the build:</p>
 
-<h2>The Emperor</h2>
+<h2 id="the-emperor">The Emperor</h2>
 
-<p><a href="http://www.flickr.com/photos/bendodson/8722351965/"><img src="http://farm8.staticflickr.com/7308/8722351965_2ab9599424_c.jpg" alt="LEGO Darth Vader and Emperor"></a></p>
+<p><a href="http://www.flickr.com/photos/bendodson/8722351965/"><img src="http://farm8.staticflickr.com/7308/8722351965_2ab9599424_c.jpg" alt="LEGO Darth Vader and Emperor" /></a></p>
 
-<p>It wasn&#39;t until I started building the set that I realised this is, amazingly, the first LEGO Star Wars set I&#39;ve built (not counting the LEGO Star Wars Advent calendars in 2011 and 2012). This was, therefore, the first Darth Vader minifig I&#39;ve collected but even better than that was the Emperor hologram that I didn&#39;t know existed, let alone was in this set. A really nice touch.</p>
+<p>It wasn’t until I started building the set that I realised this is, amazingly, the first LEGO Star Wars set I’ve built (not counting the LEGO Star Wars Advent calendars in 2011 and 2012). This was, therefore, the first Darth Vader minifig I’ve collected but even better than that was the Emperor hologram that I didn’t know existed, let alone was in this set. A really nice touch.</p>
 
-<h2>Manual and boxes</h2>
+<h2 id="manual-and-boxes">Manual and boxes</h2>
 
-<p><a href="http://www.flickr.com/photos/bendodson/8723468992/"><img src="http://farm8.staticflickr.com/7438/8723468992_f63f90af07_c.jpg" alt="LEGO Super Star Destroyer - boxes and manual"></a></p>
+<p><a href="http://www.flickr.com/photos/bendodson/8723468992/"><img src="http://farm8.staticflickr.com/7438/8723468992_f63f90af07_c.jpg" alt="LEGO Super Star Destroyer - boxes and manual" /></a></p>
 
-<p>Most modern LEGO sets come in numbered bags so that you can build the model in stages. This is useful for all sets but especially important for the models with thousands of pieces as you don&#39;t want to open them all and spend days foraging around for the bit you need. This is the first set I&#39;ve seen that comes not just with bags, but numbered boxes! The manual is also worth mentioning as it is spiral bound and weighs a ton. It also came in its own box.</p>
+<p>Most modern LEGO sets come in numbered bags so that you can build the model in stages. This is useful for all sets but especially important for the models with thousands of pieces as you don’t want to open them all and spend days foraging around for the bit you need. This is the first set I’ve seen that comes not just with bags, but numbered boxes! The manual is also worth mentioning as it is spiral bound and weighs a ton. It also came in its own box.</p>
 
-<h2>Star Destroyer</h2>
+<h2 id="star-destroyer">Star Destroyer</h2>
 
-<p><a href="http://www.flickr.com/photos/bendodson/8723500448/"><img src="http://farm8.staticflickr.com/7447/8723500448_25a6666d4d_c.jpg" alt="LEGO Star Destroyer"></a></p>
+<p><a href="http://www.flickr.com/photos/bendodson/8723500448/"><img src="http://farm8.staticflickr.com/7447/8723500448_25a6666d4d_c.jpg" alt="LEGO Star Destroyer" /></a></p>
 
-<p>This is another nice touch, a Star Destroyer in scale with the rest of the model so you can understand just how huge the Executor is supposed to be. Even when watching the films I hadn&#39;t really noticed how huge this ship is supposed to be but the detail placard points out that it would have a crew of 280,735. This is a nice way of showing the scale and the miniature model is quite clever with hinges to form the shape and clear plastic arms to hold it to the side of the Super Star Destroyer.</p>
+<p>This is another nice touch, a Star Destroyer in scale with the rest of the model so you can understand just how huge the Executor is supposed to be. Even when watching the films I hadn’t really noticed how huge this ship is supposed to be but the detail placard points out that it would have a crew of 280,735. This is a nice way of showing the scale and the miniature model is quite clever with hinges to form the shape and clear plastic arms to hold it to the side of the Super Star Destroyer.</p>
 
-<h2>Control Room</h2>
+<h2 id="control-room">Control Room</h2>
 
-<p><a href="http://www.flickr.com/photos/bendodson/8723485422/"><img src="http://farm8.staticflickr.com/7387/8723485422_3a673d60ea_c.jpg" alt="LEGO Star Destroyer - Control room"></a></p>
+<p><a href="http://www.flickr.com/photos/bendodson/8723485422/"><img src="http://farm8.staticflickr.com/7387/8723485422_3a673d60ea_c.jpg" alt="LEGO Star Destroyer - Control room" /></a></p>
 
-<p>This is the only negative in the set in my opinion. It&#39;s the control room of the ship where a lot of the action in &#39;The Empire Strikes Back&#39; takes place (particularly the scene where Vader briefs the bounty hunters, several of whom are minifigs in this set). The nice part is that it replicates this room perfectly with the walkway, sub-level computers, and sliding doors. The problem is that it uses a lot of stickers (which I hate) and that it is completely off scale with the rest of the model. In proper scale, this should be about 2x3 studs (or smaller) but it has been designed so minifigs can fit inside. Fortunately the whole thing is hidden under a beautifully designed lifting piece but I just dislike that this has been added to give it a &#39;play&#39; element when it is clearly a collectors build rather than a toy.</p>
+<p>This is the only negative in the set in my opinion. It’s the control room of the ship where a lot of the action in ‘The Empire Strikes Back’ takes place (particularly the scene where Vader briefs the bounty hunters, several of whom are minifigs in this set). The nice part is that it replicates this room perfectly with the walkway, sub-level computers, and sliding doors. The problem is that it uses a lot of stickers (which I hate) and that it is completely off scale with the rest of the model. In proper scale, this should be about 2x3 studs (or smaller) but it has been designed so minifigs can fit inside. Fortunately the whole thing is hidden under a beautifully designed lifting piece but I just dislike that this has been added to give it a ‘play’ element when it is clearly a collectors build rather than a toy.</p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
-<p><a href="http://www.flickr.com/photos/bendodson/8723494562/"><img src="http://farm8.staticflickr.com/7400/8723494562_80cf52bc4e_c.jpg" alt="LEGO Super Star Destroyer"></a></p>
+<p><a href="http://www.flickr.com/photos/bendodson/8723494562/"><img src="http://farm8.staticflickr.com/7400/8723494562_80cf52bc4e_c.jpg" alt="LEGO Super Star Destroyer" /></a></p>
 
 <p>This is an absolutely fantastic set. It took me around 3 days to build (due to being slightly ill and having other things to do) but is probably 6-8 hours worth of solid building. There are so many cleverly designed elements that it is bound to be unique for many LEGO builders. I particularly liked the use of coloured bricks in the interior sections in order to break up the grey making it easier to see where you were in the instructions.</p>
 
-<p>The set is an absolute beast and I&#39;d encourage you to take a look at the <a href="http://www.flickr.com/photos/bendodson/sets/72157633440335423/">full photo set</a> which shows it being built from start to finish. Now it&#39;s time to wait until July for my next projects; the Lone Ranger sets and the new Lord of the Rings sets (including the <a href="http://shop.lego.com/en-GB/The-Tower-of-Orthanc-10237">Tower of Orthanc</a>... can&#39;t wait!)</p>
+<p>The set is an absolute beast and I’d encourage you to take a look at the <a href="http://www.flickr.com/photos/bendodson/sets/72157633440335423/">full photo set</a> which shows it being built from start to finish. Now it’s time to wait until July for my next projects; the Lone Ranger sets and the new Lord of the Rings sets (including the <a href="http://shop.lego.com/en-GB/The-Tower-of-Orthanc-10237">Tower of Orthanc</a>… can’t wait!)</p>
 
 		</div>
 	</article>
@@ -149,19 +155,25 @@
 			<time datetime="2013-02-19" pubdate=""><a href="/weblog/2013/02/19/itunes-artwork-finder/">February 19, 2013</a></time>
     	</header>
     	<div>
-			<p>When I first got my Apple TV, the main issue I had was that my artwork looked crappy for some of the TV shows I&#39;d downloaded from places other than iTunes. I&#39;d been using a combination of Google Image Search and screenshotting and cropping the iTunes Store to get artwork and it looked awful on a big TV. To solve that, I wrote a small script to fetch TV Show artwork from the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html#searching">iTunes Search API</a>. They only display 100px artwork but with some URL fudgery I was able to get 600x600px artwork.</p>
+			<p>When I first got my Apple TV, the main issue I had was that my artwork looked crappy for some of the TV shows I’d downloaded from places other than iTunes. I’d been using a combination of Google Image Search and screenshotting and cropping the iTunes Store to get artwork and it looked awful on a big TV. To solve that, I wrote a small script to fetch TV Show artwork from the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html#searching">iTunes Search API</a>. They only display 100px artwork but with some URL fudgery I was able to get 600x600px artwork.</p>
 
-<p>The project became a lot more popular than I imagined and I was soon inundated with requests to add new features such as searching across international iTunes stores and adding movie artwork. More recently, I&#39;ve been asked to add iBooks artwork.</p>
+<p>The project became a lot more popular than I imagined and I was soon inundated with requests to add new features such as searching across international iTunes stores and adding movie artwork. More recently, I’ve been asked to add iBooks artwork.</p>
 
-<p>I had a bit of spare time this morning so I&#39;ve updated <a href="https://bendodson.com/projects/itunes-artwork-finder/">the project page</a> and added a fair few new features.</p>
+<p>I had a bit of spare time this morning so I’ve updated <a href="https://bendodson.com/projects/itunes-artwork-finder/">the project page</a> and added a fair few new features.</p>
 
 <ul>
-<li><p><strong>Media Types</strong> - I&#39;ve extended the iTunes Artwork Finder to now work with not only TV Shows and Movies, but also iBooks, Apps, and Music Albums.</p></li>
-<li><p><strong>Resolution</strong> - I discovered that I was able to get higher than 600x600px artwork in some instances. Movies can be upto 1800x2400px and I&#39;ve seen some TV shows at 2400x2400px. Apps will always be at 512px square or 1024px square depending on when the app was released or last updated. iBooks, Movies, and Music Albums are a bit problematic as licensing issues often prevent the high resolution artwork being made visible. I&#39;ve left the link there as it does work with some (seems to depend on the studio) but there is a caveat listeed as I don&#39;t expect you&#39;ll get good results.</p></li>
-<li><p><strong>Countries</strong> - There are now 5 iTunes Stores that can be searched across; UK, US, Germany, Sweden, and the Netherlands. If you want your country added, just <a href="https://bendodson.com/contact/">get in touch</a>.</p></li>
+  <li>
+    <p><strong>Media Types</strong> - I’ve extended the iTunes Artwork Finder to now work with not only TV Shows and Movies, but also iBooks, Apps, and Music Albums.</p>
+  </li>
+  <li>
+    <p><strong>Resolution</strong> - I discovered that I was able to get higher than 600x600px artwork in some instances. Movies can be upto 1800x2400px and I’ve seen some TV shows at 2400x2400px. Apps will always be at 512px square or 1024px square depending on when the app was released or last updated. iBooks, Movies, and Music Albums are a bit problematic as licensing issues often prevent the high resolution artwork being made visible. I’ve left the link there as it does work with some (seems to depend on the studio) but there is a caveat listeed as I don’t expect you’ll get good results.</p>
+  </li>
+  <li>
+    <p><strong>Countries</strong> - There are now 5 iTunes Stores that can be searched across; UK, US, Germany, Sweden, and the Netherlands. If you want your country added, just <a href="https://bendodson.com/contact/">get in touch</a>.</p>
+  </li>
 </ul>
 
-<p>I&#39;m pretty pleased with the update, particularly now that I&#39;ve managed to get album covers and iBooks worked out (and I think the app icon search could be useful). <a href="https://bendodson.com/projects/itunes-artwork-finder/">Give it a try</a> and let me know how you get on!</p>
+<p>I’m pretty pleased with the update, particularly now that I’ve managed to get album covers and iBooks worked out (and I think the app icon search could be useful). <a href="https://bendodson.com/projects/itunes-artwork-finder/">Give it a try</a> and let me know how you get on!</p>
 
 <p><a href="https://bendodson.com/projects/itunes-artwork-finder/">Try out the iTunes Artwork Finder</a></p>
 
@@ -176,18 +188,30 @@
 			<time datetime="2013-02-18" pubdate=""><a href="/weblog/2013/02/18/harry-potter-at-the-warner-bros-studio-tour/">February 18, 2013</a></time>
     	</header>
     	<div>
-			<p>I took my girlfriend to the <a href="http://www.wbstudiotour.co.uk">Warner Bros Studio Tour</a> (which is entirely Harry Potter based) on Valentine&#39;s Day and had a few observations I wanted to write about.</p>
+			<p>I took my girlfriend to the <a href="http://www.wbstudiotour.co.uk">Warner Bros Studio Tour</a> (which is entirely Harry Potter based) on Valentine’s Day and had a few observations I wanted to write about.</p>
 
 <ul>
-<li><p><strong>The Tour</strong> - If you&#39;re a Harry Potter fan or interested in how movies are made, then it is a great tour. You get to see a large number of sets, props, and artwork along with a few interactive elements such as flying on a broomstick to see how &#39;green screening&#39; works. The things that really stood out to me were how small some of the sets were and also how much effort they go to with some things (i.e. the Dursley&#39;s house is on the backlot.. they found it easier to build a fake house than film on location). The highlight of the tour is a huge model replica of Hogwarts which took 72 man years to build. It really is stunning.</p></li>
-<li><p><strong>Queues</strong> - This is the first attraction I&#39;ve ever seen which only lets you buy tickets in advance (you can&#39;t just turn up on the day). On arriving, it was evident why; the place was packed! When you order your tickets, you choose a half hour window from which you are allowed to enter the attraction. We got there 45 minutes early so milled around the gift shop and the coffee bar but there were lots of other people doing the same (I&#39;d estimate around 400-500 people). We spent a further 45 minutes queueing to get into the attraction which is slow going as there is a 10 minute cinema piece before hand. Whilst it was irritating to wait a while, it definitely paid off as this drip feeding into the studios means you enter the Great Hall (the first stop) with around 100 other people. This is the only &#39;guided&#39; bit of the tour with someone pointing out various aspects of the set but then you are free to walk around the next bits at your own pace. It never really felt overcrowded despite appearances from the outside and I can understand why they chose this ticketing system.</p></li>
-<li><p><strong>Digital Guide</strong> - When I bought the tickets, there was an option to pay a bit more and get a digital guide and a printed guide. I did this expecting the digital guide to be something on a website or an interactive PDF but it was actually one of those things you walk around the tour with along with a headset. I didn&#39;t use it, but I had a good look at it after I noticed one of the videos had iOS controls. It turns out there was an iPod Touch inside just wrapped in grey plastic which most likely had a battery booster and theft detection thing in it. I don&#39;t know how they did it, but I saw one couple who had managed to get to the iOS home screen which confirmed it (along with the giveaway 30 pin connector on the base and the slight curved shine of a metal back inside). The guide itself is simply an iOS app that you press buttons on to get audio and information about (there is a <a href="http://visitour.com/warner-brothers-studio-tour-the-making-of-harry-potter-app-review/">full review on the Visitour website</a>) but it seemed pretty good. Having said that, we didn&#39;t bother using it. I think it would have been nice if the app could have been downloaded on to our own devices to be used later on (i.e. looking through the physical guide and having some audio to listen to along with it) but I was more intrigued by the use of iPod Touches as guides rather than a bespoke device.</p></li>
-<li><p><strong>WiFi</strong> - I didn&#39;t use it, but I was impressed that there was free WiFi throughout the tour. Nice if you&#39;re the sort of person that wants to upload photos as soon as you take them.</p></li>
-<li><p><strong>iPads</strong> - Not really an observation of the tour so much, but I saw a lot of people taking photos on their iPads (both the 10&quot; and 7.85&quot; models). This strikes me as very odd as I saw most of them had iPhones or other smartphones.</p></li>
-<li><p><strong>Commercialisation</strong> - If you&#39;ve got kids, get ready to spend a lot of cash in the gift shop. They have nearly everything you can imagine with Harry Potter plastered on it and at a steep price as well (i.e. a small bag of Bertie Bott&#39;s jelly beans is £9). My girlfriend pointed out that there wasn&#39;t a single item for under £2 aside from postcards at 90p each. You kind of expect it these days but I&#39;d find it genuinely fascinating to know how much money they make each day. In terms of stock, it&#39;s the same stuff they sell at the <a href="http://www.universalorlando.com/harrypotter/">Wizarding World of Harry Potter at Universal Studios</a> (although it&#39;s more expensive then buying in dollars - a Chocolate frog is $10 in the US but £8 in the UK).</p></li>
+  <li>
+    <p><strong>The Tour</strong> - If you’re a Harry Potter fan or interested in how movies are made, then it is a great tour. You get to see a large number of sets, props, and artwork along with a few interactive elements such as flying on a broomstick to see how ‘green screening’ works. The things that really stood out to me were how small some of the sets were and also how much effort they go to with some things (i.e. the Dursley’s house is on the backlot.. they found it easier to build a fake house than film on location). The highlight of the tour is a huge model replica of Hogwarts which took 72 man years to build. It really is stunning.</p>
+  </li>
+  <li>
+    <p><strong>Queues</strong> - This is the first attraction I’ve ever seen which only lets you buy tickets in advance (you can’t just turn up on the day). On arriving, it was evident why; the place was packed! When you order your tickets, you choose a half hour window from which you are allowed to enter the attraction. We got there 45 minutes early so milled around the gift shop and the coffee bar but there were lots of other people doing the same (I’d estimate around 400-500 people). We spent a further 45 minutes queueing to get into the attraction which is slow going as there is a 10 minute cinema piece before hand. Whilst it was irritating to wait a while, it definitely paid off as this drip feeding into the studios means you enter the Great Hall (the first stop) with around 100 other people. This is the only ‘guided’ bit of the tour with someone pointing out various aspects of the set but then you are free to walk around the next bits at your own pace. It never really felt overcrowded despite appearances from the outside and I can understand why they chose this ticketing system.</p>
+  </li>
+  <li>
+    <p><strong>Digital Guide</strong> - When I bought the tickets, there was an option to pay a bit more and get a digital guide and a printed guide. I did this expecting the digital guide to be something on a website or an interactive PDF but it was actually one of those things you walk around the tour with along with a headset. I didn’t use it, but I had a good look at it after I noticed one of the videos had iOS controls. It turns out there was an iPod Touch inside just wrapped in grey plastic which most likely had a battery booster and theft detection thing in it. I don’t know how they did it, but I saw one couple who had managed to get to the iOS home screen which confirmed it (along with the giveaway 30 pin connector on the base and the slight curved shine of a metal back inside). The guide itself is simply an iOS app that you press buttons on to get audio and information about (there is a <a href="http://visitour.com/warner-brothers-studio-tour-the-making-of-harry-potter-app-review/">full review on the Visitour website</a>) but it seemed pretty good. Having said that, we didn’t bother using it. I think it would have been nice if the app could have been downloaded on to our own devices to be used later on (i.e. looking through the physical guide and having some audio to listen to along with it) but I was more intrigued by the use of iPod Touches as guides rather than a bespoke device.</p>
+  </li>
+  <li>
+    <p><strong>WiFi</strong> - I didn’t use it, but I was impressed that there was free WiFi throughout the tour. Nice if you’re the sort of person that wants to upload photos as soon as you take them.</p>
+  </li>
+  <li>
+    <p><strong>iPads</strong> - Not really an observation of the tour so much, but I saw a lot of people taking photos on their iPads (both the 10” and 7.85” models). This strikes me as very odd as I saw most of them had iPhones or other smartphones.</p>
+  </li>
+  <li>
+    <p><strong>Commercialisation</strong> - If you’ve got kids, get ready to spend a lot of cash in the gift shop. They have nearly everything you can imagine with Harry Potter plastered on it and at a steep price as well (i.e. a small bag of Bertie Bott’s jelly beans is £9). My girlfriend pointed out that there wasn’t a single item for under £2 aside from postcards at 90p each. You kind of expect it these days but I’d find it genuinely fascinating to know how much money they make each day. In terms of stock, it’s the same stuff they sell at the <a href="http://www.universalorlando.com/harrypotter/">Wizarding World of Harry Potter at Universal Studios</a> (although it’s more expensive then buying in dollars - a Chocolate frog is $10 in the US but £8 in the UK).</p>
+  </li>
 </ul>
 
-<p>Overall, it was an awesome day out and I&#39;d highly recommend it. There was plenty to see and do and a lot of the sets and props are incredibly impressive. Just be ready to queue at the beginning, and empty your wallet at the end.</p>
+<p>Overall, it was an awesome day out and I’d highly recommend it. There was plenty to see and do and a lot of the sets and props are incredibly impressive. Just be ready to queue at the beginning, and empty your wallet at the end.</p>
 
 		</div>
 	</article>
@@ -207,20 +231,20 @@
 <p>The problem is that CACurrentMediaTime() has a fatal flaw. Whilst it’s designed to be a counter, it only actually works whilst the iPhone (or iPad) is active. Here is how it’s described by Apple in <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">their documentation</a>:</p>
 
 <blockquote>
-<p>Returns the current absolute time, in seconds. A <em>CFTimeInterval</em> derived by calling <em>mach<em>absolute</em>time()</em> and converting the result to seconds.</p>
+  <p>Returns the current absolute time, in seconds. A <em>CFTimeInterval</em> derived by calling <em>mach_absolute_time()</em> and converting the result to seconds.</p>
 </blockquote>
 
-<p>Further inspection of mach<em>absolute</em>time() gives us very little (documentation is very sparse). On Mac OS X, mach<em>absolute</em>time() is based on the last time the device booted (it gives you the number of seconds since you turned your computer on) so it seems prudent that this would be similar on iOS. Apple give some <a href="http://developer.apple.com/library/mac/#qa/qa1398/_index.html">cursory examples</a> of how to convert mach<em>absolute</em>time() from nanoseconds into seconds and in doing so point out that “the function is CPU dependent” and needs to be converted by the system rather than by constants. There is no mention of how it all works but the general consensus seems to be that it’s uptime.</p>
+<p>Further inspection of mach_absolute_time() gives us very little (documentation is very sparse). On Mac OS X, mach_absolute_time() is based on the last time the device booted (it gives you the number of seconds since you turned your computer on) so it seems prudent that this would be similar on iOS. Apple give some <a href="http://developer.apple.com/library/mac/#qa/qa1398/_index.html">cursory examples</a> of how to convert mach_absolute_time() from nanoseconds into seconds and in doing so point out that “the function is CPU dependent” and needs to be converted by the system rather than by constants. There is no mention of how it all works but the general consensus seems to be that it’s uptime.</p>
 
 <p>Apart from it’s not. Unfortunately for me, it took an App Store release for this bug to be noticed.</p>
 
-<p>See, the interesting thing about mach<em>absolute</em>time() is that it appears to be the ‘active’ time of the device, that is to say it’s the number of seconds that you iPhone has been active. However, it’s more sneaky than that as putting your device in standby mode will actually leave the device ‘active’ for a few minutes whilst core components are turned off. In effect, if you are relying on mach<em>absolute</em>time() and, by extension, CACurrentMediaTime(), you’ll find that the ticks suddenly pause when your iDevice has been in standby for a few minutes.</p>
+<p>See, the interesting thing about mach_absolute_time() is that it appears to be the ‘active’ time of the device, that is to say it’s the number of seconds that you iPhone has been active. However, it’s more sneaky than that as putting your device in standby mode will actually leave the device ‘active’ for a few minutes whilst core components are turned off. In effect, if you are relying on mach_absolute_time() and, by extension, CACurrentMediaTime(), you’ll find that the ticks suddenly pause when your iDevice has been in standby for a few minutes.</p>
 
 <p>So how did this come to light? My game, <a href="http://wallab.ee/">WallaBee</a>, required a way to count time accurately independent of the system clock (which can be changed by the user). <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">I built a system</a> which allowed me to get the time from my server, account for some lag, and then render elements from CoreData at specific times based on what I believed was a steady ticking in seconds. When the app was sent out to my testers, it seemed to work but occassionally putting the device to sleep and then resuming would lead to some odd behaviour; the clock was running slightly behind. I tried replicating this several times to no avail and eventually left it ‘as is’ since it seemed to be occurring very infrequently and there was no way to work out exactly was happening.</p>
 
 <p>After the code made it into the App Store, there were a few more people commenting that the Store seemed to be running a few seconds behind (or in some cases, minutes behind). I again ran some builds and couldn’t find any errors and it was only after considering that my Xcode build and Testflight build (read “Ad Hoc”) could be different that I discovered the error; any build that wasn’t tethered to my laptop suffered from a slowing down of time. As the Store automatically corrects itself at ~8 minute intervals, and the bug only presented itself after a few minutes of standby, it was quite tricky to replicate exactly.</p>
 
-<p>To test it, I built a very crude mockup app that would present a UIAlertView when you came back from standby mode with the number of seconds perceived by CACurrentMediaTime() and the number of seconds derived from deducting two NSDates (which we couldn’t do in the production app as changing the system clock alters that - it’s good for testing though). Sure enough, after leaving the app in the background whilst the device was on standby for a few minutes, it was apparent that CACurrentMediaTime() was pausing. I did another mockup including mach<em>absolute</em>time() and that returned the same result; a pausing of the clock when the device was in standby for a while.</p>
+<p>To test it, I built a very crude mockup app that would present a UIAlertView when you came back from standby mode with the number of seconds perceived by CACurrentMediaTime() and the number of seconds derived from deducting two NSDates (which we couldn’t do in the production app as changing the system clock alters that - it’s good for testing though). Sure enough, after leaving the app in the background whilst the device was on standby for a few minutes, it was apparent that CACurrentMediaTime() was pausing. I did another mockup including mach_absolute_time() and that returned the same result; a pausing of the clock when the device was in standby for a while.</p>
 
 <p>After a lot of googling, <a href="http://www.opensource.apple.com/source/shell_cmds/shell_cmds-56/w/w.c">I found a solution</a> that was based on the device uptime rather than an arbitrary ‘absolute’ time:</p>
 
@@ -243,9 +267,9 @@
 
 <p>This returns a <em>t_time</em> (read <em>int</em>) of the number of seconds since the device was last powered up and so I was able to slot this into my old code in place of CACurrentMediaTime().</p>
 
-<p>The moral of the story? Always test on an Ad Hoc build that isn’t tethered to Xcode. It’s a pain but the crucial thing in this was that the Xcode debugger was keeping the iPhone alive and that meant I was never able to see that CACurrentMediaTime() was pausing itself. The other thing to do is to read Apple documentation carefully. At no point do they specifically say that mach<em>absolute</em>time is based on uptime or that it counts up sequentially, but forum posts and other developers blogs had created that perception based on their own findings and those of the method on OS X. It always pays to be careful and understand fully the methods you are calling.</p>
+<p>The moral of the story? Always test on an Ad Hoc build that isn’t tethered to Xcode. It’s a pain but the crucial thing in this was that the Xcode debugger was keeping the iPhone alive and that meant I was never able to see that CACurrentMediaTime() was pausing itself. The other thing to do is to read Apple documentation carefully. At no point do they specifically say that mach_absolute_time is based on uptime or that it counts up sequentially, but forum posts and other developers blogs had created that perception based on their own findings and those of the method on OS X. It always pays to be careful and understand fully the methods you are calling.</p>
 
-<p>Fortunately (or not), there was a bug with iOS 5 in the version of WallaBee that was submitted to the App Store and so this fix was bundled in with an expedited review. Of course, that update has now been ‘In Review’ for over 24 hours so we’re not out of the woods yet but at least I’m now using a timer that actually counts up...</p>
+<p>Fortunately (or not), there was a bug with iOS 5 in the version of WallaBee that was submitted to the App Store and so this fix was bundled in with an expedited review. Of course, that update has now been ‘In Review’ for over 24 hours so we’re not out of the woods yet but at least I’m now using a timer that actually counts up…</p>
 
 		</div>
 	</article>
@@ -258,13 +282,13 @@
 			<time datetime="2013-01-22" pubdate=""><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">January 22, 2013</a></time>
     	</header>
     	<div>
-			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn&#39;t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
+			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
 
 <p>If you’ve played <a href="http://wallab.ee/">WallaBee</a> you’ll know that one of the key areas of the app is the Store, a place where you can buy items with the app currency you collect. The Store has a 3 x 4 grid of items with a timer under each; when the timer runs out, a new item is displayed for purchase. This all sounds straightforward, but when the WallaBee API started getting 3 million hits per day, the Store was one of the first areas to suffer. In this article, I want to run through a few of the problems I experienced when building it the first time, and go into details on the improvements I’ve just added in v1.1.5 of the app which will be available this week.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2013/01/store.jpg" alt="The WallaBee Store"></p>
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2013/01/store.jpg" alt="The WallaBee Store" /></p>
 
-<h2>The Original Plan</h2>
+<h2 id="the-original-plan">The Original Plan</h2>
 
 <p>In my mind, the Store was going to be fairly simple. It had to be the same for everybody so I’d set up a CRON job that would populate a database table with the upcoming items. Every minute, a check would be performed and items would be added to make sure there was something in every spot until the next time the script ran. Every item had a start and end time that was fixed but had a random amount of seconds (between 10 and 45) so that each item would ‘run out’ at different times. Whenever a player visted the Store, an API call would retrieve the items at each position and do some basic math to work out how long it would be until the position needed to be restocked. Finally, there was an API call to reload just a single position which would be called when an item ran out and a new one was needed. Simple!</p>
 
@@ -272,29 +296,27 @@
 
 <p>Clearly there was work to be done.</p>
 
-<h2>The Problems</h2>
-
+<h2 id="the-problems">The Problems</h2>
 <p>I had three key problems to solve.</p>
 
 <ol>
-<li>The Store had to be synced for everybody. I wouldn’t accept more than a 500ms gap between players regardless of their connection speed.</li>
-<li>It had to be secure with no chance of seeing what item was coming in advance, even if you sniffed the network traffic with something like <a href="http://www.charlesproxy.com">Charles</a>.</li>
-<li>It needed to be fast. This meant no database calls and as few API calls as possible, especially during peak times.</li>
+  <li>The Store had to be synced for everybody. I wouldn’t accept more than a 500ms gap between players regardless of their connection speed.</li>
+  <li>It had to be secure with no chance of seeing what item was coming in advance, even if you sniffed the network traffic with something like <a href="http://www.charlesproxy.com">Charles</a>.</li>
+  <li>It needed to be fast. This meant no database calls and as few API calls as possible, especially during peak times.</li>
 </ol>
 
 <p>In addition, the solution needed to be scalable as I would be adding multiple stores in the next major version of the app. The app would have to be able to display around 80 items at a time rather than 12.</p>
 
-<h2>The New Plan</h2>
-
+<h2 id="the-new-plan">The New Plan</h2>
 <p>My solution was that the server would generate a physical file every minute that showed all of the updates for the next 10 minutes. When a device requested the Store, it would download this file (no database calls) along with a synchronisation timestamp. This file would be unpacked on the device and each item would be stored locally so that the Store could continue on without making any network calls. At some random point before the 10 minutes was up, the device would request the next 10 minutes worth of data and unpack it silently in the background.</p>
 
 <p>Whilst it sounded good on paper, it would require a lot of work to get everything working correctly. Each piece is inter-connected but I’ll try and explain the general timeline of how it works along with a bit of code.</p>
 
-<h2>Store Generation</h2>
+<h2 id="store-generation">Store Generation</h2>
 
-<p>The first thing that needs to happen is that the server has to generate 10 minutes worth of items. I created a new table that would hold the item objects and wrote a basic CRON job that went through each position and randomly chose an item<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> along with a random shelf life between 45 seconds and 4 minutes. This runs every minute and ensures that there is always 10 minutes worth of items coming up. A separate CRON job then runs and compiles these items into a single JSON file which is then encrypted with a military grade cipher (more on that shortly). This file is stored locally and updated every minute. The end result is that you can request the file at any time and always be sure that you have the next 10 minutes worth of items.</p>
+<p>The first thing that needs to happen is that the server has to generate 10 minutes worth of items. I created a new table that would hold the item objects and wrote a basic CRON job that went through each position and randomly chose an item<sup id="fnref:random"><a href="#fn:random" class="footnote">1</a></sup> along with a random shelf life between 45 seconds and 4 minutes. This runs every minute and ensures that there is always 10 minutes worth of items coming up. A separate CRON job then runs and compiles these items into a single JSON file which is then encrypted with a military grade cipher (more on that shortly). This file is stored locally and updated every minute. The end result is that you can request the file at any time and always be sure that you have the next 10 minutes worth of items.</p>
 
-<h2>Encryption</h2>
+<h2 id="encryption">Encryption</h2>
 
 <p>One of the key things I wanted to ensure was that the Store was secure as I wouldn’t want anybody to sniff the network traffic and see that a new item was coming out in 7 minutes time (it should always be a surprise). To that end, the file is encrypted using <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256</a> before being encoded in Base64 for easy transporting. To do this in PHP is fairly simple:</p>
 
@@ -308,7 +330,7 @@
 
 <p>Speaking of iOS, decrypting this file is fairly simple using the <a href="https://github.com/AlanQuatermain/aqtoolkit/tree/master/CommonCrypto">NSData Category from the CommonCrypto section of aqtoolkit</a>; it’ll be decoded into NSData which can then be turned into an NSString before using the native JSON library to convert it into an NSDictionary.</p>
 
-<h2>Time Synchronisation</h2>
+<h2 id="time-synchronisation">Time Synchronisation</h2>
 
 <p>The other key feature that needed to be implemented was that the iOS device should be synced to the server time so that all players would be shown the items at the correct times; we don’t want players to be behind or ahead even though the API would stop anybody from purchasing an item that isn’t released yet.</p>
 
@@ -318,16 +340,16 @@
 
 <p>The issue with this is that the time of the request will vary depending on how slow the uplink connection is on the device, and we need a way of accurately monitoring how long it took to download so we can add an offset.</p>
 
-<p>I’ve been using <a href="https://github.com/MugunthKumar/MKNetworkKit">MKNetworkKit</a> for my iOS networking needs (although I’m planning on switching to <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> in the next release) and it provides a useful block-based method on network operations called onUploadProgressChanged. This provides a double which tells you, as a percentage, how much of your upload is done. When it gets to 1.0, that means you have successfully ‘hit’ the API which should tally up to the $<em>SERVER[‘REQUEST</em>TIME’] on the server side<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>. </p>
+<p>I’ve been using <a href="https://github.com/MugunthKumar/MKNetworkKit">MKNetworkKit</a> for my iOS networking needs (although I’m planning on switching to <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> in the next release) and it provides a useful block-based method on network operations called onUploadProgressChanged. This provides a double which tells you, as a percentage, how much of your upload is done. When it gets to 1.0, that means you have successfully ‘hit’ the API which should tally up to the $_SERVER[‘REQUEST_TIME’] on the server side<sup id="fnref:accuracy"><a href="#fn:accuracy" class="footnote">2</a></sup>.</p>
 
-<p>Now we know exactly what time we hit the server, we need to start some form of timer so we can see how long it takes until the download completes. To do this, we use CACurrentMediaTime()<sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup>. This returns a CFTimeInterval which is roughly the amount of time since your device was rebooted; think of it as a UNIX timestamp that resets every time you start up your phone. I get the current media time upon the successful upload completion, and when the download is complete I get it again and subtract the difference (so I can see, for instance, that the download has taken 572.42ms). We then add this to the timestamp retrieved from the server to get the current server time; we’re now in sync!</p>
+<p>Now we know exactly what time we hit the server, we need to start some form of timer so we can see how long it takes until the download completes. To do this, we use CACurrentMediaTime()<sup id="fnref:mediatime"><a href="#fn:mediatime" class="footnote">3</a></sup>. This returns a CFTimeInterval which is roughly the amount of time since your device was rebooted; think of it as a UNIX timestamp that resets every time you start up your phone. I get the current media time upon the successful upload completion, and when the download is complete I get it again and subtract the difference (so I can see, for instance, that the download has taken 572.42ms). We then add this to the timestamp retrieved from the server to get the current server time; we’re now in sync!</p>
 
-<h2>Rendering the UI</h2>
+<h2 id="rendering-the-ui">Rendering the UI</h2>
 
-<p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
+<p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref:nstimer"><a href="#fn:nstimer" class="footnote">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
 
 <div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span> <span class="p">(</span><span class="n">_tickTimer</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">[</span><span class="n">_tickTimer</span> <span class="n">invalidate</span><span class="p">];</span>
+	<span class="p">[</span><span class="n">_tickTimer</span> <span class="n">invalidate</span><span class="p">];</span>
 <span class="p">}</span>
 <span class="nb">self</span><span class="p">.</span><span class="n">tickTimer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span> <span class="nl">target</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
 <span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">mainRunLoop</span><span class="p">]</span> <span class="nl">addTimer</span><span class="p">:</span><span class="n">_tickTimer</span> <span class="nl">forMode</span><span class="p">:</span><span class="n">NSRunLoopCommonModes</span><span class="p">];</span></code></pre></div>
@@ -340,33 +362,27 @@
 
 <p>The only thing we need to remember to do periodically is update our local store. When the Store is first loaded, I choose a random time between 6 and 9 minutes to perform an update. This is to try and spread out the number of requests to the Store file as typically we get 50x more users online when a new item comes out. If they all reloaded the Store at the exact same times we’d have hundreds of API requests in the same second still (admittedly it’s less of an issue as they aren’t hitting the database but it pays to spread the load). If the network connection fails or there is a server problem, the Store will try and reload after 5 seconds until such a time that it gets data. Crucially, the Store will keep going until it runs out of items at which point it stays bare until it gets back on track. To account for any deviations, the time sync is also performed on these updates.</p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>The new Store is far superior to the old one in every way. The server is more stable, the data is more secure, and the UI is much snappier. With the changes to the way the Store UI was rendered, the rest of the app feels faster as well and load on the server during peak times should be substantially reduced. Crucially, an issue that has been present for a while with crashes when switching between apps has finally been resolved now that the NSTimer code has been rewritten.</p>
 
 <p>It’s been quite a journey getting to this point but I’ve enjoyed learning about time syncing, encryption, and keeping time on iOS. As with many things, this is a progressive update and is a reminder that there is always more to learn.</p>
 
 <div class="footnotes">
-<hr>
-<ol>
-
-<li id="fn1">
-<p>Ok, when I say “randomly chose an item” it’s a bit more complex than that. Items are weighted based on release time, set, pricing, and so on and there are a number of custom overrides (i.e. Christmas is weighted down so you hardly see those items whilst the One Set To Rule Them All is weighted up as it is a huge collection and takes people longer to complete). In future versions, there will be multiple stores that each have their own rules (i.e. there might be a Store which only has items that are over 6 months old or only items from a particular series of sets).&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
-</li>
-
-<li id="fn2">
-<p>It’s not exact but it’s within ~200ms which is accurate enough for this.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
-</li>
-
-<li id="fn3">
-<p>CACurrentMediaTime() is specifically designed for gaming where you need to have time independent of the system clock and that doesn’t need to be reconciled with an actual world time. For example, the early versions of Tiny Tower had a bug in which you could move your system clock forward in order to get around things like “wait 3 hours for restocking”. They now start a CACurrentMediaTime() when you open the app and this is used to track time.. every second, it is checked and the overall time spent is worked out so it knows when 3 hours has passed, not when the timezone says 3 hours has passed.&nbsp;<a href="#fnref3" rev="footnote">&#8617;</a></p>
-</li>
-
-<li id="fn4">
-<p>I hadn’t realised this in the previous version and I had an NSTimer for each position of the Store! This lead to a large number of unexplained crashes as memory ran out. Lesson learned.&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
-</li>
-
-</ol>
+  <ol>
+    <li id="fn:random">
+      <p>Ok, when I say “randomly chose an item” it’s a bit more complex than that. Items are weighted based on release time, set, pricing, and so on and there are a number of custom overrides (i.e. Christmas is weighted down so you hardly see those items whilst the One Set To Rule Them All is weighted up as it is a huge collection and takes people longer to complete). In future versions, there will be multiple stores that each have their own rules (i.e. there might be a Store which only has items that are over 6 months old or only items from a particular series of sets). <a href="#fnref:random" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:accuracy">
+      <p>It’s not exact but it’s within ~200ms which is accurate enough for this. <a href="#fnref:accuracy" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:mediatime">
+      <p>CACurrentMediaTime() is specifically designed for gaming where you need to have time independent of the system clock and that doesn’t need to be reconciled with an actual world time. For example, the early versions of Tiny Tower had a bug in which you could move your system clock forward in order to get around things like “wait 3 hours for restocking”. They now start a CACurrentMediaTime() when you open the app and this is used to track time.. every second, it is checked and the overall time spent is worked out so it knows when 3 hours has passed, not when the timezone says 3 hours has passed. <a href="#fnref:mediatime" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:nstimer">
+      <p>I hadn’t realised this in the previous version and I had an NSTimer for each position of the Store! This lead to a large number of unexplained crashes as memory ran out. Lesson learned. <a href="#fnref:nstimer" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
 </div>
 
 		</div>
@@ -380,10 +396,9 @@
 			<time datetime="2013-01-20" pubdate=""><a href="/weblog/2013/01/20/lego-lotr-video-game/">January 20, 2013</a></time>
     	</header>
     	<div>
-			<p>One of the things I’ve wanted to do this year is to finally finish a few of the games I have lying around and publish a few short reviews of them. I’m not going to bother giving them a score but I will give an overview, a few pros and cons, and my final verdict which should boil down to whether you should buy it or not. I’ll only review games that I have either completed or abandoned (if they were that bad). I’ve just completed playing ‘LEGO: Lord of the Rings’ on the Xbox 360 so I’ll start there...</p>
+			<p>One of the things I’ve wanted to do this year is to finally finish a few of the games I have lying around and publish a few short reviews of them. I’m not going to bother giving them a score but I will give an overview, a few pros and cons, and my final verdict which should boil down to whether you should buy it or not. I’ll only review games that I have either completed or abandoned (if they were that bad). I’ve just completed playing ‘LEGO: Lord of the Rings’ on the Xbox 360 so I’ll start there…</p>
 
-<h2>Overview</h2>
-
+<h2 id="overview">Overview</h2>
 <p>The LEGO games have been a big success over the past few years starting with ‘LEGO: Star Wars’ nearly 8 years ago. I first started playing them around 4 years ago with ‘LEGO: Harry Potter (Years 1-4)’ and instantly fell in love with a game that is fundamentally about collecting things. Sure you get to go around and smash stuff up (and very occassionally build things) but the basic aim is to collect special bricks, characters, and other unlockables.</p>
 
 <p>‘LEGO: Lord of the Rings’ (I’m just going to call it LOTR from now on) is no different but they have mixed things up in several ways. Firstly, the graphics are much improved on older LEGO titles with decent shading, textures, and shadows. I had doubts after playing ‘LEGO: Batman 2’ (the most recent title prior to this one) as that game was generally made up of dark areas with an irritating jagged rain effect and looked terrible. Luckily LOTR doesn’t suffer from that problem. Also similar to ‘LEGO: Batman 2’ is the inclusion of proper voice acting for the characters. In previous LEGO games, the characters would mumble and use a mixture of gestures, props, and expressions to get the point across. Whilst this could be a lot of fun, it could be confusing if you weren’t intimately familiar with the plots they were acting out. Several people had doubts about giving the LEGO cast voices but it actually works incredibly well, particularly as they are using the voice recordings from the films (although I noticed a lot of them weren’t from the published films so may be from the cutting room floor).</p>
@@ -392,57 +407,52 @@
 
 <p>Speaking of getting sidelined, LOTR includes a new feature in the form of quests. As you walk around Middle Earth, you’ll encounter random characters who need a specific item. Your job is to retrieve it for them in return for either a Mithril or Red Brick (there are 250 Mithril Bricks to collect that can be used to forge new items and there are 20 Red Bricks that function as cheats such as 2x multipliers on studs, the game currency). Unfortunately, as the quests aren’t part of the films, they have drafted in some pretty bad voice acting for these sections. It is a great addition though and makes getting the Red Bricks slightly harder than in previous games. The items you can collect sometimes have a useful property as they will generally mimic some character skill. For example, one of Frodo’s skills is that he can use the Light of Eärendil to illuminate areas you couldn’t otherwise explore, but there are several items that also perform that task. Any character can use the items you’ve collected in Free Play mode (a mode where you play a level with any characters and items you’ve unlocked) which means that you can access hidden collectibles without necessarily having unlocked the appropriate character. I tended to always unlock the characters so never really used the item system, but there are a few places where you are forced to such as when you are Frodo wearing The Ring on the Amon Hen level.</p>
 
-<h2>Pros</h2>
-
+<h2 id="pros">Pros</h2>
 <ul>
-<li>The ability to walk around all of Middle Earth with seamless transitions between key locations.</li>
-<li>Full voice acting provided by the film cast.</li>
-<li>New quest system adds some extra challenges.</li>
-<li>An incredible number of different abilities across characters (my favourite is definitely Gimli; you have to toss him to break certain walls).</li>
-<li>All of the key scenes from the films acted out in LEGO form (Helm’s Deep is simply stunning).</li>
-<li>A good number of non-plot achievements i.e. “They’ve taken the hobbits to Isengard” which you unlock by going to Isengard as every playable hobbit (which includes Bilbo and Rosie).</li>
-<li>I’m not really sure if I should list this as a ‘pro’ but there isn’t any online multiplayer. Instead, there is a fantastic 2-player local co-op with an intelligent split-screen and the ability for player 2 to drop in and out at will. I think this is a ‘pro’ as it encourages people to play together rather than via the internet. It also means there aren’t any irritating ‘multiplayer only’ achievements making it perfectly feasible to get 1000g playing solo.</li>
-<li>Around 40-60 hours of gameplay to get all achievements and 100% game completion.</li>
+  <li>The ability to walk around all of Middle Earth with seamless transitions between key locations.</li>
+  <li>Full voice acting provided by the film cast.</li>
+  <li>New quest system adds some extra challenges.</li>
+  <li>An incredible number of different abilities across characters (my favourite is definitely Gimli; you have to toss him to break certain walls).</li>
+  <li>All of the key scenes from the films acted out in LEGO form (Helm’s Deep is simply stunning).</li>
+  <li>A good number of non-plot achievements i.e. “They’ve taken the hobbits to Isengard” which you unlock by going to Isengard as every playable hobbit (which includes Bilbo and Rosie).</li>
+  <li>I’m not really sure if I should list this as a ‘pro’ but there isn’t any online multiplayer. Instead, there is a fantastic 2-player local co-op with an intelligent split-screen and the ability for player 2 to drop in and out at will. I think this is a ‘pro’ as it encourages people to play together rather than via the internet. It also means there aren’t any irritating ‘multiplayer only’ achievements making it perfectly feasible to get 1000g playing solo.</li>
+  <li>Around 40-60 hours of gameplay to get all achievements and 100% game completion.</li>
 </ul>
 
-<h2>Cons</h2>
-
+<h2 id="cons">Cons</h2>
 <ul>
-<li>The quest feature isn’t explained very well. I had to look online to work out that you get the items they ask for in the levels, not in Middle Earth (this wasn’t helped by the fact that the first person you meet asking for one tells you the item is ‘on the road’ when it means ‘on the road in that level you just did’).</li>
-<li>The voice acting on the item quests is truly awful. Admittedly, the text they’ve got to work with is awful as well.</li>
-<li>Changing between characters whilst in Middle Earth can be a bit of a pain. You always have 2 characters in play but if you change the 1st one to be the 2nd one, it switches to them rather than changing your character. For example, you have Sam standing in Minas Tirith and you’ve just climbed to the top of the White Tower as Legolas when you realise you need Sam to light the flame. When you go to character selection and change to Sam, it swaps to the other player rather than changing Legolas to Sam. It can also happen randomly if you’ve used the character you want with the other player recently.</li>
-<li>Some of the jumping puzzles when roaming Middle Earth are damn near impossible due to glitchy camera angles. </li>
+  <li>The quest feature isn’t explained very well. I had to look online to work out that you get the items they ask for in the levels, not in Middle Earth (this wasn’t helped by the fact that the first person you meet asking for one tells you the item is ‘on the road’ when it means ‘on the road in that level you just did’).</li>
+  <li>The voice acting on the item quests is truly awful. Admittedly, the text they’ve got to work with is awful as well.</li>
+  <li>Changing between characters whilst in Middle Earth can be a bit of a pain. You always have 2 characters in play but if you change the 1st one to be the 2nd one, it switches to them rather than changing your character. For example, you have Sam standing in Minas Tirith and you’ve just climbed to the top of the White Tower as Legolas when you realise you need Sam to light the flame. When you go to character selection and change to Sam, it swaps to the other player rather than changing Legolas to Sam. It can also happen randomly if you’ve used the character you want with the other player recently.</li>
+  <li>Some of the jumping puzzles when roaming Middle Earth are damn near impossible due to glitchy camera angles.</li>
 </ul>
 
-<h2>Squee Moments</h2>
-
+<h2 id="squee-moments">Squee Moments</h2>
 <ul>
-<li>The 3 film cameos from Peter Jackson are all in the game (he’s usually holding an Oscar).</li>
-<li>Tom Bombadil is an unlockable character.</li>
-<li>You not only get to fight the Balrog whilst falling in Khazad-dûm (as per the opening of The Two Towers) but you also get to kill him on top of a snowy peak later on.</li>
+  <li>The 3 film cameos from Peter Jackson are all in the game (he’s usually holding an Oscar).</li>
+  <li>Tom Bombadil is an unlockable character.</li>
+  <li>You not only get to fight the Balrog whilst falling in Khazad-dûm (as per the opening of The Two Towers) but you also get to kill him on top of a snowy peak later on.</li>
 </ul>
 
-<h2>Verdict</h2>
-
+<h2 id="verdict">Verdict</h2>
 <p>You should buy this game. Definitely. Like all LEGO games, it appeals to every age group and has a lot more depth than you would think. As a Lord of the Rings fan, I found this to be a stunningly good use of the license rather than a shameless cash-in like a lot of the Lord of the Rings games. It’s evident that the developers working on it were huge fans as well.</p>
 
 <p>Highly recommended!</p>
 
-<h2>One More Thing</h2>
-
+<h2 id="one-more-thing">One More Thing</h2>
 <p>Whilst I’m talking about LEGO Lord of the Rings, I found <a href="http://www.flickr.com/photos/92099762@N05/8390728187/in/photostream">some interesting leaks</a> online about the second wave of LEGO sets that are due to launch sometime around Q1/2 this year. Practically confirmed so far are:</p>
 
 <ul>
-<li>Wizard Battle (Gandalf and Saruman)</li>
-<li>The Council of Elrond</li>
-<li><a href="http://www.flickr.com/photos/92099762@N05/8390693767/in/photostream/">The Black Gate</a> (including a Mouth of Sauron minifig)</li>
-<li>Pirate Ship Ambush</li>
-<li><a href="http://www.clickabrick.co.uk/2013/01/10237-tower-of-orthanc-confirmed.html#.UPwcZqWIFcw">The Tower of Orthanc</a> - Oh. Hell. Yes.</li>
+  <li>Wizard Battle (Gandalf and Saruman)</li>
+  <li>The Council of Elrond</li>
+  <li><a href="http://www.flickr.com/photos/92099762@N05/8390693767/in/photostream/">The Black Gate</a> (including a Mouth of Sauron minifig)</li>
+  <li>Pirate Ship Ambush</li>
+  <li><a href="http://www.clickabrick.co.uk/2013/01/10237-tower-of-orthanc-confirmed.html#.UPwcZqWIFcw">The Tower of Orthanc</a> - Oh. Hell. Yes.</li>
 </ul>
 
 <p>There are <a href="http://www.thebrickfan.com/lego-lord-of-the-rings-2013-set-rumors/">also rumours</a> of a Treebeard and Balrog set - there haven’t been any leaked images of these so we’ll see but a LEGO Balrog has been on a lot of wishlists since the license was first announced.</p>
 
-<p>In the mean time, I think I’m going to attempt to build this <a href="http://leonardoslegos.blogspot.co.uk/p/project-lego-tower-of-orthanc.html">fan-made 1.8 metre high Tower of Orthanc</a>...</p>
+<p>In the mean time, I think I’m going to attempt to build this <a href="http://leonardoslegos.blogspot.co.uk/p/project-lego-tower-of-orthanc.html">fan-made 1.8 metre high Tower of Orthanc</a>…</p>
 
 		</div>
 	</article>
@@ -458,7 +468,7 @@
 			<p>Exciting news from <a href="http://disneyparks.disney.go.com/blog/2013/01/taking-the-disney-guest-experience-to-the-next-level/">Disney</a>:</p>
 
 <blockquote>
-<p>Linking the entire MyMagic+ experience together is an innovative piece of technology we developed called the MagicBand. Worn on the wrist, it will serve as a guest’s room key, theme park ticket, access to FastPass+ selections, PhotoPass card and optional payment account all rolled into one. We’ve began testing certain aspects of MyMagic+ in Florida last month and the early reactions we’ve gotten have been fantastic.</p>
+  <p>Linking the entire MyMagic+ experience together is an innovative piece of technology we developed called the MagicBand. Worn on the wrist, it will serve as a guest’s room key, theme park ticket, access to FastPass+ selections, PhotoPass card and optional payment account all rolled into one. We’ve began testing certain aspects of MyMagic+ in Florida last month and the early reactions we’ve gotten have been fantastic.</p>
 </blockquote>
 
 <p>At present, if you stay at a Walt Disney World Resort (which you really should), you get a plastic card which acts as a room card, charge card, dining plan card, and theme park ticket. It can also be used on their cruise ship to access your room and make purchases if you add that to your holiday. With this update, they’re giving all guests an RFID wristband which they can then use for the same things as well as verifing FastPass tickets (no more annoying paper receipts) and using the PhotoPass service. It’s a great new feature and I can’t wait to see it roll out.</p>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	
-		<meta name="og:description" content="Back in June 2011, I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad and instead just use the retina versions at fullscreen. I&#39;ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!">
+		<meta name="og:description" content="Back in June 2011, I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad and instead just use the retina versions at fullscreen. I’ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!">
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
@@ -37,19 +37,25 @@
 			<time datetime="2013-10-16" pubdate=""><a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/">October 16, 2013</a></time>
     	</header>
     	<div>
-			<p>Back in June 2011, <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I&#39;ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
+			<p>Back in June 2011, <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I’ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
 
 <p>The previous behaviour for iPads was that they would run a 320x480px boxed version of your app in the center of the display. If you pressed the 2x button, the app would be enlarged to 640x960px but would still use the same assets leading to a fuzzy mess. The retina iPads had it slightly better as they would use the larger assets and retina font smoothing leading to a better experience. In iOS 7, retina iPads (currently the 3rd and 4th generation) still allow this same toggle but the non-retina iPads (only the iPad 2 and iPad Mini on iOS 7) are now locked at 2x using your retina assets and font smoothing.</p>
 
-<p>This is fantastic news as it signals the end of non-retina device support. If you are making an iPhone app that is iOS 7 only (sensible if it&#39;s a new app), you no longer have to worry about supporting non-retina devices as the iPads will use your retina assets. For developers, this has 3 key benefits:</p>
+<p>This is fantastic news as it signals the end of non-retina device support. If you are making an iPhone app that is iOS 7 only (sensible if it’s a new app), you no longer have to worry about supporting non-retina devices as the iPads will use your retina assets. For developers, this has 3 key benefits:</p>
 
 <ul>
-<li><p><strong>You only need @2x files in your app bundle:</strong> This leads to smaller sizes for your app bundle and less hassle in creating all of your 1x assets in the first place.</p></li>
-<li><p><strong>Less complex code for images fetched over network as you only need one size:</strong> For example, in <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> I have a UIImageView subclass that fetches images for me based on the scale of the UIScreen. If the UIImageView is 100 points square, it would download a 200x200px image on retina devices and 100x100px image on non-retina devices. This is no longer necessary saving some complexity.</p></li>
-<li><p><strong>You can use finer design elements:</strong> for example, using 1px (rather than 1pt) dividing lines. You can also use images that have an odd number of pixels (previously a 99px image was generally forbidden as you&#39;d need a 49.5px image for non-retina displays which wouldn&#39;t work). Nearly every designer I&#39;ve worked with has designed at retina resolution with odd numbered sizes for key elements so this is very welcome!</p></li>
+  <li>
+    <p><strong>You only need @2x files in your app bundle:</strong> This leads to smaller sizes for your app bundle and less hassle in creating all of your 1x assets in the first place.</p>
+  </li>
+  <li>
+    <p><strong>Less complex code for images fetched over network as you only need one size:</strong> For example, in <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> I have a UIImageView subclass that fetches images for me based on the scale of the UIScreen. If the UIImageView is 100 points square, it would download a 200x200px image on retina devices and 100x100px image on non-retina devices. This is no longer necessary saving some complexity.</p>
+  </li>
+  <li>
+    <p><strong>You can use finer design elements:</strong> for example, using 1px (rather than 1pt) dividing lines. You can also use images that have an odd number of pixels (previously a 99px image was generally forbidden as you’d need a 49.5px image for non-retina displays which wouldn’t work). Nearly every designer I’ve worked with has designed at retina resolution with odd numbered sizes for key elements so this is very welcome!</p>
+  </li>
 </ul>
 
-<p>I&#39;m really excited that we can now drop support for non-retina displays; it&#39;ll definitely speed up some of my workflows. You will obviously still need to support non-retina devices if you are building a Universal or iPad only app though.</p>
+<p>I’m really excited that we can now drop support for non-retina displays; it’ll definitely speed up some of my workflows. You will obviously still need to support non-retina devices if you are building a Universal or iPad only app though.</p>
 
 		</div>
 	</article>
