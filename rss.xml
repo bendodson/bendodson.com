@@ -6,9 +6,38 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Mon, 11 Jan 2016 08:03:45 +0000</pubDate>
-    <lastBuildDate>Mon, 11 Jan 2016 08:03:45 +0000</lastBuildDate>
+    <pubDate>Mon, 11 Jan 2016 08:18:24 +0000</pubDate>
+    <lastBuildDate>Mon, 11 Jan 2016 08:18:24 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Fixing emoji footnote arrow bug in Jekyll</title>
+      <link>https://bendodson.com/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/</link>
+      <pubDate>Mon, 11 Jan 2016 08:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/</guid>
+      <description>&lt;p&gt;I’ve been using &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes&lt;sup id=&quot;fnref:footnotes&quot;&gt;&lt;a href=&quot;#fn:footnotes&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, the return arrow (↩︎) is converted into an emoji (&lt;a href=&quot;http://emojipedia.org/leftwards-arrow-with-hook/️&quot;&gt;↩️&lt;/a&gt;) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.&lt;/p&gt;
+
+&lt;p&gt;Firstly, this isn’t an issue with Jekyll but with &lt;a href=&quot;http://kramdown.gettalong.org&quot;&gt;kramdown&lt;/a&gt; which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above&lt;sup id=&quot;fnref:kramdown&quot;&gt;&lt;a href=&quot;#fn:kramdown&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your &lt;code&gt;_config.yml&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kramdown:
+  	  footnote_backlink: &quot;&amp;amp;#8617;&amp;amp;#xfe0e;&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Regenerate your site and you should find that the emoji arrow is now back to a ↩︎.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:footnotes&quot;&gt;
+      &lt;p&gt;like this one! &lt;a href=&quot;#fnref:footnotes&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:kramdown&quot;&gt;
+      &lt;p&gt;You may need to run &lt;code&gt;gem update kramdown&lt;/code&gt; if you installed Jekyll a while ago. &lt;a href=&quot;#fnref:kramdown&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Dodo Apps</title>

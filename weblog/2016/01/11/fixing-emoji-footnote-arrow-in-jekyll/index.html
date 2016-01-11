@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I’ve been using Jekyll as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes1, the return arrow (↩︎) is converted into an emoji (↩️) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.            like this one! &#8617;&#xfe0e;      ">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Fixing emoji footnote arrow bug in Jekyll</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">Fixing emoji footnote arrow bug in Jekyll</a></h1>
+			
+			<time datetime="2016-01-11" pubdate=""><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">January 11, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been using <a href="http://jekyllrb.com">Jekyll</a> as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes<sup id="fnref:footnotes"><a href="#fn:footnotes" class="footnote">1</a></sup>, the return arrow (↩︎) is converted into an emoji (<a href="http://emojipedia.org/leftwards-arrow-with-hook/️">↩️</a>) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.</p>
+
+<p>Firstly, this isn’t an issue with Jekyll but with <a href="http://kramdown.gettalong.org">kramdown</a> which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above<sup id="fnref:kramdown"><a href="#fn:kramdown" class="footnote">2</a></sup> that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your <code>_config.yml</code> file:</p>
+
+<pre><code>kramdown:
+  	  footnote_backlink: "&amp;#8617;&amp;#xfe0e;"
+</code></pre>
+
+<p>Regenerate your site and you should find that the emoji arrow is now back to a ↩︎.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:footnotes">
+      <p>like this one! <a href="#fnref:footnotes" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:kramdown">
+      <p>You may need to run <code>gem update kramdown</code> if you installed Jekyll a while ago. <a href="#fnref:kramdown" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/01/08/dodo-apps/" title="Previous Article" class="pagination-previous">&laquo; Dodo Apps</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>

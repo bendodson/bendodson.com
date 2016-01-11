@@ -32,6 +32,43 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">The API behind Gowalla v4</a></h1>
+			
+			<time datetime="2011-10-24" pubdate=""><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">October 24, 2011</a></time>
+    	</header>
+    	<div>
+			<p>A few weeks ago, Gowalla released version 4.0 of their app to an overwhelmingly negative response. I myself will be posting a review soon but in this quick post I wanted to share a few tips on how to use the new API that is powering the app as an official API is apparently not coming until Q1 2012.   
+In a post entitled "<a href="http://groups.google.com/group/gowalla-dev/browse_thread/thread/880cc4a5de51e016">Where the Gowalla API is going</a>" on the official Gowalla Developers Group, it was revealed that most bits of the existing API "should be working" but a version 2 of the API would be coming in 2012 that enables developers to leverage the new features such as stories, lists, likes, guides, and so on. Unfortunately, several parts of the existing API broke on launch of the new app (including OAuth integration which took out nearly all 3rd party apps, trips, and an advanced search API) and some parts were completely removed (such as PubSubhubbub, one of the key things that actually made the Gowalla API a compelling thing to use). I have a number of apps that use the old API and were affected in small ways (I learnt long ago never to make direct calls to the Gowalla API) but there were a few things like trips that I needed direct access to more immediately. So, I spent a few minutes digging into the new Gowalla app and found the new connection details that are required to talk to the new API.</p>
+
+<p>It's actually fairly easy! Firstly, instead of connecting to http://api.gowalla.com/ change the URL to <strong>https://api9000.gowalla.com/</strong></p>
+
+<p>Next, there are 4 headers you have to send with every request. 2 of them, "<code>Accept: application/json</code>" and "<code>X-Gowalla-API-Key</code>", were required for the old API but Gowalla have also added an "<code>X-Gowalla-Bruce-Lee</code>" header (with a password so they know it's the Gowalla app using the API) and an "<code>X-Gowalla-API-Version</code>" header which seems to suggest they are taking my advice of 18 months ago and versioning the API rather than just breaking existing apps. So, the full headers you need to send are:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Accept: application/json
+X-Gowalla-API-Key: YOUR-API-KEY-HERE
+X-Gowalla-Bruce-Lee: l33tkuned0
+X-Gowalla-API-Version: 2</code></pre></div>
+
+<p>If you do that, you should be able to call an API endpoint such as users/bendodson where you'll find a load of new data that isn't in the normal API. That should also give you a good idea of the naming conventions of new endpoints (e.g. /lists rather than /trips). In all of my testing, existing features such as OAuth have worked fine.</p>
+
+<p>As a final example, the trips detail API is still broken on the current API (despite this being "looked into" 2 weeks ago). If you were to request <code>trips/168</code> you'll get a 404 not found error. This is one of the many broken API calls that is affecting apps that are currently out in the wild. However, if you change your code to use the new URL and the new headers, you can request <code>lists/168</code> to get full details of the trip you are after. Some of the keys will have changed name but it should be enough to get your app at least up and running.</p>
+
+<p>Obviously, you use all of the above at your own risk. Gowalla are unlikely to break anything immediately as any changes to the headers, endpoints, or keys will break their app. However, there will probably be changes as and when they release new versions of their apps.</p>
+
+<p>I have been very vocal on both <a href="https://bendodson.com/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">the good</a> and <a href="http://techcrunch.com/2010/05/12/gowalla-api-problems/">the bad</a> points of the Gowalla API in the past. There had been a real effort to alert 3rd party developers to changes in recent months but the new v4 app fundamentally broke important parts of the API (particularly OAuth login) and fixes were slow coming or have still yet to come with regards to the /trips endpoint. Putting an API out for the new app in Q1 of next year is a very long time to wait for something that really should have launched alongside or shortly after the new app particularly as the API does already exist. In short, Gowalla really have a long way to improve in their dealings with 3rd party developers. Personally, I'm moving my apps away from Gowalla and starting to use other services but I'll be posting more about that soon.</p>
+
+<p><strong>Update [25th Oct 2011]:</strong> Andrew Dupont responded to this article on the Gowalla Devs Group with:</p>
+
+<blockquote><p>At any rate, we've fixed the trips API. Let me know if anything's still out of order.</p></blockquote>
+
+<p>Turns out Gowalla will fix things if you complain enough...</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2011/08/20/highlights-v1-1-gowalla-trips-last-fm-events-and-translations/">Highlights v1.1 - Gowalla Trips, Last.fm Events, and Translations</a></h1>
 			
 			<time datetime="2011-08-20" pubdate=""><a href="/weblog/2011/08/20/highlights-v1-1-gowalla-trips-last-fm-events-and-translations/">August 20, 2011</a></time>
@@ -516,23 +553,6 @@ The most crucial thing about the core Apple products -- Macs, iPhones, iPads, an
 <p>Overall, the Gowalla API has improved dramatically in the past year. With a solid foundation and regular updates from developers, there is now very little risk to basing an app on the API as opposed to last year when maintenance was taking longer than development.  There are still a few areas which could use improvement, particularly around publicising of 3rd party endeavours and communicating better around misdemeanours, but on the whole I can wholeheartedly recommend the API to any developer interested in location based services. There have been a lot of new API calls created and I get the feeling that there is some very exciting stuff around the corner. I would also recommend looking into the <a href="http://hub.gowalla.com/">PubSubHubbub</a> functionality as this puts Gowalla way ahead of its competitors by providing real-time notification of check-ins.</p>
 
 <p>Finally, I'd like to thank all the developers at Gowalla who have put so much time and effort into improving the API, particularly <a href="http://twitter.com/therealadam">Adam Keys</a>, <a href="http://twitter.com/andrewdupont">Andrew Dupont</a>, and <a href="http://twitter.com/robmack">Rob Mack</a> who have been incredibly responsive on the Developer Boards.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/05/10/font-finder-now-available-for-firefox-4-and-safari-5/">Font Finder: Now available for Firefox 4 and Safari 5</a></h1>
-			
-			<time datetime="2011-05-10" pubdate=""><a href="/weblog/2011/05/10/font-finder-now-available-for-firefox-4-and-safari-5/">May 10, 2011</a></time>
-    	</header>
-    	<div>
-			<p>Many of you will be familiar with <a href="https://addons.mozilla.org/en-US/firefox/addon/font-finder/">Font Finder</a>, one of my first Firefox Extensions.  The purpose of Font Finder was to display information about the selected font within your browser including information like size, line-height, color, etc. It also went further by not only showing you the font-family stack, but also determining which one was actively being rendered on your machine (as the font you see might be different to other users depending on your installed fonts).</p>
-
-<p>I'm happy to announce that as of today, Font Finder is now available as a <a href="https://bendodson.com/projects/browser-extensions/font-finder.safariextz">Safari 5 Extension</a>.  It has also been updated to be fully compatible with <a href="https://addons.mozilla.org/en-US/firefox/addon/font-finder/">Firefox 4</a>.  I'm not planning on building it for any other browsers (e.g. IE9, Chrome) but if you have any suggestions for improvements to either version, please <a href="https://bendodson.com/contact/">get in touch</a>.</p>
-
-<p>This is just the first step in porting Font Finder to Safari 5 and I will shortly be releasing an update which makes full use of the Safari UI rather than containing everything within an alert box - I will also be adding a lot more information, particularly around CSS 3.</p>
 
 		</div>
 	</article>
