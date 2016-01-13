@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/styles-2016-01-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
 </head>
@@ -29,6 +29,45 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/12/06/hows-the-london-underground-ask-siri/">How's the London Underground? Ask Siri!</a></h1>
+			
+			<time datetime="2011-12-06" pubdate=""><a href="/weblog/2011/12/06/hows-the-london-underground-ask-siri/">December 06, 2011</a></time>
+    	</header>
+    	<div>
+			<p>After seeing <a href="http://www.youtube.com/watch?v=AN6wy0keQqo">SiriProxy in action on YouTube</a>, I was keen to grab an iPhone 4S to have a play with it. I managed to pick one up at the Apple Store yesterday and today I'm pleased to release my first SiriProxy plugin; <a href="https://github.com/bendodson/SiriProxy-TubeUpdates">TubeUpdates</a>. It's a basic plugin that lets you ask Siri for the status of a London Underground line thanks to my <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">TubeUpdates API</a>.</p>
+<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0066.png" alt="SiriProxy-TubeUpdates - A standard request" title="IMG_0066.PNG" border="0" /></p>
+<p>I've not dabbled with Ruby for a while but building the plugin was fairly straightforward. All of the code is <a href="https://github.com/bendodson/SiriProxy-TubeUpdates/">available on GitHub</a> but the main piece looks like this:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">listen_for</span> <span class="sr">/[what is,what&#39;s] the status of (.*)/i</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+	<span class="n">encodedline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+	<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://tubeupdates.com/siri/?line=&#39;</span><span class="o">+</span><span class="n">encodedline</span><span class="p">)</span>
+	<span class="n">json</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="n">get</span> <span class="n">url</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span> <span class="n">json</span>
+	<span class="n">say</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;status&quot;</span><span class="o">]</span>
+    
+	<span class="k">if</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;messages&quot;</span><span class="o">].</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+	    <span class="n">response</span> <span class="o">=</span> <span class="n">ask</span> <span class="s2">&quot;There are additional details. Would you like to hear them?&quot;</span>
+	    <span class="k">if</span><span class="p">(</span><span class="n">response</span> <span class="o">=~</span> <span class="sr">/yes/i</span><span class="p">)</span> <span class="c1">#process their response            </span>
+	        <span class="n">result</span><span class="o">[</span><span class="s2">&quot;messages&quot;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">message</span> <span class="o">|</span>
+	            <span class="n">say</span> <span class="n">message</span>
+	        <span class="p">}</span>
+	    <span class="k">end</span>
+	<span class="k">end</span>
+	<span class="n">request_completed</span>
+<span class="k">end</span></code></pre></div>
+
+<p>The matching in the first line ensures that you can ask either "what is (or what's) the status of (the line name)". This is then url encoded and "the line name" is sent to a Siri endpoint I created on the Tube Updates site. The site will return a JSON string of the tube line status which is then parsed and spoken back to the user. E.g. "The Circle line is running a good service".</p>
+<p>If there are any messages for the line (these are generally details of delays), then an additional step is performed; the user is asked if they would like to hear the details and answering "yes" will list them.</p>
+<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0065.png" alt="SiriProxy-TubeUpdates - A delayed line" title="IMG_0065.PNG" border="0" /></p>
+<p>And that's pretty much it! I've got a few ideas for more complex plugins that can interface directly with iPhone apps so I'll have a play with those when I get a spare moment. If you've got any comments or feature requests for this plugin, then <a href="https://bendodson.com/contact">get in touch</a>.</p>
+<p>As an aside, this is the first project I've published that is written in Ruby and the first time I've put anything up on GitHub.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -533,63 +572,6 @@ The most crucial thing about the core Apple products -- Macs, iPhones, iPads, an
 <p>In conclusion, tomorrow could be one of the many defining moments in Apple's history. If iOS 5 gets enough of a redesign to keep it fresh when compared to the newcomers, if OS X Lion launches soon with more upgrades than those previewed, and if iCloud introduces true syncing between them, then it will set the tone for Apple for the next 5 years. However, if iCloud is anything like the MobileMe launch (e.g. a shambles), then things will turn out very differently.</p>
 
 <p>I'll be <a href="http://twitter.com/bendodson/">tweeting</a> any major announcements as they happen and I'll chuck up a summary post tomorrow to see how many of my predictions have come true. In the meantime, if you have any opinions, fire me a <a href="http://twitter.com/bendodson/">message on Twitter</a> or <a href="https://bendodson.com/contact/">drop me an email</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/05/28/wikilocation-adds-support-for-36-locales/">WikiLocation adds support for 36 locales</a></h1>
-			
-			<time datetime="2011-05-28" pubdate=""><a href="/weblog/2011/05/28/wikilocation-adds-support-for-36-locales/">May 28, 2011</a></time>
-    	</header>
-    	<div>
-			<p>It's been just over a year since I started <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">WikiLocation</a>, a simple REST-ful API to access geocoded Wikipedia articles.  During that time, hundreds of developers have made use of the API in mashups, apps, and commercial products.</p>
-<p>Today, I'm happy to announce that I've added locale support to the WikiLocation API. This means that the API now provides access to over <strong>3.8 million geocoded articles across 36 different languages</strong>. The following languages are now supported via a simple "locale" parameter which can be added to any API call (full details can be found in the <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">WikiLocation API Documentation</a>):</p>
-
-<ul>
-										<li><strong><a href="http://ar.wikipedia.org/">ar</a></strong> - 6,273 articles</li>
-							<li><strong><a href="http://bg.wikipedia.org/">bg</a></strong> - 17,689 articles</li>
-							<li><strong><a href="http://ca.wikipedia.org/">ca</a></strong> - 128,364 articles</li>
-							<li><strong><a href="http://cs.wikipedia.org/">cs</a></strong> - 7 articles</li>
-							<li><strong><a href="http://da.wikipedia.org/">da</a></strong> - 23,041 articles</li>
-							<li><strong><a href="http://de.wikipedia.org/">de</a></strong> - 335,275 articles</li>
-							<li><strong><a href="http://en.wikipedia.org/">en</a></strong> - 1,101,616 articles</li>
-							<li><strong><a href="http://eo.wikipedia.org/">eo</a></strong> - 45,864 articles</li>
-							<li><strong><a href="http://es.wikipedia.org/">es</a></strong> - 141,352 articles</li>
-							<li><strong><a href="http://fa.wikipedia.org/">fa</a></strong> - 15,519 articles</li>
-							<li><strong><a href="http://fi.wikipedia.org/">fi</a></strong> - 16,494 articles</li>
-							<li><strong><a href="http://fr.wikipedia.org/">fr</a></strong> - 248,977 articles</li>
-							<li><strong><a href="http://he.wikipedia.org/">he</a></strong> - 1 article</li>
-							<li><strong><a href="http://hu.wikipedia.org/">hu</a></strong> - 25,830 articles</li>
-							<li><strong><a href="http://id.wikipedia.org/">id</a></strong> - 16,634 articles</li>
-							<li><strong><a href="http://it.wikipedia.org/">it</a></strong> - 149,882 articles</li>
-							<li><strong><a href="http://ja.wikipedia.org/">ja</a></strong> - 60,780 articles</li>
-							<li><strong><a href="http://ko.wikipedia.org/">ko</a></strong> - 7,805 articles</li>
-							<li><strong><a href="http://lt.wikipedia.org/">lt</a></strong> - 33,280 articles</li>
-							<li><strong><a href="http://ms.wikipedia.org/">ms</a></strong> - 24,628 articles</li>
-							<li><strong><a href="http://nl.wikipedia.org/">nl</a></strong> - 446,506 articles</li>
-							<li><strong><a href="http://no.wikipedia.org/">no</a></strong> - 42,267 articles</li>
-							<li><strong><a href="http://pl.wikipedia.org/">pl</a></strong> - 166,734 articles</li>
-							<li><strong><a href="http://pt.wikipedia.org/">pt</a></strong> - 141,814 articles</li>
-							<li><strong><a href="http://ro.wikipedia.org/">ro</a></strong> - 23,297 articles</li>
-							<li><strong><a href="http://ru.wikipedia.org/">ru</a></strong> - 190,546 articles</li>
-							<li><strong><a href="http://sk.wikipedia.org/">sk</a></strong> - 5,451 articles</li>
-							<li><strong><a href="http://sl.wikipedia.org/">sl</a></strong> - 9,719 articles</li>
-							<li><strong><a href="http://sr.wikipedia.org/">sr</a></strong> - 52,093 articles</li>
-							<li><strong><a href="http://sv.wikipedia.org/">sv</a></strong> - 31,790 articles</li>
-							<li><strong><a href="http://tr.wikipedia.org/">tr</a></strong> - 9,448 articles</li>
-							<li><strong><a href="http://uk.wikipedia.org/">uk</a></strong> - 96,889 articles</li>
-							<li><strong><a href="http://vi.wikipedia.org/">vi</a></strong> - 71,375 articles</li>
-							<li><strong><a href="http://vo.wikipedia.org/">vo</a></strong> - 94,470 articles</li>
-							<li><strong><a href="http://war.wikipedia.org/">war</a></strong> - 91 articles</li>
-							<li><strong><a href="http://zh.wikipedia.org/">zh</a></strong> - 19,828 articles</li>
-					</ul>
-
-<p>In addition to these new articles and language filters, I have also updated the <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">WikiLocation.org website</a> with a new visual design which should make it easier to find critical information. Finally, the API has been relocated to a new dedicated server to provide even faster access for your applications.</p>
-
-<p>If you have any feedback or questions relating to the API, please <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">get in touch</a>.</p>
 
 		</div>
 	</article>

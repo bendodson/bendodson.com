@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/styles-2016-01-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<title>Ben Dodson's Blog &mdash; Freelance Swift Developer and WallaBee Founder</title>
 </head>
@@ -29,6 +29,27 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/07/12/blocks-magazine/">Blocks Magazine</a></h1>
+			
+			<time datetime="2014-07-12" pubdate=""><a href="/weblog/2014/07/12/blocks-magazine/">July 12, 2014</a></time>
+    	</header>
+    	<div>
+			<p>I’m very excited to see that <a href="http://www.blocksmag.com">Blocks Magazine</a> sold enough copies to prove it as a concept and is now going to be a monthly publication starting in October:</p>
+
+<blockquote>
+  <p>“Blocks magazine is going monthly from autumn 2014. The first issue of this exciting new magazine written by LEGO enthusiasts, for LEGO enthusiasts, is due to hit the shops on Thurs 23rd Oct.”</p>
+</blockquote>
+
+<p>They’ve started offering <a href="http://www.blocksmag.com/#!subcribe/c7dd">yearly and 2-yearly subscriptions on their website</a> - an instant purchase for me!</p>
+
+<p>If you are a fan of LEGO and you haven’t picked up the first issue yet, it is well worth getting. It has a lot more content than I was expecting for a pilot magazine (including an excellent review of the <a href="http://shop.lego.com/en-US/Sandcrawler-75059">Star Wars Sandcrawler</a>) but the proof reading leaves a lot to be desired. Loads of great stuff though so highly recommended.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -316,120 +337,6 @@
 <p>The moral of the story? Always test on an Ad Hoc build that isn’t tethered to Xcode. It’s a pain but the crucial thing in this was that the Xcode debugger was keeping the iPhone alive and that meant I was never able to see that CACurrentMediaTime() was pausing itself. The other thing to do is to read Apple documentation carefully. At no point do they specifically say that mach_absolute_time is based on uptime or that it counts up sequentially, but forum posts and other developers blogs had created that perception based on their own findings and those of the method on OS X. It always pays to be careful and understand fully the methods you are calling.</p>
 
 <p>Fortunately (or not), there was a bug with iOS 5 in the version of WallaBee that was submitted to the App Store and so this fix was bundled in with an expedited review. Of course, that update has now been ‘In Review’ for over 24 hours so we’re not out of the woods yet but at least I’m now using a timer that actually counts up…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">Syncing the WallaBee Store</a></h1>
-			
-			<time datetime="2013-01-22" pubdate=""><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">January 22, 2013</a></time>
-    	</header>
-    	<div>
-			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
-
-<p>If you’ve played <a href="http://wallab.ee/">WallaBee</a> you’ll know that one of the key areas of the app is the Store, a place where you can buy items with the app currency you collect. The Store has a 3 x 4 grid of items with a timer under each; when the timer runs out, a new item is displayed for purchase. This all sounds straightforward, but when the WallaBee API started getting 3 million hits per day, the Store was one of the first areas to suffer. In this article, I want to run through a few of the problems I experienced when building it the first time, and go into details on the improvements I’ve just added in v1.1.5 of the app which will be available this week.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2013/01/store.jpg" alt="The WallaBee Store" /></p>
-
-<h2 id="the-original-plan">The Original Plan</h2>
-
-<p>In my mind, the Store was going to be fairly simple. It had to be the same for everybody so I’d set up a CRON job that would populate a database table with the upcoming items. Every minute, a check would be performed and items would be added to make sure there was something in every spot until the next time the script ran. Every item had a start and end time that was fixed but had a random amount of seconds (between 10 and 45) so that each item would ‘run out’ at different times. Whenever a player visted the Store, an API call would retrieve the items at each position and do some basic math to work out how long it would be until the position needed to be restocked. Finally, there was an API call to reload just a single position which would be called when an item ran out and a new one was needed. Simple!</p>
-
-<p>The problem with this is that WallaBee became popular and the database bore the brunt when a new item was released and the players descended on the Store. This meant that, when a position needed restocking, there could be thousands of requests in the same second all asking the database to tell them what that item should be. Those kinds of numbers don’t work well (it’s basically a denial of service attack) and so the Store would gradually become emptier and emptier as the network activity indicator struggled and the database slowly spat out what items should be where. Another issue was timing; there was a slight overlap between expiration and start times of items and so clever developers could look and work out when a new item was appearing in the Store upto 15 seconds before the item appeared (leading to an unfair advantage). In addition, if the network connection was slow, some players could be behind the live Store by 10 seconds or so meaning they would be at a disadvantage when something new appeared.</p>
-
-<p>Clearly there was work to be done.</p>
-
-<h2 id="the-problems">The Problems</h2>
-<p>I had three key problems to solve.</p>
-
-<ol>
-  <li>The Store had to be synced for everybody. I wouldn’t accept more than a 500ms gap between players regardless of their connection speed.</li>
-  <li>It had to be secure with no chance of seeing what item was coming in advance, even if you sniffed the network traffic with something like <a href="http://www.charlesproxy.com">Charles</a>.</li>
-  <li>It needed to be fast. This meant no database calls and as few API calls as possible, especially during peak times.</li>
-</ol>
-
-<p>In addition, the solution needed to be scalable as I would be adding multiple stores in the next major version of the app. The app would have to be able to display around 80 items at a time rather than 12.</p>
-
-<h2 id="the-new-plan">The New Plan</h2>
-<p>My solution was that the server would generate a physical file every minute that showed all of the updates for the next 10 minutes. When a device requested the Store, it would download this file (no database calls) along with a synchronisation timestamp. This file would be unpacked on the device and each item would be stored locally so that the Store could continue on without making any network calls. At some random point before the 10 minutes was up, the device would request the next 10 minutes worth of data and unpack it silently in the background.</p>
-
-<p>Whilst it sounded good on paper, it would require a lot of work to get everything working correctly. Each piece is inter-connected but I’ll try and explain the general timeline of how it works along with a bit of code.</p>
-
-<h2 id="store-generation">Store Generation</h2>
-
-<p>The first thing that needs to happen is that the server has to generate 10 minutes worth of items. I created a new table that would hold the item objects and wrote a basic CRON job that went through each position and randomly chose an item<sup id="fnref:random"><a href="#fn:random" class="footnote">1</a></sup> along with a random shelf life between 45 seconds and 4 minutes. This runs every minute and ensures that there is always 10 minutes worth of items coming up. A separate CRON job then runs and compiles these items into a single JSON file which is then encrypted with a military grade cipher (more on that shortly). This file is stored locally and updated every minute. The end result is that you can request the file at any time and always be sure that you have the next 10 minutes worth of items.</p>
-
-<h2 id="encryption">Encryption</h2>
-
-<p>One of the key things I wanted to ensure was that the Store was secure as I wouldn’t want anybody to sniff the network traffic and see that a new item was coming out in 7 minutes time (it should always be a surprise). To that end, the file is encrypted using <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256</a> before being encoded in Base64 for easy transporting. To do this in PHP is fairly simple:</p>
-
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$json = json_encode($output);</span>
-<span class="x">$offset = 16 - (strlen($json) % 16);</span>
-<span class="x">$key = ‘YOURPASSWORDHERE’ . str_repeat(chr(0x00), 16);</span>
-<span class="x">$data = $json . str_repeat(chr($offset), $offset);</span>
-<span class="x">$encryptedData = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $data, &#39;cbc&#39;));</span></code></pre></div>
-
-<p>The thing that most people miss off is the padding as the data to encrypt has to be a multiple of 16 characters and the characters you use for the padding follow a specific rule; they use the character code of the number of characters you need to pad (for example, if you have to use 7 characters of padding, you’d do it with 7 x chr(7). Another key thing was to use ‘cbc’ as the mode as the default ‘ecb’ found on many tutorials doesn’t work well on the iPhone.</p>
-
-<p>Speaking of iOS, decrypting this file is fairly simple using the <a href="https://github.com/AlanQuatermain/aqtoolkit/tree/master/CommonCrypto">NSData Category from the CommonCrypto section of aqtoolkit</a>; it’ll be decoded into NSData which can then be turned into an NSString before using the native JSON library to convert it into an NSDictionary.</p>
-
-<h2 id="time-synchronisation">Time Synchronisation</h2>
-
-<p>The other key feature that needed to be implemented was that the iOS device should be synced to the server time so that all players would be shown the items at the correct times; we don’t want players to be behind or ahead even though the API would stop anybody from purchasing an item that isn’t released yet.</p>
-
-<p>I looked into a number of options for time syncing but many of them use the built-in clock on the iPhone. This is no good as a player could simply advance their clock manually to see future items. Instead I opted to have the main Store file return a Unix timestamp of the time of the request. This is simple in PHP:</p>
-
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$_SERVER[&#39;REQUEST_TIME&#39;];</span></code></pre></div>
-
-<p>The issue with this is that the time of the request will vary depending on how slow the uplink connection is on the device, and we need a way of accurately monitoring how long it took to download so we can add an offset.</p>
-
-<p>I’ve been using <a href="https://github.com/MugunthKumar/MKNetworkKit">MKNetworkKit</a> for my iOS networking needs (although I’m planning on switching to <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> in the next release) and it provides a useful block-based method on network operations called onUploadProgressChanged. This provides a double which tells you, as a percentage, how much of your upload is done. When it gets to 1.0, that means you have successfully ‘hit’ the API which should tally up to the $_SERVER[‘REQUEST_TIME’] on the server side<sup id="fnref:accuracy"><a href="#fn:accuracy" class="footnote">2</a></sup>.</p>
-
-<p>Now we know exactly what time we hit the server, we need to start some form of timer so we can see how long it takes until the download completes. To do this, we use CACurrentMediaTime()<sup id="fnref:mediatime"><a href="#fn:mediatime" class="footnote">3</a></sup>. This returns a CFTimeInterval which is roughly the amount of time since your device was rebooted; think of it as a UNIX timestamp that resets every time you start up your phone. I get the current media time upon the successful upload completion, and when the download is complete I get it again and subtract the difference (so I can see, for instance, that the download has taken 572.42ms). We then add this to the timestamp retrieved from the server to get the current server time; we’re now in sync!</p>
-
-<h2 id="rendering-the-ui">Rendering the UI</h2>
-
-<p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref:nstimer"><a href="#fn:nstimer" class="footnote">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span> <span class="p">(</span><span class="n">_tickTimer</span><span class="p">)</span> <span class="p">{</span>
-	<span class="p">[</span><span class="n">_tickTimer</span> <span class="n">invalidate</span><span class="p">];</span>
-<span class="p">}</span>
-<span class="nb">self</span><span class="p">.</span><span class="n">tickTimer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span> <span class="nl">target</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-<span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">mainRunLoop</span><span class="p">]</span> <span class="nl">addTimer</span><span class="p">:</span><span class="n">_tickTimer</span> <span class="nl">forMode</span><span class="p">:</span><span class="n">NSRunLoopCommonModes</span><span class="p">];</span></code></pre></div>
-
-<p>We now have a timer that ticks every second but I found it important to use our old friend CACurrentMediaTime() again rather than incrementing a timestamp. The reason for this is that the user may switch tabs, receive a phone call, or leave the app. In those situations, you need to be ready to resume when they come back and, presuming that they’re within the window of how much data you have loaded, you can just kick off without reloading everything. The problem is, if you increment the timer every tick, you’ll start deviating from the start time if you jump back and forth between tabs as the timestamp is always rounded. By storing the CACurrentMediaTime() and the original timestamp when you start your first timer, you can be 100% accurate on your times by working out the number of seconds between now and the original CACurrentMediaTime() and adding them to your timestamp.</p>
-
-<p>With every ‘tick’ we need to update the UI. This is fairly straightforward and is a case of looking at each position, working out the percentage remaining, and applying that to the progress bar. When an item is due to run out, simply fade it out a second before it expires and on the next tick fade it back in. This leads to seamless animations where before there was a fade out, network request, then gradual fade in. The results were so stark in comparison that I had to slow down the change animation as, without the network lag, it was too quick!</p>
-
-<p>One final improvement I made was that the ‘ticks’ only happen when you are viewing the Store. Previously, the Store would continuously update in the background (including network requests) leading to a waste of CPU and battery life and making the rest of the app feel sluggish. Now, as soon as you navigate away, the timer is invalidated and nothing is updated. When you come back, the UI is refreshed and the timer is restarted (accurately as mentioned above).</p>
-
-<p>The only thing we need to remember to do periodically is update our local store. When the Store is first loaded, I choose a random time between 6 and 9 minutes to perform an update. This is to try and spread out the number of requests to the Store file as typically we get 50x more users online when a new item comes out. If they all reloaded the Store at the exact same times we’d have hundreds of API requests in the same second still (admittedly it’s less of an issue as they aren’t hitting the database but it pays to spread the load). If the network connection fails or there is a server problem, the Store will try and reload after 5 seconds until such a time that it gets data. Crucially, the Store will keep going until it runs out of items at which point it stays bare until it gets back on track. To account for any deviations, the time sync is also performed on these updates.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>The new Store is far superior to the old one in every way. The server is more stable, the data is more secure, and the UI is much snappier. With the changes to the way the Store UI was rendered, the rest of the app feels faster as well and load on the server during peak times should be substantially reduced. Crucially, an issue that has been present for a while with crashes when switching between apps has finally been resolved now that the NSTimer code has been rewritten.</p>
-
-<p>It’s been quite a journey getting to this point but I’ve enjoyed learning about time syncing, encryption, and keeping time on iOS. As with many things, this is a progressive update and is a reminder that there is always more to learn.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:random">
-      <p>Ok, when I say “randomly chose an item” it’s a bit more complex than that. Items are weighted based on release time, set, pricing, and so on and there are a number of custom overrides (i.e. Christmas is weighted down so you hardly see those items whilst the One Set To Rule Them All is weighted up as it is a huge collection and takes people longer to complete). In future versions, there will be multiple stores that each have their own rules (i.e. there might be a Store which only has items that are over 6 months old or only items from a particular series of sets). <a href="#fnref:random" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:accuracy">
-      <p>It’s not exact but it’s within ~200ms which is accurate enough for this. <a href="#fnref:accuracy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:mediatime">
-      <p>CACurrentMediaTime() is specifically designed for gaming where you need to have time independent of the system clock and that doesn’t need to be reconciled with an actual world time. For example, the early versions of Tiny Tower had a bug in which you could move your system clock forward in order to get around things like “wait 3 hours for restocking”. They now start a CACurrentMediaTime() when you open the app and this is used to track time.. every second, it is checked and the overall time spent is worked out so it knows when 3 hours has passed, not when the timezone says 3 hours has passed. <a href="#fnref:mediatime" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:nstimer">
-      <p>I hadn’t realised this in the previous version and I had an NSTimer for each position of the Store! This lead to a large number of unexplained crashes as memory ran out. Lesson learned. <a href="#fnref:nstimer" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

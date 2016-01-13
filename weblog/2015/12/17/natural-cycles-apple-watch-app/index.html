@@ -7,7 +7,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2015-12-20.css" />
+	<link rel="stylesheet" href="/styles-2016-01-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<title>Natural Cycles Apple Watch app</title>
 </head>
@@ -39,19 +39,19 @@
     	<div>
 			<p>I’m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">Natural Cycles</a>.</p>
 
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-app.jpg" width="800" height="450" /></p>
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-app.jpg" width="800" height="450" /></p>
 
 <p><a href="https://www.naturalcycles.com/en/">Natural Cycles</a> is a popular iPhone and Android app that allows you to track your fertility or plan a pregnancy. It can tell you when you are fertile, when you are ovulating, when your next period is due, when you are pregnant, and the progress of your pregnancy. I was hired as a freelance Swift developer to build an Apple Watch app that would be bundled in with their big v2.0 update and would allow viewing and logging of this critical information. The app allows you to see your current fertility level, body temperature, and progress of your period as well as viewing messages from Natural Cycles. In addition, you can quickly update your current body temperature and menstrual flow within the app:</p>
 
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-log.jpg" width="800" height="450" /></p>
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-log.jpg" width="800" height="450" /></p>
 
 <p>As well as the core Apple Watch app, I also added support for Notifications and Glances making for an even quicker way to view your information:</p>
 
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-glance.jpg" width="800" height="450" /></p>
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-glance.jpg" width="800" height="450" /></p>
 
 <p>My favourite feature, however, is the addition of full text Complications so you can see your current body temperature and fertility status on your watch face:<sup id="fnref:fertility"><a href="#fn:fertility" class="footnote">1</a></sup></p>
 
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2015/nc-complication.jpg" width="800" height="450" /></p>
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-complication.jpg" width="800" height="450" /></p>
 
 <p>The project was quite difficult (but rewarding!) for a few reasons. Firstly, the design was very ambitious when watchOS severely limits the amount of customisation that can be performed. Secondly, the iOS app was a Cordova app<sup id="fnref:cordova"><a href="#fn:cordova" class="footnote">2</a></sup> rather than a native app which meant I had to write a JavaScript plugin and set up some build scripts in order for the native Swift watchOS code to be able to speak with the iPhone. There was also a requirement to make the app as easy as possible to update (i.e. updating the iOS app shouldn’t break the watchOS app) and so I built everything such that the phone takes care of all logic and a lot of the UI so the watch app can be altered without going through the App Store review process.</p>
 
