@@ -6,9 +6,55 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 13 Jan 2016 15:24:43 +0000</pubDate>
-    <lastBuildDate>Wed, 13 Jan 2016 15:24:43 +0000</lastBuildDate>
+    <pubDate>Wed, 13 Jan 2016 16:10:52 +0000</pubDate>
+    <lastBuildDate>Wed, 13 Jan 2016 16:10:52 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Your music library is a security and privacy risk on iOS</title>
+      <link>https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/</link>
+      <pubDate>Wed, 13 Jan 2016 18:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/</guid>
+      <description>&lt;p&gt;Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt;&lt;sup id=&quot;fnref:musictracker&quot;&gt;&lt;a href=&quot;#fn:musictracker&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;songsQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Title: \(item.title)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s just a basic example that’ll output the title of every song in your library but there is a lot of danger in that. This process happens completely silently and in my tests I was able to loop through a library of 10000 songs, put all the metadata in a JSON file&lt;sup id=&quot;fnref:json&quot;&gt;&lt;a href=&quot;#fn:json&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, and upload it to a server in under 2 seconds!&lt;/p&gt;
+
+&lt;p&gt;But why is this a security or privacy risk? Off the top of my head, I can think of two massive risks:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Your library says a lot about you&lt;sup id=&quot;fnref:bwitched&quot;&gt;&lt;a href=&quot;#fn:bwitched&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. If an advertising company was able to get a complete list of your music library (along with changes to it over time) then they could very easily target you with specific ads. Added a lot of Taylor Swift recently? Here are some ads relevant to that.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;When iOS first came out there was something called a UDID which basically identified your device uniquely. This was used by marketers to track you across multiple apps and build up a profile. This was stopped by Apple a few years back and replaced with an advertising identifier which you can turn off and which can only be used between apps from the same company (where they are probably already tracking you). However, with a full music library, it would be fairly easy to track someone across multiple apps as periodic snapshots could be compared on a server.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I’ve no idea if apps are already doing this in the background silently but it is something that shouldn’t be able to happen. To that end, I’ve filed a bug report with Apple (&lt;a href=&quot;https://openradar.appspot.com/radar?id=6078139771912192&quot;&gt;rdar://24168798&lt;/a&gt;) to ask that they implement the same privacy controls that they do for contacts, calendars, photos, and location; a prompt when an app tries to access this data and the ability to grant or reject that permission through the system wide settings. Hopefully this is something Apple will implement in iOS 10 – if you’d like to see this happen, please duplicate bug 24168798 in the &lt;a href=&quot;https://bugreport.apple.com&quot;&gt;Apple Bug Reporter&lt;/a&gt; as that is the best way to bring it to their attention.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:musictracker&quot;&gt;
+      &lt;p&gt;Launching on Wednesday 20th January 2016. Find out more at &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Dodo Apps&lt;/a&gt;. &lt;a href=&quot;#fnref:musictracker&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:json&quot;&gt;
+      &lt;p&gt;I &lt;a href=&quot;https://github.com/bendodson/music-library&quot;&gt;uploaded it to GitHub&lt;/a&gt; so you can get a feel for how big a file it generates in that small amount of time. &lt;a href=&quot;#fnref:json&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:bwitched&quot;&gt;
+      &lt;p&gt;Let’s not read into what &lt;a href=&quot;https://itun.es/gb/Tr4Wr?i=298026101&quot;&gt;&lt;em&gt;C’est La Vie&lt;/em&gt; by B*Witched&lt;/a&gt; means about me… &lt;a href=&quot;#fnref:bwitched&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Munchkin Report</title>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing Music Tracker1 I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:            Launching on Wednesday 20th January 2016. Find out more at Dodo Apps. &#8617;&#xfe0e;      ">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-01-13-updated.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Your music library is a security and privacy risk on iOS</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">Your music library is a security and privacy risk on iOS</a></h1>
+			
+			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">January 13, 2016</a></time>
+    	</header>
+    	<div>
+			<p>Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing <a href="https://dodoapps.io/music-tracker/">Music Tracker</a><sup id="fnref:musictracker"><a href="#fn:musictracker" class="footnote">1</a></sup> I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songsQuery</span><span class="p">()</span>
+<span class="k">if</span> <span class="k">let</span> <span class="n">items</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">items</span> <span class="p">{</span>
+    	<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: \(item.title)&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>That’s just a basic example that’ll output the title of every song in your library but there is a lot of danger in that. This process happens completely silently and in my tests I was able to loop through a library of 10000 songs, put all the metadata in a JSON file<sup id="fnref:json"><a href="#fn:json" class="footnote">2</a></sup>, and upload it to a server in under 2 seconds!</p>
+
+<p>But why is this a security or privacy risk? Off the top of my head, I can think of two massive risks:</p>
+
+<ol>
+  <li>
+    <p>Your library says a lot about you<sup id="fnref:bwitched"><a href="#fn:bwitched" class="footnote">3</a></sup>. If an advertising company was able to get a complete list of your music library (along with changes to it over time) then they could very easily target you with specific ads. Added a lot of Taylor Swift recently? Here are some ads relevant to that.</p>
+  </li>
+  <li>
+    <p>When iOS first came out there was something called a UDID which basically identified your device uniquely. This was used by marketers to track you across multiple apps and build up a profile. This was stopped by Apple a few years back and replaced with an advertising identifier which you can turn off and which can only be used between apps from the same company (where they are probably already tracking you). However, with a full music library, it would be fairly easy to track someone across multiple apps as periodic snapshots could be compared on a server.</p>
+  </li>
+</ol>
+
+<p>I’ve no idea if apps are already doing this in the background silently but it is something that shouldn’t be able to happen. To that end, I’ve filed a bug report with Apple (<a href="https://openradar.appspot.com/radar?id=6078139771912192">rdar://24168798</a>) to ask that they implement the same privacy controls that they do for contacts, calendars, photos, and location; a prompt when an app tries to access this data and the ability to grant or reject that permission through the system wide settings. Hopefully this is something Apple will implement in iOS 10 – if you’d like to see this happen, please duplicate bug 24168798 in the <a href="https://bugreport.apple.com">Apple Bug Reporter</a> as that is the best way to bring it to their attention.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:musictracker">
+      <p>Launching on Wednesday 20th January 2016. Find out more at <a href="https://dodoapps.io/music-tracker/">Dodo Apps</a>. <a href="#fnref:musictracker" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:json">
+      <p>I <a href="https://github.com/bendodson/music-library">uploaded it to GitHub</a> so you can get a feel for how big a file it generates in that small amount of time. <a href="#fnref:json" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:bwitched">
+      <p>Let’s not read into what <a href="https://itun.es/gb/Tr4Wr?i=298026101"><em>C’est La Vie</em> by B*Witched</a> means about me… <a href="#fnref:bwitched" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/01/13/munchkin-report/" title="Previous Article" class="pagination-previous">&laquo; Munchkin Report</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+</body>
+</html>
