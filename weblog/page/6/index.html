@@ -32,6 +32,42 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">Yosemite WiFi Workaround&#58; Airport Express and USB Ethernet Adapter</a></h1>
+			
+			<time datetime="2014-11-26" pubdate=""><a href="/weblog/2014/11/26/yosemite-wifi-airport-express-and-usb-ethernet-adapter/">November 26, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Like many people, Yosemite has been a total killer for my WiFi. I finally broke down over the weekend when my WiFI was disconnecting every 10 seconds or so<sup id="fnref:ethernet"><a href="#fn:ethernet" class="footnote">1</a></sup>. There is now a <a href="http://www.tuaw.com/2014/11/25/heres-the-root-cause-and-a-workaround-for-ios-8-and-yosemite-wi/">workaround available</a> but it requires losing the ability to AirDrop which I use frequently. I’ve eventually fixed it with a long winded solution which I thought I’d share, but first a little backstory…</p>
+
+<p>My WiFi is completely Apple-centric. I have an Airport Extreme (the newest 802.11ac model) and nothing but Apple computers. There are a couple of Apple TVs in the house and a few Airport Express’ for AirPlaying music. A little while ago <a href="https://bendodson.com/weblog/2014/10/17/issues-with-airport-express-airport-extreme-and-yosemite/">I detailed how Yosemite was erroneously connecting through an Airport Express</a> causing serious slowdown; the solution I had at that time was to separate my WiFi into 5GHz and 2.4GHz channels (with all AirPlay on 2.4 and all devices on 5). That was the setup.</p>
+
+<p>Now, I’ve had to revert to doing this for my work computer:</p>
+
+<p><img src="http://playground.bendodson.com/airport-lan-yosemite.jpg" alt="Fixing Yosemite with an Airport Express and USB Ethernet cable" /></p>
+
+<p>That’s right, I’ve had to plug in a USB Ethernet adapter and use a LAN cable to an Airport Express operating as a wireless bridge! As far as Yosemite is concerned, that’s a LAN connection and so it doesn’t drop out continuously. Problem solved!</p>
+
+<p>There was one issue though; that Apple USB Ethernet adapter (which they <a href="http://store.apple.com/uk/product/MC704ZM/A/apple-usb-ethernet-adapter">still sell</a>) doesn’t work in Mavericks yet alone Yosemite. To fix it, you need to download the drivers for the chip it is built on (helpfully <a href="http://www.asix.com.tw/download.php?sub=driverdetail&amp;PItemID=136">available from ASIX</a>), restart Yosemite, then manually add a USB Ethernet connection within Network in System Settings.</p>
+
+<p>It’s all working like a charm, complete with full AirDrop support and no dropped connections. My new Retina iMac is coming today<sup id="fnref:outfordelivery"><a href="#fn:outfordelivery" class="footnote">2</a></sup> so I’m hoping that it having an 802.11ac chip will forgoe the need for this ridiculous workaround. At the very least I’ll be able to leave out the ethernet adapter!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:ethernet">
+      <p>When I buy a house rather than rent, the first thing going in will be a gigabit LAN throughout. WiFi isn’t good enough for a media server and work machine. <a href="#fnref:ethernet" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:outfordelivery">
+      <p>“Out For Delivery”. Feels like I’ve been waiting forever! <a href="#fnref:outfordelivery" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/">Dishwasher tablets and app competition</a></h1>
 			
 			<time datetime="2014-11-18" pubdate=""><a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/">November 18, 2014</a></time>
@@ -311,35 +347,6 @@ find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -
   <ol>
     <li id="fn:sacked">
       <p>Well, you’d be sacked actually. <a href="#fnref:sacked" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/09/26/islandbreak/">IslandBreak</a></h1>
-			
-			<time datetime="2014-09-26" pubdate=""><a href="/weblog/2014/09/26/islandbreak/">September 26, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that an app I worked on earlier this year has finally gone live on the App Store; <a href="http://islandbreakapp.com/">IslandBreak</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/islandbreak.png" alt="IslandBreak for iPhone" /></p>
-
-<p>IslandBreak is a smart travel guide for the Bahamas with a complete list of restaurants, bars, historical sites, hotels, beaches, and tours.</p>
-
-<p>The app was interesting to work on due to the need for a completely offline experience. This wasn’t limited to just the points of interest and itineraries (which feature a huge amount of beautiful high-resolution photos) but also the map; this was a requirement so that tourists don’t have to use their data plans, particularly in an area which has very poor mobile reception<sup id="fnref:reception"><a href="#fn:reception" class="footnote">1</a></sup>. Getting a full map of the islands complete with multiple zoom levels and the experience you expect on iOS was difficult, but works really well. In addition, I built an online CMS so that the app content can be updated remotely without going through the App Store approval process.</p>
-
-<p>You can check it out by <a href="https://itunes.apple.com/us/app/islandbreak-travel-guide-for/id839013319?mt=8">downloading from the App Store</a> (currently priced at $0.99) or visiting <a href="http://islandbreakapp.com/">islandbreakapp.com</a></p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:reception">
-      <p>I speak from experience. I’ve been to the Bahamas a few times and proposed to my wife there; we had to wait until we were back in Florida before we could share the news! <a href="#fnref:reception" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
