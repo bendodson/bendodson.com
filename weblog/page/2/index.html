@@ -32,6 +32,47 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/12/20/pocket-rocket/">Pocket Rocket, read your Pocket articles quickly in Safari on iOS</a></h1>
+			
+			<time datetime="2015-12-20" pubdate=""><a href="/weblog/2015/12/20/pocket-rocket/">December 20, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Ever since <a href="https://bendodson.com/weblog/2015/09/25/the-times-they-are-a-changin/">I sold WallaBee</a>, I’ve been splitting my time between client work<sup id="fnref:clients"><a href="#fn:clients" class="footnote">1</a></sup>, my Xbox One, and doing small apps that help improve my life in little ways. Today, Apple finally approved<sup id="fnref:appstore"><a href="#fn:appstore" class="footnote">2</a></sup> my first self-published app in a long time, <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">Pocket Rocket</a>:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/pocket-rocket.jpg" width="800" height="500" /></p>
+
+<p>I save most articles that I want to read at a later date with <a href="https://getpocket.com/">Pocket</a> but I hate their mobile apps. Tapping an article will load their own reader view<sup id="fnref:broken"><a href="#fn:broken" class="footnote">3</a></sup> and it’s an extra step to jump to Safari. In addition, their apps aren’t updated for split screen support or new device sizes and so the experience is pretty poor. With Pocket Rocket, I wanted to do one thing; have my Pocket queue load up and then when you tap on an article it should load in Safari. I prefer using Safari as then you get to see the article as intended and with content blockers most pages load quickly. I got the basic version working within in an hour and it worked well enough for my needs; then, when I got the iPad Pro, I realised this could be a useful app for other people as it dramatically improves the reading experience especially when used in split screen mode.</p>
+
+<p>Pocket Rocket is completely free with no ads or tracking<sup id="fnref:noads"><a href="#fn:noads" class="footnote">4</a></sup>. It runs on any device capable of running iOS 9 and is a fully adaptive so it looks great no matter what screen-size you have. Due to this adaptability, it works in all split-screen modes on applicable iPads and that is the way I tend to use it. You can swipe on an article to archive or delete it upon reading. There is also a settings panel so you can choose whether links open in Safari or via an in-app browser (with the option to enable a reader view<sup id="fnref:reader"><a href="#fn:reader" class="footnote">5</a></sup> on launch if you want).</p>
+
+<p>You can <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">get Pocket Rocket for free on the App Store</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:clients">
+      <p>Of which I’ve done a lot; recently launched apps include <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">Brapp</a>, <a href="https://bendodson.com/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a>, and <a href="https://bendodson.com/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles</a> with two more apps awaiting approval from Apple… <a href="#fnref:clients" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:appstore">
+      <p>I won’t go into details as Apple specifically request people don’t, but it has been one of the longest and most painful App Store review processes to date. I don’t know if they’ve been having a bad month but a number of my projects have had a rough ride through the review process for no good reason lately. <a href="#fnref:appstore" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:broken">
+      <p>I hate their reader view as it often misses text or puts pull quotes in the wrong places. In addition, the scrolling was completely broken on the iPhone 6S for a few weeks. <a href="#fnref:broken" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:noads">
+      <p>Literally nothing leaves your device apart from when you log in with Pocket (and that is a secure connection with Pocket’s servers via OAuth so I see nothing); I don’t want to know anything about you and respect your privacy. This also isn’t a money-making exercise so the whole thing is free with no In-App Purchases. <a href="#fnref:noads" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:reader">
+      <p>The reader view is only available in the in-app browser, powered by SFSafariViewController, as there is no URL scheme for opening Safari with reader view enabled. I’ve submitted a Radar (<a href="https://openradar.appspot.com/radar?id=5024178285576192">rdar://23684808</a>) <a href="#fnref:reader" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles Apple Watch app</a></h1>
 			
 			<time datetime="2015-12-17" pubdate=""><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">December 17, 2015</a></time>
@@ -375,80 +416,6 @@ homebridge</code></pre></div>
 <span class="p">}</span></code></pre></div>
 
 <p>Check out <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController-Swift on GitHub</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">HKHealthStore Extension, deleteSamplesOfType</a></h1>
-			
-			<time datetime="2015-10-06" pubdate=""><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">October 06, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Following on from <a href="/weblog/2015/10/05/healthkit-radar-22977320/">my post yesterday</a> about the broken implementation of the <code>HKHealthStore</code> method <code>deleteObjectsOfType:predicate:withCompletion:</code>, I’ve put together <a href="https://gist.github.com/bendodson/c0f0a6a1f601dc4573ba">a gist</a> which provides a fixed method that works with <code>HKSampleType</code> objects; <code>deleteSamplesOfType:predicate:withCompletion:</code></p>
-
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">Foundation</span>
-<span class="k">import</span> <span class="n">HealthKit</span>
-
-<span class="k">extension</span> <span class="n">HKHealthStore</span> <span class="p">{</span>
-    
-    <span class="k">func</span> <span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="nl">sampleType</span><span class="p">:</span> <span class="n">HKSampleType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="bp">NSPredicate</span><span class="p">,</span> <span class="n">withCompletion</span> <span class="nl">completion</span><span class="p">:</span> <span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">{</span>
-        
-        <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="n">HKSampleQuery</span><span class="p">(</span><span class="nl">sampleType</span><span class="p">:</span> <span class="n">sampleType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">limit</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">sortDescriptors</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
-            
-            <span class="k">if</span> <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-                <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">false</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
-                <span class="k">return</span>
-            <span class="p">}</span>
-            
-            <span class="k">if</span> <span class="k">let</span> <span class="n">objects</span> <span class="o">=</span> <span class="n">results</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="n">objects</span><span class="p">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-                    <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="nb">self</span><span class="p">.</span><span class="n">deleteObjects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
-                        <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="n">objects</span><span class="p">.</span><span class="n">count</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
-                    <span class="p">})</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="n">completion</span><span class="p">(</span><span class="nl">success</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-            <span class="p">}</span>
-
-        <span class="p">}</span>
-        <span class="nb">self</span><span class="p">.</span><span class="n">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></div>
-
-<p>It simply uses the <code>NSPredicate</code> within a <code>HKSampleQuery</code> in order to find any objects that match the <code>HKSampleType</code> and then deletes them with the <code>HKHealthStore</code> method <code>deleteObjects:withCompletion:</code> - this correctly ensures that you are only deleting objects that match both the predicate and type.</p>
-
-<p>By way of example, this simply extends <code>HKHealthStore</code> so you can do something like this:</p>
-
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
-
-<span class="k">let</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="nl">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
-
-<span class="k">let</span> <span class="n">stepType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) step objects: \(error)&quot;</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">stepQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">stepSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-    <span class="nb">self</span><span class="p">.</span><span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
-    <span class="p">}</span>
-<span class="p">})</span>
-
-
-<span class="k">let</span> <span class="n">flightsType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteSamplesOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) flight objects: \(error)&quot;</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">flightsQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">flightsSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-    <span class="nb">self</span><span class="p">.</span><span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
-    <span class="p">}</span>
-<span class="p">})</span></code></pre></div>
-
-<p>As a reminder, you can file a duplicate of (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) if you’d like to see the original bug fixed but in the meantime the above should allow you to carry on with your HealthKit app without worrying about deleting other data.</p>
 
 		</div>
 	</article>

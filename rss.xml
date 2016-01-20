@@ -6,9 +6,78 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 20 Jan 2016 00:19:37 +0000</pubDate>
-    <lastBuildDate>Wed, 20 Jan 2016 00:19:37 +0000</lastBuildDate>
+    <pubDate>Wed, 20 Jan 2016 12:00:43 +0000</pubDate>
+    <lastBuildDate>Wed, 20 Jan 2016 12:00:43 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Music Tracker</title>
+      <link>https://bendodson.com/weblog/2016/01/20/music-tracker/</link>
+      <pubDate>Wed, 20 Jan 2016 12:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/01/20/music-tracker/</guid>
+      <description>&lt;p&gt;I’m very happy to announce that my latest self-published app, &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt;, is now &lt;a href=&quot;https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;amp;mt=8&quot;&gt;available on the App Store&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/dodo/music-tracker-hero.jpg&quot; width=&quot;800&quot; height=&quot;542&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Music Tracker is an iPhone app that keeps an eye on your music library and monitors additions, deletions, and any changes to your songs. With streaming becoming more popular, it is very easy for song metadata to change or for songs to disappear as licensing deals expire; with Music Tracker, you will always know when something in your library changes whether it was by you, a family member, or your streaming service.&lt;/p&gt;
+
+&lt;p&gt;I came up with the idea for Music Tracker after noticing that the amount of songs returned by iTunes was different to that in my Music app on my iPhone. This was due to a song I had in Apple Music that was no longer available in the UK and so had been automatically deleted from my iPhone and greyed out in my iTunes library on my mac. After a quick prototype, I had an app that would run on my phone and keep track of any deletions and additions so I’d be alerted if Apple altered my music. After a few weeks, there were several changes picked up by my app including a few songs that were just plain deleted and some that were completely altered (i.e. I had a studio recording of &lt;em&gt;Uptown Girl&lt;/em&gt; by Billy Joel that was switched for a live recording - with Music Tracker, I could see this change and switch it out for a studio recording from a different album).&lt;/p&gt;
+
+&lt;p&gt;In my original prototype version, I actually exported the entire music library as a JSON file and uploaded it to GitHub&lt;sup id=&quot;fnref:github&quot;&gt;&lt;a href=&quot;#fn:github&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. However, to make it work natively on the device without an internet connection I made use of the &lt;a href=&quot;http://realm.io&quot;&gt;Realm&lt;/a&gt; mobile database which is fantastic and insanely fast. The entire process of extracting the metadata from your library, comparing it against the existing dataset saved in Realm, and then creating a log of changes, additions, and deletions takes around 2.2 seconds on a library of 10000 songs&lt;sup id=&quot;fnref:mileage&quot;&gt;&lt;a href=&quot;#fn:mileage&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; and allows a full activity feed showing changes on a granular level:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/dodo/music-tracker-flow.jpg&quot; width=&quot;800&quot; height=&quot;417&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;From a technical point of view, there are 3 different ways in which Music Tracker can update depending on the options you choose during setup:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you enable push notifications, then a silent push notification&lt;sup id=&quot;fnref:silent&quot;&gt;&lt;a href=&quot;#fn:silent&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; will be sent to your device once an hour that wakes up the app in the background and checks for any changes. This typically lasts around 2 seconds on a standard library of 10000 songs and in my opinion is a pretty clever way of getting around the fact that you can’t schedule background tasks on iOS.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you don’t enable push notifications, the app will make use of Background App Refresh (limited to once per hour) to do an update in the background in a similar way to the silent push notifications. These typically fire when the phone is connected to WiFi and a power source but mileage will vary depending on what apps you have installed (and for that reason I recommend the silent push option).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you go into iPhone settings and disable Background App Refresh, then the only way to update the library is to open the app and pull to refresh (or use the 3D Touch Quick Action if you have an iPhone 6s / 6s Plus).&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Before finishing the app, I added full 3D touch support (both quick actions and “Peek and Pop”) and a basic Apple Watch app that allows you to see how many songs are in your library, and how many songs have been added, changed, or deleted today (along with name and artist of those tracks). In addition, there is a glance providing this information in a single screen and text-based complications for the Utility, Modular, and Mickey Mouse faces with a quick summary of your library today.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/dodo/music-tracker-watch.jpg&quot; width=&quot;800&quot; height=&quot;417&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This was the first project in which I used &lt;a href=&quot;https://fastlane.tools&quot;&gt;Fastlane&lt;/a&gt; for the provisioning profile, certificate generation, push notification setup, TestFlight, and iTunes Connect submission and I’d highly recommend it; so much simpler than doing those things manually! The TestFlight beta test was also well worth doing as with something like this I could only really test on a handful of devices but I needed to see load times on other devices and larger libraries - a big thank you to all of my beta testers. Once the app was submitted, I was honestly expecting the app to be rejected but it went straight through review without a problem&lt;sup id=&quot;fnref:update&quot;&gt;&lt;a href=&quot;#fn:update&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;The final thing to mention is an issue of privacy. I’m very proud of the fact that no data leaves your device from this app&lt;sup id=&quot;fnref:analytics&quot;&gt;&lt;a href=&quot;#fn:analytics&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; and I have a simple and transparent &lt;a href=&quot;https://dodoapps.io/music-tracker/privacy/&quot;&gt;Privacy Policy&lt;/a&gt;&lt;sup id=&quot;fnref:summary&quot;&gt;&lt;a href=&quot;#fn:summary&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;. However, I do think it is bizarre that iOS does not require any permissions dialogue when accessing the music library. I &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/&quot;&gt;wrote a post about this last week&lt;/a&gt; detailing this big privacy flaw and I’ve submitted a bug report to Apple (&lt;a href=&quot;https://openradar.appspot.com/radar?id=6078139771912192&quot;&gt;rdar://24168798&lt;/a&gt;) in the hope that a standard privacy alert will be added in iOS 10.&lt;/p&gt;
+
+&lt;p&gt;You can download &lt;a href=&quot;https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;amp;mt=8&quot;&gt;Music Tracker on the App Store&lt;/a&gt; (priced at $0.99 / £0.79) and learn more about it on my &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Dodo Apps website&lt;/a&gt;. If you are interested in reviewing Music Tracker or writing an article surrounding the privacy issue, you may can &lt;a href=&quot;https://bendodson.s3.amazonaws.com/dodo/music-tracker-media-kit.zip&quot;&gt;download the media kit&lt;/a&gt; which contains more information along with screenshots, mockups, and app icons.&lt;/p&gt;
+
+&lt;p&gt;If you find Music Tracker useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me directly&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:github&quot;&gt;
+      &lt;p&gt;You can see how this looked by seeing the commit log at &lt;a href=&quot;https://github.com/bendodson/music-library&quot;&gt;https://github.com/bendodson/music-library&lt;/a&gt; &lt;a href=&quot;#fnref:github&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:mileage&quot;&gt;
+      &lt;p&gt;Your mileage may vary depending on how many songs you have in your library and what device you are using; it’s obviously faster on an iPhone 6s than a 5s. The app requires a 64-bit processor due to this and so will not run on the iPhone 4s, 5, or 5c. &lt;a href=&quot;#fnref:mileage&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:silent&quot;&gt;
+      &lt;p&gt;The key part here is “silent”. These notifications wake up your phone and do some processing but you don’t receive any alerts, sounds, or badge icon updates unless you specifically opt-in to the “Summary Notification” within the settings panel (and that sends a simple text alert once per day if your library changed on the previous day). &lt;a href=&quot;#fnref:silent&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:update&quot;&gt;
+      &lt;p&gt;Although v1.0.1 was “In Review” for 3 days before approval. &lt;a href=&quot;#fnref:update&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:analytics&quot;&gt;
+      &lt;p&gt;There are no analytics or tracking of any kind. I did use &lt;a href=&quot;http://parse.com/&quot;&gt;Parse&lt;/a&gt; during the beta test in order to save a basic log of library sizes and processing times but that has all been removed for the App Store version and can be checked with a network debugger like &lt;a href=&quot;https://www.charlesproxy.com&quot;&gt;Charles Proxy&lt;/a&gt;. &lt;a href=&quot;#fnref:analytics&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:summary&quot;&gt;
+      &lt;p&gt;Summary: I really don’t want your data. &lt;a href=&quot;#fnref:summary&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Your music library is a security and privacy risk on iOS</title>

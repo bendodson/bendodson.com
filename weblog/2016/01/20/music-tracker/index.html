@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I’m very happy to announce that my latest self-published app, Music Tracker, is now available on the App Store.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-01-13-updated.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Music Tracker</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/20/music-tracker/">Music Tracker</a></h1>
+			
+			<time datetime="2016-01-20" pubdate=""><a href="/weblog/2016/01/20/music-tracker/">January 20, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’m very happy to announce that my latest self-published app, <a href="https://dodoapps.io/music-tracker/">Music Tracker</a>, is now <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">available on the App Store</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/dodo/music-tracker-hero.jpg" width="800" height="542" /></p>
+
+<p>Music Tracker is an iPhone app that keeps an eye on your music library and monitors additions, deletions, and any changes to your songs. With streaming becoming more popular, it is very easy for song metadata to change or for songs to disappear as licensing deals expire; with Music Tracker, you will always know when something in your library changes whether it was by you, a family member, or your streaming service.</p>
+
+<p>I came up with the idea for Music Tracker after noticing that the amount of songs returned by iTunes was different to that in my Music app on my iPhone. This was due to a song I had in Apple Music that was no longer available in the UK and so had been automatically deleted from my iPhone and greyed out in my iTunes library on my mac. After a quick prototype, I had an app that would run on my phone and keep track of any deletions and additions so I’d be alerted if Apple altered my music. After a few weeks, there were several changes picked up by my app including a few songs that were just plain deleted and some that were completely altered (i.e. I had a studio recording of <em>Uptown Girl</em> by Billy Joel that was switched for a live recording - with Music Tracker, I could see this change and switch it out for a studio recording from a different album).</p>
+
+<p>In my original prototype version, I actually exported the entire music library as a JSON file and uploaded it to GitHub<sup id="fnref:github"><a href="#fn:github" class="footnote">1</a></sup>. However, to make it work natively on the device without an internet connection I made use of the <a href="http://realm.io">Realm</a> mobile database which is fantastic and insanely fast. The entire process of extracting the metadata from your library, comparing it against the existing dataset saved in Realm, and then creating a log of changes, additions, and deletions takes around 2.2 seconds on a library of 10000 songs<sup id="fnref:mileage"><a href="#fn:mileage" class="footnote">2</a></sup> and allows a full activity feed showing changes on a granular level:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/dodo/music-tracker-flow.jpg" width="800" height="417" /></p>
+
+<p>From a technical point of view, there are 3 different ways in which Music Tracker can update depending on the options you choose during setup:</p>
+
+<ol>
+  <li>
+    <p>If you enable push notifications, then a silent push notification<sup id="fnref:silent"><a href="#fn:silent" class="footnote">3</a></sup> will be sent to your device once an hour that wakes up the app in the background and checks for any changes. This typically lasts around 2 seconds on a standard library of 10000 songs and in my opinion is a pretty clever way of getting around the fact that you can’t schedule background tasks on iOS.</p>
+  </li>
+  <li>
+    <p>If you don’t enable push notifications, the app will make use of Background App Refresh (limited to once per hour) to do an update in the background in a similar way to the silent push notifications. These typically fire when the phone is connected to WiFi and a power source but mileage will vary depending on what apps you have installed (and for that reason I recommend the silent push option).</p>
+  </li>
+  <li>
+    <p>If you go into iPhone settings and disable Background App Refresh, then the only way to update the library is to open the app and pull to refresh (or use the 3D Touch Quick Action if you have an iPhone 6s / 6s Plus).</p>
+  </li>
+</ol>
+
+<p>Before finishing the app, I added full 3D touch support (both quick actions and “Peek and Pop”) and a basic Apple Watch app that allows you to see how many songs are in your library, and how many songs have been added, changed, or deleted today (along with name and artist of those tracks). In addition, there is a glance providing this information in a single screen and text-based complications for the Utility, Modular, and Mickey Mouse faces with a quick summary of your library today.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/dodo/music-tracker-watch.jpg" width="800" height="417" /></p>
+
+<p>This was the first project in which I used <a href="https://fastlane.tools">Fastlane</a> for the provisioning profile, certificate generation, push notification setup, TestFlight, and iTunes Connect submission and I’d highly recommend it; so much simpler than doing those things manually! The TestFlight beta test was also well worth doing as with something like this I could only really test on a handful of devices but I needed to see load times on other devices and larger libraries - a big thank you to all of my beta testers. Once the app was submitted, I was honestly expecting the app to be rejected but it went straight through review without a problem<sup id="fnref:update"><a href="#fn:update" class="footnote">4</a></sup>.</p>
+
+<p>The final thing to mention is an issue of privacy. I’m very proud of the fact that no data leaves your device from this app<sup id="fnref:analytics"><a href="#fn:analytics" class="footnote">5</a></sup> and I have a simple and transparent <a href="https://dodoapps.io/music-tracker/privacy/">Privacy Policy</a><sup id="fnref:summary"><a href="#fn:summary" class="footnote">6</a></sup>. However, I do think it is bizarre that iOS does not require any permissions dialogue when accessing the music library. I <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">wrote a post about this last week</a> detailing this big privacy flaw and I’ve submitted a bug report to Apple (<a href="https://openradar.appspot.com/radar?id=6078139771912192">rdar://24168798</a>) in the hope that a standard privacy alert will be added in iOS 10.</p>
+
+<p>You can download <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">Music Tracker on the App Store</a> (priced at $0.99 / £0.79) and learn more about it on my <a href="https://dodoapps.io/music-tracker/">Dodo Apps website</a>. If you are interested in reviewing Music Tracker or writing an article surrounding the privacy issue, you may can <a href="https://bendodson.s3.amazonaws.com/dodo/music-tracker-media-kit.zip">download the media kit</a> which contains more information along with screenshots, mockups, and app icons.</p>
+
+<p>If you find Music Tracker useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can <a href="https://bendodson.com/contact/">contact me directly</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:github">
+      <p>You can see how this looked by seeing the commit log at <a href="https://github.com/bendodson/music-library">https://github.com/bendodson/music-library</a> <a href="#fnref:github" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:mileage">
+      <p>Your mileage may vary depending on how many songs you have in your library and what device you are using; it’s obviously faster on an iPhone 6s than a 5s. The app requires a 64-bit processor due to this and so will not run on the iPhone 4s, 5, or 5c. <a href="#fnref:mileage" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:silent">
+      <p>The key part here is “silent”. These notifications wake up your phone and do some processing but you don’t receive any alerts, sounds, or badge icon updates unless you specifically opt-in to the “Summary Notification” within the settings panel (and that sends a simple text alert once per day if your library changed on the previous day). <a href="#fnref:silent" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:update">
+      <p>Although v1.0.1 was “In Review” for 3 days before approval. <a href="#fnref:update" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:analytics">
+      <p>There are no analytics or tracking of any kind. I did use <a href="http://parse.com/">Parse</a> during the beta test in order to save a basic log of library sizes and processing times but that has all been removed for the App Store version and can be checked with a network debugger like <a href="https://www.charlesproxy.com">Charles Proxy</a>. <a href="#fnref:analytics" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:summary">
+      <p>Summary: I really don’t want your data. <a href="#fnref:summary" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/" title="Previous Article" class="pagination-previous">&laquo; Your music library is a security and privacy risk on iOS</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>
