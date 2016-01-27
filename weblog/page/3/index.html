@@ -32,6 +32,38 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">A simple Audio Recorder controller in Swift (for iPhone)</a></h1>
+			
+			<time datetime="2015-10-20" pubdate=""><a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">October 20, 2015</a></time>
+    	</header>
+    	<div>
+			<p>iOS provides a number of useful modal views within it’s system frameworks with everything from sending email to taking photos or video. However, there is still not a standard way to perform what is a fairly basic task; recording a voice memo.</p>
+
+<p>I had a need for such a feature on a project recently and so I put together <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController</a>. It’s a basic modal view controller that allows you to record, playback, re-record, and save audio locally in mp4 format.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/audiorecorderviewcontroller.jpg" width="800" /></p>
+
+<p>Usage is insanely simple and modelled on such classes as <code>UIImagePickerController</code>:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">presentAudioRecorder</span><span class="p">(</span><span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">AudioRecorderViewController</span><span class="p">()</span>
+    <span class="n">controller</span><span class="p">.</span><span class="n">audioRecorderDelegate</span> <span class="o">=</span> <span class="nb">self</span>
+    <span class="n">presentViewController</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">audioRecorderViewControllerDismissed</span><span class="p">(</span><span class="n">withFileURL</span> <span class="nl">fileURL</span><span class="p">:</span> <span class="bp">NSURL</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something with fileURL</span>
+    <span class="n">dismissViewControllerAnimated</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Check out <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController-Swift on GitHub</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">HKHealthStore Extension, deleteSamplesOfType</a></h1>
 			
 			<time datetime="2015-10-06" pubdate=""><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">October 06, 2015</a></time>
@@ -517,31 +549,6 @@ Every villain<sup id="fnref:almost"><a href="#fn:almost" class="footnote">5</a><
 <span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
 
 <p>As you can see, the code is pretty simple, readable, and powerful. Within minutes, I was able to jump through 3 pages without worrying about sessions, cookies, or any of the other nonsense that often occurred when dealing with this kind of scraping. I run this every 5 minutes on a <a href="http://fortrabbit.com/">FortRabbit server</a> and we both get emailed if a closer test date appears. For just a few minutes work, this means better peace of mind as we don’t have to check manually and this checks far more frequently than we ever could. Now to wait and hope for a nearer test date…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/17/transferwise/">TransferWise</a></h1>
-			
-			<time datetime="2015-07-17" pubdate=""><a href="/weblog/2015/07/17/transferwise/">July 17, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been meaning to write about <a href="https://transferwise.com/u/135bb">TransferWise</a> for a little while but there new support for Apple Pay put it back in the front of my mind. TransferWise is a service that transfers money for you into multiple currencies at a fraction of the cost that your bank would usually charge. I’d seen it advertised a few times on Facebook but didn’t take too much notice as I didn’t really make any international transfers; that stopped when we <a href="http://wallab.ee/blog/apr-2014/design-team-update">hired Robbie at WallaBee last year</a>. I quickly found that my bank was not only charging me with exhorbitant conversion rates and transfer charges but that the recipient was also being charged by their bank for accepting an international transfer!</p>
-
-<p>The way TransferWise works is that it lets you choose a specific amount of money to transfer (either in the original or converted currency<sup id="fnref:transfers"><a href="#fn:transfers" class="footnote">1</a></sup>) and then it tells you how much it thinks it will cost. You then pay that amount (plus a small buffer to account for fluctuating bank transfers) direct to TransferWise by card or bank transfer. They then do the conversion and pay the recipient from a local account in their own currency so they don’t get hit with international charges. Once it is all done, you get a refund for any of the amount that wasn’t used for the conversion. The first few times the transfer took around 5 working days but now my transfers are done within 24 hours.</p>
-
-<p>I’ve saved over £500 in fees over the past 6 months and couldn’t be happier with the service. I tend to use the website but they have a great iOS app which has recently been updated to accept Apple Pay. If you are making any sort of payments overseas, I’d strongly recommend using TransferWise rather than your standard banking transfers. If you <a href="https://transferwise.com/u/135bb">sign up with this link</a>, you’ll get a fee-free transfer of up to £3000.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:transfers">
-      <p>This is an important distinction as when paying an invoice I need to pay in a specific amount of USD so the amount of GBP will change. There may be situations where you always want send a specific amount of GBP and the USD will then be the thing that varies based on currency conversion. Obviously they support more than just USD / GBP but that’s all I use currently. <a href="#fnref:transfers" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>
