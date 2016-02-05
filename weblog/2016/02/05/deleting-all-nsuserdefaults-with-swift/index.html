@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="NSUserDefaults is likely one of the most used APIs on iOS providing a quick and easy way to store basic configuration and settings. However, these can quickly mount up and you’ll typically end up with something like this in your project within a logout method:">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-01-21.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<title>Deleting all NSUserDefaults with Swift</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/">Deleting all NSUserDefaults with Swift</a></h1>
+			
+			<time datetime="2016-02-05" pubdate=""><a href="/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/">February 05, 2016</a></time>
+    	</header>
+    	<div>
+			<p>NSUserDefaults is likely one of the most used APIs on iOS providing a quick and easy way to store basic configuration and settings. However, these can quickly mount up and you’ll typically end up with something like this in your project within a logout method:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+<span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;Username&quot;</span><span class="p">)</span>
+<span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;Token&quot;</span><span class="p">)</span>
+<span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;SomeSetting&quot;</span><span class="p">)</span>
+<span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;FavouriteArtist&quot;</span><span class="p">)</span>
+<span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span></code></pre></div>
+
+<p><strong>(Note: you should never store secure information like a password or API token in NSUserDefaults; that’s what the Keychain is for. You should probably also use static constants in a config file for your keys but this will do for a demonstration)</strong></p>
+
+<p>The problem with something like this is that you have to remember to go and add an extra <code>removeObjectForKey</code> whenever you add a new setting and this can be easily forgotten and lead to settings being shared between different user accounts. I’ve definitely been guilty of doing this in the past and, whilst working on an update to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a>, I found that this can be much simpler:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">removePersistentDomainForName</span><span class="p">(</span><span class="bp">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">().</span><span class="n">bundleIdentifier</span><span class="o">!</span><span class="p">)</span>
+<span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">synchronize</span><span class="p">()</span></code></pre></div>
+
+<p>This will clear all of the NSUserDefaults that have been set by your code leaving you with a fresh slate just as if the app had been deleted and reinstalled. You don’t need to update your logout method whenever a new setting gets added and you can be sure that everything is being reset in full.</p>
+
+<p><strong>Update:</strong> a few people have asked why I perform <code>NSUserDefaults.standardUserDefaults().synchronize()</code> as this should happen automatically. The key word here is <em>should</em>; since iOS 7, NSUserDefaults do not get written to disk as frequently as previously (i.e. when going into the background). With the addition of things like watch extensions, widgets, and keyboards that can all access a shared NSUserDefaults, I find it is always best to perform a sync (which ensures the data is written to disk immediately) as then none of the other aspects of your app or extensions will access invalid data. It doesn’t add any significant performance overhead in my experience but can save you from embarrassing bugs.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/02/02/calm-radio-for-ios/" title="Previous Article" class="pagination-previous">&laquo; Calm Radio for iOS</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

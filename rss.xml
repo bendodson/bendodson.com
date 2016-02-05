@@ -6,9 +6,37 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 02 Feb 2016 16:09:32 +0000</pubDate>
-    <lastBuildDate>Tue, 02 Feb 2016 16:09:32 +0000</lastBuildDate>
+    <pubDate>Fri, 05 Feb 2016 14:16:56 +0000</pubDate>
+    <lastBuildDate>Fri, 05 Feb 2016 14:16:56 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Deleting all NSUserDefaults with Swift</title>
+      <link>https://bendodson.com/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/</link>
+      <pubDate>Fri, 05 Feb 2016 14:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/</guid>
+      <description>&lt;p&gt;NSUserDefaults is likely one of the most used APIs on iOS providing a quick and easy way to store basic configuration and settings. However, these can quickly mount up and you’ll typically end up with something like this in your project within a logout method:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;standardUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removeObjectForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Username&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removeObjectForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Token&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removeObjectForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;SomeSetting&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removeObjectForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;FavouriteArtist&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;synchronize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;(Note: you should never store secure information like a password or API token in NSUserDefaults; that’s what the Keychain is for. You should probably also use static constants in a config file for your keys but this will do for a demonstration)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The problem with something like this is that you have to remember to go and add an extra &lt;code&gt;removeObjectForKey&lt;/code&gt; whenever you add a new setting and this can be easily forgotten and lead to settings being shared between different user accounts. I’ve definitely been guilty of doing this in the past and, whilst working on an update to &lt;a href=&quot;https://dodoapps.io/pocket-rocket/&quot;&gt;Pocket Rocket&lt;/a&gt;, I found that this can be much simpler:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;bp&quot;&gt;NSUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;standardUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removePersistentDomainForName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mainBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundleIdentifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;bp&quot;&gt;NSUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;standardUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;synchronize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will clear all of the NSUserDefaults that have been set by your code leaving you with a fresh slate just as if the app had been deleted and reinstalled. You don’t need to update your logout method whenever a new setting gets added and you can be sure that everything is being reset in full.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; a few people have asked why I perform &lt;code&gt;NSUserDefaults.standardUserDefaults().synchronize()&lt;/code&gt; as this should happen automatically. The key word here is &lt;em&gt;should&lt;/em&gt;; since iOS 7, NSUserDefaults do not get written to disk as frequently as previously (i.e. when going into the background). With the addition of things like watch extensions, widgets, and keyboards that can all access a shared NSUserDefaults, I find it is always best to perform a sync (which ensures the data is written to disk immediately) as then none of the other aspects of your app or extensions will access invalid data. It doesn’t add any significant performance overhead in my experience but can save you from embarrassing bugs.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Calm Radio for iOS</title>
@@ -20,7 +48,7 @@
 
 &lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/calm-radio-ios.jpg&quot; width=&quot;800&quot; height=&quot;640&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Last month, I announced the launch of the &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/calm-radio-for-apple-tv/&quot;&gt;Apple TV app for Calm Radio&lt;/a&gt;; the client was so pleased with the end result that they commissioned me to also rebuild their existing universal iOS app. This is a special project for me as I didn’t only build the app from scratch, but I also designed it fully. With the Apple TV app, I took design cues from the stock apps provided by Apple such as Movies and TV Shows; with the iOS app, I’ve taken inspiration from that design and kept the vibrant backgrounds created by blurring the rich artwork that was available for each channel.&lt;/p&gt;
+&lt;p&gt;Last month, I announced the launch of the &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/calm-radio-for-apple-tv/&quot;&gt;Apple TV app for Calm Radio&lt;/a&gt;; the client was so pleased with the end result that they commissioned me to also rebuild their existing universal iOS app. This is a special project for me as I didn’t only build the app from scratch, but I also designed it fully. With the Apple TV app, I took design cues from the stock apps provided by Apple such as Movies and TV Shows; with the iOS app, I’ve taken inspiration from that design and kept the vibrant backgrounds created by blurrding the rich artwork that was available for each channel.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/calm-radio-flow.jpg&quot; width=&quot;800&quot; height=&quot;384&quot; /&gt;&lt;/p&gt;
 
