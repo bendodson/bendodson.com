@@ -32,6 +32,119 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2008/03/16/rss-feed-of-the-london-underground-tube-status/">RSS Feed of the London Underground Tube Status</a></h1>
+			
+			<time datetime="2008-03-16" pubdate=""><a href="/weblog/2008/03/16/rss-feed-of-the-london-underground-tube-status/">March 16, 2008</a></time>
+    	</header>
+    	<div>
+			<p><strong>Please note that this page is now outdated - for any updates to the London Underground, you should use my dedicated <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">Tube Status API and RSS feeds</a></strong></p>
+
+<p>I've been spending some time making an RSS feed of the London Underground tube status as I've been working on a few projects that could use one.  You would think that <a href="http://www.tfl.gov.uk" rel="external">Transport for Londons</a> nice web 2.0 style website would provide this basic requirement but alas they don't.  There are a few developers out there who have written some scraping scripts to convert this information, but most of them no longer work as they haven't been updated to work with the new site.</p>
+
+<p>Previously I have used the script at <a href="http://conor.net/code/tube/" rel="external">conor.net</a> to power any projects requiring a tube RSS feed but this went down a few weeks ago when I was in the middle of some crucial testing. So, like any other crazy developer would, I decided to write my own PHP scraping script that would generate me a nice RSS feed to basically tell me TFL had messed up my journey home!</p>
+
+<p>For those of you just looking for an RSS feed of the London Underground tube delays, you can find it at <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/rss/" rel="external">http://tubeupdates.com/rss/</a> - This is automatically updated every minute and will email me if anything goes wrong so I can fix it!  If you are going to use it for any projects, please <a href="https://bendodson.com/contact/">let me know</a> so that I can monitor bandwidth, etc.  If you are interested in how it works, then the code that powers this is below - feel free to use and modify it for your own projects:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="c1">// This file should be run on a CRON job every 5 minutes.</span>
+<span class="c1">// The server will need to be able to write to this folder in order to create the XML file.</span>
+
+<span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;bakerloo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;central&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;circle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;district&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;east london&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;hammersmith &amp; city&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;jubilee&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;metropolitan&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;northern&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;piccadilly&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;victoria&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;waterloo &amp; city&#39;</span>
+        <span class="p">);</span>
+
+<span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$ref</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="nv">$ref</span><span class="p">);</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span><span class="s1">&#39;and&#39;</span><span class="p">,</span><span class="nv">$id</span><span class="p">);</span>
+
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="p">;</span>
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">ucwords</span><span class="p">(</span><span class="nv">$ref</span><span class="p">);</span>
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> 
+        <span class="s1">&#39;http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/tube-&#39;</span> <span class="o">.</span> <span class="nv">$id</span> <span class="o">.</span> <span class="s1">&#39;-now.html&#39;</span><span class="p">;</span>
+
+    <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$lines</span> <span class="k">as</span> <span class="nv">$line</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$file</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]);</span>
+    <span class="nv">$needle</span> <span class="o">=</span> <span class="nb">strtoupper</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;ref&#39;</span><span class="p">])</span> <span class="o">.</span> <span class="s1">&#39; LINE:&#39;</span><span class="p">;</span>
+    <span class="nv">$pos</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span><span class="nv">$needle</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$pos</span> <span class="o">!==</span> <span class="k">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$pos</span> <span class="o">+=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$needle</span><span class="p">);</span>
+        <span class="nv">$end</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span><span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">,</span><span class="nv">$pos</span><span class="p">);</span>
+         <span class="nv">$status</span> <span class="o">=</span> <span class="nb">strip_tags</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span><span class="nv">$pos</span><span class="p">,(</span><span class="nv">$end</span><span class="o">-</span><span class="nv">$pos</span><span class="p">)));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$status</span> <span class="o">=</span> <span class="s1">&#39;A good service is currently running.&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="nv">$lines</span><span class="p">[</span><span class="nv">$i</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$status</span><span class="p">;</span>
+    <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
+
+<span class="nv">$xml</span> <span class="o">=</span> <span class="o">&lt;&lt;&lt;</span><span class="nx">XML</span>
+
+<span class="o">&lt;</span><span class="nx">rss</span> <span class="nx">version</span><span class="o">=</span><span class="s2">&quot;2.0&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">channel</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">London</span> <span class="nx">Tube</span> <span class="nx">Updates</span><span class="o">&lt;/</span><span class="nx">title</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/</span><span class="nx">tfl</span><span class="o">/</span><span class="nx">livetravelnews</span><span class="o">/</span><span class="nx">realtime</span><span class="o">/</span><span class="nx">tube</span><span class="o">/</span><span class="k">default</span><span class="o">.</span><span class="nx">html</span><span class="o">&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">description</span><span class="o">&gt;</span><span class="nx">The</span> <span class="nx">latest</span> <span class="nx">London</span> <span class="nx">Underground</span> <span class="nx">tube</span> <span class="nx">update</span> <span class="nx">information</span><span class="o">&lt;/</span><span class="nx">description</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">language</span><span class="o">&gt;</span><span class="nx">en</span><span class="o">&lt;/</span><span class="nx">language</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">pubDate</span><span class="o">&gt;</span><span class="nv">$now</span><span class="o">&lt;/</span><span class="nx">pubDate</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">lastBuildDate</span><span class="o">&gt;</span><span class="nv">$now</span><span class="o">&lt;/</span><span class="nx">lastBuildDate</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">docs</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">tube</span><span class="o">.</span><span class="nx">bendodson</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">weblog</span><span class="o">/&lt;/</span><span class="nx">docs</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">webMaster</span><span class="o">&gt;</span><span class="nx">ben</span><span class="o">@</span><span class="nx">bendodson</span><span class="o">.</span><span class="nx">com</span> <span class="p">(</span><span class="nx">Ben</span> <span class="nx">Dodson</span><span class="p">)</span><span class="o">&lt;/</span><span class="nx">webMaster</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">generator</span><span class="o">&gt;</span><span class="nx">PHP</span> <span class="nx">script</span> <span class="nx">by</span> <span class="nx">Ben</span> <span class="nx">Dodson</span><span class="o">&lt;/</span><span class="nx">generator</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">ttl</span><span class="o">&gt;</span><span class="mi">5</span><span class="o">&lt;/</span><span class="nx">ttl</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">image</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Transport</span> <span class="k">for</span> <span class="nx">London</span><span class="o">&lt;/</span><span class="nx">title</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">url</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/</span><span class="nx">tfl</span><span class="o">-</span><span class="k">global</span><span class="o">/</span><span class="nx">images</span><span class="o">/</span><span class="nx">roundel</span><span class="o">.</span><span class="nx">gif</span><span class="o">&lt;/</span><span class="nx">url</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">width</span><span class="o">&gt;</span><span class="mi">52</span><span class="o">&lt;/</span><span class="nx">width</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">height</span><span class="o">&gt;</span><span class="mi">44</span><span class="o">&lt;/</span><span class="nx">height</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">description</span><span class="o">&gt;</span><span class="nx">Transport</span> <span class="k">for</span> <span class="nx">London</span> <span class="nx">Logo</span><span class="o">&lt;/</span><span class="nx">description</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="nx">image</span><span class="o">&gt;</span>
+<span class="nx">XML</span><span class="p">;</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$lines</span> <span class="k">as</span> <span class="nv">$line</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;item&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;title&gt;&#39;</span> <span class="o">.</span> <span class="nb">htmlentities</span><span class="p">(</span><span class="nb">ucwords</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]))</span> <span class="o">.</span> <span class="s1">&#39;&lt;/title&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;link&gt;&#39;</span> <span class="o">.</span> <span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s1">&#39;&lt;/link&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;description&gt;&#39;</span> <span class="o">.</span> <span class="nb">htmlentities</span><span class="p">(</span><span class="nv">$line</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">])</span> <span class="o">.</span> <span class="s1">&#39;&lt;/description&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+    <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/item&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+        
+<span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/channel&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/rss&gt;&#39;</span><span class="p">;</span>
+
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;rss.xml&#39;</span><span class="p">,</span><span class="nv">$xml</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>As I mentioned earlier, I am working on a few projects that utilise this script and I shall be making those available shortly.  However, for a sneak peek, you can check out <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/" rel="external">Tube Updates</a>, an API for any developer that would like to make use of this data.  There are still a few improvements to be made but you get the general idea!</p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2008/03/01/firefox-extensions-updated-for-beta-3-compatibility/">Firefox extensions updated for Beta 3 compatibility</a></h1>
 			
 			<time datetime="2008-03-01" pubdate=""><a href="/weblog/2008/03/01/firefox-extensions-updated-for-beta-3-compatibility/">March 01, 2008</a></time>

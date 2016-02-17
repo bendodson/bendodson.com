@@ -32,6 +32,25 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/">Dishwasher tablets and app competition</a></h1>
+			
+			<time datetime="2014-11-18" pubdate=""><a href="/weblog/2014/11/18/dishwasher-tablets-and-app-competition/">November 18, 2014</a></time>
+    	</header>
+    	<div>
+			<p>This week I bought some new dishwasher tablets online that happened to be on offer. When they arrived, their packaging had a banner at the top saying <em>‘switch &amp; see the difference’</em> which got me thinking about app competition.</p>
+
+<p>I noticed it today when I loaded the dishwasher after breakfast. Where I usually rinse the plates, I instead put them straight in so I could test if these tablets really were any better. When I unloaded the dishes and found them not as clean as usual, I immediately thought not to buy those tablets again. The strange thing about the above is that it was a totally subconcious decision both to forgo rinsing and to blame the new tablets rather than my change of habit.</p>
+
+<p>This relates to app competition as it shows something which is hardwired in us; <em><strong>a competitor must be much better in order to affect a change</strong></em>. If your app is competing by having the same features or slightly more features, that might not be enough to make your competitors customers switch.</p>
+
+<p>When I look at competitors for <a href="http://wallab.ee/">WallaBee</a>, the main one is <a href="https://apps.facebook.com/packrat/">PackRat</a>, a collecting game that runs on Facebook. Whilst we have better artwork and features, it is still a struggle to make people switch as there isn’t necessarily a killer reason for them to make that switch. That’s the task I’m focussing on now. I need to go that extra mile to get players to change to my game; I need to wash their non-rinsed plates.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2014/10/20/speeding-up-your-dns/">Speeding up your DNS</a></h1>
 			
 			<time datetime="2014-10-20" pubdate=""><a href="/weblog/2014/10/20/speeding-up-your-dns/">October 20, 2014</a></time>
@@ -321,49 +340,6 @@ find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -
   <ol>
     <li id="fn:reception">
       <p>I speak from experience. I’ve been to the Bahamas a few times and proposed to my wife there; we had to wait until we were back in Florida before we could share the news! <a href="#fnref:reception" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/09/25/ios-8-using-internal-reference-name-for-iap/">iOS using internal reference name for IAP</a></h1>
-			
-			<time datetime="2014-09-25" pubdate=""><a href="/weblog/2014/09/25/ios-8-using-internal-reference-name-for-iap/">September 25, 2014</a></time>
-    	</header>
-    	<div>
-			<p>Today I noticed a slightly worrying bug in iOS. In-App Purchases seem to be using the internal reference name rather than the localized display name. As an example here is my config for one of the consumable IAPs in <a href="http://wallab.ee/">WallaBee</a>:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-edit.png" alt="iTunes Connect Edit IAP Language" /></p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-summary.png" alt="iTunes Connect Edit IAP Summary" /></p>
-
-<p>The reference name is ‘v1.1 25000 Honeycombs’<sup id="fnref:reference"><a href="#fn:reference" class="footnote">1</a></sup> and the display name for UK English is ‘pack of 25000 honeycombs’. This means the purchase screen ends up looking like this:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-app.png" alt="iOS 8 IAP Display Name incorrect" /></p>
-
-<p>Hardly ideal.</p>
-
-<p>I double checked the <a href="https://developer.apple.com/library/ios/documentation/LanguagesUtilities/Conceptual/iTunesConnectInAppPurchase_Guide/Chapters/CreatingInAppPurchaseProducts.html#//apple_ref/doc/uid/TP40013727-CH3-SW3">In-App Purchase Configuration Guide</a> and it still states that:</p>
-
-<blockquote>
-  <p><em>In the Reference Name field, enter an internal name for the product.</em></p>
-</blockquote>
-
-<p>I’ve not been able to see this in other apps as most people will use the same display name and reference name. I’ve reported a bug with the Apple Bug Reporter <a href="http://openradar.io/18454842">Filed as 18454842</a>.</p>
-
-<p>You may want to check your own IAPs to make sure the reference name looks ok until this gets fixed. You can change them without going through App Review (as they aren’t supposed to be visible to end users).</p>
-
-<p><strong>Update (26th September 2014):</strong> Tony McBride emailed me to say that he was experiencing the same issues on iOS 7 building against the iOS 7 SDK. I’ve confirmed it is happening in WallaBee v1.4.1 (built with iOS 8 SDK) running on iOS 7. Looks like it may be an App Store issue rather than an iOS 8 issue. I’ve updated this post to remove references to it being a solely iOS 8 problem.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:reference">
-      <p>In case you are wondering why, I forget exactly. I think there were different packs in v1.0 which we then increased in v1.1 - some of the increases overlapped (i.e. 15000 became 25000) and so I had to use a different name. Prepending the version seemed to be a sensible choice as nobody would see it. <a href="#fnref:reference" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
