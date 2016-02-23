@@ -6,9 +6,65 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Fri, 19 Feb 2016 09:42:25 +0000</pubDate>
-    <lastBuildDate>Fri, 19 Feb 2016 09:42:25 +0000</lastBuildDate>
+    <pubDate>Tue, 23 Feb 2016 12:48:02 +0000</pubDate>
+    <lastBuildDate>Tue, 23 Feb 2016 12:48:02 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Details on the iOS 9.3 Media Library additions</title>
+      <link>https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/</link>
+      <pubDate>Tue, 23 Feb 2016 12:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/</guid>
+      <description>&lt;p&gt;Due to my &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/&quot;&gt;article on music library security on iOS&lt;/a&gt;, I’ve found myself in the position of being misquoted or misunderstood on sites such as &lt;a href=&quot;http://appleinsider.com/articles/16/02/18/inside-ios-93-apple-will-allow-third-party-apps-to-add-music-to-your-icloud-music-library&quot;&gt;AppleInsider&lt;/a&gt; with regards to the new media library APIs in iOS 9.3. This article is intended to clear up some misunderstandings that people have about these new APIs.&lt;/p&gt;
+
+&lt;p&gt;In iOS 9.3, there are several additions to the music library. Indeed, it is the first item listed in the &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9_3.html#//apple_ref/doc/uid/TP40016661-SW1&quot;&gt;What’s New in iOS 9.3&lt;/a&gt; developer document:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;New methods in the Media Player and StoreKit frameworks let you add an Apple Music track to the music library and play it. First, use the SKCloudServiceController API to determine the current capabilities, such as if the device allows playback of Apple Music catalog tracks and the addition of tracks to the library. Then, you can use the MPMediaLibrary method addItemWithProductID:completionHandler: to add a track to the library and the MPMusicPlayerController method setQueueWithStoreIDs: to play a track.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Firstly, the StoreKit framework has been updated to include an &lt;code&gt;SKCloudServiceController&lt;/code&gt; which basically gives an app the opportunity to request access to a user’s media library and to check if they have the ability to stream Apple Music tracks and / or add those tracks to their iCloud Music library.&lt;/p&gt;
+
+&lt;p&gt;Next, &lt;code&gt;MPMusicPlayerController&lt;/code&gt; has been updated with a new method named &lt;code&gt;setQueueWithStoreIDs&lt;/code&gt; which allows you to basically hand over an array of Apple Music identifiers and have those play instantly in the Music app without leaving your own app. Interestingly, this allows you to Rickroll someone in just a few lines of code:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;play&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trackID&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;255991760&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// use 302053341 in USA, 255991760 in UK&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMusicPlayerController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setQueueWithStoreIDs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trackID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;play&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This API, whilst interesting, has a few issues; there is no easy automated way of getting access to Apple Music identifiers&lt;sup id=&quot;fnref:applemusicid&quot;&gt;&lt;a href=&quot;#fn:applemusicid&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and they are different for each country so a US track will not play on a UK Apple Music account. To top it off, there is no error handling so it’ll just silently fail.&lt;/p&gt;
+
+&lt;p&gt;The final new addition is to &lt;code&gt;MPMediaLibrary&lt;/code&gt; and is a method named &lt;code&gt;addItemWithProductID:completionHandler:&lt;/code&gt;. This allows you to add an Apple Music track to the user’s library as long as they gave permission via the &lt;code&gt;SKCloudServiceController&lt;/code&gt; and they have a valid Apple Music account although I haven’t been able to get it working as yet due to a cryptic error (you can read more about that on the &lt;a href=&quot;https://forums.developer.apple.com/thread/38878&quot;&gt;Apple Developer Forums&lt;/a&gt;). However, it does not allow you to add MP3s to your library or import Spotify tracks or anything like that; it is just a way to add Apple Music tracks to your library. Why is that useful? The scenario I envision is that it is for apps like Shazam that identify music and then traditionally give you a link to go and see it in Apple Music or the iTunes Store. With this new API, those apps can now add a button such as “add this track to your library?” which will allow them to automatically add the Apple Music track to the media library.&lt;/p&gt;
+
+&lt;p&gt;The new APIs do not do any of the following things:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;They do not allow apps to add music to your library if you are not using Apple Music&lt;/li&gt;
+  &lt;li&gt;They do not allow apps to add music to your library that is not available on Apple Music&lt;/li&gt;
+  &lt;li&gt;They do not allow apps to delete music from your library&lt;/li&gt;
+  &lt;li&gt;They do not allow apps to edit metadata on any music in your library (i.e. changing title, artist, genre, rating, artwork)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Crucially, and linking this back to my previous article, &lt;strong&gt;this new permissions system is only for the new “add Apple Music tracks to your library API”; apps do not require permission to scan through your library&lt;/strong&gt;. I’m still hopeful this will be addressed as at present the ‘Privacy’ settings screen in iOS 9.3 is incredibly misleading:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/music-library-privacy.jpg&quot; width=&quot;800&quot; height=&quot;533&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I take serious issue with the phrase &lt;em&gt;“Apps that have requested access to your media library will appear here”&lt;/em&gt; because it makes it sound like apps require permission to access your library which is just not true. My &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt; app continues to work unimpeded on iOS 9.3 with no need to request access and, as demonstrated above, you can start playing streamed music in the Music app without authorization. This is all true as of iOS 9.3 beta 4 so hopefully it may get resolved before the final version of iOS 9.3 is released next month.&lt;/p&gt;
+
+&lt;p&gt;If you have any queries about how these new APIs work or how they will or won’t affect your media library, &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;please feel free to contact me&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:applemusicid&quot;&gt;
+      &lt;p&gt;As far as I can see, the only way to get the necessary identifiers is to use the &lt;a href=&quot;https://linkmaker.itunes.apple.com/en-us/&quot;&gt;iTunes Link Maker&lt;/a&gt; which has no API. The &lt;a href=&quot;http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html&quot;&gt;iTunes Search API&lt;/a&gt; (which I use for my &lt;a href=&quot;https://bendodson.com/projects/itunes-artwork-finder/&quot;&gt;Artwork Finder&lt;/a&gt;) returns iTunes store identifiers which do not work with these APIs. If anybody knows of an API or other method to access these Apple Music identifiers, please &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;let me know&lt;/a&gt;! &lt;a href=&quot;#fnref:applemusicid&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Divide #8 - Drunkstarter: A discussion on crowdfunding</title>

@@ -32,6 +32,65 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Details on the iOS 9.3 Media Library additions</a></h1>
+			
+			<time datetime="2016-02-23" pubdate=""><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">February 23, 2016</a></time>
+    	</header>
+    	<div>
+			<p>Due to my <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">article on music library security on iOS</a>, I’ve found myself in the position of being misquoted or misunderstood on sites such as <a href="http://appleinsider.com/articles/16/02/18/inside-ios-93-apple-will-allow-third-party-apps-to-add-music-to-your-icloud-music-library">AppleInsider</a> with regards to the new media library APIs in iOS 9.3. This article is intended to clear up some misunderstandings that people have about these new APIs.</p>
+
+<p>In iOS 9.3, there are several additions to the music library. Indeed, it is the first item listed in the <a href="https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9_3.html#//apple_ref/doc/uid/TP40016661-SW1">What’s New in iOS 9.3</a> developer document:</p>
+
+<blockquote>
+  <p><em>New methods in the Media Player and StoreKit frameworks let you add an Apple Music track to the music library and play it. First, use the SKCloudServiceController API to determine the current capabilities, such as if the device allows playback of Apple Music catalog tracks and the addition of tracks to the library. Then, you can use the MPMediaLibrary method addItemWithProductID:completionHandler: to add a track to the library and the MPMusicPlayerController method setQueueWithStoreIDs: to play a track.</em></p>
+</blockquote>
+
+<p>Firstly, the StoreKit framework has been updated to include an <code>SKCloudServiceController</code> which basically gives an app the opportunity to request access to a user’s media library and to check if they have the ability to stream Apple Music tracks and / or add those tracks to their iCloud Music library.</p>
+
+<p>Next, <code>MPMusicPlayerController</code> has been updated with a new method named <code>setQueueWithStoreIDs</code> which allows you to basically hand over an array of Apple Music identifiers and have those play instantly in the Music app without leaving your own app. Interestingly, this allows you to Rickroll someone in just a few lines of code:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">trackID</span> <span class="o">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
+    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
+    <span class="n">controller</span><span class="p">.</span><span class="n">setQueueWithStoreIDs</span><span class="p">([</span><span class="n">trackID</span><span class="p">])</span>
+    <span class="n">controller</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
+<span class="p">}</span></code></pre></div>
+
+<p>This API, whilst interesting, has a few issues; there is no easy automated way of getting access to Apple Music identifiers<sup id="fnref:applemusicid"><a href="#fn:applemusicid" class="footnote">1</a></sup> and they are different for each country so a US track will not play on a UK Apple Music account. To top it off, there is no error handling so it’ll just silently fail.</p>
+
+<p>The final new addition is to <code>MPMediaLibrary</code> and is a method named <code>addItemWithProductID:completionHandler:</code>. This allows you to add an Apple Music track to the user’s library as long as they gave permission via the <code>SKCloudServiceController</code> and they have a valid Apple Music account although I haven’t been able to get it working as yet due to a cryptic error (you can read more about that on the <a href="https://forums.developer.apple.com/thread/38878">Apple Developer Forums</a>). However, it does not allow you to add MP3s to your library or import Spotify tracks or anything like that; it is just a way to add Apple Music tracks to your library. Why is that useful? The scenario I envision is that it is for apps like Shazam that identify music and then traditionally give you a link to go and see it in Apple Music or the iTunes Store. With this new API, those apps can now add a button such as “add this track to your library?” which will allow them to automatically add the Apple Music track to the media library.</p>
+
+<p>The new APIs do not do any of the following things:</p>
+
+<ul>
+  <li>They do not allow apps to add music to your library if you are not using Apple Music</li>
+  <li>They do not allow apps to add music to your library that is not available on Apple Music</li>
+  <li>They do not allow apps to delete music from your library</li>
+  <li>They do not allow apps to edit metadata on any music in your library (i.e. changing title, artist, genre, rating, artwork)</li>
+</ul>
+
+<p>Crucially, and linking this back to my previous article, <strong>this new permissions system is only for the new “add Apple Music tracks to your library API”; apps do not require permission to scan through your library</strong>. I’m still hopeful this will be addressed as at present the ‘Privacy’ settings screen in iOS 9.3 is incredibly misleading:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/music-library-privacy.jpg" width="800" height="533" /></p>
+
+<p>I take serious issue with the phrase <em>“Apps that have requested access to your media library will appear here”</em> because it makes it sound like apps require permission to access your library which is just not true. My <a href="https://dodoapps.io/music-tracker/">Music Tracker</a> app continues to work unimpeded on iOS 9.3 with no need to request access and, as demonstrated above, you can start playing streamed music in the Music app without authorization. This is all true as of iOS 9.3 beta 4 so hopefully it may get resolved before the final version of iOS 9.3 is released next month.</p>
+
+<p>If you have any queries about how these new APIs work or how they will or won’t affect your media library, <a href="https://bendodson.com/contact/">please feel free to contact me</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:applemusicid">
+      <p>As far as I can see, the only way to get the necessary identifiers is to use the <a href="https://linkmaker.itunes.apple.com/en-us/">iTunes Link Maker</a> which has no API. The <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html">iTunes Search API</a> (which I use for my <a href="https://bendodson.com/projects/itunes-artwork-finder/">Artwork Finder</a>) returns iTunes store identifiers which do not work with these APIs. If anybody knows of an API or other method to access these Apple Music identifiers, please <a href="https://bendodson.com/contact/">let me know</a>! <a href="#fnref:applemusicid" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/02/17/divide-8-drunkstarter-crowdfunding/">The Divide #8 - Drunkstarter: A discussion on crowdfunding</a></h1>
 			
 			<time datetime="2016-02-17" pubdate=""><a href="/weblog/2016/02/17/divide-8-drunkstarter-crowdfunding/">February 17, 2016</a></time>
@@ -379,38 +438,6 @@
     </li>
     <li id="fn:calmradioapp">
       <p>That link will take you to the iOS app as there is no way to link to the tvOS App Store as far as I’m aware. You’ll need to search “calm radio” on your Apple TV App Store to download the app. <a href="#fnref:calmradioapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">The Divide #6 - The 'JJ Abrams' of game lists</a></h1>
-			
-			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">January 13, 2016</a></time>
-    	</header>
-    	<div>
-			<p>This week we’re back on schedule and episode 6 of <a href="http://thedivide.co.uk/">The Divide</a> is now available. Chris, John, and myself discuss over 40 games that are being released this year and pick out a few of our favourites including Crackdown 3, Final Fantasy XV, Zelda, Mass Effect, Street Fighter V, and Yooka-Laylee. We also spend some time discussing the Oculus Rift pre-order and I have a bit of a rant about the rumoured removal of the audio headphone jack from the next iPhone<sup id="fnref:headphone"><a href="#fn:headphone" class="footnote">1</a></sup>. Finally, Chris is still upset with JJ Abrams…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a></p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:headphone">
-      <p>Short version: I’m cool with it being removed. <a href="#fnref:headphone" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
