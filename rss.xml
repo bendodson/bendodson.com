@@ -6,9 +6,36 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 23 Feb 2016 15:20:08 +0000</pubDate>
-    <lastBuildDate>Tue, 23 Feb 2016 15:20:08 +0000</lastBuildDate>
+    <pubDate>Fri, 26 Feb 2016 15:52:55 +0000</pubDate>
+    <lastBuildDate>Fri, 26 Feb 2016 15:52:55 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Storefront Additions: A simple way to convert SKCloudServiceController store identifiers into country codes</title>
+      <link>https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/</link>
+      <pubDate>Fri, 26 Feb 2016 15:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/</guid>
+      <description>&lt;p&gt;In &lt;a href=&quot;https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/&quot;&gt;my article a few days ago&lt;/a&gt;, I noted that &lt;code&gt;SKCloudServiceController&lt;/code&gt; would give you a storefront identifier but that there was very little information about how to use that identifier when using the iTunes Search API. As it turns out, Apple do provide a list of store identifiers with their respective ISO country codes on their &lt;a href=&quot;https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/&quot;&gt;iTunes Affiliate Links website&lt;/a&gt; - a big thank you to &lt;a href=&quot;https://twitter.com/loretoparisi&quot;&gt;Loreto Parisi&lt;/a&gt; for directing me to it.&lt;/p&gt;
+
+&lt;p&gt;In order to make things a bit easier for other developers, &lt;a href=&quot;https://github.com/bendodson/storefront-assistant&quot;&gt;I’ve put together a simple class and plist file&lt;/a&gt; that will automatically return a country code for the current user’s store. It’s incredibly simple:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;n&quot;&gt;StorefrontAssistant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;countryCode&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;countryCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Error: \(error)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countryCode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countryCode&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Country code: \(countryCode)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Storefront Assistant will automatically request permissions to access the Media Library and then fetch the current storefront identifier for the logged in user. If there are any issues (i.e. permissions denied, no connectivity, country code can’t be found) then an NSError will be returned.&lt;/p&gt;
+
+&lt;p&gt;Once you have the country code, you can then use the &lt;a href=&quot;https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/&quot;&gt;iTunes Search API&lt;/a&gt; to search for tracks in the correct country; these can then be used with &lt;code&gt;MPMusicPlayerController&lt;/code&gt; for immediate playback or &lt;code&gt;MPMediaLibrary&lt;/code&gt; for saving to the user’s Media Library.&lt;/p&gt;
+
+&lt;p&gt;The full code is &lt;a href=&quot;https://github.com/bendodson/storefront-assistant&quot;&gt;available on GitHub&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Details on the iOS 9.3 Media Library additions</title>
@@ -59,7 +86,8 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:storeidentifier&quot;&gt;
-      &lt;p&gt;There is a new API to give you a storefront identifier (mine is “143444,29”) but I’m not sure how you translate to a single language like “gb” for use with the &lt;a href=&quot;http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html&quot;&gt;iTunes Search API&lt;/a&gt; - if anyone can shed some light on that, please &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;let me know&lt;/a&gt;! &lt;a href=&quot;#fnref:storeidentifier&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;strike&gt;There is a new API to give you a storefront identifier (mine is &quot;143444,29&quot;) but I&#39;m not sure how you translate to a single language like &quot;gb&quot; for use with the iTunes Search API - if anyone can shed some light on that, please let me know!&lt;/strike&gt;
+      &lt;p&gt;Thanks to &lt;a href=&quot;https://twitter.com/loretoparisi&quot;&gt;Loreto Parisi&lt;/a&gt; for making me aware of the &lt;a href=&quot;https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/&quot;&gt;iTunes Affiliate Link website&lt;/a&gt; which contains a full list of the store identifiers and their respective ISO country codes which can be used with the iTunes Search API. I’ve &lt;a href=&quot;https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/&quot;&gt;put together a simple class&lt;/a&gt; to take care of this automatically. &lt;a href=&quot;#fnref:storeidentifier&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;

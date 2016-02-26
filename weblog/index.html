@@ -32,6 +32,36 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">Storefront Additions: A simple way to convert SKCloudServiceController store identifiers into country codes</a></h1>
+			
+			<time datetime="2016-02-26" pubdate=""><a href="/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">February 26, 2016</a></time>
+    	</header>
+    	<div>
+			<p>In <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">my article a few days ago</a>, I noted that <code>SKCloudServiceController</code> would give you a storefront identifier but that there was very little information about how to use that identifier when using the iTunes Search API. As it turns out, Apple do provide a list of store identifiers with their respective ISO country codes on their <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Links website</a> - a big thank you to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for directing me to it.</p>
+
+<p>In order to make things a bit easier for other developers, <a href="https://github.com/bendodson/storefront-assistant">I’ve put together a simple class and plist file</a> that will automatically return a country code for the current user’s store. It’s incredibly simple:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">StorefrontAssistant</span><span class="p">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="n">countryCode</span> <span class="o">=</span> <span class="n">countryCode</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Country code: \(countryCode)&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Storefront Assistant will automatically request permissions to access the Media Library and then fetch the current storefront identifier for the logged in user. If there are any issues (i.e. permissions denied, no connectivity, country code can’t be found) then an NSError will be returned.</p>
+
+<p>Once you have the country code, you can then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to search for tracks in the correct country; these can then be used with <code>MPMusicPlayerController</code> for immediate playback or <code>MPMediaLibrary</code> for saving to the user’s Media Library.</p>
+
+<p>The full code is <a href="https://github.com/bendodson/storefront-assistant">available on GitHub</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Details on the iOS 9.3 Media Library additions</a></h1>
 			
 			<time datetime="2016-02-23" pubdate=""><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">February 23, 2016</a></time>
@@ -80,7 +110,8 @@
 <div class="footnotes">
   <ol>
     <li id="fn:storeidentifier">
-      <p>There is a new API to give you a storefront identifier (mine is “143444,29”) but I’m not sure how you translate to a single language like “gb” for use with the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html">iTunes Search API</a> - if anyone can shed some light on that, please <a href="https://bendodson.com/contact/">let me know</a>! <a href="#fnref:storeidentifier" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <strike>There is a new API to give you a storefront identifier (mine is "143444,29") but I'm not sure how you translate to a single language like "gb" for use with the iTunes Search API - if anyone can shed some light on that, please let me know!</strike>
+      <p>Thanks to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for making me aware of the <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Link website</a> which contains a full list of the store identifiers and their respective ISO country codes which can be used with the iTunes Search API. I’ve <a href="https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">put together a simple class</a> to take care of this automatically. <a href="#fnref:storeidentifier" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -393,53 +424,6 @@
     </li>
     <li id="fn:extratouch">
       <p>One of the main reasons I do client work is so I can experiment with new APIs I wouldn’t necessarily use if I was just doing my own apps. I often add features for free to client apps to give me a bit more experience using a certain framework. <a href="#fnref:extratouch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/13/calm-radio-for-apple-tv/">Calm Radio for Apple TV</a></h1>
-			
-			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/calm-radio-for-apple-tv/">January 13, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m very pleased to announce that my first tvOS app for a client has gone live in the Apple TV App Store; <a href="https://itunes.apple.com/us/app/calm-radio-online-streaming/id918425515?ls=1&amp;mt=8">Calm Radio</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/calm-radio.jpg" width="800" height="574" /></p>
-
-<p><a href="https://calmradio.com/">Calm Radio</a> is an ubiquitous online radio service with over 150 channels dedicated to specific genres of music and relaxation such as meditation, piano, jazz, latin, and so on. It is free to listen to (with no account) but you can remove ads from the stream and get access to special features with a paid account.</p>
-
-<p>With the Apple TV, I wanted to make the app fit in like a first class citizen of the platform and so I did all of the design and UX work myself with a focus on real time blurs and gradients. As you navigate around the huge array of channels, the background will subtley shift to softer versions of the key colours used in the artwork.</p>
-
-<p>When you select a channel, you are shown a now playing page that has the title, artist, album, and artwork of the currently playing music. The background is a soft version of the channel artwork but you can choose one of 12 high definition videos to play in the background instead. These videos are looped and blended with the background gradient in order to keep the experience consistent and relaxing.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/calm-radio-atmospheres.jpg" width="800" height="426" /></p>
-
-<p>You can choose up to 3 atmospheres (such as wind, rain, waterfalls, crickets, etc) to mix with the currently playing channel and they appear underneath the artwork of the currently playing track. I designed an intuitive and simple UI for this so that listeners could change the volume of each individual atmosphere relative to the channel without using sliders<sup id="fnref:sliders"><a href="#fn:sliders" class="footnote">1</a></sup> or cluttering the interface.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/calm-radio-top-shelf.jpg" width="800" height="426" /></p>
-
-<p>Finally, I wanted to use as many tvOS features as possible and so I built in support for the “Top Shelf” allowing you to see and play various channels direct from the TV home screen.</p>
-
-<p>This has been a great project to work on and I’ve learned a huge amount about the Apple TV and the ‘Focus Engine’ that powers it<sup id="fnref:simulator"><a href="#fn:simulator" class="footnote">2</a></sup>. It’s been a lot of fun to do my own UX and design work and I think it’s turned out really well; the client was so pleased with it that I’ve been hired to rebuild their existing universal iPhone and iPad app to make it match this design!</p>
-
-<p>You can <a href="https://itunes.apple.com/us/app/calm-radio-online-streaming/id918425515?ls=1&amp;mt=8">download Calm Radio from the Apple TV App Store</a><sup id="fnref:calmradioapp"><a href="#fn:calmradioapp" class="footnote">3</a></sup> or <a href="https://calmradio.com/">learn more on their website</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:sliders">
-      <p>There is no UISlider in tvOS for the simple reason that a slider would be very difficult to navigate away from with the UIFocusEngine. <a href="#fnref:sliders" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:simulator">
-      <p>Along with a <a href="https://bendodson.com/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">handy tip on how to use your Apple TV Siri Remote with the Xcode Simulator</a> <a href="#fnref:simulator" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:calmradioapp">
-      <p>That link will take you to the iOS app as there is no way to link to the tvOS App Store as far as I’m aware. You’ll need to search “calm radio” on your Apple TV App Store to download the app. <a href="#fnref:calmradioapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
