@@ -32,6 +32,43 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">Showing TODO as a warning in a Swift Xcode project</a></h1>
+			
+			<time datetime="2014-10-02" pubdate=""><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">October 02, 2014</a></time>
+    	</header>
+    	<div>
+			<p>I rarely use comments when I’m coding<sup id="fnref:comments"><a href="#fn:comments" class="footnote">1</a></sup>. I do make one exception though; using <code>// TODO:</code> and <code>// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-jump-bar.jpg" alt="TODO comments in the Xcode jump bar" /></p>
+
+<p>The issue I have with this is that it is very easy to forget about them unless you are using the jump bar frequently. I used to log them in my todo manager, <a href="http://culturedcode.com/things/">Things</a>, but that duplicates the workload. It would be much more useful if those errors were flagged in some way…</p>
+
+<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code>TODO:</code> and <code>FIXME:</code> as warnings in a Swift project:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;searching ${SRCROOT} for ${TAGS}&quot;</span>
+find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;($TAGS).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/($TAGS)/ warning: \$1/&quot;</span></code></pre></div>
+
+<p>The result is an unmissable warning whenever you run your project.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-warning.jpg" alt="TODO warnings in an Xcode Swift project" /></p>
+
+<p>I don’t know about you, but I feel more compelled to clean up these yellow warnings than ticking things off in a todo list.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:comments">
+      <p>If your code needs commenting, it isn’t clear enough. Refactor until it is. If it doesn’t make sense because of semantics, rethink your naming conventions. <a href="#fnref:comments" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2014/09/30/donating-blood/">Donating blood</a></h1>
 			
 			<time datetime="2014-09-30" pubdate=""><a href="/weblog/2014/09/30/donating-blood/">September 30, 2014</a></time>
@@ -339,25 +376,6 @@
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/10487463_10100587207409054_5008795261987088123_n.jpg" alt="Benjamin and Rebecca Dodson" /></p>
 
 <p>We are now going on honeymoon to Vancouver, Alaska, and Whistler until August 11th. I will have limited internet connectivity and won’t be checking emails but I’ll reply to them upon my return; I expect there will be a lot and we are moving house during that week so I should have reached inbox zero by August 20th. If you are having any issues with <a href="http://wallab.ee">WallaBee</a>, please email <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#064;&#119;&#097;&#108;&#108;&#097;&#098;&#046;&#101;&#101;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#064;&#119;&#097;&#108;&#108;&#097;&#098;&#046;&#101;&#101;</a></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/19/lego-mini-cooper/">LEGO MINI Cooper</a></h1>
-			
-			<time datetime="2014-07-19" pubdate=""><a href="/weblog/2014/07/19/lego-mini-cooper/">July 19, 2014</a></time>
-    	</header>
-    	<div>
-			<p>If you’re a LEGO VIP member (and you should be) then you can now <a href="http://shop.lego.com/en-GB/VIP-Early-Access-10242">purchase the new LEGO MINI Cooper model</a> which doesn’t go on sale to the general public until August 1st.</p>
-
-<p>This is definitely a must have model for me and I think it’s going to be really popular based on the response to the <a href="http://shop.lego.com/en-GB/Volkswagen-T1-Camper-Van-10220">LEGO Volkswagon T1 Camper Van</a> which has been around for a few years now. The MINI is full of rare pieces (I particularly like the old windscreen pieces sprayed in British Racing Green to work as wheel arches) and nice features such as an engine, detachable roof, cross-check seating, and a picnic hamper in the boot. The design is top notch and I’m really looking forward to building it although I still need to finish R2-D2, the Sandcrawler, and a Rancor Pit so may be a little while!</p>
-
-<iframe width="800" height="450" src="//www.youtube.com/embed/v_Ud4Hp5kkw" frameborder="0" allowfullscreen=""></iframe>
-
-<p>Interesting observation: LEGO and MINI are the only two companies I know that both have an all-capitalised name which most people ignore (or worse in the case of LEGO, pluralise unnecessary - they’re not ‘<em>legos</em>’!)</p>
 
 		</div>
 	</article>
