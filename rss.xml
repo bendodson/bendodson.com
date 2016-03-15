@@ -6,9 +6,47 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Fri, 11 Mar 2016 13:29:33 +0000</pubDate>
-    <lastBuildDate>Fri, 11 Mar 2016 13:29:33 +0000</lastBuildDate>
+    <pubDate>Tue, 15 Mar 2016 10:21:34 +0000</pubDate>
+    <lastBuildDate>Tue, 15 Mar 2016 10:21:34 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Music Tracker v1.3</title>
+      <link>https://bendodson.com/weblog/2016/03/15/music-tracker-1-3/</link>
+      <pubDate>Tue, 15 Mar 2016 10:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/03/15/music-tracker-1-3/</guid>
+      <description>&lt;p&gt;I’m very happy to announce that v1.3 of &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt; is now available as a free update.
+&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/music-tracker-5c.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this version, I’ve focused on speed and stability. The original scanning engine has been completely rewritten from the ground up and now runs faster and for larger libraries than ever before.&lt;/p&gt;
+
+&lt;p&gt;Previously, the app would wake up once an hour and have around 30 seconds in order to scan the library, look for additions, changes, and deletions, and then save all of that information locally. This worked great for small libraries on newer devices like the iPhone 6s but didn’t work so well on an iPhone 5s with a library of over 75000 songs. The reason for this is that iOS limits the amount of time an app can run in the background&lt;sup id=&quot;fnref:sensible&quot;&gt;&lt;a href=&quot;#fn:sensible&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;; if the entirity of the process wasn’t complete in the time allowed, then it would simply fail. This meant that customers with large libraries were typically seeing no updates as the app wasn’t able to get through the entirity of the library within the 30 second window allowed.&lt;/p&gt;
+
+&lt;p&gt;To fix this, I rewrote the scanning engine to be faster but to also work in batches. If iOS terminates the Music Tracker process (as it is taking too long) then the current state is saved and will pick up from where it left off the next time the process is restarted&lt;sup id=&quot;fnref:process&quot;&gt;&lt;a href=&quot;#fn:process&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. This means that huge libraries can now be scanned correctly as they are broken up over a few passes rather than trying to do it all at once. A nice side benefit of this is that the app can now handle older hardware&lt;sup id=&quot;fnref:hardware&quot;&gt;&lt;a href=&quot;#fn:hardware&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; which previously was too slow to handle even small libraries in a single pass.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/music-tracker-sync.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;
+In order to accomodate this new multi-pass scanning engine, I’ve also changed the way in which manual updates are performed within the app. Previously you could “pull to refresh” on the main activity page; this gave you a little spinner icon and not much detail as to what was happening. In v1.3, there is a refresh icon in the top right hand corner that will take you to a new page which details exactly what is going on and shows a progress bar so you can see that it is actually working.&lt;/p&gt;
+
+&lt;p&gt;If you have already purchased Music Tracker, you should see v1.3 as a free update within the App Store; you can check which version you have installed by going to the settings page within the app. If you don’t yet have Music Tracker, you can get it on the &lt;a href=&quot;https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;amp;mt=8&quot;&gt;App Store&lt;/a&gt;. For more details about the app, you can view the &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;official website at Dodo Apps&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One final thing: on the &lt;a href=&quot;https://dancounsell.com/articles/a-better-format-for-press-kits&quot;&gt;advice of Dan Counsell&lt;/a&gt;, I’ve changed my &lt;a href=&quot;https://dodoapps.io/music-tracker/media-kit/&quot;&gt;press media kit&lt;/a&gt; to be a standard HTML page with full access to everything the old zip download contained including details of the app, screenshots, icons, and mockup images. This makes it easier for the many iOS journalists who have switched to using something like the iPad Pro as their main work machine which doesn’t handle zip files particularly well. You can &lt;a href=&quot;https://dodoapps.io/music-tracker/media-kit/&quot;&gt;check out the online media kit&lt;/a&gt; or &lt;a href=&quot;https://bendodson.s3.amazonaws.com/dodo/music-tracker-media-kit.zip&quot;&gt;download the media kit as a zip file&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:sensible&quot;&gt;
+      &lt;p&gt;This is a sensible thing; tasks should not be allowed to run for large periods of time in the background otherwise they’ll kill your battery. &lt;a href=&quot;#fnref:sensible&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:process&quot;&gt;
+      &lt;p&gt;Music Tracker typically wakes up every hour to check for changes. &lt;a href=&quot;#fnref:process&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:hardware&quot;&gt;
+      &lt;p&gt;Previously the app was only available on devices with a 64-bit chip. Music Tracker now runs on any device capable of running iOS 9.0 which means the iPhone 4s, iPhone 5, and iPhone 5c are now supported. &lt;a href=&quot;#fnref:hardware&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Brapp 2.0</title>
