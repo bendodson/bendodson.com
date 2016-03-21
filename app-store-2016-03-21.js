@@ -54,6 +54,9 @@ $(document).ready(function() {
 				if (videos.ipad) {
 					html += '<li><a href="'+videos.ipad+'" target="_blank">iPad</a></li>';
 				}
+				if (videos.ipadPro) {
+					html += '<li><a href="'+videos.ipadPro+'" target="_blank">iPad Pro</a></li>';
+				}
 				
 				html += '</ul>';
 			}
@@ -99,6 +102,13 @@ $(document).ready(function() {
 				html += '<h3>iPad</h3>';
 				for (var i = 0; i < screenshots["ipad"].length; i++) {
 					html += '<a href="'+screenshots["ipad"][i]+'" target="_blank"><img src="'+screenshots["ipad"][i]+'" /></a>';
+				};				
+			}
+
+			if (screenshots["ipadPro"] && screenshots["ipadPro"].length) {
+				html += '<h3>iPad Pro</h3>';
+				for (var i = 0; i < screenshots["ipadPro"].length; i++) {
+					html += '<a href="'+screenshots["ipadPro"][i]+'" target="_blank"><img src="'+screenshots["ipadPro"][i]+'" /></a>';
 				};				
 			}
 			
