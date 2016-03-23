@@ -6,9 +6,55 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 23 Mar 2016 16:04:42 +0000</pubDate>
-    <lastBuildDate>Wed, 23 Mar 2016 16:04:42 +0000</lastBuildDate>
+    <pubDate>Wed, 23 Mar 2016 23:22:07 +0000</pubDate>
+    <lastBuildDate>Wed, 23 Mar 2016 23:22:07 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>HomeKit, Wink, and Canary</title>
+      <link>https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/</link>
+      <pubDate>Wed, 23 Mar 2016 23:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/</guid>
+      <description>&lt;p&gt;A couple of weeks ago I took the plunge and bought a &lt;a href=&quot;https://canary.is&quot;&gt;Canary&lt;/a&gt;, an internet-connected personal security camera and air quality monitoring system. It has been working great so far and comes with a decent iPhone app that allows you to control the camera and have it activate automatically based on location. There are three different operating modes; armed, disarmed, and privacy. Whilst armed, you’ll get a notification when any activity is detected whereas disarmed will still record and store any video when there is motion but it won’t notify you&lt;sup id=&quot;fnref:disarmed&quot;&gt;&lt;a href=&quot;#fn:disarmed&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Privacy completely shuts off the camera and microphone.&lt;/p&gt;
+
+&lt;p&gt;For the simple reason that I don’t want everything that happens in my living room whilst I’m in it to be streamed to a 3rd party server, I have set the iPhone app to switch between armed and privacy modes; this means that if nobody is in the house, it automatically arms itself but will shut off the camera and microphone as soon as a family member gets back home. The problem with this is that the camera is then in privacy mode when we go to bed as obviously our phones are still in the house; if somebody breaks in, we won’t have any video evidence. I can open the iOS app and manually arm the Canary but &lt;a href=&quot;https://en.wikipedia.org/wiki/Sod%27s_law&quot;&gt;Sod’s Law&lt;/a&gt; means I’ll probably get an intruder on the night I forget to do that&lt;sup id=&quot;fnref:morning&quot;&gt;&lt;a href=&quot;#fn:morning&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;My first thought was a scheduling system could be put in place to automatically arm and disarm the Canary if I’m in the house but the app doesn’t have that functionality and there is no public API. I then discovered that Canary have partnered with &lt;a href=&quot;http://www.wink.com&quot;&gt;Wink&lt;/a&gt;, a platform that allows multiple devices to connect together so you can do things like have the lights turn on when motion is detected. This is really useful and does allow for the sort of scheduling I’d envisioned, but then I came up with a better solution; tying it into my existing HomeKit routine.&lt;/p&gt;
+
+&lt;p&gt;I’ve &lt;a href=&quot;https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/&quot;&gt;blogged about HomeKit before&lt;/a&gt; and specifically about &lt;a href=&quot;https://github.com/nfarina/homebridge&quot;&gt;Homebridge&lt;/a&gt; which allows you to get non-HomeKit enabled devices to work with the system. Canary is not a HomeKit enabled device and with no open API it wasn’t possible for me to write a plugin. However, Wink does have an &lt;a href=&quot;https://github.com/KraigM/homebridge-wink&quot;&gt;existing Homebridge plugin&lt;/a&gt; allowing you to control most devices connected to Wink via HomeKit. Unfortunately, HomeKit doesn’t support cameras and so neither does that Wink plugin. Back to the drawing board!&lt;/p&gt;
+
+&lt;p&gt;After a bit of tinkering, I realised I could just re-purpose an existing supported HomeKit protocol; locks. In HomeKit, locks are basic binary operators that are either “secured” or “unsecured”. This works perfectly for my Canary as I could denote it as a doorlock and then have “secured” equal “armed”, and “unsecured” equal “privacy”. After a few minutes, I managed to fork the existing plugin and create a &lt;a href=&quot;https://github.com/bendodson/homebridge-wink&quot;&gt;new version with this hack in place&lt;/a&gt;. Once downloaded, you just need to add the following platform in your Homebridge config file:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;platform&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;homebridge-wink.Wink&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Wink&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;client_id&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;quirky_wink_android_app&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;client_secret&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;e749124ad386a5a35c0ab554a4f2c045&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;username&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;YOUR-WINK-USERNAME-HERE&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;password&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;YOUR-WINK-PASSWORD-HERE&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;hide_groups&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;hide_ids&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;(Sidenote: most of my time tonight was spent trying to find a client_id and client_secret to use for the config. To get these, you usually have to email Wink with response times being around 7-10 days. I decided to rip it out of the Android app instead…)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you restart Homebridge, any of your Canary devices in Wink should show up in HomeKit automatically. You can then say something like “Hey Siri, lock the living room” to arm the Canary. I personally like to use HomeKit scenes which allow me to control the Canary automatically with my existing “good morning” and “good night” Siri phrases. I find this much more reliable than a schedule as I already use these phrases every time I go to bed and wake up in order to turn my lights on and off (whereas a schedule might turn the camera on whilst we’re still awake or turn it off before we get up).&lt;/p&gt;
+
+&lt;p&gt;Hopefully in the future we’ll see a public API for Canary and support for cameras in HomeKit so I can make this slightly less hacky but it works for now and means I’ll no longer forget to disable privacy mode at night. If you’re interested in trying this setup yourself, &lt;a href=&quot;https://github.com/bendodson/homebridge-wink&quot;&gt;check out the plugin on GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:disarmed&quot;&gt;
+      &lt;p&gt;The use case for this is things like capturing a babies first steps, the sort of thing you could easily miss but can easily find in the 12-hour log of a practically always-on camera. &lt;a href=&quot;#fnref:disarmed&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:morning&quot;&gt;
+      &lt;p&gt;And I often forget to turn it off when I get up which means my wife and I get a notification of me groggily letting the dogs out every morning. &lt;a href=&quot;#fnref:morning&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Divide #10 - Let us loop you in. Again.</title>
