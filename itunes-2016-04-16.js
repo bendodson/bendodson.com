@@ -205,7 +205,7 @@ function performSearch() {
                     if (entity != 'software') {
                         html += '<p><a href="'+result.url+'" target="_blank">Standard Resolution</a> | <a href="'+result.hires+'" target="_blank">High Resolution</a> <em><small>'+result.warning+'</small></em></p>';
                     } else {
-                        html += '<p><a href="./app/?url='+encodeURIComponent(result.appstore)+'" target="_blank">View screenshots / videos</a></p>';
+                        html += '<p><a href="./app/?url='+encodeURIComponent(result.appstore)+'&country='+country+'" target="_blank">View screenshots / videos</a></p>';
                     }
                     html += '<a href="'+result.url+'" target="_blank"><img src="'+result.url+'" alt="iTunes Artwork for \''+result.title+'\'" width="'+result.width+'" height="'+result.height+'"></a>';
                     html += '</div>';

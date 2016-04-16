@@ -15,12 +15,13 @@ $(document).ready(function() {
 	}
 
 	var url = decodeURIComponent(getUrlVars()["url"]);
+	var country = decodeURIComponent(getUrlVars()["country"]);
 
 	$.ajax({
         type: "GET",
         crossDomain: true,
         url: 'https://itunesartwork.dodoapps.io/app.php',
-        data: {url: url},
+        data: {url: url, country: country},
         dataType: 'json'
     }).done(function(data) {
         $('#results').html('');
