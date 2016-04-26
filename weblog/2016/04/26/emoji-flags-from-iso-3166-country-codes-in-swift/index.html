@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-04-18.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Emoji flags from ISO 3166-1 country codes (in Swift)</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">Emoji flags from ISO 3166-1 country codes (in Swift)</a></h1>
+			
+			<time datetime="2016-04-26" pubdate=""><a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">April 26, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!</p>
+
+<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags"><a href="#fn:flags" class="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
+
+<blockquote>
+  <p>What they did is both crazy and genius. Instead of assigning a codepoint to each flag, which is the obvious way to do it (and the way the rest of the emoji are encoded), the standard defines twenty-six “regional indicator symbols”, from U+1F1E6 REGIONAL INDICATOR SYMBOL LETTER A to U+1F1FF REGIONAL INDICATOR SYMBOL LETTER Z. In order to include a country’s flag in your text, you first look up the country’s two-letter ISO 3166-1 code and then write the two regional indicator symbols corresponding to those letters. A font with support for that flag treats the two-codepoint sequence as a ligature, replacing the combination with a single pictogram.</p>
+</blockquote>
+
+<blockquote>
+  <p>Let’s take the United States as an example. Its ISO 3166-1 two-letter code is “us”, so we need to use the codepoints U+1F1FA REGIONAL INDICATOR SYMBOL LETTER U and U+1F1F8 REGIONAL INDICATOR SYMBOL LETTER S. Combining these gives a symbol that renders in your browser as 🇺🇸.</p>
+</blockquote>
+
+<p>Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="nl">countryCode</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="k">var</span> <span class="n">country</span> <span class="o">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
+    <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
+        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">string</span>
+<span class="p">}</span></code></pre></div>
+
+<p>A great way of testing this is with an Xcode Playground which will allow you to quickly see the output like such:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2016/flag-playground.jpg" width="800" height="419" /></p>
+
+<p>If you use an incorrect code such as “en”<sup id="fnref:england"><a href="#fn:england" class="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
+
+<p>You can <a href="https://github.com/bendodson/flag-emoji-from-country-code">download my example playground from GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:flags">
+      <p>Most were supported in iOS 8.3 but hidden from the emoji keyboard; iOS 9.0 added an extra 40 to complete the set including such places as Antarctica and Taiwan. They also added support for the EU flag. <a href="#fnref:flags" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:england">
+      <p>England is not an iOS 3166-1 country and so there is no “en” code. There is a proposal for subdivisions to be supported so something like “gb-eng” would work but it is not accepted yet and iOS has no flags for places like England, Wales, or Scotland. <a href="#fnref:england" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/04/23/iphone-7-headphone-predictions/" title="Previous Article" class="pagination-previous">&laquo; iPhone 7 headphone predictions</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

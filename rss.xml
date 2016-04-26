@@ -6,9 +6,59 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Sun, 24 Apr 2016 01:14:31 +0100</pubDate>
-    <lastBuildDate>Sun, 24 Apr 2016 01:14:31 +0100</lastBuildDate>
+    <pubDate>Tue, 26 Apr 2016 13:28:21 +0100</pubDate>
+    <lastBuildDate>Tue, 26 Apr 2016 13:28:21 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Emoji flags from ISO 3166-1 country codes (in Swift)</title>
+      <link>https://bendodson.com/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/</link>
+      <pubDate>Tue, 26 Apr 2016 14:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/</guid>
+      <description>&lt;p&gt;I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!&lt;/p&gt;
+
+&lt;p&gt;As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag&lt;sup id=&quot;fnref:flags&quot;&gt;&lt;a href=&quot;#fn:flags&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. &lt;a href=&quot;https://esham.io/2014/06/unicode-flags&quot;&gt;Benjamin Esham explains it&lt;/a&gt; like this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;What they did is both crazy and genius. Instead of assigning a codepoint to each flag, which is the obvious way to do it (and the way the rest of the emoji are encoded), the standard defines twenty-six “regional indicator symbols”, from U+1F1E6 REGIONAL INDICATOR SYMBOL LETTER A to U+1F1FF REGIONAL INDICATOR SYMBOL LETTER Z. In order to include a country’s flag in your text, you first look up the country’s two-letter ISO 3166-1 code and then write the two regional indicator symbols corresponding to those letters. A font with support for that flag treats the two-codepoint sequence as a ligature, replacing the combination with a single pictogram.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Let’s take the United States as an example. Its ISO 3166-1 two-letter code is “us”, so we need to use the codepoints U+1F1FA REGIONAL INDICATOR SYMBOL LETTER U and U+1F1F8 REGIONAL INDICATOR SYMBOL LETTER S. Combining these gives a symbol that renders in your browser as 🇺🇸.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;emojiFlag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;countryCode&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;countryCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;country&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countryCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uppercaseString&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;country&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unicodeScalars&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UnicodeScalar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;127397&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;A great way of testing this is with an Xcode Playground which will allow you to quickly see the output like such:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://bendodson.s3.amazonaws.com/weblog/2016/flag-playground.jpg&quot; width=&quot;800&quot; height=&quot;419&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you use an incorrect code such as “en”&lt;sup id=&quot;fnref:england&quot;&gt;&lt;a href=&quot;#fn:england&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; then you’ll be given back the letters within boxes.&lt;/p&gt;
+
+&lt;p&gt;You can &lt;a href=&quot;https://github.com/bendodson/flag-emoji-from-country-code&quot;&gt;download my example playground from GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:flags&quot;&gt;
+      &lt;p&gt;Most were supported in iOS 8.3 but hidden from the emoji keyboard; iOS 9.0 added an extra 40 to complete the set including such places as Antarctica and Taiwan. They also added support for the EU flag. &lt;a href=&quot;#fnref:flags&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:england&quot;&gt;
+      &lt;p&gt;England is not an iOS 3166-1 country and so there is no “en” code. There is a proposal for subdivisions to be supported so something like “gb-eng” would work but it is not accepted yet and iOS has no flags for places like England, Wales, or Scotland. &lt;a href=&quot;#fnref:england&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>iPhone 7 headphone predictions</title>
