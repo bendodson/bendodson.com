@@ -6,9 +6,78 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 04 May 2016 07:31:24 +0100</pubDate>
-    <lastBuildDate>Wed, 04 May 2016 07:31:24 +0100</lastBuildDate>
+    <pubDate>Thu, 12 May 2016 09:35:42 +0100</pubDate>
+    <lastBuildDate>Thu, 12 May 2016 09:35:42 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>AirPlay Alarm Clock with iTunes 12</title>
+      <link>https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/</link>
+      <pubDate>Thu, 12 May 2016 10:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/</guid>
+      <description>&lt;p&gt;A few years ago, &lt;a href=&quot;https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/&quot;&gt;I wrote a convoluted AppleScript&lt;/a&gt; that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was released due to a number of changes to AppleScript support; there were also changes to OS X which prevented AppleScripts from launching via Calendar alerts.&lt;/p&gt;
+
+&lt;p&gt;Fast forward to today and I found myself needing this script again for a new project&lt;sup id=&quot;fnref:homekitproject&quot;&gt;&lt;a href=&quot;#fn:homekitproject&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-applescript&quot; data-lang=&quot;applescript&quot;&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayDeviceName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Kitchen&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;PlaylistName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Morning&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayVolume&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;activate&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;System Events&amp;quot;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;visible&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;front&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;browser&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;window&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;front&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;browser&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;window&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;playlist&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;PlaylistName&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;System Events&amp;quot;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;process&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exists&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
+		&lt;span class=&quot;nv&quot;&gt;click&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Songs&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Shuffle&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Shuffle&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Controls&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+		&lt;span class=&quot;nv&quot;&gt;click&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;On&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Shuffle&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Shuffle&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Controls&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;menu&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayNames&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirPlay&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayDevices&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirPlay&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayToPlay&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;repeat&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayNames&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayNames&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as &lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayDeviceName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayToPlay&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayDevices&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;repeat&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirPlay&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;devices&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayToPlay&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt;
+	&lt;span class=&quot;nb&quot;&gt;play&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;playlist&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;PlaylistName&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;sound&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;volume&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AirplayVolume&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.&lt;/p&gt;
+
+&lt;p&gt;In order to get this working as an alarm, we have to jump through a number of hoops on OS X El Capitan. Firstly, we need to save our AppleScript as an application (after you’ve made any adjustments to your Airplay device name, playlist name, and the volume you want). You can do this by opening it within Script Editor and then choosing &lt;em&gt;File &amp;gt; Export&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/airplay-alarm-export.jpg&quot; width=&quot;800&quot; height=&quot;800&quot; alt=&quot;Export AppleScript as Application&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;If you haven’t disabled the GateKeeper restrictions on your Mac, you will need to either Code Sign this app or grant an exception within the Security &amp;amp; Privacy settings after you have first tried to open it.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;With the alarm exported, we now need to open up Automator and create a new &lt;em&gt;Calendar Alarm&lt;/em&gt;. Find the &lt;em&gt;Launch Application&lt;/em&gt; action and set that up to point to your newly exported alarm app. Finally, save this and you’ll find a new entry has appeared in your calendar; it will launch immediately thus starting off the iTunes alarm process. Simply copy and paste this alarm entry (or make it recurring) in order to set it to whatever times you want.&lt;/p&gt;
+
+&lt;p&gt;I’m going to continue playing around with different ways to launch the alarm but for now this works in much the same way as my old script did.&lt;/p&gt;
+
+&lt;p&gt;The full code (and previous version) is &lt;a href=&quot;https://github.com/bendodson/Apple-TV-Alarm-Clock&quot;&gt;available on GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:homekitproject&quot;&gt;
+      &lt;p&gt;I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. &lt;a href=&quot;#fnref:homekitproject&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Divide #12 - Reboots</title>
@@ -5824,7 +5893,10 @@ The iPhone 4 that has been shown today is different to the existing iPhone 4 in 
       <pubDate>Mon, 10 Jan 2011 00:00:00 +0000</pubDate>
       <author>ben@bendodson.com (Ben Dodson)</author>
       <guid>https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/</guid>
-      <description>&lt;p&gt;I was recently reading through some of my old blog posts when I discovered an article that is still fairly popular about &lt;a href=&quot;https://bendodson.com/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/&quot;&gt;controlling a mac mini via an iPhone&lt;/a&gt;.  I had an old mac mini lying around and so installed it in my bedroom as a device which basically acted as an iTunes library and alarm clock.  Times have changed though and I no longer have a mac mini in my bedroom; I have an Apple TV.  With the recent news about iPhone alarm clocks failing to go off (again) and lots of hacking projects with AirPlay to try and stream more than just YouTube videos, I decided to work on something this evening I&#39;ve been thinking about for a little while; turning my Apple TV into an Alarm Clock.  The basic idea is that at a set time in the morning, the Apple TV will wake itself up automatically and start playing a set playlist from my shared iTunes library.  The first step would be to get audio playlists working, but the ultimate goal would be to have video alarms as well.  Thanks to a bit of AppleScript, I&#39;ve managed to cook up a basic app to do just that.&lt;/p&gt;
+      <description>&lt;p&gt;&lt;strong&gt;This article is now outdated and the code no longer works with modern versions of iTunes. Please read my &lt;a href=&quot;https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/&quot;&gt;updated article&lt;/a&gt; to see how to create an AirPlay alarm clock with iTunes 11 and iTunes 12.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Original article:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I was recently reading through some of my old blog posts when I discovered an article that is still fairly popular about &lt;a href=&quot;https://bendodson.com/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/&quot;&gt;controlling a mac mini via an iPhone&lt;/a&gt;.  I had an old mac mini lying around and so installed it in my bedroom as a device which basically acted as an iTunes library and alarm clock.  Times have changed though and I no longer have a mac mini in my bedroom; I have an Apple TV.  With the recent news about iPhone alarm clocks failing to go off (again) and lots of hacking projects with AirPlay to try and stream more than just YouTube videos, I decided to work on something this evening I&#39;ve been thinking about for a little while; turning my Apple TV into an Alarm Clock.  The basic idea is that at a set time in the morning, the Apple TV will wake itself up automatically and start playing a set playlist from my shared iTunes library.  The first step would be to get audio playlists working, but the ultimate goal would be to have video alarms as well.  Thanks to a bit of AppleScript, I&#39;ve managed to cook up a basic app to do just that.&lt;/p&gt;
 
 &lt;p&gt;So, how does one go about creating an AirPlay Alarm Clock?  First of all, you will need a mac that is turned on with a shared iTunes library of content. The &quot;turned on&quot; bit can be automated from System Settings i.e. your machine can be asleep but told to wake up 5 minutes before your alarm is due to go off if you want to save energy.  You will also need an AirPlay compatible device - this can be a set of speakers plugged into an Airport Express, one of the new AirPlay compatible iHome speaker systems, or an Apple TV.  Please note that video playback will obviously only work on the Apple TV although you will get the audio from the video if you select an audio-only device.  Once you&#39;ve got those, you&#39;ll need to make a small tweak to your OS X setup: if you go into System Preferences and then Universal Access, you&#39;ll need to enable access for assistive devices - this is so AppleScript can make keypresses on your behalf.&lt;/p&gt;
 
@@ -5985,7 +6057,9 @@ The iPhone 4 that has been shown today is different to the existing iPhone 4 in 
 
 &lt;p&gt;&lt;strong&gt;Update [25th Jan 2012]:&lt;/strong&gt; I&#39;ve added this code to &lt;a href=&quot;https://github.com/bendodson/Apple-TV-Alarm-Clock&quot;&gt;GitHub&lt;/a&gt; for easier managing. If something should break in the future (looking at you iTunes 10.6) then a fix will be put up there.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Update [15th Mar 2012]:&lt;/strong&gt; iTunes 10.6 did break as expected - needed to add a &lt;code&gt;delay 0.2&lt;/code&gt; before the call to speak with the &lt;code&gt;&quot;Multiple Speakers&quot;&lt;/code&gt; window due to some newly introduced lag. Updated here and on &lt;a href=&quot;https://github.com/bendodson/Apple-TV-Alarm-Clock&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</description>
+&lt;p&gt;&lt;strong&gt;Update [15th Mar 2012]:&lt;/strong&gt; iTunes 10.6 did break as expected - needed to add a &lt;code&gt;delay 0.2&lt;/code&gt; before the call to speak with the &lt;code&gt;&quot;Multiple Speakers&quot;&lt;/code&gt; window due to some newly introduced lag. Updated here and on &lt;a href=&quot;https://github.com/bendodson/Apple-TV-Alarm-Clock&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update [12th May 2016]:&lt;/strong&gt; This article is now outdated and the code no longer works with modern versions of iTunes. Please read my &lt;a href=&quot;https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/&quot;&gt;updated article&lt;/a&gt; to see how to create an AirPlay alarm clock with iTunes 11 and iTunes 12.&lt;/p&gt;</description>
     </item>
     
     <item>
