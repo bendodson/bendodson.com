@@ -6,9 +6,154 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 17 May 2016 10:01:21 +0100</pubDate>
-    <lastBuildDate>Tue, 17 May 2016 10:01:21 +0100</lastBuildDate>
+    <pubDate>Wed, 18 May 2016 16:36:55 +0100</pubDate>
+    <lastBuildDate>Wed, 18 May 2016 16:36:55 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Using a physical button (Flic) with HomeKit scenes and triggers</title>
+      <link>https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/</link>
+      <pubDate>Wed, 18 May 2016 17:30:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/</guid>
+      <description>&lt;p&gt;When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things&lt;sup id=&quot;fnref:stuff&quot;&gt;&lt;a href=&quot;#fn:stuff&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. It is now possible to write apps that interact with physical objects via such things as &lt;a href=&quot;http://ifttt.com/&quot;&gt;IFTTT&lt;/a&gt; or dedicated APIs for devices like the &lt;a href=&quot;https://meethue.com/&quot;&gt;Philips Hue&lt;/a&gt;. I’ve personally been very interested in the &lt;a href=&quot;http://www.apple.com/uk/ios/homekit/&quot;&gt;HomeKit initiative&lt;/a&gt; from Apple although it hasn’t really taken off yet.&lt;/p&gt;
+
+&lt;p&gt;Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an &lt;a href=&quot;https://www.elgato.com/en/eve/eve-door-window&quot;&gt;Elgato eve door &amp;amp; window&lt;/a&gt; that lets me ask Siri if my back door is currently open&lt;sup id=&quot;fnref:phrasing&quot;&gt;&lt;a href=&quot;#fn:phrasing&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Luckily there is the &lt;a href=&quot;https://github.com/nfarina/homebridge&quot;&gt;Homebridge&lt;/a&gt; project (which I’ve &lt;a href=&quot;https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/&quot;&gt;written about previously&lt;/a&gt;) that allows me to connect all of those together and use them as if they were native HomeKit devices.&lt;/p&gt;
+
+&lt;p&gt;Over the past few months, I’ve been &lt;a href=&quot;https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/&quot;&gt;dabbling with HomeKit scenes&lt;/a&gt; so that I can control groups of devices all at once like so:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Good Morning&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;Turns on downstairs lights&lt;/li&gt;
+    &lt;li&gt;Starts playing my “morning” playlist in kitchen via AirPlay&lt;/li&gt;
+    &lt;li&gt;Disables security cameras&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p&gt;&lt;strong&gt;Good Night&lt;/strong&gt;&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;Turns off all lights (including bedside table lamp)&lt;/li&gt;
+    &lt;li&gt;Stops any playing music&lt;/li&gt;
+    &lt;li&gt;Enables security cameras&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This has been working well but I frequently forget to use scenes as many of these things can be controlled in other ways. For example, I might turn off the downstairs lights with my Hue Dimmer Switch and then turn off the bedside table lamp via the Hue today widget which means I forget to activate the security cameras. The eventual solution I’ve come up with is a simple push button (from &lt;a href=&quot;http://flic.io/&quot;&gt;Flic&lt;/a&gt;) stuck under my bedside table that toggles between my &lt;em&gt;Good Morning&lt;/em&gt; and &lt;em&gt;Good Night&lt;/em&gt; scenes. In this article, I’ll tell you how I did it!&lt;/p&gt;
+
+&lt;p&gt;First of all, you are going to need a &lt;a href=&quot;http://flic.io/&quot;&gt;Flic&lt;/a&gt;. I did a lot of research on “smart buttons” and this one was far and away the best&lt;sup id=&quot;fnref:biy&quot;&gt;&lt;a href=&quot;#fn:biy&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at &lt;a href=&quot;https://flic.io/partners/developers/ios-tutorial&quot;&gt;their iOS tutorial&lt;/a&gt; to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a &lt;code&gt;manager:didReceiveButtonDown&lt;/code&gt; request.&lt;/p&gt;
+
+&lt;p&gt;With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my &lt;em&gt;Good Morning&lt;/em&gt; and &lt;em&gt;Good Night&lt;/em&gt; scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground&lt;sup id=&quot;fnref:homekitforeground&quot;&gt;&lt;a href=&quot;#fn:homekitforeground&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything&lt;sup id=&quot;fnref:rebuild&quot;&gt;&lt;a href=&quot;#fn:rebuild&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;. After a quick search, I found &lt;a href=&quot;https://github.com/cflurin/homebridge-websocket&quot;&gt;Homebridge-websocket&lt;/a&gt;, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.&lt;/p&gt;
+
+&lt;p&gt;I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; &lt;code&gt;ws_morning&lt;/code&gt; and &lt;code&gt;ws_evening&lt;/code&gt;. I then set up two triggers within HomeKit; &lt;code&gt;WebSocket Morning&lt;/code&gt; (which triggers the &lt;em&gt;Good Morning&lt;/em&gt; scene when the &lt;code&gt;ws_morning&lt;/code&gt; switch turns on) and &lt;code&gt;WebSocket Evening&lt;/code&gt; (which triggers the &lt;em&gt;Good Night&lt;/em&gt; scene when the &lt;code&gt;ws_evening&lt;/code&gt; switch turns on). The only change I needed to make to my scenes was to ensure that both &lt;code&gt;ws_morning&lt;/code&gt; and &lt;code&gt;ws_evening&lt;/code&gt; are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.&lt;/p&gt;
+
+&lt;p&gt;The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named &lt;a href=&quot;https://github.com/daltoniam/Starscream&quot;&gt;Starscream&lt;/a&gt; which allowed me to connect to the server and send commands which led me to this code for the entire project:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIKit&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Starscream&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ipAddress&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;192.168.1.100:4050&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flicAppKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Your-Flic-App-Key&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flicAppSecret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Your-Flic-App-Secret&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SCLFlicButtonDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SCLFlicManagerDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WebSocketDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WebSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ws://\(ipAddress)/&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;SCLFlicManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;configureWithDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;defaultButtonDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;appID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flicAppKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;appSecret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flicAppSecret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;backgroundExecution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setupFlic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;SCLFlicManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sharedManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grabFlicFromFlicAppWithCallbackUrlScheme&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sceneControl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+
+    &lt;span class=&quot;c1&quot;&gt;// MARK: Flic Manager&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flicManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;manager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SCLFlicManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didGrabFlicButton&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SCLFlicButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;withError&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;ERROR: \(error)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flicButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SCLFlicButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didReceiveButtonDown&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;queued&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    
+    &lt;span class=&quot;c1&quot;&gt;// MARK: Websocket Delegate&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;websocketDidConnect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WebSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;standardUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;last&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stringForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;last_status&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;last&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ws_morning&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ws_evening&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ws_morning&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;topic&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;setValue&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;payload&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;characteristic&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;On&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;value&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]]&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSJSONSerialization&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataWithJSONObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PrettyPrinted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSUTF8StringEncoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;writeString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;disconnect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;forKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;last_status&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;synchronize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;websocketDidDisconnect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WebSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;websocketDidReceiveData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WebSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;websocketDidReceiveMessage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WebSocket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: this is just a personal project that I built as quickly as possible. By nature, it is a fairly dirty hack. You shouldn’t write professional apps like this.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;With this code in place, I can now press my Flic button (stuck to the underside of my bedside table) and it will toggle between my &lt;em&gt;Good Morning&lt;/em&gt; and &lt;em&gt;Good Night&lt;/em&gt; scenes. This is the full process of what is going on:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Press the Flic button&lt;/li&gt;
+  &lt;li&gt;Wakes up the iOS app (if terminated or backgrounded) and hits the &lt;code&gt;toggle&lt;/code&gt; function&lt;/li&gt;
+  &lt;li&gt;App sends a websocket command to the Homebridge-websocket server&lt;/li&gt;
+  &lt;li&gt;Server turns on a fake switch&lt;/li&gt;
+  &lt;li&gt;HomeKit notices that the fake switch has been turned on so fires trigger to run appropriate scene&lt;/li&gt;
+  &lt;li&gt;Scene activates or deactivates various accessories and then switches the fake switch back off ensuring it is ready for next button press&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is a long way away from the process I’d envisioned (press button, wake up app, toggle scene with HomeKit API) but it has been a fun challenge finding a way to get it work. I now have a physical button that controls multiple aspects of my home with a single press - it’s pretty cool!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:stuff&quot;&gt;
+      &lt;p&gt;Ugh what a horrible expression. I renamed it the &lt;em&gt;Internet of Stuff&lt;/em&gt; on &lt;a href=&quot;https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/&quot;&gt;episode 7 of The Divide&lt;/a&gt;. &lt;a href=&quot;#fnref:stuff&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:phrasing&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://bendodson.s3.amazonaws.com/phrasing.png&quot;&gt;&lt;em&gt;Phrasing&lt;/em&gt;&lt;/a&gt; &lt;a href=&quot;#fnref:phrasing&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:biy&quot;&gt;
+      &lt;p&gt;“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. &lt;a href=&quot;#fnref:biy&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:homekitforeground&quot;&gt;
+      &lt;p&gt;Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a &lt;code&gt;com.apple.developer.homekit.background-mode&lt;/code&gt; entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. &lt;a href=&quot;#fnref:homekitforeground&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:rebuild&quot;&gt;
+      &lt;p&gt;Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. &lt;a href=&quot;#fnref:rebuild&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Fetching RSS Feeds for Steam game updates</title>
