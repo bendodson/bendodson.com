@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Last year I worked on rebuilding the Great British Bee Count iPhone app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2016:">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-04-18.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Great British Bee Count 2016</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/05/19/great-british-bee-count-2016/">Great British Bee Count 2016</a></h1>
+			
+			<time datetime="2016-05-19" pubdate=""><a href="/weblog/2016/05/19/great-british-bee-count-2016/">May 19, 2016</a></time>
+    	</header>
+    	<div>
+			<p><a href="https://bendodson.com/weblog/2015/05/01/great-british-bee-count-app/">Last year</a> I worked on rebuilding the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count iPhone app</a> for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2016:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/gbbc-2016.jpg" width="800" height="500" /></p>
+
+<p>There are several updates including a redesigned bee picker, more details of the bees, and a list of plants suitable for attracting bees sponsored by Waitrose. The app is also now universal with support for both the iPhone and iPad<sup id="fnref:ipaduniversal"><a href="#fn:ipaduniversal" class="footnote">1</a></sup>.</p>
+
+<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:ipaduniversal">
+      <p>This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. <a href="#fnref:ipaduniversal" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/" title="Previous Article" class="pagination-previous">&laquo; Using a physical button (Flic) with HomeKit scenes and triggers</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>
