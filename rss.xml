@@ -6,8 +6,8 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 24 May 2016 10:32:43 +0100</pubDate>
-    <lastBuildDate>Tue, 24 May 2016 10:32:43 +0100</lastBuildDate>
+    <pubDate>Tue, 24 May 2016 10:39:19 +0100</pubDate>
+    <lastBuildDate>Tue, 24 May 2016 10:39:19 +0100</lastBuildDate>
 
     
     <item>
@@ -68,16 +68,16 @@
 	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;run&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;With this in place, I can say “&lt;em&gt;Hey Siri, set iTunes volume to 50%&lt;/em&gt;” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “&lt;em&gt;set [name] to [percentage]&lt;/em&gt;” as being “&lt;em&gt;change the brightness of this device&lt;/em&gt;” just in this case we are hitting an AppleScript with our brightness value.&lt;/p&gt;
-
-&lt;p&gt;This has been a fun little exercise in trying to hack HomeKit into what I want to use it for. I’m hopeful that iOS 10 will add native support for HomeKit speakers as then this could be done without reverting to AppleScript and I’d be able to stream from my iPhone via Siri but it’s pretty cool for the time being.&lt;/p&gt;
+&lt;p&gt;With this in place, I can say “&lt;em&gt;Hey Siri, set iTunes volume to 50%&lt;/em&gt;” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “&lt;em&gt;set [name] to [percentage]&lt;/em&gt;” as being “&lt;em&gt;change the brightness of this device&lt;/em&gt;” just in this case we are hitting an AppleScript with our brightness value.
+&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg&quot; width=&quot;375&quot; height=&quot;375&quot; /&gt;
+This has been a fun little exercise in trying to hack HomeKit into what I want to use it for. I’m hopeful that iOS 10 will add native support for HomeKit speakers as then this could be done without reverting to AppleScript and I’d be able to stream from my iPhone via Siri but it’s pretty cool for the time being.&lt;/p&gt;
 
 &lt;p&gt;You can find both of my Homebridge plugins on &lt;a href=&quot;https://www.npmjs.com/~bendodson#packages&quot;&gt;NPM&lt;/a&gt; and &lt;a href=&quot;https://github.com/bendodson/&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:twoplaylists&quot;&gt;
-      &lt;p&gt;Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. &lt;a href=&quot;#fnref:twoplaylists&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. The code for that is &lt;code&gt;if weekday of (current date) is Sunday then&lt;/code&gt; &lt;a href=&quot;#fnref:twoplaylists&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:playpause&quot;&gt;
       &lt;p&gt;At first I’d get around this by just using “&lt;em&gt;turn off kitchen music&lt;/em&gt;” followed by “&lt;em&gt;turn on kitchen music&lt;/em&gt;” as the playlist was shuffled but hardly an ideal solution. &lt;a href=&quot;#fnref:playpause&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
