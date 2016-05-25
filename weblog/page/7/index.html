@@ -38,6 +38,33 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">Forcing UIStatusBarStyle for UIImagePickerController</a></h1>
+			
+			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">July 10, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I stumbled upon an interesting problem today which I’ve experienced a couple of times before; if you are using white text for the status bar in your application (<code>UIStatusBarStyle.LightContent</code>) then it will be turned black once you present a UIImagePickerController. This can not only look ugly but will remain when you dismiss the controller. Usually I just change the appearance of the navigation bar within the picker to get around this (and set it back to the correct colour upon dismissing the controller) but on this particular app I wanted to force the UIImagePickerController to use the light style status bar. Fortunately it is quite easy.</p>
+
+<p>When you use the UIImagePickerControllerDelegate, you are also required to adopt the UINavigationControllerDelegate. This has a method named <code>navigationController:willShowViewController:animated:</code> which will be called both when you present the controller and when you navigate between albums. Using this, it is trivial to force the status bar to remain the same<sup id="fnref:assumption"><a href="#fn:assumption" class="footnote">1</a></sup>:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="nl">navigationController</span><span class="p">:</span> <span class="bp">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
+	<span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">statusBarStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">LightContent</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:assumption">
+      <p>This is of course assuming you have <em>View controller-based status bar appearance</em> set to NO in your Info.plist file so that you can use UIApplication to change the status bar. <a href="#fnref:assumption" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/">Optical media and the pain of Remote Disc</a></h1>
 			
 			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/">July 10, 2015</a></time>
@@ -399,78 +426,6 @@
 <p>Check out <a href="https://github.com/bendodson/MonthYearPickerView-Swift">MonthYearPickerView-Swift on GitHub</a>.</p>
 
 <p><strong>Update (2015-10-07):</strong> The project has been updated to support Swift 2.0 and is compatible with Storyboards and Xib files. I’ve added tags to the repository so you can choose if you want the Swift 1.2 or Swift 2.0 version.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/05/tv-for-the-uk-politics-fan/">TV for the UK politics fan</a></h1>
-			
-			<time datetime="2015-05-05" pubdate=""><a href="/weblog/2015/05/05/tv-for-the-uk-politics-fan/">May 05, 2015</a></time>
-    	</header>
-    	<div>
-			<p>With just 1 day left until the 2015 General Election, I thought it might be fun to put together a list of some of my favourite TV shows that show how UK politics works:</p>
-
-<h2 id="blackadder">Blackadder</h2>
-<p>One of the finest episodes is the series 3 opener, “Dish and Dishonesty”, which covers the by-election of “Dunny-on-the-Wold” as Blackadder attempts to stop Pitt the Younger from striking the Prince from the civil list. Every line is a winner but my one of my favourites has to be “Marvelous thing, democracy. Look at Manchester: population, 60,000; electoral roll, 3”. Also notable for the fact that the “Standing-At-The-Back-Dressed-Stupidly-And-Looking-Stupid Party” appear to be wearing UKIP colours.</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/Eb25pO04yls" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="the-thick-of-it">The Thick Of It</h2>
-<p>This is really just a modern version of “Yes, Minister” (which I’ll come to) covering the last Labour Government with the more recent series looking at the current coalition. Made famous by Peter “Doctor Who” Capaldi’s sweary Malcolm Tucker character, it’s a very accurate portrayal of how UK politics has been for the last few years with special advisors holding much of the power. One of the best episodes for me involves the minister going on a factory visit<sup id="fnref:factory"><a href="#fn:factory" class="footnote">1</a></sup> and being accosted by a worker unhappy with the state of the NHS…</p>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/4rcivx8NW6U" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="yes-minister">Yes, Minister</h2>
-<p>Made during the 80s, “Yes, Minister” was a comedy portrayal of the struggle between ministers and their civil servants. Every episode is fantastic, as is the related series “Yes, Prime Minister”, with the witty dialogue of Sir Humphrey Appleby providing the best laughs. I particularly like one episode in which Sir Humphrey is pointing out that a British democracy exists solely to keep the important things in life out of the hands of ordinary people such as Radio 3, the countryside, the Royal Opera House, and “<a href="https://www.youtube.com/watch?v=gmOvEwtDycs&amp;t=2m29s">the universities; both of them</a>”:</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/gmOvEwtDycs" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="to-play-the-king">To Play The King</h2>
-<p>Without a doubt, House of Cards is one of the best series to come out of the UK. Whilst the US version is also incredibly good, nothing compares to the asides that Ian Richardson does to camera throughout<sup id="fnref:fu"><a href="#fn:fu" class="footnote">2</a></sup>. I think the second of the trilogy, “To Play The King”, is best with Urquhart pitted against a new King (played by Michael Kitchen) who is not pleased with the old-fashioned Tory values of the PM. Probably the most true-to-life portrayal of the Conservative Party during the late 80s, early 90s. Just fantastic.</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/nKhL1pQceHw" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="absolute-power">Absolute Power</h2>
-<p>I stumbled upon “Absolute Power” completely by chance when browsing iTunes a few years ago. Only 2 series were made but they feature Stephen Fry and Martin Bird as the heads of a London PR agency. In my favourite episode, “Tory Women”, Fry performs a makeover on a female Conservative shadow minister (played by Rebecca Front who went on to be the minister in season 3 of “The Thick of It”) and comes up with <a href="https://www.youtube.com/watch?v=babNH28wgsA&amp;t=6m21s">the following immortal line</a> about Neil Kinnock:</p>
-
-<blockquote>
-  <p>“If the British public were forced at gunpoint to appoint a new Prime Minister and they could only choose between Jeffrey Archer and Neil Kinnock, who would they pick do you think? A convicted crook and mythomaniac or a sincere and dedicated socialist? They’d choose Archer every time, and why? Because Kinnock is Kinnock and there’s something about that poor bastard that makes you just want to run shrieking from the room. And you’re the same.”</p>
-</blockquote>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/babNH28wgsA" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="the-new-statesman">The New Statesman</h2>
-<p>After the success of “The Young Ones”, Rik Mayall wanted to do something which was more “grown up” and eventually persuaded ITV to produce “The New Statesman”. Whilst I don’t think you could really call it “grown up”, it’s certainly a hilarious alternative view on Conservative MPs. Mayall plays “Alan B’stard”, a Tory MP with the largest majority in the House of Commons. There’s innuendo, slapstick violence, and an awful lot of truth in this series. My favourite episode<sup id="fnref:stormtrooper"><a href="#fn:stormtrooper" class="footnote">3</a></sup> features both Stephen Fry and Hugh Laurie in an excellent scene in a restaurant:</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/cz1rhLnCrJQ" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="ballot-monkeys">Ballot Monkeys</h2>
-<p>The newest item to my list, “Ballot Monkeys” is an ambitious programme being aired this year on Channel 4. It was advertised as being “so topical we haven’t written it yet” and that is certainly true - each episode is produced on the day it airs with the plots (such as they are) being directly influenced by the news events of the day. The first two episodes aired a week apart but it is now on every night until election night. The series follows each of the 4 main parties in this election (Labour, Conservative, Lib Dem, and UKIP) on their respective “Battle Buses” with both candidates and media advisors discussing the topics of the day. It’s already led to some of the funniest political comedy I’ve seen in years with the Lib Dems desperately searching through a paper for any mention of themselves<sup id="fnref:libdem"><a href="#fn:libdem" class="footnote">4</a></sup>, the Labour social media campaigner creating fake tweets from “Milifans”, and the UKIP candidate who doesn’t trust their new bus driver<sup id="fnref:terrorist"><a href="#fn:terrorist" class="footnote">5</a></sup>:</p>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/yexneLKGous" frameborder="0" allowfullscreen=""></iframe>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:factory">
-      <p>“<a href="https://www.youtube.com/watch?v=Eb25pO04yls&amp;t=15m30s">I love this bloody factory</a>” <a href="#fnref:factory" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:fu">
-      <p>“Did you enjoy my little speech? I thought my “deep personal wound” was a rather good touch. I am in fact extremely angry with His Majesty and I intend to do him harm. I feel exhilarated. Prospect of a fight, of course, with the odds unfairly weighted in my favour. Next to a small war, there’s nothing quite like a general election to stiffen the sinews and summon up the blood.” <a href="#fnref:fu" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:stormtrooper">
-      <p>I can’t fail to love an episode with the lines “we’re Thatcher’s stormtroopers and we’re in a hurry” or “indeed I do remember the Falklands, made a fortune!” <a href="#fnref:stormtrooper" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:libdem">
-      <p>And a brilliant comparison to a Grand National horse that “didn’t win, but came in the top 4 with odds of 300-1… only slightly better than our odds” <a href="#fnref:libdem" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:terrorist">
-      <p>“Terrorists eat biscuits too” <a href="#fnref:terrorist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>
