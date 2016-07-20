@@ -38,6 +38,112 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">How to control a Mac Mini from your iPhone including waking, sleeping, and audio / video</a></h1>
+			
+			<time datetime="2008-09-08" pubdate=""><a href="/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">September 08, 2008</a></time>
+    	</header>
+    	<div>
+			<p>I was recently cleaning through the "technology cupboard" in my flat (every geek has one - it's a place where all the useless electronics we've collected over the years live) when I came across an idea for creating a home entertainment system for my bedroom.  The main driver for this was a forgotten Mac Mini (512MB of RAM and an old G4 processor) which I realised could hold all of my music on its 40GB hard drive and send it wirelessly to all of my other equipment.</p>
+
+<p>The problem I have is that at present I have 3 computers at home and 1 at work (plus my iPhone 3G) which all have a complete copy of all of my music files (around 20GB - obviously the iPhone doesn't have all of that as it doesn't fit but that's a separate issue) - the downside to this is that when I update one machine the others are then out of sync.  My original plan was to have the mac mini hold everything and then the other computers would use it's hard drive over my network as the master copy.  That way if I added music to the mac mini, the others would all be in sync.  I have since completely given up on this idea as I needed to a) access music on my laptop all the time and b) access music on my work iMac without having to leave everything on at home and broadcast through a static IP (which would also have been a little slow especially when I skip through lots of tracks - I'm very picky at what I listen to).</p>
+
+<p>However, since I started writing this article there have been <a href="http://forums.macrumors.com/showthread.php?t=557826" rel="external">rumours flying around</a> about the 9th September "Lets Rock" event being staged by Apple.  Several sources are touting that iTunes 8 is going to be released and will have an option to stream your music wirelessly to other machines (or an iPhone) through the internet.  Let's hope this is true!</p>
+
+<p>With the initial problem left alone for now, I decided to think on another problem I have.  If I want to listen to music in my bedroom, then I have to bring my laptop in and listen to it from there.  This isn't a huge difficulty but the sound quality isn't great and I don't like using my laptop in my bedroom (mainly because I try to keep some separation between work / computer based activities from other things I enjoy like reading and writing - the ideal separation is a physical one so I don't use my computer in my bedroom at all).  I could buy a cheap hi-fi system but then it wouldn't be connected to my iTunes library.  Alternatively I could get an iPhone dock but they are quite expensive (due to the magnetic shielding) and also I can't fit all my music on there so it wasn't really an option.  At this point I'd like to point out that yes I could have used <a href="http://www.apple.com/uk/airportexpress/" rel="external">AirTunes</a> (plugging a hi-fi unit into the 3mm audio jack on an Airport Express in order to pick up a shared iTunes library) but that would require me leaving the laptop on in the other room.  Not a great hardship but I'd have to get out of bed to turn it off (which would be a hardship).</p>
+
+<p>After a bit of thought and a look at the components I had, I worked out that I could put the mac mini under my bed with a wireless card and some speakers and then play music through it using the <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284417350&mt=8" rel="external">Apple Remote application</a> available from the App Store for iPhone.  I could also install a VNC client so that I could control the mac mini remotely if necessary (in the case of copying music onto it, installing updates, etc).  Perfect.</p>
+
+<p>I'm quite pedantic however and so the above solution wasn't yet 100% perfect.  The main problem I had was that the mac mini would need to be on 24 hours a day when I'd only be using it for around an hour a day at most. This doesn't bother me from an environmental perspective (I'm not into "green") but did bother me from the point of view that I'd be paying for electricity I wasn't using (around 45-50W an hour I believe which would be around 16p a day - that works out at nearly &pound;60 a year for nothing!) and that the components would be wearing down from overuse.  It would probably become a little unstable as well and I'd worry it would burst into flames or something!  So, the mac mini needed to be put to sleep and needed to be woken up.  I could do this by pressing the power button but it's under my bed and I can't be bothered with the movement involved.  Thus a solution had to be created that would let me wake it and put it to sleep remotely with my iPhone being the obvious candidate for this as it was already choosing the songs being played.</p>
+
+<h3>Challenge One - Make the mac go to sleep remotely</h3>
+
+<p>Waking up a machine is easy with Wake-on-LAN (as we'll see shortly) but there seems to be no easy way to put one to sleep.  My initial ideas of having an inactivity timer were quickly discarded as I realised that either the machine wouldn't go to sleep if music was left playing or it might go to sleep too quickly.  A better solution was needed and I eventually came across a terminal command which will make your mac sleep:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;;</span></code></pre></div>
+
+<p>You can try the above in Terminal and watch in awe as your mac succumbs to tiredness.  So this is all well and good but can only be run on the machine which you want to put to sleep; it can't be done remotely.</p>
+
+<p>A solution to the problem comes in the form of the Apache2 web server that comes installed by default on all OS X Leopard installations.  If I could set the mac mini up as a server, knock up a bit of PHP to pass the sleep command directly to the machine, and then broadcast the IP so that the command could be run via Safari on the iPhone, then I would be on to a winner!  This is exactly what I ended up doing and the instructions are below for your delectation.</p>
+
+<p>First of all we need to activate the Apache2 web server in Leopard.  To do this, go to "System Preferences" and then to the "Sharing" icon.  If you tick the "Web Sharing" checkbox, then the server will come to life and will be enabled whenever you start the machine.  You can check this has worked by going to <a href="http://localhost/" rel="external">http://localhost/</a> on the machine and checking you get an apache default installation message.  Now this is done, we need to set our Computer Name for easy access to this page from anywhere on our home network.  The setting for this is also in the "Sharing" control panel and so I set mine to mini.  This allows the web server to be reached by any computer on the network by going to <a href="http://mini.local/" rel="external">http://mini.local/</a> - try it yourself by changing it to whatever name you want (the URL to access your computer will be shown on the same screen).</p>
+
+<p>Now that we can connect to the web server, we need to get PHP up and running and write our script.  PHP 5 doesn't come enabled by default so we have to do this by opening up terminal and typing the code below.  I am assuming at this point that you have the excellent <a href="http://macromates.com/" rel="external">TextMate</a> installed which is accessed from the 'mate' command in Terminal.  If you don't have it, either install it or substitute 'mate' for some other text editor command like 'pico' or 'vi'.</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mate /etc/apache2/httpd.conf</code></pre></div>
+
+<p>You may need to type in your administrative password if prompted.  Now you have the Apache2 configuration file open, scroll down to somewhere around line 114 where you will find the line:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"># LoadModule php5_module libexec/apache2/libphp5.so</code></pre></div>
+
+<p>You'll need to uncomment this (by removing the proceeding hash) and then save the file.  Once this is done, you'll need to restart Apache in order for your changes to be made available.  You do this with the command:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo apachectl graceful</code></pre></div>
+
+<p>You can use 'restart' in place of 'graceful' to do a full restart, but a graceful restart won't kick off anyone that is currently using your server.  This isn't going to matter here but it's a good habit to get into in case you ever need to restart an apache server in the future.</p>
+
+<p>You now have PHP5 installed and ready to go so lets write the PHP script that is going to power our sleep command.  You'll need to go to your Apache DocumentRoot (which by default is in a folder called Sites in your home folder) and delete any files that are in there.  Now create a new file called "index.php" with the following code in it:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span>
+<span class="x">    &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">&lt;head&gt;</span>
+<span class="x">    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</span>
+<span class="x">    &lt;title&gt;Mac Mini Sleeping App&lt;/title&gt;</span>
+<span class="x">&lt;/head&gt;</span>
+<span class="x">&lt;body&gt;</span>
+<span class="x">    &lt;h1&gt;Goodnight...&lt;/h1&gt;</span>
+<span class="x">&lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+<span class="cp">&lt;?php</span>
+<span class="nb">exec</span><span class="p">(</span><span class="s1">&#39;./sleep.scpt&#39;</span><span class="p">);</span>
+<span class="k">exit</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+
+<p>All this code is doing is outputting a message that says "goodnight" and then executes an applescript file (in this case sleep.scpt) which contains the code from earlier:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;</span></code></pre></div>
+
+<p>I find it's easier to include a file in this way rather than typing the command into a function such as <a href="http://uk3.php.net/passthru" rel="external">passthru()</a> as it allows for easier control over quotes, etc.  The <a href="http://uk3.php.net/manual/en/function.exec.php" rel="external">exec()</a> command used in the above is pretty much telling PHP to type the command we used earlier into Terminal.  Unfortunately this won't actually do anything at present (at least it shouldn't do) as the Apache webserver is not authorised by default to perform such important system commands as are available through exec().  To do this we need to go back to the Apache2 config file and set the user and group of the web server to be the same as that of the user of the machine.  Now this is a calculated security risk as it means any scripts on the server can have full access to your machine and thus compromise it.  However, this is for personal home use and no-one will be able to access it unless they are on your network let alone run scripts on it so I think it's ok.  Let's set the permissions by opening up the config file:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mate /etc/apache2/httpd.conf</code></pre></div>
+
+<p>Now go to around line 126 and amend the User to your own username and Group to 'staff'.  In my case this was:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">User ben
+Group staff</code></pre></div>
+
+<p>Yours will differ (unless you're called ben) but you can find out what yours is by going to your home folder - the name of the folder is the name of your user.</p>
+
+<p>Now restart the apache server (remember our graceful command from earlier?) and try out your site.  You should find that your mac goes fast to sleep.  Success!  Simply go to the URL with safari on your iPhone, tap the '+' icon, and then choose "save to home screen" in order to set it up as a web app.  If you want a fancy icon, then stick a square PNG named "apple-touch-icon.png" in the same folder as the index.php file and you'll notice that it appears on your home screen when you bookmark the page.</p>
+
+<h3>Challenge Two - Wake the mac up</h3>
+
+<p>Ok, you now have a sleeping mac that you want to wake up.  Most computers have a little feature built in to them called Wake-on-LAN.  The idea is that when the computer is asleep, the ethernet port is actually still active and listening for data.  If a certain command is sent (referred to as a "magic packet") then the ethernet card will tell the rest of the computer to wake up.  This is exactly what we need but unfortunately will not work over a wireless connection (as a wireless card doesn't stay awake when the computer is asleep).  If you have connected your mac to an ethernet connection then you can ignore the next few steps, but for me a long cable wasn't really an option.  I therefore came across a solution that would allow me to pretend I was on ethernet; wireless bridging.</p>
+
+<p>The idea behind wireless bridging is fairly simple.  Rather than having an ethernet cable from your router to your computer, you instead have 2 wireless routers that are connected via ethernet to each machine (or modem) which then act like an ethernet link between the two.  Now I already had an <a href="http://www.apple.com/uk/airportextreme/" rel="external">Airport Extreme</a> which was broadcasting my network / internet wirelessly and so all I needed was another router on the other end.  After a bit of headscratching with a BT router that was lying around, I decided the best way to proceed was to pop to the Apple Store and buy an <a href="http://www.apple.com/uk/airportexpress/" rel="external">Airport Express</a>.  The Airport Express is plugged into a standard power socket and then broadcasts a wireless signal.  On it's base it has 3 inputs; ethernet, USB, and 3mm Audio.  Usually the Airport Express is connected to a wired modem via ethernet so it can quickly and easily broadcast internet to the rest of your house however you can also plug in a printer to share that to wireless devices or plug in a standard hi-fi unit in order to utilise the AirTunes feature I mentioned earlier.</p>
+
+<p>I instead used it's network bridging service in order to connect it to the mac mini via ethernet and then extend the wireless network created by my Airport Extreme.  This is fairly easy to do from the Airport Utility - I won't go into the exact process here as it is mimicked in <a href="http://www.macosxhints.com/article.php?story=20040927125820995" rel="external">several other places</a>, but the end result that the Airport Express connects to the wireless network created by the Airport Extreme and sends this to the mac mini via ethernet.  This means that we can now send a Wake-on-LAN command as both the Airport Extreme and Airport Express are "always on" allowing the packet to go through the bridge, down the ethernet cable, and straight into the ethernet port.  Simple!</p>
+
+<p>Now we just need to find a way to send the magic packet from the iPhone.  The application <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=286568674&mt=8" rel="external">iWOL</a> allows us to do this easily and has a very quick setup.  Simply type in a name to reference the machine and the MAC address of the ethernet card (this can be found by going to "System Preferences"->"Network" and selecting your ethernet card.  Now click on "advanced" and then on the "Ethernet" tab.  Your MAC Address is the "Ethernet ID").  Now enable "LAN Broadcast" mode and you should be good to go.  Once your computer is asleep, open up iWol and you should be able to wake it up at the press of a button.</p>
+
+<h3>Further Enhancements</h3>
+
+<p>At present, my setup is working in the same way as detailed in the steps above.  I am in the process of making the sleeping web app slightly tidier with a fancy interface and icon, etc, and this will be available for download from my site shortly - the working title is "Rohypnol"&hellip;</p>
+
+<p>In addition to the above steps, I have installed a freeware application called <a href="http://www.robbiehanson.com/alarmclock/index.html" rel="external">Alarm Clock 2</a> on the mac mini which allows me to use it as an alarm clock.  Various options are available including a "wake from sleep" mode which is perfect for this project.  I now have a special playlist on my mac mini which starts off quietly and over 5 minutes gently increases in volume.  Nothing says wake up in the morning like <a href="http://www.youtube.com/watch?v=oHg5SJYRHA0" rel="external">Rick Rollin'</a> music&hellip;</p>
+
+<p>In order to control the mac mini better, I also installed a freeware VNC server called <a href="http://sourceforge.net/projects/osxvnc/" rel="external">Vine Server</a> that allows me to control the machine remotely. I won't go into the finer details of VNC setup as this has also been covered in detail <a href="http://www.xawk.com/apple-htpc-step01-setup-and-vnc.html" rel="external">elsewhere on the net</a>.  I will however mention the excellent <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284984448&amp;mt=8" rel="external">VNC Lite</a> app for iPhone which allows you to access VNC controlled machines.  It's easy to use and very intuitive - it's also free!</p>
+
+<p>In the future I plan to make some improvements to this system by plugging in a monitor which can then sit on the end of the bed allowing me to watch movies and tv shows downloaded through iTunes as well as DVDs etc but this is an upgrade for another day.  For now I'm quite happy with the setup which was achieved relatively easily and cheaply as I had all the components to hand.  I probably wouldn't recommend it if you were going to buy all the parts as the whole system would cost about &pound;500 but as a small project it's worked very well.  Now I just have to wait to see what iTunes 8 will add to this setup&hellip;</p>
+
+<p>If you have any questions or comments, then please use the comments box below or <a href="https://bendodson.com/contact/">contact me</a>!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2008/08/17/twitter-stops-sending-sms-to-uk-europe-australia/">Twitter stops sending SMS to UK / Europe / Australia</a></h1>
 			
 			<time datetime="2008-08-17" pubdate=""><a href="/weblog/2008/08/17/twitter-stops-sending-sms-to-uk-europe-australia/">August 17, 2008</a></time>
@@ -334,75 +440,6 @@ Twitter, Inc.<br />
 			<p>I've spent some time updating my firefox extensions so that all of them work with <a href="http://www.mozilla.com/en-US/firefox/all-beta.html" rel="external">Firefox 3 Beta 3</a>. At present they can only be downloaded from this site as it takes the Mozilla Addons team a few days to approve updates.  My <a href="https://bendodson.com/weblog/extensions/">extensions page</a> is now back up and running though and contains details on all 3 of my Firefox Extensions (Font Finder, Stop! Hammertime!, and STOP in the name of love) as well as download links for the new releases.</p>
 
 <p>I won't be making any further updates to the stop buttons (apart from making them work with future version of Firefox) but I will be continuing development on Font Finder which could benefit from a visual overhaul as well as a clipboard function!  I'll be updating on here when it happens so sign up to the <a href="https://bendodson.com/weblog/rss.xml">RSS feed</a> for the latest news!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2008/02/28/google-extended-encoding-made-easy/">Google extended encoding made easy!</a></h1>
-			
-			<time datetime="2008-02-28" pubdate=""><a href="/weblog/2008/02/28/google-extended-encoding-made-easy/">February 28, 2008</a></time>
-    	</header>
-    	<div>
-			<p>I've been having a play around with <a href="http://code.google.com/apis/chart" rel="external">Google Charts</a> recently but came across a problem with the range of values that can be used. With <a href="http://code.google.com/apis/chart/#simple" rel="external">simple encoding</a>, you can only have values between 0 and 64, and with <a href="http://code.google.com/apis/chart/#text" rel="external">text encoding</a> only values between 0 to 100.  This is annoying when dealing with things such as tracking website hits or weight when values are typically much higher.</p>
-
-<p>I played around with some functions to try and factorise the numbers so that they would be in the range of 0 to 100 but this didn't go so well so I decided to tackle Google's <a href="http://code.google.com/apis/chart/#extended" rel="external">extended encoding</a>.</p>
-
-<p>This is a system of encoding that basically takes a pair of alphanumeric characters and translates them into a number between 0 and 4095 (much better!).  So for example, B9 translates to 125 and .a would translate to 4058.  However, although this has a much larger range, it's a bit harder to get your head around and so what is needed is a simple function (or two) to convert to and from the extended encoding.  Predictably, I have said PHP functions here:</p>
-
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-
-<span class="k">function</span> <span class="nf">array_to_extended_encoding</span><span class="p">(</span><span class="nv">$array</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nv">$characters</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.&#39;</span><span class="p">;</span>
-
-    <span class="nv">$encoding</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$first</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="nv">$value</span> <span class="o">/</span> <span class="mi">64</span><span class="p">);</span>
-        <span class="nv">$second</span> <span class="o">=</span> <span class="nv">$value</span> <span class="o">%</span> <span class="mi">64</span><span class="p">;</span>
-        <span class="nv">$encoding</span> <span class="o">.=</span> <span class="nv">$characters</span><span class="p">[</span><span class="nv">$first</span><span class="p">]</span> <span class="o">.</span> <span class="nv">$characters</span><span class="p">[</span><span class="nv">$second</span><span class="p">];</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nv">$encoding</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
-
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-
-<span class="k">function</span> <span class="nf">extended_encoding_to_array</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nv">$characters</span> <span class="o">=</span> <span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.&#39;</span><span class="p">;</span>  
-
-    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$characters</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$first</span><span class="p">[</span><span class="nv">$characters</span><span class="p">[</span><span class="nv">$i</span><span class="p">]]</span> <span class="o">=</span> <span class="nv">$i</span> <span class="o">*</span> <span class="mi">64</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$characters</span><span class="p">);</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$second</span><span class="p">[</span><span class="nv">$characters</span><span class="p">[</span><span class="nv">$i</span><span class="p">]]</span> <span class="o">=</span> <span class="nv">$i</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nv">$pairs</span> <span class="o">=</span> <span class="nb">str_split</span><span class="p">(</span><span class="nv">$string</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$pairs</span> <span class="k">as</span> <span class="nv">$pair</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$first</span><span class="p">[</span><span class="nv">$pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]];</span>
-        <span class="nv">$value</span> <span class="o">+=</span> <span class="nv">$second</span><span class="p">[</span><span class="nv">$pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
-        <span class="nv">$values</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
-
-<p>They work fairly simply by taking advantage of PHP's casting methods in that a string can be interpreted as an array.</p>
-
-<p>In the first function, <code>array_to_extended_encoding()</code>, an array of numbers should be passed e.g. <code>array(250,39,400,1904,2)</code>.  The function first lists all of the extended encoding characters in order as one string named <code>$characters</code>.  It then loops through our array of numbers, and creates two variables; <code>$first</code> and <code>$second</code>.  In <code>$first</code>, we store the number from our array divided by 64 and rounded down using the <a href="http://www.php.net/floor" rel="external"><code>floor()</code></a> function.  For <code>$second</code>, we use the modulus operator (<code>%</code>) to find the remainder once the number from the array is divided by 64.  We then take both <code>$first</code> and <code>$second</code> and work out the encoding by looking up the numbers from within the <code>$characters</code> cast as an array.  This gives us 2 characters which make up the extended encoding for the number.  We keep extending the value of <code>$encoding</code> until we end up with a string representing the full extended encoding of the array passed to the function.</p>
-
-<p>The second function, <code>extended_encoding_to_array()</code>, is slightly more advanced.  It accepts a string as its only parameter which should be an extended encoding (e.g. <code>$encoding = 'AA..B9aC'</code>).  We first list all of the characters in a string as we did for our previous function, but then we create two arrays which will contain all of the numbers we need to decode the extended encoding.  In <code>$first</code>, we create an array of each character in the <code>$characters</code> string as a number multiplied by 64 (so the letter b would be 64 as it is signified by number 1 in the array multiplied by 64).  Within <code>$second</code> we perform a similar operation but instead just assign the number of the character rather than multiplying it by 64.  This gives us two arrays, with keys relating to each character that can be used as an encoding and values as the numerical equivalent.  It is now a simple case of splitting the string that was passed to the function into chunks of 2 characters using <a href="http://www.php.net/str_split" rel="external"><code>str_split()</code></a> and looping through the returned array setting the value of each character within the pair from the arrays we created.  We then add the two returned numbers together to give us the decoded figure and add it to an array which will be returned by the function.</p>
-
-<p>Simple?  It has certainly made things a lot easier for the functions I'm writing for a PHP wrapper for Google Charts and hopefully it will help somebody else as well.   If you have any questions or comments, please <a href="https://bendodson.com/contact/">get in touch</a>.</p>
 
 		</div>
 	</article>
