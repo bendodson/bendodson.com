@@ -58,7 +58,7 @@ var countries = {
     hk: 'Hong Kong',
     hn: 'Honduras',
     hr: 'Croatia',
-    hu: 'Hungaria',
+    hu: 'Hungary',
     id: 'Indonesia',
     ie: 'Ireland',
     il: 'Israel',
