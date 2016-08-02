@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="As I’ve mentioned many times before, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps1. Thankfully, this has now been fixed in iOS 102.            Whilst I had no concrete proof of this at the time of writing those articles, it looks like I was right that this was a widespread problem. &#8617;&#xfe0e;              I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. &#8617;&#xfe0e;      ">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-04-18.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Media Library privacy flaw fixed in iOS 10</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Media Library privacy flaw fixed in iOS 10</a></h1>
+			
+			<time datetime="2016-08-02" pubdate=""><a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">August 02, 2016</a></time>
+    	</header>
+    	<div>
+			<p>As I’ve mentioned <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">many times before</a>, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps<sup id="fnref:proof"><a href="#fn:proof" class="footnote">1</a></sup>. Thankfully, this has now been fixed in iOS 10<sup id="fnref:fixed"><a href="#fn:fixed" class="footnote">2</a></sup>.</p>
+
+<p>In this article, I’ll explain how to update your apps to support this new privacy requirement. Before I do that, I’m going to show you what happens if you run an app built against the iOS 9.3 SDK (or earlier) on iOS 10:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/access-apple-music.jpg" width="800" height="450" alt="[app name] would like to access Apple Music" /></p>
+
+<p>You’ll be prompted<sup id="fnref:permissiontext"><a href="#fn:permissiontext" class="footnote">3</a></sup> to allow permissions as soon as any media library code is encountered be that on app startup or in a background process such as that used by <a href="https://dodoapps.io/music-tracker/">Music Tracker</a>. If you decline to give permission then the app will quit to the home screen and you will not be able to use it. This is a big change from previous permission switches whereby apps built against the old SDK would be exempt from new permissions (i.e. if your iOS 7 SDK compiled app ran on iOS 8, it wouldn’t crash because it wasn’t using the new location privacy options). Personally I like this change as it allows you to see clearly which apps were abusing these APIs such as <a href="https://twitter.com/rosyna/status/743427770760364034">Canary</a> and <a href="https://twitter.com/chinanderm/status/743091483595546624">Google Calendar</a>.</p>
+
+<p><strong>Bottom line</strong>: If you are using <code>MPMediaQuery</code> or similar in your app, you’d better update it with the iOS 10 SDK as soon as possible as otherwise you are going to get a lot of crashes if your users don’t allow the permission (or a lot of awkward questions if you shouldn’t be using this API).</p>
+
+<p>How do you update your app to request permission for these APIs? First of all, lets whip up a basic example with Swift 3 that will pull the title of the first track in your music library:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="n">items</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">.</span><span class="n">first</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: \(item.title)&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is <code>NSAppleMusicUsageDescription</code>. If you don’t add this key, your app will crash as soon as you try and access an <code>MPMediaQuery</code> with the following message:</p>
+
+<blockquote>
+  <p><em>This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSAppleMusicUsageDescription key with a string value explaining to the user how the app uses this data.</em></p>
+</blockquote>
+
+<p>With the <code>NSAppleMusicUsageDescription</code> key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the <code>query.items</code> property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the <code>MPMediaLibrary.authorizationStatus()</code> and <code>requestAuthorization((MPMediaLibraryAuthorizationStatus) -&gt; Void)</code> APIs that were added in iOS 9.3 to do something like this:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="bp">MPMediaLibrary</span><span class="p">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
+            <span class="nb">self</span><span class="p">.</span><span class="n">runMediaLibraryQuery</span><span class="p">()</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nb">self</span><span class="p">.</span><span class="n">displayMediaLibraryError</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">runMediaLibraryQuery</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="n">items</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">.</span><span class="n">first</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: \(item.title)&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">displayMediaLibraryError</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nl">error</span><span class="p">:</span> <span class="n">String</span>
+    <span class="k">switch</span> <span class="bp">MPMediaLibrary</span><span class="p">.</span><span class="n">authorizationStatus</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="p">.</span><span class="k">restricted</span><span class="o">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Media library access restricted by corporate or parental settings&quot;</span>
+    <span class="k">case</span> <span class="p">.</span><span class="nl">denied</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Media library access denied by user&quot;</span>
+    <span class="k">default</span><span class="o">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Unknown error&quot;</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">UIAlertController</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Error&quot;</span><span class="p">,</span> <span class="nl">message</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span> <span class="nl">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
+    <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">handler</span><span class="p">:</span> <span class="nb">nil</span><span class="p">))</span>
+    <span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>You first need to request authorization and then run your code only if the status is <code>authorized</code>. If not, then you should display an error specific to whether or not the request was <code>denied</code> or <code>restricted</code> (usually by corporate or parental controls).</p>
+
+<p>I’ve put an <a href="https://github.com/bendodson/media-library-access-in-ios-10">example project on GitHub</a> which uses the code above by way of demonstration.</p>
+
+<p>I’m extremely grateful to everyone that has helped share my posts about this issue and to the engineers at Apple for fixing this privacy flaw. I’ll update this post should anything change between now and the expected public release of iOS 10 in September.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:proof">
+      <p>Whilst I had no concrete proof of this at the time of writing those articles, it <a href="https://twitter.com/rosyna/status/743398363496751104">looks like I was right that this was a widespread problem</a>. <a href="#fnref:proof" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:fixed">
+      <p>I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. <a href="#fnref:fixed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:permissiontext">
+      <p>In earlier builds of iOS 10 you’d be asked “<em>[App Name] Would Like to Access Apple Music</em>” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “<em>[App Name] Would Like to Access Apple Music and Your Media Library</em>”. <a href="#fnref:permissiontext" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/07/20/talking-shop-with-ben-dodson/" title="Previous Article" class="pagination-previous">&laquo; Talking Shop with Ben Dodson</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

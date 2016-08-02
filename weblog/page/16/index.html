@@ -38,6 +38,35 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2011/05/04/portal-2-on-the-new-imac-10-6-6/">Portal 2 on the new iMac (10.6.6)</a></h1>
+			
+			<time datetime="2011-05-04" pubdate=""><a href="/weblog/2011/05/04/portal-2-on-the-new-imac-10-6-6/">May 04, 2011</a></time>
+    	</header>
+    	<div>
+			<p>Today I purchased one of the brand new iMacs that were released yesterday. One of the first things I installed was Steam and Portal 2 (as I'm looking forward to playing co-operatively with a friend on Windows) but I was surprised when trying to play that it required OS X 10.6.7</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/05/Screen-shot-2011-05-04-at-20.24.23.png" alt="Portal 2 requires Mac OS 10.6.7" title="Screen shot 2011-05-04 at 20.24.23.png" border="0" width="420" height="122" />
+
+<p>This is surprising because 10.6.7 has been around for a little while now so why wasn't it on the new iMacs by default.  After trying a system update, I found that there was no update for the 10.6.6 iMacs and other people had tried the Combo Update downloadable from Apple to no avail.</p>
+
+<p>After downloading all of Portal 2, I decided not to give up easily and see if there was a way around it. Developers are generally lazy and so they are probably just checking for the string 10.6.6 in the system version.  As this version of 10.6.6 has all of the drivers for the new graphics card required for Portal 2, I thought there would probably be no harm in changing that system version to 10.6.7 to get past the Steam requirements. Turns out I was right!</p>
+
+<p>To get your copy of Portal 2 running on your new iMac, navigate to <code>/System/Library/CoreServices/</code> - now copy the file <code>SystemVersion.plist</code> to your desktop and open it for editing. Change the references to 10.6.6 to 10.6.7 and save. Now you'll want to delete the existing version and then copy your new file in it's place - you will need admin rights to do this.</p>
+
+<p>Once that's done, fire up Portal 2 - you may get the "System requirements failed" message but if you press "Continue anyway" then Portal 2 will load and be perfectly playable (at 1080p).</p>
+
+<p>Now, go forth and continue testing!</p>
+
+<p><strong>Note:</strong> when a 10.6.7 fix does come available for the new iMac, you should probably edit the <code>SystemVersion.plist</code> file and change the references back to 10.6.6 just to make sure nothing bad happens...</p>
+
+<p><strong>[20/05/11] Update:</strong> OS X 10.6.7 is now available through System Update for the new iMacs - make sure you reverse the process above before updating.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2011/05/01/review-worldictionary-for-ios/">Review: Worldictionary for iOS</a></h1>
 			
 			<time datetime="2011-05-01" pubdate=""><a href="/weblog/2011/05/01/review-worldictionary-for-ios/">May 01, 2011</a></time>
@@ -576,41 +605,6 @@ The iPhone 4 that has been shown today is different to the existing iPhone 4 in 
 <p><strong>Update [15th Mar 2012]:</strong> iTunes 10.6 did break as expected - needed to add a <code>delay 0.2</code> before the call to speak with the <code>"Multiple Speakers"</code> window due to some newly introduced lag. Updated here and on <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">GitHub</a>.</p>
 
 <p><strong>Update [12th May 2016]:</strong> This article is now outdated and the code no longer works with modern versions of iTunes. Please read my <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">updated article</a> to see how to create an AirPlay alarm clock with iTunes 11 and iTunes 12.</p>
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/01/09/the-coversutra-saga/">The CoverSutra Saga</a></h1>
-			
-			<time datetime="2011-01-09" pubdate=""><a href="/weblog/2011/01/09/the-coversutra-saga/">January 09, 2011</a></time>
-    	</header>
-    	<div>
-			<p>A few people have started asking me for my opinion on the fast-growing story about CoverSutra, a mac application for which the developer promised free updates until version 3.0 several years ago but then switched to be exclusive on the Mac App Store with a new 2.x version which old customers would have to rebuy.  I have mixed opinions about this but it gives me some scope to talk not only about the Mac App Store, but also about selling on the internet in general and the lack of understanding by a large amount of the commenting world.</p>
-
-<p>Looking at the issue at hand first of all, it is essential that you go to the <a href="http://www.sophiestication.com/blog/">Sophiestication Blog</a> and <a href="http://www.sophiestication.com/blog/coversutra-2-5/">read the article</a> that sparked this all off.  The basic details are that version 2.5 was a new update that was to be exclusive on the App Store yet this reneged on a previous promise (made several years ago apparently) that all updates would be free until version 3.0 - users that bought a version recently would now not be able to upgrade to 2.5 without paying $5 on the App Store.  At first glance, the fault would appear to lie with the developer and, to be fair, that is still my general opinion.  A lot of people have backed the developer purely because of the horrendous abuse that she has suffered on her blog (which I'll come to shortly) but that is to forgive something because of abuse after the fact which, in this case, is actually immaterial.  She promised a free update until version 3.0 and didn't deliver it so in a way people are allowed to be pissed especially when she remarks that "a migration from the previous standalone version is sadly not possible.... however I lowered the price to $4.99 so there's no reason not to pick up a copy for new features".  This was excaberated by her fanning the flames in the comments by telling everyone to "chill down" and so on.</p>
-
-<p>As the comments got worse (and needlessly aggressive in tone), it became apparent that a lot of the problem was people not understanding why they couldn't get updates through the Mac App Store and that the developer had forgotten the previous promise that was made.  I'll come to the Mac App Store shortly but the issue of a promise could have been dealt with in a far more dignified way.  Upon being reminded about the promise, she should have instantly made a simple apology and outlined what had happened.  Instead, she told an already riled crowd to "calm down" and made the situation far worse.  In essence, the initial promise should never have been made.  Upon it's revelation, the 2.5 version should have been recompiled to be distributed through the Sparkle system she was using.</p>
-
-<blockquote><p>It‘s true that I could have made version 2.5 available through the legacy Sparkle updater. But maintaining two builds, one for the App Store and one with the serial number checks, was too time consuming for me. Precious time better spend on the actual update and my other apps.</p></blockquote>
-
-<p>I have to disagree with this assessment.  I agree wholeheartedly that maintaining two distribution channels is difficult and, if I were to launch a mac application tomorrow, I would only choose the Mac App Store.  However, if you have an update system in place, there is not much effort involved to publish an update through it (as that is the essence of the system).  This does not mean she would need to sell version 2.5 on her website, just push an update through her existing system for the old users.  That would have solved all the problems and taken considerably less effort than it's now going to take to "restore sanity" to her users.</p>
-
-<p>It's very easy at this point to blame the Mac App Store for this issue.  After all, if Apple allowed upgrade pricing then this wouldn't be happening.  I disagree with this also as the Mac App Store is not trying to be the all encompassing place for mac software as is highlighted by their terms of what is and isn't allowed in the store.  They are creating a store for certain kinds of apps sold in the way in which Apple sells its own apps.  iLife for example comes out almost every year but there is no upgrade pricing - it's priced cheap (for mass consumption) and a new version is something worth buying so you pay for it.  You don't pay for the *.x releases mid-cycle (as these are bug fixes and tiny new features) but the next version generally adds a great deal.  You could say "I've been a customer for x years - I <em>deserve</em> a lower price due to customer loyalty" but I don't think that's true.  This seems to be the same philosophy that Apple are trying to encourage in the Mac App Store, namely price your apps low but customers have to buy again when a new version comes out. Conversely, your version updates had better be good as your customers won't be happy if you put out a new version that they have to pay for again but doesn't add anything good.</p>
-
-<p>Paying for new versions of things is something that we, as customers, should be used to.  After all, when Sonic the Hedgehog 2 came out on the Mega Drive, we didn't complain that we already owned Sonic the Hedgehog 1 and version 2 only added new levels and a new character so why should we pay full price?  You buy the next version again as it adds new things that you want.  This is exactly the same in desktop apps as it is for mobile apps or computer games.  The pricing actually becomes immaterial compared to the philosophy of "buy new versions of apps". If your app is priced well, then people will pay for the new version.  If they don't, then you got the money for the old version and you've learned that the features you added in your new version aren't actually as good as you thought they were.  Do some market research, start work on a new version, and hope that they'll pay next time.</p>
-
-<p>This is something that we need to get used to.  As an app developer myself, it appalls me that people think that having paid $5 for an app they should get free upgrades for life.  That isn't sustainable, economical, or fair to developers.  However, the onus is also on us, the developers, to make each version so good that people will pay for $5 again for each new version.</p>
-
-<p>So, going back to the CoverSutra story, I agree with the developer on one hand but disagree on the other; I agree that going the Mac App Store route is the best way and that each new version should be charged for separately.  I do disagree however with her going Mac App Store exclusive on updates for her previous customers when she had promised free upgrades for a certain period of time.  She didn't need to make that promise but she did (presumably to make more sales at the time) so those free updates need to happen.</p>
-
-<p>My final thought on all this is about commenting on the internet in general.  As you may have noticed, my website has recently been redesigned and one of the features I've redeveloped is the blog.  It no longer has a commenting system.  This is by design as I've noticed the deterioration of comments over the last couple of years.  The facelessness of the internet means that people now act in a way that they wouldn't in a normal conversation.  The comments on Sophia's blog are nothing short of sickening regardless of the rights or wrongs of the decision taken and that is exactly one of the reasons why I won't let people comment on my blog anymore.  I've never attracted such aggression before but the fact that it seems to be slowly becoming the norm on the internet troubles me. If people want to reply to my blog posts, they can contact me on Twitter (where I can reply directly knowing that they've heard back from me - commenting systems don't always inform the commentator of a reply), post a reply on their own blog, or email me directly.  That way, they aren't anonymous (leading to more reasonable discourse) and I can reply back to them.</p>
-
-<p>One of my big hopes for 2011 is that iTunes will add a "reply" feature to commentators so that we don't get the same level of abuse and stupid comments on the reviews of Mac and iPhone apps as that is going downhill currently - many people leave comments on apps saying "this doesn't work" but without the power to reply it's near impossible to let someone know a problem has been fixed.  Most developers do want to help and aren't trying to screw the customer over but with the anonymous reviews and comments left by the countless numbers of people with bad attitudes, it's very easy to stop caring about the customer.  I can't help but think that the whole CoverSutra thing wouldn't have exploded as much as it did if Sophia had comments disabled on her blog...</p>
-
-
-
 		</div>
 	</article>
     

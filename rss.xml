@@ -6,9 +6,97 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 20 Jul 2016 16:30:15 +0100</pubDate>
-    <lastBuildDate>Wed, 20 Jul 2016 16:30:15 +0100</lastBuildDate>
+    <pubDate>Tue, 02 Aug 2016 13:49:32 +0100</pubDate>
+    <lastBuildDate>Tue, 02 Aug 2016 13:49:32 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Media Library privacy flaw fixed in iOS 10</title>
+      <link>https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/</link>
+      <pubDate>Tue, 02 Aug 2016 15:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/</guid>
+      <description>&lt;p&gt;As I’ve mentioned &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/&quot;&gt;many times before&lt;/a&gt;, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps&lt;sup id=&quot;fnref:proof&quot;&gt;&lt;a href=&quot;#fn:proof&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Thankfully, this has now been fixed in iOS 10&lt;sup id=&quot;fnref:fixed&quot;&gt;&lt;a href=&quot;#fn:fixed&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this article, I’ll explain how to update your apps to support this new privacy requirement. Before I do that, I’m going to show you what happens if you run an app built against the iOS 9.3 SDK (or earlier) on iOS 10:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/access-apple-music.jpg&quot; width=&quot;800&quot; height=&quot;450&quot; alt=&quot;[app name] would like to access Apple Music&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You’ll be prompted&lt;sup id=&quot;fnref:permissiontext&quot;&gt;&lt;a href=&quot;#fn:permissiontext&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to allow permissions as soon as any media library code is encountered be that on app startup or in a background process such as that used by &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt;. If you decline to give permission then the app will quit to the home screen and you will not be able to use it. This is a big change from previous permission switches whereby apps built against the old SDK would be exempt from new permissions (i.e. if your iOS 7 SDK compiled app ran on iOS 8, it wouldn’t crash because it wasn’t using the new location privacy options). Personally I like this change as it allows you to see clearly which apps were abusing these APIs such as &lt;a href=&quot;https://twitter.com/rosyna/status/743427770760364034&quot;&gt;Canary&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/chinanderm/status/743091483595546624&quot;&gt;Google Calendar&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bottom line&lt;/strong&gt;: If you are using &lt;code&gt;MPMediaQuery&lt;/code&gt; or similar in your app, you’d better update it with the iOS 10 SDK as soon as possible as otherwise you are going to get a lot of crashes if your users don’t allow the permission (or a lot of awkward questions if you shouldn’t be using this API).&lt;/p&gt;
+
+&lt;p&gt;How do you update your app to request permission for these APIs? First of all, lets whip up a basic example with Swift 3 that will pull the title of the first track in your music library:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buttonPressed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;songs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Title: \(item.title)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is &lt;code&gt;NSAppleMusicUsageDescription&lt;/code&gt;. If you don’t add this key, your app will crash as soon as you try and access an &lt;code&gt;MPMediaQuery&lt;/code&gt; with the following message:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSAppleMusicUsageDescription key with a string value explaining to the user how the app uses this data.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;With the &lt;code&gt;NSAppleMusicUsageDescription&lt;/code&gt; key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the &lt;code&gt;query.items&lt;/code&gt; property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the &lt;code&gt;MPMediaLibrary.authorizationStatus()&lt;/code&gt; and &lt;code&gt;requestAuthorization((MPMediaLibraryAuthorizationStatus) -&amp;gt; Void)&lt;/code&gt; APIs that were added in iOS 9.3 to do something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buttonPressed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;bp&quot;&gt;MPMediaLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;requestAuthorization&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authorized&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runMediaLibraryQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;displayMediaLibraryError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runMediaLibraryQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;songs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Title: \(item.title)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;displayMediaLibraryError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authorizationStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;restricted&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Media library access restricted by corporate or parental settings&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;denied&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Media library access denied by user&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Unknown error&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIAlertController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Error&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;preferredStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You first need to request authorization and then run your code only if the status is &lt;code&gt;authorized&lt;/code&gt;. If not, then you should display an error specific to whether or not the request was &lt;code&gt;denied&lt;/code&gt; or &lt;code&gt;restricted&lt;/code&gt; (usually by corporate or parental controls).&lt;/p&gt;
+
+&lt;p&gt;I’ve put an &lt;a href=&quot;https://github.com/bendodson/media-library-access-in-ios-10&quot;&gt;example project on GitHub&lt;/a&gt; which uses the code above by way of demonstration.&lt;/p&gt;
+
+&lt;p&gt;I’m extremely grateful to everyone that has helped share my posts about this issue and to the engineers at Apple for fixing this privacy flaw. I’ll update this post should anything change between now and the expected public release of iOS 10 in September.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:proof&quot;&gt;
+      &lt;p&gt;Whilst I had no concrete proof of this at the time of writing those articles, it &lt;a href=&quot;https://twitter.com/rosyna/status/743398363496751104&quot;&gt;looks like I was right that this was a widespread problem&lt;/a&gt;. &lt;a href=&quot;#fnref:proof&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:fixed&quot;&gt;
+      &lt;p&gt;I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. &lt;a href=&quot;#fnref:fixed&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:permissiontext&quot;&gt;
+      &lt;p&gt;In earlier builds of iOS 10 you’d be asked “&lt;em&gt;[App Name] Would Like to Access Apple Music&lt;/em&gt;” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “&lt;em&gt;[App Name] Would Like to Access Apple Music and Your Media Library&lt;/em&gt;”. &lt;a href=&quot;#fnref:permissiontext&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Talking Shop with Ben Dodson</title>
@@ -1510,7 +1598,9 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
       <pubDate>Tue, 23 Feb 2016 12:00:00 +0000</pubDate>
       <author>ben@bendodson.com (Ben Dodson)</author>
       <guid>https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/</guid>
-      <description>&lt;p&gt;Due to my &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/&quot;&gt;article on music library security on iOS&lt;/a&gt;, I’ve found myself in the position of being misquoted or misunderstood on sites such as &lt;a href=&quot;http://appleinsider.com/articles/16/02/18/inside-ios-93-apple-will-allow-third-party-apps-to-add-music-to-your-icloud-music-library&quot;&gt;AppleInsider&lt;/a&gt; (mainly in the comments) with regards to the new media library APIs in iOS 9.3. This article is intended to clear up some misunderstandings that people have about these new APIs.&lt;/p&gt;
+      <description>&lt;p&gt;&lt;strong&gt;UPDATE: Thanks to my raising this privacy concern, &lt;a href=&quot;https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/&quot;&gt;Apple have resolved this issue as of iOS 10&lt;/a&gt;. I’ve left the old post below for posterity.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Due to my &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/&quot;&gt;article on music library security on iOS&lt;/a&gt;, I’ve found myself in the position of being misquoted or misunderstood on sites such as &lt;a href=&quot;http://appleinsider.com/articles/16/02/18/inside-ios-93-apple-will-allow-third-party-apps-to-add-music-to-your-icloud-music-library&quot;&gt;AppleInsider&lt;/a&gt; (mainly in the comments) with regards to the new media library APIs in iOS 9.3. This article is intended to clear up some misunderstandings that people have about these new APIs.&lt;/p&gt;
 
 &lt;p&gt;In iOS 9.3, there are several additions to the music library. Indeed, it is the first item listed in the &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9_3.html#//apple_ref/doc/uid/TP40016661-SW1&quot;&gt;What’s New in iOS 9.3&lt;/a&gt; developer document:&lt;/p&gt;
 
@@ -1547,6 +1637,8 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
 &lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/music-library-privacy.jpg&quot; width=&quot;800&quot; height=&quot;533&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I take serious issue with the phrase &lt;em&gt;“Apps that have requested access to your media library will appear here”&lt;/em&gt; because it makes it sound like apps require permission to access your library which is just not true. My &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt; app continues to work unimpeded on iOS 9.3 with no need to request access and, as demonstrated above, you can start playing streamed music in the Music app without authorization. This is all true as of iOS 9.3 beta 4 so hopefully it may get resolved before the final version of iOS 9.3 is released next month.&lt;/p&gt;
+
+&lt;p&gt;(&lt;strong&gt;Update:&lt;/strong&gt; This was not resolved in the public version of iOS 9.3)&lt;/p&gt;
 
 &lt;p&gt;If you have any queries about how these new APIs work or how they will or won’t affect your media library, &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;please feel free to contact me&lt;/a&gt;.&lt;/p&gt;
 
@@ -1768,7 +1860,9 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
       <pubDate>Wed, 13 Jan 2016 18:00:00 +0000</pubDate>
       <author>ben@bendodson.com (Ben Dodson)</author>
       <guid>https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/</guid>
-      <description>&lt;p&gt;Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt;&lt;sup id=&quot;fnref:musictracker&quot;&gt;&lt;a href=&quot;#fn:musictracker&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:&lt;/p&gt;
+      <description>&lt;p&gt;&lt;strong&gt;UPDATE: Thanks to my raising this privacy concern, &lt;a href=&quot;https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/&quot;&gt;Apple have resolved this issue as of iOS 10&lt;/a&gt;. I’ve left the old post below for posterity.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt;&lt;sup id=&quot;fnref:musictracker&quot;&gt;&lt;a href=&quot;#fn:musictracker&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;songsQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1795,6 +1889,10 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
 &lt;p&gt;&lt;strong&gt;Update, 20th Jan 2016:&lt;/strong&gt; A few people have pointed out that the first beta of iOS 9.3 does have a new privacy setting for “Media Library”. However, this does not stop the above line of code and read-only access to your library; instead, it is part of a new feature that allows for apps to add songs to your iCloud Music Library but requires your permission to do so. Apps that use the MPMediaQuery above won’t even appear in the Media Library permissions page to disable so this is not the solution some think it is.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Update, 23rd Feb 2016:&lt;/strong&gt; Several articles are now linking to this and picking up on my comments about iOS 9.3 above and horribly misunderstanding what those new APIs do. I’ve published a &lt;a href=&quot;https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/&quot;&gt;new article detailing exactly what the new APIs in iOS 9.3 add to the music library&lt;/a&gt; (and what they don’t add). As of iOS 9.3 beta 4, there are no privacy controls on scanning your music library and it still works exactly as I’ve described above.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update, 25th March 2016:&lt;/strong&gt; With the public release of iOS 9.3, this issue is not resolved &lt;a href=&quot;https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/&quot;&gt;as per my post last month&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Update, 13th June 2016:&lt;/strong&gt; Thanks to my raising awareness of this issue, iOS 10 (released in beta for developers today) has added full privacy controls for read access to the local media library. I’ll write up a post in the future about how the new APIs work (&lt;a href=&quot;https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/&quot;&gt;done&lt;/a&gt;).&lt;/p&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
