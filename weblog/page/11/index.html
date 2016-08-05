@@ -38,6 +38,49 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2014/09/25/ios-8-using-internal-reference-name-for-iap/">iOS using internal reference name for IAP</a></h1>
+			
+			<time datetime="2014-09-25" pubdate=""><a href="/weblog/2014/09/25/ios-8-using-internal-reference-name-for-iap/">September 25, 2014</a></time>
+    	</header>
+    	<div>
+			<p>Today I noticed a slightly worrying bug in iOS. In-App Purchases seem to be using the internal reference name rather than the localized display name. As an example here is my config for one of the consumable IAPs in <a href="http://wallab.ee/">WallaBee</a>:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-edit.png" alt="iTunes Connect Edit IAP Language" /></p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-summary.png" alt="iTunes Connect Edit IAP Summary" /></p>
+
+<p>The reference name is ‘v1.1 25000 Honeycombs’<sup id="fnref:reference"><a href="#fn:reference" class="footnote">1</a></sup> and the display name for UK English is ‘pack of 25000 honeycombs’. This means the purchase screen ends up looking like this:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-app.png" alt="iOS 8 IAP Display Name incorrect" /></p>
+
+<p>Hardly ideal.</p>
+
+<p>I double checked the <a href="https://developer.apple.com/library/ios/documentation/LanguagesUtilities/Conceptual/iTunesConnectInAppPurchase_Guide/Chapters/CreatingInAppPurchaseProducts.html#//apple_ref/doc/uid/TP40013727-CH3-SW3">In-App Purchase Configuration Guide</a> and it still states that:</p>
+
+<blockquote>
+  <p><em>In the Reference Name field, enter an internal name for the product.</em></p>
+</blockquote>
+
+<p>I’ve not been able to see this in other apps as most people will use the same display name and reference name. I’ve reported a bug with the Apple Bug Reporter <a href="http://openradar.io/18454842">Filed as 18454842</a>.</p>
+
+<p>You may want to check your own IAPs to make sure the reference name looks ok until this gets fixed. You can change them without going through App Review (as they aren’t supposed to be visible to end users).</p>
+
+<p><strong>Update (26th September 2014):</strong> Tony McBride emailed me to say that he was experiencing the same issues on iOS 7 building against the iOS 7 SDK. I’ve confirmed it is happening in WallaBee v1.4.1 (built with iOS 8 SDK) running on iOS 7. Looks like it may be an App Store issue rather than an iOS 8 issue. I’ve updated this post to remove references to it being a solely iOS 8 problem.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:reference">
+      <p>In case you are wondering why, I forget exactly. I think there were different packs in v1.0 which we then increased in v1.1 - some of the increases overlapped (i.e. 15000 became 25000) and so I had to use a different name. Prepending the version seemed to be a sensible choice as nobody would see it. <a href="#fnref:reference" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2014/09/24/how-not-to-deliver-a-speech/">How not to deliver a speech</a></h1>
 			
 			<time datetime="2014-09-24" pubdate=""><a href="/weblog/2014/09/24/how-not-to-deliver-a-speech/">September 24, 2014</a></time>
@@ -303,33 +346,6 @@
 <p>Within a couple of minutes, hundreds of copies of this item had been mixed in <a href="http://wallab.ee/">WallaBee</a> and hopefully bought a smile to our players faces.</p>
 
 <p>Running WallaBee is much like the spirit of this item; joyful randomness without a care in the world. I hope we never lose that as we continue to grow.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/11/apple-tv-gains-itunes-extras/">Apple TV gains iTunes Extras</a></h1>
-			
-			<time datetime="2014-07-11" pubdate=""><a href="/weblog/2014/07/11/apple-tv-gains-itunes-extras/">July 11, 2014</a></time>
-    	</header>
-    	<div>
-			<p>One of my pet hates is purchasing DVDs and Blu-Rays. It seems so clunky and out-dated in an age where nearly everything I consume is stored on my hard drives. I also have a real problem with paying for a physical product and then having to wait an average of 70 seconds to start playing the movie due to sitting through either adverts bundled on the disc or anti-piracy messages that can’t be skipped (or elaborate menus that take 20 seconds of animation before you can select “<em>play film</em>”).</p>
-
-<p>The only time I ever buy them these days is when there is a film I really loved and has extras that I want to watch. Most recently, this has been <a href="https://itunes.apple.com/gb/movie/the-lego-movie/id805917617">The LEGO Movie</a> and <a href="https://itunes.apple.com/gb/movie/the-grand-budapest-hotel/id828782657">The Grand Budapest Hotel</a>.</p>
-
-<p>Today I was able to cancel my pre-orders of both from Amazon thanks to <a href="http://www.macrumors.com/2014/07/10/itunes-11-3-itunes-extras-apple-tv-ios-8/">iTunes Extras now being re-enabled on the Apple TV</a>. iTunes Extras are essentially small HTML5 apps bundled with movies you buy from iTunes and act as the “extras” piece you usually get with a DVD or Blu-Ray. Until recently, they’ve only worked on Mac (and for a while on the original Apple TV) so I haven’t really spent much time with them - I don’t watch films on my computer.</p>
-
-<p>I’ve only had a quick play with them but I’m liking what I see already. Both films were cheaper on iTunes (HD) than buying on a physical disc and came with the same extras as far as I can tell. In addition, The LEGO Movie was available today whereas the Blu-Ray isn’t available for another 2 weeks here in the UK. Best of all, when you start the film, it starts immediately with no anti-piracy notices and nothing that can’t be fast-forwarded; you get exactly what you paid for.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/grand-budapest-itunes-extras.png" alt="The Grand Budapest Hotel iTunes Extras on Apple TV" /></p>
-
-<p>So how does it work? Simply press “<em>play</em>” on a movie with iTunes Extras and you’ll be shown a splash screen where you can then choose to watch the movie as usual, view the extras that are available, view a cast list (along with other films they are featured in), or view similar films. One strange thing I found was that the extras for The LEGO Movie didn’t show up on the Apple TV and looking at the listing within iTunes it says “Available on your Mac or PC”. The movie is featured prominently in the marketing material for the new extras so I have to imagine that it just hasn’t rolled out fully yet.</p>
-
-<p>For those that don’t have an Apple TV yet, this is another feature which might persuade them. However, I’m still anticipating an updated model later in the year with some form of game support; the combination of an A8 chip, the new Metal framework, and the controllers introduced with iOS 7 seems to point to what could be a very nice, if simple, gaming machine.</p>
-
-<p>To get iTunes Extras, simply apply the update that has appeared on Apple TV today. Lots of films have iTunes Extras with them and many previous films have had extras added which you get automatically if you already own the film. iTunes Extras are also coming to iOS 8 when it launches later this year.</p>
 
 		</div>
 	</article>
