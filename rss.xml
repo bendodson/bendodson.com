@@ -6,9 +6,33 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Fri, 05 Aug 2016 18:36:41 +0100</pubDate>
-    <lastBuildDate>Fri, 05 Aug 2016 18:36:41 +0100</lastBuildDate>
+    <pubDate>Thu, 11 Aug 2016 17:33:10 +0100</pubDate>
+    <lastBuildDate>Thu, 11 Aug 2016 17:33:10 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Moonlight tvOS for Apple TV 4</title>
+      <link>https://bendodson.com/weblog/2016/08/11/moonlight-tvos/</link>
+      <pubDate>Thu, 11 Aug 2016 19:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/08/11/moonlight-tvos/</guid>
+      <description>&lt;p&gt;A few nights ago I was attempting to finish playing Day of the Tentacle on my PC via a Steam Link in my bedroom. For some reason, whilst it all loaded correctly, it was really jerky to play with a severe delay between controller input and response on the screen. As I’d been playing it successfully using GameStream on my Nvidia Shield, I assumed correctly that the issue was with the Steam Link.&lt;/p&gt;
+
+&lt;p&gt;Not content to have to either a) go downstairs and use the Nvidia Shield or b) go to my office and play in front of my PC, I instead turned to my Apple TV as I knew there was an open source project called &lt;a href=&quot;https://github.com/moonlight-stream/moonlight-ios&quot;&gt;Moonlight&lt;/a&gt; that basically lets you run the GameStream technology on non-Nvidia devices like iPhone or iPad. I assumed there would be a version for Apple TV but unfortunately it turns out that the AVFoundation frameworks have a &lt;code&gt;__TVOS_PROHIBITED&lt;/code&gt; flag on some key components that prevent it from working. That’s when I found a fork by &lt;a href=&quot;https://github.com/kevsmithpublic/moonlight-ios&quot;&gt;kevsmithpublic&lt;/a&gt; that enabled tvOS support with some code changes and requiring you to remove the &lt;code&gt;__TVOS_PROHIBITED&lt;/code&gt; flags from the AVFoundation framework&lt;sup id=&quot;fnref:frameworks&quot;&gt;&lt;a href=&quot;#fn:frameworks&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Unfortunately, I wasn’t able to get it to pair to my PC and after a lot of searching it turns out that the fork was fairly old and hadn’t been updated to the latest specifications for GeForce Experience 3.0 and above.&lt;/p&gt;
+
+&lt;p&gt;Determined not to be beaten, I forked the project and then set about updating the code to support the latest Moonlight connections. This ended up being similar to the point and click adventure I was trying to play as I needed to constantly fetch the Apple TV from my bedroom, connect it to my mac, build the project, unplug the Apple TV, reconnect it in my bedroom, and then test if it actually worked (all because I didn’t have a spare monitor in my office as I use an iMac). After several hours (and a few beers) I had the project working and can now stream my games at 1080p from my PC to my Apple TV 4 and play them using an MFI controller.&lt;/p&gt;
+
+&lt;p&gt;You can &lt;a href=&quot;https://github.com/bendodson/moonlight-tvos&quot;&gt;download the project from my GitHub account&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:frameworks&quot;&gt;
+      &lt;p&gt;This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. &lt;a href=&quot;#fnref:frameworks&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Divide #15 - Virtually Reality</title>
