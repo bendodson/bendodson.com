@@ -6,9 +6,60 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 23 Aug 2016 14:25:31 +0100</pubDate>
-    <lastBuildDate>Tue, 23 Aug 2016 14:25:31 +0100</lastBuildDate>
+    <pubDate>Fri, 09 Sep 2016 23:15:21 +0100</pubDate>
+    <lastBuildDate>Fri, 09 Sep 2016 23:15:21 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Generating a random colour, with a seed, in Swift 3</title>
+      <link>https://bendodson.com/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/</link>
+      <pubDate>Sat, 10 Sep 2016 00:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/</guid>
+      <description>&lt;p&gt;I’ve been working on some iOS 10 updates to &lt;a href=&quot;https://dodoapps.io/pocket-rocket/&quot;&gt;Pocket Rocket&lt;/a&gt;&lt;sup id=&quot;fnref:imessageapp&quot;&gt;&lt;a href=&quot;#fn:imessageapp&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As each article is &lt;code&gt;UICollectionViewCell&lt;/code&gt;, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.&lt;/p&gt;
+
+&lt;p&gt;Thankfully this is fairly easy if we use the &lt;code&gt;srand48&lt;/code&gt; and &lt;code&gt;drand48&lt;/code&gt; functions:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;randomColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIColor&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unicodeScalars&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UInt32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;srand48&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drand48&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;srand48&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drand48&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;srand48&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drand48&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the &lt;code&gt;drand48&lt;/code&gt; function by using &lt;code&gt;srand48&lt;/code&gt; with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.&lt;/p&gt;
+
+&lt;p&gt;I’ve put together a &lt;a href=&quot;https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip&quot;&gt;Swift Playground demonstrating this&lt;/a&gt; using the last few headlines from &lt;a href=&quot;http://daringfireball.net&quot;&gt;Daring Fireball&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://bendodson.s3.amazonaws.com/weblog/2016/random-color-with-seed.jpg&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:imessageapp&quot;&gt;
+      &lt;p&gt;Specifically an &lt;a href=&quot;https://twitter.com/bendodson/status/774265987231281152&quot;&gt;iMessage app&lt;/a&gt;. &lt;a href=&quot;#fnref:imessageapp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Tips for Remote Working</title>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="I’ve been working on some iOS 10 updates to Pocket Rocket1 which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:            Specifically an iMessage app. &#8617;&#xfe0e;      ">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2016-04-18.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Generating a random colour, with a seed, in Swift 3</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">Generating a random colour, with a seed, in Swift 3</a></h1>
+			
+			<time datetime="2016-09-10" pubdate=""><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">September 10, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
+
+<p>As each article is <code>UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
+
+<p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">randomColor</span><span class="p">(</span><span class="nl">seed</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
+    
+    <span class="k">var</span> <span class="nl">total</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="p">}</span>
+    
+    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    
+    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">g</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    
+    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">b</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    
+    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
+
+<p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2016/random-color-with-seed.jpg" width="800" height="500" /></p>
+
+<p>As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:imessageapp">
+      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2016/08/23/tips-for-remote-working/" title="Previous Article" class="pagination-previous">&laquo; Tips for Remote Working</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>
