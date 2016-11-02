@@ -186,7 +186,7 @@ function performSearch() {
     $.ajax({
         type: "GET",
         crossDomain: true,
-        url: 'https://itunesartwork.dodoapps.io/',
+        url: 'https://playground.bendodson.com/itunes-artwork-finder/api.php',
         data: {query: query, entity: entity, country: country},
         dataType: 'json'
     }).done(function(data) {
