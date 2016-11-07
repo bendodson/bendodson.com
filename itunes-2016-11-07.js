@@ -197,7 +197,7 @@ function performSearch() {
             crossDomain: true,
             url: data.url,
             data: {},
-            dataType: 'json'
+            dataType: 'jsonp'
 
         }).done(function(data) {
 
