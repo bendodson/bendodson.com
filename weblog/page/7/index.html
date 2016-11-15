@@ -38,6 +38,46 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">Using the Siri Remote with the Apple TV Simulator</a></h1>
+			
+			<time datetime="2015-12-09" pubdate=""><a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">December 09, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been working on a tvOS app for a client recently which has led to a lot of time spent building to both the Apple TV hardware and simulator. Whilst the simulator is very good for basic testing, the simulated remote can be a bit tricky to use and so I was very pleased to discover today that the physical Siri Remote can be used with the Apple TV Simulator on El Capitan. All you have to do is pair your Siri Remote to your Mac and it’ll work in the simulator just like it does with the real thing.</p>
+
+<p>The full set of steps are as follows:</p>
+
+<ol>
+  <li>
+    <p>Unpair your remote from your existing Apple TV (if applicable) by holding down the menu button and volume up button for around 5-10 seconds whilst the Apple TV is unplugged or otherwise out of Bluetooth range<sup id="fnref:pairing"><a href="#fn:pairing" class="footnote">1</a></sup>.</p>
+  </li>
+  <li>
+    <p>Open up the Bluetooth settings panel in OS X; you should see a device with no details other than a mac address. Pair it.</p>
+  </li>
+  <li>
+    <p>Profit! Your Siri Remote is now paired and can be used in the simulator.</p>
+  </li>
+</ol>
+
+<p>I have a 1080p external monitor plugged into my iMac 5k and so if I run the Apple TV simulator on that in fullscreen mode it feels almost exactly like using the real hardware. This could be a good stop gap for those on a budget as you could just <a href="http://www.apple.com/uk/shop/product/MLLC2ZM/A/siri-remote">buy a Siri Remote</a> for testing rather than the whole Apple TV<sup id="fnref:budget"><a href="#fn:budget" class="footnote">2</a></sup>. You should always test your apps on real hardware of course but this is a useful trick nonetheless.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:pairing">
+      <p>Otherwise it’ll just unpair and repair very quickly - a frustrating way to spend 15 minutes on a Wednesday morning! <a href="#fnref:pairing" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:budget">
+      <p>Or for developers who simply don’t want a second Apple TV. I’ve been moving mine between my office and living room for the past week and considered getting a second “development only” Apple TV to avoid this minor irritation; buying just a second remote seems a wiser investment. <a href="#fnref:budget" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/12/02/introducing-the-divide/">Introducing 'The Divide'</a></h1>
 			
 			<time datetime="2015-12-02" pubdate=""><a href="/weblog/2015/12/02/introducing-the-divide/">December 02, 2015</a></time>
@@ -465,73 +505,6 @@ homebridge</code></pre></div>
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/09/23/appindex-interview/">AppIndex Interview</a></h1>
-			
-			<time datetime="2015-09-23" pubdate=""><a href="/weblog/2015/09/23/appindex-interview/">September 23, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Earlier this month I was interviewed by <a href="http://appindex.com/">AppIndex</a> about my work as a freelance app developer. You can <a href="http://appindex.com/blog/ben-dodson-ios-dev-talks-app-development/">read the full article on their website</a> but I’ve also put their questions and my answers below:</p>
-
-<h3 id="how-long-have-you-been-involved-in-developing-apps-for">How long have you been involved in developing apps for?</h3>
-
-<blockquote>
-  <p>I started developing apps professionally in August 2009, shortly after iOS 3.0 was released, but I tinkered around with the iOS SDK when it was first announced the year before.</p>
-</blockquote>
-
-<h3 id="what-types-of-apps-do-you-work-on">What types of apps do you work on?</h3>
-
-<blockquote>
-  <p>I have quite a varied portfolio but for a long time the apps I worked on were location based (i.e. travel guides, restaurant finders, interesting places nearby, etc). Nowadays I tend to work on a lot of social network type apps but that’s probably more indicative of what clients are looking for at the moment.</p>
-</blockquote>
-
-<h3 id="what-platforms-tools-and-languages-do-you-work-with">What platforms, tools and languages do you work with?</h3>
-
-<blockquote>
-  <p>On the mobile side I only deal with iOS and all my new projects are written in Xcode using Swift 2.0 (with only a couple of legacy apps written in Objective-C). However, I also do backend development for APIs which I write exclusively in PHP. All my work is done on OS X.</p>
-</blockquote>
-
-<h3 id="what-apps-have-you-worked-on-that-you-are-most-proud-of">What apps have you worked on that you are most proud of?</h3>
-
-<blockquote>
-  <p>I think the app I was most proud of with was the “Horse Tracker” for the Grand National horse race. I worked with a company that attached trackers to the horses so we could see in realtime where they were on the field and display that to the user. It was really nice to use, especially on the iPad which had a full map view of the racecourse (which was never released in the end) and used lots of really cool technology such as audio indexing to perfectly match the time of the race on your TV screen to the data coming from the trackers, even if you were watching on a delayed stream or via a catch-up service hours later. Of course, nothing makes me more proud than the apps I write and publish myself so they will always beat client projects but that one was special.</p>
-</blockquote>
-
-<h3 id="what-are-the-big-trends-you-see-in-app-development-right-now">What are the big trends you see in app development right now?</h3>
-<blockquote>
-  <p>I’m starting to see a lot more thoughtful design coming through at the moment. Previously everybody was still trying to work out how to get data onto a small screen and most designers I worked with via clients had experience in print or web which didn’t always translate across; nowadays the level of design work seems to be much improved and everybody wants a slicker experience with more animation. The transition to the iOS 7 style of design (flat and minimal) seems to have helped as well.</p>
-</blockquote>
-
-<h3 id="what-is-the-best-thing-about-working-in-apps-and-mobile">What is the best thing about working in apps and mobile?</h3>
-<blockquote>
-  <p>I really enjoy the varied work. It can be difficult sometimes with deadlines and quite a big responsibility if your app is in millions of peoples hands but there is a huge amount of variety. I never really know what I’m going to be working on next which I find exciting.</p>
-</blockquote>
-
-<h3 id="what-is-the-one-thing-youd-like-to-change-about-app-development">What is the one thing you’d like to change about app development?</h3>
-<blockquote>
-  <p>I have two big gripes which are more to do with people than app development itself; being told I should port my apps to Android (“you’d make so much more money”) and being pitched an idea which isn’t so much an app as a service that requires servers, infrastructure, and has large operating costs (“I want an app that can let people upload photos and videos – I’ll give you 25% of the profit if you build it for free”).</p>
-</blockquote>
-
-<h3 id="what-mobile-devices-do-you-use">What mobile devices do you use?</h3>
-<blockquote>
-  <p>I use an iPhone 6 Plus and an iPad Air at the moment. I’m particularly interested in the rumoured 12” iPad Pro although I have something similar in the form of the 12” Macbook which I take to client meetings.</p>
-</blockquote>
-
-<h3 id="what-are-your-favourite-apps--games">What are your favourite apps / games?</h3>
-<blockquote>
-  <p>Ironically I don’t actually use that many apps beyond the stock things like mail. I’d say my most used 3rd party apps are Dark Sky for their weather alerts and Philips Hue for turning the lights on and off in my house. With games, I tend to play something solidly for a week and then get bored of it; I’m currently playing Alto’s Adventure, Rollercoaster Tycoon 3, and Kindo.</p>
-</blockquote>
-
-<h3 id="what-do-you-think-of-the-apple-watch">What do you think of the Apple Watch?</h3>
-<blockquote>
-  <p>I love my Apple Watch. It’s definitely a luxury rather than a necessity but I love getting notifications on my wrist, the fitness features, and Apple Pay. I’m looking forward to watchOS 2 especially as then I’ll be able to log a swim and have it count towards my exercise totals. It’ll be interesting to see how much better the 3rd party app experience is when the update arrives – I’ve dabbled with developing a few apps but the lag talking to the iPhone always limited the amount I could do.</p>
-</blockquote>
 
 		</div>
 	</article>
