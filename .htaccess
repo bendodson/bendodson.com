@@ -2,6 +2,9 @@ RewriteEngine On
 RewriteCond %{HTTP:X-Forwarded-Port} !=443
 RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
 
+RewriteCond %{HTTP_HOST} ^www.bendodson.com [NC]
+RewriteRule ^(.*)$ https://bendodson.com/$1 [L,R=301]
+
 Header always set Strict-Transport-Security "max-age=31536000"
 
 <ifModule mod_headers.c>
