@@ -20,7 +20,7 @@ $(document).ready(function() {
 	$.ajax({
         type: "GET",
         crossDomain: true,
-        url: 'https://playground.bendodson.com/itunes-artwork-finder/app.php',
+        url: 'https://itunesartwork.bendodson.com/app.php',
         data: {url: url, country: country},
         dataType: 'json'
     }).done(function(data) {
