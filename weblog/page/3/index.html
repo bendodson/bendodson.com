@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2016-12-12.css" />
+	<link rel="stylesheet" href="/styles-2017-01-10.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,92 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/05/24/homekit-and-airplay/">HomeKit, AirPlay, and controlling iTunes with Siri</a></h1>
+			
+			<time datetime="2016-05-24" pubdate=""><a href="/weblog/2016/05/24/homekit-and-airplay/">May 24, 2016</a></time>
+    	</header>
+    	<div>
+			<p>A few days ago I wrote an article about <a href="https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/">getting my Flic button to work with HomeKit</a>. Since then, I’ve had a few requests from people wondering how I was getting iTunes to work with HomeKit such that it could start a playlist on some AirPlay speakers. Today I’ve <a href="https://www.npmjs.com/~bendodson#packages">released a couple of HomeBridge plugins to NPM</a> and I’ll detail how I’ve got my system working.</p>
+
+<p>First of all, my entire setup is powered by the awesome <a href="https://github.com/nfarina/homebridge">Homebridge</a> system which I’ve written about <a href="https://www.google.co.uk/#q=site:bendodson.com+homebridge">at great length</a>. I found a plugin from <a href="https://github.com/dansays">Dan Budiac</a> called <a href="https://github.com/dansays/homebridge-applescript">homebridge-applescript</a> which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “<code>tell application iTunes to pause</code>”) but I needed something a bit longer for dealing with AirPlay. I <a href="https://github.com/bendodson/homebridge-applescript">forked Dan’s project</a> to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+	<span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Kitchen Music&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/stopMusic.applescript&quot;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>This allowed me to then use my existing <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">alarm clock script</a> in order to make iTunes connect to my kitchen speakers and play a specific playlist<sup id="fnref:twoplaylists"><a href="#fn:twoplaylists" class="footnote">1</a></sup> when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.</p>
+
+<p>This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle<sup id="fnref:playpause"><a href="#fn:playpause" class="footnote">2</a></sup> without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Play Pause Control&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/playMusic.applescript&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/pauseMusic.applescript&quot;</span>
+<span class="p">}</span><span class="err">,</span>
+<span class="p">{</span>
+    <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Track Control&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/nextTrack.applescript&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/previousTrack.applescript&quot;</span>
+<span class="p">}</span></code></pre></div>
+
+<p><em>I won’t detail the AppleScript for each of these as they are fairly basic.</em></p>
+
+<p>Next, I used the ‘Scenes’ feature of HomeKit to set up named scenes that related to each toggle. For example, “iTunes next track” is a scene that ensures the “Music Track Control” accessory is turned on whereas “iTunes previous track” ensures that accessory is off. The play / pause controls work in a similar way. Once activated, this meant I could say things like “<em>Hey Siri, iTunes next track</em>” or “<em>Hey Siri, pause iTunes</em>”.</p>
+
+<p>Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount<sup id="fnref:volumeamount"><a href="#fn:volumeamount" class="footnote">3</a></sup>. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; <a href="https://github.com/bendodson/homebridge-applescript-file-lightbulb">homebridge-applescript-file-lightbulb</a><sup id="fnref:naming"><a href="#fn:naming" class="footnote">4</a></sup>.</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFileLightbulb&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;iTunes volume&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;brightness&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/volume.applescript&quot;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>The <code>volume.applescript</code> file looks like this:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">on</span> <span class="nb">run</span> <span class="nv">argv</span>
+	<span class="k">set</span> <span class="nv">v</span> <span class="k">to</span> <span class="nb">item</span> <span class="mi">1</span> <span class="k">of</span> <span class="nv">argv</span>
+	<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+		<span class="k">set</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">v</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="nb">run</span></code></pre></div>
+
+<p>With this in place, I can say “<em>Hey Siri, set iTunes volume to 50%</em>” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “<em>set [name] to [percentage]</em>” as being “<em>change the brightness of this device</em>” just in this case we are hitting an AppleScript with our brightness value.
+<img src="https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg" width="375" height="375" />
+This has been a fun little exercise in trying to hack HomeKit into what I want to use it for. I’m hopeful that iOS 10 will add native support for HomeKit speakers as then this could be done without reverting to AppleScript and I’d be able to stream from my iPhone via Siri but it’s pretty cool for the time being.</p>
+
+<p>You can find both of my Homebridge plugins on <a href="https://www.npmjs.com/~bendodson#packages">NPM</a> and <a href="https://github.com/bendodson/">GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:twoplaylists">
+      <p>Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. The code for that is <code>if weekday of (current date) is Sunday then</code> <a href="#fnref:twoplaylists" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:playpause">
+      <p>At first I’d get around this by just using “<em>turn off kitchen music</em>” followed by “<em>turn on kitchen music</em>” as the playlist was shuffled but hardly an ideal solution. <a href="#fnref:playpause" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:volumeamount">
+      <p>I could have done the same as the track control AppleScript and had a “iTunes volume up” and “iTunes volume down” scene to increase or decrease by 10% each time but that would be a pain if you wanted to change the volume by a large amount. <a href="#fnref:volumeamount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:naming">
+      <p>I shouldn’t be allowed to name things. <a href="#fnref:naming" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -676,43 +762,6 @@
 
 <p>Our next episode will be on Saturday 23rd April 2016 and is all about <a href="http://offworldgame.com">Offworld Trading Company</a>…</p>
 
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/13/thoughts-on-ringtones/">Thoughts on ringtones</a></h1>
-			
-			<time datetime="2016-04-13" pubdate=""><a href="/weblog/2016/04/13/thoughts-on-ringtones/">April 13, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Today I spent a little bit of time making a new iPhone message tone<sup id="fnref:hanoldbuddy"><a href="#fn:hanoldbuddy" class="footnote">1</a></sup> and it reminded me of how terrible the entire ringtone system is on iOS. I have a number of specific issues:</p>
-
-<p><strong>Overpriced</strong> - most ringtones cost the same as a full song despite the fact they are shorter than the free preview on iTunes or they are a couple seconds of audio from a TV show or film. The pricing hasn’t changed since the ringtone store was launched in iOS 3 but the quality has definitely deteriorated with a number of dubious looking alert tones ripped from TV shows or YouTube videos.</p>
-
-<p><strong>DRM</strong> - as well as being shorter than a full song for the same price, they are subject to DRM whereas music is not. They’re also in a proprietary format so you can’t re-use them on non-Apple devices.</p>
-
-<p><strong>iTunes</strong> - you can create your own ringtones using GarageBand<sup id="fnref:garagebandmac"><a href="#fn:garagebandmac" class="footnote">2</a></sup> but the only way to get them onto your iPhone or iPad is to do a sync with iTunes. Eugh! We were supposed to have moved away from this when iOS 6 cut the iTunes cord but I couldn’t find any other way to get the *.m4r file over to iOS (I tried messaging it to myself and using Dropbox but neither option allowed you to then save it to your settings).</p>
-
-<p><strong>iCloud</strong> - for some bizarre reason, ringtones are not synced via iCloud in the UK so if you haven’t backed them up you’ll lose them when setting up a new device. There is no option to redownload them from iTunes and if you purchase one you’ve previously downloaded you will be charged (you don’t even get a “you’ve previously purchased this” dialogue like you do with music, tv shows, and movies). I’ve purchased a few tones in the past<sup id="fnref:tones"><a href="#fn:tones" class="footnote">3</a></sup> but none of them are available to me unless I pay again.</p>
-
-<p>I don’t have a solution to this (apart from killing the ringtone store and allowing you to just use MP3 files) but it is an area of the iOS ecosystem that is definitely showing it’s age. At the moment, you either have the expense and DRM protected (with no redownloads) way of purchasing or you can jump through hoops making your own and trying to get them onto your device. I’m not sure how either is seen as acceptable.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:hanoldbuddy">
-      <p>It’s <a href="https://twitter.com/bendodson/status/720231111352328193">Han Solo shouting ‘BEN!!’</a> from <em>Star Wars: The Force Awakens</em> <a href="#fnref:hanoldbuddy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:garagebandmac">
-      <p>I’m specifically referring to GarageBand on the mac although I believe it is also possible with GarageBand for iOS. <a href="#fnref:garagebandmac" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:tones">
-      <p>I used to have the T-Rex Roar from Jurassic Park as the alert for my wife but she didn’t care for it; I now have Lando Calrissian saying “Hello, what have we here?” <a href="#fnref:tones" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

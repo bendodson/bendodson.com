@@ -6,9 +6,35 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Thu, 15 Dec 2016 16:32:51 +0000</pubDate>
-    <lastBuildDate>Thu, 15 Dec 2016 16:32:51 +0000</lastBuildDate>
+    <pubDate>Tue, 10 Jan 2017 10:36:36 +0000</pubDate>
+    <lastBuildDate>Tue, 10 Jan 2017 10:36:36 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Sporta 2.0</title>
+      <link>https://bendodson.com/weblog/2017/01/10/sporta/</link>
+      <pubDate>Tue, 10 Jan 2017 10:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/01/10/sporta/</guid>
+      <description>&lt;p&gt;I’m pleased to announce the release of a new client app I worked on late last year: &lt;a href=&quot;https://itunes.apple.com/gb/app/sporta/id945757003?mt=8&quot;&gt;Sporta&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/sporta.jpg&quot; width=&quot;800&quot; height=&quot;511&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sporta is an app to keep football fans up to date with the latest matches via local notifications in advance of a game. You simply select which teams you are interested in from the Premier League, Sky Bet Championship, The FA Cup, the Scottish Premiership, or international matches featuring England, Scotland, Wales, or Ireland. You can then choose a reminder time prior to the match (from 5 minutes up to 1 week) and the app will automatically send you a local notification to remind you about the match with details of kick off time, the teams involved, and the venue.&lt;/p&gt;
+
+&lt;p&gt;I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline&lt;sup id=&quot;fnref:offline&quot;&gt;&lt;a href=&quot;#fn:offline&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Finally, I used the &lt;a href=&quot;http://realm.io&quot;&gt;Realm mobile database&lt;/a&gt; in order to store the match data and be able to quickly execute queries such as “&lt;em&gt;fetch all fixtures that contain teams x, y, and z as either the home or away team&lt;/em&gt;”.&lt;/p&gt;
+
+&lt;p&gt;This was a really fun project to work on and I’m particularly pleased with how reliable the notifications are. If you are a football fan, you can download &lt;a href=&quot;https://itunes.apple.com/gb/app/sporta/id945757003?mt=8&quot;&gt;Sporta on the App Store&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:offline&quot;&gt;
+      &lt;p&gt;The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). &lt;a href=&quot;#fnref:offline&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Booktrim for iPhone</title>
@@ -20,11 +46,11 @@
 
 &lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/booktrim.jpg&quot; width=&quot;800&quot; height=&quot;574&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://booktrim.com/&quot;&gt;Booktrim&lt;/a&gt; is a hassle-free app that allows customers to quickly browse barbershops, book a haircut, and pay right from their iPhone. I built the app in Swift and made use of AutoLayout to ensure that everything scales beautifully across the various iPhone Sizes and I worked closely with Trim Ventures’ API developer in order to ensure best practices. I was also instrumental in the design of the application and making sure that the user experience was optimised for making quick appointments on the go.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.booktrim.com/&quot;&gt;Booktrim&lt;/a&gt; is a hassle-free app that allows customers to quickly browse barbershops, book a haircut, and pay right from their iPhone. I built the app in Swift and made use of AutoLayout to ensure that everything scales beautifully across the various iPhone Sizes and I worked closely with Trim Ventures’ API developer in order to ensure best practices. I was also instrumental in the design of the application and making sure that the user experience was optimised for making quick appointments on the go.&lt;/p&gt;
 
 &lt;p&gt;Once the app was completed, I was asked to build &lt;a href=&quot;https://itunes.apple.com/gb/app/trimbook-update-manage-your/id1175348893?ls=1&amp;amp;mt=8&quot;&gt;TRIMbook&lt;/a&gt;, an app for barbers which allows them to manage their appointments and availability. Once again, the app was built with Swift and I was key in both designing the UI and ensuring the API was being used efficiently. I worked closely with the Trim Ventures team to publish both apps on the App Store and also to run wider beta tests via TestFlight prior to launch.&lt;/p&gt;
 
-&lt;p&gt;This was an interesting project to work on and I think the end product works well. You can &lt;a href=&quot;https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8&quot;&gt;download Booktrim from the App Store&lt;/a&gt; or &lt;a href=&quot;https://booktrim.com/&quot;&gt;learn more on their website&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This was an interesting project to work on and I think the end product works well. You can &lt;a href=&quot;https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8&quot;&gt;download Booktrim from the App Store&lt;/a&gt; or &lt;a href=&quot;https://www.booktrim.com/&quot;&gt;learn more on their website&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
