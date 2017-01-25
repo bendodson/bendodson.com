@@ -6,9 +6,92 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 10 Jan 2017 10:36:36 +0000</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2017 10:36:36 +0000</lastBuildDate>
+    <pubDate>Wed, 25 Jan 2017 16:07:04 +0000</pubDate>
+    <lastBuildDate>Wed, 25 Jan 2017 16:07:04 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Syncing Apple Music with Spotify</title>
+      <link>https://bendodson.com/weblog/2017/01/25/syncing-apple-music-with-spotify/</link>
+      <pubDate>Wed, 25 Jan 2017 09:30:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/01/25/syncing-apple-music-with-spotify/</guid>
+      <description>&lt;p&gt;Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called &lt;em&gt;&lt;a href=&quot;https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS&quot;&gt;Ben Dodson’s Definitive Hits Collection&lt;/a&gt;&lt;/em&gt; which contained nearly 45 hours of songs I thought were particularly good&lt;sup id=&quot;fnref:criteria&quot;&gt;&lt;a href=&quot;#fn:criteria&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. On most Tuesday nights, my friend and &lt;a href=&quot;http://connectingtohost.co.uk/&quot;&gt;podcast&lt;/a&gt; co-host &lt;a href=&quot;http://johnwordsworth.com/&quot;&gt;John Wordsworth&lt;/a&gt; and I play a few rounds of &lt;a href=&quot;https://kyloben.co.uk/games/rocket-league&quot;&gt;Rocket League&lt;/a&gt; and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;As I use Apple Music now, I don’t pay for a Spotify premium account and so I have to put up with adverts (which are utterly terrible).&lt;/li&gt;
+  &lt;li&gt;They aren’t in sync so we might be humming (or badly singing) along to a song that the other person isn’t listening to.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now I could just recreate the playlist in Apple Music to solve the Spotify ads issue but we still wouldn’t be in sync. As we’re both developers, we decided to remedy this problem with a fairly convoluted solution…&lt;/p&gt;
+
+&lt;p&gt;The basic idea is that John acts as the host with the playlist on Spotify (on macOS) playing into his headphones. He has written an app that checks if the track has changed and, if it has, sends the track information to my server. I then use the &lt;a href=&quot;https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/&quot;&gt;iTunes Search API&lt;/a&gt; to look up the song and find the correct identifier which is then sent to an app on my iPhone via push notification to start the song playing on Apple Music.&lt;/p&gt;
+
+&lt;p&gt;I’ll run through each piece and go over the challenges that were encountered.&lt;/p&gt;
+
+&lt;h3 id=&quot;retrieving-track-details-from-spotify&quot;&gt;Retrieving track details from Spotify&lt;/h3&gt;
+
+&lt;p&gt;I hadn’t heard of it before but Apple has provided a tool called &lt;a href=&quot;https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html&quot;&gt;Scripting Bridge&lt;/a&gt; since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly&lt;sup id=&quot;fnref:polling&quot;&gt;&lt;a href=&quot;#fn:polling&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.&lt;/p&gt;
+
+&lt;h3 id=&quot;finding-a-track-on-apple-music&quot;&gt;Finding a track on Apple Music&lt;/h3&gt;
+
+&lt;p&gt;The next step is for the server to take the information that has been sent and use the &lt;a href=&quot;https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/&quot;&gt;iTunes Search API&lt;/a&gt; to try and find a match. This is fairly straightforward and a first draft would send a request like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://itunes.apple.com/search?entity=song&amp;amp;term=never+gonna+give+you+up+rick+astley&amp;amp;country=gb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unfortunately the iTunes API does not allow you to search multiple terms (i.e. &lt;code&gt;artist=rick+astley title=never+gonna+give+you+up&lt;/code&gt;) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song &lt;em&gt;She Looks So Perfect&lt;/em&gt; by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.&lt;/p&gt;
+
+&lt;p&gt;The next issue I encountered involves the &lt;a href=&quot;https://en.wikipedia.org/wiki/Romanization_of_Belarusian&quot;&gt;Romanization of Belarusian&lt;/a&gt;; the track &lt;a href=&quot;https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013&quot;&gt;&lt;em&gt;Solayoh&lt;/em&gt;&lt;/a&gt; is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search &lt;code&gt;term=solayoh+alyona+lanskaya&lt;/code&gt; then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.&lt;/p&gt;
+
+&lt;p&gt;The final issue on the API side revolves around remastered tracks. The song &lt;em&gt;A Horse with No Name&lt;/em&gt; is listed as &lt;em&gt;A Horse with No Name - 2006 Remastered Version&lt;/em&gt; on Spotify but Apple Music doesn’t include that suffix even though they have the exact same version of the album. To fix this, if there are no results returned (again)  then I split the string by non-alphanumeric characters and just try the first part in the lookup. Again, this seems to work in 99% of cases.&lt;/p&gt;
+
+&lt;p&gt;Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the &lt;code&gt;content_available&lt;/code&gt; flag as I want to wake the app up and run some code but not actually display anything to the end user.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-ios-app&quot;&gt;The iOS App&lt;/h3&gt;
+
+&lt;p&gt;The final piece of the puzzle is an iOS app with a fairly minimal interface&lt;sup id=&quot;fnref:switch&quot;&gt;&lt;a href=&quot;#fn:switch&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://bendodson.s3.amazonaws.com/weblog/2017/music-sync.jpg&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an &lt;code&gt;MPMusicPlayerController&lt;/code&gt; but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.&lt;/p&gt;
+
+&lt;p&gt;That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “&lt;a href=&quot;https://itun.es/gb/6K_2v&quot;&gt;&lt;em&gt;Silent Tracks of Various Useful Lengths&lt;/em&gt;&lt;/a&gt;” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music&lt;sup id=&quot;fnref:silent&quot;&gt;&lt;a href=&quot;#fn:silent&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once a silent push is received, it starts to play the track but it also adds the 5 minute silent track to the queue. This is important as it prevents the background audio from terminating should I have a different length of music to Spotify or if a push is delayed due to network reasons. In essence, a normal track will be played followed by a track of silence whilst it waits for the next notification.&lt;/p&gt;
+
+&lt;p&gt;The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time&lt;sup id=&quot;fnref:clock&quot;&gt;&lt;a href=&quot;#fn:clock&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.&lt;/p&gt;
+
+&lt;p&gt;For example, lets suppose John starts listening to &lt;em&gt;C’est La Vie&lt;/em&gt; by B*Witched&lt;sup id=&quot;fnref:classic&quot;&gt;&lt;a href=&quot;#fn:classic&quot; class=&quot;footnote&quot;&gt;6&lt;/a&gt;&lt;/sup&gt; and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.&lt;/p&gt;
+
+&lt;p&gt;Amazingly, this crazy system actually works and we are able to have our playlist synced and ad free on two completely separate streaming services. I built my portion of the project as an iOS app as Windows does not have access to Apple Music yet I play Rocket League on the PC; in order to actually hear the audio, I wear a single AirPod in my right ear underneath my Turtle Beach X10 Headset so I can hear the music but still get the audio from the game and Skype.&lt;/p&gt;
+
+&lt;p&gt;It was only after we’d got it working that we realised we could have just set up some form of streaming radio server but that likely wouldn’t have been as much fun…&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:criteria&quot;&gt;
+      &lt;p&gt;The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. &lt;a href=&quot;#fnref:criteria&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:polling&quot;&gt;
+      &lt;p&gt;An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. &lt;a href=&quot;#fnref:polling&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:switch&quot;&gt;
+      &lt;p&gt;The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! &lt;a href=&quot;#fnref:switch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:silent&quot;&gt;
+      &lt;p&gt;I was originally planning on using the track &lt;a href=&quot;https://en.wikipedia.org/wiki/4′33″&quot;&gt;&lt;em&gt;4′33″&lt;/em&gt;&lt;/a&gt; until I found the album of silent audio. &lt;a href=&quot;#fnref:silent&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:clock&quot;&gt;
+      &lt;p&gt;Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. &lt;a href=&quot;#fnref:clock&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:classic&quot;&gt;
+      &lt;p&gt;It’s a classic. &lt;a href=&quot;#fnref:classic&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Sporta 2.0</title>
