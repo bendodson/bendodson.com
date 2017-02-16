@@ -6,9 +6,63 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Thu, 26 Jan 2017 23:50:54 +0000</pubDate>
-    <lastBuildDate>Thu, 26 Jan 2017 23:50:54 +0000</lastBuildDate>
+    <pubDate>Thu, 16 Feb 2017 09:37:36 +0000</pubDate>
+    <lastBuildDate>Thu, 16 Feb 2017 09:37:36 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Proposal for an Erase Data Passcode</title>
+      <link>https://bendodson.com/weblog/2017/02/16/erase-data-passcode-proposal/</link>
+      <pubDate>Thu, 16 Feb 2017 09:30:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/02/16/erase-data-passcode-proposal/</guid>
+      <description>&lt;p&gt;Last month, US-born NASA scientist Sidd Bikkannavar was detained by Customs and Border Patrol agents and told he would not be released &lt;a href=&quot;http://www.theverge.com/2017/2/12/14583124/nasa-sidd-bikkannavar-detained-cbp-phone-search-trump-travel-ban&quot;&gt;until he gave the agents the passcode to his phone&lt;/a&gt;. They then took his phone (containing sensitive information from NASA) for 30 minutes before returning it and letting him go. He doesn’t know what information was taken at that point although popular consensus is that the entire device could be cloned within that time period.&lt;/p&gt;
+
+&lt;p&gt;Many articles have been written about this but the one that caught my eye was by Quincy Larson of &lt;a href=&quot;http://freecodecamp.com&quot;&gt;freeCodeCamp&lt;/a&gt; entitled “&lt;em&gt;I’ll never bring my phone on an international flight again. Neither should you.&lt;/em&gt;”&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;When you travel internationally, you should leave your mobile phone and laptop at home. You can rent phones at most international airports that include data plans.&lt;/p&gt;
+
+  &lt;p&gt;If you have family overseas, you can buy a second phone and laptop and leave them there at their home.&lt;/p&gt;
+
+  &lt;p&gt;If you’re an employer, you can create a policy that your employees are not to bring devices with them during international travel. You can then issue them “loaner” laptops and phones once they enter the country.&lt;/p&gt;
+
+  &lt;p&gt;Since most of our private data is stored in the cloud — and not on individual devices — you could also reset your phone to its factory settings before boarding an international flight. This process will also delete the keys necessary to unencrypt any residual data on your phone (iOS and Android fully encrypt your data).&lt;/p&gt;
+
+  &lt;p&gt;This way, you could bring your physical phone with you, then reinstall apps and re-authenticate with them once you’ve arrived. If you’re asked to hand over your unlocked phone at the border, there won’t be any personal data on it. All your data will be safe behind the world-class security that Facebook, Google, Apple, Signal, and all these other companies use.&lt;/p&gt;
+
+  &lt;p&gt;Is all this inconvenient? Absolutely. But it’s the only sane course of action when you consider the gravity of your data falling into the wrong hands.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I’ve seen similar &lt;a href=&quot;https://twitter.com/eagle8/status/831827723039416321&quot;&gt;responses on Twitter&lt;/a&gt; including one that you should use a burner phone with a different sim. This is all massively inconvenient, even if you follow the “wipe everything and reinstall once you’ve landed” method; bear in mind that the average iPhone takes hours to re-download all of its data&lt;sup id=&quot;fnref:downloaddata&quot;&gt;&lt;a href=&quot;#fn:downloaddata&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; at a point when you likely need to get maps, book transport, etc.&lt;/p&gt;
+
+&lt;p&gt;My suggestion is much simpler; Apple (and other handset manufacturers) should introduce an &lt;em&gt;Erase Data Passcode&lt;/em&gt;. This would be a user-defined passcode&lt;sup id=&quot;fnref:touchid&quot;&gt;&lt;a href=&quot;#fn:touchid&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; that when entered immediately performs a secure wipe of the device in a similar way in which the existing “Erase Data” option works&lt;sup id=&quot;fnref:erasedata&quot;&gt;&lt;a href=&quot;#fn:erasedata&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. It would be expected that the device would disable power-off options during the secure wipe so that the only way to stop it would be to remove the battery (which in most circumstances would take considerable time at which point the data would be erased).&lt;/p&gt;
+
+&lt;p&gt;This is a solution that would also work in other cases such as theft, muggings, or a jealous partner. Whilst Apple have long had the option to remotely wipe your device via iCloud.com this has become far less easy to do quickly if you have 2-Factor Authentication enabled&lt;sup id=&quot;fnref:2fa&quot;&gt;&lt;a href=&quot;#fn:2fa&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; as you may not have access to your own devices.&lt;/p&gt;
+
+&lt;p&gt;I’ve filed a Radar on this issue (&lt;a href=&quot;rdar://30553231&quot;&gt;rdar://30553231&lt;/a&gt;) and would urge any other Apple customers that deem this to be a good idea to duplicate it. Apple goes to extraordinary lengths to protect user data and fight for the privacy of its customers but all of that is pointless if you are compelled to give up the keys to your device&lt;sup id=&quot;fnref:xkcd&quot;&gt;&lt;a href=&quot;#fn:xkcd&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;. It is also pointless to have such powerful devices if we need to reset them every time we travel.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:downloaddata&quot;&gt;
+      &lt;p&gt;This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. &lt;a href=&quot;#fnref:downloaddata&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:touchid&quot;&gt;
+      &lt;p&gt;And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) &lt;a href=&quot;#fnref:touchid&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:erasedata&quot;&gt;
+      &lt;p&gt;This is an option within &lt;code&gt;Settings &amp;gt; Touch ID &amp;amp; Passcode&lt;/code&gt; that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. &lt;a href=&quot;#fnref:erasedata&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2fa&quot;&gt;
+      &lt;p&gt;You have 2-Factor Authentication enabled, right? No!?! Go do that now. &lt;a href=&quot;#fnref:2fa&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:xkcd&quot;&gt;
+      &lt;p&gt;As usual, &lt;a href=&quot;https://xkcd.com/538/&quot;&gt;XKCD sums this up nicely&lt;/a&gt;. &lt;a href=&quot;#fnref:xkcd&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>The Checked Shirt #1 - Lost AirPods, iOS 10.3 beta, App Store changes, and Invoicing</title>
@@ -1062,30 +1116,6 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     &lt;/li&gt;
     &lt;li id=&quot;fn:naming&quot;&gt;
       &lt;p&gt;I shouldn’t be allowed to name things. &lt;a href=&quot;#fnref:naming&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Great British Bee Count 2016</title>
-      <link>https://bendodson.com/weblog/2016/05/19/great-british-bee-count-2016/</link>
-      <pubDate>Thu, 19 May 2016 15:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/05/19/great-british-bee-count-2016/</guid>
-      <description>&lt;p&gt;&lt;a href=&quot;https://bendodson.com/weblog/2015/05/01/great-british-bee-count-app/&quot;&gt;Last year&lt;/a&gt; I worked on rebuilding the &lt;a href=&quot;https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8&quot;&gt;Great British Bee Count iPhone app&lt;/a&gt; for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2016:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/gbbc-2016.jpg&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There are several updates including a redesigned bee picker, more details of the bees, and a list of plants suitable for attracting bees sponsored by Waitrose. The app is also now universal with support for both the iPhone and iPad&lt;sup id=&quot;fnref:ipaduniversal&quot;&gt;&lt;a href=&quot;#fn:ipaduniversal&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can check out the &lt;a href=&quot;https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8&quot;&gt;Great British Bee Count on the App Store&lt;/a&gt; (it’s free) or &lt;a href=&quot;http://www.foe.co.uk/page/join-great-british-bee-count-today&quot;&gt;learn more about the bee cause&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:ipaduniversal&quot;&gt;
-      &lt;p&gt;This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. &lt;a href=&quot;#fnref:ipaduniversal&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;

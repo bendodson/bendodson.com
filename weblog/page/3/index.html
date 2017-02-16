@@ -38,6 +38,74 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">Creating passwordless user accounts within iOS apps</a></h1>
+			
+			<time datetime="2016-07-10" pubdate=""><a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">July 10, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’m currently in the process of writing an app which will store some information for each user on a server; the stored data should be available to the user on all of their devices. Usually there are two ways of dealing with this:</p>
+
+<ol>
+  <li>
+    <p>Build a user access system such that the user has to register to use the service. They’ll need to log in to the app (usually with email address and password) on each of their devices.</p>
+  </li>
+  <li>
+    <p>Use CloudKit to store all of the information in an Apple provided database.</p>
+  </li>
+</ol>
+
+<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill"><a href="#fn:overkill" class="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
+
+<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount"><a href="#fn:appleaccount" class="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
+
+<p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">container</span> <span class="o">=</span> <span class="n">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
+<span class="n">container</span><span class="p">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="n">guard</span> <span class="k">let</span> <span class="n">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+    
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Identifier: \(recordID.recordName)&quot;</span><span class="p">)</span>    
+<span class="p">}</span></code></pre></div>
+
+<p>The identifier returned will be 34 characters long and look something like this:</p>
+
+<p><code>_e990774f93dd6625b11af6d40fceb310</code></p>
+
+<p>Once you have that, you can then send it to your server to match it against whatever content you want to link to this particular user. Now whenever they use your app on any device with the same Apple account, they’ll have access to everything without the need for a manual account creation process and without having to hand over any personal information. The entire process is completely silent and is very secure as the identifier is generated from both the Apple account and your CloudKit container - it can’t be used by other apps nor can it be reverse-engineered to give you personal details of the user.</p>
+
+<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code>import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="n">guard</span> <span class="k">let</span> <span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+    
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: \(identifier)&quot;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>I’ve named it <code>AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:overkill">
+      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:appleaccount">
+      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">The Divide #14 - WWDC 2016, 'iTunes with tabs'</a></h1>
 			
 			<time datetime="2016-06-15" pubdate=""><a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">June 15, 2016</a></time>
@@ -657,59 +725,6 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 </ul>
 
 <p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">Emoji flags from ISO 3166-1 country codes (in Swift)</a></h1>
-			
-			<time datetime="2016-04-26" pubdate=""><a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">April 26, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!</p>
-
-<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags"><a href="#fn:flags" class="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
-
-<blockquote>
-  <p>What they did is both crazy and genius. Instead of assigning a codepoint to each flag, which is the obvious way to do it (and the way the rest of the emoji are encoded), the standard defines twenty-six “regional indicator symbols”, from U+1F1E6 REGIONAL INDICATOR SYMBOL LETTER A to U+1F1FF REGIONAL INDICATOR SYMBOL LETTER Z. In order to include a country’s flag in your text, you first look up the country’s two-letter ISO 3166-1 code and then write the two regional indicator symbols corresponding to those letters. A font with support for that flag treats the two-codepoint sequence as a ligature, replacing the combination with a single pictogram.</p>
-</blockquote>
-
-<blockquote>
-  <p>Let’s take the United States as an example. Its ISO 3166-1 two-letter code is “us”, so we need to use the codepoints U+1F1FA REGIONAL INDICATOR SYMBOL LETTER U and U+1F1F8 REGIONAL INDICATOR SYMBOL LETTER S. Combining these gives a symbol that renders in your browser as 🇺🇸.</p>
-</blockquote>
-
-<p>Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:</p>
-
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="nl">countryCode</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-    <span class="k">var</span> <span class="n">country</span> <span class="o">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
-    <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">string</span>
-<span class="p">}</span></code></pre></div>
-
-<p>A great way of testing this is with an Xcode Playground which will allow you to quickly see the output like such:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/flag-playground.jpg" width="800" height="419" /></p>
-
-<p>If you use an incorrect code such as “en”<sup id="fnref:england"><a href="#fn:england" class="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
-
-<p>You can <a href="https://github.com/bendodson/flag-emoji-from-country-code">download my example playground from GitHub</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:flags">
-      <p>Most were supported in iOS 8.3 but hidden from the emoji keyboard; iOS 9.0 added an extra 40 to complete the set including such places as Antarctica and Taiwan. They also added support for the EU flag. <a href="#fnref:flags" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:england">
-      <p>England is not an iOS 3166-1 country and so there is no “en” code. There is a proposal for subdivisions to be supported so something like “gb-eng” would work but it is not accepted yet and iOS has no flags for places like England, Wales, or Scotland. <a href="#fnref:england" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>
