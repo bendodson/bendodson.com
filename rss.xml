@@ -6,9 +6,178 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Thu, 16 Feb 2017 09:37:36 +0000</pubDate>
-    <lastBuildDate>Thu, 16 Feb 2017 09:37:36 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Feb 2017 12:09:09 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Feb 2017 12:09:09 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Building tools for Kylo Ben</title>
+      <link>https://bendodson.com/weblog/2017/02/23/building-tools-for-kylo-ben/</link>
+      <pubDate>Thu, 23 Feb 2017 11:30:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/02/23/building-tools-for-kylo-ben/</guid>
+      <description>&lt;p&gt;I’ve been running my &lt;a href=&quot;https://kyloben.co.uk/&quot;&gt;Kylo Ben&lt;/a&gt; website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interesting links I’ve found, my articles, podcasts, game releases, games I’ve played, and games I’ve purchased which means an average post will take between 1.5 to 2 hours to write. Being a developer means I can build my own digital tools to help me out and so last week I built a few little tools to help cut that time dramatically.&lt;/p&gt;
+
+&lt;p&gt;One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app&lt;sup id=&quot;fnref:pocket&quot;&gt;&lt;a href=&quot;#fn:pocket&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-ios-extension.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; alt=&quot;[app name] would like to access Apple Music&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The iOS app is purely a blank view controller with a bundled share extension that looks a little like this&lt;sup id=&quot;fnref:codequality&quot;&gt;&lt;a href=&quot;#fn:codequality&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;ShareViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SLComposeServiceViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isContentValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didSelectPost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extensionContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inputItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSExtensionItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;itemProvider&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attachments&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSItemProvider&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;itemProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hasItemConformingToTypeIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kUTTypeURL&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;itemProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;forTypeIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kUTTypeURL&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shareURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;URL&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                        &lt;span class=&quot;n&quot;&gt;APIClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;save&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shareURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;absoluteString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;textView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;onCompletion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                                &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIAlertController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ERROR&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;That didn&amp;#39;t work: \(error.localizedDescription)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;preferredStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                                &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                                    &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extensionContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;completeRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;returningItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                                &lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
+                                &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                                &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extensionContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;completeRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;returningItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                        &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;configurationItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is paired with an &lt;code&gt;NSExtensionActivationSupportsWebURLWithMaxCount&lt;/code&gt; entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-safari-extension.jpg&quot; width=&quot;800&quot; height=&quot;86&quot; alt=&quot;[app name] would like to access Apple Music&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript&lt;sup id=&quot;fnref:ajax&quot;&gt;&lt;a href=&quot;#fn:ajax&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;, I chose to build a simple macOS app with a Safari Extension that looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;SafariExtensionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SFSafariExtensionHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toolbarItemClicked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SFSafariWindow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getActiveTab&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;tab&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getActivePage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getPropertiesWithCompletionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;properties&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Unknown Title&amp;quot;&lt;/span&gt;
+                        &lt;span class=&quot;n&quot;&gt;APIClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;save&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;url&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;absoluteString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;onCompletion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                                &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;PROBLEM! \(error)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                                &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                        &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When I click on the controller icon, the method above is called and the URL and title are sent to my server; once completed, the page reloads to show me it has been successful. I spent a long time trying to just get a simple alert to display on either success or failure but I couldn’t get it to work correctly. It is possible to interact with JavaScript and I was able to log to the console but any alert would silently fail. If anybody has any tips on that, I’d &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;love to know how to improve it&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The basic template of my weekly update is the same every week and I used to use a number of custom MySQL queries to pull out the various information I needed and then write it up manually. Now that I have my links stored in my database, I decided to write a PHP script to generate as much of my update as possible so all I need to do is fill in some of the blanks that aren’t automatically provided (i.e. upcoming game release dates) and write my own thoughts and opinions around the news articles. I have a basic PHP script which runs a number of MySQL queries and then generates a Markdown document like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Introduction...
+
+###News
+
+[Final Fantasy 15&amp;#39;s PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
+
+[New PlayStation 4 Pro patch for Final Fantasy XV makes it look worse | Ars Technica](https://arstechnica.com/gaming/2017/02/new-playstation-4-pro-patch-for-final-fantasy-xv-makes-it-look-worse/#p3)
+
+[This tiny Nintendo Switch feature is already making fans super happy - Polygon](http://www.polygon.com/2017/2/20/14668988/nintendo-switch-click-sound-effect-joy-con)
+
+[Alto&amp;#39;s Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
+
+[never gonna give you up - What’s In the Box?2?! Take 2](http://tyrod.com/post/157494246009/whats-in-the-box2-take-2)
+
+[Steam Community :: Group Announcements :: Orwell](http://steamcommunity.com/games/491950/announcements/detail/484538095747263770)
+
+[Nintendo tag teams with John Cena for living room-inspired Switch demos - Polygon](http://www.polygon.com/2017/2/21/14682742/nintendo-switch-john-cena)
+
+[Look What Mega Bloks Is Doing To Pokémon ](http://kotaku.com/look-what-mega-bloks-done-to-pokemon-1792555348)
+
+[Pillars of Eternity 2 campaign clears $3 million - Polygon](http://www.polygon.com/2017/2/21/14689394/pillars-of-eternity-2-deadfire-funded-3-million-fig)
+
+[Take a look at how itty-bitty the Nintendo Switch cartridge is - Polygon](http://www.polygon.com/2017/2/21/14691596/nintendo-switch-cartridge-size-comparison)
+
+[Australia Is Coming To Civilization VI](http://kotaku.com/australia-is-coming-to-civilization-vi-1792599435)
+
+[Rocket League Original Minis toys expanding with light-up cars - Polygon](http://www.polygon.com/2017/2/21/14692528/rocket-league-original-minis-light-up-cars)
+
+[Hot and heavy Mass Effect pack comes to Cards Against Humanity - Polygon](http://www.polygon.com/2017/2/22/14698798/cards-against-humanity-mass-effect-pack)
+
+And finally, 
+
+###My Posts
+- Making the earth move with Stagehand — &amp;quot;I really like the premise of a &amp;quot;reverse platformer&amp;quot; but there simply isn&amp;#39;t enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto&amp;#39;s Adventure_, and _Super Mario Run_&amp;quot; [[link](https://kyloben.co.uk/stagehand-review)]
+
+###Podcasts
+- Podcast #xx: Title [[link]()]
+- Another Podcast #xx: Title [[link]()]
+
+###Upcoming Game Releases
+- _Game Title #1_ (date - platforms) [[link]()]
+- _Game Title #2_ (date - platforms) [[link]()]
+- _Game Title #3_ (date - platforms) [[link]()]
+- _Game Title #4_ (date - platforms) [[link]()]
+- _Game Title #5_ (date - platforms) [[link]()]
+
+###Gaming Time
+This week I spent 9.6 hours playing six different games:
+
+- **Stagehand** (0.5hrs): Text...
+- **Rocket League** (0.6hrs): Text...
+- **Pokémon Moon** (0.7hrs): Text...
+- **Forza Horizon 3** (1.1hrs): Text...
+- **SteamWorld Heist** (2.8hrs): Text...
+- **Night in the Woods** (3.9hrs): Text...
+
+This week I added 2 new games to my library: _Crusader Kings II_, _Night in the Woods_.
+
+Details on games I&amp;#39;m planning on playing this week...
+
+Until next time, have a great week!
+
+---
+
+_Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it&amp;#39;s this post in email form every Monday!_&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The news URLs are simply pulled from the database and wrapped up so that each link uses the title of the page as provided by the macOS and iOS extensions. I will nearly always change the link title (as it’ll be part of a sentence) but it allows me to quickly see what an article is about without needing to open it up and re-read it. The “my posts” section requires no editing at all as it pulls the title, link, and a pull quote directly from the articles I’ve published in the previous week. The podcasts and upcoming game release sections can’t be automatically populated (yet) so I just use placeholder text for these to reduce the amount of effort required. The final section on my gaming time uses a number of queries to get the exact amount of time I’ve spent playing in the past week, adds placeholders for each game so I can write about them, and then lists out any new games I’ve added to my library; all of this is thanks to some scripts I wrote a while back that scrape my Steam and Xbox One libraries to track changes and allow me to render a page showing &lt;a href=&quot;https://kyloben.co.uk/gaming-time/&quot;&gt;my gaming time&lt;/a&gt; for the past few months.&lt;/p&gt;
+
+&lt;p&gt;Once I’ve finished writing, the Markdown file is uploaded to my server and the weekly update will then appear on the website. I then use Byword’s “copy as HTML” feature to generate a HTML version and use that with Mailchimp to write and send out the &lt;a href=&quot;https://kyloben.co.uk/weekly&quot;&gt;email version&lt;/a&gt; of the update.&lt;/p&gt;
+
+&lt;p&gt;With these tools, I can now write my weekly update pretty quickly and only have to focus on what I want to say rather than spending time on copying, pasting, and formatting. If you’re interested in video games, &lt;a href=&quot;https://kyloben.co.uk/weekly&quot;&gt;sign up to the weekly email&lt;/a&gt; as it is the best way to get a digest of what has been happening over the past week as well as seeing what new games are arriving.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:pocket&quot;&gt;
+      &lt;p&gt;I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. &lt;a href=&quot;#fnref:pocket&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:codequality&quot;&gt;
+      &lt;p&gt;This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! &lt;a href=&quot;#fnref:codequality&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:ajax&quot;&gt;
+      &lt;p&gt;Which is a nightmare when you start hitting cross domain restrictions. &lt;a href=&quot;#fnref:ajax&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Proposal for an Erase Data Passcode</title>
@@ -1036,89 +1205,6 @@
 &lt;/ul&gt;
 
 &lt;p&gt;Don’t forget to leave a review on iTunes and follow us on Twitter via &lt;a href=&quot;http://twitter.com/PodcastDivide&quot;&gt;@PodcastDivide&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>HomeKit, AirPlay, and controlling iTunes with Siri</title>
-      <link>https://bendodson.com/weblog/2016/05/24/homekit-and-airplay/</link>
-      <pubDate>Tue, 24 May 2016 11:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/05/24/homekit-and-airplay/</guid>
-      <description>&lt;p&gt;A few days ago I wrote an article about &lt;a href=&quot;https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/&quot;&gt;getting my Flic button to work with HomeKit&lt;/a&gt;. Since then, I’ve had a few requests from people wondering how I was getting iTunes to work with HomeKit such that it could start a playlist on some AirPlay speakers. Today I’ve &lt;a href=&quot;https://www.npmjs.com/~bendodson#packages&quot;&gt;released a couple of HomeBridge plugins to NPM&lt;/a&gt; and I’ll detail how I’ve got my system working.&lt;/p&gt;
-
-&lt;p&gt;First of all, my entire setup is powered by the awesome &lt;a href=&quot;https://github.com/nfarina/homebridge&quot;&gt;Homebridge&lt;/a&gt; system which I’ve written about &lt;a href=&quot;https://www.google.co.uk/#q=site:bendodson.com+homebridge&quot;&gt;at great length&lt;/a&gt;. I found a plugin from &lt;a href=&quot;https://github.com/dansays&quot;&gt;Dan Budiac&lt;/a&gt; called &lt;a href=&quot;https://github.com/dansays/homebridge-applescript&quot;&gt;homebridge-applescript&lt;/a&gt; which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “&lt;code&gt;tell application iTunes to pause&lt;/code&gt;”) but I needed something a bit longer for dealing with AirPlay. I &lt;a href=&quot;https://github.com/bendodson/homebridge-applescript&quot;&gt;forked Dan’s project&lt;/a&gt; to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;quot;accessory&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;ApplescriptFile&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Kitchen Music&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;quot;on&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;quot;off&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/stopMusic.applescript&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This allowed me to then use my existing &lt;a href=&quot;https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/&quot;&gt;alarm clock script&lt;/a&gt; in order to make iTunes connect to my kitchen speakers and play a specific playlist&lt;sup id=&quot;fnref:twoplaylists&quot;&gt;&lt;a href=&quot;#fn:twoplaylists&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.&lt;/p&gt;
-
-&lt;p&gt;This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle&lt;sup id=&quot;fnref:playpause&quot;&gt;&lt;a href=&quot;#fn:playpause&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;accessory&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;ApplescriptFile&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Music Play Pause Control&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;on&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/playMusic.applescript&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;off&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/pauseMusic.applescript&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;accessory&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;ApplescriptFile&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Music Track Control&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;on&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/nextTrack.applescript&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;off&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/previousTrack.applescript&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;I won’t detail the AppleScript for each of these as they are fairly basic.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Next, I used the ‘Scenes’ feature of HomeKit to set up named scenes that related to each toggle. For example, “iTunes next track” is a scene that ensures the “Music Track Control” accessory is turned on whereas “iTunes previous track” ensures that accessory is off. The play / pause controls work in a similar way. Once activated, this meant I could say things like “&lt;em&gt;Hey Siri, iTunes next track&lt;/em&gt;” or “&lt;em&gt;Hey Siri, pause iTunes&lt;/em&gt;”.&lt;/p&gt;
-
-&lt;p&gt;Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount&lt;sup id=&quot;fnref:volumeamount&quot;&gt;&lt;a href=&quot;#fn:volumeamount&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; &lt;a href=&quot;https://github.com/bendodson/homebridge-applescript-file-lightbulb&quot;&gt;homebridge-applescript-file-lightbulb&lt;/a&gt;&lt;sup id=&quot;fnref:naming&quot;&gt;&lt;a href=&quot;#fn:naming&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;accessory&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;ApplescriptFileLightbulb&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes volume&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;on&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;off&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;quot;brightness&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;/Users/bendodson/Dropbox/Scripts/volume.applescript&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;code&gt;volume.applescript&lt;/code&gt; file looks like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-applescript&quot; data-lang=&quot;applescript&quot;&gt;&lt;span class=&quot;k&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;run&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;argv&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;argv&lt;/span&gt;
-	&lt;span class=&quot;nb&quot;&gt;activate&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;iTunes&amp;quot;&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;sound&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;volume&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;v&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;tell&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;run&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;With this in place, I can say “&lt;em&gt;Hey Siri, set iTunes volume to 50%&lt;/em&gt;” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “&lt;em&gt;set [name] to [percentage]&lt;/em&gt;” as being “&lt;em&gt;change the brightness of this device&lt;/em&gt;” just in this case we are hitting an AppleScript with our brightness value.
-&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg&quot; width=&quot;375&quot; height=&quot;375&quot; /&gt;
-This has been a fun little exercise in trying to hack HomeKit into what I want to use it for. I’m hopeful that iOS 10 will add native support for HomeKit speakers as then this could be done without reverting to AppleScript and I’d be able to stream from my iPhone via Siri but it’s pretty cool for the time being.&lt;/p&gt;
-
-&lt;p&gt;You can find both of my Homebridge plugins on &lt;a href=&quot;https://www.npmjs.com/~bendodson#packages&quot;&gt;NPM&lt;/a&gt; and &lt;a href=&quot;https://github.com/bendodson/&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:twoplaylists&quot;&gt;
-      &lt;p&gt;Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. The code for that is &lt;code&gt;if weekday of (current date) is Sunday then&lt;/code&gt; &lt;a href=&quot;#fnref:twoplaylists&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:playpause&quot;&gt;
-      &lt;p&gt;At first I’d get around this by just using “&lt;em&gt;turn off kitchen music&lt;/em&gt;” followed by “&lt;em&gt;turn on kitchen music&lt;/em&gt;” as the playlist was shuffled but hardly an ideal solution. &lt;a href=&quot;#fnref:playpause&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:volumeamount&quot;&gt;
-      &lt;p&gt;I could have done the same as the track control AppleScript and had a “iTunes volume up” and “iTunes volume down” scene to increase or decrease by 10% each time but that would be a pain if you wanted to change the volume by a large amount. &lt;a href=&quot;#fnref:volumeamount&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:naming&quot;&gt;
-      &lt;p&gt;I shouldn’t be allowed to name things. &lt;a href=&quot;#fnref:naming&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     

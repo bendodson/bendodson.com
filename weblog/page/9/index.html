@@ -38,6 +38,63 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/07/28/the-mobile-web/">The mobile web</a></h1>
+			
+			<time datetime="2015-07-28" pubdate=""><a href="/weblog/2015/07/28/the-mobile-web/">July 28, 2015</a></time>
+    	</header>
+    	<div>
+			<p>There has been a huge amount of talk over the past couple of weeks about mobile browsers mainly due to two announcements at WWDC; <a href="https://www.webkit.org/blog/3476/content-blockers-first-look/">Content Blockers in Safari</a> and <a href="https://www.apple.com/news/">Apple News</a>. This has led to discussion of mobile ads as it has been discovered there are huge speed boosts to be made when certain elements are blocked (for example, the <a href="http://murphyapps.co/blog/2015/6/24/an-hour-with-safari-content-blocker-in-ios-9">iMore site weighs 14MB</a> for something that is essentially plaintext). The thing that got me was when Niley Patel of The Verge created an article called “<a href="http://www.theverge.com/2015/7/20/9002721/the-mobile-web-sucks">The mobile web sucks</a>” whilst failing to notice the irony that the article he created <a href="http://blog.lmorchard.com/2015/07/22/the-verge-web-sucks/">takes 30s to load, and fetches 9.5MB across 263 HTTP requests</a>. The bit that irritated me though was this passage:</p>
+
+<blockquote>
+  <p>Similarly, Apple News lets you publish directly onto iPhones, bypassing Apple’s own Safari browser, which feels mildly crazy. Yet there’s some excitement over this: I just read Ben Thompson’s excellent piece explaining how the ad market for smaller publishers leads inexorably to bloated web pages that load poorly. That piece was itself a response to John Gruber saying that Apple’s new Safari Content Blocker system would cause a “reckoning” for publishers by letting users block performance-degrading Javascript. And yes, most commercial web pages are overstuffed with extremely complex ad tech, but it’s a two-sided argument: we should expect browser vendors to look at the state of the web and push their browsers to perform better, just as we should expect web developers to look at browser performance and trim the fat. But right now, the conversation appears to be going in just one direction.</p>
+</blockquote>
+
+<blockquote>
+  <p>And that’s troubling. Taken together, Apple News and Facebook Instant Articles are the saddest refutation of the open web revolution possible: they are incompatible proprietary publishing systems entirely under the control of huge corporations, neither of which particularly understands publishing or media. Earlier this year, I called Facebook the new AOL; Instant Articles comes from the same instinct as AOL trying to bring Time Warner’s media content into its app just before the web totally kicked its ass. Apple and Facebook are turning their back on the web to build replacements for the web, and with them replacements for HTML and CSS and every bit of web innovation it’s taken 20 years of competitive development to achieve.</p>
+</blockquote>
+
+<p>I’m not 100% sure on Facebook Instant Articles but Apple News is basically just an RSS reader. Sure you can use some <a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/News_Publishing_Guide/RSSBestPractices.html#//apple_ref/doc/uid/TP40015407-CH13-SW1">custom syntax to make things look slightly nicer</a> but they have “over a million topics” because they’ve basically scraped all the big RSS feeds and packaged it nicely. This brings me to the one thing I probably agree with Niley on<sup id="fnref:bracelet"><a href="#fn:bracelet" class="footnote">1</a></sup>, the mobile web does suck. The difference is that I don’t ever use it…</p>
+
+<p>On mobile, apps have completely replaced the web for me. Safari isn’t on my first home screen, let alone my dock; it’s buried in a folder with Stocks, Tips, and other undeletable<sup id="fnref:undeletable"><a href="#fn:undeletable" class="footnote">2</a></sup> Apple apps. The majority of browsing I do on my phone is either my RSS feeds or Twitter; if I want to read a link, they usually open in their own browser and I usually regret it. Mobile web sites are generally horrible things that are slow to load and have ridiculous interfaces. There are some sites that take longer to load on 4G than the equivelant WAP<sup id="fnref:wap"><a href="#fn:wap" class="footnote">3</a></sup> website used to on GPRS! Even the option to choose to render the desktop version often doesn’t work due to the horrible way in which most companies detect you are using a mobile browser. Due to this, I typically save websites I want to read to my Pinboard and read them later on my iMac or use the “readability” feature in Safari.</p>
+
+<p>I love RSS feeds. I subscribe to around 130 websites<sup id="fnref:subscribe"><a href="#fn:subscribe" class="footnote">4</a></sup> and I get every article fast, cached for offline usage, rendered in the same font, and without any JavaScript crap. I simply don’t understand people that don’t use RSS. Twitter is no match; you have to scroll through a ton of stuff you aren’t interested in to find links which you then have to click and wait for your browser to render. RSS keeps everything uniform and consistent and ensures I don’t miss anything. That is essentially what Apple News is trying to do (albeit with a discovery angle and a bit more design) and it seems like a perfectly good idea to me but I doubt it’ll make me switch from <a href="http://reederapp.com">Reeder</a> and <a href="http://feedbin.com/">FeedBin</a>, my current setup.</p>
+
+<p>The only minor problem I have with RSS is sites (<s>like The Verge</s><sup id="fnref:theverge"><a href="#fn:theverge" class="footnote">5</a></sup>) who only give you a paragraph of the text before making you click through to the site so they get your eyeballs on their ads and which always leads to clickbait headlines and paragraphs ending in a manufactured cliffhanger<sup id="fnref:remove"><a href="#fn:remove" class="footnote">6</a></sup>. Fortunately there aren’t many sites that do that but Apple News is not going to fix it; they have provision for this with a “<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/News_Publishing_Guide/RSSBestPractices.html#//apple_ref/doc/uid/TP40015407-CH13-SW1">Read Full Story” link</a> they embed that opens up the rest of the page within an internal browser. There are also sites which have ads as content (i.e. Daring Fireball) but those work well as they can be skimmed over quickly if they are of no interest and they don’t track you, take over your screen, or do any of the other things that browser ads do.</p>
+
+<p>So whilst everybody is up in arms about mobile browsers using up their battery and CPU, tracking their usage across the web, and having the unwinnable argument over whether to block ads or not<sup id="fnref:blockads"><a href="#fn:blockads" class="footnote">7</a></sup>, I’ll be sat reading that debate in my JavaScript-free, fast, RSS reader. I’ll likely end up installing some form of content blocker when iOS 9 is released for the few times that I do end up using the browser, but those times are thankfully becoming fewer and fewer on mobile.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:bracelet">
+      <p>I have an instant dislike to him after his <a href="http://www.theverge.com/a/apple-watch-review">Apple Watch review</a> (which has a horrible, horrible website) in which he said the notifications made him ruder in conversation (as he constantly looked at his watch rather than ignoring it - that just makes him a jerk, not the watch) and claimed he felt “ridiculous wearing the Milanese Loop” yet is happy to wear a <a href="http://www.neogaf.com/forum/showthread.php?t=1031596">massive chunky punk bracelet</a>. <a href="#fnref:bracelet" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:undeletable">
+      <p>I’m still surprised this hasn’t been remedied. In iOS 3 you could enable the Nike Running app by a toggle in settings (as the 3GS had the Bluetooth chip to talk to the shoe tracker) so I don’t see an issue why the built-in apps couldn’t be turned off in a similar way from settings. <a href="#fnref:undeletable" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:wap">
+      <p>Who remembers WAP? Fun times. <a href="#fnref:wap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:subscribe">
+      <p>A mixture of tech, politics, development, LEGO, video game, and Disney blogs. Everything published in the areas I care about all in one place. <a href="#fnref:subscribe" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:theverge">
+      <p>Turns out that The Verge does offer a <a href="http://www.theverge.com/rss/full.xml">full RSS feed</a> after all! A shame that <a href="http://9to5mac.com">9to5mac.com</a> have started truncating theirs… <a href="#fnref:theverge" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:remove">
+      <p>After clicking a few of them, you realise the site is terrible and unsubscribe from it. Problem solved. <a href="#fnref:remove" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:blockads">
+      <p>The argument is either “if you block ads you are getting something for free and going to put the publisher out of business” or “you shouldn’t be using up my battery and CPU with this privacy invading advertising”. You can’t win either way. I block ads personally but I’ll do a post soon about how I do it on my iMac. <a href="#fnref:blockads" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">Finding the next available driving test with Goutte PHP Scraper</a></h1>
 			
 			<time datetime="2015-07-24" pubdate=""><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">July 24, 2015</a></time>
@@ -382,88 +439,6 @@
     </li>
     <li id="fn:weather">
       <p>For example, a thunder storm with a strong wind will have a very different array of sounds to a sunny day with no wind. <a href="#fnref:weather" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/26/working-out-with-apple-watch/">Working out with Apple Watch</a></h1>
-			
-			<time datetime="2015-05-26" pubdate=""><a href="/weblog/2015/05/26/working-out-with-apple-watch/">May 26, 2015</a></time>
-    	</header>
-    	<div>
-			<p>In an effort to get fitter, I’ve been using the two exercise apps available on the Apple Watch; Workout and Activity. It seemed strange to me that they were separate apps (which also feed into the Activity and Health apps on the iPhone) but after a bit of time with them I’m starting to understand the distinction.</p>
-
-<h2 id="activity">Activity</h2>
-
-<p>The Apple Watch tries to get you active by introducing you to the three activity circles; Move, Exercise, and Stand.</p>
-
-<ul>
-  <li><strong>Move</strong>: This is basically active calories and is a measurement of how much movement you’ve done. Your goal is based on height and weight but mine started off at 410 calories.</li>
-  <li><strong>Exercise</strong>: I’m not 100% sure on how this is calculated but it seems to be doing anything that gets your heart rate up. The goal is 30 minutes per day.</li>
-  <li><strong>Stand</strong>: This is designed to make you stand up for at least 1 minute every hour. If you get to 50 minutes past the hour and you haven’t stood up, you get a little reminder. The goal is 12 instances of standing for 1 minute per hour (so standing up for 12 minutes in a row won’t complete the circle - has to be at least 1 minute for 12 hours).</li>
-</ul>
-
-<p>Along with the goals, there are also awards to motivate you to complete your circles each day. These look really nice<sup id="fnref:olympics"><a href="#fn:olympics" class="footnote">1</a></sup> and they use a decent curve so you start off getting quite a lot of achievements in order to make you persist with it. I’ve got most of them now so the next major ones are more tricky ones like “reach your move goal 100 times” or “complete your circles for every day of a month”.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/awards.jpg" width="800" /></p>
-
-<h2 id="activity-complication">Activity Complication</h2>
-
-<p>The nice thing about the circular design they’ve gone for is that it fits nicely as a complication on the watch face. I alternate between two watch faces — <em>Simple</em> in the week, <em>Mickey</em> at the weekends — and Activity is the only complication I have active (aside from the date). It highlights the best use of a complication in that I can quickly glance at my watch without touching it and see how far I am for each of my goals; if I want to see specifics, I can tap the complication to go into the Activity app proper. I used to use a FitBit<sup id="fnref:fitbit"><a href="#fn:fitbit" class="footnote">2</a></sup> but the problem with those is that you either had to use the iPhone app to see how far you’d got or tap multiple times to go through the different views (steps, distance, calories, etc). With the Apple Watch, I can see the 3 important things without getting my phone out and that is a big advantage in my opinion<sup id="fnref:advantage"><a href="#fn:advantage" class="footnote">3</a></sup>. It is very motivating as you can see how close you are to completing a circle throughout the day.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/activity-complication.jpg" width="700" /></p>
-
-<h2 id="workout">Workout</h2>
-
-<p>This is the app to use when you are doing a proper piece of exercise. There are presets for things like Running, Walking<sup id="fnref:walking"><a href="#fn:walking" class="footnote">4</a></sup>, Cycling, etc, but I’ve been using the Elliptical whilst on my Crosstrainer. I’m desperately unfit so I only do a 15-minute session each day (along with a brisk walk to get to my 30 minutes of Exercise) but the app is quite good at prompting me to extend my session on the next day. You get tapped when you’re at the halfway point and you can check your heart rate and calories burned during the workout. Speaking of heart rate, the Apple Watch does continuously track your heart rate throughout the day at intervals of around 10-20 minutes (it seems to check more the more movement you are doing). However, if you are doing a workout, it constantly checks your heart rate in order to more accurately see how many calories are being burned. I like to listen to music whilst I’m exercising so I have a pair of Bluetooth headphones which I pair to the watch (not my phone) and then I listen to a playlist I have synced across. This means I can exercise without my phone. I haven’t tried this on a run but my wife has and on doing a few runs with and without her phone the measurements are pretty accurate (on an 8 mile run, the distance was only off by 0.05 miles compared to GPS). When you finish a workout, you are given the option to “save” or “discard” it - this was slightly confusing as when you press “save” you are taken back to the app carousel and there is no way of seeing those stats again on the watch<sup id="fnref:save"><a href="#fn:save" class="footnote">5</a></sup>. It turns out the workout is actually saved to the Activity app on the iPhone:</p>
-
-<h2 id="activity-iphone-app">Activity iPhone App</h2>
-
-<p>The Activity app on the iPhone only appears once you have paired an Apple Watch. It works the same as the Activity app on the watch in that you have your 3 circles but the difference is that you can see historical data here, review your achievements, and see more numbers and graphs. The History window shows your circles at a glance but if you pull from the left you can see how your daily move goal has changed over time (so in the screenshots below you can see how this week the watch asked me if I wanted to increase my daily move goal from 410 calories to 450 calories):</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/activity-app.jpg" width="800" /></p>
-
-<p>You can also look at your day and your workouts in more detail such as this elliptical workout I did at lunchtime today:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/workout.jpg" width="800" /></p>
-
-<p>I tweeted about this over the weekend but one of the most motivating things for me has been the “Avg Heart Rate” on the above screen. Each day over the past week, that number has decreased with the same 15 minute workout which shows (I think) an improvement in my overall fitness.</p>
-
-<h2 id="health-iphone-app">Health iPhone App</h2>
-
-<p>The final part of the fitness puzzle is the Health app on the iPhone. This came as part of iOS 8 and is a way for you to store all of your health data securely. There are loads of apps which can read and write to this store and the Apple Watch is no exception. By default, it will populate the Flights Climbed, Steps, Walking + Running Distance, Active Calories, Workouts, and Heart Rate sections. You can choose to display each of these as graphs within the app although I’m hoping for more control over this in future versions as you can’t view specific dates, only “Today”, “Week”, “Month”, and “Year”. This is one of those areas where the continuous heart rate monitoring is really nice as you can get an overall picture of how much you are fluctuating throughout the day - whilst there are plenty of heart rate monitors available on the market, one you don’t have to think about that is constantly monitoring will always win out (and it is incredibly accurate).</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/health-app.jpg" width="800" /></p>
-
-<p><em>(A small aside, my Apple Watch has just told me to stand up. The nice thing about it doing it 10 minutes before the hour is up is that I often have things scheduled on the hour like phone calls. It’s turned into a nice reminder that I should go and get a drink<sup id="fnref:water"><a href="#fn:water" class="footnote">6</a></sup> and have a stretch before next hour of work. It is definitely one of those small things I didn’t think about when the Apple Watch was announced but it is the thing that has changed my behaviour more than anything else.)</em></p>
-
-<p>In conclusion, I’ve found the Apple Watch to be a much better fitness companion than I expected. My assumption was that it would cater for those that like to do running and cycling but wouldn’t do much for the more casual exerciser. In actual fact, it has made me more aware of how little movement I was doing and also helped motivate me more to do things as simple as standing every hour. The majority of its features can be done on other devices, such as the FitBit, but the tight integration is key. The heart rate monitoring showing up in the Health app satisfies the stats nerd part of me whilst the simplicity of 3 goals per day has definitely made me more likely to succeed as I don’t want to break the streak I’m on. If you’ve got the Apple Watch and haven’t explored the exercise parts, I’d definitely recommend giving it a go; once you’ve done it for a day or two, you’ll find it very hard to stop!</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:olympics">
-      <p>Apparently they were inspired by Olympic medals. They do look really nice especially when animating - the black background definitely helps make them stand out more than something like Game Center achievements. <a href="#fnref:olympics" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:fitbit">
-      <p>I started with the FitBit One, then went up to the Flex, and eventually the Charge. <a href="#fnref:fitbit" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:advantage">
-      <p>A summary of the Apple Watch could really be “something that makes interactions quicker” - it isn’t necessary but it feels so good to be able to get things done quickly. “But it only takes 5 seconds to get your phone out and check it” I hear you cry; true, but those instances add up. Like I say, it isn’t necessary but it’s definitely nice. <a href="#fnref:advantage" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:walking">
-      <p>I did this a few times whilst walking the dogs but I don’t log them anymore - a walk isn’t really a workout in my eyes. Also, you still get credit towards your Exercise ring if you go for a walk but don’t activate a workout - it knows when you are walking briskly and so that does count as exercise. <a href="#fnref:walking" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:save">
-      <p>It’ll show you how long your last workout was and when it was when you open the Workout app but you can’t see calories burned, average heart rate, etc. <a href="#fnref:save" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:water">
-      <p>I’ve also been trying to drink the recommended amount of water per day so this has been a good point to go and top up my water. I’ve been using the <a href="http://waterminderapp.com">WaterMinder app</a> to keep track of this as they have a nice Apple Watch app which follows a similar circular goal design. <a href="#fnref:water" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
