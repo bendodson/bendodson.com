@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2017-01-10.css" />
+	<link rel="stylesheet" href="/styles-2017-06-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,111 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/04/06/divide-11-3d-printing/">The Divide #11 - 3D Printing</a></h1>
+			
+			<time datetime="2016-04-06" pubdate=""><a href="/weblog/2016/04/06/divide-11-3d-printing/">April 06, 2016</a></time>
+    	</header>
+    	<div>
+			<p>The 11th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss 3D printing with a focus on John’s experience of the Da Vinci AIO 1.0. In addition, Chris has some updates on DC Rebirth, John is interested in the Xbox One development kit, and I propose an experiment in the measurement of canine happiness…</p>
+
+<p>You can get The Divide from these fine outlets:</p>
+
+<ul>
+  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
+  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
+  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
+  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
+</ul>
+
+<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/03/23/homekit-wink-and-canary/">HomeKit, Wink, and Canary</a></h1>
+			
+			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/homekit-wink-and-canary/">March 23, 2016</a></time>
+    	</header>
+    	<div>
+			<p>A couple of weeks ago I took the plunge and bought a <a href="https://canary.is">Canary</a>, an internet-connected personal security camera and air quality monitoring system. It has been working great so far and comes with a decent iPhone app that allows you to control the camera and have it activate automatically based on location. There are three different operating modes; armed, disarmed, and privacy. Whilst armed, you’ll get a notification when any activity is detected whereas disarmed will still record and store any video when there is motion but it won’t notify you<sup id="fnref:disarmed"><a href="#fn:disarmed" class="footnote">1</a></sup>. Privacy completely shuts off the camera and microphone.</p>
+
+<p>For the simple reason that I don’t want everything that happens in my living room whilst I’m in it to be streamed to a 3rd party server, I have set the iPhone app to switch between armed and privacy modes; this means that if nobody is in the house, it automatically arms itself but will shut off the camera and microphone as soon as a family member gets back home. The problem with this is that the camera is then in privacy mode when we go to bed as obviously our phones are still in the house; if somebody breaks in, we won’t have any video evidence. I can open the iOS app and manually arm the Canary but <a href="https://en.wikipedia.org/wiki/Sod%27s_law">Sod’s Law</a> means I’ll probably get an intruder on the night I forget to do that<sup id="fnref:morning"><a href="#fn:morning" class="footnote">2</a></sup>.</p>
+
+<p>My first thought was a scheduling system could be put in place to automatically arm and disarm the Canary if I’m in the house but the app doesn’t have that functionality and there is no public API. I then discovered that Canary have partnered with <a href="http://www.wink.com">Wink</a>, a platform that allows multiple devices to connect together so you can do things like have the lights turn on when motion is detected. This is really useful and does allow for the sort of scheduling I’d envisioned, but then I came up with a better solution; tying it into my existing HomeKit routine.</p>
+
+<p>I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">blogged about HomeKit before</a> and specifically about <a href="https://github.com/nfarina/homebridge">Homebridge</a> which allows you to get non-HomeKit enabled devices to work with the system. Canary is not a HomeKit enabled device and with no open API it wasn’t possible for me to write a plugin. However, Wink does have an <a href="https://github.com/KraigM/homebridge-wink">existing Homebridge plugin</a> allowing you to control most devices connected to Wink via HomeKit. Unfortunately, HomeKit doesn’t support cameras and so neither does that Wink plugin. Back to the drawing board!</p>
+
+<p>After a bit of tinkering, I realised I could just re-purpose an existing supported HomeKit protocol; locks. In HomeKit, locks are basic binary operators that are either “secured” or “unsecured”. This works perfectly for my Canary as I could denote it as a doorlock and then have “secured” equal “armed”, and “unsecured” equal “privacy”. After a few minutes, I managed to fork the existing plugin and create a <a href="https://github.com/bendodson/homebridge-wink">new version with this hack in place</a>. Once downloaded, you just need to add the following platform in your Homebridge config file:</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;homebridge-wink.Wink&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Wink&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;client_id&quot;</span><span class="p">:</span> <span class="s2">&quot;quirky_wink_android_app&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;client_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;e749124ad386a5a35c0ab554a4f2c045&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-USERNAME-HERE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-PASSWORD-HERE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;hide_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="nt">&quot;hide_ids&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span></code></pre></div>
+
+<p><em>(Sidenote: most of my time tonight was spent trying to find a client_id and client_secret to use for the config. To get these, you usually have to email Wink with response times being around 7-10 days. I decided to rip it out of the Android app instead…)</em></p>
+
+<p>Once you restart Homebridge, any of your Canary devices in Wink should show up in HomeKit automatically. You can then say something like “Hey Siri, lock the living room” to arm the Canary. I personally like to use HomeKit scenes which allow me to control the Canary automatically with my existing “good morning” and “good night” Siri phrases. I find this much more reliable than a schedule as I already use these phrases every time I go to bed and wake up in order to turn my lights on and off (whereas a schedule might turn the camera on whilst we’re still awake or turn it off before we get up).</p>
+
+<p>Hopefully in the future we’ll see a public API for Canary and support for cameras in HomeKit so I can make this slightly less hacky but it works for now and means I’ll no longer forget to disable privacy mode at night. If you’re interested in trying this setup yourself, <a href="https://github.com/bendodson/homebridge-wink">check out the plugin on GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:disarmed">
+      <p>The use case for this is things like capturing a babies first steps, the sort of thing you could easily miss but can easily find in the 12-hour log of a practically always-on camera. <a href="#fnref:disarmed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:morning">
+      <p>And I often forget to turn it off when I get up which means my wife and I get a notification of me groggily letting the dogs out every morning. <a href="#fnref:morning" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">The Divide #10 - Let us loop you in. Again.</a></h1>
+			
+			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">March 23, 2016</a></time>
+    	</header>
+    	<div>
+			<p>The 10th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss Apple’s ‘Let us loop you in’ event<sup id="fnref:wrong"><a href="#fn:wrong" class="footnote">1</a></sup>. Chris has a rant about his internet provider (before promptly being disconnected), I talk about Twilight Princess HD, and John gets excited about a box of replacement Apple Pencil nibs…</p>
+
+<p>You can get The Divide from these fine outlets:</p>
+
+<ul>
+  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
+  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
+  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
+  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
+</ul>
+
+<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:wrong">
+      <p>Where my big prediction of “there will be an updated processor for the Apple Watch” proved utterly incorrect. <a href="#fnref:wrong" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -369,127 +474,6 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
 <p><strong>Update, 10th Mar 2016:</strong> <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> has put together some code in order to provide this list as a JSON file instead of a plist; he also has a Node JS implementation to scrape this information regularly from the iTunes Affiliate Link Website. <a href="https://github.com/loretoparisi/itunes-countrycode-node">Check it out on GitHub</a>.</p>
 
 <p><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code>s=143444</code> instead of <code>country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Details on the iOS 9.3 Media Library additions</a></h1>
-			
-			<time datetime="2016-02-23" pubdate=""><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">February 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p><strong>UPDATE: Thanks to my raising this privacy concern, <a href="https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Apple have resolved this issue as of iOS 10</a>. I’ve left the old post below for posterity.</strong></p>
-
-<p>Due to my <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">article on music library security on iOS</a>, I’ve found myself in the position of being misquoted or misunderstood on sites such as <a href="http://appleinsider.com/articles/16/02/18/inside-ios-93-apple-will-allow-third-party-apps-to-add-music-to-your-icloud-music-library">AppleInsider</a> (mainly in the comments) with regards to the new media library APIs in iOS 9.3. This article is intended to clear up some misunderstandings that people have about these new APIs.</p>
-
-<p>In iOS 9.3, there are several additions to the music library. Indeed, it is the first item listed in the <a href="https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9_3.html#//apple_ref/doc/uid/TP40016661-SW1">What’s New in iOS 9.3</a> developer document:</p>
-
-<blockquote>
-  <p><em>New methods in the Media Player and StoreKit frameworks let you add an Apple Music track to the music library and play it. First, use the SKCloudServiceController API to determine the current capabilities, such as if the device allows playback of Apple Music catalog tracks and the addition of tracks to the library. Then, you can use the MPMediaLibrary method addItemWithProductID:completionHandler: to add a track to the library and the MPMusicPlayerController method setQueueWithStoreIDs: to play a track.</em></p>
-</blockquote>
-
-<p>Firstly, the StoreKit framework has been updated to include an <code>SKCloudServiceController</code> which basically gives an app the opportunity to request access to a user’s media library and to check if they have the ability to stream Apple Music tracks and / or add those tracks to their iCloud Music library.</p>
-
-<p>Next, <code>MPMusicPlayerController</code> has been updated with a new method named <code>setQueueWithStoreIDs</code> which allows you to basically hand over an array of Apple Music identifiers and have those play instantly in the Music app without leaving your own app. Interestingly, this allows you to Rickroll someone in just a few lines of code:</p>
-
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">trackID</span> <span class="o">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
-    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">setQueueWithStoreIDs</span><span class="p">([</span><span class="n">trackID</span><span class="p">])</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
-<span class="p">}</span></code></pre></div>
-
-<p>This API, whilst interesting, has a few issues; the identifiers for music tracks are different for each country so a US track will not play on a UK Apple Music account<sup id="fnref:storeidentifier"><a href="#fn:storeidentifier" class="footnote">1</a></sup>. There is also no error handling so it’ll just silently fail if you give it an incorrect identifier or one from the wrong store.</p>
-
-<p>The final new addition is to <code>MPMediaLibrary</code> and is a method named <code>addItemWithProductID:completionHandler:</code>. This allows you to add an Apple Music track to the user’s library as long as they gave permission via the <code>SKCloudServiceController</code> and they have a valid Apple Music account. I had some issues getting this working on an iPhone 5c but it worked just fine on an iPad Pro leading me to think this may be an API limited to 64-bit devices (although this is still in beta so that may change). However, the API does not allow you to add MP3s to your library or import Spotify tracks or anything like that; it is just a way to add Apple Music tracks to your library. Why is that useful? The scenario I envision is that it is for apps like Shazam that identify music and then traditionally give you a link to go and see it in Apple Music or the iTunes Store. With this new API, those apps can now add a button such as “add this track to your library?” which will allow them to automatically add the Apple Music track to the media library.</p>
-
-<p>The new APIs do not do any of the following things:</p>
-
-<ul>
-  <li>They do not allow apps to add music to your library if you are not using Apple Music</li>
-  <li>They do not allow apps to add music to your library that is not available on Apple Music</li>
-  <li>They do not allow apps to delete music from your library</li>
-  <li>They do not allow apps to edit metadata on any music in your library (i.e. changing title, artist, genre, rating, artwork)</li>
-</ul>
-
-<p>Crucially, and linking this back to my previous article, <strong>this new permissions system is only for the new “add Apple Music tracks to your library API”; apps do not require permission to scan through your library</strong>. I’m still hopeful this will be addressed as at present the ‘Privacy’ settings screen in iOS 9.3 is incredibly misleading:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/music-library-privacy.jpg" width="800" height="533" /></p>
-
-<p>I take serious issue with the phrase <em>“Apps that have requested access to your media library will appear here”</em> because it makes it sound like apps require permission to access your library which is just not true. My <a href="https://dodoapps.io/music-tracker/">Music Tracker</a> app continues to work unimpeded on iOS 9.3 with no need to request access and, as demonstrated above, you can start playing streamed music in the Music app without authorization. This is all true as of iOS 9.3 beta 4 so hopefully it may get resolved before the final version of iOS 9.3 is released next month.</p>
-
-<p>(<strong>Update:</strong> This was not resolved in the public version of iOS 9.3)</p>
-
-<p>If you have any queries about how these new APIs work or how they will or won’t affect your media library, <a href="https://bendodson.com/contact/">please feel free to contact me</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:storeidentifier">
-      <strike>There is a new API to give you a storefront identifier (mine is "143444,29") but I'm not sure how you translate to a single language like "gb" for use with the iTunes Search API - if anyone can shed some light on that, please let me know!</strike>
-      <p><strong>Update, 10th Mar 2016:</strong> Thanks to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for making me aware of the <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Link website</a> which contains a full list of the store identifiers and their respective ISO country codes which can be used with the iTunes Search API. I’ve <a href="https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">put together a simple class</a> to take care of this automatically. <br /><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code>s=143444</code> instead of <code>country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>. <a href="#fnref:storeidentifier" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/02/17/divide-8-drunkstarter-crowdfunding/">The Divide #8 - Drunkstarter: A discussion on crowdfunding</a></h1>
-			
-			<time datetime="2016-02-17" pubdate=""><a href="/weblog/2016/02/17/divide-8-drunkstarter-crowdfunding/">February 17, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 8th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss crowdfunding<sup id="fnref:crowdfunding"><a href="#fn:crowdfunding" class="footnote">1</a></sup> along with some of our favourite Kickstarter campaigns. We also check in on Mass Effect 4 pricing, dissect the iPhone <em>Code 53</em> issue, and wonder if Nicolas Cage movies can fix online dating.</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:crowdfunding">
-      <p>Chris hasn’t tried it, John loves it, and I hate it. <a href="#fnref:crowdfunding" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/02/16/music-tracker-and-pocket-rocket-1-1/">Music Tracker v1.1 and Pocket Rocket v1.1 Released</a></h1>
-			
-			<time datetime="2016-02-16" pubdate=""><a href="/weblog/2016/02/16/music-tracker-and-pocket-rocket-1-1/">February 16, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Last week, version 1.1 of both <a href="https://dodoapps.io/music-tracker/">Music Tracker</a> and <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a> were released in the App Store.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/dodo/music-tracker-ipad.jpg" width="800" height="531" /></p>
-
-<p>The main new feature for Music Tracker v1.1 is native support for iPad. This includes not only the iPad Air and iPad Pro, but also all of the various split-screen modes that can be applied in both portrait and landscape. This release also includes landscape support for the iPhone. There were also a few minor bug fixes.</p>
-
-<p>I’m aware that a few people with large libraries (anything over ~25000 tracks) are experiencing some performance issues which can cause the automatic tracking to fail; a new update is under development to fix that. If you have a large library and would like to test that release, please <a href="https://bendodson.com/contact/">let me know</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/dodo/pocket-rocket-settings.jpg" width="800" height="550" /></p>
-
-<p>Pocket Rocket v1.1 adds a few features that were requested from existing customers. These include the ability to see the total number of unread articles on the app icon and using Background App Refresh to keep that count up-to-date. There are also a few bug fixes (including a big one that crashed the app with certain query strings in URLs) and a 3D Touch Quick Action (for iPhone 6s) so you can see when the articles were last updated.</p>
-
-<p>If there are any features you’d like to see added to either Pocket Rocket or Music Tracker, please <a href="https://bendodson.com/contact">get in touch</a>.</p>
 
 		</div>
 	</article>

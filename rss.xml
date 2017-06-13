@@ -6,9 +6,86 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 19 Apr 2017 18:00:18 +0100</pubDate>
-    <lastBuildDate>Wed, 19 Apr 2017 18:00:18 +0100</lastBuildDate>
+    <pubDate>Tue, 13 Jun 2017 13:33:40 +0100</pubDate>
+    <lastBuildDate>Tue, 13 Jun 2017 13:33:40 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Great British Bee Count 2017</title>
+      <link>https://bendodson.com/weblog/2017/05/19/gbbc-2017/</link>
+      <pubDate>Fri, 19 May 2017 14:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/05/19/gbbc-2017/</guid>
+      <description>&lt;p&gt;For the past couple of years, I have worked with Two Thirds Water on the &lt;a href=&quot;https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8&quot;&gt;Great British Bee Count&lt;/a&gt; iOS app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2017:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/gbbc-2017.jpg&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The main update has been a completely new design which fits the more modern “flat” design which was made popular by iOS 7 whilst also putting the navigation within easy thumb reach even on plus-sized devices. There are also many new functionality changes such as an improved bee picker and fact files on each type of bee that can give you a lot more information.&lt;/p&gt;
+
+&lt;p&gt;As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch&lt;sup id=&quot;fnref:scratch&quot;&gt;&lt;a href=&quot;#fn:scratch&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background&lt;sup id=&quot;fnref:background&quot;&gt;&lt;a href=&quot;#fn:background&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can check out the &lt;a href=&quot;https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8&quot;&gt;Great British Bee Count on the App Store&lt;/a&gt; (it’s free) or &lt;a href=&quot;http://www.foe.co.uk/page/join-great-british-bee-count-today&quot;&gt;learn more about the bee cause&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:scratch&quot;&gt;
+      &lt;p&gt;This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. &lt;a href=&quot;#fnref:scratch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:background&quot;&gt;
+      &lt;p&gt;For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. &lt;a href=&quot;#fnref:background&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Reaction Cam</title>
+      <link>https://bendodson.com/weblog/2017/05/10/reaction-cam/</link>
+      <pubDate>Wed, 10 May 2017 10:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/05/10/reaction-cam/</guid>
+      <description>&lt;p&gt;I’m very pleased to announce the release of a new client app I’ve been working on over the past couple of months: &lt;a href=&quot;https://bendodson.s3.amazonaws.com/app-store.png&quot;&gt;Reaction Cam&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/reactioncam.jpg&quot; width=&quot;800&quot; height=&quot;426&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I was hired by Elliott Brock to build Reaction Cam, an easy-to-use app that allows you to quickly record and share your reaction to anything from video to content in a browser. Due to the limitations of iOS sandboxing, this was an immense technical challenge but the end result is incredibly slick with the power to record a reaction and the content on screen at the same time. Once recording is complete, you can edit your reaction and the content by trimming and rotating as well as swapping what is used as the “picture in picture” recording (or disabling it altogether)&lt;sup id=&quot;fnref:pip&quot;&gt;&lt;a href=&quot;#fn:pip&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. A single file is exported at the end of the process for easy sharing with friends on social media.&lt;/p&gt;
+
+&lt;p&gt;Supported media for reacting to includes video (both saved on device and online), photos (complete with a swipeable scrolling interface), and a full browser for viewing everything from tweets to blog posts. In addition to the app, I also built an API and an admin system so that Elliott could handpick recommended videos to react to as well as publishing some of the reactions that had been recorded with the app.&lt;/p&gt;
+
+&lt;p&gt;I was given a very loose spec and so I designed the app and worked out all of the UX myself; I even designed the app icon! Reaction Cam is built in Swift 3.1 and makes use of the latest features in iOS 10 to allow it to run quickly on all of the various iOS devices with full scaling support for every screen size.&lt;/p&gt;
+
+&lt;p&gt;I really enjoyed working with Elliott on Reaction Cam and hope that people will find it to be a best-in-class app for reaction recording. You can download &lt;a href=&quot;https://bendodson.s3.amazonaws.com/app-store.png&quot;&gt;Reaction Cam on the App Store&lt;/a&gt; and learn more about it on the &lt;a href=&quot;http://reactioncamtv.moonfruit.com/&quot;&gt;Reaction Cam website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:pip&quot;&gt;
+      &lt;p&gt;Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). &lt;a href=&quot;#fnref:pip&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>AlcoPath</title>
+      <link>https://bendodson.com/weblog/2017/03/27/alcopath/</link>
+      <pubDate>Mon, 27 Mar 2017 11:30:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/03/27/alcopath/</guid>
+      <description>&lt;p&gt;I’m pleased to announce the release of a new client app I’ve been working on for the past few weeks: &lt;a href=&quot;https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8&quot;&gt;AlcoPath&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/alcopath.jpg&quot; width=&quot;800&quot; height=&quot;426&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I worked on AlcoPath for &lt;a href=&quot;http://www.orbismedia.co.uk&quot;&gt;Orbis Media&lt;/a&gt; as a freelance iOS developer. The app was designed in consultation with the the Nottinghamshire Healthcare NHS Foundation Trust and features a WEKP Cognitive Assessment (incorporating 6CIT, Ataxia test, Opthalmoplegia test, and other associated risk factors) to diagnose Wernicke’s encephalopathy, a Withdrawal Assessment for Alcohol using a revised CIWA-Ar scale, and industry recommended pathways all in-line with NICE Guidance.&lt;/p&gt;
+
+&lt;p&gt;The app is available for free and can be used by clinical staff on both iPhone and iPad thanks to a scaling interface suitable for all device sizes. An A4-sized PDF can be generated with the personalised results of each assessment and this can be printed directly from the app. Push notifications were also integrated to inform users quickly of any updates.&lt;/p&gt;
+
+&lt;p&gt;In order to render the various assessment questions efficiently and accurately, I built a local PHP-based tool to input the various questions and output a JSON file that the app would then interpret to build each question and the various ways of answering be that with a toggle, multiple selection, or text entry. This prevented the need for the app to connect to an online database but also enabled me to make prompt updates should new questions need to be added or existing questions be edited in the future.&lt;/p&gt;
+
+&lt;p&gt;It was a great experience working with Orbis Media on this app and the feedback from clinicians has been great so far. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8&quot;&gt;AlcoPath on the App Store&lt;/a&gt; and learn more about it at &lt;a href=&quot;http://www.alcopath.co.uk/&quot;&gt;AlcoPath.co.uk&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Building tools for Kylo Ben</title>
@@ -1138,73 +1215,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The Divide #14 - WWDC 2016, 'iTunes with tabs'</title>
-      <link>https://bendodson.com/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/</link>
-      <pubDate>Wed, 15 Jun 2016 10:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/</guid>
-      <description>&lt;p&gt;The &lt;a href=&quot;http://thedivide.co.uk/episodes/14&quot;&gt;14th episode of The Divide podcast&lt;/a&gt; is now available in which we take look at the new announcements about watchOS, tvOS, macOS, and iOS in a special episode almost as long as the WWDC keynote itself. We also have a brief chat about the latest news from E3 and Chris gets upset about the Stay Puft Marshmallow Man.&lt;/p&gt;
-
-&lt;p&gt;You can get The Divide from these fine outlets:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://itunes.apple.com/gb/podcast/the-divide/id1063410638&quot;&gt;iTunes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://overcast.fm/itunes1063410638/the-divide&quot;&gt;Overcast&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://thedivide.co.uk/shows/itunes.xml&quot;&gt;RSS&lt;/a&gt; (for other podcast readers)&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://thedivide.co.uk/&quot;&gt;The Divide website&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Don’t forget to leave a review on iTunes and follow us on Twitter via &lt;a href=&quot;http://twitter.com/PodcastDivide&quot;&gt;@PodcastDivide&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>iOS 10 Wishlist</title>
-      <link>https://bendodson.com/weblog/2016/06/07/ios-10-wishlist/</link>
-      <pubDate>Tue, 07 Jun 2016 13:30:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/06/07/ios-10-wishlist/</guid>
-      <description>&lt;p&gt;I was recently interviewed by Fast Company for an article they wrote about iOS features they’d like to see at WWDC this year. A couple of my suggestions were &lt;a href=&quot;http://www.fastcompany.com/3060377/wwdc/10-ios-features-wed-love-to-see-apple-announce-at-wwdc&quot;&gt;featured in the article&lt;/a&gt; but I thought I’d publish my full iOS 10 wishlist.&lt;/p&gt;
-
-&lt;h3 id=&quot;system-defaults&quot;&gt;System Defaults&lt;/h3&gt;
-&lt;p&gt;One of the things that I feel has been long missing from iOS is the ability to choose a default app for certain tasks such as email, web browser, phone, or notes. I would love to see a way for developers to make their app conform to some set of standards that would allow them to be selected as a default app. For example, Skype could conform to the “phone app” standard so when you tap a phone number in your mail app it’ll launch Skype and dial the number rather than using the Phone app. Similarly, email links could go to Polymail and web links to Chrome.&lt;/p&gt;
-
-&lt;h3 id=&quot;siri-api&quot;&gt;Siri API&lt;/h3&gt;
-&lt;p&gt;I’ve long wanted a full API for Siri but so far there hasn’t even been a stepping stone. I imagine the first phase would go hand in hand with the System Defaults plan I outlined and that apps that adopt a certain standard would be able to show up in Siri. For example, if Spotify conformed to being a “music app” then saying “&lt;em&gt;Hey Siri, Play C’est La Via by B*Witched&lt;/em&gt;” would start that track playing in Spotify rather than Music.&lt;/p&gt;
-
-&lt;h3 id=&quot;control-center-buttons&quot;&gt;Control Center Buttons&lt;/h3&gt;
-&lt;p&gt;When you swipe up from the bottom of the screen on iOS, you get Control Center which gives you quick access to certain features (like WiFi), controls (for music / video), and apps (Torch, Timer, etc). I’d like the ability to a) use 3D touch to get more options when using the features section (so I can choose a new WiFi network) and b) be able to choose the apps and features that show up in that area. I never need quick access to the calculator.&lt;/p&gt;
-
-&lt;h3 id=&quot;carplay&quot;&gt;CarPlay&lt;/h3&gt;
-&lt;p&gt;I’ve been using CarPlay for around a year now (via an after market &lt;a href=&quot;http://www.alpine.co.uk/p/Products/digital-media-receiver-4660/ilx-700&quot;&gt;Alpine iLX-700&lt;/a&gt;) and I absolutely love it. However, 3rd party apps are limited to a few selected audio apps like Spotify and Overcast which use a simple template that doesn’t work very well. I’d like to see support for any 3rd party app to use CarPlay and for it to use UIKit so that any interface can be displayed. &lt;a href=&quot;https://twitter.com/bendodson/status/712573913977524224&quot;&gt;I noticed in March&lt;/a&gt; that iOS 9.3 added a &lt;code&gt;UIUserInterfaceIdiom&lt;/code&gt; for CarPlay so hopefully this is coming.&lt;/p&gt;
-
-&lt;h3 id=&quot;airplay&quot;&gt;AirPlay&lt;/h3&gt;
-&lt;p&gt;I have a number of AirPlay devices around the house and one of the things that frustrates me most is that I can’t use Siri to control them. I’d like to be able to say “Hey Siri, play my cooking playlist in the kitchen” and have it just work. I’ve been able to &lt;a href=&quot;https://bendodson.com/weblog/2016/05/24/homekit-and-airplay/&quot;&gt;hack this functionality together&lt;/a&gt; via some Applescript and a fake HomeKit setup on my Mac called Homebridge but it’d be nice to have it built in natively. Also, iTunes on the Mac can AirPlay to multiple speakers at once whereas iOS can’t.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The Divide #13 - Consoles</title>
-      <link>https://bendodson.com/weblog/2016/05/25/divide-13-consoles/</link>
-      <pubDate>Wed, 25 May 2016 10:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/05/25/divide-13-consoles/</guid>
-      <description>&lt;p&gt;The &lt;a href=&quot;http://thedivide.co.uk/episodes/13&quot;&gt;13th episode of The Divide podcast&lt;/a&gt; is now available in which we discuss video game consoles from our first tentative steps in the 8-bit era to the almost HD consoles of the modern day. We also discuss the Flic button, Day of the Tentacle, the Nvidia GTX 1080, Stellaris, and our predictions for WWDC.&lt;/p&gt;
-
-&lt;p&gt;You can get The Divide from these fine outlets:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://itunes.apple.com/gb/podcast/the-divide/id1063410638&quot;&gt;iTunes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://overcast.fm/itunes1063410638/the-divide&quot;&gt;Overcast&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://thedivide.co.uk/shows/itunes.xml&quot;&gt;RSS&lt;/a&gt; (for other podcast readers)&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://thedivide.co.uk/&quot;&gt;The Divide website&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Don’t forget to leave a review on iTunes and follow us on Twitter via &lt;a href=&quot;http://twitter.com/PodcastDivide&quot;&gt;@PodcastDivide&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

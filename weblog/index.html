@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2017-01-10.css" />
+	<link rel="stylesheet" href="/styles-2017-06-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,92 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/05/19/gbbc-2017/">Great British Bee Count 2017</a></h1>
+			
+			<time datetime="2017-05-19" pubdate=""><a href="/weblog/2017/05/19/gbbc-2017/">May 19, 2017</a></time>
+    	</header>
+    	<div>
+			<p>For the past couple of years, I have worked with Two Thirds Water on the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count</a> iOS app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2017:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/gbbc-2017.jpg" width="800" height="500" /></p>
+
+<p>The main update has been a completely new design which fits the more modern “flat” design which was made popular by iOS 7 whilst also putting the navigation within easy thumb reach even on plus-sized devices. There are also many new functionality changes such as an improved bee picker and fact files on each type of bee that can give you a lot more information.</p>
+
+<p>As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch<sup id="fnref:scratch"><a href="#fn:scratch" class="footnote">1</a></sup> so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background<sup id="fnref:background"><a href="#fn:background" class="footnote">2</a></sup>.</p>
+
+<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:scratch">
+      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:background">
+      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/05/10/reaction-cam/">Reaction Cam</a></h1>
+			
+			<time datetime="2017-05-10" pubdate=""><a href="/weblog/2017/05/10/reaction-cam/">May 10, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’m very pleased to announce the release of a new client app I’ve been working on over the past couple of months: <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/reactioncam.jpg" width="800" height="426" /></p>
+
+<p>I was hired by Elliott Brock to build Reaction Cam, an easy-to-use app that allows you to quickly record and share your reaction to anything from video to content in a browser. Due to the limitations of iOS sandboxing, this was an immense technical challenge but the end result is incredibly slick with the power to record a reaction and the content on screen at the same time. Once recording is complete, you can edit your reaction and the content by trimming and rotating as well as swapping what is used as the “picture in picture” recording (or disabling it altogether)<sup id="fnref:pip"><a href="#fn:pip" class="footnote">1</a></sup>. A single file is exported at the end of the process for easy sharing with friends on social media.</p>
+
+<p>Supported media for reacting to includes video (both saved on device and online), photos (complete with a swipeable scrolling interface), and a full browser for viewing everything from tweets to blog posts. In addition to the app, I also built an API and an admin system so that Elliott could handpick recommended videos to react to as well as publishing some of the reactions that had been recorded with the app.</p>
+
+<p>I was given a very loose spec and so I designed the app and worked out all of the UX myself; I even designed the app icon! Reaction Cam is built in Swift 3.1 and makes use of the latest features in iOS 10 to allow it to run quickly on all of the various iOS devices with full scaling support for every screen size.</p>
+
+<p>I really enjoyed working with Elliott on Reaction Cam and hope that people will find it to be a best-in-class app for reaction recording. You can download <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam on the App Store</a> and learn more about it on the <a href="http://reactioncamtv.moonfruit.com/">Reaction Cam website</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:pip">
+      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/03/27/alcopath/">AlcoPath</a></h1>
+			
+			<time datetime="2017-03-27" pubdate=""><a href="/weblog/2017/03/27/alcopath/">March 27, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app I’ve been working on for the past few weeks: <a href="https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8">AlcoPath</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/alcopath.jpg" width="800" height="426" /></p>
+
+<p>I worked on AlcoPath for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed in consultation with the the Nottinghamshire Healthcare NHS Foundation Trust and features a WEKP Cognitive Assessment (incorporating 6CIT, Ataxia test, Opthalmoplegia test, and other associated risk factors) to diagnose Wernicke’s encephalopathy, a Withdrawal Assessment for Alcohol using a revised CIWA-Ar scale, and industry recommended pathways all in-line with NICE Guidance.</p>
+
+<p>The app is available for free and can be used by clinical staff on both iPhone and iPad thanks to a scaling interface suitable for all device sizes. An A4-sized PDF can be generated with the personalised results of each assessment and this can be printed directly from the app. Push notifications were also integrated to inform users quickly of any updates.</p>
+
+<p>In order to render the various assessment questions efficiently and accurately, I built a local PHP-based tool to input the various questions and output a JSON file that the app would then interpret to build each question and the various ways of answering be that with a toggle, multiple selection, or text entry. This prevented the need for the app to connect to an online database but also enabled me to make prompt updates should new questions need to be added or existing questions be edited in the future.</p>
+
+<p>It was a great experience working with Orbis Media on this app and the feedback from clinicians has been great so far. You can download <a href="https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8">AlcoPath on the App Store</a> and learn more about it at <a href="http://www.alcopath.co.uk/">AlcoPath.co.uk</a>.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -448,127 +534,6 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 <p>Once the app was completed, I was asked to build <a href="https://itunes.apple.com/gb/app/trimbook-update-manage-your/id1175348893?ls=1&amp;mt=8">TRIMbook</a>, an app for barbers which allows them to manage their appointments and availability. Once again, the app was built with Swift and I was key in both designing the UI and ensuring the API was being used efficiently. I worked closely with the Trim Ventures team to publish both apps on the App Store and also to run wider beta tests via TestFlight prior to launch.</p>
 
 <p>This was an interesting project to work on and I think the end product works well. You can <a href="https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8">download Booktrim from the App Store</a> or <a href="https://www.booktrim.com/">learn more on their website</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/11/15/dont-be-the-idea-person/">Don't be the idea person</a></h1>
-			
-			<time datetime="2016-11-15" pubdate=""><a href="/weblog/2016/11/15/dont-be-the-idea-person/">November 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been a fan of <a href="http://dilbert.com/">Dilbert</a> since the mid-‘90s<sup id="fnref:dilbert"><a href="#fn:dilbert" class="footnote">1</a></sup> and this week a lot of my friends (and some clients) sent me this strip from <a href="http://dilbert.com/strip/2016-11-13">November 13th</a>:</p>
-
-<p><a href="http://dilbert.com/strip/2016-11-13"><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dilbert.jpg" width="800" /></a></p>
-
-<p>Like most things, it’s funny because it’s true. I get several of these types of pitches per week and they never fail to amuse me. I’ve <a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">written about this in detail</a> previously but I still get people who believe they have the next big idea and that it is worth something.</p>
-
-<p>Ideas are worth nothing. Absolutely nothing. It is implementation that is worth something.</p>
-
-<p>The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week<sup id="fnref:incomplete"><a href="#fn:incomplete" class="footnote">2</a></sup>.</p>
-
-<p>If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS<sup id="fnref:apple"><a href="#fn:apple" class="footnote">3</a></sup>. Then, once you’ve understood the process, either pay a developer for a basic MVP<sup id="fnref:mvp"><a href="#fn:mvp" class="footnote">4</a></sup> or pitch to investors to get enough funding to build one.</p>
-
-<p>Don’t ever be “the idea person” and don’t ever expect other people to work for you for free. The world does not work that way.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:dilbert">
-      <p>I have around 14 compendium books of the strips; my favourite is entitled “<a href="https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/">Still Pumped From Using The Mouse</a>” (a reference to a calendar they were making about software developers). <a href="#fnref:dilbert" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:incomplete">
-      <p>“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” <a href="#fnref:incomplete" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:apple">
-      <p>“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. <a href="#fnref:apple" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:mvp">
-      <p>“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. <a href="#fnref:mvp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">Updates to iTunes Artwork Finder</a></h1>
-			
-			<time datetime="2016-11-08" pubdate=""><a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">November 08, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Last week, my <a href="https://bendodson.com/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> script stopped working due to some <a href="https://forums.developer.apple.com/message/192916">changes by Apple</a> with regards to rate limiting. In the past, searching for something on my site would cause my server to send a request to Apple and get the data back but with so many people using it my server would get blocked within a few seconds.</p>
-
-<p>After a brief shutdown<sup id="fnref:thanks"><a href="#fn:thanks" class="footnote">1</a></sup>, I’m happy to say that my iTunes Artwork Finder is now back up and running again thanks to a few tweaks. Now, instead of sending all requests from my server, it works like this:</p>
-
-<ol>
-  <li>When you enter a search term (i.e. “Fall out boy” albums in United Kingdom), that is sent to my server where I’ll generate the correct URL that is needed for Apple’s servers</li>
-  <li>Your browser then takes that URL to make the request directly to Apple</li>
-  <li>When the data is returned from Apple, the browser then sends it to my server for processing</li>
-  <li>Results are then displayed!</li>
-</ol>
-
-<p>This means that there are now 3 network requests instead of 1 but the crucial part is that all requests to Apple’s servers are now made from your own browser so the rate limiting shouldn’t be a problem<sup id="fnref:ratelimit"><a href="#fn:ratelimit" class="footnote">2</a></sup>.</p>
-
-<p>Whilst not an ideal solution, it does work and means I can keep everything running for a bit longer. I’m hopeful that Apple will alter how their rate limiting works as at the moment it seems a bit broken, especially with it being required for several apps with the new <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Apple Music APIs</a>.</p>
-
-<p>The code for the artwork finder is <a href="https://github.com/bendodson/itunes-artwork-finder">available on GitHub</a> although this uses the old PHP request system rather than my new version as that should be more than good enough for personal usage<sup id="fnref:personalusage"><a href="#fn:personalusage" class="footnote">3</a></sup>.</p>
-
-<p>If you run into any problems, <a href="https://bendodson.com/contact/">please get in touch</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:thanks">
-      <p>During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. <a href="#fnref:thanks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:ratelimit">
-      <p>Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. <a href="#fnref:ratelimit" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:personalusage">
-      <p>And if you want to do more than just personal usage you should <a href="https://bendodson.com/contact/">speak to me</a> first as I don’t really want people to create entire duplicates of my own project. <a href="#fnref:personalusage" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/29/dimensions/">Vortech</a></h1>
-			
-			<time datetime="2016-10-29" pubdate=""><a href="/weblog/2016/10/29/dimensions/">October 29, 2016</a></time>
-    	</header>
-    	<div>
-			<p><strong>Update <em>(9th Nov 2016):</em></strong> I’ve updated this article to reflect the new name for the app, Vortech. Whilst submitting a v1.0.1 update (adding support for some extra figures), Apple took issue with the name Dimensions so I had to change it…</p>
-
-<p>I’m very happy to announce that my latest self-published app, <a href="https://dodoapps.io/vortech/">Vortech</a>, is now <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">available on the App Store</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dimensions.jpg" width="800" height="542" /></p>
-
-<p>Vortech is a character and ability tracker for the videogame LEGO Dimensions. It allows you to easily see all 52 currently available characters (waves 1-6) and 73 abilities and track them in your own collection. Whilst there are other tracking apps available (namely the official LEGO Dimensions app), these tend not to be as easy to use and they don’t allow you to cross-reference the special abilities and powers of characters.</p>
-
-<p>I built the app as I would occassionally come across something that required a special ability and the game might show me a character with that ability. However, as I have a fairly large collection already, it is likely I have a character with the ability and just need to look up which one has it. For example, I might find an area in a level which requires the Sonar Smash ability and the game might show me the character Benny (from The LEGO Movie) as someone with this ability; with my app, I can quickly see who else has that abilty and find I have Marty McFly (from Back To The Future) who will do just as well!</p>
-
-<p>The entire app is built using Swift 3.0 and I use <a href="http://realm.io">Realm</a> as a mobile database containing all of the character information that I scraped from the official LEGO Dimensions website<sup id="fnref:legoscraper"><a href="#fn:legoscraper" class="footnote">1</a></sup>. I added a few nice touches such as Peek &amp; Pop support for 3D Touch enabled devices and taptic feedback for the iPhone 7 models. The app is completely free and contains no in-app purchases, adverts, or analytics tracking – it doesn’t even require an internet connection!</p>
-
-<p>You can download <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">Vortech on the App Store</a> and learn more about it on my <a href="https://dodoapps.io/vortech/">Dodo Apps website</a>.</p>
-
-<p>If you find Vortech useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can <a href="https://bendodson.com/contact/">contact me directly</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:legoscraper">
-      <p>I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. <a href="#fnref:legoscraper" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

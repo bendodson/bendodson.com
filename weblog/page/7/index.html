@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2017-01-10.css" />
+	<link rel="stylesheet" href="/styles-2017-06-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,98 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">The Divide #6 - The 'JJ Abrams' of game lists</a></h1>
+			
+			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">January 13, 2016</a></time>
+    	</header>
+    	<div>
+			<p>This week we’re back on schedule and episode 6 of <a href="http://thedivide.co.uk/">The Divide</a> is now available. Chris, John, and myself discuss over 40 games that are being released this year and pick out a few of our favourites including Crackdown 3, Final Fantasy XV, Zelda, Mass Effect, Street Fighter V, and Yooka-Laylee. We also spend some time discussing the Oculus Rift pre-order and I have a bit of a rant about the rumoured removal of the audio headphone jack from the next iPhone<sup id="fnref:headphone"><a href="#fn:headphone" class="footnote">1</a></sup>. Finally, Chris is still upset with JJ Abrams…</p>
+
+<p>You can get The Divide from these fine outlets:</p>
+
+<ul>
+  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
+  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
+  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
+  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
+</ul>
+
+<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a></p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:headphone">
+      <p>Short version: I’m cool with it being removed. <a href="#fnref:headphone" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">Fixing emoji footnote arrow bug in Jekyll</a></h1>
+			
+			<time datetime="2016-01-11" pubdate=""><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">January 11, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been using <a href="http://jekyllrb.com">Jekyll</a> as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes<sup id="fnref:footnotes"><a href="#fn:footnotes" class="footnote">1</a></sup>, the return arrow (↩︎) is converted into an emoji (<a href="http://emojipedia.org/leftwards-arrow-with-hook/️">↩️</a>) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.</p>
+
+<p>Firstly, this isn’t an issue with Jekyll but with <a href="http://kramdown.gettalong.org">kramdown</a> which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above<sup id="fnref:kramdown"><a href="#fn:kramdown" class="footnote">2</a></sup> that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your <code>_config.yml</code> file:</p>
+
+<pre><code>kramdown:
+  	  footnote_backlink: "&amp;#8617;&amp;#xfe0e;"
+</code></pre>
+
+<p>Regenerate your site and you should find that the emoji arrow is now back to a ↩︎.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:footnotes">
+      <p>like this one! <a href="#fnref:footnotes" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:kramdown">
+      <p>You may need to run <code>gem update kramdown</code> if you installed Jekyll a while ago. <a href="#fnref:kramdown" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/01/08/dodo-apps/">Dodo Apps</a></h1>
+			
+			<time datetime="2016-01-08" pubdate=""><a href="/weblog/2016/01/08/dodo-apps/">January 08, 2016</a></time>
+    	</header>
+    	<div>
+			<p>After <a href="https://bendodson.com/weblog/2015/09/25/the-times-they-are-a-changin/">selling WallaBee last year</a>, I changed my company name to <strong>Dodo Apps Ltd</strong>. Now that I’m publishing my own apps again (in addition to my freelance work), it seemed time for me to make a few changes to my website.</p>
+
+<p>Today I’ve updated bendodson.com so that my <a href="https://bendodson.com/clients/">client work</a> and my <a href="https://bendodson.com/apps/">self-published apps</a> are now in separate sections<sup id="fnref:photos"><a href="#fn:photos" class="footnote">1</a></sup>. I have also created a new site at <a href="https://dodoapps.io">dodoapps.io</a> to advertise my own apps that are currently available in the App Store<sup id="fnref:musictracker"><a href="#fn:musictracker" class="footnote">2</a></sup>.</p>
+
+<p>I am currently available for freelance work from February 2016. For more details, please <a href="/contact/">contact me</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:photos">
+      <p>My more recent apps also have some nice photos or screenshots to show them off a bit better. <a href="#fnref:photos" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:musictracker">
+      <p>Including a sneak peek of my upcoming “Music Tracker” app… <a href="#fnref:musictracker" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -288,157 +380,6 @@ There is a huge amount of paid work available to freelance developers and it pay
     </li>
     <li id="fn:legal">
       <p>It doesn’t look like a takedown notice so maybe the account was deleted for some other video and this disappeared along with it. <a href="#fnref:legal" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">Using the Siri Remote with the Apple TV Simulator</a></h1>
-			
-			<time datetime="2015-12-09" pubdate=""><a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">December 09, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been working on a tvOS app for a client recently which has led to a lot of time spent building to both the Apple TV hardware and simulator. Whilst the simulator is very good for basic testing, the simulated remote can be a bit tricky to use and so I was very pleased to discover today that the physical Siri Remote can be used with the Apple TV Simulator on El Capitan. All you have to do is pair your Siri Remote to your Mac and it’ll work in the simulator just like it does with the real thing.</p>
-
-<p>The full set of steps are as follows:</p>
-
-<ol>
-  <li>
-    <p>Unpair your remote from your existing Apple TV (if applicable) by holding down the menu button and volume up button for around 5-10 seconds whilst the Apple TV is unplugged or otherwise out of Bluetooth range<sup id="fnref:pairing"><a href="#fn:pairing" class="footnote">1</a></sup>.</p>
-  </li>
-  <li>
-    <p>Open up the Bluetooth settings panel in OS X; you should see a device with no details other than a mac address. Pair it.</p>
-  </li>
-  <li>
-    <p>Profit! Your Siri Remote is now paired and can be used in the simulator.</p>
-  </li>
-</ol>
-
-<p>I have a 1080p external monitor plugged into my iMac 5k and so if I run the Apple TV simulator on that in fullscreen mode it feels almost exactly like using the real hardware. This could be a good stop gap for those on a budget as you could just <a href="http://www.apple.com/uk/shop/product/MLLC2ZM/A/siri-remote">buy a Siri Remote</a> for testing rather than the whole Apple TV<sup id="fnref:budget"><a href="#fn:budget" class="footnote">2</a></sup>. You should always test your apps on real hardware of course but this is a useful trick nonetheless.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:pairing">
-      <p>Otherwise it’ll just unpair and repair very quickly - a frustrating way to spend 15 minutes on a Wednesday morning! <a href="#fnref:pairing" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:budget">
-      <p>Or for developers who simply don’t want a second Apple TV. I’ve been moving mine between my office and living room for the past week and considered getting a second “development only” Apple TV to avoid this minor irritation; buying just a second remote seems a wiser investment. <a href="#fnref:budget" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/02/introducing-the-divide/">Introducing 'The Divide'</a></h1>
-			
-			<time datetime="2015-12-02" pubdate=""><a href="/weblog/2015/12/02/introducing-the-divide/">December 02, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">The Divide</a>, a new podcast I’ve been working on recently, is now available on <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/the-divide.jpg" width="800" height="606" /></p>
-
-<p>Every two weeks, myself, <a href="http://misterford.co.uk/">Mr Christopher Ford</a>, and <a href="http://johnwordsworth.com/">Dr John Wordsworth</a> will discuss a particular topic that is of interest to us for around an hour. The topics of our first three shows (which are available now) are:</p>
-
-<ul>
-  <li>
-    <p><strong>Episode 1, The Phantom Keeper</strong>: A round-table discussion of our favourite PC games with each of us allowed to bring two for consideration</p>
-  </li>
-  <li>
-    <p><strong>Three Geeks and a Toddler</strong>: A debate about our current computer setup and whether we can see a tablet replacing our laptops</p>
-  </li>
-  <li>
-    <p><strong>Fitting in with all of the stereotypes</strong>: We discuss media in the digital age including films, tv, music, magazines, books, and comics.</p>
-  </li>
-</ul>
-
-<p>You can <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">subscribe on iTunes</a>, <a href="https://overcast.fm/itunes1063410638/the-divide">listed online with Overcast</a>, or by directing your podcast app of choice<sup id="fnref:overcast"><a href="#fn:overcast" class="footnote">1</a></sup> to <a href="http://thedivide.co.uk/shows/itunes.xml">our XML Feed</a>. Alternatively, you can download the MP3 files directly from <a href="http://thedivide.co.uk/">The Divide website</a>.</p>
-
-<p>These first few episodes, whilst not perfect<sup id="fnref:perfect"><a href="#fn:perfect" class="footnote">2</a></sup>, have been a lot of fun to record and hopefully you’ll enjoy them. If you have feedback, questions, or want to suggest a topic, you can chat to us on <a href="https://twitter.com/PodcastDivide">Twitter via @PodcastDivide</a>. Our next episode should go live on Wednesday 16th December.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:overcast">
-      <p>I personally use <a href="https://overcast.fm">Overcast</a>. <a href="#fnref:overcast" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:perfect">
-      <p>There are a few minor mic issues which we’ve fixed now and our second episode has an unscheduled drop-in from a hungry toddler. <a href="#fnref:perfect" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">HomeKit enabled Christmas tree lights with Siri control</a></h1>
-			
-			<time datetime="2015-12-01" pubdate=""><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">December 01, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Every year we seem to buy a bigger Christmas tree. This year is no exception and it is now proving difficult to maneuver around it to turn the lights on and off. To fix this, I’ve connected my lights up to a <a href="http://www.belkin.com/uk/F7C027/p/P-F7C027/">Belkin WeMo</a> and I’m running the excellent <a href="https://github.com/nfarina/homebridge">Homebridge</a><sup id="fnref:luke"><a href="#fn:luke" class="footnote">1</a></sup> server so that I can control it all via Siri:</p>
-
-<iframe width="800" height="450" src="https://www.youtube.com/embed/xBuMQ-PMyeY?rel=0" frameborder="0" allowfullscreen=""></iframe>
-
-<p>To get this up and running on your own machine, you’ll need to do the following in the Mac Terminal:</p>
-
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
-brew install node
-sudo npm install -g homebridge
-sudo npm install -g homebridge-wemo
-homebridge</code></pre></div>
-
-<p>This will install brew, install node, install Homebridge, install the WeMo plugin for Homebridge, and then attempt to run Homebridge (which will fail as you have no config file). Next, you’ll want to go to <code>~/.homebridge</code> and create a config.json file that looks like this:</p>
-
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;bridge&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Homebridge&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;CC:22:3D:E3:CE:30&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">51826</span><span class="p">,</span>
-        <span class="nt">&quot;pin&quot;</span><span class="p">:</span> <span class="s2">&quot;031-45-154&quot;</span>
-    <span class="p">},</span>
-    
-    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This is an example configuration file with all supported devices. You can use this as a template for creating your own configuration file containing devices you actually own.&quot;</span><span class="p">,</span>
-
-    <span class="nt">&quot;accessories&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;WeMo&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Christmas Tree&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This shim supports Belkin WeMo devices on the same network as this server. You can create duplicate entries for this device and change the &#39;name&#39; attribute to reflect what device is plugged into the WeMo, for instance &#39;Air Conditioner&#39; or &#39;Coffee Maker&#39;. This name will be used by Siri. Make sure to update the &#39;wemo_name&#39; attribute with the EXACT name of the device in the WeMo app itself. This can be the same value as &#39;name&#39; but it doesn&#39;t have to be.&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;wemo_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Christmas Tree&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span></code></pre></div>
-
-<p>The important part is to make sure that the <code>wemo_name</code> matches the name of your device within the WeMo app; the <code>name</code> attribute is what you want your device to be called on HomeKit. Run the <code>homebridge</code> command again and you should see that your device is found and Homebridge is running.</p>
-
-<p>Next, you’ll need to get a HomeKit enabled app to run all of this. My recommendation is to use the one that Apple provides to developers, <a href="https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html">HomeKit Catalog</a>, although that will require you to know how to sideload apps from Xcode. Alternatively you can download the <a href="https://itunes.apple.com/app/elgato-eve/id917695792">Elgato Eve app</a>. Once you have an app, you’ll need to add the Homebridge using the pin that is in your config file. You can play around with the app and create rooms, scenes, zones, etc, but for now the basic commands should work. If you can turn your device on and off via the HomeKit enabled app, you will be able to activate Siri and say “<em>turn on the Christmas tree</em>”, “<em>turn off the Christmas tree</em>”, and “<em>is the Christmas tree on?</em>”.</p>
-
-<p>Added bonus: if you have an Apple TV, you are signed into iCloud, and you use iCloud keychain, then you’ll be able to use all of these voice commands when you’re outside of your house! It’s a pretty useful way to activate these devices and I have several of them dotted around my home<sup id="fnref:straighteners"><a href="#fn:straighteners" class="footnote">2</a></sup>. Homebridge also supports many other services such as Philips Hue (without the need for their HomeKit bridge) and you can write your own plugins very easily<sup id="fnref:prismatik"><a href="#fn:prismatik" class="footnote">3</a></sup>.</p>
-
-<p>My next task is to dig out some code I wrote last year to turn the tree lights on and off automatically depending on if I’m in the house using an iBeacon…</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:luke">
-      <p>Hat tip to <a href="http://lukeredpath.co.uk/">Luke Redpath</a> for introducing me to Homebridge. <a href="#fnref:luke" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:straighteners">
-      <p>After my wife asked me for the 62nd time if she’d left her straighteners plugged in whilst we were driving in the car, I set up the plug near her dresser with a WeMo so she can use Siri to ask “<em>are my straighteners turned on?</em>” and “<em>turn off the straighteners</em>” if need be! <a href="#fnref:straighteners" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:prismatik">
-      <p>I’ve written a <a href="https://github.com/bendodson/homebridge-prismatik">very basic plugin</a> for the <a href="http://lightpack.tv/">Prismatik Light Pack</a>. <a href="#fnref:prismatik" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

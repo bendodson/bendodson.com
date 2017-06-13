@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2017-01-10.css" />
+	<link rel="stylesheet" href="/styles-2017-06-13.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,419 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">Using a physical button (Flic) with HomeKit scenes and triggers</a></h1>
+			
+			<time datetime="2016-05-18" pubdate=""><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">May 18, 2016</a></time>
+    	</header>
+    	<div>
+			<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff"><a href="#fn:stuff" class="footnote">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
+
+<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing"><a href="#fn:phrasing" class="footnote">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
+
+<p>Over the past few months, I’ve been <a href="https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/">dabbling with HomeKit scenes</a> so that I can control groups of devices all at once like so:</p>
+
+<blockquote>
+  <p><strong>Good Morning</strong></p>
+
+  <ul>
+    <li>Turns on downstairs lights</li>
+    <li>Starts playing my “morning” playlist in kitchen via AirPlay</li>
+    <li>Disables security cameras</li>
+  </ul>
+
+  <p><strong>Good Night</strong></p>
+
+  <ul>
+    <li>Turns off all lights (including bedside table lamp)</li>
+    <li>Stops any playing music</li>
+    <li>Enables security cameras</li>
+  </ul>
+</blockquote>
+
+<p>This has been working well but I frequently forget to use scenes as many of these things can be controlled in other ways. For example, I might turn off the downstairs lights with my Hue Dimmer Switch and then turn off the bedside table lamp via the Hue today widget which means I forget to activate the security cameras. The eventual solution I’ve come up with is a simple push button (from <a href="http://flic.io/">Flic</a>) stuck under my bedside table that toggles between my <em>Good Morning</em> and <em>Good Night</em> scenes. In this article, I’ll tell you how I did it!</p>
+
+<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy"><a href="#fn:biy" class="footnote">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code>manager:didReceiveButtonDown</code> request.</p>
+
+<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground"><a href="#fn:homekitforeground" class="footnote">4</a></sup>.</p>
+
+<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild"><a href="#fn:rebuild" class="footnote">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
+
+<p>I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; <code>ws_morning</code> and <code>ws_evening</code>. I then set up two triggers within HomeKit; <code>WebSocket Morning</code> (which triggers the <em>Good Morning</em> scene when the <code>ws_morning</code> switch turns on) and <code>WebSocket Evening</code> (which triggers the <em>Good Night</em> scene when the <code>ws_evening</code> switch turns on). The only change I needed to make to my scenes was to ensure that both <code>ws_morning</code> and <code>ws_evening</code> are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.</p>
+
+<p>The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named <a href="https://github.com/daltoniam/Starscream">Starscream</a> which allowed me to connect to the server and send commands which led me to this code for the entire project:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">UIKit</span>
+<span class="k">import</span> <span class="n">Starscream</span>
+
+<span class="k">let</span> <span class="n">ipAddress</span> <span class="o">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
+<span class="k">let</span> <span class="n">flicAppKey</span> <span class="o">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
+<span class="k">let</span> <span class="n">flicAppSecret</span> <span class="o">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
+
+<span class="k">class</span> <span class="nl">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
+
+    <span class="k">let</span> <span class="n">socket</span> <span class="o">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="nl">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;ws://\(ipAddress)/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+    
+    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">defaultButtonDelegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="nl">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="nl">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="nl">backgroundExecution</span><span class="p">:</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">setupFlic</span><span class="p">(</span><span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">toggle</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">socket</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+
+    <span class="c1">// MARK: Flic Manager</span>
+    
+    <span class="k">func</span> <span class="n">flicManager</span><span class="p">(</span><span class="nl">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="nl">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="o">?</span><span class="p">,</span> <span class="n">withError</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: \(error)&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">func</span> <span class="n">flicButton</span><span class="p">(</span><span class="nl">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="nl">queued</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">age</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">toggle</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    
+    <span class="c1">// MARK: Websocket Delegate</span>
+    
+    <span class="k">func</span> <span class="n">websocketDidConnect</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+        <span class="k">let</span> <span class="n">last</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
+        <span class="k">let</span> <span class="n">name</span> <span class="o">=</span> <span class="n">last</span> <span class="o">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="o">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="o">:</span> <span class="s">&quot;ws_morning&quot;</span>
+        <span class="k">let</span> <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="o">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="o">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="kt">bool</span><span class="o">:</span> <span class="nb">true</span><span class="p">)]]</span>
+        <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="n">string</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="nl">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nl">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">socket</span><span class="p">.</span><span class="n">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">socket</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
+            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
+            <span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">func</span> <span class="n">websocketDidDisconnect</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    
+    <span class="k">func</span> <span class="n">websocketDidReceiveData</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    
+    <span class="k">func</span> <span class="n">websocketDidReceiveMessage</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">text</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span></code></pre></div>
+
+<p><strong>Note: this is just a personal project that I built as quickly as possible. By nature, it is a fairly dirty hack. You shouldn’t write professional apps like this.</strong></p>
+
+<p>With this code in place, I can now press my Flic button (stuck to the underside of my bedside table) and it will toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. This is the full process of what is going on:</p>
+
+<ul>
+  <li>Press the Flic button</li>
+  <li>Wakes up the iOS app (if terminated or backgrounded) and hits the <code>toggle</code> function</li>
+  <li>App sends a websocket command to the Homebridge-websocket server</li>
+  <li>Server turns on a fake switch</li>
+  <li>HomeKit notices that the fake switch has been turned on so fires trigger to run appropriate scene</li>
+  <li>Scene activates or deactivates various accessories and then switches the fake switch back off ensuring it is ready for next button press</li>
+</ul>
+
+<p>This is a long way away from the process I’d envisioned (press button, wake up app, toggle scene with HomeKit API) but it has been a fun challenge finding a way to get it work. I now have a physical button that controls multiple aspects of my home with a single press - it’s pretty cool!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:stuff">
+      <p>Ugh what a horrible expression. I renamed it the <em>Internet of Stuff</em> on <a href="https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/">episode 7 of The Divide</a>. <a href="#fnref:stuff" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:phrasing">
+      <p><a href="https://bendodson.s3.amazonaws.com/phrasing.png"><em>Phrasing</em></a> <a href="#fnref:phrasing" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:biy">
+      <p>“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. <a href="#fnref:biy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:homekitforeground">
+      <p>Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a <code>com.apple.developer.homekit.background-mode</code> entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. <a href="#fnref:homekitforeground" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:rebuild">
+      <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">Fetching RSS Feeds for Steam game updates</a></h1>
+			
+			<time datetime="2016-05-17" pubdate=""><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">May 17, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc"><a href="#fn:gamingpc" class="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
+
+<p>A quick search found <a href="http://www.getoffmalawn.com/steamnews">SteamNews</a>, a website that aims to turn Steam Community pages into RSS feeds. However, a lot of games are missing and it doesn’t solve the problem of fetching the feeds for my account; I’d still need to go through and add them manually. I also don’t like relying on 3rd party services which I can’t install on my own server.</p>
+
+<p>After a bit of exploring on the Steam pages, I found that most games have an RSS feed of their news page; this, combined with my publicly available profile page listing my owned games, has led me to write a basic PHP script to loop through my games, find the matching RSS feed, and then add it to my Feedbin account:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_USERNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;your username here&#39;</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;your password here&#39;</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;STEAM_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;your steam id here i.e. bendodson&#39;</span><span class="p">);</span>
+
+<span class="k">require</span> <span class="s1">&#39;vendor/autoload.php&#39;</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Goutte\Client</span><span class="p">;</span>
+
+<span class="nv">$html</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://steamcommunity.com/id/&#39;</span><span class="o">.</span><span class="nx">STEAM_ID</span><span class="o">.</span><span class="s1">&#39;/games/?tab=all&#39;</span><span class="p">);</span>
+
+<span class="nv">$match</span> <span class="o">=</span> <span class="s2">&quot;rgGames = &quot;</span><span class="p">;</span>
+<span class="nv">$start</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$match</span><span class="p">)</span> <span class="o">+</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$match</span><span class="p">);</span>
+<span class="nv">$json</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nb">strtok</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$start</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="nv">$array</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
+
+<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$games</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$games</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="p">}</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$unsubscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-0&#39;</span><span class="p">;</span>
+	<span class="nv">$subscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-1&#39;</span><span class="p">;</span>
+	<span class="nv">$failed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-x&#39;</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$unsubscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$subscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$failed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">))</span> <span class="p">{</span>
+		<span class="nv">$games</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$unsubscribed</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
+
+<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
+<span class="nv">$index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$games</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">list</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subscribed</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="nv">$game</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$subscribed</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="nv">$index</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">echo</span> <span class="s1">&#39;Done&#39;</span><span class="p">;</span>
+
+
+<span class="k">function</span> <span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="nv">$key</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">?</span> <span class="nv">$id</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
+	<span class="nv">$feedURL</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">?</span> <span class="s1">&#39;http://steamcommunity.com/games/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/rss/&#39;</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
+	<span class="k">echo</span> <span class="s1">&#39;Subscribing to &#39;</span><span class="o">.</span><span class="nv">$feedURL</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">;</span>
+	<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;feed_url&quot;</span> <span class="o">=&gt;</span> <span class="nv">$feedURL</span><span class="p">]);</span>
+
+	<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Content-Type: application/json; charset=utf-8&#39;</span><span class="p">]);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">&#39;https://api.feedbin.com/v2/subscriptions.json&#39;</span><span class="p">);</span>    	
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERPWD</span><span class="p">,</span> <span class="nx">FEEDBIN_USERNAME</span> <span class="o">.</span> <span class="s2">&quot;:&quot;</span> <span class="o">.</span> <span class="nx">FEEDBIN_PASSWORD</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+	<span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+	<span class="nv">$statusCode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
+	<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">404</span> <span class="o">&amp;&amp;</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="nv">$success</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+
+		<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
+		<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;http://steamcommunity.com/app/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/allnews/&#39;</span><span class="p">);</span>
+		<span class="nv">$elements</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;#apphub_InitialContent .Announcement_Card:first-child&#39;</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nv">$elements</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$elements</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;data-modal-content-url&#39;</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
+				<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+				<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Subscribe to RSS Feed&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
+					<span class="nv">$success</span> <span class="o">=</span> <span class="nx">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$success</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
+			<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;-x&#39;</span><span class="p">;</span>
+			<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>			
+			<span class="k">echo</span> <span class="s1">&#39;Failed&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">;</span>
+		<span class="p">}</span>
+
+
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="nv">$subscription</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
+		<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;feed_id&quot;</span> <span class="o">=&gt;</span> <span class="nv">$subscription</span><span class="o">-&gt;</span><span class="na">feed_id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Steam Games&quot;</span><span class="p">]);</span>
+		
+		<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Content-Type: application/json; charset=utf-8&#39;</span><span class="p">]);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">&#39;https://api.feedbin.com/v2/taggings.json&#39;</span><span class="p">);</span>    	
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERPWD</span><span class="p">,</span> <span class="nx">FEEDBIN_USERNAME</span> <span class="o">.</span> <span class="s2">&quot;:&quot;</span> <span class="o">.</span> <span class="nx">FEEDBIN_PASSWORD</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+		<span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+		<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span> <span class="o">||</span> <span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
+		<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;-1&#39;</span><span class="p">;</span>
+		<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
+		<span class="k">echo</span> <span class="s1">&#39;Subscribed!&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">;</span>
+		<span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>There is a fair amount going on in this script<sup id="fnref:goodpractice"><a href="#fn:goodpractice" class="footnote">2</a></sup> but the basic overview is:</p>
+
+<ol>
+  <li>
+    <p>Fetch a list of owned games from the public profile of the entered Steam ID. Most of the Steam pages are built with Javascript but this page fortunately has the entire library as JSON within the page. After a simple bit of extraction, I have a full list of every game owned.</p>
+  </li>
+  <li>
+    <p>Update a local text file<sup id="fnref:database"><a href="#fn:database" class="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
+  </li>
+  <li>
+    <p>Just to be a pain, Steam doesn’t have a standard format for it’s RSS feeds. Whilst most of them contain the game ID, some of them don’t. The first step is to go with the usual URL and then if that fails we’ll use <a href="https://github.com/FriendsOfPHP/Goutte">Goutte</a> to manually scrape the news page and then the first news item in order to grab the correct RSS feed. For example, the game ID of <a href="http://store.steampowered.com/app/240/">Counter-Strike: Source</a> is 240 so the script will first try <code>http://steamcommunity.com/games/240/rss/</code> but when that fails it’ll crawl through some pages to discover the correct URL is <code>http://steamcommunity.com/games/CSS/rss/</code> - there seems to be no logic as to which games have a shorthand name and which don’t and there isn’t an easy way to work out what the name would be.</p>
+  </li>
+  <li>
+    <p>Once I have a valid RSS feed, it is subscribed to via the <a href="https://github.com/feedbin/feedbin-api">Feedbin API</a>. As an added bonus, I also tag the subscription “Steam Games” so they show up all together in my RSS reader of choice, <a href="http://reederapp.com/mac/">Reeder</a>: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-feeds.jpg" width="800" height="559" alt="Steam RSS feeds in Reeder via Feedbin" /></p>
+  </li>
+  <li>
+    <p>Sometimes, the process might fail as in the case of <a href="http://steamcommunity.com/app/4540/allnews/">Titan Quest</a> which has no updates and thus no RSS feed. If that happens, the game is marked in the text file so that it can be safely ignored. In my own version of the script, I added Slack integration so I get a notification when a game fails so I check to see if it is a simple case of no feed or if my script has broken: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-slack.jpg" width="700" height="200" alt="Steam RSS feed failure in Slack" /></p>
+  </li>
+</ol>
+
+<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour"><a href="#fn:twentyfour" class="footnote">4</a></sup>.</p>
+
+<p>One idea I dabbled with was fetching the feeds myself and building a single large RSS feed that I could subscribe to. There are a few issues there though:</p>
+
+<ul>
+  <li>
+    <p>It would require me to constantly fetch each feed which could be huge if I own hundreds of games. I already pay for my RSS subscription service (Feedbin) so why add more complexity when they can do that for me?</p>
+  </li>
+  <li>
+    <p>I’d be sacrificing some customisation. If I’m not interested in a specific game, I can simply remove the feed from Feedbin. My script doesn’t check subscriptions so it won’t try and re-add it.</p>
+  </li>
+  <li>
+    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame"><a href="#fn:youngmansgame" class="footnote">5</a></sup>.</p>
+  </li>
+</ul>
+
+<p>I’ve put all of the <a href="https://github.com/bendodson/Steam-RSS">code on GitHub</a> in case it is of interest to anyone.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:gamingpc">
+      <p>The main reasons being far higher resolution and quality, cheaper games, and virtual reality. I’ll miss Xbox achievements but the boost in visual quality more than makes up for that (and with controller support and a SteamLink, I can still play most games on my sofa with an Xbox One Elite Controller). <a href="#fnref:gamingpc" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:goodpractice">
+      <p>Please do not look at this and assume this is any way good practice. This is a very fast and loose piece of coding in order to achieve a specific goal as quickly as possible; most of it will break if Steam update their HTML pages (very likely). <a href="#fnref:goodpractice" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:database">
+      <p>“Why not use a database” - I couldn’t be bothered to set one up. A basic text file does the job. <a href="#fnref:database" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:twentyfour">
+      <p>“Within the hour” - can you tell I’ve been rewatching 24 lately? <a href="#fnref:twentyfour" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:youngmansgame">
+      <p>When I was younger, that is exactly what I would have done but as I’ve grown older I’ve realised that hosting stuff for free is a massive headache. Much better to stick the code on GitHub and let people use it on their own if they want. <a href="#fnref:youngmansgame" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">AirPlay Alarm Clock with iTunes 12</a></h1>
+			
+			<time datetime="2016-05-12" pubdate=""><a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">May 12, 2016</a></time>
+    	</header>
+    	<div>
+			<p>A few years ago, <a href="https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">I wrote a convoluted AppleScript</a> that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was released due to a number of changes to AppleScript support; there were also changes to OS X which prevented AppleScripts from launching via Calendar alerts.</p>
+
+<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
+
+<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">AirplayDeviceName</span> <span class="k">to</span> <span class="s2">&quot;Kitchen&quot;</span>
+<span class="k">set</span> <span class="nv">PlaylistName</span> <span class="k">to</span> <span class="s2">&quot;Morning&quot;</span>
+<span class="k">set</span> <span class="nv">AirplayVolume</span> <span class="k">to</span> <span class="mi">100</span>
+
+<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+		<span class="k">set</span> <span class="na">visible</span> <span class="k">of</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="no">true</span>
+		<span class="k">set</span> <span class="nb">the</span> <span class="na">view</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+	<span class="k">tell</span> <span class="nv">process</span> <span class="s2">&quot;iTunes&quot;</span> <span class="k">to</span> <span class="k">if</span> <span class="nb">exists</span> <span class="k">then</span>
+		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Songs&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
+		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;On&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
+	<span class="k">end</span> <span class="k">if</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+	<span class="k">set</span> <span class="nv">AirplayNames</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="na">name</span> <span class="k">of</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
+	<span class="k">set</span> <span class="nv">AirplayDevices</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
+	<span class="k">set</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="p">{}</span>
+	<span class="k">repeat</span> <span class="nv">with</span> <span class="nv">i</span> <span class="k">from</span> <span class="mi">1</span> <span class="k">to</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">AirplayNames</span>
+		<span class="k">if</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayNames</span> <span class="k">as </span><span class="nc">string</span> <span class="o">=</span> <span class="nv">AirplayDeviceName</span> <span class="k">then</span> <span class="k">set</span> <span class="k">end</span> <span class="k">of</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayDevices</span>
+	<span class="k">end</span> <span class="k">repeat</span>
+	<span class="k">set</span> <span class="nv">current</span> <span class="nv">AirPlay</span> <span class="nv">devices</span> <span class="k">to</span> <span class="nv">AirplayToPlay</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+	<span class="nb">play</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
+	<span class="k">set</span> <span class="nb">the</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">AirplayVolume</span>
+<span class="k">end</span> <span class="k">tell</span></code></pre></div>
+
+<p>The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.</p>
+
+<p>In order to get this working as an alarm, we have to jump through a number of hoops on OS X El Capitan. Firstly, we need to save our AppleScript as an application (after you’ve made any adjustments to your Airplay device name, playlist name, and the volume you want). You can do this by opening it within Script Editor and then choosing <em>File &gt; Export</em>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/airplay-alarm-export.jpg" width="800" height="800" alt="Export AppleScript as Application" /></p>
+
+<p><strong>If you haven’t disabled the GateKeeper restrictions on your Mac, you will need to either Code Sign this app or grant an exception within the Security &amp; Privacy settings after you have first tried to open it.</strong></p>
+
+<p>With the alarm exported, we now need to open up Automator and create a new <em>Calendar Alarm</em>. Find the <em>Launch Application</em> action and set that up to point to your newly exported alarm app. Finally, save this and you’ll find a new entry has appeared in your calendar; it will launch immediately thus starting off the iTunes alarm process. Simply copy and paste this alarm entry (or make it recurring) in order to set it to whatever times you want.</p>
+
+<p>I’m going to continue playing around with different ways to launch the alarm but for now this works in much the same way as my old script did.</p>
+
+<p>The full code (and previous version) is <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">available on GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:homekitproject">
+      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -418,111 +831,6 @@
 <blockquote>
   <p>Ignore everyone and do what excites you. There is no point in getting into an industry if you’re not passionate about it - if you are adaptable and willing to learn, you’ll succeed. Also, don’t use a recruiter (they’re awful) - apply for a position directly and demonstrate a lot of knowledge about the business.</p>
 </blockquote>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/06/divide-11-3d-printing/">The Divide #11 - 3D Printing</a></h1>
-			
-			<time datetime="2016-04-06" pubdate=""><a href="/weblog/2016/04/06/divide-11-3d-printing/">April 06, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 11th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss 3D printing with a focus on John’s experience of the Da Vinci AIO 1.0. In addition, Chris has some updates on DC Rebirth, John is interested in the Xbox One development kit, and I propose an experiment in the measurement of canine happiness…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/23/homekit-wink-and-canary/">HomeKit, Wink, and Canary</a></h1>
-			
-			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/homekit-wink-and-canary/">March 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>A couple of weeks ago I took the plunge and bought a <a href="https://canary.is">Canary</a>, an internet-connected personal security camera and air quality monitoring system. It has been working great so far and comes with a decent iPhone app that allows you to control the camera and have it activate automatically based on location. There are three different operating modes; armed, disarmed, and privacy. Whilst armed, you’ll get a notification when any activity is detected whereas disarmed will still record and store any video when there is motion but it won’t notify you<sup id="fnref:disarmed"><a href="#fn:disarmed" class="footnote">1</a></sup>. Privacy completely shuts off the camera and microphone.</p>
-
-<p>For the simple reason that I don’t want everything that happens in my living room whilst I’m in it to be streamed to a 3rd party server, I have set the iPhone app to switch between armed and privacy modes; this means that if nobody is in the house, it automatically arms itself but will shut off the camera and microphone as soon as a family member gets back home. The problem with this is that the camera is then in privacy mode when we go to bed as obviously our phones are still in the house; if somebody breaks in, we won’t have any video evidence. I can open the iOS app and manually arm the Canary but <a href="https://en.wikipedia.org/wiki/Sod%27s_law">Sod’s Law</a> means I’ll probably get an intruder on the night I forget to do that<sup id="fnref:morning"><a href="#fn:morning" class="footnote">2</a></sup>.</p>
-
-<p>My first thought was a scheduling system could be put in place to automatically arm and disarm the Canary if I’m in the house but the app doesn’t have that functionality and there is no public API. I then discovered that Canary have partnered with <a href="http://www.wink.com">Wink</a>, a platform that allows multiple devices to connect together so you can do things like have the lights turn on when motion is detected. This is really useful and does allow for the sort of scheduling I’d envisioned, but then I came up with a better solution; tying it into my existing HomeKit routine.</p>
-
-<p>I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">blogged about HomeKit before</a> and specifically about <a href="https://github.com/nfarina/homebridge">Homebridge</a> which allows you to get non-HomeKit enabled devices to work with the system. Canary is not a HomeKit enabled device and with no open API it wasn’t possible for me to write a plugin. However, Wink does have an <a href="https://github.com/KraigM/homebridge-wink">existing Homebridge plugin</a> allowing you to control most devices connected to Wink via HomeKit. Unfortunately, HomeKit doesn’t support cameras and so neither does that Wink plugin. Back to the drawing board!</p>
-
-<p>After a bit of tinkering, I realised I could just re-purpose an existing supported HomeKit protocol; locks. In HomeKit, locks are basic binary operators that are either “secured” or “unsecured”. This works perfectly for my Canary as I could denote it as a doorlock and then have “secured” equal “armed”, and “unsecured” equal “privacy”. After a few minutes, I managed to fork the existing plugin and create a <a href="https://github.com/bendodson/homebridge-wink">new version with this hack in place</a>. Once downloaded, you just need to add the following platform in your Homebridge config file:</p>
-
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-    <span class="nt">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;homebridge-wink.Wink&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Wink&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;client_id&quot;</span><span class="p">:</span> <span class="s2">&quot;quirky_wink_android_app&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;client_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;e749124ad386a5a35c0ab554a4f2c045&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-USERNAME-HERE&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-PASSWORD-HERE&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;hide_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
-    <span class="nt">&quot;hide_ids&quot;</span><span class="p">:</span> <span class="p">[]</span>
-<span class="p">}</span></code></pre></div>
-
-<p><em>(Sidenote: most of my time tonight was spent trying to find a client_id and client_secret to use for the config. To get these, you usually have to email Wink with response times being around 7-10 days. I decided to rip it out of the Android app instead…)</em></p>
-
-<p>Once you restart Homebridge, any of your Canary devices in Wink should show up in HomeKit automatically. You can then say something like “Hey Siri, lock the living room” to arm the Canary. I personally like to use HomeKit scenes which allow me to control the Canary automatically with my existing “good morning” and “good night” Siri phrases. I find this much more reliable than a schedule as I already use these phrases every time I go to bed and wake up in order to turn my lights on and off (whereas a schedule might turn the camera on whilst we’re still awake or turn it off before we get up).</p>
-
-<p>Hopefully in the future we’ll see a public API for Canary and support for cameras in HomeKit so I can make this slightly less hacky but it works for now and means I’ll no longer forget to disable privacy mode at night. If you’re interested in trying this setup yourself, <a href="https://github.com/bendodson/homebridge-wink">check out the plugin on GitHub</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:disarmed">
-      <p>The use case for this is things like capturing a babies first steps, the sort of thing you could easily miss but can easily find in the 12-hour log of a practically always-on camera. <a href="#fnref:disarmed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:morning">
-      <p>And I often forget to turn it off when I get up which means my wife and I get a notification of me groggily letting the dogs out every morning. <a href="#fnref:morning" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">The Divide #10 - Let us loop you in. Again.</a></h1>
-			
-			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">March 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 10th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss Apple’s ‘Let us loop you in’ event<sup id="fnref:wrong"><a href="#fn:wrong" class="footnote">1</a></sup>. Chris has a rant about his internet provider (before promptly being disconnected), I talk about Twilight Princess HD, and John gets excited about a box of replacement Apple Pencil nibs…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:wrong">
-      <p>Where my big prediction of “there will be an updated processor for the Apple Watch” proved utterly incorrect. <a href="#fnref:wrong" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>
