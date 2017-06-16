@@ -38,6 +38,49 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/08/18/brapp-ui-and-location-updates/">Brapp: Summer Updates</a></h1>
+			
+			<time datetime="2016-08-18" pubdate=""><a href="/weblog/2016/08/18/brapp-ui-and-location-updates/">August 18, 2016</a></time>
+    	</header>
+    	<div>
+			<p>Over the summer, I’ve continued working with <a href="https://www.brapp.tv">Brapp</a> on <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">3 big releases</a> which added several new features and UI updates.</p>
+
+<h3 id="v21">v2.1</h3>
+
+<p>Released in July, Brapp 2.1 added the ability to trim recorded videos and change vibrancy of video filters along with adding a load of speed and stability improvements. However, the big new feature allowed users to export their beats as a video complete with an animating waveform:</p>
+
+<iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/96MIV-HcByI?list=PLbTRLLbwMtevdMea2cVjGPEopDu7atfl2" frameborder="0" allowfullscreen=""></iframe>
+
+<p>This was a really interesting feature for me to build as I wasn’t sure initially how it would work. It turns out that it is actually fairly easy by adding your animations directly to the various <code>CALayers</code> and then using an <code>AVVideoCompositionCoreAnimationTool</code> as your <code>AVMutableVideoComposition</code> animation tool. Fun stuff!</p>
+
+<h3 id="v211">v2.1.1</h3>
+
+<p>Released just a few days later, Brapp 2.1.1 included the ability to pin your favourite beat or post to the top of your profile feed<sup id="fnref:featureby"><a href="#fn:featureby" class="footnote">1</a></sup> and added a “Now Playing” bar along the bottom of the app with a similar style to Apple Music. It also introduced synchornicity between the website and app for notifications which is an interesting problem to solve; basically, if someone reads the notifications on the website, a silent push needs to be sent to the app in order to remove the badge icon so you don’t think you have new notifications. There were also some pretty meaty performance upgrades behind the scenes.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-now-playing.jpg" width="375" height="90" /></p>
+
+<h3 id="v22">v2.2</h3>
+
+<p>Brapp 2.2 was released today with the headline feature of location support. One of my main interests with iOS apps has always been in geo-location so it was really fun for me to add these new features including the ability to tag specific locations to beats and videos, add a city or town to your profile, view beats and videos on a profile map, and search for beats and videos either near you or at a specific location.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-map.jpg" width="800" height="450" /></p>
+
+<p>Once again, Brapp has been a really fun project to work on. I can’t say enough good things about the people behind it and am looking forward to working with them again in the future. If you haven’t checked it out yet, you can <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">get Brapp for free on the App Store</a>. You can also read about the <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">initial build and release</a>, the <a href="https://bendodson.com/weblog/2015/11/27/brapp-v1.1/">v1.1 update last November</a>, and the <a href="https://bendodson.com/weblog/2016/03/11/brapp-v2/">v2 update earlier this year</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:featureby">
+      <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/08/11/moonlight-tvos/">Moonlight tvOS for Apple TV 4</a></h1>
 			
 			<time datetime="2016-08-11" pubdate=""><a href="/weblog/2016/08/11/moonlight-tvos/">August 11, 2016</a></time>
@@ -475,33 +518,6 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     </li>
     <li id="fn:naming">
       <p>I shouldn’t be allowed to name things. <a href="#fnref:naming" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/19/great-british-bee-count-2016/">Great British Bee Count 2016</a></h1>
-			
-			<time datetime="2016-05-19" pubdate=""><a href="/weblog/2016/05/19/great-british-bee-count-2016/">May 19, 2016</a></time>
-    	</header>
-    	<div>
-			<p><a href="https://bendodson.com/weblog/2015/05/01/great-british-bee-count-app/">Last year</a> I worked on rebuilding the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count iPhone app</a> for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2016:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/gbbc-2016.jpg" width="800" height="500" /></p>
-
-<p>There are several updates including a redesigned bee picker, more details of the bees, and a list of plants suitable for attracting bees sponsored by Waitrose. The app is also now universal with support for both the iPhone and iPad<sup id="fnref:ipaduniversal"><a href="#fn:ipaduniversal" class="footnote">1</a></sup>.</p>
-
-<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:ipaduniversal">
-      <p>This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. <a href="#fnref:ipaduniversal" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
