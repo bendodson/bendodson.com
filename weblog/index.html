@@ -97,7 +97,7 @@
 
 <p>I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for <code>MPMusicPlayerControllerPlaybackStateDidChange</code> but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> works consistently and will still yield an <code>MPMediaItem</code> with which to work with.</p>
 
-<p><strong>IMPORTANT:</strong> The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!</p>
+<p><strong>IMPORTANT:</strong> The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!)</p>
 
 <p><a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">Checkout the <code>MPMediaItem+CanAddToLibrary</code> Swift extension on GitHub</a></p>
 

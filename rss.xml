@@ -6,8 +6,8 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 19 Jul 2017 06:55:20 +0100</pubDate>
-    <lastBuildDate>Wed, 19 Jul 2017 06:55:20 +0100</lastBuildDate>
+    <pubDate>Wed, 19 Jul 2017 07:03:07 +0100</pubDate>
+    <lastBuildDate>Wed, 19 Jul 2017 07:03:07 +0100</lastBuildDate>
 
     
     <item>
@@ -70,7 +70,7 @@
 
 &lt;p&gt;I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for &lt;code&gt;MPMusicPlayerControllerPlaybackStateDidChange&lt;/code&gt; but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for &lt;code&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/code&gt; works consistently and will still yield an &lt;code&gt;MPMediaItem&lt;/code&gt; with which to work with.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;IMPORTANT:&lt;/strong&gt; The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IMPORTANT:&lt;/strong&gt; The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!)&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/bendodson/MPMediaItem-CanAddToLibrary&quot;&gt;Checkout the &lt;code&gt;MPMediaItem+CanAddToLibrary&lt;/code&gt; Swift extension on GitHub&lt;/a&gt;&lt;/p&gt;
 
