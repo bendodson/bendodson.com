@@ -38,6 +38,86 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">MPMediaItem+CanAddToLibrary.swift</a></h1>
+			
+			<time datetime="2017-07-19" pubdate=""><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">July 19, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Since iOS 9.3 it has been possible to <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">add Apple Music tracks to the media library</a> as such:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">library</span> <span class="o">=</span> <span class="bp">MPMediaLibrary</span><span class="p">()</span>
+<span class="n">library</span><span class="p">.</span><span class="n">addItem</span><span class="p">(</span><span class="nl">withProductID</span><span class="p">:</span> <span class="kt">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+	<span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+		<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error.localizedDescription)&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift"><a href="#fn:mpmediaitemswift" class="footnote">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">UIKit</span>
+<span class="k">import</span> <span class="n">MediaPlayer</span>
+
+<span class="k">extension</span> <span class="bp">MPMediaItem</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nl">canAddToLibrary</span><span class="p">:</span> <span class="n">Bool</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="kt">id</span> <span class="o">=</span> <span class="bp">MPMediaPropertyPredicate</span><span class="p">(</span><span class="nl">value</span><span class="p">:</span> <span class="n">persistentID</span><span class="p">,</span> <span class="nl">forProperty</span><span class="p">:</span> <span class="n">MPMediaItemPropertyPersistentID</span><span class="p">)</span>
+        <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">(</span><span class="nl">filterPredicates</span><span class="p">:</span> <span class="p">[</span><span class="kt">id</span><span class="p">])</span>
+        <span class="k">let</span> <span class="n">count</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="o">?</span><span class="p">.</span><span class="n">count</span> <span class="o">??</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="p">}</span>
+    
+<span class="p">}</span></code></pre></div>
+
+<p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code>MPMediaQuery</code>. Unfortunately you can’t search on  the <code>MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist"><a href="#fn:playlist" class="footnote">2</a></sup> by listening to the <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code>nowPlayingItem</code> on my <code>MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="n">player</span> <span class="o">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
+
+<span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+    
+    <span class="n">player</span><span class="p">.</span><span class="n">beginGeneratingPlaybackNotifications</span><span class="p">()</span>
+    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">selector</span><span class="p">:</span> <span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">playbackStateDidChange</span><span class="p">),</span> <span class="nl">name</span><span class="p">:</span> <span class="p">.</span><span class="n">MPMusicPlayerControllerNowPlayingItemDidChange</span><span class="p">,</span> <span class="nl">object</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="p">@</span><span class="n">objc</span> <span class="k">func</span> <span class="n">playbackStateDidChange</span><span class="p">()</span> <span class="p">{</span>
+    
+    <span class="n">guard</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">player</span><span class="p">.</span><span class="n">nowPlayingItem</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="c1">// at this point we do not know if the track can be added - any UI for adding should be hidden</span>
+
+    <span class="k">if</span> <span class="n">item</span><span class="p">.</span><span class="n">canAddToLibrary</span> <span class="p">{</span>
+    	<span class="c1">// show your &quot;Add to library&quot; button</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    	<span class="c1">// show some UI to explain &quot;Already in library&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for <code>MPMusicPlayerControllerPlaybackStateDidChange</code> but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> works consistently and will still yield an <code>MPMediaItem</code> with which to work with.</p>
+
+<p><strong>IMPORTANT:</strong> The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!</p>
+
+<p><a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">Checkout the <code>MPMediaItem+CanAddToLibrary</code> Swift extension on GitHub</a></p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:mpmediaitemswift">
+      <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:playlist">
+      <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/06/16/flawless/">Flawless</a></h1>
 			
 			<time datetime="2017-06-16" pubdate=""><a href="/weblog/2017/06/16/flawless/">June 16, 2017</a></time>
@@ -517,35 +597,6 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 <p>If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.</p>
 
 <p>If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/10/sporta/">Sporta 2.0</a></h1>
-			
-			<time datetime="2017-01-10" pubdate=""><a href="/weblog/2017/01/10/sporta/">January 10, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app I worked on late last year: <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/sporta.jpg" width="800" height="511" /></p>
-
-<p>Sporta is an app to keep football fans up to date with the latest matches via local notifications in advance of a game. You simply select which teams you are interested in from the Premier League, Sky Bet Championship, The FA Cup, the Scottish Premiership, or international matches featuring England, Scotland, Wales, or Ireland. You can then choose a reminder time prior to the match (from 5 minutes up to 1 week) and the app will automatically send you a local notification to remind you about the match with details of kick off time, the teams involved, and the venue.</p>
-
-<p>I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline<sup id="fnref:offline"><a href="#fn:offline" class="footnote">1</a></sup>. Finally, I used the <a href="http://realm.io">Realm mobile database</a> in order to store the match data and be able to quickly execute queries such as “<em>fetch all fixtures that contain teams x, y, and z as either the home or away team</em>”.</p>
-
-<p>This was a really fun project to work on and I’m particularly pleased with how reliable the notifications are. If you are a football fan, you can download <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta on the App Store</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:offline">
-      <p>The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). <a href="#fnref:offline" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

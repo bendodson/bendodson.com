@@ -6,9 +6,86 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Fri, 16 Jun 2017 08:13:51 +0100</pubDate>
-    <lastBuildDate>Fri, 16 Jun 2017 08:13:51 +0100</lastBuildDate>
+    <pubDate>Wed, 19 Jul 2017 06:55:20 +0100</pubDate>
+    <lastBuildDate>Wed, 19 Jul 2017 06:55:20 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>MPMediaItem+CanAddToLibrary.swift</title>
+      <link>https://bendodson.com/weblog/2017/07/19/mpmediaitem-canaddtolibrary/</link>
+      <pubDate>Wed, 19 Jul 2017 08:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/07/19/mpmediaitem-canaddtolibrary/</guid>
+      <description>&lt;p&gt;Since iOS 9.3 it has been possible to &lt;a href=&quot;https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/&quot;&gt;add Apple Music tracks to the media library&lt;/a&gt; as such:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;library&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;withProductID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Error: \(error.localizedDescription)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a &lt;a href=&quot;https://github.com/bendodson/MPMediaItem-CanAddToLibrary&quot;&gt;simple Swift extension&lt;/a&gt;&lt;sup id=&quot;fnref:mpmediaitemswift&quot;&gt;&lt;a href=&quot;#fn:mpmediaitemswift&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for MPMediaItem that tells you if a currently playing track is available in your library:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIKit&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MediaPlayer&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaItem&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;canAddToLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaPropertyPredicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistentID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;forProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MPMediaItemPropertyPersistentID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;filterPredicates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an &lt;code&gt;MPMediaQuery&lt;/code&gt;. Unfortunately you can’t search on  the &lt;code&gt;MPMediaItemPropertyPlaybackStoreID&lt;/code&gt; (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps&lt;sup id=&quot;fnref:playlist&quot;&gt;&lt;a href=&quot;#fn:playlist&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; by listening to the &lt;code&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/code&gt; notification and then checking if there is a &lt;code&gt;nowPlayingItem&lt;/code&gt; on my &lt;code&gt;MPMusicPlayerController&lt;/code&gt; instance; if there is then check it to find the current status:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMusicPlayerController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;beginGeneratingPlaybackNotifications&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;NotificationCenter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;playbackStateDidChange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objc&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;playbackStateDidChange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nowPlayingItem&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// at this point we do not know if the track can be added - any UI for adding should be hidden&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;canAddToLibrary&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;c1&quot;&gt;// show your &amp;quot;Add to library&amp;quot; button&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;c1&quot;&gt;// show some UI to explain &amp;quot;Already in library&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for &lt;code&gt;MPMusicPlayerControllerPlaybackStateDidChange&lt;/code&gt; but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for &lt;code&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/code&gt; works consistently and will still yield an &lt;code&gt;MPMediaItem&lt;/code&gt; with which to work with.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;IMPORTANT:&lt;/strong&gt; The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/bendodson/MPMediaItem-CanAddToLibrary&quot;&gt;Checkout the &lt;code&gt;MPMediaItem+CanAddToLibrary&lt;/code&gt; Swift extension on GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:mpmediaitemswift&quot;&gt;
+      &lt;p&gt;I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. &lt;a href=&quot;#fnref:mpmediaitemswift&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:playlist&quot;&gt;
+      &lt;p&gt;Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me&lt;/a&gt; for a test version before it launches in September… &lt;a href=&quot;#fnref:playlist&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Flawless</title>
@@ -1105,78 +1182,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
     &lt;/li&gt;
     &lt;li id=&quot;fn:permissiontext&quot;&gt;
       &lt;p&gt;In earlier builds of iOS 10 you’d be asked “&lt;em&gt;[App Name] Would Like to Access Apple Music&lt;/em&gt;” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “&lt;em&gt;[App Name] Would Like to Access Apple Music and Your Media Library&lt;/em&gt;”. &lt;a href=&quot;#fnref:permissiontext&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Talking Shop with Ben Dodson</title>
-      <link>https://bendodson.com/weblog/2016/07/20/talking-shop-with-ben-dodson/</link>
-      <pubDate>Wed, 20 Jul 2016 17:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/07/20/talking-shop-with-ben-dodson/</guid>
-      <description>&lt;p&gt;I was recently interviewed by the lovely folks at &lt;a href=&quot;http://cushionapp.com/&quot;&gt;Cushion&lt;/a&gt;&lt;sup id=&quot;fnref:cushion&quot;&gt;&lt;a href=&quot;#fn:cushion&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; as part of their &lt;a href=&quot;http://cushionapp.com/talking-shop/&quot;&gt;Talking Shop series&lt;/a&gt; about my life as a freelancer. You can &lt;a href=&quot;http://cushionapp.com/talking-shop/ben-dodson/&quot;&gt;read the full interview on their website&lt;/a&gt; but I’ve also put their questions and my answers below:&lt;/p&gt;
-
-&lt;h3 id=&quot;how-did-you-get-your-start&quot;&gt;How did you get your start?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I started off strictly as a web developer, moving from agency to agency, not really enjoying what I was doing. At the same time, Apple had just released the iPhone and, shortly afterwards, the App Store. I thought iOS development looked fun, so I quit my job and started teaching myself how to do it.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;where-did-your-first-clients-come-from&quot;&gt;Where did your first clients come from?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I had been freelancing as a web developer on the side for a number of years, so I had a few clients through that. Coincidentally, when I decided to freelance full-time, a friend from Twitter reached out and asked if I would be interested in appearing on The Gadget Show. For the segment the show wanted a freelance developer and a small company to build two separate apps, then see which was more popular. At the time, I had never built an app, so naturally, I said yes. It forced me to learn the ropes pretty quickly! I cobbled this app together and it ended up doing really well, scoring a feature from the App Store. From there, clients just kept coming.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;what-type-of-projects-do-you-work-on-now&quot;&gt;What type of projects do you work on now?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Now there’s also the iPad, Apple Watch, Apple TV, so I work on a variety of projects — everything from little apps to find the best steak restaurant nearby to bigger ones for clients like L’Oreal and Glenfiddich.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;what-does-your-day-to-day-look-like&quot;&gt;What does your day-to-day look like?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;At this point, I try to exclusively work from home. In the beginning, clients would insist on coming to their office. Those days would always be spent in meetings, talking about nothing, and not getting much done. Nowadays, I push for a video call in lieu of all that. I have clients I’ve never even spoken to, that I work with via email or Slack. They’re the best.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;what-has-been-the-greatest-challenge-of-kind-of-being-a-freelancer&quot;&gt;What has been the greatest challenge of kind of being a freelancer?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;For me, it’s been time management. It’s so easy to procrastinate. Then you hit a deadline and realize that you’ve done nothing, you have to tell the client, but you don’t want to tell the client, so things get worse quickly. The biggest challenge for me was getting to a point where I can switch my work mode on and off.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;whats-next-for-you&quot;&gt;What’s next for you?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A few years ago, I had my own app, an iPhone game called WallaBee. For about three and a half years, I focused on that and was extremely adamant about not hiring anyone else. In retrospect, some help might have made sense, but I was worried about being able to pay someone reliably month to month. It was a lot of fun, but eventually, I burned out and sold it.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;ultimately-id-like-to-do-something-like-that-again-but-at-the-moment-i-enjoy-freelancing&quot;&gt;Ultimately, I’d like to do something like that again, but at the moment, I enjoy freelancing.&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;It’s a constant battle between doing things that you want to do, but not earning any money, and doing the things that are less enjoyable, but make money.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;im-sure-that-statement-resonates-with-a-lot-of-freelancers&quot;&gt;I’m sure that statement resonates with a lot of freelancers.&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;When I was young and single, it was easy to spend twenty hours a day working on my pet project for no pay. The money earned mattered less because at the end of the day, it was just me. But when you have a family with mouths to feed and bills to pay, you find yourself taking less of those risks and opting for projects that provide a bit more security.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;what-advice-would-you-give-to-someone-just-starting-out&quot;&gt;What advice would you give to someone just starting out?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Keep it simple. I spent a long time researching and reading up on various how-to-get-things-done philosophies, buying every to-do list manager there was. Now I just have a basic list, make my own invoices, and track everything else in Cushion. If you spend a fortune on loads of tools and to-do lists and all that, you end up spending more time tweaking your setup for productivity than actually being productive.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:cushion&quot;&gt;
-      &lt;p&gt;If you’re a freelancer, you should definitely check out &lt;a href=&quot;http://cushionapp.com/&quot;&gt;Cushion&lt;/a&gt;. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. &lt;a href=&quot;#fnref:cushion&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
