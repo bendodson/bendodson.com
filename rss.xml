@@ -6,9 +6,43 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Mon, 04 Sep 2017 14:31:51 +0100</pubDate>
-    <lastBuildDate>Mon, 04 Sep 2017 14:31:51 +0100</lastBuildDate>
+    <pubDate>Wed, 04 Oct 2017 07:55:28 +0100</pubDate>
+    <lastBuildDate>Wed, 04 Oct 2017 07:55:28 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Forcing left-to-right text in iOS localizations</title>
+      <link>https://bendodson.com/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/</link>
+      <pubDate>Wed, 04 Oct 2017 09:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/</guid>
+      <description>&lt;p&gt;Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.&lt;/p&gt;
+
+&lt;p&gt;After a bit of searching, the &lt;a href=&quot;https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib&quot;&gt;general consensus&lt;/a&gt; was that I’d need to manually alter&lt;sup id=&quot;fnref:manualstoryboard&quot;&gt;&lt;a href=&quot;#fn:manualstoryboard&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.&lt;/p&gt;
+
+&lt;p&gt;Instead, I came across a property added to UIView in iOS 9 named &lt;code&gt;semanticContentAttribute&lt;/code&gt;. This allows you to choose &lt;code&gt;unspecified&lt;/code&gt; (the default which flips based on localization), &lt;code&gt;playback&lt;/code&gt; and &lt;code&gt;spatial&lt;/code&gt; which are special cases for media controls or directional controls, and &lt;code&gt;forceLeftToRight&lt;/code&gt; and &lt;code&gt;forceRightToLeft&lt;/code&gt; which work as their names would suggest. Thanks to the &lt;code&gt;UIAppearance&lt;/code&gt; protocol, disabling the flipping globally is a simple one-liner:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;bp&quot;&gt;UIView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appearance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;semanticContentAttribute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forceLeftToRight&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This not only flips all content back to left-to-right but also ensures that your &lt;code&gt;UINavigationController&lt;/code&gt; will animate from left-to-right as well. Of course, you can also use the &lt;code&gt;appearanceWhenContainedIn:&lt;/code&gt; method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.&lt;/p&gt;
+
+&lt;p&gt;The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use &lt;code&gt;NSMutableParagraphStyle&lt;/code&gt; to set custom line heights and I leave the other properties to their defaults. One of these is &lt;code&gt;alignment&lt;/code&gt; which is always left on my devices due to my English language but the default is actually &lt;code&gt;natural&lt;/code&gt; which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paragraph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSMutableParagraphStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;paragraph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lineSpacing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;4.0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;paragraph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alignment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;left&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:manualstoryboard&quot;&gt;
+      &lt;p&gt;If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! &lt;a href=&quot;#fnref:manualstoryboard&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>MPMediaItem+CanAddToLibrary.swift</title>
@@ -77,10 +111,10 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:mpmediaitemswift&quot;&gt;
-      &lt;p&gt;I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. &lt;a href=&quot;#fnref:mpmediaitemswift&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. &lt;a href=&quot;#fnref:mpmediaitemswift&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:playlist&quot;&gt;
-      &lt;p&gt;Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me&lt;/a&gt; for a test version before it launches in September… &lt;a href=&quot;#fnref:playlist&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me&lt;/a&gt; for a test version before it launches in September… &lt;a href=&quot;#fnref:playlist&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -104,13 +138,13 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:plugin&quot;&gt;
-      &lt;p&gt;I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. &lt;a href=&quot;#fnref:plugin&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. &lt;a href=&quot;#fnref:plugin&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:indesign&quot;&gt;
-      &lt;p&gt;I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 &lt;a href=&quot;#fnref:indesign&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 &lt;a href=&quot;#fnref:indesign&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:price&quot;&gt;
-      &lt;p&gt;This has saved me so many subsequent bug follow ups that $15 is almost criminally low. &lt;a href=&quot;#fnref:price&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This has saved me so many subsequent bug follow ups that $15 is almost criminally low. &lt;a href=&quot;#fnref:price&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -136,10 +170,10 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:scratch&quot;&gt;
-      &lt;p&gt;This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. &lt;a href=&quot;#fnref:scratch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. &lt;a href=&quot;#fnref:scratch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:background&quot;&gt;
-      &lt;p&gt;For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. &lt;a href=&quot;#fnref:background&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. &lt;a href=&quot;#fnref:background&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -167,7 +201,7 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:pip&quot;&gt;
-      &lt;p&gt;Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). &lt;a href=&quot;#fnref:pip&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). &lt;a href=&quot;#fnref:pip&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -350,13 +384,13 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:pocket&quot;&gt;
-      &lt;p&gt;I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. &lt;a href=&quot;#fnref:pocket&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. &lt;a href=&quot;#fnref:pocket&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:codequality&quot;&gt;
-      &lt;p&gt;This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! &lt;a href=&quot;#fnref:codequality&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! &lt;a href=&quot;#fnref:codequality&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:ajax&quot;&gt;
-      &lt;p&gt;Which is a nightmare when you start hitting cross domain restrictions. &lt;a href=&quot;#fnref:ajax&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Which is a nightmare when you start hitting cross domain restrictions. &lt;a href=&quot;#fnref:ajax&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -398,19 +432,19 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:downloaddata&quot;&gt;
-      &lt;p&gt;This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. &lt;a href=&quot;#fnref:downloaddata&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. &lt;a href=&quot;#fnref:downloaddata&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:touchid&quot;&gt;
-      &lt;p&gt;And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) &lt;a href=&quot;#fnref:touchid&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) &lt;a href=&quot;#fnref:touchid&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:erasedata&quot;&gt;
-      &lt;p&gt;This is an option within &lt;code&gt;Settings &amp;gt; Touch ID &amp;amp; Passcode&lt;/code&gt; that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. &lt;a href=&quot;#fnref:erasedata&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This is an option within &lt;code&gt;Settings &amp;gt; Touch ID &amp;amp; Passcode&lt;/code&gt; that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. &lt;a href=&quot;#fnref:erasedata&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2fa&quot;&gt;
-      &lt;p&gt;You have 2-Factor Authentication enabled, right? No!?! Go do that now. &lt;a href=&quot;#fnref:2fa&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;You have 2-Factor Authentication enabled, right? No!?! Go do that now. &lt;a href=&quot;#fnref:2fa&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:xkcd&quot;&gt;
-      &lt;p&gt;As usual, &lt;a href=&quot;https://xkcd.com/538/&quot;&gt;XKCD sums this up nicely&lt;/a&gt;. &lt;a href=&quot;#fnref:xkcd&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;As usual, &lt;a href=&quot;https://xkcd.com/538/&quot;&gt;XKCD sums this up nicely&lt;/a&gt;. &lt;a href=&quot;#fnref:xkcd&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -502,22 +536,22 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:criteria&quot;&gt;
-      &lt;p&gt;The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. &lt;a href=&quot;#fnref:criteria&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. &lt;a href=&quot;#fnref:criteria&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:polling&quot;&gt;
-      &lt;p&gt;An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. &lt;a href=&quot;#fnref:polling&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. &lt;a href=&quot;#fnref:polling&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:switch&quot;&gt;
-      &lt;p&gt;The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! &lt;a href=&quot;#fnref:switch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! &lt;a href=&quot;#fnref:switch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:silent&quot;&gt;
-      &lt;p&gt;I was originally planning on using the track &lt;a href=&quot;https://en.wikipedia.org/wiki/4′33″&quot;&gt;&lt;em&gt;4′33″&lt;/em&gt;&lt;/a&gt; until I found the album of silent audio. &lt;a href=&quot;#fnref:silent&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I was originally planning on using the track &lt;a href=&quot;https://en.wikipedia.org/wiki/4′33″&quot;&gt;&lt;em&gt;4′33″&lt;/em&gt;&lt;/a&gt; until I found the album of silent audio. &lt;a href=&quot;#fnref:silent&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:clock&quot;&gt;
-      &lt;p&gt;Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. &lt;a href=&quot;#fnref:clock&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. &lt;a href=&quot;#fnref:clock&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:classic&quot;&gt;
-      &lt;p&gt;It’s a classic. &lt;a href=&quot;#fnref:classic&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;It’s a classic. &lt;a href=&quot;#fnref:classic&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -565,7 +599,7 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:offline&quot;&gt;
-      &lt;p&gt;The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). &lt;a href=&quot;#fnref:offline&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). &lt;a href=&quot;#fnref:offline&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -613,16 +647,16 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:dilbert&quot;&gt;
-      &lt;p&gt;I have around 14 compendium books of the strips; my favourite is entitled “&lt;a href=&quot;https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/&quot;&gt;Still Pumped From Using The Mouse&lt;/a&gt;” (a reference to a calendar they were making about software developers). &lt;a href=&quot;#fnref:dilbert&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I have around 14 compendium books of the strips; my favourite is entitled “&lt;a href=&quot;https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/&quot;&gt;Still Pumped From Using The Mouse&lt;/a&gt;” (a reference to a calendar they were making about software developers). &lt;a href=&quot;#fnref:dilbert&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:incomplete&quot;&gt;
-      &lt;p&gt;“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” &lt;a href=&quot;#fnref:incomplete&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” &lt;a href=&quot;#fnref:incomplete&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:apple&quot;&gt;
-      &lt;p&gt;“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. &lt;a href=&quot;#fnref:apple&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. &lt;a href=&quot;#fnref:apple&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:mvp&quot;&gt;
-      &lt;p&gt;“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. &lt;a href=&quot;#fnref:mvp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. &lt;a href=&quot;#fnref:mvp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -657,13 +691,13 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:thanks&quot;&gt;
-      &lt;p&gt;During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. &lt;a href=&quot;#fnref:thanks&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. &lt;a href=&quot;#fnref:thanks&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:ratelimit&quot;&gt;
-      &lt;p&gt;Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. &lt;a href=&quot;#fnref:ratelimit&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. &lt;a href=&quot;#fnref:ratelimit&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:personalusage&quot;&gt;
-      &lt;p&gt;And if you want to do more than just personal usage you should &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;speak to me&lt;/a&gt; first as I don’t really want people to create entire duplicates of my own project. &lt;a href=&quot;#fnref:personalusage&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;And if you want to do more than just personal usage you should &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;speak to me&lt;/a&gt; first as I don’t really want people to create entire duplicates of my own project. &lt;a href=&quot;#fnref:personalusage&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -695,7 +729,7 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:legoscraper&quot;&gt;
-      &lt;p&gt;I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. &lt;a href=&quot;#fnref:legoscraper&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. &lt;a href=&quot;#fnref:legoscraper&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -884,13 +918,13 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:sanebox&quot;&gt;
-      &lt;p&gt;I stopped using MailRoute a while back and was using the black hole feature of &lt;a href=&quot;http://sanebox.com/&quot;&gt;Sanebox&lt;/a&gt; but I’ve just stopped using them as found the free service &lt;a href=&quot;http://followupthen.com/&quot;&gt;FollowUpThen&lt;/a&gt; - I was getting a lot of spam after the switch off so decided to re-activate MailRoute this week. I use &lt;a href=&quot;http://fastmail.fm&quot;&gt;Fastmail&lt;/a&gt; for my email in case you were wondering. &lt;a href=&quot;#fnref:sanebox&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I stopped using MailRoute a while back and was using the black hole feature of &lt;a href=&quot;http://sanebox.com/&quot;&gt;Sanebox&lt;/a&gt; but I’ve just stopped using them as found the free service &lt;a href=&quot;http://followupthen.com/&quot;&gt;FollowUpThen&lt;/a&gt; - I was getting a lot of spam after the switch off so decided to re-activate MailRoute this week. I use &lt;a href=&quot;http://fastmail.fm&quot;&gt;Fastmail&lt;/a&gt; for my email in case you were wondering. &lt;a href=&quot;#fnref:sanebox&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:gmailspam&quot;&gt;
-      &lt;p&gt;As you’ll be forwarding emails to Gmail, you’ll want to disable its spam filter as otherwise your emails won’t end up in the inbox for processing by Context. To do this, you’ll need to set up a new rule which matches the email ‘@’ and ensures it never goes to spam. &lt;a href=&quot;#fnref:gmailspam&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;As you’ll be forwarding emails to Gmail, you’ll want to disable its spam filter as otherwise your emails won’t end up in the inbox for processing by Context. To do this, you’ll need to set up a new rule which matches the email ‘@’ and ensures it never goes to spam. &lt;a href=&quot;#fnref:gmailspam&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:gmailaccount&quot;&gt;
-      &lt;p&gt;Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. &lt;a href=&quot;#fnref:gmailaccount&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. &lt;a href=&quot;#fnref:gmailaccount&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -922,10 +956,10 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:niggles&quot;&gt;
-      &lt;p&gt;For example, there is no standard way of seeing when someone tapped a link which is… irritating. Instead you have to work out if a particular message is selected (which happens for a variety of reasons) and then be clever about what you present. &lt;a href=&quot;#fnref:niggles&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;For example, there is no standard way of seeing when someone tapped a link which is… irritating. Instead you have to work out if a particular message is selected (which happens for a variety of reasons) and then be clever about what you present. &lt;a href=&quot;#fnref:niggles&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:imessagepower&quot;&gt;
-      &lt;p&gt;I’ve seen one app that lets you use the camera within iMessage - pretty cool! &lt;a href=&quot;#fnref:imessagepower&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;I’ve seen one app that lets you use the camera within iMessage - pretty cool! &lt;a href=&quot;#fnref:imessagepower&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -976,7 +1010,7 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:imessageapp&quot;&gt;
-      &lt;p&gt;Specifically an &lt;a href=&quot;https://twitter.com/bendodson/status/774265987231281152&quot;&gt;iMessage app&lt;/a&gt;. &lt;a href=&quot;#fnref:imessageapp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Specifically an &lt;a href=&quot;https://twitter.com/bendodson/status/774265987231281152&quot;&gt;iMessage app&lt;/a&gt;. &lt;a href=&quot;#fnref:imessageapp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1048,7 +1082,7 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:featureby&quot;&gt;
-      &lt;p&gt;This feature was added by &lt;a href=&quot;http://bangmeansdoit.co.uk/en/&quot;&gt;David Gibson&lt;/a&gt;. &lt;a href=&quot;#fnref:featureby&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This feature was added by &lt;a href=&quot;http://bangmeansdoit.co.uk/en/&quot;&gt;David Gibson&lt;/a&gt;. &lt;a href=&quot;#fnref:featureby&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1072,7 +1106,7 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:frameworks&quot;&gt;
-      &lt;p&gt;This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. &lt;a href=&quot;#fnref:frameworks&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. &lt;a href=&quot;#fnref:frameworks&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1097,94 +1131,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;/ul&gt;
 
 &lt;p&gt;Don’t forget to leave a review on iTunes and follow us on Twitter via &lt;a href=&quot;http://twitter.com/PodcastDivide&quot;&gt;@PodcastDivide&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Media Library privacy flaw fixed in iOS 10</title>
-      <link>https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/</link>
-      <pubDate>Tue, 02 Aug 2016 15:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/</guid>
-      <description>&lt;p&gt;As I’ve mentioned &lt;a href=&quot;https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/&quot;&gt;many times before&lt;/a&gt;, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps&lt;sup id=&quot;fnref:proof&quot;&gt;&lt;a href=&quot;#fn:proof&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Thankfully, this has now been fixed in iOS 10&lt;sup id=&quot;fnref:fixed&quot;&gt;&lt;a href=&quot;#fn:fixed&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;In this article, I’ll explain how to update your apps to support this new privacy requirement. Before I do that, I’m going to show you what happens if you run an app built against the iOS 9.3 SDK (or earlier) on iOS 10:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/access-apple-music.jpg&quot; width=&quot;800&quot; height=&quot;450&quot; alt=&quot;[app name] would like to access Apple Music&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You’ll be prompted&lt;sup id=&quot;fnref:permissiontext&quot;&gt;&lt;a href=&quot;#fn:permissiontext&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to allow permissions as soon as any media library code is encountered be that on app startup or in a background process such as that used by &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Tracker&lt;/a&gt;. If you decline to give permission then the app will quit to the home screen and you will not be able to use it. This is a big change from previous permission switches whereby apps built against the old SDK would be exempt from new permissions (i.e. if your iOS 7 SDK compiled app ran on iOS 8, it wouldn’t crash because it wasn’t using the new location privacy options). Personally I like this change as it allows you to see clearly which apps were abusing these APIs such as &lt;a href=&quot;https://twitter.com/rosyna/status/743427770760364034&quot;&gt;Canary&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/chinanderm/status/743091483595546624&quot;&gt;Google Calendar&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bottom line&lt;/strong&gt;: If you are using &lt;code&gt;MPMediaQuery&lt;/code&gt; or similar in your app, you’d better update it with the iOS 10 SDK as soon as possible as otherwise you are going to get a lot of crashes if your users don’t allow the permission (or a lot of awkward questions if you shouldn’t be using this API).&lt;/p&gt;
-
-&lt;p&gt;How do you update your app to request permission for these APIs? First of all, lets whip up a basic example with Swift 3 that will pull the title of the first track in your music library:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buttonPressed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;songs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Title: \(item.title)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is &lt;code&gt;NSAppleMusicUsageDescription&lt;/code&gt;. If you don’t add this key, your app will crash as soon as you try and access an &lt;code&gt;MPMediaQuery&lt;/code&gt; with the following message:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;em&gt;This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSAppleMusicUsageDescription key with a string value explaining to the user how the app uses this data.&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;With the &lt;code&gt;NSAppleMusicUsageDescription&lt;/code&gt; key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the &lt;code&gt;query.items&lt;/code&gt; property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the &lt;code&gt;MPMediaLibrary.authorizationStatus()&lt;/code&gt; and &lt;code&gt;requestAuthorization((MPMediaLibraryAuthorizationStatus) -&amp;gt; Void)&lt;/code&gt; APIs that were added in iOS 9.3 to do something like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buttonPressed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;bp&quot;&gt;MPMediaLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;requestAuthorization&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authorized&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runMediaLibraryQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;displayMediaLibraryError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runMediaLibraryQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;songs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Title: \(item.title)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;displayMediaLibraryError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;MPMediaLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;authorizationStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;restricted&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Media library access restricted by corporate or parental settings&amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;denied&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Media library access denied by user&amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Unknown error&amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIAlertController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Error&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;preferredStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You first need to request authorization and then run your code only if the status is &lt;code&gt;authorized&lt;/code&gt;. If not, then you should display an error specific to whether or not the request was &lt;code&gt;denied&lt;/code&gt; or &lt;code&gt;restricted&lt;/code&gt; (usually by corporate or parental controls).&lt;/p&gt;
-
-&lt;p&gt;I’ve put an &lt;a href=&quot;https://github.com/bendodson/media-library-access-in-ios-10&quot;&gt;example project on GitHub&lt;/a&gt; which uses the code above by way of demonstration.&lt;/p&gt;
-
-&lt;p&gt;I’m extremely grateful to everyone that has helped share my posts about this issue and to the engineers at Apple for fixing this privacy flaw. I’ll update this post should anything change between now and the expected public release of iOS 10 in September.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:proof&quot;&gt;
-      &lt;p&gt;Whilst I had no concrete proof of this at the time of writing those articles, it &lt;a href=&quot;https://twitter.com/rosyna/status/743398363496751104&quot;&gt;looks like I was right that this was a widespread problem&lt;/a&gt;. &lt;a href=&quot;#fnref:proof&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:fixed&quot;&gt;
-      &lt;p&gt;I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. &lt;a href=&quot;#fnref:fixed&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:permissiontext&quot;&gt;
-      &lt;p&gt;In earlier builds of iOS 10 you’d be asked “&lt;em&gt;[App Name] Would Like to Access Apple Music&lt;/em&gt;” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “&lt;em&gt;[App Name] Would Like to Access Apple Music and Your Media Library&lt;/em&gt;”. &lt;a href=&quot;#fnref:permissiontext&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     

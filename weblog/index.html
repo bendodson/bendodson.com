@@ -38,6 +38,43 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">Forcing left-to-right text in iOS localizations</a></h1>
+			
+			<time datetime="2017-10-04" pubdate=""><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">October 04, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
+
+<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard"><a href="#fn:manualstoryboard" class="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
+
+<p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></div>
+
+<p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
+
+<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">paragraph</span> <span class="o">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></div>
+
+<p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:manualstoryboard">
+      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">MPMediaItem+CanAddToLibrary.swift</a></h1>
 			
 			<time datetime="2017-07-19" pubdate=""><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">July 19, 2017</a></time>
@@ -104,10 +141,10 @@
 <div class="footnotes">
   <ol>
     <li id="fn:mpmediaitemswift">
-      <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:playlist">
-      <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -134,13 +171,13 @@
 <div class="footnotes">
   <ol>
     <li id="fn:plugin">
-      <p>I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. <a href="#fnref:plugin" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. <a href="#fnref:plugin" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:indesign">
-      <p>I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 <a href="#fnref:indesign" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 <a href="#fnref:indesign" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:price">
-      <p>This has saved me so many subsequent bug follow ups that $15 is almost criminally low. <a href="#fnref:price" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This has saved me so many subsequent bug follow ups that $15 is almost criminally low. <a href="#fnref:price" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -169,10 +206,10 @@
 <div class="footnotes">
   <ol>
     <li id="fn:scratch">
-      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:background">
-      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -203,7 +240,7 @@
 <div class="footnotes">
   <ol>
     <li id="fn:pip">
-      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -392,13 +429,13 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 <div class="footnotes">
   <ol>
     <li id="fn:pocket">
-      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:codequality">
-      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:ajax">
-      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -443,19 +480,19 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 <div class="footnotes">
   <ol>
     <li id="fn:downloaddata">
-      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:touchid">
-      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:erasedata">
-      <p>This is an option within <code>Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This is an option within <code>Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:2fa">
-      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:xkcd">
-      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -553,50 +590,25 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 <div class="footnotes">
   <ol>
     <li id="fn:criteria">
-      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:polling">
-      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:switch">
-      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:silent">
-      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:clock">
-      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:classic">
-      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/18/apples-new-app-prices/">Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</a></h1>
-			
-			<time datetime="2017-01-18" pubdate=""><a href="/weblog/2017/01/18/apples-new-app-prices/">January 18, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p price point or drop it down to 49p. I was <a href="http://www.bbc.co.uk/news/technology-38650296">asked about this by BBC News</a> and gave this quote:</p>
-
-<blockquote>
-  <p>I don’t think many publishers will respond to that change. It’s just throwing money away and there’s no reason to give people in the UK a discount. I certainly won’t be discounting my own apps.</p>
-</blockquote>
-
-<p>I stick by that today as I don’t see why developers should be penalised for Apple adjusting to economic conditions; it is a change in price that UK users will get used to in the same way they did when the lowest tier changed from 59p to 69p and then again to 79p. This is especially true bearing in mind that the US App Store doesn’t have sales tax included whereas the UK does have VAT (so at current exchange rates a $0.99 app would work out around £0.96).</p>
-
-<p>The key thing though, and something I didn’t clock onto fully until looking again at the charts today, is that Alternative Price Tier A and B doesn’t apply just to the UK; they change prices in many places such as China, Australia, and Canada but maintain them in other places such as Japan and Denmark. If you went for Tier A you’d be reducing the price of your app by 50% in the UK but reducing it by a whopping 83% in China! There are also a few odd choices such as Canada’s pricing being $1.39 at Tier 1 (which is $0.99 in the USA) but it drops to $0.99 for both the A and B Alternate Tiers.</p>
-
-<p>If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.</p>
-
-<p>If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?</p>
 
 		</div>
 	</article>

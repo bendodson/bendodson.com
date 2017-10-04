@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+		<meta name="og:description" content="Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.">
+	
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2017-06-13.css" />
+	<link rel="stylesheet" href="/highlight.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Forcing left-to-right text in iOS localizations</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">Forcing left-to-right text in iOS localizations</a></h1>
+			
+			<time datetime="2017-10-04" pubdate=""><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">October 04, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
+
+<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard"><a href="#fn:manualstoryboard" class="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
+
+<p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></div>
+
+<p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
+
+<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">paragraph</span> <span class="o">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></div>
+
+<p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:manualstoryboard">
+      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/" title="Previous Article" class="pagination-previous">&laquo; MPMediaItem+CanAddToLibrary.swift</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

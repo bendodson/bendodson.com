@@ -38,6 +38,60 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">Generating a random colour, with a seed, in Swift 3</a></h1>
+			
+			<time datetime="2016-09-10" pubdate=""><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">September 10, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
+
+<p>As each article is <code>UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
+
+<p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">randomColor</span><span class="p">(</span><span class="nl">seed</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
+    
+    <span class="k">var</span> <span class="nl">total</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="p">}</span>
+    
+    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    
+    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">g</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    
+    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="n">b</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    
+    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
+
+<p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2016/random-color-with-seed.jpg" width="800" height="500" /></p>
+
+<p>As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:imessageapp">
+      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/08/23/tips-for-remote-working/">Tips for Remote Working</a></h1>
 			
 			<time datetime="2016-08-23" pubdate=""><a href="/weblog/2016/08/23/tips-for-remote-working/">August 23, 2016</a></time>
@@ -105,7 +159,7 @@
 <div class="footnotes">
   <ol>
     <li id="fn:featureby">
-      <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -132,7 +186,7 @@
 <div class="footnotes">
   <ol>
     <li id="fn:frameworks">
-      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -241,13 +295,13 @@
 <div class="footnotes">
   <ol>
     <li id="fn:proof">
-      <p>Whilst I had no concrete proof of this at the time of writing those articles, it <a href="https://twitter.com/rosyna/status/743398363496751104">looks like I was right that this was a widespread problem</a>. <a href="#fnref:proof" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Whilst I had no concrete proof of this at the time of writing those articles, it <a href="https://twitter.com/rosyna/status/743398363496751104">looks like I was right that this was a widespread problem</a>. <a href="#fnref:proof" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:fixed">
-      <p>I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. <a href="#fnref:fixed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. <a href="#fnref:fixed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:permissiontext">
-      <p>In earlier builds of iOS 10 you’d be asked “<em>[App Name] Would Like to Access Apple Music</em>” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “<em>[App Name] Would Like to Access Apple Music and Your Media Library</em>”. <a href="#fnref:permissiontext" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>In earlier builds of iOS 10 you’d be asked “<em>[App Name] Would Like to Access Apple Music</em>” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “<em>[App Name] Would Like to Access Apple Music and Your Media Library</em>”. <a href="#fnref:permissiontext" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -322,7 +376,7 @@
 <div class="footnotes">
   <ol>
     <li id="fn:cushion">
-      <p>If you’re a freelancer, you should definitely check out <a href="http://cushionapp.com/">Cushion</a>. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. <a href="#fnref:cushion" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>If you’re a freelancer, you should definitely check out <a href="http://cushionapp.com/">Cushion</a>. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. <a href="#fnref:cushion" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -387,10 +441,10 @@
 <div class="footnotes">
   <ol>
     <li id="fn:overkill">
-      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:appleaccount">
-      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -446,30 +500,6 @@
 
 <h3 id="airplay">AirPlay</h3>
 <p>I have a number of AirPlay devices around the house and one of the things that frustrates me most is that I can’t use Siri to control them. I’d like to be able to say “Hey Siri, play my cooking playlist in the kitchen” and have it just work. I’ve been able to <a href="https://bendodson.com/weblog/2016/05/24/homekit-and-airplay/">hack this functionality together</a> via some Applescript and a fake HomeKit setup on my Mac called Homebridge but it’d be nice to have it built in natively. Also, iTunes on the Mac can AirPlay to multiple speakers at once whereas iOS can’t.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/25/divide-13-consoles/">The Divide #13 - Consoles</a></h1>
-			
-			<time datetime="2016-05-25" pubdate=""><a href="/weblog/2016/05/25/divide-13-consoles/">May 25, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The <a href="http://thedivide.co.uk/episodes/13">13th episode of The Divide podcast</a> is now available in which we discuss video game consoles from our first tentative steps in the 8-bit era to the almost HD consoles of the modern day. We also discuss the Flic button, Day of the Tentacle, the Nvidia GTX 1080, Stellaris, and our predictions for WWDC.</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
 
 		</div>
 	</article>

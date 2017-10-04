@@ -38,6 +38,55 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a></h1>
+			
+			<time datetime="2015-10-05" pubdate=""><a href="/weblog/2015/10/05/healthkit-radar-22977320/">October 05, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Working with any code, it is inevitable that you’ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a “radar” so that they can track and hopefully fix any issues that arise. The issue is that the <a href="http://bugreport.apple.com/">Apple Bug Reporter</a> is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it’s fix. This has led to sites like <a href="https://openradar.appspot.com/">Open Radar</a> that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.</p>
+
+<p>In any case, today I found an interesting bug in HealthKit. iOS 9 added a new method named <code>deleteObjectsOfType:predicate:withCompletion</code> which is supposed to let you delete any objects you have written to HealthKit nice and easily. For example, I might have an app which constantly checks your step count and flights climbed throughout the day and so it will want to delete any steps and flights from 00.00 to 23.59 before it adds the updated count. Unfortunately, the method doesn’t seem to respect the <code>type</code> parameter and so it will delete everything that matches your query regardless of what <code>HKObjectType</code> it is.</p>
+
+<p>For example, consider the following code:</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">date</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+
+<span class="k">let</span> <span class="n">predicate</span> <span class="o">=</span> <span class="n">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="nl">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="n">stepType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) step objects: \(error)&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="k">let</span> <span class="n">stepQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">stepSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="n">flightsType</span> <span class="o">=</span> <span class="n">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nl">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nl">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted \(count) flight objects: \(error)&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="k">let</span> <span class="n">flightsQuantity</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">flightsSample</span> <span class="o">=</span> <span class="n">HKQuantitySample</span><span class="p">(</span><span class="nl">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nl">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nl">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+<span class="p">}</span></code></pre></div>
+
+<p>The expected result is that you’ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you’ll only get the Flights Climbed entry as the line <code>healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code>HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don’t add up with what is expected:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
+
+<p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I’ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you’ll need to do a manual search for objects with <code>HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
+
+<p><strong>Update:</strong> I’ve put together a fix for this issue with a new <code>HKHealthStore</code> method, <a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/"><code>deleteSamplesOfType:predicate:withCompletion:</code></a></p>
+
+<p><strong>Update:</strong> Whilst iOS 9.1 hasn’t fixed this issue, my bug report has today (23rd Oct 2015) been marked as a duplicate of issue 23097982 so looks like they may be getting around to fixing it. iOS 9.2 perhaps?</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">The Times They Are A-Changin'</a></h1>
 			
 			<time datetime="2015-09-25" pubdate=""><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">September 25, 2015</a></time>
@@ -75,25 +124,25 @@
 <div class="footnotes">
   <ol>
     <li id="fn:wanttoplay">
-      <p>And the nice thing now is that I get to play it and enjoy it! <a href="#fnref:wanttoplay" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>And the nice thing now is that I get to play it and enjoy it! <a href="#fnref:wanttoplay" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:skip">
-      <p>One of our players, ‘SkipOkane’ put together <a href="http://skipslists.wikidot.com/stuff-to-try">a list of some of the secrets</a>. My favourite is probably the ‘Mirage’ item which would always appear as a #1 when you purchased it (although the ‘Boomerang’ item that comes back if you try and recycle it is a close second as is the jousting minigame…) <a href="#fnref:skip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>One of our players, ‘SkipOkane’ put together <a href="http://skipslists.wikidot.com/stuff-to-try">a list of some of the secrets</a>. My favourite is probably the ‘Mirage’ item which would always appear as a #1 when you purchased it (although the ‘Boomerang’ item that comes back if you try and recycle it is a close second as is the jousting minigame…) <a href="#fnref:skip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:aprilfool">
-      <p>My reasoning was that if they hated it, we could pretend it was a joke. <a href="#fnref:aprilfool" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>My reasoning was that if they hated it, we could pretend it was a joke. <a href="#fnref:aprilfool" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:cats">
-      <p>They’ve done well so far; the first set they created is made entirely of dancing cats. I think it’s in safe hands! <a href="#fnref:cats" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>They’ve done well so far; the first set they created is made entirely of dancing cats. I think it’s in safe hands! <a href="#fnref:cats" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:death">
-      <p>I would never have believed that somebody would want to speak with me in the final weeks leading up to their death as they wanted to make arrangements for how their game items could be distributed. It’s humbling and hard to deal with. <a href="#fnref:death" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I would never have believed that somebody would want to speak with me in the final weeks leading up to their death as they wanted to make arrangements for how their game items could be distributed. It’s humbling and hard to deal with. <a href="#fnref:death" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:stevethree">
-      <p>I would love to do a Steve Jobs “<a href="https://www.youtube.com/watch?v=vZYlhShD2oQ&amp;t=2m19s">these are not 3 separate devices</a>” but they are. <a href="#fnref:stevethree" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I would love to do a Steve Jobs “<a href="https://www.youtube.com/watch?v=vZYlhShD2oQ&amp;t=2m19s">these are not 3 separate devices</a>” but they are. <a href="#fnref:stevethree" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:dodo">
-      <p>I first used the name “Dodo Apps” when I was doing my A-Level IT course. I built a choral robe management system in Microsoft Access and had to choose a name for the about page; I chose “Dodo Apps” as I was a big fan of the dodo from Alice in Wonderland and because it used letters from my surname. <a href="#fnref:dodo" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I first used the name “Dodo Apps” when I was doing my A-Level IT course. I built a choral robe management system in Microsoft Access and had to choose a name for the about page; I chose “Dodo Apps” as I was a big fan of the dodo from Alice in Wonderland and because it used letters from my surname. <a href="#fnref:dodo" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -122,10 +171,10 @@
 <div class="footnotes">
   <ol>
     <li id="fn:greatguys">
-      <p>These were great guys to work with. During a Slack conversation, they made the mistake of saying “Yes @bendodson, that is right” to which I said “I want that on a t-shirt”. A couple weeks later, <a href="https://bendodson.s3.amazonaws.com/weblog/2015/thatisright.jpg">this</a> arrived in the post… <a href="#fnref:greatguys" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>These were great guys to work with. During a Slack conversation, they made the mistake of saying “Yes @bendodson, that is right” to which I said “I want that on a t-shirt”. A couple weeks later, <a href="https://bendodson.s3.amazonaws.com/weblog/2015/thatisright.jpg">this</a> arrived in the post… <a href="#fnref:greatguys" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:sickbeats">
-      <p>Thankfully all now removed. <a href="#fnref:sickbeats" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Thankfully all now removed. <a href="#fnref:sickbeats" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -273,22 +322,22 @@ Every villain<sup id="fnref:almost"><a href="#fn:almost" class="footnote">5</a><
 <div class="footnotes">
   <ol>
     <li id="fn:argos">
-      <p>They accidentally broke the embargoe and were selling them instore - I managed to rush to my local branch and get all 5 sets about an hour before the mistake was fixed and they were pulled. <a href="#fnref:argos" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>They accidentally broke the embargoe and were selling them instore - I managed to rush to my local branch and get all 5 sets about an hour before the mistake was fixed and they were pulled. <a href="#fnref:argos" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:sandwiches">
-      <p>Every set has Scooby and Shaggy but they also always have either a sandwich or a burger. On the cheaper sets they’re a bit oddly placed (i.e. in the Mummy Museum they are used as the lever for the sarcophagus) but they are quite nice as mini models. <a href="#fnref:sandwiches" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Every set has Scooby and Shaggy but they also always have either a sandwich or a burger. On the cheaper sets they’re a bit oddly placed (i.e. in the Mummy Museum they are used as the lever for the sarcophagus) but they are quite nice as mini models. <a href="#fnref:sandwiches" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:velma">
-      <p>“<a href="https://www.youtube.com/watch?v=mugwhe_nGL0&amp;t=2m3s">Nice read, Velma</a>” <a href="#fnref:velma" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>“<a href="https://www.youtube.com/watch?v=mugwhe_nGL0&amp;t=2m3s">Nice read, Velma</a>” <a href="#fnref:velma" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:scooby">
-      <p>It’s worth noting that there are <a href="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg">4 Scooby variants</a>; one paw up, one paw up and scared, sat down and scared, and sat down with flying goggles. <a href="#fnref:scooby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>It’s worth noting that there are <a href="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg">4 Scooby variants</a>; one paw up, one paw up and scared, sat down and scared, and sat down with flying goggles. <a href="#fnref:scooby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:almost">
-      <p>OK, almost every villain. The zombie doesn’t have anything to cover the back so instead they have put a crease and some buttons to show it’s a mask. Genius. <a href="#fnref:almost" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>OK, almost every villain. The zombie doesn’t have anything to cover the back so instead they have put a crease and some buttons to show it’s a mask. Genius. <a href="#fnref:almost" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:ha">
-      <p><em>*chortle*</em> <a href="#fnref:ha" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p><em>*chortle*</em> <a href="#fnref:ha" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -327,25 +376,25 @@ Every villain<sup id="fnref:almost"><a href="#fn:almost" class="footnote">5</a><
 <div class="footnotes">
   <ol>
     <li id="fn:bracelet">
-      <p>I have an instant dislike to him after his <a href="http://www.theverge.com/a/apple-watch-review">Apple Watch review</a> (which has a horrible, horrible website) in which he said the notifications made him ruder in conversation (as he constantly looked at his watch rather than ignoring it - that just makes him a jerk, not the watch) and claimed he felt “ridiculous wearing the Milanese Loop” yet is happy to wear a <a href="http://www.neogaf.com/forum/showthread.php?t=1031596">massive chunky punk bracelet</a>. <a href="#fnref:bracelet" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I have an instant dislike to him after his <a href="http://www.theverge.com/a/apple-watch-review">Apple Watch review</a> (which has a horrible, horrible website) in which he said the notifications made him ruder in conversation (as he constantly looked at his watch rather than ignoring it - that just makes him a jerk, not the watch) and claimed he felt “ridiculous wearing the Milanese Loop” yet is happy to wear a <a href="http://www.neogaf.com/forum/showthread.php?t=1031596">massive chunky punk bracelet</a>. <a href="#fnref:bracelet" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:undeletable">
-      <p>I’m still surprised this hasn’t been remedied. In iOS 3 you could enable the Nike Running app by a toggle in settings (as the 3GS had the Bluetooth chip to talk to the shoe tracker) so I don’t see an issue why the built-in apps couldn’t be turned off in a similar way from settings. <a href="#fnref:undeletable" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I’m still surprised this hasn’t been remedied. In iOS 3 you could enable the Nike Running app by a toggle in settings (as the 3GS had the Bluetooth chip to talk to the shoe tracker) so I don’t see an issue why the built-in apps couldn’t be turned off in a similar way from settings. <a href="#fnref:undeletable" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:wap">
-      <p>Who remembers WAP? Fun times. <a href="#fnref:wap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Who remembers WAP? Fun times. <a href="#fnref:wap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:subscribe">
-      <p>A mixture of tech, politics, development, LEGO, video game, and Disney blogs. Everything published in the areas I care about all in one place. <a href="#fnref:subscribe" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>A mixture of tech, politics, development, LEGO, video game, and Disney blogs. Everything published in the areas I care about all in one place. <a href="#fnref:subscribe" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:theverge">
-      <p>Turns out that The Verge does offer a <a href="http://www.theverge.com/rss/full.xml">full RSS feed</a> after all! A shame that <a href="http://9to5mac.com">9to5mac.com</a> have started truncating theirs… <a href="#fnref:theverge" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Turns out that The Verge does offer a <a href="http://www.theverge.com/rss/full.xml">full RSS feed</a> after all! A shame that <a href="http://9to5mac.com">9to5mac.com</a> have started truncating theirs… <a href="#fnref:theverge" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:remove">
-      <p>After clicking a few of them, you realise the site is terrible and unsubscribe from it. Problem solved. <a href="#fnref:remove" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>After clicking a few of them, you realise the site is terrible and unsubscribe from it. Problem solved. <a href="#fnref:remove" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:blockads">
-      <p>The argument is either “if you block ads you are getting something for free and going to put the publisher out of business” or “you shouldn’t be using up my battery and CPU with this privacy invading advertising”. You can’t win either way. I block ads personally but I’ll do a post soon about how I do it on my iMac. <a href="#fnref:blockads" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>The argument is either “if you block ads you are getting something for free and going to put the publisher out of business” or “you shouldn’t be using up my battery and CPU with this privacy invading advertising”. You can’t win either way. I block ads personally but I’ll do a post soon about how I do it on my iMac. <a href="#fnref:blockads" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -421,7 +470,7 @@ Every villain<sup id="fnref:almost"><a href="#fn:almost" class="footnote">5</a><
 <div class="footnotes">
   <ol>
     <li id="fn:transfers">
-      <p>This is an important distinction as when paying an invoice I need to pay in a specific amount of USD so the amount of GBP will change. There may be situations where you always want send a specific amount of GBP and the USD will then be the thing that varies based on currency conversion. Obviously they support more than just USD / GBP but that’s all I use currently. <a href="#fnref:transfers" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This is an important distinction as when paying an invoice I need to pay in a specific amount of USD so the amount of GBP will change. There may be situations where you always want send a specific amount of GBP and the USD will then be the thing that varies based on currency conversion. Obviously they support more than just USD / GBP but that’s all I use currently. <a href="#fnref:transfers" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -456,43 +505,16 @@ Every villain<sup id="fnref:almost"><a href="#fn:almost" class="footnote">5</a><
 <div class="footnotes">
   <ol>
     <li id="fn:applepayphone">
-      <p>Only iPhone 6 and 6 Plus are supported for Apple Pay via contactless payment. You can use iPad Air 2 and iPad mini 3 for in-app payments. <a href="#fnref:applepayphone" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Only iPhone 6 and 6 Plus are supported for Apple Pay via contactless payment. You can use iPad Air 2 and iPad mini 3 for in-app payments. <a href="#fnref:applepayphone" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:contactlesslimit">
-      <p>This is increasing to £30 for all contactless payments in September. <a href="#fnref:contactlesslimit" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>This is increasing to £30 for all contactless payments in September. <a href="#fnref:contactlesslimit" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:iap">
-      <p>Obviously you can already pay for in-app purchases like extra game levels or subscriptions using TouchID which works essentially the same way but charges your card on your iTunes account. <a href="#fnref:iap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>Obviously you can already pay for in-app purchases like extra game levels or subscriptions using TouchID which works essentially the same way but charges your card on your iTunes account. <a href="#fnref:iap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
     <li id="fn:twist">
-      <p>I’ve seen a lot of comments about “the readers are on the right so how will I use it if I wear my watch on my left hand like 90% of the population”. I’ve got this clever trick called “moving your arm across your body”… worked like a charm at the McDonalds payment terminal. <a href="#fnref:twist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">Forcing UIStatusBarStyle for UIImagePickerController</a></h1>
-			
-			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">July 10, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I stumbled upon an interesting problem today which I’ve experienced a couple of times before; if you are using white text for the status bar in your application (<code>UIStatusBarStyle.LightContent</code>) then it will be turned black once you present a UIImagePickerController. This can not only look ugly but will remain when you dismiss the controller. Usually I just change the appearance of the navigation bar within the picker to get around this (and set it back to the correct colour upon dismissing the controller) but on this particular app I wanted to force the UIImagePickerController to use the light style status bar. Fortunately it is quite easy.</p>
-
-<p>When you use the UIImagePickerControllerDelegate, you are also required to adopt the UINavigationControllerDelegate. This has a method named <code>navigationController:willShowViewController:animated:</code> which will be called both when you present the controller and when you navigate between albums. Using this, it is trivial to force the status bar to remain the same<sup id="fnref:assumption"><a href="#fn:assumption" class="footnote">1</a></sup>:</p>
-
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="nl">navigationController</span><span class="p">:</span> <span class="bp">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
-	<span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">statusBarStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">LightContent</span>
-<span class="p">}</span></code></pre></div>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:assumption">
-      <p>This is of course assuming you have <em>View controller-based status bar appearance</em> set to NO in your Info.plist file so that you can use UIApplication to change the status bar. <a href="#fnref:assumption" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+      <p>I’ve seen a lot of comments about “the readers are on the right so how will I use it if I wear my watch on my left hand like 90% of the population”. I’ve got this clever trick called “moving your arm across your body”… worked like a charm at the McDonalds payment terminal. <a href="#fnref:twist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
