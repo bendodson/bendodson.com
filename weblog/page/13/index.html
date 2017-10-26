@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2017-06-13.css" />
+	<link rel="stylesheet" href="/styles-2017-10-26.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,49 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">The problem with Allow Full Access on iOS 8 keyboards</a></h1>
+			
+			<time datetime="2014-10-07" pubdate=""><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">October 07, 2014</a></time>
+    	</header>
+    	<div>
+			<p>I’ve never had a desire to change the stock keyboard on iOS. When the announcement was made at WWDC 2014, I thought that it was an interesting feature, but not one I would ever want to use. That changed when I saw the teaser page for <a href="http://popkey.co">PopKey</a>, a keyboard that allowed you to paste animated GIFs straight into your conversations. That made me think about keyboards in a different way and how developers might create interesting keyboards that aren’t just improved ways of typing<sup id="fnref:swype"><a href="#fn:swype" class="footnote">1</a></sup>.</p>
+
+<p>As it turns out, PopKey isn’t very good. It doesn’t have search, watermarks the images, requires you to create an account and give over your phone number, and it was beaten by <a href="https://www.riffsy.com">Riffsy</a> which is actually better<sup id="fnref:riffsy"><a href="#fn:riffsy" class="footnote">2</a></sup>.</p>
+
+<p>Anyway, the problem I’ve seen over and over again is that these keyboards require “Full Access”. This is a feature that basically enables the keyboard to talk to its host app and to the internet. The reason you might want this for a keyboard is that it might do auto-correct (iOS 8 keyboards do not have access to the Apple auto-correct algorithms) and therefore does some processing in an app or in the cloud. With Riffsy and PopKey, this is obviously required in order that it can download the GIFs from the internet. The real issue isn’t that it requires this access, but that Apple puts up this message when you enable it:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/full-access-keyboard-ios8.png" alt="Allow Full Access dialogue on iOS 8" /></p>
+
+<p>“This could include sensitive information such as your credit card number or street address” - could they make that sound any scarier?</p>
+
+<p>I’ve seen numerous people tweeting at PopKey asking them why it requires this access and how they won’t use the app until that requirement is turned off (which obviously won’t work - it <em>needs</em> internet access). I engaged a few in conversation and, even after I explained how it worked, the message I got back was “<a href="https://twitter.com/bigperrydog/status/517340559736729600">I don’t trust it</a>”. I’ve even chatted to a few iOS developers who refuse to install a GIF keyboard because of that warning!</p>
+
+<p>The basic problem is that the alert message you see is almost too scary and doesn’t give enough information. It was obviously written for what Apple expected; text keyboards. I’m not sure of a complete solution but as a start it needs to make it clearer that only things you type in <em>that</em> keyboard can be (potentially) seen by the developer. You don’t type anything in a GIF keyboard so the developers, if they are logging everything, can only see what stupid images you are sending. In addition, 3rd party apps can block custom keyboards from showing on sensitive screens (i.e. when entering your master password in 1Password or entering your pin in a banking app) and password fields automatically disable 3rd party apps (try it in Safari to see).</p>
+
+<p>It is developers that will suffer for this. End users are already up in arms about privacy and demanding keyboards not use this feature whilst clients don’t necessarily understand what is going on and just see the negative feedback. I’ve been approached by a number of prospective clients to build these keyboards and so far I’ve put them off by showing them the <a href="https://twitter.com/search?q=full%20keyboard%20access&amp;src=typd"><em>‘Full Keyboard Access’</em> search on Twitter</a>.<sup id="fnref:fka"><a href="#fn:fka" class="footnote">3</a></sup></p>
+
+<p>It seems to me to that Apple are treating the keyboard as a power feature and expect people to understand how it works under the hood. Seeing as some security savvy developers are cautious about installing these things, I think Apple has a lot of improvements to make in the way keyboards are installed, especially if it is to avoid negative fallout from end users who think that developers can steal your credit card number with an emoji keyboard. It’s good to be cautious about these things, but at the moment people are completely paranoid due to the installation process.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:swype">
+      <p>That is if you call swiping an improvement. Sidenote: I hate that since iOS 8 a lot of people misspell the verb ‘swipe’ as ‘swype’ (as in “I can’t swype through this page in your app”) <a href="#fnref:swype" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:riffsy">
+      <p>It irritates me that PopKey is the more well known keyboard though. This is entirely due to the fact that it put up a really nicely designed teaser page in advance and has got a lot of press coverage. I think it is really bad they still use the tagline “The world’s first animated GIF keyboard” when it clearly wasn’t and has so many flaws compared to the app that came first. That it is featured by Apple in the Best New Apps section is a great shame. <a href="#fnref:riffsy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:fka">
+      <p>For a while I tried to educate people as to how a GIF keyboard can’t read your iMessages. I gave up after a while. <a href="#fnref:fka" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -365,23 +408,6 @@ find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -
 <p>The API will now return a 404 error for all endpoints. You may want to take a look at <a href="https://www.mediawiki.org/wiki/Extension:GeoData#API">the official API from Wikipedia</a> (I haven’t looked into it myself) or you can <a href="https://bendodson.s3.amazonaws.com/wikilocation-dumps/index.html">download the latest MySQL dumps</a> (in 38 languages) of the data I retrieved. Alternatively, you can take a look at the <a href="https://wiki.toolserver.org/view/Ghel">original python script</a> that crawls the Wikipedia linking tables to build your own scraper.</p>
 
 <p>It is always a shame to have to terminate a service and I apologise for the inconvenience this may cause as there was no deprecation time. However, it just isn’t feasible for me to rewrite the entire API for new hosting when there are other alternatives available.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/23/off-on-honeymoon/">Off on honeymoon!</a></h1>
-			
-			<time datetime="2014-07-23" pubdate=""><a href="/weblog/2014/07/23/off-on-honeymoon/">July 23, 2014</a></time>
-    	</header>
-    	<div>
-			<p>On Monday, I had the great honour of marrying my beautiful girlfriend Becky at Dodford Manor.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/10487463_10100587207409054_5008795261987088123_n.jpg" alt="Benjamin and Rebecca Dodson" /></p>
-
-<p>We are now going on honeymoon to Vancouver, Alaska, and Whistler until August 11th. I will have limited internet connectivity and won’t be checking emails but I’ll reply to them upon my return; I expect there will be a lot and we are moving house during that week so I should have reached inbox zero by August 20th. If you are having any issues with <a href="http://wallab.ee">WallaBee</a>, please email <a href="mailto:support@wallab.ee">support@wallab.ee</a></p>
 
 		</div>
 	</article>

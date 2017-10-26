@@ -5,7 +5,7 @@
 	
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="The Blog of Ben Dodson - iPhone Developer and WallaBee Founder" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2017-06-13.css" />
+	<link rel="stylesheet" href="/styles-2017-10-26.css" />
 	<link rel="stylesheet" href="/highlight.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -35,6 +35,45 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2015/02/16/3-years-of-wallabee/">Three years of WallaBee</a></h1>
+			
+			<time datetime="2015-02-16" pubdate=""><a href="/weblog/2015/02/16/3-years-of-wallabee/">February 16, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Today I’m celebrating three years since <a href="http://wallab.ee">WallaBee</a> was released into the world. Originally conceived as an extension to the item collecting side of Gowalla, it launched in February 2012 as a completely standalone game with beautiful artwork and a very dedicated group of players. Since then it has won awards and grown far beyond what I originally anticipated.</p>
+
+<p>It hasn’t been an easy (or cheap<sup id="fnref:cheap"><a href="#fn:cheap" class="footnote">1</a></sup>) journey, but today we have a large player base and we’ve stuck to the <a href="https://bendodson.com/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">principles I laid out</a> when I first launched the game:</p>
+
+<blockquote>
+  <p><em>We are focussed on a single thing; items. We have a location database and we allow players and developers to add to this database but it’s not our key focus. We are fundamentally not a check-in service.</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>We don’t just want to build a community of players, we also want to build a community of developers. If you build something on our platform, we’ll promote it.</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>The most important thing, the item that is at the core of who we are, is that we are dedicated to the player. We promise to listen, adapt, and make changes that the community wants rather than just blazing our own trail. We will never fundamentally change our product on a whim when we know that it’s not what our community wants. We built this app because it’s the app we wanted to use. We will never deviate from that course or that core belief.</em></p>
+</blockquote>
+
+<p>If there is just one thing I could choose about WallaBee that I’m proud of, it would be that we stuck to those initial promises. We haven’t taken any external funding nor done things simply to boost user numbers or revenue. Every decision we make is based on a simple philosophy: <em>do we like it?</em></p>
+
+<p>Over the coming months, we’re going to be launching a lot of new things which will grow WallaBee from one game to a global brand. Even so, we won’t change from those core beliefs.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:cheap">
+      <p>For anybody wondering about the financials of such a game, you need at least $30000 to get started and you will lose a lot of money for the first 18 months (great artists and servers are both expensive and necessary). I started WallaBee on the basis that if it wasn’t break even by year 2 then we’d shut it down. Happily, we’ve been turning a profit since September 2013. <a href="#fnref:cheap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -325,49 +364,6 @@
     </li>
     <li id="fn:itunesartwork">
       <p>I will generally use <a href="https://code.google.com/p/subler/">Subler</a> or <a href="https://www.google.co.uk/imghp?gws_rd=ssl">Google Image Search</a> if the iTunes Artwork Finder comes up blank. <a href="#fnref:itunesartwork" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">The problem with Allow Full Access on iOS 8 keyboards</a></h1>
-			
-			<time datetime="2014-10-07" pubdate=""><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">October 07, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I’ve never had a desire to change the stock keyboard on iOS. When the announcement was made at WWDC 2014, I thought that it was an interesting feature, but not one I would ever want to use. That changed when I saw the teaser page for <a href="http://popkey.co">PopKey</a>, a keyboard that allowed you to paste animated GIFs straight into your conversations. That made me think about keyboards in a different way and how developers might create interesting keyboards that aren’t just improved ways of typing<sup id="fnref:swype"><a href="#fn:swype" class="footnote">1</a></sup>.</p>
-
-<p>As it turns out, PopKey isn’t very good. It doesn’t have search, watermarks the images, requires you to create an account and give over your phone number, and it was beaten by <a href="https://www.riffsy.com">Riffsy</a> which is actually better<sup id="fnref:riffsy"><a href="#fn:riffsy" class="footnote">2</a></sup>.</p>
-
-<p>Anyway, the problem I’ve seen over and over again is that these keyboards require “Full Access”. This is a feature that basically enables the keyboard to talk to its host app and to the internet. The reason you might want this for a keyboard is that it might do auto-correct (iOS 8 keyboards do not have access to the Apple auto-correct algorithms) and therefore does some processing in an app or in the cloud. With Riffsy and PopKey, this is obviously required in order that it can download the GIFs from the internet. The real issue isn’t that it requires this access, but that Apple puts up this message when you enable it:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/full-access-keyboard-ios8.png" alt="Allow Full Access dialogue on iOS 8" /></p>
-
-<p>“This could include sensitive information such as your credit card number or street address” - could they make that sound any scarier?</p>
-
-<p>I’ve seen numerous people tweeting at PopKey asking them why it requires this access and how they won’t use the app until that requirement is turned off (which obviously won’t work - it <em>needs</em> internet access). I engaged a few in conversation and, even after I explained how it worked, the message I got back was “<a href="https://twitter.com/bigperrydog/status/517340559736729600">I don’t trust it</a>”. I’ve even chatted to a few iOS developers who refuse to install a GIF keyboard because of that warning!</p>
-
-<p>The basic problem is that the alert message you see is almost too scary and doesn’t give enough information. It was obviously written for what Apple expected; text keyboards. I’m not sure of a complete solution but as a start it needs to make it clearer that only things you type in <em>that</em> keyboard can be (potentially) seen by the developer. You don’t type anything in a GIF keyboard so the developers, if they are logging everything, can only see what stupid images you are sending. In addition, 3rd party apps can block custom keyboards from showing on sensitive screens (i.e. when entering your master password in 1Password or entering your pin in a banking app) and password fields automatically disable 3rd party apps (try it in Safari to see).</p>
-
-<p>It is developers that will suffer for this. End users are already up in arms about privacy and demanding keyboards not use this feature whilst clients don’t necessarily understand what is going on and just see the negative feedback. I’ve been approached by a number of prospective clients to build these keyboards and so far I’ve put them off by showing them the <a href="https://twitter.com/search?q=full%20keyboard%20access&amp;src=typd"><em>‘Full Keyboard Access’</em> search on Twitter</a>.<sup id="fnref:fka"><a href="#fn:fka" class="footnote">3</a></sup></p>
-
-<p>It seems to me to that Apple are treating the keyboard as a power feature and expect people to understand how it works under the hood. Seeing as some security savvy developers are cautious about installing these things, I think Apple has a lot of improvements to make in the way keyboards are installed, especially if it is to avoid negative fallout from end users who think that developers can steal your credit card number with an emoji keyboard. It’s good to be cautious about these things, but at the moment people are completely paranoid due to the installation process.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:swype">
-      <p>That is if you call swiping an improvement. Sidenote: I hate that since iOS 8 a lot of people misspell the verb ‘swipe’ as ‘swype’ (as in “I can’t swype through this page in your app”) <a href="#fnref:swype" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:riffsy">
-      <p>It irritates me that PopKey is the more well known keyboard though. This is entirely due to the fact that it put up a really nicely designed teaser page in advance and has got a lot of press coverage. I think it is really bad they still use the tagline “The world’s first animated GIF keyboard” when it clearly wasn’t and has so many flaws compared to the app that came first. That it is featured by Apple in the Best New Apps section is a great shame. <a href="#fnref:riffsy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:fka">
-      <p>For a while I tried to educate people as to how a GIF keyboard can’t read your iMessages. I gave up after a while. <a href="#fnref:fka" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
