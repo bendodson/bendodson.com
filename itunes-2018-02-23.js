@@ -225,9 +225,9 @@ function performSearch() {
                             console.log(result.title);
 
                             var html = '<div><h3>'+result.title+'</h3>';
-                            if (entity != 'software') {
+                            if (entity != 'software' && entity != 'iPadSoftware' && entity != 'macSoftware') {
                                 html += '<p><a href="'+result.url+'" target="_blank">Standard Resolution</a> | <a href="'+result.hires+'" target="_blank">High Resolution</a> <em><small>'+result.warning+'</small></em></p>';
-                            } else {
+                            } else if (entity == 'software' || entity == 'iPadSoftware') {
                                 html += '<p><a href="./app/?url='+encodeURIComponent(result.appstore)+'&country='+country+'" target="_blank">View screenshots / videos</a></p>';
                             }
                             html += '<a href="'+result.url+'" target="_blank"><img src="'+result.url+'" alt="iTunes Artwork for \''+result.title+'\'" width="'+result.width+'" height="'+result.height+'"></a>';

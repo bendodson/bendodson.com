@@ -44,13 +44,16 @@ $(document).ready(function() {
 					html += '<li><a href="'+videos.iphone+'" target="_blank">iPhone 3.5" (iPhone / 3G / 3GS / 4 / 4S)</a></li>';
 				}
 				if (videos.iphone5) {
-					html += '<li><a href="'+videos.iphone5+'" target="_blank">iPhone 4" (iPhone 5 / 5C / 5S)</a></li>';
+					html += '<li><a href="'+videos.iphone5+'" target="_blank">iPhone 4" (iPhone 5 / 5C / 5S / SE)</a></li>';
 				}
 				if (videos.iphone6) {
-					html += '<li><a href="'+videos.iphone6+'" target="_blank">iPhone 4.7" (iPhone 6)</a></li>';
+					html += '<li><a href="'+videos.iphone6+'" target="_blank">iPhone 4.7" (iPhone 6 / 6S / 7 / 8)</a></li>';
 				}
 				if (videos["iphone6+"]) {
-					html += '<li><a href="'+videos["iphone6+"]+'" target="_blank">iPhone 5.5" (iPhone 6 Plus)</a></li>';
+					html += '<li><a href="'+videos["iphone6+"]+'" target="_blank">iPhone 5.5" (iPhone 6 Plus / 6S Plus / 7 Plus / 8 Plus)</a></li>';
+				}
+				if (videos["iphone_5_8"]) {
+					html += '<li><a href="'+videos["iphone_5_8"]+'" target="_blank">iPhone 5.8" (iPhone X)</a></li>';
 				}
 				if (videos.ipad) {
 					html += '<li><a href="'+videos.ipad+'" target="_blank">iPad</a></li>';
@@ -79,23 +82,30 @@ $(document).ready(function() {
 			}
 
 			if (screenshots["iphone5"] && screenshots["iphone5"].length) {
-				html += '<h3>iPhone 4" (iPhone 5 / 5C / 5S)</h3>';
+				html += '<h3>iPhone 4" (iPhone 5 / 5C / 5S / SE)</h3>';
 				for (var i = 0; i < screenshots["iphone5"].length; i++) {
 					html += '<a href="'+screenshots["iphone5"][i]+'" target="_blank"><img src="'+screenshots["iphone5"][i]+'" /></a>';
 				};				
 			}
 
 			if (screenshots["iphone6"] && screenshots["iphone6"].length) {
-				html += '<h3>iPhone 4.7" (iPhone 6)</h3>';
+				html += '<h3>iPhone 4.7" (iPhone 6 / 6S / 7 / 8)</h3>';
 				for (var i = 0; i < screenshots["iphone6"].length; i++) {
 					html += '<a href="'+screenshots["iphone6"][i]+'" target="_blank"><img src="'+screenshots["iphone6"][i]+'" /></a>';
 				};				
 			}
 
 			if (screenshots["iphone6+"] && screenshots["iphone6+"].length) {
-				html += '<h3>iPhone 5.5" (iPhone 6 Plus)</h3>';
+				html += '<h3>iPhone 5.5" (iPhone 6 Plus / 6S Plus / 7 Plus / 8 Plus)</h3>';
 				for (var i = 0; i < screenshots["iphone6+"].length; i++) {
 					html += '<a href="'+screenshots["iphone6+"][i]+'" target="_blank"><img src="'+screenshots["iphone6+"][i]+'" /></a>';
+				};				
+			}
+
+			if (screenshots["iphone_5_8"] && screenshots["iphone_5_8"].length) {
+				html += '<h3>iPhone 5.8" (iPhone X)</h3><p>May not work due to a bug with Apple\'s API</p>';
+				for (var i = 0; i < screenshots["iphone_5_8"].length; i++) {
+					html += '<a href="'+screenshots["iphone_5_8"][i]+'" target="_blank"><img src="'+screenshots["iphone_5_8"][i]+'" /></a>';
 				};				
 			}
 
