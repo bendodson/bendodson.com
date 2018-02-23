@@ -60,15 +60,15 @@
 
 <p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">container</span> <span class="o">=</span> <span class="n">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">container</span> <span class="p">=</span> <span class="bp">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
 <span class="n">container</span><span class="p">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="n">guard</span> <span class="k">let</span> <span class="n">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-    
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Identifier: \(recordID.recordName)&quot;</span><span class="p">)</span>    
-<span class="p">}</span></code></pre></div>
+    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">recordID</span> <span class="p">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="s">&quot;)</span>
+<span class="s">        return</span>
+<span class="s">    }</span>
+<span class="s">    </span>
+<span class="s">    NSLog(&quot;</span><span class="n">Identifier</span><span class="p">:</span> <span class="err">\</span><span class="si">(</span><span class="n">recordID</span><span class="p">.</span><span class="n">recordName</span><span class="si">)</span><span class="s">&quot;)    </span>
+<span class="s">}</span></code></pre></figure>
 
 <p>The identifier returned will be 34 characters long and look something like this:</p>
 
@@ -78,14 +78,14 @@
 
 <p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code>import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="n">guard</span> <span class="k">let</span> <span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">identifier</span> <span class="p">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
     
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: \(identifier)&quot;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: </span><span class="si">\(</span><span class="n">identifier</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>I’ve named it <code>AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
 

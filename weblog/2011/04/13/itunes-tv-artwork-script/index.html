@@ -46,7 +46,7 @@
 			<p>I have a large amount of TV shows stored in iTunes but not all of them were purchased there, particularly as you can buy a Blu-Ray of many TV shows for a fraction of the price of a Standard Definition download. The only issue I've had is that I lacked artwork for each of these shows. In the past, I'd just screenshot the 200px or so image that showed up in the iTunes store and use that, but since getting an Apple TV (which displays the artwork at a much larger size) I decided I needed a better solution. After a weekend of sorting out my iTunes library, I decided to take a look at the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html">iTunes Search API</a> and see if I couldn't find a way of getting that artwork. They provide a 100x100px thumbnail as part of the API response, but fortunately (with some URL experimentation) I found a way to get the full 600x600px artwork.   
 You can <a href="https://bendodson.com/projects/itunes-tv-artwork/">find the working version on my projects page</a> but I thought I'd share the code briefly below so you can see how it's done and adjust it for any other media available on iTunes (e.g. movies, music, apps).</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 <span class="nv">$search</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;show&#39;</span><span class="p">];</span>
 <span class="k">if</span> <span class="p">(</span><span class="nv">$search</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nv">$url</span> <span class="o">=</span> <span class="s1">&#39;http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/wa/wsSearch?term=&#39;</span><span class="o">.</span><span class="nb">urlencode</span><span class="p">(</span><span class="nv">$search</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;&amp;country=us&amp;entity=tvSeason&#39;</span><span class="p">;</span>
@@ -59,7 +59,7 @@ You can <a href="https://bendodson.com/projects/itunes-tv-artwork/">find the wor
 		<span class="nv">$results</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">;</span>
 	<span class="p">}</span>
 <span class="p">}</span>
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 </pre>
 
 <p>As you can see, it makes a fairly standard API call to the US iTunes store (as that has far more content than any of the others) which returns a lot of information about the particular entity (in this case a TV series).  However, the artwork URL provided is only good for a 100x100px image so I us  a basic <code>str_replace</code> to change that to 600x600 (the only other size I've found that works is 200x200).  Once that's done, I grab the title and stick it all in an array to loop through later - simple!</p>

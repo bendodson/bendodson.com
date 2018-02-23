@@ -49,7 +49,7 @@
 <p><strong>Note:</strong> This won't work straight out of the box - I've put in a few comments which say "SQL Required".  This is because you may well have your own schema (although I do provide one) and you may have your own framework or DB connection functions (I know I do).  Once you've done those, just substitute the constants for your own details and it should all work</p>
 
 <h3>TwitterFollowers.class.php</h3>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="sd">/**</span>
 <span class="sd"> * Crawls Twitter Followers and sends an email alert to show you who has started following, stopped following, and started re-following</span>
@@ -70,7 +70,7 @@
 	<span class="k">protected</span> <span class="nv">$followerChanges</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
 	<span class="k">protected</span> <span class="nv">$now</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 	
-	<span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+	<span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span>
 	<span class="p">{</span>
 		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">);</span>
 		
@@ -164,15 +164,15 @@
 
 <span class="p">}</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <h3>MySQL Database Schema</h3>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">TwitterFollowers</span><span class="o">`</span> <span class="p">(</span>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">TwitterFollowers</span><span class="o">`</span> <span class="p">(</span>
   <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
   <span class="o">`</span><span class="k">start</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
   <span class="o">`</span><span class="k">end</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
-<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">MyISAM</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span></code></pre></div>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">MyISAM</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span></code></pre></figure>
 
 <h3>How does it work?</h3>
 

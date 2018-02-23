@@ -57,14 +57,14 @@
 
 <p>Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="nl">countryCode</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-    <span class="k">var</span> <span class="n">country</span> <span class="o">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="n">countryCode</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nv">string</span> <span class="p">=</span> <span class="s">&quot;&quot;</span>
+    <span class="kd">var</span> <span class="nv">country</span> <span class="p">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
     <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">string</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>A great way of testing this is with an Xcode Playground which will allow you to quickly see the output like such:</p>
 

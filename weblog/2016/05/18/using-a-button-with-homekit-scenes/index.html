@@ -79,71 +79,71 @@
 
 <p>The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named <a href="https://github.com/daltoniam/Starscream">Starscream</a> which allowed me to connect to the server and send commands which led me to this code for the entire project:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">UIKit</span>
-<span class="k">import</span> <span class="n">Starscream</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
+<span class="kd">import</span> <span class="nc">Starscream</span>
 
-<span class="k">let</span> <span class="n">ipAddress</span> <span class="o">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
-<span class="k">let</span> <span class="n">flicAppKey</span> <span class="o">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
-<span class="k">let</span> <span class="n">flicAppSecret</span> <span class="o">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
+<span class="kd">let</span> <span class="nv">ipAddress</span> <span class="p">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
+<span class="kd">let</span> <span class="nv">flicAppKey</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
+<span class="kd">let</span> <span class="nv">flicAppSecret</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
 
-<span class="k">class</span> <span class="nl">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
 
-    <span class="k">let</span> <span class="n">socket</span> <span class="o">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="nl">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;ws://\(ipAddress)/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+    <span class="kd">let</span> <span class="nv">socket</span> <span class="p">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;ws://</span><span class="si">\(</span><span class="n">ipAddress</span><span class="si">)</span><span class="s">/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
     
-    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">defaultButtonDelegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="nl">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="nl">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="nl">backgroundExecution</span><span class="p">:</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="p">=</span> <span class="kc">self</span>
+        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">defaultButtonDelegate</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span> <span class="n">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="n">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="n">backgroundExecution</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">setupFlic</span><span class="p">(</span><span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
+    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">setupFlic</span><span class="p">(</span><span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()?.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
     <span class="p">}</span>
     
-    <span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">toggle</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">toggle</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">socket</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="p">}</span>
     
 
-    <span class="c1">// MARK: Flic Manager</span>
+    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Flic Manager</span>
     
-    <span class="k">func</span> <span class="n">flicManager</span><span class="p">(</span><span class="nl">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="nl">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="o">?</span><span class="p">,</span> <span class="n">withError</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: \(error)&quot;</span><span class="p">)</span>
+    <span class="kd">func</span> <span class="nf">flicManager</span><span class="p">(</span><span class="n">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">?,</span> <span class="n">withError</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">flicButton</span><span class="p">(</span><span class="nl">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="nl">queued</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">age</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">flicButton</span><span class="p">(</span><span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="n">queued</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">toggle</span><span class="p">()</span>
     <span class="p">}</span>
     
     
-    <span class="c1">// MARK: Websocket Delegate</span>
+    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Websocket Delegate</span>
     
-    <span class="k">func</span> <span class="n">websocketDidConnect</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
-        <span class="k">let</span> <span class="n">last</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
-        <span class="k">let</span> <span class="n">name</span> <span class="o">=</span> <span class="n">last</span> <span class="o">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="o">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="o">:</span> <span class="s">&quot;ws_morning&quot;</span>
-        <span class="k">let</span> <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="o">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="o">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="kt">bool</span><span class="o">:</span> <span class="nb">true</span><span class="p">)]]</span>
-        <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="n">string</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="nl">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nl">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidConnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nv">defaults</span> <span class="p">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+        <span class="kd">let</span> <span class="nv">last</span> <span class="p">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
+        <span class="kd">let</span> <span class="nv">name</span> <span class="p">=</span> <span class="bp">last</span> <span class="p">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="p">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="p">:</span> <span class="s">&quot;ws_morning&quot;</span>
+        <span class="kd">let</span> <span class="nv">params</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="p">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="p">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="n">bool</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]]</span>
+        <span class="kd">let</span> <span class="nv">data</span> <span class="p">=</span> <span class="k">try</span><span class="p">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
+        <span class="k">if</span> <span class="kd">let</span> <span class="nv">string</span> <span class="p">=</span> <span class="nb">String</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">socket</span><span class="p">.</span><span class="n">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
             <span class="n">socket</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
-            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
+            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
             <span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">websocketDidDisconnect</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidDisconnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">websocketDidReceiveData</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidReceiveData</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">websocketDidReceiveMessage</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">text</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidReceiveMessage</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p><strong>Note: this is just a personal project that I built as quickly as possible. By nature, it is a fairly dirty hack. You shouldn’t write professional apps like this.</strong></p>
 

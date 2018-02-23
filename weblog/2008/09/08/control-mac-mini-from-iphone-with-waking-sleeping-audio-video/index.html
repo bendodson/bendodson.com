@@ -59,7 +59,7 @@
 
 <p>Waking up a machine is easy with Wake-on-LAN (as we'll see shortly) but there seems to be no easy way to put one to sleep.  My initial ideas of having an inactivity timer were quickly discarded as I realised that either the machine wouldn't go to sleep if music was left playing or it might go to sleep too quickly.  A better solution was needed and I eventually came across a terminal command which will make your mac sleep:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;;</span></code></pre></figure>
 
 <p>You can try the above in Terminal and watch in awe as your mac succumbs to tiredness.  So this is all well and good but can only be run on the machine which you want to put to sleep; it can't be done remotely.</p>
 
@@ -69,21 +69,21 @@
 
 <p>Now that we can connect to the web server, we need to get PHP up and running and write our script.  PHP 5 doesn't come enabled by default so we have to do this by opening up terminal and typing the code below.  I am assuming at this point that you have the excellent <a href="http://macromates.com/" rel="external">TextMate</a> installed which is accessed from the 'mate' command in Terminal.  If you don't have it, either install it or substitute 'mate' for some other text editor command like 'pico' or 'vi'.</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mate /etc/apache2/httpd.conf</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sudo mate /etc/apache2/httpd.conf</code></pre></figure>
 
 <p>You may need to type in your administrative password if prompted.  Now you have the Apache2 configuration file open, scroll down to somewhere around line 114 where you will find the line:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"># LoadModule php5_module libexec/apache2/libphp5.so</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span># LoadModule php5_module libexec/apache2/libphp5.so</code></pre></figure>
 
 <p>You'll need to uncomment this (by removing the proceeding hash) and then save the file.  Once this is done, you'll need to restart Apache in order for your changes to be made available.  You do this with the command:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo apachectl graceful</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sudo apachectl graceful</code></pre></figure>
 
 <p>You can use 'restart' in place of 'graceful' to do a full restart, but a graceful restart won't kick off anyone that is currently using your server.  This isn't going to matter here but it's a good habit to get into in case you ever need to restart an apache server in the future.</p>
 
 <p>You now have PHP5 installed and ready to go so lets write the PHP script that is going to power our sleep command.  You'll need to go to your Apache DocumentRoot (which by default is in a folder called Sites in your home folder) and delete any files that are in there.  Now create a new file called "index.php" with the following code in it:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="x">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span>
 <span class="x">    &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span>
 <span class="x">&lt;html&gt;</span>
 <span class="x">&lt;head&gt;</span>
@@ -97,20 +97,20 @@
 <span class="cp">&lt;?php</span>
 <span class="nb">exec</span><span class="p">(</span><span class="s1">&#39;./sleep.scpt&#39;</span><span class="p">);</span>
 <span class="k">exit</span><span class="p">;</span>
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <p>All this code is doing is outputting a message that says "goodnight" and then executes an applescript file (in this case sleep.scpt) which contains the code from earlier:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;</span></code></pre></figure>
 
 <p>I find it's easier to include a file in this way rather than typing the command into a function such as <a href="http://uk3.php.net/passthru" rel="external">passthru()</a> as it allows for easier control over quotes, etc.  The <a href="http://uk3.php.net/manual/en/function.exec.php" rel="external">exec()</a> command used in the above is pretty much telling PHP to type the command we used earlier into Terminal.  Unfortunately this won't actually do anything at present (at least it shouldn't do) as the Apache webserver is not authorised by default to perform such important system commands as are available through exec().  To do this we need to go back to the Apache2 config file and set the user and group of the web server to be the same as that of the user of the machine.  Now this is a calculated security risk as it means any scripts on the server can have full access to your machine and thus compromise it.  However, this is for personal home use and no-one will be able to access it unless they are on your network let alone run scripts on it so I think it's ok.  Let's set the permissions by opening up the config file:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mate /etc/apache2/httpd.conf</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sudo mate /etc/apache2/httpd.conf</code></pre></figure>
 
 <p>Now go to around line 126 and amend the User to your own username and Group to 'staff'.  In my case this was:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">User ben
-Group staff</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>User ben
+Group staff</code></pre></figure>
 
 <p>Yours will differ (unless you're called ben) but you can find out what yours is by going to your home folder - the name of the folder is the name of your user.</p>
 

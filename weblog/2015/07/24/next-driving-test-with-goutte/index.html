@@ -47,7 +47,7 @@
 
 <p>To stop her having to constantly go to a website, I decided to knock up a quick PHP script that would basically pretend to be a browser, log in, go to the correct page, and rip out the next available appointment. It’s been a while since I wrote a script like this so I had a look around for something better than <code>SimpleXML</code> and found <a href="https://github.com/FriendsOfPHP/Goutte">Goutte, a simple PHP Web Scraper</a>. Within 10 minutes, my script was working. It looks something like this:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="k">require</span> <span class="s1">&#39;vendor/autoload.php&#39;</span><span class="p">;</span>
 
@@ -79,7 +79,7 @@
     <span class="k">exit</span><span class="p">;</span>
 <span class="p">});</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <p>As you can see, the code is pretty simple, readable, and powerful. Within minutes, I was able to jump through 3 pages without worrying about sessions, cookies, or any of the other nonsense that often occurred when dealing with this kind of scraping. I run this every 5 minutes on a <a href="http://fortrabbit.com/">FortRabbit server</a> and we both get emailed if a closer test date appears. For just a few minutes work, this means better peace of mind as we don’t have to check manually and this checks far more frequently than we ever could. Now to wait and hope for a nearer test date…</p>
 

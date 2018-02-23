@@ -50,10 +50,10 @@ In a post entitled "<a href="http://groups.google.com/group/gowalla-dev/browse_t
 
 <p>Next, there are 4 headers you have to send with every request. 2 of them, "<code>Accept: application/json</code>" and "<code>X-Gowalla-API-Key</code>", were required for the old API but Gowalla have also added an "<code>X-Gowalla-Bruce-Lee</code>" header (with a password so they know it's the Gowalla app using the API) and an "<code>X-Gowalla-API-Version</code>" header which seems to suggest they are taking my advice of 18 months ago and versioning the API rather than just breaking existing apps. So, the full headers you need to send are:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">Accept: application/json
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Accept: application/json
 X-Gowalla-API-Key: YOUR-API-KEY-HERE
 X-Gowalla-Bruce-Lee: l33tkuned0
-X-Gowalla-API-Version: 2</code></pre></div>
+X-Gowalla-API-Version: 2</code></pre></figure>
 
 <p>If you do that, you should be able to call an API endpoint such as users/bendodson where you'll find a load of new data that isn't in the normal API. That should also give you a good idea of the naming conventions of new endpoints (e.g. /lists rather than /trips). In all of my testing, existing features such as OAuth have worked fine.</p>
 

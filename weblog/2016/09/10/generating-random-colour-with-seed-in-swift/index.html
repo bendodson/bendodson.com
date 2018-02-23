@@ -51,24 +51,24 @@
 
 <p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">randomColor</span><span class="p">(</span><span class="nl">seed</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
     
-    <span class="k">var</span> <span class="nl">total</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nv">total</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="nb">Int</span><span class="p">(</span><span class="nb">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
     <span class="p">}</span>
     
     <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="kd">let</span> <span class="nv">r</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
     
     <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">g</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="kd">let</span> <span class="nv">g</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
     
     <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">b</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="kd">let</span> <span class="nv">b</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
     
-    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
+    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="n">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
 

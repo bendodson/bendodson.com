@@ -47,14 +47,14 @@
 
 <p>In order to make things a bit easier for other developers, <a href="https://github.com/bendodson/storefront-assistant">I’ve put together a simple class and plist file</a> that will automatically return a country code for the current user’s store. It’s incredibly simple:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">StorefrontAssistant</span><span class="p">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">StorefrontAssistant</span><span class="p">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="n">countryCode</span> <span class="o">=</span> <span class="n">countryCode</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Country code: \(countryCode)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="kd">let</span> <span class="nv">countryCode</span> <span class="p">=</span> <span class="n">countryCode</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Country code: </span><span class="si">\(</span><span class="n">countryCode</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>Storefront Assistant will automatically request permissions to access the Media Library and then fetch the current storefront identifier for the logged in user. If there are any issues (i.e. permissions denied, no connectivity, country code can’t be found) then an NSError will be returned.</p>
 

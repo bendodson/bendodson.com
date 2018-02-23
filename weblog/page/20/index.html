@@ -458,7 +458,7 @@
 <p><strong>Note:</strong> This won't work straight out of the box - I've put in a few comments which say "SQL Required".  This is because you may well have your own schema (although I do provide one) and you may have your own framework or DB connection functions (I know I do).  Once you've done those, just substitute the constants for your own details and it should all work</p>
 
 <h3>TwitterFollowers.class.php</h3>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="sd">/**</span>
 <span class="sd"> * Crawls Twitter Followers and sends an email alert to show you who has started following, stopped following, and started re-following</span>
@@ -479,7 +479,7 @@
 	<span class="k">protected</span> <span class="nv">$followerChanges</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
 	<span class="k">protected</span> <span class="nv">$now</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 	
-	<span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+	<span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span>
 	<span class="p">{</span>
 		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">);</span>
 		
@@ -573,15 +573,15 @@
 
 <span class="p">}</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <h3>MySQL Database Schema</h3>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">TwitterFollowers</span><span class="o">`</span> <span class="p">(</span>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">TwitterFollowers</span><span class="o">`</span> <span class="p">(</span>
   <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
   <span class="o">`</span><span class="k">start</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
   <span class="o">`</span><span class="k">end</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
-<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">MyISAM</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span></code></pre></div>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">MyISAM</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span></code></pre></figure>
 
 <h3>How does it work?</h3>
 
@@ -619,7 +619,7 @@
 
 <h3>XboxLive AppleScript</h3>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
 <span class="k">set</span> <span class="nv">dataFilePath</span> <span class="k">to</span> <span class="s2">&quot;server:XboxLive:data.txt&quot;</span>
 <span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span>
 
@@ -648,7 +648,7 @@
 	<span class="k">end</span> <span class="k">tell</span>
 <span class="k">end</span> <span class="k">if</span>
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></div>
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></figure>
 
 <p>This is the first time I've used AppleScript for anything other than just playing around and I have to say that as a language it's incredibly good.  Just by reading through the above, you'll probably be able to work out what's going on even if you've never seen any type of programming code in the past.  Even so, I'll go through each section and explain what it does along with the reasons why I decided to do it in this particular way rather than some of the other ways I could have chosen.</p>
 
@@ -660,19 +660,19 @@
 
 <p>Now we've got that out of the way, let's look at that AppleScript in more detail:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
 <span class="k">set</span> <span class="nv">dataFilePath</span> <span class="k">to</span> <span class="s2">&quot;server:XboxLive:data.txt&quot;</span>
-<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span></code></pre></div>
+<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span></code></pre></figure>
 
 <p>These three lines of code are used to define variables which we will use later on in the code.  The first one, <code>urlFilePath</code>, is the URL of the text file on my server that will tell our script what URL we need to retrieve the HTML from.  You'll see how we populate that text file with my XboxLive php class which will be discussed in part three of this four part series.  The second variable, <code>dataFilePath</code>, is interesting as it contains the path to the file we are going to save the HTML to on the local machine.  So why the strange syntax?  This is referred to as Finder syntax and is a way for AppleScript to reference a particular section within Finder, in this case a text file.  It is essentially the same as "/server/XboxLive/data.txt" which we could have used - the difference is that we would have had to have converted that into the Finder syntax in order to use some of the file editing commands we'll use later so I thought it best just to save it correctly at the beginning.</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
 <span class="nb">set eof</span> <span class="k">of</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="mi">0</span>
-<span class="nb">close access</span> <span class="nv">dataFile</span></code></pre></div>
+<span class="nb">close access</span> <span class="nv">dataFile</span></code></pre></figure>
 
 <p>These three lines are again fairly easy to follow.  We set a variable of <code>dataFile</code> to be the handler of the file declared in the path of <code>dataFilePath</code>.  Note that we have specifically mentioned we want to use write permissions as the default is just to use read permissions.  The next line sets the eof or "end of file" within the handler to 0 whilst the following line tidies up by closing the file handler (which isn't strictly necessary but good practice).  The reason for setting <code>eof</code> to 0 is that we want to delete the contents of the file before we put anything else in later.  This is practical for the simple reason that we don't want our PHP script on the server to parse a load of data in the text file (or even download it) if it's something it has already read as that would be a waste of processing power and bandwidth.</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
 	<span class="nb">open location</span> <span class="nv">urlFilePath</span>
 	<span class="nb">delay</span> <span class="mi">1</span>
 	<span class="nv">do</span> <span class="nv">JavaScript</span> <span class="s2">&quot;window.location.reload()&quot;</span> <span class="k">in</span> <span class="nb">the</span> <span class="nb">front</span>
@@ -680,7 +680,7 @@
 	<span class="k">try</span>
 		<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="p">(</span><span class="nb">the</span> <span class="nb">text</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="na">document</span><span class="p">)</span>
 	<span class="k">end</span> <span class="k">try</span>
-<span class="k">end</span> <span class="k">tell</span></code></pre></div>
+<span class="k">end</span> <span class="k">tell</span></code></pre></figure>
 
 <p>Now we get to the first real section of the code that deals with our problem.  In these lines, the application Safari is made to open the text file on the server that may contain the URLs, refresh that page using JavaScript, and then attempt to set the variable <code>toCrawl</code> to the text of the file.  Before we even examine this in depth, you may be wondering something along the lines of "why don't you download the file or read it with FTP rather than opening it in Safari" and this would be sensible.  My initial thoughts on how to get the text on the server into a variable in my AppleScript was to access the file via FTP.  OS X has very basic FTP support (read only unfortunately) that can be mounted through Finder and then accessed using the Finder syntax we used earlier on.  I had originally written some AppleScript that would run in the startup process of the mac mini which would mount the drive.  Then, this AppleScript read the file in using <code>open for access file urlFilePath</code> and set the variable that way.  It all worked perfectly until the server changed the contents of the URL text file.  No matter what I did, the text file came back the same as it had when first fetched and it was that that I realised that the FTP built into Finder is fundamentally flawed as everything is cached.  If you don't edit the file through Finder (e.g. by using a mac application that saves it again through Finder) then it will never know it's updated and thus can't be used in this scenario.</p>
 
@@ -688,7 +688,7 @@
 
 <p>By the end of this block of code, we will have a variable which will either contain a URL if the text file on the server had one, or it will be empty, meaning that the server is not requesting any HTML.  Let's move on to the next section:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">if</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">toCrawl</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">if</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">toCrawl</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
 	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">open location</span> <span class="nv">toCrawl</span>
 	<span class="nb">delay</span> <span class="mi">15</span>
 	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
@@ -697,7 +697,7 @@
 		<span class="nb">write</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nv">dataFile</span> <span class="nv">starting</span> <span class="nb">at</span> <span class="nv">eof</span>
 		<span class="nb">close access</span> <span class="nv">dataFile</span>
 	<span class="k">end</span> <span class="k">tell</span>
-<span class="k">end</span> <span class="k">if</span></code></pre></div>
+<span class="k">end</span> <span class="k">if</span></code></pre></figure>
 
 <p>This is the core piece of functionality that I was trying to achieve all in this block of 11 lines.  This script will open a URL in Safari, and then save the source code of the loaded page in a text file.  You'll notice that the first and last lines are an <code>if</code> statement relating to the length of the <code>toCrawl</code> variable.  I don't unlock achievements every 5 minutes of the day and so, more often than not, the <code>toCrawl</code> variable will be empty.  If it is, then we want to completely ignore the next section of code as there is no reason whatsoever to run it!</p>
 
@@ -705,7 +705,7 @@
 
 <p>The last section is a simple expansion of the code we used at the beginning.  We tell Safari to set a variable of <code>sourceCode</code> to be the source of the page that's open - we also tell it to be forced as a string in case there are any casting issues.  Next, we open the <code>dataFilePath</code> and set a handler of <code>dataFile</code> so that we can then write the <code>sourceCode</code> variable into the file starting at the end of the file (which we all know is masquerading as the beginning of the file also as we set it earlier on... keep up!) before tidying up after ourselves and closing access to the handler.  Easy!</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></figure>
 
 <p>In the very final line of code, we tell Safari to close all of it's windows in preparation for the next iteration.  This may not seem terribly important, but trust me, if you neglect to put it in and then unlock 10 achievements, you'll find your mac now has 20 open Safari windows!</p>
 

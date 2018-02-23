@@ -89,24 +89,24 @@
 
 <p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">randomColor</span><span class="p">(</span><span class="nl">seed</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
     
-    <span class="k">var</span> <span class="nl">total</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nv">total</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="nb">Int</span><span class="p">(</span><span class="nb">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
     <span class="p">}</span>
     
     <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="kd">let</span> <span class="nv">r</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
     
     <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">g</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="kd">let</span> <span class="nv">g</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
     
     <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="k">let</span> <span class="n">b</span> <span class="o">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="kd">let</span> <span class="nv">b</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
     
-    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
+    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="n">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
 
@@ -276,12 +276,12 @@
 
 <p>How do you update your app to request permission for these APIs? First of all, lets whip up a basic example with Swift 3 that will pull the title of the first track in your music library:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="n">items</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">.</span><span class="n">first</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: \(item.title)&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="kc">_</span> <span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="kd">let</span> <span class="nv">items</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">first</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: </span><span class="si">\(</span><span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is <code>NSAppleMusicUsageDescription</code>. If you don’t add this key, your app will crash as soon as you try and access an <code>MPMediaQuery</code> with the following message:</p>
 
@@ -291,38 +291,38 @@
 
 <p>With the <code>NSAppleMusicUsageDescription</code> key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the <code>query.items</code> property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the <code>MPMediaLibrary.authorizationStatus()</code> and <code>requestAuthorization((MPMediaLibraryAuthorizationStatus) -&gt; Void)</code> APIs that were added in iOS 9.3 to do something like this:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="kc">_</span> <span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
     <span class="bp">MPMediaLibrary</span><span class="p">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
-        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
-            <span class="nb">self</span><span class="p">.</span><span class="n">runMediaLibraryQuery</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="p">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
+            <span class="kc">self</span><span class="p">.</span><span class="n">runMediaLibraryQuery</span><span class="p">()</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nb">self</span><span class="p">.</span><span class="n">displayMediaLibraryError</span><span class="p">()</span>
+            <span class="kc">self</span><span class="p">.</span><span class="n">displayMediaLibraryError</span><span class="p">()</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">runMediaLibraryQuery</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="n">items</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">.</span><span class="n">first</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: \(item.title)&quot;</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">runMediaLibraryQuery</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="kd">let</span> <span class="nv">items</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">first</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: </span><span class="si">\(</span><span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">func</span> <span class="n">displayMediaLibraryError</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nl">error</span><span class="p">:</span> <span class="n">String</span>
+<span class="kd">func</span> <span class="nf">displayMediaLibraryError</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nv">error</span><span class="p">:</span> <span class="nb">String</span>
     <span class="k">switch</span> <span class="bp">MPMediaLibrary</span><span class="p">.</span><span class="n">authorizationStatus</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="p">.</span><span class="k">restricted</span><span class="o">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Media library access restricted by corporate or parental settings&quot;</span>
-    <span class="k">case</span> <span class="p">.</span><span class="nl">denied</span><span class="p">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Media library access denied by user&quot;</span>
-    <span class="k">default</span><span class="o">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;Unknown error&quot;</span>
+    <span class="k">case</span> <span class="p">.</span><span class="n">restricted</span><span class="p">:</span>
+        <span class="n">error</span> <span class="p">=</span> <span class="s">&quot;Media library access restricted by corporate or parental settings&quot;</span>
+    <span class="k">case</span> <span class="p">.</span><span class="n">denied</span><span class="p">:</span>
+        <span class="n">error</span> <span class="p">=</span> <span class="s">&quot;Media library access denied by user&quot;</span>
+    <span class="k">default</span><span class="p">:</span>
+        <span class="n">error</span> <span class="p">=</span> <span class="s">&quot;Unknown error&quot;</span>
     <span class="p">}</span>
     
-    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">UIAlertController</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Error&quot;</span><span class="p">,</span> <span class="nl">message</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span> <span class="nl">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">handler</span><span class="p">:</span> <span class="nb">nil</span><span class="p">))</span>
-    <span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
+    <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">UIAlertController</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;Error&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span> <span class="n">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
+    <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">UIAlertAction</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span>
+    <span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>You first need to request authorization and then run your code only if the status is <code>authorized</code>. If not, then you should display an error specific to whether or not the request was <code>denied</code> or <code>restricted</code> (usually by corporate or parental controls).</p>
 
@@ -447,15 +447,15 @@
 
 <p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">container</span> <span class="o">=</span> <span class="n">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">container</span> <span class="p">=</span> <span class="bp">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
 <span class="n">container</span><span class="p">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="n">guard</span> <span class="k">let</span> <span class="n">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-    
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Identifier: \(recordID.recordName)&quot;</span><span class="p">)</span>    
-<span class="p">}</span></code></pre></div>
+    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">recordID</span> <span class="p">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="s">&quot;)</span>
+<span class="s">        return</span>
+<span class="s">    }</span>
+<span class="s">    </span>
+<span class="s">    NSLog(&quot;</span><span class="n">Identifier</span><span class="p">:</span> <span class="err">\</span><span class="si">(</span><span class="n">recordID</span><span class="p">.</span><span class="n">recordName</span><span class="si">)</span><span class="s">&quot;)    </span>
+<span class="s">}</span></code></pre></figure>
 
 <p>The identifier returned will be 34 characters long and look something like this:</p>
 
@@ -465,14 +465,14 @@
 
 <p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code>import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="n">guard</span> <span class="k">let</span> <span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">identifier</span> <span class="p">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
     
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: \(identifier)&quot;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></div>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: </span><span class="si">\(</span><span class="n">identifier</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
 
 <p>I’ve named it <code>AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
 

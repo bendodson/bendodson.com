@@ -49,15 +49,15 @@
 
 <p>To get this up and running on your own machine, you’ll need to do the following in the Mac Terminal:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ruby -e <span class="s2">&quot;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&quot;</span>
 brew install node
 sudo npm install -g homebridge
 sudo npm install -g homebridge-wemo
-homebridge</code></pre></div>
+homebridge</code></pre></figure>
 
 <p>This will install brew, install node, install Homebridge, install the WeMo plugin for Homebridge, and then attempt to run Homebridge (which will fail as you have no config file). Next, you’ll want to go to <code>~/.homebridge</code> and create a config.json file that looks like this:</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;bridge&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Homebridge&quot;</span><span class="p">,</span>
         <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;CC:22:3D:E3:CE:30&quot;</span><span class="p">,</span>
@@ -75,7 +75,7 @@ homebridge</code></pre></div>
             <span class="nt">&quot;wemo_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Christmas Tree&quot;</span>
         <span class="p">}</span>
     <span class="p">]</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>The important part is to make sure that the <code>wemo_name</code> matches the name of your device within the WeMo app; the <code>name</code> attribute is what you want your device to be called on HomeKit. Run the <code>homebridge</code> command again and you should see that your device is found and Homebridge is running.</p>
 

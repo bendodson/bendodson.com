@@ -76,15 +76,15 @@
 
 <p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="p">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
 
 <p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
 
 <p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">paragraph</span> <span class="o">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">paragraph</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="p">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="p">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></figure>
 
 <p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
 
@@ -109,44 +109,44 @@
     	<div>
 			<p>Since iOS 9.3 it has been possible to <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">add Apple Music tracks to the media library</a> as such:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">library</span> <span class="o">=</span> <span class="bp">MPMediaLibrary</span><span class="p">()</span>
-<span class="n">library</span><span class="p">.</span><span class="n">addItem</span><span class="p">(</span><span class="nl">withProductID</span><span class="p">:</span> <span class="kt">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-	<span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-		<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error.localizedDescription)&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">library</span> <span class="p">=</span> <span class="bp">MPMediaLibrary</span><span class="p">()</span>
+<span class="n">library</span><span class="p">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">withProductID</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+	<span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+		<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift"><a href="#fn:mpmediaitemswift" class="footnote">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">UIKit</span>
-<span class="k">import</span> <span class="n">MediaPlayer</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
+<span class="kd">import</span> <span class="nc">MediaPlayer</span>
 
-<span class="k">extension</span> <span class="bp">MPMediaItem</span> <span class="p">{</span>
+<span class="kd">extension</span> <span class="bp">MPMediaItem</span> <span class="p">{</span>
 
-    <span class="k">var</span> <span class="nl">canAddToLibrary</span><span class="p">:</span> <span class="n">Bool</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="kt">id</span> <span class="o">=</span> <span class="bp">MPMediaPropertyPredicate</span><span class="p">(</span><span class="nl">value</span><span class="p">:</span> <span class="n">persistentID</span><span class="p">,</span> <span class="nl">forProperty</span><span class="p">:</span> <span class="n">MPMediaItemPropertyPersistentID</span><span class="p">)</span>
-        <span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">(</span><span class="nl">filterPredicates</span><span class="p">:</span> <span class="p">[</span><span class="kt">id</span><span class="p">])</span>
-        <span class="k">let</span> <span class="n">count</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="o">?</span><span class="p">.</span><span class="n">count</span> <span class="o">??</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nv">canAddToLibrary</span><span class="p">:</span> <span class="nb">Bool</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nv">id</span> <span class="p">=</span> <span class="bp">MPMediaPropertyPredicate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">persistentID</span><span class="p">,</span> <span class="n">forProperty</span><span class="p">:</span> <span class="n">MPMediaItemPropertyPersistentID</span><span class="p">)</span>
+        <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">(</span><span class="n">filterPredicates</span><span class="p">:</span> <span class="p">[</span><span class="n">id</span><span class="p">])</span>
+        <span class="kd">let</span> <span class="nv">count</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">?.</span><span class="bp">count</span> <span class="p">??</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="bp">count</span> <span class="p">==</span> <span class="mi">0</span>
     <span class="p">}</span>
     
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code>MPMediaQuery</code>. Unfortunately you can’t search on  the <code>MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist"><a href="#fn:playlist" class="footnote">2</a></sup> by listening to the <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code>nowPlayingItem</code> on my <code>MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="n">player</span> <span class="o">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">var</span> <span class="nv">player</span> <span class="p">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
 
-<span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+<span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
     
     <span class="n">player</span><span class="p">.</span><span class="n">beginGeneratingPlaybackNotifications</span><span class="p">()</span>
-    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">selector</span><span class="p">:</span> <span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">playbackStateDidChange</span><span class="p">),</span> <span class="nl">name</span><span class="p">:</span> <span class="p">.</span><span class="n">MPMusicPlayerControllerNowPlayingItemDidChange</span><span class="p">,</span> <span class="nl">object</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">playbackStateDidChange</span><span class="p">),</span> <span class="n">name</span><span class="p">:</span> <span class="p">.</span><span class="n">MPMusicPlayerControllerNowPlayingItemDidChange</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
 
 
-<span class="p">@</span><span class="n">objc</span> <span class="k">func</span> <span class="n">playbackStateDidChange</span><span class="p">()</span> <span class="p">{</span>
+<span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">playbackStateDidChange</span><span class="p">()</span> <span class="p">{</span>
     
-    <span class="n">guard</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">player</span><span class="p">.</span><span class="n">nowPlayingItem</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">player</span><span class="p">.</span><span class="n">nowPlayingItem</span> <span class="k">else</span> <span class="p">{</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
@@ -157,7 +157,7 @@
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
     	<span class="c1">// show some UI to explain &quot;Already in library&quot;</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for <code>MPMusicPlayerControllerPlaybackStateDidChange</code> but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> works consistently and will still yield an <code>MPMediaItem</code> with which to work with.</p>
 
@@ -314,26 +314,26 @@
 
 <p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality"><a href="#fn:codequality" class="footnote">2</a></sup>:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">class</span> <span class="nl">ShareViewController</span><span class="p">:</span> <span class="n">SLComposeServiceViewController</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">ShareViewController</span><span class="p">:</span> <span class="bp">SLComposeServiceViewController</span> <span class="p">{</span>
 
-    <span class="kr">override</span> <span class="k">func</span> <span class="n">isContentValid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">true</span>
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span>
     <span class="p">}</span>
 
-    <span class="kr">override</span> <span class="k">func</span> <span class="n">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">extensionContext</span><span class="o">?</span><span class="p">.</span><span class="n">inputItems</span><span class="p">.</span><span class="n">first</span> <span class="kt">as</span><span class="o">?</span> <span class="n">NSExtensionItem</span><span class="p">,</span> <span class="k">let</span> <span class="n">itemProvider</span> <span class="o">=</span> <span class="n">item</span><span class="p">.</span><span class="n">attachments</span><span class="o">?</span><span class="p">.</span><span class="n">first</span> <span class="kt">as</span><span class="o">?</span> <span class="n">NSItemProvider</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="n">itemProvider</span><span class="p">.</span><span class="n">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="kt">as</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">itemProvider</span><span class="p">.</span><span class="n">loadItem</span><span class="p">(</span><span class="nl">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="kt">as</span> <span class="n">String</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="nb">nil</span><span class="p">,</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="n">shareURL</span> <span class="o">=</span> <span class="n">url</span> <span class="kt">as</span><span class="o">?</span> <span class="n">URL</span> <span class="p">{</span>
-                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="nl">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="o">:</span> <span class="n">shareURL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="o">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="nl">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">UIAlertController</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;ERROR&quot;</span><span class="p">,</span> <span class="nl">message</span><span class="p">:</span> <span class="s">&quot;That didn&#39;t work: \(error.localizedDescription)&quot;</span><span class="p">,</span> <span class="nl">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
-                                <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
-                                    <span class="nb">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="o">!</span><span class="p">.</span><span class="n">completeRequest</span><span class="p">(</span><span class="nl">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">extensionContext</span><span class="p">?.</span><span class="n">inputItems</span><span class="p">.</span><span class="bp">first</span> <span class="k">as</span><span class="p">?</span> <span class="bp">NSExtensionItem</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">itemProvider</span> <span class="p">=</span> <span class="n">item</span><span class="p">.</span><span class="n">attachments</span><span class="p">?.</span><span class="bp">first</span> <span class="k">as</span><span class="p">?</span> <span class="bp">NSItemProvider</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="n">itemProvider</span><span class="p">.</span><span class="n">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">itemProvider</span><span class="p">.</span><span class="n">loadItem</span><span class="p">(</span><span class="n">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="nb">String</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="kd">let</span> <span class="nv">shareURL</span> <span class="p">=</span> <span class="n">url</span> <span class="k">as</span><span class="p">?</span> <span class="n">URL</span> <span class="p">{</span>
+                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">shareURL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="kc">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="n">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">UIAlertController</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;ERROR&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s">&quot;That didn&#39;t work: </span><span class="si">\(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="si">)</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
+                                <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">UIAlertAction</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
+                                    <span class="kc">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="p">!.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                                 <span class="p">}))</span>
-                                <span class="nb">self</span><span class="p">.</span><span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+                                <span class="kc">self</span><span class="p">.</span><span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="nb">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="o">!</span><span class="p">.</span><span class="n">completeRequest</span><span class="p">(</span><span class="nl">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+                                <span class="kc">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="p">!.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                             <span class="p">}</span>
                         <span class="p">})</span>
                     <span class="p">}</span>
@@ -342,11 +342,11 @@
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="kr">override</span> <span class="k">func</span> <span class="n">configurationItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="p">}</span>
 
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>This is paired with an <code>NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
 
@@ -354,19 +354,19 @@
 
 <p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax"><a href="#fn:ajax" class="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">class</span> <span class="nl">SafariExtensionHandler</span><span class="p">:</span> <span class="n">SFSafariExtensionHandler</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">SafariExtensionHandler</span><span class="p">:</span> <span class="n">SFSafariExtensionHandler</span> <span class="p">{</span>
     
-    <span class="kr">override</span> <span class="k">func</span> <span class="n">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="nl">window</span><span class="p">:</span> <span class="n">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="n">window</span><span class="p">:</span> <span class="n">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">window</span><span class="p">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
-            <span class="n">tab</span><span class="o">?</span><span class="p">.</span><span class="n">getActivePage</span><span class="p">(</span><span class="nl">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
-                <span class="n">page</span><span class="o">?</span><span class="p">.</span><span class="n">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="p">,</span> <span class="k">let</span> <span class="n">url</span> <span class="o">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">url</span> <span class="p">{</span>
-                        <span class="k">let</span> <span class="n">title</span> <span class="o">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">title</span> <span class="o">??</span> <span class="s">&quot;Unknown Title&quot;</span>
-                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="nl">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="o">:</span> <span class="n">url</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="o">:</span> <span class="n">title</span><span class="p">],</span> <span class="nl">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;PROBLEM! \(error)&quot;</span><span class="p">)</span>
+            <span class="n">tab</span><span class="p">?.</span><span class="n">getActivePage</span><span class="p">(</span><span class="n">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
+                <span class="n">page</span><span class="p">?.</span><span class="n">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="kd">let</span> <span class="nv">properties</span> <span class="p">=</span> <span class="n">properties</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">url</span> <span class="p">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">url</span> <span class="p">{</span>
+                        <span class="kd">let</span> <span class="nv">title</span> <span class="p">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">&quot;Unknown Title&quot;</span>
+                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="n">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;PROBLEM! </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="n">page</span><span class="o">?</span><span class="p">.</span><span class="n">reload</span><span class="p">()</span>
+                                <span class="n">page</span><span class="p">?.</span><span class="n">reload</span><span class="p">()</span>
                             <span class="p">}</span>
                         <span class="p">})</span>
                     <span class="p">}</span>
@@ -375,13 +375,13 @@
         <span class="p">}</span>
     <span class="p">}</span>
 
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>When I click on the controller icon, the method above is called and the URL and title are sent to my server; once completed, the page reloads to show me it has been successful. I spent a long time trying to just get a simple alert to display on either success or failure but I couldn’t get it to work correctly. It is possible to interact with JavaScript and I was able to log to the console but any alert would silently fail. If anybody has any tips on that, I’d <a href="https://bendodson.com/contact/">love to know how to improve it</a>.</p>
 
 <p>The basic template of my weekly update is the same every week and I used to use a number of custom MySQL queries to pull out the various information I needed and then write it up manually. Now that I have my links stored in my database, I decided to write a PHP script to generate as much of my update as possible so all I need to do is fill in some of the blanks that aren’t automatically provided (i.e. upcoming game release dates) and write my own thoughts and opinions around the news articles. I have a basic PHP script which runs a number of MySQL queries and then generates a Markdown document like this:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">Introduction...
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Introduction...
 
 ###News
 
@@ -445,7 +445,7 @@ Until next time, have a great week!
 
 ---
 
-_Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it&#39;s this post in email form every Monday!_</code></pre></div>
+_Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it&#39;s this post in email form every Monday!_</code></pre></figure>
 
 <p>The news URLs are simply pulled from the database and wrapped up so that each link uses the title of the page as provided by the macOS and iOS extensions. I will nearly always change the link title (as it’ll be part of a sentence) but it allows me to quickly see what an article is about without needing to open it up and re-read it. The “my posts” section requires no editing at all as it pulls the title, link, and a pull quote directly from the articles I’ve published in the previous week. The podcasts and upcoming game release sections can’t be automatically populated (yet) so I just use placeholder text for these to reduce the amount of effort required. The final section on my gaming time uses a number of queries to get the exact amount of time I’ve spent playing in the past week, adds placeholders for each game so I can write about them, and then lists out any new games I’ve added to my library; all of this is thanks to some scripts I wrote a while back that scrape my Steam and Xbox One libraries to track changes and allow me to render a page showing <a href="https://kyloben.co.uk/gaming-time/">my gaming time</a> for the past few months.</p>
 

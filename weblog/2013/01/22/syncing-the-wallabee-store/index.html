@@ -81,11 +81,11 @@
 
 <p>One of the key things I wanted to ensure was that the Store was secure as I wouldn’t want anybody to sniff the network traffic and see that a new item was coming out in 7 minutes time (it should always be a surprise). To that end, the file is encrypted using <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256</a> before being encoded in Base64 for easy transporting. To do this in PHP is fairly simple:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$json = json_encode($output);</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="x">$json = json_encode($output);</span>
 <span class="x">$offset = 16 - (strlen($json) % 16);</span>
 <span class="x">$key = ‘YOURPASSWORDHERE’ . str_repeat(chr(0x00), 16);</span>
 <span class="x">$data = $json . str_repeat(chr($offset), $offset);</span>
-<span class="x">$encryptedData = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $data, &#39;cbc&#39;));</span></code></pre></div>
+<span class="x">$encryptedData = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $data, &#39;cbc&#39;));</span></code></pre></figure>
 
 <p>The thing that most people miss off is the padding as the data to encrypt has to be a multiple of 16 characters and the characters you use for the padding follow a specific rule; they use the character code of the number of characters you need to pad (for example, if you have to use 7 characters of padding, you’d do it with 7 x chr(7). Another key thing was to use ‘cbc’ as the mode as the default ‘ecb’ found on many tutorials doesn’t work well on the iPhone.</p>
 
@@ -97,7 +97,7 @@
 
 <p>I looked into a number of options for time syncing but many of them use the built-in clock on the iPhone. This is no good as a player could simply advance their clock manually to see future items. Instead I opted to have the main Store file return a Unix timestamp of the time of the request. This is simple in PHP:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$_SERVER[&#39;REQUEST_TIME&#39;];</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="x">$_SERVER[&#39;REQUEST_TIME&#39;];</span></code></pre></figure>
 
 <p>The issue with this is that the time of the request will vary depending on how slow the uplink connection is on the device, and we need a way of accurately monitoring how long it took to download so we can add an offset.</p>
 
@@ -109,11 +109,11 @@
 
 <p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref:nstimer"><a href="#fn:nstimer" class="footnote">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span> <span class="p">(</span><span class="n">_tickTimer</span><span class="p">)</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span></span><span class="k">if</span> <span class="p">(</span><span class="n">_tickTimer</span><span class="p">)</span> <span class="p">{</span>
 	<span class="p">[</span><span class="n">_tickTimer</span> <span class="n">invalidate</span><span class="p">];</span>
 <span class="p">}</span>
 <span class="nb">self</span><span class="p">.</span><span class="n">tickTimer</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSTimer</span> <span class="nl">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span> <span class="nl">target</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="nl">userInfo</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-<span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">mainRunLoop</span><span class="p">]</span> <span class="nl">addTimer</span><span class="p">:</span><span class="n">_tickTimer</span> <span class="nl">forMode</span><span class="p">:</span><span class="n">NSRunLoopCommonModes</span><span class="p">];</span></code></pre></div>
+<span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">mainRunLoop</span><span class="p">]</span> <span class="nl">addTimer</span><span class="p">:</span><span class="n">_tickTimer</span> <span class="nl">forMode</span><span class="p">:</span><span class="n">NSRunLoopCommonModes</span><span class="p">];</span></code></pre></figure>
 
 <p>We now have a timer that ticks every second but I found it important to use our old friend CACurrentMediaTime() again rather than incrementing a timestamp. The reason for this is that the user may switch tabs, receive a phone call, or leave the app. In those situations, you need to be ready to resume when they come back and, presuming that they’re within the window of how much data you have loaded, you can just kick off without reloading everything. The problem is, if you increment the timer every tick, you’ll start deviating from the start time if you jump back and forth between tabs as the timestamp is always rounded. By storing the CACurrentMediaTime() and the original timestamp when you start your first timer, you can be 100% accurate on your times by working out the number of seconds between now and the original CACurrentMediaTime() and adding them to your timestamp.</p>
 

@@ -47,9 +47,9 @@
 
 <p>When you use the UIImagePickerControllerDelegate, you are also required to adopt the UINavigationControllerDelegate. This has a method named <code>navigationController:willShowViewController:animated:</code> which will be called both when you present the controller and when you navigate between albums. Using this, it is trivial to force the status bar to remain the same<sup id="fnref:assumption"><a href="#fn:assumption" class="footnote">1</a></sup>:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="nl">navigationController</span><span class="p">:</span> <span class="bp">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
-	<span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">statusBarStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">LightContent</span>
-<span class="p">}</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="n">navigationController</span><span class="p">:</span> <span class="bp">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="n">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">)</span> <span class="p">{</span>
+	<span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">statusBarStyle</span> <span class="p">=</span> <span class="p">.</span><span class="n">LightContent</span>
+<span class="p">}</span></code></pre></figure>
 
 <div class="footnotes">
   <ol>

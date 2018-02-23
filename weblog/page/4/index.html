@@ -99,18 +99,18 @@
 
 <p>First of all, my entire setup is powered by the awesome <a href="https://github.com/nfarina/homebridge">Homebridge</a> system which I’ve written about <a href="https://www.google.co.uk/#q=site:bendodson.com+homebridge">at great length</a>. I found a plugin from <a href="https://github.com/dansays">Dan Budiac</a> called <a href="https://github.com/dansays/homebridge-applescript">homebridge-applescript</a> which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “<code>tell application iTunes to pause</code>”) but I needed something a bit longer for dealing with AirPlay. I <a href="https://github.com/bendodson/homebridge-applescript">forked Dan’s project</a> to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
 	<span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
 	<span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Kitchen Music&quot;</span><span class="p">,</span>
 	<span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript&quot;</span><span class="p">,</span>
 	<span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/stopMusic.applescript&quot;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>This allowed me to then use my existing <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">alarm clock script</a> in order to make iTunes connect to my kitchen speakers and play a specific playlist<sup id="fnref:twoplaylists"><a href="#fn:twoplaylists" class="footnote">1</a></sup> when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.</p>
 
 <p>This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle<sup id="fnref:playpause"><a href="#fn:playpause" class="footnote">2</a></sup> without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Play Pause Control&quot;</span><span class="p">,</span>
     <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/playMusic.applescript&quot;</span><span class="p">,</span>
@@ -121,7 +121,7 @@
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Track Control&quot;</span><span class="p">,</span>
     <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/nextTrack.applescript&quot;</span><span class="p">,</span>
     <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/previousTrack.applescript&quot;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p><em>I won’t detail the AppleScript for each of these as they are fairly basic.</em></p>
 
@@ -129,23 +129,23 @@
 
 <p>Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount<sup id="fnref:volumeamount"><a href="#fn:volumeamount" class="footnote">3</a></sup>. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; <a href="https://github.com/bendodson/homebridge-applescript-file-lightbulb">homebridge-applescript-file-lightbulb</a><sup id="fnref:naming"><a href="#fn:naming" class="footnote">4</a></sup>.</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFileLightbulb&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;iTunes volume&quot;</span><span class="p">,</span>
     <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="nt">&quot;brightness&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/volume.applescript&quot;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>The <code>volume.applescript</code> file looks like this:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">on</span> <span class="nb">run</span> <span class="nv">argv</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">on</span> <span class="nb">run</span> <span class="nv">argv</span>
 	<span class="k">set</span> <span class="nv">v</span> <span class="k">to</span> <span class="nb">item</span> <span class="mi">1</span> <span class="k">of</span> <span class="nv">argv</span>
 	<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
 	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
 		<span class="k">set</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">v</span>
 	<span class="k">end</span> <span class="k">tell</span>
-<span class="k">end</span> <span class="nb">run</span></code></pre></div>
+<span class="k">end</span> <span class="nb">run</span></code></pre></figure>
 
 <p>With this in place, I can say “<em>Hey Siri, set iTunes volume to 50%</em>” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “<em>set [name] to [percentage]</em>” as being “<em>change the brightness of this device</em>” just in this case we are hitting an AppleScript with our brightness value.
 <img src="https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg" width="375" height="375" />
@@ -244,71 +244,71 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named <a href="https://github.com/daltoniam/Starscream">Starscream</a> which allowed me to connect to the server and send commands which led me to this code for the entire project:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">import</span> <span class="n">UIKit</span>
-<span class="k">import</span> <span class="n">Starscream</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
+<span class="kd">import</span> <span class="nc">Starscream</span>
 
-<span class="k">let</span> <span class="n">ipAddress</span> <span class="o">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
-<span class="k">let</span> <span class="n">flicAppKey</span> <span class="o">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
-<span class="k">let</span> <span class="n">flicAppSecret</span> <span class="o">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
+<span class="kd">let</span> <span class="nv">ipAddress</span> <span class="p">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
+<span class="kd">let</span> <span class="nv">flicAppKey</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
+<span class="kd">let</span> <span class="nv">flicAppSecret</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
 
-<span class="k">class</span> <span class="nl">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
 
-    <span class="k">let</span> <span class="n">socket</span> <span class="o">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="nl">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;ws://\(ipAddress)/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+    <span class="kd">let</span> <span class="nv">socket</span> <span class="p">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;ws://</span><span class="si">\(</span><span class="n">ipAddress</span><span class="si">)</span><span class="s">/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
     
-    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">defaultButtonDelegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="nl">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="nl">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="nl">backgroundExecution</span><span class="p">:</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="p">=</span> <span class="kc">self</span>
+        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">defaultButtonDelegate</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span> <span class="n">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="n">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="n">backgroundExecution</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">setupFlic</span><span class="p">(</span><span class="nl">sender</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
+    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">setupFlic</span><span class="p">(</span><span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()?.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
     <span class="p">}</span>
     
-    <span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">toggle</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">toggle</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">socket</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="p">}</span>
     
 
-    <span class="c1">// MARK: Flic Manager</span>
+    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Flic Manager</span>
     
-    <span class="k">func</span> <span class="n">flicManager</span><span class="p">(</span><span class="nl">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="nl">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="o">?</span><span class="p">,</span> <span class="n">withError</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: \(error)&quot;</span><span class="p">)</span>
+    <span class="kd">func</span> <span class="nf">flicManager</span><span class="p">(</span><span class="n">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">?,</span> <span class="n">withError</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">flicButton</span><span class="p">(</span><span class="nl">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="nl">queued</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">age</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">flicButton</span><span class="p">(</span><span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="n">queued</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">toggle</span><span class="p">()</span>
     <span class="p">}</span>
     
     
-    <span class="c1">// MARK: Websocket Delegate</span>
+    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Websocket Delegate</span>
     
-    <span class="k">func</span> <span class="n">websocketDidConnect</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
-        <span class="k">let</span> <span class="n">last</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
-        <span class="k">let</span> <span class="n">name</span> <span class="o">=</span> <span class="n">last</span> <span class="o">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="o">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="o">:</span> <span class="s">&quot;ws_morning&quot;</span>
-        <span class="k">let</span> <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="o">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="o">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="o">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="o">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="kt">bool</span><span class="o">:</span> <span class="nb">true</span><span class="p">)]]</span>
-        <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="n">string</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="nl">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nl">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidConnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nv">defaults</span> <span class="p">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+        <span class="kd">let</span> <span class="nv">last</span> <span class="p">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
+        <span class="kd">let</span> <span class="nv">name</span> <span class="p">=</span> <span class="bp">last</span> <span class="p">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="p">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="p">:</span> <span class="s">&quot;ws_morning&quot;</span>
+        <span class="kd">let</span> <span class="nv">params</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="p">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="p">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="n">bool</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]]</span>
+        <span class="kd">let</span> <span class="nv">data</span> <span class="p">=</span> <span class="k">try</span><span class="p">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
+        <span class="k">if</span> <span class="kd">let</span> <span class="nv">string</span> <span class="p">=</span> <span class="nb">String</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">socket</span><span class="p">.</span><span class="n">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
             <span class="n">socket</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
-            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
+            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
             <span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">websocketDidDisconnect</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidDisconnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">websocketDidReceiveData</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidReceiveData</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-    <span class="k">func</span> <span class="n">websocketDidReceiveMessage</span><span class="p">(</span><span class="nl">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="nl">text</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidReceiveMessage</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p><strong>Note: this is just a personal project that I built as quickly as possible. By nature, it is a fairly dirty hack. You shouldn’t write professional apps like this.</strong></p>
 
@@ -362,7 +362,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>After a bit of exploring on the Steam pages, I found that most games have an RSS feed of their news page; this, combined with my publicly available profile page listing my owned games, has led me to write a basic PHP script to loop through my games, find the matching RSS feed, and then add it to my Feedbin account:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_USERNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;your username here&#39;</span><span class="p">);</span>
 <span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;your password here&#39;</span><span class="p">);</span>
@@ -478,7 +478,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 	<span class="p">}</span>
 
 	<span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>There is a fair amount going on in this script<sup id="fnref:goodpractice"><a href="#fn:goodpractice" class="footnote">2</a></sup> but the basic overview is:</p>
 
@@ -553,7 +553,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span> <span class="nv">AirplayDeviceName</span> <span class="k">to</span> <span class="s2">&quot;Kitchen&quot;</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">AirplayDeviceName</span> <span class="k">to</span> <span class="s2">&quot;Kitchen&quot;</span>
 <span class="k">set</span> <span class="nv">PlaylistName</span> <span class="k">to</span> <span class="s2">&quot;Morning&quot;</span>
 <span class="k">set</span> <span class="nv">AirplayVolume</span> <span class="k">to</span> <span class="mi">100</span>
 
@@ -586,7 +586,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
 	<span class="nb">play</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
 	<span class="k">set</span> <span class="nb">the</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">AirplayVolume</span>
-<span class="k">end</span> <span class="k">tell</span></code></pre></div>
+<span class="k">end</span> <span class="k">tell</span></code></pre></figure>
 
 <p>The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.</p>
 
@@ -659,14 +659,14 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="n">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="nl">countryCode</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-    <span class="k">var</span> <span class="n">country</span> <span class="o">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="n">countryCode</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nv">string</span> <span class="p">=</span> <span class="s">&quot;&quot;</span>
+    <span class="kd">var</span> <span class="nv">country</span> <span class="p">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
     <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">string</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>A great way of testing this is with an Xcode Playground which will allow you to quickly see the output like such:</p>
 

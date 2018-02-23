@@ -47,18 +47,18 @@
 
 <p>First of all, my entire setup is powered by the awesome <a href="https://github.com/nfarina/homebridge">Homebridge</a> system which I’ve written about <a href="https://www.google.co.uk/#q=site:bendodson.com+homebridge">at great length</a>. I found a plugin from <a href="https://github.com/dansays">Dan Budiac</a> called <a href="https://github.com/dansays/homebridge-applescript">homebridge-applescript</a> which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “<code>tell application iTunes to pause</code>”) but I needed something a bit longer for dealing with AirPlay. I <a href="https://github.com/bendodson/homebridge-applescript">forked Dan’s project</a> to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
 	<span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
 	<span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Kitchen Music&quot;</span><span class="p">,</span>
 	<span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript&quot;</span><span class="p">,</span>
 	<span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/stopMusic.applescript&quot;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>This allowed me to then use my existing <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">alarm clock script</a> in order to make iTunes connect to my kitchen speakers and play a specific playlist<sup id="fnref:twoplaylists"><a href="#fn:twoplaylists" class="footnote">1</a></sup> when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.</p>
 
 <p>This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle<sup id="fnref:playpause"><a href="#fn:playpause" class="footnote">2</a></sup> without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Play Pause Control&quot;</span><span class="p">,</span>
     <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/playMusic.applescript&quot;</span><span class="p">,</span>
@@ -69,7 +69,7 @@
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Track Control&quot;</span><span class="p">,</span>
     <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/nextTrack.applescript&quot;</span><span class="p">,</span>
     <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/previousTrack.applescript&quot;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p><em>I won’t detail the AppleScript for each of these as they are fairly basic.</em></p>
 
@@ -77,23 +77,23 @@
 
 <p>Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount<sup id="fnref:volumeamount"><a href="#fn:volumeamount" class="footnote">3</a></sup>. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; <a href="https://github.com/bendodson/homebridge-applescript-file-lightbulb">homebridge-applescript-file-lightbulb</a><sup id="fnref:naming"><a href="#fn:naming" class="footnote">4</a></sup>.</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFileLightbulb&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;iTunes volume&quot;</span><span class="p">,</span>
     <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="nt">&quot;brightness&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/volume.applescript&quot;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>The <code>volume.applescript</code> file looks like this:</p>
 
-<div class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">on</span> <span class="nb">run</span> <span class="nv">argv</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">on</span> <span class="nb">run</span> <span class="nv">argv</span>
 	<span class="k">set</span> <span class="nv">v</span> <span class="k">to</span> <span class="nb">item</span> <span class="mi">1</span> <span class="k">of</span> <span class="nv">argv</span>
 	<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
 	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
 		<span class="k">set</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">v</span>
 	<span class="k">end</span> <span class="k">tell</span>
-<span class="k">end</span> <span class="nb">run</span></code></pre></div>
+<span class="k">end</span> <span class="nb">run</span></code></pre></figure>
 
 <p>With this in place, I can say “<em>Hey Siri, set iTunes volume to 50%</em>” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “<em>set [name] to [percentage]</em>” as being “<em>change the brightness of this device</em>” just in this case we are hitting an AppleScript with our brightness value.
 <img src="https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg" width="375" height="375" />

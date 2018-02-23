@@ -51,9 +51,9 @@
 
 <p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code>TODO:</code> and <code>FIXME:</code> as warnings in a Swift project:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;searching ${SRCROOT} for ${TAGS}&quot;</span>
-find <span class="s2">&quot;${SRCROOT}&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;($TAGS).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/($TAGS)/ warning: \$1/&quot;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;searching </span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2"> for </span><span class="si">${</span><span class="nv">TAGS</span><span class="si">}</span><span class="s2">&quot;</span>
+find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2">&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;(</span><span class="nv">$TAGS</span><span class="s2">).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/(</span><span class="nv">$TAGS</span><span class="s2">)/ warning: \$1/&quot;</span></code></pre></figure>
 
 <p>The result is an unmissable warning whenever you run your project.</p>
 

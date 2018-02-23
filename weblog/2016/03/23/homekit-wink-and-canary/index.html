@@ -53,7 +53,7 @@
 
 <p>After a bit of tinkering, I realised I could just re-purpose an existing supported HomeKit protocol; locks. In HomeKit, locks are basic binary operators that are either “secured” or “unsecured”. This works perfectly for my Canary as I could denote it as a doorlock and then have “secured” equal “armed”, and “unsecured” equal “privacy”. After a few minutes, I managed to fork the existing plugin and create a <a href="https://github.com/bendodson/homebridge-wink">new version with this hack in place</a>. Once downloaded, you just need to add the following platform in your Homebridge config file:</p>
 
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;homebridge-wink.Wink&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Wink&quot;</span><span class="p">,</span>
     <span class="nt">&quot;client_id&quot;</span><span class="p">:</span> <span class="s2">&quot;quirky_wink_android_app&quot;</span><span class="p">,</span>
@@ -62,7 +62,7 @@
     <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-PASSWORD-HERE&quot;</span><span class="p">,</span>
     <span class="nt">&quot;hide_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
     <span class="nt">&quot;hide_ids&quot;</span><span class="p">:</span> <span class="p">[]</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p><em>(Sidenote: most of my time tonight was spent trying to find a client_id and client_secret to use for the config. To get these, you usually have to email Wink with response times being around 7-10 days. I decided to rip it out of the Android app instead…)</em></p>
 

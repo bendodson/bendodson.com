@@ -119,12 +119,12 @@
 
 <p>Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing <a href="https://dodoapps.io/music-tracker/">Music Tracker</a><sup id="fnref:musictracker"><a href="#fn:musictracker" class="footnote">1</a></sup> I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">query</span> <span class="o">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songsQuery</span><span class="p">()</span>
-<span class="k">if</span> <span class="k">let</span> <span class="n">items</span> <span class="o">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songsQuery</span><span class="p">()</span>
+<span class="k">if</span> <span class="kd">let</span> <span class="nv">items</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span> <span class="p">{</span>
     <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">items</span> <span class="p">{</span>
-    	<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: \(item.title)&quot;</span><span class="p">)</span>
+    	<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: </span><span class="si">\(</span><span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>That’s just a basic example that’ll output the title of every song in your library but there is a lot of danger in that. This process happens completely silently and in my tests I was able to loop through a library of 10000 songs, put all the metadata in a JSON file<sup id="fnref:json"><a href="#fn:json" class="footnote">2</a></sup>, and upload it to a server in under 2 seconds!</p>
 

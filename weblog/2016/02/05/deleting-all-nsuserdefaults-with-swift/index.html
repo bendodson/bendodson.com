@@ -45,19 +45,19 @@
     	<div>
 			<p>NSUserDefaults is likely one of the most used APIs on iOS providing a quick and easy way to store basic configuration and settings. However, these can quickly mount up and you’ll typically end up with something like this in your project within a logout method:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">defaults</span> <span class="p">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;Username&quot;</span><span class="p">)</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;Token&quot;</span><span class="p">)</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;SomeSetting&quot;</span><span class="p">)</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;FavouriteArtist&quot;</span><span class="p">)</span>
-<span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span></code></pre></div>
+<span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span></code></pre></figure>
 
 <p><strong>(Note: you should never store secure information like a password or API token in NSUserDefaults; that’s what the Keychain is for. You should probably also use static constants in a config file for your keys but this will do for a demonstration)</strong></p>
 
 <p>The problem with something like this is that you have to remember to go and add an extra <code>removeObjectForKey</code> whenever you add a new setting and this can be easily forgotten and lead to settings being shared between different user accounts. I’ve definitely been guilty of doing this in the past and, whilst working on an update to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a>, I found that this can be much simpler:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">removePersistentDomainForName</span><span class="p">(</span><span class="bp">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">().</span><span class="n">bundleIdentifier</span><span class="o">!</span><span class="p">)</span>
-<span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">synchronize</span><span class="p">()</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">removePersistentDomainForName</span><span class="p">(</span><span class="bp">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">().</span><span class="n">bundleIdentifier</span><span class="p">!)</span>
+<span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">synchronize</span><span class="p">()</span></code></pre></figure>
 
 <p>This will clear all of the NSUserDefaults that have been set by your code leaving you with a fresh slate just as if the app had been deleted and reinstalled. You don’t need to update your logout method whenever a new setting gets added and you can be sure that everything is being reset in full.</p>
 

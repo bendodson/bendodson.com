@@ -155,7 +155,7 @@
 
 <p>For those of you just looking for an RSS feed of the London Underground tube delays, you can find it at <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/rss/" rel="external">http://tubeupdates.com/rss/</a> - This is automatically updated every minute and will email me if anything goes wrong so I can fix it!  If you are going to use it for any projects, please <a href="https://bendodson.com/contact/">let me know</a> so that I can monitor bandwidth, etc.  If you are interested in how it works, then the code that powers this is below - feel free to use and modify it for your own projects:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="c1">// This file should be run on a CRON job every 5 minutes.</span>
 <span class="c1">// The server will need to be able to write to this folder in order to create the XML file.</span>
@@ -207,29 +207,29 @@
 
 <span class="nv">$now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
 
-<span class="nv">$xml</span> <span class="o">=</span> <span class="o">&lt;&lt;&lt;</span><span class="nx">XML</span>
+<span class="nv">$xml</span> <span class="o">=</span> <span class="s">&lt;&lt;&lt;</span><span class="dl">XML</span><span class="s"></span>
 
-<span class="o">&lt;</span><span class="nx">rss</span> <span class="nx">version</span><span class="o">=</span><span class="s2">&quot;2.0&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">channel</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">London</span> <span class="nx">Tube</span> <span class="nx">Updates</span><span class="o">&lt;/</span><span class="nx">title</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/</span><span class="nx">tfl</span><span class="o">/</span><span class="nx">livetravelnews</span><span class="o">/</span><span class="nx">realtime</span><span class="o">/</span><span class="nx">tube</span><span class="o">/</span><span class="k">default</span><span class="o">.</span><span class="nx">html</span><span class="o">&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">description</span><span class="o">&gt;</span><span class="nx">The</span> <span class="nx">latest</span> <span class="nx">London</span> <span class="nx">Underground</span> <span class="nx">tube</span> <span class="nx">update</span> <span class="nx">information</span><span class="o">&lt;/</span><span class="nx">description</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">language</span><span class="o">&gt;</span><span class="nx">en</span><span class="o">&lt;/</span><span class="nx">language</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">pubDate</span><span class="o">&gt;</span><span class="nv">$now</span><span class="o">&lt;/</span><span class="nx">pubDate</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">lastBuildDate</span><span class="o">&gt;</span><span class="nv">$now</span><span class="o">&lt;/</span><span class="nx">lastBuildDate</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">docs</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">tube</span><span class="o">.</span><span class="nx">bendodson</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">weblog</span><span class="o">/&lt;/</span><span class="nx">docs</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">webMaster</span><span class="o">&gt;</span><span class="nx">ben</span><span class="o">@</span><span class="nx">bendodson</span><span class="o">.</span><span class="nx">com</span> <span class="p">(</span><span class="nx">Ben</span> <span class="nx">Dodson</span><span class="p">)</span><span class="o">&lt;/</span><span class="nx">webMaster</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">generator</span><span class="o">&gt;</span><span class="nx">PHP</span> <span class="nx">script</span> <span class="nx">by</span> <span class="nx">Ben</span> <span class="nx">Dodson</span><span class="o">&lt;/</span><span class="nx">generator</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">ttl</span><span class="o">&gt;</span><span class="mi">5</span><span class="o">&lt;/</span><span class="nx">ttl</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">image</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Transport</span> <span class="k">for</span> <span class="nx">London</span><span class="o">&lt;/</span><span class="nx">title</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">url</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/</span><span class="nx">tfl</span><span class="o">-</span><span class="k">global</span><span class="o">/</span><span class="nx">images</span><span class="o">/</span><span class="nx">roundel</span><span class="o">.</span><span class="nx">gif</span><span class="o">&lt;/</span><span class="nx">url</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nb">link</span><span class="o">&gt;</span><span class="nx">http</span><span class="o">://</span><span class="nx">www</span><span class="o">.</span><span class="nx">tfl</span><span class="o">.</span><span class="nx">gov</span><span class="o">.</span><span class="nx">uk</span><span class="o">/&lt;/</span><span class="nb">link</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">width</span><span class="o">&gt;</span><span class="mi">52</span><span class="o">&lt;/</span><span class="nx">width</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">height</span><span class="o">&gt;</span><span class="mi">44</span><span class="o">&lt;/</span><span class="nx">height</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">description</span><span class="o">&gt;</span><span class="nx">Transport</span> <span class="k">for</span> <span class="nx">London</span> <span class="nx">Logo</span><span class="o">&lt;/</span><span class="nx">description</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="nx">image</span><span class="o">&gt;</span>
-<span class="nx">XML</span><span class="p">;</span>
+<span class="s">&lt;rss version=&quot;2.0&quot;&gt;</span>
+<span class="s">    &lt;channel&gt;</span>
+<span class="s">        &lt;title&gt;London Tube Updates&lt;/title&gt;</span>
+<span class="s">        &lt;link&gt;http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html&lt;/link&gt;</span>
+<span class="s">        &lt;description&gt;The latest London Underground tube update information&lt;/description&gt;</span>
+<span class="s">        &lt;language&gt;en&lt;/language&gt;</span>
+<span class="s">        &lt;pubDate&gt;$now&lt;/pubDate&gt;</span>
+<span class="s">        &lt;lastBuildDate&gt;$now&lt;/lastBuildDate&gt;</span>
+<span class="s">        &lt;docs&gt;http://tube.bendodson.com/weblog/&lt;/docs&gt;</span>
+<span class="s">        &lt;webMaster&gt;ben@bendodson.com (Ben Dodson)&lt;/webMaster&gt;</span>
+<span class="s">        &lt;generator&gt;PHP script by Ben Dodson&lt;/generator&gt;</span>
+<span class="s">        &lt;ttl&gt;5&lt;/ttl&gt;</span>
+<span class="s">        &lt;image&gt;</span>
+<span class="s">            &lt;title&gt;Transport for London&lt;/title&gt;</span>
+<span class="s">            &lt;url&gt;http://www.tfl.gov.uk/tfl-global/images/roundel.gif&lt;/url&gt;</span>
+<span class="s">            &lt;link&gt;http://www.tfl.gov.uk/&lt;/link&gt;</span>
+<span class="s">            &lt;width&gt;52&lt;/width&gt;</span>
+<span class="s">            &lt;height&gt;44&lt;/height&gt;</span>
+<span class="s">            &lt;description&gt;Transport for London Logo&lt;/description&gt;</span>
+<span class="s">        &lt;/image&gt;</span>
+<span class="dl">XML</span><span class="p">;</span>
 
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$lines</span> <span class="k">as</span> <span class="nv">$line</span><span class="p">)</span> <span class="p">{</span>
     <span class="nv">$xml</span> <span class="o">.=</span> <span class="s1">&#39;&lt;item&gt;&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
@@ -244,7 +244,7 @@
 
 <span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;rss.xml&#39;</span><span class="p">,</span><span class="nv">$xml</span><span class="p">);</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <p>As I mentioned earlier, I am working on a few projects that utilise this script and I shall be making those available shortly.  However, for a sneak peek, you can check out <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/" rel="external">Tube Updates</a>, an API for any developer that would like to make use of this data.  There are still a few improvements to be made but you get the general idea!</p>
 
@@ -281,7 +281,7 @@
 
 <p>This is a system of encoding that basically takes a pair of alphanumeric characters and translates them into a number between 0 and 4095 (much better!).  So for example, B9 translates to 125 and .a would translate to 4058.  However, although this has a much larger range, it's a bit harder to get your head around and so what is needed is a simple function (or two) to convert to and from the extended encoding.  Predictably, I have said PHP functions here:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="k">function</span> <span class="nf">array_to_extended_encoding</span><span class="p">(</span><span class="nv">$array</span><span class="p">)</span>
 <span class="p">{</span>
@@ -297,9 +297,9 @@
     <span class="k">return</span> <span class="nv">$encoding</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="k">function</span> <span class="nf">extended_encoding_to_array</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span>
 <span class="p">{</span>
@@ -323,7 +323,7 @@
     <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <p>They work fairly simply by taking advantage of PHP's casting methods in that a string can be interpreted as an array.</p>
 

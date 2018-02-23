@@ -418,7 +418,7 @@
   <li>I put the following code <a href="https://github.com/bendodson/mailroute-blacklist-with-contextio">available on GitHub</a> on a 15 minute CRON job</li>
 </ol>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="k">require_once</span> <span class="s1">&#39;OAuth.php&#39;</span><span class="p">;</span>
 
@@ -498,7 +498,7 @@
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="nb">array_unique</span><span class="p">(</span><span class="nv">$emails</span><span class="p">);</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>Now all you need to do is forward any spam you receive to the Gmail account you set up. Every 15 minutes, the CRON job will run and check the inbox for any emails. When it finds some, it will parse them for email addresses and blacklist them with MailRoute before deleting them.</p>
 

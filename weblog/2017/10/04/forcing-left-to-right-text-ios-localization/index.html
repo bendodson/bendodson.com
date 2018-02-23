@@ -49,15 +49,15 @@
 
 <p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="p">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
 
 <p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
 
 <p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">paragraph</span> <span class="o">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">paragraph</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="p">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="p">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></figure>
 
 <p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
 

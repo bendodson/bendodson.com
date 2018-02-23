@@ -191,14 +191,14 @@
 
 <p>In order to make things a bit easier for other developers, <a href="https://github.com/bendodson/storefront-assistant">I’ve put together a simple class and plist file</a> that will automatically return a country code for the current user’s store. It’s incredibly simple:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">StorefrontAssistant</span><span class="p">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">StorefrontAssistant</span><span class="p">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="n">countryCode</span> <span class="o">=</span> <span class="n">countryCode</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Country code: \(countryCode)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="kd">let</span> <span class="nv">countryCode</span> <span class="p">=</span> <span class="n">countryCode</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Country code: </span><span class="si">\(</span><span class="n">countryCode</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>Storefront Assistant will automatically request permissions to access the Media Library and then fetch the current storefront identifier for the logged in user. If there are any issues (i.e. permissions denied, no connectivity, country code can’t be found) then an NSError will be returned.</p>
 
@@ -235,12 +235,12 @@
 
 <p>Next, <code>MPMusicPlayerController</code> has been updated with a new method named <code>setQueueWithStoreIDs</code> which allows you to basically hand over an array of Apple Music identifiers and have those play instantly in the Music app without leaving your own app. Interestingly, this allows you to Rickroll someone in just a few lines of code:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">trackID</span> <span class="o">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
-    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nv">trackID</span> <span class="p">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
+    <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
     <span class="n">controller</span><span class="p">.</span><span class="n">setQueueWithStoreIDs</span><span class="p">([</span><span class="n">trackID</span><span class="p">])</span>
     <span class="n">controller</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>This API, whilst interesting, has a few issues; the identifiers for music tracks are different for each country so a US track will not play on a UK Apple Music account<sup id="fnref:storeidentifier"><a href="#fn:storeidentifier" class="footnote">1</a></sup>. There is also no error handling so it’ll just silently fail if you give it an incorrect identifier or one from the wrong store.</p>
 
@@ -344,19 +344,19 @@
     	<div>
 			<p>NSUserDefaults is likely one of the most used APIs on iOS providing a quick and easy way to store basic configuration and settings. However, these can quickly mount up and you’ll typically end up with something like this in your project within a logout method:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="n">defaults</span> <span class="o">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">defaults</span> <span class="p">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;Username&quot;</span><span class="p">)</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;Token&quot;</span><span class="p">)</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;SomeSetting&quot;</span><span class="p">)</span>
 <span class="n">defaults</span><span class="p">.</span><span class="n">removeObjectForKey</span><span class="p">(</span><span class="s">&quot;FavouriteArtist&quot;</span><span class="p">)</span>
-<span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span></code></pre></div>
+<span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span></code></pre></figure>
 
 <p><strong>(Note: you should never store secure information like a password or API token in NSUserDefaults; that’s what the Keychain is for. You should probably also use static constants in a config file for your keys but this will do for a demonstration)</strong></p>
 
 <p>The problem with something like this is that you have to remember to go and add an extra <code>removeObjectForKey</code> whenever you add a new setting and this can be easily forgotten and lead to settings being shared between different user accounts. I’ve definitely been guilty of doing this in the past and, whilst working on an update to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a>, I found that this can be much simpler:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">removePersistentDomainForName</span><span class="p">(</span><span class="bp">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">().</span><span class="n">bundleIdentifier</span><span class="o">!</span><span class="p">)</span>
-<span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">synchronize</span><span class="p">()</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">removePersistentDomainForName</span><span class="p">(</span><span class="bp">NSBundle</span><span class="p">.</span><span class="n">mainBundle</span><span class="p">().</span><span class="n">bundleIdentifier</span><span class="p">!)</span>
+<span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">synchronize</span><span class="p">()</span></code></pre></figure>
 
 <p>This will clear all of the NSUserDefaults that have been set by your code leaving you with a fresh slate just as if the app had been deleted and reinstalled. You don’t need to update your logout method whenever a new setting gets added and you can be sure that everything is being reset in full.</p>
 

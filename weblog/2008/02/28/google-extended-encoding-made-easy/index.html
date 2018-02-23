@@ -49,7 +49,7 @@
 
 <p>This is a system of encoding that basically takes a pair of alphanumeric characters and translates them into a number between 0 and 4095 (much better!).  So for example, B9 translates to 125 and .a would translate to 4058.  However, although this has a much larger range, it's a bit harder to get your head around and so what is needed is a simple function (or two) to convert to and from the extended encoding.  Predictably, I have said PHP functions here:</p>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="k">function</span> <span class="nf">array_to_extended_encoding</span><span class="p">(</span><span class="nv">$array</span><span class="p">)</span>
 <span class="p">{</span>
@@ -65,9 +65,9 @@
     <span class="k">return</span> <span class="nv">$encoding</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
 
 <span class="k">function</span> <span class="nf">extended_encoding_to_array</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span>
 <span class="p">{</span>
@@ -91,7 +91,7 @@
     <span class="k">return</span> <span class="nv">$values</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></div>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
 
 <p>They work fairly simply by taking advantage of PHP's casting methods in that a string can be interpreted as an array.</p>
 

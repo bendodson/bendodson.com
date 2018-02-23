@@ -57,12 +57,12 @@
 
 <p>Next, <code>MPMusicPlayerController</code> has been updated with a new method named <code>setQueueWithStoreIDs</code> which allows you to basically hand over an array of Apple Music identifiers and have those play instantly in the Music app without leaving your own app. Interestingly, this allows you to Rickroll someone in just a few lines of code:</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">trackID</span> <span class="o">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
-    <span class="k">let</span> <span class="n">controller</span> <span class="o">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nv">trackID</span> <span class="p">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
+    <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
     <span class="n">controller</span><span class="p">.</span><span class="n">setQueueWithStoreIDs</span><span class="p">([</span><span class="n">trackID</span><span class="p">])</span>
     <span class="n">controller</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span></code></pre></figure>
 
 <p>This API, whilst interesting, has a few issues; the identifiers for music tracks are different for each country so a US track will not play on a UK Apple Music account<sup id="fnref:storeidentifier"><a href="#fn:storeidentifier" class="footnote">1</a></sup>. There is also no error handling so it’ll just silently fail if you give it an incorrect identifier or one from the wrong store.</p>
 
