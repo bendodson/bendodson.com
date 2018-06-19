@@ -41,6 +41,39 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2011/04/13/itunes-tv-artwork-script/">iTunes TV Artwork Script</a></h1>
+			
+			<time datetime="2011-04-13" pubdate=""><a href="/weblog/2011/04/13/itunes-tv-artwork-script/">April 13, 2011</a></time>
+    	</header>
+    	<div>
+			<p>I have a large amount of TV shows stored in iTunes but not all of them were purchased there, particularly as you can buy a Blu-Ray of many TV shows for a fraction of the price of a Standard Definition download. The only issue I've had is that I lacked artwork for each of these shows. In the past, I'd just screenshot the 200px or so image that showed up in the iTunes store and use that, but since getting an Apple TV (which displays the artwork at a much larger size) I decided I needed a better solution. After a weekend of sorting out my iTunes library, I decided to take a look at the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html">iTunes Search API</a> and see if I couldn't find a way of getting that artwork. They provide a 100x100px thumbnail as part of the API response, but fortunately (with some URL experimentation) I found a way to get the full 600x600px artwork.   
+You can <a href="https://bendodson.com/projects/itunes-tv-artwork/">find the working version on my projects page</a> but I thought I'd share the code briefly below so you can see how it's done and adjust it for any other media available on iTunes (e.g. movies, music, apps).</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
+<span class="nv">$search</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;show&#39;</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$search</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$url</span> <span class="o">=</span> <span class="s1">&#39;http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/wa/wsSearch?term=&#39;</span><span class="o">.</span><span class="nb">urlencode</span><span class="p">(</span><span class="nv">$search</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;&amp;country=us&amp;entity=tvSeason&#39;</span><span class="p">;</span>
+	<span class="nv">$obj</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$url</span><span class="p">));</span>
+	<span class="nv">$results</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">foreach</span> <span class="p">(</span><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">results</span> <span class="k">as</span> <span class="nv">$result</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+		<span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;100x100&#39;</span><span class="p">,</span> <span class="s1">&#39;600x600&#39;</span><span class="p">,</span> <span class="nv">$result</span><span class="o">-&gt;</span><span class="na">artworkUrl100</span><span class="p">);</span>
+		<span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$result</span><span class="o">-&gt;</span><span class="na">collectionName</span><span class="p">;</span>
+		<span class="nv">$results</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
+</pre>
+
+<p>As you can see, it makes a fairly standard API call to the US iTunes store (as that has far more content than any of the others) which returns a lot of information about the particular entity (in this case a TV series).  However, the artwork URL provided is only good for a 100x100px image so I us  a basic <code>str_replace</code> to change that to 600x600 (the only other size I've found that works is 200x200).  Once that's done, I grab the title and stick it all in an array to loop through later - simple!</p>
+<p>Hopefully this script will be of some use to you - it's certainly made my library look a lot nicer when browsing on an iPad or an Apple TV!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">Gamification, Social Validation, Gowalla, and moving on from Wallabee - What I learned at SXSW</a></h1>
 			
 			<time datetime="2011-03-27" pubdate=""><a href="/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">March 27, 2011</a></time>
@@ -594,24 +627,6 @@ The iPhone 4 that has been shown today is different to the existing iPhone 4 in 
 
 
 
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2010/11/04/contact-forms/">Contact Forms</a></h1>
-			
-			<time datetime="2010-11-04" pubdate=""><a href="/weblog/2010/11/04/contact-forms/">November 04, 2010</a></time>
-    	</header>
-    	<div>
-			<p>Over the last 14 years, I have witnessed the internet expanding rapidly and becoming massively commercialised. With this kind of rampant upscaling, there is always a point at which there are enough people using the system that want to exploit it in some way, usually for monetary gain. With the internet, this has been done rather crudely with the invent of <strong>spam email</strong>. There are large numbers of servers whose primary aim is to crawl the internet searching for an email address. They then generate a list of these email addresses and sell them to companies who will send out mass emails trying to entice people to buy something or other.</p>
-
-<p>As this problem has increased (apparently over 85% of all emails sent are spam), web developers have panicked and come up with all sorts of stupid methods to try and prevent it. Most developers won’t output their email address in plain text on a website (or with a mailto link) but instead choose to try and hide it by doing something along the lines of “ben [at] bendodson [dot] com”. This is highly inaccessible and is a real pain to try and decipher sometimes – and besides, a human spammer could read it anyway! Other developers will set up a contact form and then protect it by means of a Captcha system or some other horrendously inaccessible device. These systems are incredibly difficult and time-consuming for able-bodied people to use let alone those with poor eye sight or other disabilities. Even so, these systems have become prevalent across the internet and show no signs of slowing down. Some contact forms now ask basic mathematic questions to prove you’re human completely over looking the fact that every one of these systems can eventually be thwarted as spam-bot developers adapt to them.</p>
-
-<p>The real problem I have with all of these systems is that they impose limits on web users and slow them down. They pass all responsibility to the user and treat them like spam until proven innocent (by means of a test) rather than just accepting that these things happen and using an automated system that can filter spam from real conversation.
-Therefore, I’ve decided to take a stand against this and publish my email address loud and clear with a link that will open it in your email client of choice. If I get spammed, it really doesn’t bother me – I have a “junk mail” folder which has protected my inbox for a very long time and will continue to do so. Please feel free to <a href="/contact/">contact me</a>  – I look forward to hearing from you soon!</p>
 
 		</div>
 	</article>

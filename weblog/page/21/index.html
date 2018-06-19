@@ -41,6 +41,119 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">Getting Xbox Live Achievements Data: Part 2 - The AppleScript Solution</a></h1>
+			
+			<time datetime="2009-05-19" pubdate=""><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">May 19, 2009</a></time>
+    	</header>
+    	<div>
+			<p>Following on from the <a href="https://bendodson.com/weblog/2009/05/12/getting-xbox-live-achievements-with-php-part-1-the-problems/">first of this series of tutorials</a> on how to extract Xbox Live achievement data using PHP and AppleScript, I thought I would use this second part to look at the AppleScript that powers one side of the system I've put together.  In the next part, I'll be explaining the PHP class I've built, and in the fourth part (the last of the series) I'll be showing you how the two talk together and how you can use the collected data with other APIs such as Facebook Connect.</p>
+
+<p>So, let's have a look at some code!</p>
+
+<h3>XboxLive AppleScript</h3>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
+<span class="k">set</span> <span class="nv">dataFilePath</span> <span class="k">to</span> <span class="s2">&quot;server:XboxLive:data.txt&quot;</span>
+<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span>
+
+<span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+<span class="nb">set eof</span> <span class="k">of</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="mi">0</span>
+<span class="nb">close access</span> <span class="nv">dataFile</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+	<span class="nb">open location</span> <span class="nv">urlFilePath</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="nv">do</span> <span class="nv">JavaScript</span> <span class="s2">&quot;window.location.reload()&quot;</span> <span class="k">in</span> <span class="nb">the</span> <span class="nb">front</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="k">try</span>
+		<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="p">(</span><span class="nb">the</span> <span class="nb">text</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="na">document</span><span class="p">)</span>
+	<span class="k">end</span> <span class="k">try</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">if</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">toCrawl</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">open location</span> <span class="nv">toCrawl</span>
+	<span class="nb">delay</span> <span class="mi">15</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+		<span class="k">set</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nb">the</span> <span class="na">source</span> <span class="k">of</span> <span class="nb">front</span> <span class="na">document</span> <span class="k">as </span><span class="nc">string</span>
+		<span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+		<span class="nb">write</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nv">dataFile</span> <span class="nv">starting</span> <span class="nb">at</span> <span class="nv">eof</span>
+		<span class="nb">close access</span> <span class="nv">dataFile</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="k">if</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></figure>
+
+<p>This is the first time I've used AppleScript for anything other than just playing around and I have to say that as a language it's incredibly good.  Just by reading through the above, you'll probably be able to work out what's going on even if you've never seen any type of programming code in the past.  Even so, I'll go through each section and explain what it does along with the reasons why I decided to do it in this particular way rather than some of the other ways I could have chosen.</p>
+
+<p><em><strong>Note:</strong> All of this AppleScript is completely self-taught from searching around on the internet.  I was going to buy the book <a href="http://www.amazon.co.uk/AppleScript-Missing-Manual-Adam-Goldstein/dp/0596008503/ref=sr_11_1?ie=UTF8&qid=1242776373&sr=11-1">AppleScript: The Missing Manual</a> but I was able to read all the sections I needed on <a href="http://books.google.com/books?id=-ynfWvkwzpwC">Google Books</a> which was convenient - I'll probably buy the book anyway to brush up on a few other areas.  If you are an AppleScript guru and you know a way to optimize my code, please use the comments section below so others can learn and so I can update it.</em></p>
+
+<p>Before we get on to looking at the code, it might be worth briefly recapping how everything will work.  My server will check the XboxLive API in order to see if my gamerscore has increased.  If it has, then it saves the URL of the achievements page for my most recently played game (which it can't itself read due you needing to login to Xbox Live with javascript enabled - something cURL can't do!) in a text file on the server.  My mac mini at home then runs the above AppleScript in order to retrieve the saved URL, open it in Safari, and save the HTML in it's own text file that is available via the internet.  My server will then check this text file, parse the HTML, and save the achievements to a database.</p>
+
+<h3>How does it all work?</h3>
+
+<p>Now we've got that out of the way, let's look at that AppleScript in more detail:</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">urlFilePath</span> <span class="k">to</span> <span class="s2">&quot;http://externals.bendodson.com/weblog/XboxLive/urls.txt&quot;</span>
+<span class="k">set</span> <span class="nv">dataFilePath</span> <span class="k">to</span> <span class="s2">&quot;server:XboxLive:data.txt&quot;</span>
+<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="s2">&quot;&quot;</span></code></pre></figure>
+
+<p>These three lines of code are used to define variables which we will use later on in the code.  The first one, <code>urlFilePath</code>, is the URL of the text file on my server that will tell our script what URL we need to retrieve the HTML from.  You'll see how we populate that text file with my XboxLive php class which will be discussed in part three of this four part series.  The second variable, <code>dataFilePath</code>, is interesting as it contains the path to the file we are going to save the HTML to on the local machine.  So why the strange syntax?  This is referred to as Finder syntax and is a way for AppleScript to reference a particular section within Finder, in this case a text file.  It is essentially the same as "/server/XboxLive/data.txt" which we could have used - the difference is that we would have had to have converted that into the Finder syntax in order to use some of the file editing commands we'll use later so I thought it best just to save it correctly at the beginning.</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+<span class="nb">set eof</span> <span class="k">of</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="mi">0</span>
+<span class="nb">close access</span> <span class="nv">dataFile</span></code></pre></figure>
+
+<p>These three lines are again fairly easy to follow.  We set a variable of <code>dataFile</code> to be the handler of the file declared in the path of <code>dataFilePath</code>.  Note that we have specifically mentioned we want to use write permissions as the default is just to use read permissions.  The next line sets the eof or "end of file" within the handler to 0 whilst the following line tidies up by closing the file handler (which isn't strictly necessary but good practice).  The reason for setting <code>eof</code> to 0 is that we want to delete the contents of the file before we put anything else in later.  This is practical for the simple reason that we don't want our PHP script on the server to parse a load of data in the text file (or even download it) if it's something it has already read as that would be a waste of processing power and bandwidth.</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+	<span class="nb">open location</span> <span class="nv">urlFilePath</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="nv">do</span> <span class="nv">JavaScript</span> <span class="s2">&quot;window.location.reload()&quot;</span> <span class="k">in</span> <span class="nb">the</span> <span class="nb">front</span>
+	<span class="nb">delay</span> <span class="mi">1</span>
+	<span class="k">try</span>
+		<span class="k">set</span> <span class="nv">toCrawl</span> <span class="k">to</span> <span class="p">(</span><span class="nb">the</span> <span class="nb">text</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="na">document</span><span class="p">)</span>
+	<span class="k">end</span> <span class="k">try</span>
+<span class="k">end</span> <span class="k">tell</span></code></pre></figure>
+
+<p>Now we get to the first real section of the code that deals with our problem.  In these lines, the application Safari is made to open the text file on the server that may contain the URLs, refresh that page using JavaScript, and then attempt to set the variable <code>toCrawl</code> to the text of the file.  Before we even examine this in depth, you may be wondering something along the lines of "why don't you download the file or read it with FTP rather than opening it in Safari" and this would be sensible.  My initial thoughts on how to get the text on the server into a variable in my AppleScript was to access the file via FTP.  OS X has very basic FTP support (read only unfortunately) that can be mounted through Finder and then accessed using the Finder syntax we used earlier on.  I had originally written some AppleScript that would run in the startup process of the mac mini which would mount the drive.  Then, this AppleScript read the file in using <code>open for access file urlFilePath</code> and set the variable that way.  It all worked perfectly until the server changed the contents of the URL text file.  No matter what I did, the text file came back the same as it had when first fetched and it was that that I realised that the FTP built into Finder is fundamentally flawed as everything is cached.  If you don't edit the file through Finder (e.g. by using a mac application that saves it again through Finder) then it will never know it's updated and thus can't be used in this scenario.</p>
+
+<p>With that out of the way, let's look at my workaround.  The first and last lines are the opening and closing of a <code>tell</code>; a way to get an application to do what we want.  In this instance we are going to tell Safari to open the URL saved in the variable <code>urlFilePath</code> and then delay for one second.  This delay is needed as Safari may take this long to open the URL.  Without the delay, we may be in danger of running code on a page that hasn't loaded.  In the next line, we tell JavaScript to reload the document before waiting another second for this to complete.  This refresh is necessary to clear any caching of the document.  The final section is used to set the variable <code>toCrawl</code> to the contents of the browser window.  You may wonder why there is a <code>try</code> statement wrapped around it?  This is because if the text file was empty and you tried to get <code>the text of the front document</code>, the script would error.  To get around that, we initially set the variable (in the very first block of code if you remember?) and then use <code>try</code> to reset the variable only if no error would be caused in doing so.  Very useful!</p>
+
+<p>By the end of this block of code, we will have a variable which will either contain a URL if the text file on the server had one, or it will be empty, meaning that the server is not requesting any HTML.  Let's move on to the next section:</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">if</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">toCrawl</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">then</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">open location</span> <span class="nv">toCrawl</span>
+	<span class="nb">delay</span> <span class="mi">15</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+		<span class="k">set</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nb">the</span> <span class="na">source</span> <span class="k">of</span> <span class="nb">front</span> <span class="na">document</span> <span class="k">as </span><span class="nc">string</span>
+		<span class="k">set</span> <span class="nv">dataFile</span> <span class="k">to</span> <span class="nb">open for access</span> <span class="nv">file</span> <span class="nv">dataFilePath</span> <span class="nv">with</span> <span class="nb">write</span> <span class="nv">permission</span>
+		<span class="nb">write</span> <span class="nv">sourceCode</span> <span class="k">to</span> <span class="nv">dataFile</span> <span class="nv">starting</span> <span class="nb">at</span> <span class="nv">eof</span>
+		<span class="nb">close access</span> <span class="nv">dataFile</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="k">if</span></code></pre></figure>
+
+<p>This is the core piece of functionality that I was trying to achieve all in this block of 11 lines.  This script will open a URL in Safari, and then save the source code of the loaded page in a text file.  You'll notice that the first and last lines are an <code>if</code> statement relating to the length of the <code>toCrawl</code> variable.  I don't unlock achievements every 5 minutes of the day and so, more often than not, the <code>toCrawl</code> variable will be empty.  If it is, then we want to completely ignore the next section of code as there is no reason whatsoever to run it!</p>
+
+<p>The next line is a one line <code>tell</code> to make Safari open the URL we saved which is then followed by a 15 second delay.  You'll notice this is a lot longer than the 1 second delays earlier.  The reason for this is that, in the first case, it was a simple text file with around 100 characters in it and so loaded incredibly quickly.  This URL, conversely, will be a very large page (around the 100kb mark) that may go through a series of 5 redirects depending on how recently the page was accessed.  This is because after 15 minutes of inactivity, the site forces you back to the login page but I have a cookie stored that will then automatically log me back in.  It just takes a few seconds to go through the process of all the redirects to get to the actual page hence the long time delay.</p>
+
+<p>The last section is a simple expansion of the code we used at the beginning.  We tell Safari to set a variable of <code>sourceCode</code> to be the source of the page that's open - we also tell it to be forced as a string in case there are any casting issues.  Next, we open the <code>dataFilePath</code> and set a handler of <code>dataFile</code> so that we can then write the <code>sourceCode</code> variable into the file starting at the end of the file (which we all know is masquerading as the beginning of the file also as we set it earlier on... keep up!) before tidying up after ourselves and closing access to the handler.  Easy!</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span> <span class="k">to</span> <span class="nb">close</span> <span class="nb">every</span> <span class="na">window</span></code></pre></figure>
+
+<p>In the very final line of code, we tell Safari to close all of it's windows in preparation for the next iteration.  This may not seem terribly important, but trust me, if you neglect to put it in and then unlock 10 achievements, you'll find your mac now has 20 open Safari windows!</p>
+
+<h3>Conclusion</h3>
+
+<p>So that's all there is to this section - a large chunk of AppleScript and a rationale as to why I had to open Safari to get at a text document rather than doing it a slightly more simple way via FTP (due to massive caching issues).  I hope this post has introduced some of you to AppleScript which I have found to be a rather powerful tool when it comes to mac development.  It's very easy to understand and is a great way of transitioning from a web-based language to a desktop-based one especially as you can save AppleScript as a standard mac application.</p>
+
+<p>Join me again for part three of this four part series when I'll be looking at this from the other angle; the PHP server that needs to parse the HTML we have gathered using this AppleScript.  To make sure you don't miss a section, you can <a href="https://bendodson.com/weblog/feed/">subscribe to the RSS Feed</a> or <a href="http://twitter.com/bendodson/">follow me on Twitter</a>.  Please feel free to leave any comments or suggestions on this page.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2009/05/18/iphone-30-push-notification-testing-with-ap-news/">iPhone 3.0 "push" Notification Testing with AP News</a></h1>
 			
 			<time datetime="2009-05-18" pubdate=""><a href="/weblog/2009/05/18/iphone-30-push-notification-testing-with-ap-news/">May 18, 2009</a></time>
@@ -509,58 +622,6 @@ Group staff</code></pre></figure>
 <p>In the future I plan to make some improvements to this system by plugging in a monitor which can then sit on the end of the bed allowing me to watch movies and tv shows downloaded through iTunes as well as DVDs etc but this is an upgrade for another day.  For now I'm quite happy with the setup which was achieved relatively easily and cheaply as I had all the components to hand.  I probably wouldn't recommend it if you were going to buy all the parts as the whole system would cost about &pound;500 but as a small project it's worked very well.  Now I just have to wait to see what iTunes 8 will add to this setup&hellip;</p>
 
 <p>If you have any questions or comments, then please use the comments box below or <a href="https://bendodson.com/contact/">contact me</a>!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2008/08/17/twitter-stops-sending-sms-to-uk-europe-australia/">Twitter stops sending SMS to UK / Europe / Australia</a></h1>
-			
-			<time datetime="2008-08-17" pubdate=""><a href="/weblog/2008/08/17/twitter-stops-sending-sms-to-uk-europe-australia/">August 17, 2008</a></time>
-    	</header>
-    	<div>
-			<p>Undoubtedly the biggest web app of 2007 was <a href="http://twitter.com/" rel="external">Twitter</a>, the simple web app that allowed you to send a text message and have that sent for free to anyone that followed you.  Combined with a simple API, useful web apps could be created to send you txts when your train was going to be delayed or when you got a new email, etc.  However, this has all stopped in the UK, Europe, and Australia for the time being as Twitter has finally turned off the ability to send messages (although you can still update your status by sending a txt).  The full details are below in an email that was received by those registered with the service in affected areas and also on the <a href="http://blog.twitter.com/2008/08/changes-for-some-sms-usersgood-and-bad.html" rel="external">twitter blog</a>:</p>
-
-<blockquote>
-<p>Hi,</p>
-<p>I'm sending you this note because you registered a mobile device to work with Twitter over our UK number. I wanted to let you know that we are making some changes to the way SMS works on Twitter. There is some good news and some bad news.<p>
-<p>I'll start with the bad news. Beginning today, Twitter is no longer delivering outbound SMS over our UK number. If you enjoy receiving updates from Twitter via +44 762 480 1423, we are recommending that you explore some suggested alternatives.</p>
-<p>Note: You will still be able to UPDATE over our UK number.</p>
-<p>Before I go into more detail, here's a bit of good news: Twitter will be introducing several new, local SMS numbers in countries throughout Europe in the coming weeks and months. These new numbers will make Twittering more accessible for you if you've been using SMS to send long-distance updates from outside the UK.</p>
-<p>Why are we making these changes?</p>
-<p>Mobile operators in most of the world charge users to send updates. When you send one message to Twitter and we send it to ten followers, you aren't charged ten times--that's because we've been footing the bill. When we launched our free SMS service to the world, we set the clock ticking. As the service grew in popularity, so too would the price.</p>
-<p>Our challenge during this window of time was to establish relationships with mobile operators around the world such that our SMS services could become sustainable from a cost perspective.</p>
-<p>We achieved this goal in Canada, India, and the United States. We can provide full incoming and outgoing SMS service without passing along operator fees in these countries.</p>
-<p>We took a risk hoping to bring more nations onboard and more mobile operators around to our way of thinking but we've arrived at a point where the responsible thing to do is slow our costs and take a different approach. Since you probably don't live in Canada, India, or the US, we recommend receiving your Twitter
-updates via one of the following methods.</p>
-<p><a href="http://m.twitter.com" rel="external">m.twitter.com</a> works on browser-enabled phones<br />
-<a href="http://m.slandr.net" rel="external">m.slandr.net</a> works on browser-enabled phones<br />
-<a href="http://twittermail.com" rel="external">TwitterMail.com</a> works on email-enabled phones<br />
-<a href="http://bit.ly/12bw4R" rel="external">Cellity [http://bit.ly/12bw4R]</a> works on java-enabled phones<br />
-<a href="http://bit.ly/MFAfJ" rel="external">TwitterBerry [http://bit.ly/MFAfJ]</a> works on BlackBerry phones<br />
-<a href="http://bit.ly/1WxjwQ" rel="external">Twitterific [http://bit.ly/1WxjwQ]</a> works on iPhones</p>
-<p>Twitter SMS by The Numbers</p>
-<p>It pains us to take this measure. However, we need to avoid placing undue burden on our company and our service. Even with a limit of 250 messages received per week, it could cost Twitter about $1,000 per user, per year to send SMS outside of Canada, India, or the US. It makes more sense for us to establish fair billing arrangements with mobile operators than it does to pass these high fees on to our users.</p>
-<p>Twitter will continue to negotiate with mobile operators in Europe, Asia, China, and The Americas to forge relationships that benefit all our users. Our goal is to provide full, two-way service with Twitter via SMS to every nation in a way that is sustainable from a cost perspective. Talks with mobile companies around the world continue. In the meantime, more local numbers for updating via SMS are on the way. We'll keep you posted.</p>
-<p>Thank you for your attention,<br />
-Biz Stone, Co-founder<br />
-Twitter, Inc.<br />
-<a href="http://twitter.com/biz" rel="external">http://twitter.com/biz</a></p></blockquote>
-
-<p>Now this has upset a LOT of users (especially in Australia) but is the general outcry from the web community really justified?  As Twitter themselves say, it could cost them nearly $1000 per user per year to send txts and with 2.2 million users that ain't cheap.  It has always been a mystery to me as to how Twitter makes money and how they are able to send all these txts for free so it comes as no surprise that they have finally stopped doing it.</p>
-
-<p>But what about the alternatives?  I'm using a mac and an iPhone so I've gone for the obvious choice of <a href="http://iconfactory.com/software/twitterrific" rel="external">Twitteriffic</a> on both which does a pretty good job.  On my mac, I get a little chirpy noise and a popup when I get a tweet which works a lot better than an SMS in a lot of ways and this is similar on the iPhone.  The only downside is that the iPhone doesn't support 3rd party apps running in the background so at present you have to open the app to see if there are any updates which is a bit of a pain.  However, this is due to change with iPhone Firmware 2.1 which is hopefully going to be with us some time in September.</p>
-
-<p>Once the ability to receive twitters from Twitteriffic seamlessly occurs, I think it will prove a lot more successful than the txt message route.  Firstly, because it will cost nothing to reply (whereas previously it was very easy to reply to a twitter from a txt and thus get charged for it) and secondly because new features can be added to the service.  Twitteriffic already supports location awareness on the iPhone so people can see where I am twittering from - a small improvement but an improvement none the less.</p>
-
-<p>In response to everybody shouting at Twitter about this issue, why don't they instead complain about the mobile phone companies who are so greedy in the affected countries that they refuse to do a deal with Twitter?  It comes as no surprise to me that in the UK the cellular networks refused to budge on pricing but that is no fault of Twitter who have been paying so much over the last year and a half to make a great service at absolutely no cost to the end user (not even adding advertising to tweets which would seem an obvious money making route).</p>
-
-<p>So in answer to <em>"is Twitter now dead"</em> I would say no!  There are still several uses for it (e.g. I use it to keep a <a href="https://bendodson.com/weblog">micro blog on my homepage</a>) and with several applications for all types of phones it is still easy to stay updated.  It will become really useful for me however when Apple release the next iPhone update with push technology - then it will be as if nothing had even changed.</p>
-
-<p><strong>Update:</strong> Amusingly it looks like someone is already trying to cash in on the lack of SMS from Twitter around most of the world.  Apparently <a href="http://www.tweetSMS.com/" rel="external">tweetSMS</a> will "send you individual, hourly or daily updates from all (or just some) of your friends" for a "very small fee".  We'll see how small that fee is when they launch I suppose&hellip;</p> 
-
 
 		</div>
 	</article>

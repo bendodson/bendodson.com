@@ -41,6 +41,63 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">Proposal for an Erase Data Passcode</a></h1>
+			
+			<time datetime="2017-02-16" pubdate=""><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">February 16, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Last month, US-born NASA scientist Sidd Bikkannavar was detained by Customs and Border Patrol agents and told he would not be released <a href="http://www.theverge.com/2017/2/12/14583124/nasa-sidd-bikkannavar-detained-cbp-phone-search-trump-travel-ban">until he gave the agents the passcode to his phone</a>. They then took his phone (containing sensitive information from NASA) for 30 minutes before returning it and letting him go. He doesn’t know what information was taken at that point although popular consensus is that the entire device could be cloned within that time period.</p>
+
+<p>Many articles have been written about this but the one that caught my eye was by Quincy Larson of <a href="http://freecodecamp.com">freeCodeCamp</a> entitled “<em>I’ll never bring my phone on an international flight again. Neither should you.</em>”</p>
+
+<blockquote>
+  <p>When you travel internationally, you should leave your mobile phone and laptop at home. You can rent phones at most international airports that include data plans.</p>
+
+  <p>If you have family overseas, you can buy a second phone and laptop and leave them there at their home.</p>
+
+  <p>If you’re an employer, you can create a policy that your employees are not to bring devices with them during international travel. You can then issue them “loaner” laptops and phones once they enter the country.</p>
+
+  <p>Since most of our private data is stored in the cloud — and not on individual devices — you could also reset your phone to its factory settings before boarding an international flight. This process will also delete the keys necessary to unencrypt any residual data on your phone (iOS and Android fully encrypt your data).</p>
+
+  <p>This way, you could bring your physical phone with you, then reinstall apps and re-authenticate with them once you’ve arrived. If you’re asked to hand over your unlocked phone at the border, there won’t be any personal data on it. All your data will be safe behind the world-class security that Facebook, Google, Apple, Signal, and all these other companies use.</p>
+
+  <p>Is all this inconvenient? Absolutely. But it’s the only sane course of action when you consider the gravity of your data falling into the wrong hands.</p>
+</blockquote>
+
+<p>I’ve seen similar <a href="https://twitter.com/eagle8/status/831827723039416321">responses on Twitter</a> including one that you should use a burner phone with a different sim. This is all massively inconvenient, even if you follow the “wipe everything and reinstall once you’ve landed” method; bear in mind that the average iPhone takes hours to re-download all of its data<sup id="fnref:downloaddata"><a href="#fn:downloaddata" class="footnote">1</a></sup> at a point when you likely need to get maps, book transport, etc.</p>
+
+<p>My suggestion is much simpler; Apple (and other handset manufacturers) should introduce an <em>Erase Data Passcode</em>. This would be a user-defined passcode<sup id="fnref:touchid"><a href="#fn:touchid" class="footnote">2</a></sup> that when entered immediately performs a secure wipe of the device in a similar way in which the existing “Erase Data” option works<sup id="fnref:erasedata"><a href="#fn:erasedata" class="footnote">3</a></sup>. It would be expected that the device would disable power-off options during the secure wipe so that the only way to stop it would be to remove the battery (which in most circumstances would take considerable time at which point the data would be erased).</p>
+
+<p>This is a solution that would also work in other cases such as theft, muggings, or a jealous partner. Whilst Apple have long had the option to remotely wipe your device via iCloud.com this has become far less easy to do quickly if you have 2-Factor Authentication enabled<sup id="fnref:2fa"><a href="#fn:2fa" class="footnote">4</a></sup> as you may not have access to your own devices.</p>
+
+<p>I’ve filed a Radar on this issue (<a href="rdar://30553231">rdar://30553231</a>) and would urge any other Apple customers that deem this to be a good idea to duplicate it. Apple goes to extraordinary lengths to protect user data and fight for the privacy of its customers but all of that is pointless if you are compelled to give up the keys to your device<sup id="fnref:xkcd"><a href="#fn:xkcd" class="footnote">5</a></sup>. It is also pointless to have such powerful devices if we need to reset them every time we travel.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:downloaddata">
+      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:touchid">
+      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:erasedata">
+      <p>This is an option within <code>Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:2fa">
+      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:xkcd">
+      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/01/26/the-checked-shirt-episode-1/">The Checked Shirt #1 - Lost AirPods, iOS 10.3 beta, App Store changes, and Invoicing</a></h1>
 			
 			<time datetime="2017-01-26" pubdate=""><a href="/weblog/2017/01/26/the-checked-shirt-episode-1/">January 26, 2017</a></time>
@@ -389,42 +446,6 @@
 <p>This is perhaps my biggest achievement; a complete log of time spent on each game. The page updates daily and will list each game I’ve played over the last 2 months along with duration and a link through to more details. This is done through a combination of two custom scripts I wrote to scrape both my Steam library and Xbox Live / Windows 10 account periodically for changes. It’s been fascinating for me to see exactly how long I’ve spent on certain games (*cough* <a href="http://kyloben.co.uk/games/peggle-2">Peggle 2</a> *cough*) and will allow me to easily write a regular piece on games I’ve played over the previous month.</p>
 
 <p>I’m really excited to be writing regularly about my biggest hobby and I’m looking forward to posting frequently for the foreseeable future. I have a few extra things to announce soon including some apps and game mods so <a href="https://twitter.com/bendodson">follow me on Twitter</a> for the latest updates. Alternatively, there is an <a href="http://kyloben.co.uk/rss.xml">RSS feed available</a> for Kylo Ben which will keep you up to date on any new articles. If you have any thoughts or suggestions for improvements, please <a href="https://bendodson.com/contact">get in touch</a>.</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/12/working-remotely/">Working Remotely</a></h1>
-			
-			<time datetime="2016-10-12" pubdate=""><a href="/weblog/2016/10/12/working-remotely/">October 12, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently asked by <a href="http://remote.co/">Remote.co</a> to take part in a new Q&amp;A section about remote workers. You can <a href="https://remote.co/remote-workers/ben-dodson/">read the full Q&amp;A on their website</a> but I’ve put some of their questions and my answers below:</p>
-
-<h2 id="what-advice-would-you-give-someone-considering-going-remote">What advice would you give someone considering going remote?</h2>
-<blockquote>
-  <p>Discipline. It takes a lot of discipline to work remotely as you’ll find that it is very easy to put off a piece of work when you’re sitting at home. There are no firewalls stopping you from accessing Facebook and Twitter, the Xbox might be sat saying “just one more game”, and before you know it a month has passed and you’ve done nothing.</p>
-</blockquote>
-
-<h2 id="how-do-you-avoid-becoming-distracted-when-working-remotely">How do you avoid becoming distracted when working remotely?</h2>
-<blockquote>
-  <p>I have a pair of noise-cancelling headphones that I bought for working in an open-plan office but they work at home for me as the act of putting them on puts me into “work mode”. The only problem was that if the doorbell went (sidenote: great advantage of working from home is you never miss an Amazon delivery) I wouldn’t hear it; I fixed that by hooking it up to a Philips Hue lightbulb on my desk so I get a visual alert.</p>
-</blockquote>
-
-<h2 id="do-you-have-a-dedicated-home-office">Do you have a dedicated home office?</h2>
-<blockquote>
-  <p>I do have a dedicated room for work. I have a small desk with a 5k iMac and an external 1080p monitor in portrait mode (I find this better for webpages and iPhone simulators). Apart from the computer, my desk only has space for my tea and water and a Blue Yeti microphone I use for podcasting and Skype. I have lots of bookshelves (mainly full of LEGO) and a small orchid by the window.</p>
-</blockquote>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/office.jpg" width="800" height="600" /></p>
-
-<h2 id="whats-the-hardest-part-about-working-with-a-traditional-team-while-youre-remote-how-do-you-overcome-it">What’s the hardest part about working with a traditional team while you’re remote? How do you overcome it?</h2>
-<blockquote>
-  <p>I find the hardest thing is that traditional teams will want to have meetings all the time. They also want you to pop into the office fairly frequently for reasons unknown to me. I’m pretty good at telling prospective clients that I only work remotely and that I don’t do daily catch up calls; I get a good handle for the project and then do a week or two of work before sending over a build for feedback.</p>
-</blockquote>
 
 
 		</div>

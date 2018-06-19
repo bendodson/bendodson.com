@@ -41,6 +41,57 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">Finding the next available driving test with Goutte PHP Scraper</a></h1>
+			
+			<time datetime="2015-07-24" pubdate=""><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">July 24, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Over the past week I’ve had a lot of fun working on some small scripts to aid my general day-to-day living. My wife is currently waiting to take her driving test but our local area only has one test instructor with a waiting list of over 6 months! Occassionally slots open up due to cancellations and so she has been logging into the <a href="https://driverpracticaltest.direct.gov.uk/login">Government website</a> multiple times a day to check for a nearer date. Time for some automation!</p>
+
+<p>To stop her having to constantly go to a website, I decided to knock up a quick PHP script that would basically pretend to be a browser, log in, go to the correct page, and rip out the next available appointment. It’s been a while since I wrote a script like this so I had a look around for something better than <code>SimpleXML</code> and found <a href="https://github.com/FriendsOfPHP/Goutte">Goutte, a simple PHP Web Scraper</a>. Within 10 minutes, my script was working. It looks something like this:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
+
+<span class="k">require</span> <span class="s1">&#39;vendor/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Goutte\Client</span><span class="p">;</span>
+
+<span class="nv">$licenseNumber</span> <span class="o">=</span> <span class="s1">&#39;xxx&#39;</span><span class="p">;</span> <span class="c1">// Driving License Number</span>
+<span class="nv">$referenceNumber</span> <span class="o">=</span> <span class="s1">&#39;xxx&#39;</span><span class="p">;</span> <span class="c1">// Reference number for current test date as looking to rebook</span>
+
+<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
+
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;https://driverpracticaltest.direct.gov.uk/login&#39;</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;h2&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">each</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$node</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$node</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Sorry, you can’t use this service right now&quot;</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">echo</span> <span class="s1">&#39;Site is down.&#39;</span><span class="p">;</span><span class="k">exit</span><span class="p">;</span> <span class="c1">// Inexplicably, the site goes offline from 9pm-6am. It thinks it&#39;s an office!</span>
+	<span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;Continue&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;username&#39;</span> <span class="o">=&gt;</span> <span class="nv">$licenseNumber</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span> <span class="o">=&gt;</span> <span class="nv">$referenceNumber</span><span class="p">));</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Change Date and time of test&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">click</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;Find available dates&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;testChoice&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ASAP&#39;</span><span class="p">));</span>
+
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;.slotDateTime&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">each</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$node</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$date</span> <span class="o">=</span> <span class="nv">$node</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">();</span>
+	<span class="k">echo</span> <span class="nv">$date</span><span class="o">.</span><span class="s1">&#39; is the next available test slot.&#39;</span><span class="p">;</span>
+	<span class="c1">// Here I check if it has changed since last time and send an email if it has and nearer than currently booked test. Left out for brevity.</span>
+    <span class="k">exit</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
+
+<p>As you can see, the code is pretty simple, readable, and powerful. Within minutes, I was able to jump through 3 pages without worrying about sessions, cookies, or any of the other nonsense that often occurred when dealing with this kind of scraping. I run this every 5 minutes on a <a href="http://fortrabbit.com/">FortRabbit server</a> and we both get emailed if a closer test date appears. For just a few minutes work, this means better peace of mind as we don’t have to check manually and this checks far more frequently than we ever could. Now to wait and hope for a nearer test date…</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/07/17/transferwise/">TransferWise</a></h1>
 			
 			<time datetime="2015-07-17" pubdate=""><a href="/weblog/2015/07/17/transferwise/">July 17, 2015</a></time>
@@ -416,45 +467,6 @@
     </li>
     <li id="fn:water">
       <p>I’ve also been trying to drink the recommended amount of water per day so this has been a good point to go and top up my water. I’ve been using the <a href="http://waterminderapp.com">WaterMinder app</a> to keep track of this as they have a nice Apple Watch app which follows a similar circular goal design. <a href="#fnref:water" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/22/using-stripe-for-iap/">Using Stripe for In-App Purchases</a></h1>
-			
-			<time datetime="2015-05-22" pubdate=""><a href="/weblog/2015/05/22/using-stripe-for-iap/">May 22, 2015</a></time>
-    	</header>
-    	<div>
-			<p>When I launched <a href="http://wallab.ee/unique/">Unique Items</a> for WallaBee a few years ago, I didn’t completely grasp how popular they’d be. Within a few weeks, we had hundreds of orders (all processed through PayPal) and ended up with a year-long backlog which has only now been cleared. In anticipation of allowing players to commission these items again, I’ve been looking at payment providers and settled on <a href="http://stripe.com/">Stripe</a> now that they’ve fully launched in the UK. After having a quick look at their docs, I realised it was going to be insanely easy to integrate their SDK into a website and that is when I started thinking about using them for In-App Purchases (IAP).</p>
-
-<p>Apple allow developers to use their StoreKit to create In-App Purchases but it comes at a steep price: 30% of all sales. For that 30%, you get simplicity and ease of use for the customer who can just tap a button, type in their iTunes password, and buy any digital content upto $999. This is what we’ve been using with WallaBee for over 3 years but with several issues arising lately<sup id="fnref:storekit"><a href="#fn:storekit" class="footnote">1</a></sup> I thought I might have a go at creating a way for players to buy our in-game currency and lock mechanisms on our website. After a couple of hours, I had a <a href="https://store.wallab.ee/">fully functioning site</a> which does just that with full integration with Stripe. Players log in and then click a button to begin using Checkout, Stripe’s own JavaScript based checkout system which will either operate in an overlay on desktop or open in a new window on mobile. The card form is incredibly simple (and no doubt well tested) and allows customers to pay within seconds. It also has the ability to remember a customer so later purchases will be quicker.</p>
-
-<p>The end result so far has been that 50% of our players have chosen to purchase online<sup id="fnref:incentive"><a href="#fn:incentive" class="footnote">2</a></sup> which adds up to a sizeable increase in income as Stripe charge roughly 4-5% once currency conversion (if necessary) is taken into account. Another nice benefit is that Stripe pay you daily for transactions 7 days ago - that means the sales from today will be in our account next week whereas with Apple we have to wait as long as 2 months for a transaction to be paid. We also get more control over the refund process as at the moment anybody can ask Apple for a refund and will usually get it - we don’t get notified when that happens so it means some players can get purchases for free<sup id="fnref:theft"><a href="#fn:theft" class="footnote">3</a></sup>.</p>
-
-<p>The only issue with this is that it has to be completely confined to the web and we’re not allowed to add a buy button or similar to the app to direct people to the purchase site as per <a href="https://developer.apple.com/app-store/review/guidelines/#purchasing-currencies">rule 11.13 of the App Store Guidelines</a>:</p>
-
-<blockquote>
-  <p><em><strong>11.13</strong>: Apps that link to external mechanisms for purchases or subscriptions to be used in the App, such as a “buy” button that goes to a web site to purchase a digital book, will be rejected</em></p>
-</blockquote>
-
-<p>It is permissable to sell content for your apps online, you’re just not allowed to have any buttons linking to the site within the app. This means that we’ll need to keep both the Apple IAP system and our Stripe online system running separately but so far the results look good. If you have some form of gaming app that relies on IAP, you’d be crazy not to look at doing something similar.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:storekit">
-      <p>It seems to be that if Apple changes it’s ToS, players who make a purchase are then asked to verify their agreement and end up getting charged without having the charge hit my servers so they end up getting nothing. There is also a complex dance to verify everything with a successful purchase going to my server, my server verifying with Apple, Apple replying that it’s all ok, and then me adding the purchase to the database - if a connection is dropped at any point, then customer ends up with nothing. <a href="#fnref:storekit" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:incentive">
-      <p>No doubt helped by the 5% discount we added whilst trialling it. <a href="#fnref:incentive" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:theft">
-      <p>I’ve not seen many instances of this but it has happened and there isn’t anything we can do about it as Apple don’t say who has been refunded, just that a refund has occurred. <a href="#fnref:theft" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
