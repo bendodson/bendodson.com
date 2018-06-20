@@ -41,6 +41,167 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2009/05/25/twitterfollowers-php-class-a-better-way-to-track-twitter-followers-quitters-and-returning-followers/">TwitterFollowers PHP Class - A Better Way To Track Followers, Quitters, and Returning Followers on Twitter</a></h1>
+			
+			<time datetime="2009-05-25" pubdate=""><a href="/weblog/2009/05/25/twitterfollowers-php-class-a-better-way-to-track-twitter-followers-quitters-and-returning-followers/">May 25, 2009</a></time>
+    	</header>
+    	<div>
+			<p>Over the past few months, there have been a number of web apps that have popped up with the task of feeding your ego (or indeed deflating it) by telling you exactly who is following you on Twitter and giving you pretty graphs to show you how your followers are increasing - some of them even go so far as to estimate how many followers you are likely to have in a weeks time!  However, the key thing for me that is missing from Twitter is the ability to see who has stopped following you and also those people that stopped but are now following you again as you don't get email alerts from Twitter for these two things.  This is a useful piece of information to have as it will let you know when people drop off and whether they are important (e.g. friends who don't care what you are talking about thus suggesting you should stop talking crap) or not (e.g. spam bots).</p>
+<p>I did a bit of research and the only real web app to fulfill this need that I could find was the beautifully designed <a href="http://useqwitter.com/">Qwitter</a>.  However, the problem with Qwitter is that it only gives you the details for one person with the idea being that you say "tell me when this username stops following me" - it's a little bit stalkerish in my opinion!  Like any PHP developer, I decided that I could build my own little system to give me my Twitter ego boost and so have come up with the class below which you can all now take and use as you see fit.</p>
+<p><strong>Update:</strong> Turns out I was wrong about Qwitter as the username you put in to follow is supposed to be yours, not the person you want to watch when they leave you.  They need to do better copywriting! In any case, the class below serves as a good demo of the public Twitter data and allows you to extend it the way you want.</p>
+<p><strong>Note:</strong> This won't work straight out of the box - I've put in a few comments which say "SQL Required".  This is because you may well have your own schema (although I do provide one) and you may have your own framework or DB connection functions (I know I do).  Once you've done those, just substitute the constants for your own details and it should all work</p>
+
+<h3>TwitterFollowers.class.php</h3>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Crawls Twitter Followers and sends an email alert to show you who has started following, stopped following, and started re-following</span>
+<span class="sd"> *</span>
+<span class="sd"> * @author Ben Dodson</span>
+<span class="sd"> **/</span>
+<span class="k">class</span> <span class="nc">TwitterFollowers</span>
+<span class="p">{</span>
+	<span class="c1">// define constants</span>
+	<span class="k">const</span> <span class="no">username</span>	<span class="o">=</span> <span class="s1">&#39;bendodson&#39;</span><span class="p">;</span>
+	<span class="k">const</span> <span class="no">email</span> 	<span class="o">=</span> <span class="s1">&#39;ben@bendodson.com&#39;</span><span class="p">;</span>
+	<span class="k">const</span> <span class="no">subject</span>	<span class="o">=</span> <span class="s1">&#39;Twitter Updates&#39;</span><span class="p">;</span>
+	<span class="k">const</span> <span class="no">from</span>	<span class="o">=</span> <span class="s1">&#39;TwitterBot &lt;twitter@bendodson.com&gt;&#39;</span><span class="p">;</span>
+	
+	<span class="c1">// define internal variables</span>
+	<span class="k">protected</span> <span class="nv">$actualFollowers</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">protected</span> <span class="nv">$internalFollowers</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">protected</span> <span class="nv">$followerChanges</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+	<span class="k">protected</span> <span class="nv">$now</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	
+	<span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">now</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">);</span>
+		
+		<span class="nv">$json</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://twitter.com/followers/ids/&#39;</span><span class="o">.</span><span class="nx">self</span><span class="o">::</span><span class="na">username</span><span class="o">.</span><span class="s1">&#39;.json&#39;</span><span class="p">);</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actualFollowers</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">internalFollowers</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getInternalFollowers</span><span class="p">();</span>
+		
+		<span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actualFollowers</span> <span class="k">as</span> <span class="nv">$actualFollower</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$actualFollower</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">internalFollowers</span><span class="p">))</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getTweeter</span><span class="p">(</span><span class="nv">$actualFollower</span><span class="p">))</span> <span class="p">{</span>
+					<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">[</span><span class="s1">&#39;returning follower&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$actualFollower</span><span class="p">;</span>
+					<span class="cm">/*</span>
+<span class="cm">					--SQL REQUIRED--</span>
+<span class="cm">					UPDATE TwitterFollowers SET start = $this-&gt;now, end = NULL WHERE id = $actualFollower</span>
+<span class="cm">					*/</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">[</span><span class="s1">&#39;new follower&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$actualFollower</span><span class="p">;</span>
+					<span class="cm">/*</span>
+<span class="cm">					--SQL REQUIRED--</span>
+<span class="cm">					INSERT INTO TwitterFollowers (id) VALUES ($actualFollower)</span>
+<span class="cm">					*/</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		
+		<span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">internalFollowers</span> <span class="k">as</span> <span class="nv">$internalFollower</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$internalFollower</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">actualFollowers</span><span class="p">))</span> <span class="p">{</span>
+				<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">[</span><span class="s1">&#39;stopped following&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$internalFollower</span><span class="p">;</span>
+				<span class="cm">/*</span>
+<span class="cm">				--SQL REQUIRED--</span>
+<span class="cm">				UPDATE TwitterFollowers SET end = $this-&gt;now WHERE id = $internalFollower</span>
+<span class="cm">				*/</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sendEmail</span><span class="p">();</span>	
+	<span class="p">}</span>
+	
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">getInternalFollowers</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+		<span class="nv">$raw</span> <span class="o">=</span> 
+		<span class="cm">/*</span>
+<span class="cm">		--SQL REQUIRED--</span>
+<span class="cm">		SELECT id FROM TwitterFollowers WHERE end IS NULL</span>
+<span class="cm">		*/</span>
+		<span class="k">foreach</span> <span class="p">(</span><span class="nv">$raw</span> <span class="k">as</span> <span class="nv">$r</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nv">$data</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nv">$data</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">getTweeter</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">return</span>
+		<span class="cm">/*</span>
+<span class="cm">		--SQL REQUIRED--</span>
+<span class="cm">		SELET * FROM TwitterFollowers WHERE id = $id LIMIT 1</span>
+<span class="cm">		*/</span>		
+	<span class="p">}</span>
+	
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">getTweeterDetails</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$json</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://twitter.com/users/show/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;.json&#39;</span><span class="p">);</span>
+		<span class="nv">$tweeter</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
+		<span class="k">return</span> <span class="nv">$tweeter</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">.</span> <span class="s1">&#39; (&#39;</span><span class="o">.</span><span class="nv">$tweeter</span><span class="o">-&gt;</span><span class="na">screen_name</span> <span class="o">.</span> <span class="s1">&#39;)&#39;</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">protected</span> <span class="k">function</span> <span class="nf">sendEmail</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nv">$to</span>      <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">email</span><span class="p">;</span>
+		<span class="nv">$subject</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">subject</span><span class="p">;</span>
+		<span class="nv">$headers</span> <span class="o">=</span> <span class="s1">&#39;From: &#39;</span> <span class="o">.</span> <span class="nx">self</span><span class="o">::</span><span class="na">from</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="s1">&#39;Reply-To: &#39;</span> <span class="o">.</span> <span class="nx">self</span><span class="o">::</span><span class="na">from</span><span class="p">;</span>
+
+		<span class="nv">$message</span> <span class="o">=</span> <span class="s1">&#39;Hi,&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+		<span class="nv">$message</span> <span class="o">.=</span> <span class="s1">&#39;Here are your Twitter Updates:&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">followerChanges</span> <span class="k">as</span> <span class="nv">$changeType</span> <span class="o">=&gt;</span> <span class="nv">$change</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nv">$message</span> <span class="o">.=</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="s1">&#39;--&#39;</span><span class="o">.</span><span class="nb">strtoupper</span><span class="p">(</span><span class="nv">$changeType</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;--&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+				<span class="k">foreach</span> <span class="p">(</span><span class="nv">$change</span> <span class="k">as</span> <span class="nv">$tweeter</span><span class="p">)</span> <span class="p">{</span>
+					<span class="nv">$message</span> <span class="o">.=</span> <span class="s1">&#39;*&#39;</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getTweeterDetails</span><span class="p">(</span><span class="nv">$tweeter</span><span class="p">)</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nv">$message</span> <span class="o">.=</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span> <span class="o">.</span> <span class="s1">&#39;--NO UPDATES FOUND--&#39;</span> <span class="o">.</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">;</span>
+		<span class="p">}</span>
+		
+		<span class="nb">mail</span><span class="p">(</span><span class="nv">$to</span><span class="p">,</span> <span class="nv">$subject</span><span class="p">,</span> <span class="nv">$message</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
+
+<h3>MySQL Database Schema</h3>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">TwitterFollowers</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="k">start</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+  <span class="o">`</span><span class="k">end</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">MyISAM</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">latin1</span><span class="p">;</span></code></pre></figure>
+
+<h3>How does it work?</h3>
+
+<p>First of all, you will need to substitute the SQL sections for your own particular schema and database functions.  Once you've done that, alter the class constants so that they are your own username and the email address you want to send your updates to.  Finally, set up a CRON job so that it runs at a certain point every day.  I currently have mine set to run at 9am every morning but I may well change it to run every time I post a tweet as then I'd be able to see which tweet had made people start or stop following me.</p>
+
+<p>The script works by checking the publicly accessible JSON feed of your followers and getting all of their IDs.  I say it's publicly accessible, but I don't think it is if you have protected your updates which will of course cause problems!  Once it has all of the IDs, it checks this against the IDs stored in your database - if there aren't any then everyone will show up as following you on the first run.  If it finds an ID in your database that isn't in your JSON string then you've been dumped!  Conversely, if it finds an ID in the JSON string but not in the DB then, congratulations, you've got a new follower.  The final instance is if it finds an ID in the JSON string that is in the DB but has an end datetime assigned to it.  This means the person was following you, stopped, and has now decided to re-follow you.</p>
+
+<p>The whole lot then gets packaged up and emailed to you with each section broken down so you can read it clearly.  In order to do this, it looks up each ID that goes into the email against that persons publicly available Twitter information to give you both their "real name" and "username".</p>
+
+<h3>Known Problems</h3>
+<ul>
+<li>I don't think it will work if you have your updates set to hidden.</li>
+<li>If one of your followers gets banned from Twitter, then their name won't show up in the email (it will just be blank)</li>
+<li>This script won't work if you have more than 5000 followers - this is because that is the maximum result set from the JSON string.  You'd need to add paging information to get more than 5000 although this would be fairly easily.  Alas I don't have that many followers to be able to test that out!</li>
+</ul>
+
+<h3>Conclusion</h3>
+
+<p>So now you can easily (if you know PHP) get updates on all your Twitter followers and non-followers.  Feel free to use all the above code and modify to your hearts content - if you found it to be useful, then please leave a comment below.  Oh, and I couldn't possibly write a post about Twitter without reminding you that you can follow me <a href="http://twitter.com/bendodson/">@bendodson</a> ;)</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">Getting Xbox Live Achievements Data: Part 2 - The AppleScript Solution</a></h1>
 			
 			<time datetime="2009-05-19" pubdate=""><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">May 19, 2009</a></time>
@@ -516,112 +677,6 @@
 <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>defaults write com.apple.iTunes DeviceBackupsDisabled -bool false</code></pre></figure>
 
 <p>Now my backups are back up and running and are incredibly fast so I&#x27;ll be leaving it on for the time being (although hopefully there won&#x27;t be a need for a restore).</p><p>On a separate note, I&#x27;m again not sure if this is an iPhone 2.1 update or an iTunes 8 update but when you are looking at your iPhone through iTunes, it actually shows how much space is used up by Apps rather than sticking them under the category of Other. Very helpful!</p><h3>Passcode Locking / Secure Wipe</h3><p>Talking about doing backups leads me nicely into a new feature of iPhone 2.1 - the ability to have your iPhone wipe itself if someone enters in the passcode incorrectly more than 10 times. This in response to the controversy surrounding Apple when it turned out that you could <a href="http://www.macrumors.com/2008/08/27/iphone-passcode-flaw-already-addressed-for-future-firmware-update/" rel="external">bypass the passcode</a> if you had a certain setting enabled. Now most people commented that no-one used the passcode and I agreed with them as I had never had it enabled before. However, now there is a secure wipe option, I have put it back on so that if someone steals my phone I know my data is safe. If they enter the code in wrong more than 10 times then my iPhone will just wipe itself similar to the Exchange Remote Wipe feature. My only bug bear with the process is that 10 times is a long time. I&#x27;d like to be able to change that number to 3 - I&#x27;m not going to enter it in wrong that many times (and if I do then my fast backup process as detailed above means I can restore it fairly quickly). One <a href="http://forums.macrumors.com/showthread.php?t=561173#post_message_6215873" rel="external">commentator</a> said they&#x27;d like it changed so it wipes if you get it wrong the first time making each unlock a little like an episode of 24!</p><h3>Genius Playlists</h3><p>I haven&#x27;t had much experience of this on my iPhone as I only have a small portion of my library loaded on to it, but it appears to work in the same way as genius within iTunes 8. The idea is that every time you sync, your library is sent up to the Apple Genius &quot;cloud&quot; where it is analysed and compared with other peoples libraries. it can then recommend you music in your library that goes with other music in your library leading to a nice playlist that blends together quite well. It&#x27;s essentially the same as recommendations from last.fm but seems to work quite well. It should get better as more and more people use it as the cloud will have more data to analyse. The only improvement I can see to this (which is a long shot and won&#x27;t ever happen) is if there was a way to get the tracks to mix into each other as you went between them in a playlist. I listen to a lot of dance music and it would be great if genius was clever enough to do a DJ style mix between them. There was an application on Dragons Den a few years ago that did that but I&#x27;m not sure what happened to it!</p><h3>Summary</h3><p>So the new firmware is a vast improvement and offers a few little extras as well such as secure wipe and Genius playlists. The other thing I&#x27;ve noticed is that the icons for the different networks you are on (e.g. GPRS, Edge, 3G) have been changed slightly - Why I don&#x27;t know but they do look a little clearer!</p><p>If you don&#x27;t have it already, then upgrade to both <a href="http://www.apple.com/iphone/softwareupdate/" rel="external">iPhone 2.1</a> and <a href="http://www.apple.com/itunes/overview/" rel="external">iTunes 8</a> - you&#x27;ll be glad you did!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">How to control a Mac Mini from your iPhone including waking, sleeping, and audio / video</a></h1>
-			
-			<time datetime="2008-09-08" pubdate=""><a href="/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">September 08, 2008</a></time>
-    	</header>
-    	<div>
-			<p>I was recently cleaning through the "technology cupboard" in my flat (every geek has one - it's a place where all the useless electronics we've collected over the years live) when I came across an idea for creating a home entertainment system for my bedroom.  The main driver for this was a forgotten Mac Mini (512MB of RAM and an old G4 processor) which I realised could hold all of my music on its 40GB hard drive and send it wirelessly to all of my other equipment.</p>
-
-<p>The problem I have is that at present I have 3 computers at home and 1 at work (plus my iPhone 3G) which all have a complete copy of all of my music files (around 20GB - obviously the iPhone doesn't have all of that as it doesn't fit but that's a separate issue) - the downside to this is that when I update one machine the others are then out of sync.  My original plan was to have the mac mini hold everything and then the other computers would use it's hard drive over my network as the master copy.  That way if I added music to the mac mini, the others would all be in sync.  I have since completely given up on this idea as I needed to a) access music on my laptop all the time and b) access music on my work iMac without having to leave everything on at home and broadcast through a static IP (which would also have been a little slow especially when I skip through lots of tracks - I'm very picky at what I listen to).</p>
-
-<p>However, since I started writing this article there have been <a href="http://forums.macrumors.com/showthread.php?t=557826" rel="external">rumours flying around</a> about the 9th September "Lets Rock" event being staged by Apple.  Several sources are touting that iTunes 8 is going to be released and will have an option to stream your music wirelessly to other machines (or an iPhone) through the internet.  Let's hope this is true!</p>
-
-<p>With the initial problem left alone for now, I decided to think on another problem I have.  If I want to listen to music in my bedroom, then I have to bring my laptop in and listen to it from there.  This isn't a huge difficulty but the sound quality isn't great and I don't like using my laptop in my bedroom (mainly because I try to keep some separation between work / computer based activities from other things I enjoy like reading and writing - the ideal separation is a physical one so I don't use my computer in my bedroom at all).  I could buy a cheap hi-fi system but then it wouldn't be connected to my iTunes library.  Alternatively I could get an iPhone dock but they are quite expensive (due to the magnetic shielding) and also I can't fit all my music on there so it wasn't really an option.  At this point I'd like to point out that yes I could have used <a href="http://www.apple.com/uk/airportexpress/" rel="external">AirTunes</a> (plugging a hi-fi unit into the 3mm audio jack on an Airport Express in order to pick up a shared iTunes library) but that would require me leaving the laptop on in the other room.  Not a great hardship but I'd have to get out of bed to turn it off (which would be a hardship).</p>
-
-<p>After a bit of thought and a look at the components I had, I worked out that I could put the mac mini under my bed with a wireless card and some speakers and then play music through it using the <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284417350&mt=8" rel="external">Apple Remote application</a> available from the App Store for iPhone.  I could also install a VNC client so that I could control the mac mini remotely if necessary (in the case of copying music onto it, installing updates, etc).  Perfect.</p>
-
-<p>I'm quite pedantic however and so the above solution wasn't yet 100% perfect.  The main problem I had was that the mac mini would need to be on 24 hours a day when I'd only be using it for around an hour a day at most. This doesn't bother me from an environmental perspective (I'm not into "green") but did bother me from the point of view that I'd be paying for electricity I wasn't using (around 45-50W an hour I believe which would be around 16p a day - that works out at nearly &pound;60 a year for nothing!) and that the components would be wearing down from overuse.  It would probably become a little unstable as well and I'd worry it would burst into flames or something!  So, the mac mini needed to be put to sleep and needed to be woken up.  I could do this by pressing the power button but it's under my bed and I can't be bothered with the movement involved.  Thus a solution had to be created that would let me wake it and put it to sleep remotely with my iPhone being the obvious candidate for this as it was already choosing the songs being played.</p>
-
-<h3>Challenge One - Make the mac go to sleep remotely</h3>
-
-<p>Waking up a machine is easy with Wake-on-LAN (as we'll see shortly) but there seems to be no easy way to put one to sleep.  My initial ideas of having an inactivity timer were quickly discarded as I realised that either the machine wouldn't go to sleep if music was left playing or it might go to sleep too quickly.  A better solution was needed and I eventually came across a terminal command which will make your mac sleep:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;;</span></code></pre></figure>
-
-<p>You can try the above in Terminal and watch in awe as your mac succumbs to tiredness.  So this is all well and good but can only be run on the machine which you want to put to sleep; it can't be done remotely.</p>
-
-<p>A solution to the problem comes in the form of the Apache2 web server that comes installed by default on all OS X Leopard installations.  If I could set the mac mini up as a server, knock up a bit of PHP to pass the sleep command directly to the machine, and then broadcast the IP so that the command could be run via Safari on the iPhone, then I would be on to a winner!  This is exactly what I ended up doing and the instructions are below for your delectation.</p>
-
-<p>First of all we need to activate the Apache2 web server in Leopard.  To do this, go to "System Preferences" and then to the "Sharing" icon.  If you tick the "Web Sharing" checkbox, then the server will come to life and will be enabled whenever you start the machine.  You can check this has worked by going to <a href="http://localhost/" rel="external">http://localhost/</a> on the machine and checking you get an apache default installation message.  Now this is done, we need to set our Computer Name for easy access to this page from anywhere on our home network.  The setting for this is also in the "Sharing" control panel and so I set mine to mini.  This allows the web server to be reached by any computer on the network by going to <a href="http://mini.local/" rel="external">http://mini.local/</a> - try it yourself by changing it to whatever name you want (the URL to access your computer will be shown on the same screen).</p>
-
-<p>Now that we can connect to the web server, we need to get PHP up and running and write our script.  PHP 5 doesn't come enabled by default so we have to do this by opening up terminal and typing the code below.  I am assuming at this point that you have the excellent <a href="http://macromates.com/" rel="external">TextMate</a> installed which is accessed from the 'mate' command in Terminal.  If you don't have it, either install it or substitute 'mate' for some other text editor command like 'pico' or 'vi'.</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sudo mate /etc/apache2/httpd.conf</code></pre></figure>
-
-<p>You may need to type in your administrative password if prompted.  Now you have the Apache2 configuration file open, scroll down to somewhere around line 114 where you will find the line:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span># LoadModule php5_module libexec/apache2/libphp5.so</code></pre></figure>
-
-<p>You'll need to uncomment this (by removing the proceeding hash) and then save the file.  Once this is done, you'll need to restart Apache in order for your changes to be made available.  You do this with the command:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sudo apachectl graceful</code></pre></figure>
-
-<p>You can use 'restart' in place of 'graceful' to do a full restart, but a graceful restart won't kick off anyone that is currently using your server.  This isn't going to matter here but it's a good habit to get into in case you ever need to restart an apache server in the future.</p>
-
-<p>You now have PHP5 installed and ready to go so lets write the PHP script that is going to power our sleep command.  You'll need to go to your Apache DocumentRoot (which by default is in a folder called Sites in your home folder) and delete any files that are in there.  Now create a new file called "index.php" with the following code in it:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="x">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;</span>
-<span class="x">    &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</span>
-<span class="x">&lt;html&gt;</span>
-<span class="x">&lt;head&gt;</span>
-<span class="x">    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</span>
-<span class="x">    &lt;title&gt;Mac Mini Sleeping App&lt;/title&gt;</span>
-<span class="x">&lt;/head&gt;</span>
-<span class="x">&lt;body&gt;</span>
-<span class="x">    &lt;h1&gt;Goodnight...&lt;/h1&gt;</span>
-<span class="x">&lt;/body&gt;</span>
-<span class="x">&lt;/html&gt;</span>
-<span class="cp">&lt;?php</span>
-<span class="nb">exec</span><span class="p">(</span><span class="s1">&#39;./sleep.scpt&#39;</span><span class="p">);</span>
-<span class="k">exit</span><span class="p">;</span>
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
-
-<p>All this code is doing is outputting a message that says "goodnight" and then executes an applescript file (in this case sleep.scpt) which contains the code from earlier:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="nv">osascript</span> <span class="o">-</span><span class="nv">e</span> <span class="err">&#39;</span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span> <span class="k">to</span> <span class="nv">sleep</span><span class="err">&#39;</span></code></pre></figure>
-
-<p>I find it's easier to include a file in this way rather than typing the command into a function such as <a href="http://uk3.php.net/passthru" rel="external">passthru()</a> as it allows for easier control over quotes, etc.  The <a href="http://uk3.php.net/manual/en/function.exec.php" rel="external">exec()</a> command used in the above is pretty much telling PHP to type the command we used earlier into Terminal.  Unfortunately this won't actually do anything at present (at least it shouldn't do) as the Apache webserver is not authorised by default to perform such important system commands as are available through exec().  To do this we need to go back to the Apache2 config file and set the user and group of the web server to be the same as that of the user of the machine.  Now this is a calculated security risk as it means any scripts on the server can have full access to your machine and thus compromise it.  However, this is for personal home use and no-one will be able to access it unless they are on your network let alone run scripts on it so I think it's ok.  Let's set the permissions by opening up the config file:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>sudo mate /etc/apache2/httpd.conf</code></pre></figure>
-
-<p>Now go to around line 126 and amend the User to your own username and Group to 'staff'.  In my case this was:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>User ben
-Group staff</code></pre></figure>
-
-<p>Yours will differ (unless you're called ben) but you can find out what yours is by going to your home folder - the name of the folder is the name of your user.</p>
-
-<p>Now restart the apache server (remember our graceful command from earlier?) and try out your site.  You should find that your mac goes fast to sleep.  Success!  Simply go to the URL with safari on your iPhone, tap the '+' icon, and then choose "save to home screen" in order to set it up as a web app.  If you want a fancy icon, then stick a square PNG named "apple-touch-icon.png" in the same folder as the index.php file and you'll notice that it appears on your home screen when you bookmark the page.</p>
-
-<h3>Challenge Two - Wake the mac up</h3>
-
-<p>Ok, you now have a sleeping mac that you want to wake up.  Most computers have a little feature built in to them called Wake-on-LAN.  The idea is that when the computer is asleep, the ethernet port is actually still active and listening for data.  If a certain command is sent (referred to as a "magic packet") then the ethernet card will tell the rest of the computer to wake up.  This is exactly what we need but unfortunately will not work over a wireless connection (as a wireless card doesn't stay awake when the computer is asleep).  If you have connected your mac to an ethernet connection then you can ignore the next few steps, but for me a long cable wasn't really an option.  I therefore came across a solution that would allow me to pretend I was on ethernet; wireless bridging.</p>
-
-<p>The idea behind wireless bridging is fairly simple.  Rather than having an ethernet cable from your router to your computer, you instead have 2 wireless routers that are connected via ethernet to each machine (or modem) which then act like an ethernet link between the two.  Now I already had an <a href="http://www.apple.com/uk/airportextreme/" rel="external">Airport Extreme</a> which was broadcasting my network / internet wirelessly and so all I needed was another router on the other end.  After a bit of headscratching with a BT router that was lying around, I decided the best way to proceed was to pop to the Apple Store and buy an <a href="http://www.apple.com/uk/airportexpress/" rel="external">Airport Express</a>.  The Airport Express is plugged into a standard power socket and then broadcasts a wireless signal.  On it's base it has 3 inputs; ethernet, USB, and 3mm Audio.  Usually the Airport Express is connected to a wired modem via ethernet so it can quickly and easily broadcast internet to the rest of your house however you can also plug in a printer to share that to wireless devices or plug in a standard hi-fi unit in order to utilise the AirTunes feature I mentioned earlier.</p>
-
-<p>I instead used it's network bridging service in order to connect it to the mac mini via ethernet and then extend the wireless network created by my Airport Extreme.  This is fairly easy to do from the Airport Utility - I won't go into the exact process here as it is mimicked in <a href="http://www.macosxhints.com/article.php?story=20040927125820995" rel="external">several other places</a>, but the end result that the Airport Express connects to the wireless network created by the Airport Extreme and sends this to the mac mini via ethernet.  This means that we can now send a Wake-on-LAN command as both the Airport Extreme and Airport Express are "always on" allowing the packet to go through the bridge, down the ethernet cable, and straight into the ethernet port.  Simple!</p>
-
-<p>Now we just need to find a way to send the magic packet from the iPhone.  The application <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=286568674&mt=8" rel="external">iWOL</a> allows us to do this easily and has a very quick setup.  Simply type in a name to reference the machine and the MAC address of the ethernet card (this can be found by going to "System Preferences"->"Network" and selecting your ethernet card.  Now click on "advanced" and then on the "Ethernet" tab.  Your MAC Address is the "Ethernet ID").  Now enable "LAN Broadcast" mode and you should be good to go.  Once your computer is asleep, open up iWol and you should be able to wake it up at the press of a button.</p>
-
-<h3>Further Enhancements</h3>
-
-<p>At present, my setup is working in the same way as detailed in the steps above.  I am in the process of making the sleeping web app slightly tidier with a fancy interface and icon, etc, and this will be available for download from my site shortly - the working title is "Rohypnol"&hellip;</p>
-
-<p>In addition to the above steps, I have installed a freeware application called <a href="http://www.robbiehanson.com/alarmclock/index.html" rel="external">Alarm Clock 2</a> on the mac mini which allows me to use it as an alarm clock.  Various options are available including a "wake from sleep" mode which is perfect for this project.  I now have a special playlist on my mac mini which starts off quietly and over 5 minutes gently increases in volume.  Nothing says wake up in the morning like <a href="http://www.youtube.com/watch?v=oHg5SJYRHA0" rel="external">Rick Rollin'</a> music&hellip;</p>
-
-<p>In order to control the mac mini better, I also installed a freeware VNC server called <a href="http://sourceforge.net/projects/osxvnc/" rel="external">Vine Server</a> that allows me to control the machine remotely. I won't go into the finer details of VNC setup as this has also been covered in detail <a href="http://www.xawk.com/apple-htpc-step01-setup-and-vnc.html" rel="external">elsewhere on the net</a>.  I will however mention the excellent <a href="http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284984448&amp;mt=8" rel="external">VNC Lite</a> app for iPhone which allows you to access VNC controlled machines.  It's easy to use and very intuitive - it's also free!</p>
-
-<p>In the future I plan to make some improvements to this system by plugging in a monitor which can then sit on the end of the bed allowing me to watch movies and tv shows downloaded through iTunes as well as DVDs etc but this is an upgrade for another day.  For now I'm quite happy with the setup which was achieved relatively easily and cheaply as I had all the components to hand.  I probably wouldn't recommend it if you were going to buy all the parts as the whole system would cost about &pound;500 but as a small project it's worked very well.  Now I just have to wait to see what iTunes 8 will add to this setup&hellip;</p>
-
-<p>If you have any questions or comments, then please use the comments box below or <a href="https://bendodson.com/contact/">contact me</a>!</p>
 
 		</div>
 	</article>

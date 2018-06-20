@@ -6,9 +6,59 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 19 Jun 2018 14:01:40 +0100</pubDate>
-    <lastBuildDate>Tue, 19 Jun 2018 14:01:40 +0100</lastBuildDate>
+    <pubDate>Wed, 20 Jun 2018 13:11:00 +0100</pubDate>
+    <lastBuildDate>Wed, 20 Jun 2018 13:11:00 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>"iPhone Only" apps on the iPad</title>
+      <link>https://bendodson.com/weblog/2018/06/20/iphone-only-apps-on-ipad/</link>
+      <pubDate>Wed, 20 Jun 2018 12:30:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2018/06/20/iphone-only-apps-on-ipad/</guid>
+      <description>&lt;p&gt;Since the launch of the iPad in 2010, any app that runs on the iPhone will also run on the iPad in a scaled format. This is normally&lt;sup id=&quot;fnref:ipadpro&quot;&gt;&lt;a href=&quot;#fn:ipadpro&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; in the 3:2 aspect ratio which the original iPhone had all the way up until the iPhone 5 when they changed to the 16:9 ratio&lt;sup id=&quot;fnref:xratio&quot;&gt;&lt;a href=&quot;#fn:xratio&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Many developers forget about this fact and happily build their iPhone apps unaware that the App Store Review team will test them on an iPad and reject you if something doesn’t work. The fact that this 3:2 aspect ratio is used has been the bane of my iPhone development life for the past couple of years as even though iOS 10 dropped support for the iPhone 4S you still had to make your iPhone apps run at 3:2 so they could work on the iPad. This is particularly frustrating when designers provide designs at the 16:9 size and you have to find a way to make fixed size assets work on the smaller height without resorting to scrollbars…&lt;/p&gt;
+
+&lt;p&gt;It looks like this is set to change with iOS 12 as beta 2 is now running iPhone apps in their 16:9 ratio on all iPads rather than than the 3:2 ratio. Whilst there aren’t any App Store guidelines changes to go along with this, it follows that &lt;strong&gt;if you build an iOS 12 app you no longer need to support the 3:2 screen size&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is an example of one of my upcoming iPhone only apps running on a 9.7” iPad with iOS 11 and one with iOS 12 beta 2:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2018/ios12ipadscaling.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As ever, things could still change and Apple may reverse this decision in later betas but it seems unlikely bearing in mind this has been standard practice on the 12.9” iPad Pro since launch.&lt;/p&gt;
+
+&lt;p&gt;This is still not a perfect solution. I am desperate for Apple to finally stop the ridiculous notion that iPhone apps need to run on iPad. The App Store actively fights against this edge case by requiring you to choose “iPhone Only”&lt;sup id=&quot;fnref:appstoresearch&quot;&gt;&lt;a href=&quot;#fn:appstoresearch&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; when searching for iPhone apps so why not allow developers to choose if their app should be able to run on an iPad or not?&lt;/p&gt;
+
+&lt;p&gt;The thing that irks me most about this is that iPhone apps on the iPad are not a good experience. Phil Schiller even &lt;a href=&quot;https://youtu.be/L4eZryAFcLg?t=7m42s&quot;&gt;said&lt;/a&gt; as much at the launch of the iPad Mini:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We’ve learned […] that customers love the ones written for iPad, designed for that screen. What does the other platform have? They have phone applications stretched up; not tablet applications.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;He even shows the Android phone version of Yelp scaled up on an Android tablet versus the native iPad app &lt;a href=&quot;https://youtu.be/L4eZryAFcLg?t=8m1s&quot;&gt;saying&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You get a great experience on iPad mini, you get a scaled up phone experience on that other product. It’s a big difference.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This continues with a number of apps with the message being clear that scaled up phone apps on a tablet are worse than native tablet apps. I couldn’t agree more, Phil.&lt;/p&gt;
+
+&lt;p&gt;For now, the change from 3:2 ratio apps to 16:9 ratio is a big win for developers and will avoid a lot of design problems. I can only hope that later Xcode builds will finally allow an option for truly “iPhone Only” builds.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:ipadpro&quot;&gt;
+      &lt;p&gt;The 12.9” iPad Pro was an outlier that always used the 16:9 ratio for some reason. Doesn’t really make sense that it got this change first as all iPads are the same 4:3 ratio anyway… &lt;a href=&quot;#fnref:ipadpro&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:xratio&quot;&gt;
+      &lt;p&gt;Unfortunately 16:9 wasn’t the end of it and the iPhone X has a new aspect ratio of 39:18 (or 19.5:9 if you prefer). &lt;a href=&quot;#fnref:xratio&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:appstoresearch&quot;&gt;
+      &lt;p&gt;Which is a ridiculous name. Why not “iPad Only” and “iPad and iPhone”? If they were truly “iPhone Only” they shouldn’t even show up in the same way that Apple TV apps don’t appear on an iPad! &lt;a href=&quot;#fnref:appstoresearch&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Custom Intents with SiriKit on iOS 12</title>
@@ -1182,38 +1232,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Tips for Remote Working</title>
-      <link>https://bendodson.com/weblog/2016/08/23/tips-for-remote-working/</link>
-      <pubDate>Tue, 23 Aug 2016 14:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/08/23/tips-for-remote-working/</guid>
-      <description>&lt;p&gt;I was recently asked by &lt;a href=&quot;http://inc.com/&quot;&gt;Inc.com&lt;/a&gt; to contribute to a feature asking several successful remote workers to share their favourite tips and tools to sustain productivity when working remotely. You can &lt;a href=&quot;http://www.inc.com/stacey-macnaught/successful-remote-workers-share-their-productivity-secrets.html&quot;&gt;read the full article on their website&lt;/a&gt; but I’ve also put their questions and my answers below:&lt;/p&gt;
-
-&lt;h3 id=&quot;how-long-have-you-worked-remotely&quot;&gt;How long have you worked remotely?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Around 6 years&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;what-does-a-typical-day-look-like-for-you&quot;&gt;What does a typical day look like for you?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I’ll wake up and go and deal with my dogs first thing around 6.30am whilst getting breakfast ready for my wife. Once she has left, I’ll read and deal with any overnight emails before doing a concentrated burst of work until around 1pm. After lunch, I’ll typically go for a walk and do a bit more work before playing some video games on my PC before my wife gets home. We’ll then walk the dogs, cook some dinner, and generally watch TV. Once she falls asleep, I’ll either do some more work or play some video games depending on how busy my schedule is.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;whats-the-one-tip-or-tool-youd-give-to-anyone-looking-to-get-started-remote-working-to-keep-productive&quot;&gt;What’s the one tip or tool you’d give to anyone looking to get started remote working to keep productive?&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Develop a schedule and stick to it. The hardest thing in the world is finding the motivation to start on a new project but once you’ve done 10 minutes of work you’ll be raring to go on the next 10 minutes and the next. To work remotely, you need the self-control to work when you don’t want to, the passion in your work to keep going, and the common sense to know when a 30 minute break is going to actually help rather than hinder you.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;With regards to tools, I can strongly recommend &lt;a href=&quot;http://cushionapp.com/&quot;&gt;Cushion&lt;/a&gt; as an incredible way of managing your schedule, invoices, and expenses; it’ll make sure you don’t get overbooked (a big no-no) and also help you manage your finances better.&lt;/p&gt;
-&lt;/blockquote&gt;
 </description>
     </item>
     
