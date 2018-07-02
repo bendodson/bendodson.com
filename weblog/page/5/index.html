@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2018-02-23.css" />
+	<link rel="stylesheet" href="/styles-2018-07-02.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,78 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">AirPlay Alarm Clock with iTunes 12</a></h1>
+			
+			<time datetime="2016-05-12" pubdate=""><a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">May 12, 2016</a></time>
+    	</header>
+    	<div>
+			<p>A few years ago, <a href="https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">I wrote a convoluted AppleScript</a> that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was released due to a number of changes to AppleScript support; there were also changes to OS X which prevented AppleScripts from launching via Calendar alerts.</p>
+
+<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">AirplayDeviceName</span> <span class="k">to</span> <span class="s2">&quot;Kitchen&quot;</span>
+<span class="k">set</span> <span class="nv">PlaylistName</span> <span class="k">to</span> <span class="s2">&quot;Morning&quot;</span>
+<span class="k">set</span> <span class="nv">AirplayVolume</span> <span class="k">to</span> <span class="mi">100</span>
+
+<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+		<span class="k">set</span> <span class="na">visible</span> <span class="k">of</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="no">true</span>
+		<span class="k">set</span> <span class="nb">the</span> <span class="na">view</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
+	<span class="k">end</span> <span class="k">tell</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+	<span class="k">tell</span> <span class="nv">process</span> <span class="s2">&quot;iTunes&quot;</span> <span class="k">to</span> <span class="k">if</span> <span class="nb">exists</span> <span class="k">then</span>
+		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Songs&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
+		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;On&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
+	<span class="k">end</span> <span class="k">if</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+	<span class="k">set</span> <span class="nv">AirplayNames</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="na">name</span> <span class="k">of</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
+	<span class="k">set</span> <span class="nv">AirplayDevices</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
+	<span class="k">set</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="p">{}</span>
+	<span class="k">repeat</span> <span class="nv">with</span> <span class="nv">i</span> <span class="k">from</span> <span class="mi">1</span> <span class="k">to</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">AirplayNames</span>
+		<span class="k">if</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayNames</span> <span class="k">as </span><span class="nc">string</span> <span class="o">=</span> <span class="nv">AirplayDeviceName</span> <span class="k">then</span> <span class="k">set</span> <span class="k">end</span> <span class="k">of</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayDevices</span>
+	<span class="k">end</span> <span class="k">repeat</span>
+	<span class="k">set</span> <span class="nv">current</span> <span class="nv">AirPlay</span> <span class="nv">devices</span> <span class="k">to</span> <span class="nv">AirplayToPlay</span>
+<span class="k">end</span> <span class="k">tell</span>
+
+<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+	<span class="nb">play</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
+	<span class="k">set</span> <span class="nb">the</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">AirplayVolume</span>
+<span class="k">end</span> <span class="k">tell</span></code></pre></figure>
+
+<p>The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.</p>
+
+<p>In order to get this working as an alarm, we have to jump through a number of hoops on OS X El Capitan. Firstly, we need to save our AppleScript as an application (after you’ve made any adjustments to your Airplay device name, playlist name, and the volume you want). You can do this by opening it within Script Editor and then choosing <em>File &gt; Export</em>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/airplay-alarm-export.jpg" width="800" height="800" alt="Export AppleScript as Application" /></p>
+
+<p><strong>If you haven’t disabled the GateKeeper restrictions on your Mac, you will need to either Code Sign this app or grant an exception within the Security &amp; Privacy settings after you have first tried to open it.</strong></p>
+
+<p>With the alarm exported, we now need to open up Automator and create a new <em>Calendar Alarm</em>. Find the <em>Launch Application</em> action and set that up to point to your newly exported alarm app. Finally, save this and you’ll find a new entry has appeared in your calendar; it will launch immediately thus starting off the iTunes alarm process. Simply copy and paste this alarm entry (or make it recurring) in order to set it to whatever times you want.</p>
+
+<p>I’m going to continue playing around with different ways to launch the alarm but for now this works in much the same way as my old script did.</p>
+
+<p>The full code (and previous version) is <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">available on GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:homekitproject">
+      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -491,38 +563,6 @@
     </li>
     <li id="fn:morning">
       <p>And I often forget to turn it off when I get up which means my wife and I get a notification of me groggily letting the dogs out every morning. <a href="#fnref:morning" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">The Divide #10 - Let us loop you in. Again.</a></h1>
-			
-			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">March 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 10th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss Apple’s ‘Let us loop you in’ event<sup id="fnref:wrong"><a href="#fn:wrong" class="footnote">1</a></sup>. Chris has a rant about his internet provider (before promptly being disconnected), I talk about Twilight Princess HD, and John gets excited about a box of replacement Apple Pencil nibs…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:wrong">
-      <p>Where my big prediction of “there will be an updated processor for the Apple Watch” proved utterly incorrect. <a href="#fnref:wrong" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

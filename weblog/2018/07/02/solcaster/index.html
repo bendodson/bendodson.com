@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Solcaster">
+		<meta property="og:description" content="I’m pleased to announce the release of a new client app I’ve been working on for the last few weeks: Solcaster, the reverse weather app.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2018/07/02/solcaster/">
+		
+		<meta name="twitter:title" content="Solcaster">
+		<meta name="twitter:description" content="I’m pleased to announce the release of a new client app I’ve been working on for the last few weeks: Solcaster, the reverse weather app.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2018-07-02.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Solcaster</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2018/07/02/solcaster/">Solcaster</a></h1>
+			
+			<time datetime="2018-07-02" pubdate=""><a href="/weblog/2018/07/02/solcaster/">July 02, 2018</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app I’ve been working on for the last few weeks: <a href="https://itunes.apple.com/us/app/solcaster/id1387772375?ls=1&amp;mt=8">Solcaster</a>, the reverse weather app.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/solcaster.jpg" width="800" height="468" /></p>
+
+<p>I worked as the only iOS developer on Solcaster for Reidefine LLC working remotely from the UK. The app is an interesting concept in that it helps you find weather you might be looking for rather than telling you what the weather is like right now. When you open the app, you can choose the type of weather you are looking for, the area you are searching from, and the maximum amount of travelling you are willing to do. It then runs this through a sophisticated algorithm of my own design to show you where you can find that weather. This is useful for a wide range of people be they searching for sun, snow, storms, wind, or even rain<sup id="fnref:rain"><a href="#fn:rain" class="footnote">1</a></sup>!</p>
+
+<p>Once you’ve found an area you are interested in, Solcaster provides even more information including the previous and future weather<sup id="fnref:previousfuture"><a href="#fn:previousfuture" class="footnote">2</a></sup>, interesting hikes and climbs, and any events that may be in the local area. This is all powered by a number of APIs with an intelligent caching layer that makes requests as fast and responsive as possible. In addition, there are deeply customisable settings including temperature thresholds, wind speeds, snow accumulation, and of course the option to choose between Celsius and Fahrenheit.</p>
+
+<p>The app is written entirely in Swift 4.1 and is optimised for all iPhone sizes including the relatively new iPhone X. There are a number of interesting Apple technologies being used including iCloud sync which helps keep the settings the same across all of your devices as well as syncing your favourited trips and recent searches. Whilst the app is free to download, it is limited to searching within a 1 hour radius and does contain ads from Admob. For a single in-app purchase of $1.99, the ads are removed and the radius can be extended up to 8 hours. This unlock is also synced automatically through iCloud sync so that you don’t ever need to hit the “restore purchases” button that is ubiquitious with in-app purchases<sup id="fnref:restore"><a href="#fn:restore" class="footnote">3</a></sup>.</p>
+
+<p>I really enjoyed working with Reidefine LLC on this project and building something a little bit different to other weather apps on the market. You can download <a href="https://itunes.apple.com/us/app/solcaster/id1387772375?ls=1&amp;mt=8">Solcaster on the App Store</a> for free and learn more about it at <a href="https://www.solcaster.com">solcaster.com</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:rain">
+      <p>I’m currently in the middle of a heatwave in Leicester. Unfortunately my nearest rain is in 300 miles away in France… tempting! <a href="#fnref:rain" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:previousfuture">
+      <p>Why the previous weather? If you’re a snowboarder the amount of snow that fell yesterday is probably more important to you than the weather today. <a href="#fnref:previousfuture" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:restore">
+      <p>It is mandatory for iOS apps to provide a “restore purchases” button when using in-app purchases so that functionality can be restored should you delete and reinstall the app, restore from a backup, or update to a new device. My thinking was that it was far better to sync this information through the secure iCloud sync such that this unlocking is seamless. You can try it by downloading and upgrading Solcaster on one device then opening it on another; within a second or two of opening the app you’ll notice the ads pop away without the need to tap a button and sign in to your Apple account. Wonderful! <a href="#fnref:restore" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2018/06/20/iphone-only-apps-on-ipad/" title="Previous Article" class="pagination-previous">&laquo; "iPhone Only" apps on the iPad</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>
