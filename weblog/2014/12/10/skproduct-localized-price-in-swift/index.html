@@ -76,9 +76,30 @@
 <p>The above is a simple Swift extension (also <a href="https://github.com/bendodson/SKProduct-LocalizedPrice-Swift">available on GitHub</a>) which, if it is in your project, will automatically be available on any SKProduct object (similar to using Categories in Objective-C). If we assume we have an SKProduct called product, we can now run:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;The price of this product is </span><span class="si">\(</span><span class="n">product</span><span class="p">.</span><span class="n">localizedPrice</span><span class="si">())</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="c1">// Example output: The price of this product is £0.69</span></code></pre></figure>
+<span class="c1">// Example output: The price of this product is £0.99</span></code></pre></figure>
 
 <p>It’s amazing how many apps either don’t display the price of an IAP in advance or display it in the wrong locale. Don’t let your app be one of them.</p>
+
+<p><strong>Update, July 2018:</strong> I’ve updated this script so that it is now an optional string property and written in Swift 4.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">StoreKit</span>
+
+<span class="kd">extension</span> <span class="bp">SKProduct</span> <span class="p">{</span>
+    
+    <span class="kd">var</span> <span class="nv">localizedPrice</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nv">formatter</span> <span class="p">=</span> <span class="n">NumberFormatter</span><span class="p">()</span>
+        <span class="n">formatter</span><span class="p">.</span><span class="n">numberStyle</span> <span class="p">=</span> <span class="p">.</span><span class="n">currency</span>
+        <span class="n">formatter</span><span class="p">.</span><span class="n">locale</span> <span class="p">=</span> <span class="n">priceLocale</span>
+        <span class="k">return</span> <span class="n">formatter</span><span class="p">.</span><span class="n">string</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">price</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>Usage is much the same although it is no longer a function and you are responsible for unpacking the optional string:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;The price of this product is </span><span class="si">\(</span><span class="n">product</span><span class="p">.</span><span class="n">localizedPrice</span> <span class="p">??</span> <span class="s">&quot;&quot;</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="c1">// Example output: The price of this product is £0.99</span></code></pre></figure>
+
 
 		</div>
 	</article>
