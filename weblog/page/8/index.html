@@ -41,6 +41,38 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">Fixing emoji footnote arrow bug in Jekyll</a></h1>
+			
+			<time datetime="2016-01-11" pubdate=""><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">January 11, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been using <a href="http://jekyllrb.com">Jekyll</a> as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes<sup id="fnref:footnotes"><a href="#fn:footnotes" class="footnote">1</a></sup>, the return arrow (↩︎) is converted into an emoji (<a href="http://emojipedia.org/leftwards-arrow-with-hook/️">↩️</a>) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.</p>
+
+<p>Firstly, this isn’t an issue with Jekyll but with <a href="http://kramdown.gettalong.org">kramdown</a> which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above<sup id="fnref:kramdown"><a href="#fn:kramdown" class="footnote">2</a></sup> that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your <code>_config.yml</code> file:</p>
+
+<pre><code>kramdown:
+  	  footnote_backlink: "&amp;#8617;&amp;#xfe0e;"
+</code></pre>
+
+<p>Regenerate your site and you should find that the emoji arrow is now back to a ↩︎.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:footnotes">
+      <p>like this one! <a href="#fnref:footnotes" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:kramdown">
+      <p>You may need to run <code>gem update kramdown</code> if you installed Jekyll a while ago. <a href="#fnref:kramdown" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/01/08/dodo-apps/">Dodo Apps</a></h1>
 			
 			<time datetime="2016-01-08" pubdate=""><a href="/weblog/2016/01/08/dodo-apps/">January 08, 2016</a></time>
@@ -359,50 +391,6 @@ There is a huge amount of paid work available to freelance developers and it pay
     </li>
     <li id="fn:budget">
       <p>Or for developers who simply don’t want a second Apple TV. I’ve been moving mine between my office and living room for the past week and considered getting a second “development only” Apple TV to avoid this minor irritation; buying just a second remote seems a wiser investment. <a href="#fnref:budget" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/02/introducing-the-divide/">Introducing 'The Divide'</a></h1>
-			
-			<time datetime="2015-12-02" pubdate=""><a href="/weblog/2015/12/02/introducing-the-divide/">December 02, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">The Divide</a>, a new podcast I’ve been working on recently, is now available on <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/the-divide.jpg" width="800" height="606" /></p>
-
-<p>Every two weeks, myself, <a href="http://misterford.co.uk/">Mr Christopher Ford</a>, and <a href="http://johnwordsworth.com/">Dr John Wordsworth</a> will discuss a particular topic that is of interest to us for around an hour. The topics of our first three shows (which are available now) are:</p>
-
-<ul>
-  <li>
-    <p><strong>Episode 1, The Phantom Keeper</strong>: A round-table discussion of our favourite PC games with each of us allowed to bring two for consideration</p>
-  </li>
-  <li>
-    <p><strong>Three Geeks and a Toddler</strong>: A debate about our current computer setup and whether we can see a tablet replacing our laptops</p>
-  </li>
-  <li>
-    <p><strong>Fitting in with all of the stereotypes</strong>: We discuss media in the digital age including films, tv, music, magazines, books, and comics.</p>
-  </li>
-</ul>
-
-<p>You can <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">subscribe on iTunes</a>, <a href="https://overcast.fm/itunes1063410638/the-divide">listed online with Overcast</a>, or by directing your podcast app of choice<sup id="fnref:overcast"><a href="#fn:overcast" class="footnote">1</a></sup> to <a href="http://thedivide.co.uk/shows/itunes.xml">our XML Feed</a>. Alternatively, you can download the MP3 files directly from <a href="http://thedivide.co.uk/">The Divide website</a>.</p>
-
-<p>These first few episodes, whilst not perfect<sup id="fnref:perfect"><a href="#fn:perfect" class="footnote">2</a></sup>, have been a lot of fun to record and hopefully you’ll enjoy them. If you have feedback, questions, or want to suggest a topic, you can chat to us on <a href="https://twitter.com/PodcastDivide">Twitter via @PodcastDivide</a>. Our next episode should go live on Wednesday 16th December.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:overcast">
-      <p>I personally use <a href="https://overcast.fm">Overcast</a>. <a href="#fnref:overcast" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:perfect">
-      <p>There are a few minor mic issues which we’ve fixed now and our second episode has an unscheduled drop-in from a hungry toddler. <a href="#fnref:perfect" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

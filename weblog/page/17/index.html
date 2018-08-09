@@ -41,6 +41,35 @@
 	<article>
 		<header>
      		
+				<h1><a href="http://mclov.in/2012/02/08/path-uploads-your-entire-address-book-to-their-servers.html" class="external">Path uploads your entire iPhone address book to their servers</a></h1>
+			
+			<time datetime="2012-02-07" pubdate=""><a href="/weblog/2012/02/07/path-uploads-your-entire-iphone-address-book-to-their-servers/">February 07, 2012</a></time>
+    	</header>
+    	<div>
+			<p>Some great finds by <a href="http://mclov.in/">Arun Thampi</a>:</p>
+
+<blockquote>
+  <p>Upon inspecting closer, I noticed that my entire address book (including full names, emails and phone numbers) was being sent as a plist to Path. Now I don’t remember having given permission to Path to access my address book and send its contents to its servers, so I created a completely new “Path” and repeated the experiment and I got the same result – my address book was in Path’s hands.</p>
+</blockquote>
+
+<p>I always wondered how Path managed to match me up so quickly to my friends when the only thing I’d given it was my email address. Turns out that it uploads your entire phone book and then matches names / email addresses to give you recommendations. It’s incredibly slick, but it is a privacy concern.</p>
+
+<p><a href="http://mclov.in/2012/02/08/path-uploads-your-entire-address-book-to-their-servers.html#dsq-comment-432202082">The CEO of Path replied</a> to the post with:</p>
+
+<blockquote>
+  <p>Arun, thanks for pointing this out. We actually think this is an important conversation and take this very seriously. We upload the address book to our servers in order to help the user find and connect to their friends and family on Path quickly and effeciently as well as to notify them when friends and family join Path. Nothing more.</p>
+
+  <p>We believe that this type of friend finding &amp; matching is important to the industry and that it is important that users clearly understand it, so we proactively rolled out an opt-in for this on our Android client a few weeks ago and are rolling out the opt-in for this in 2.0.6 of our iOS Client, pending App Store approval.</p>
+</blockquote>
+
+<p>At least they are going to make it opt-in but the various commentors on that article do point out that a hash table would have avoided this whole scenario. I’m glad that I finally know how Path were doing that matching though - it’s been bugging me for weeks…</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2012/01/31/calling-all-beta-testers/">Calling all beta testers</a></h1>
 			
 			<time datetime="2012-01-31" pubdate=""><a href="/weblog/2012/01/31/calling-all-beta-testers/">January 31, 2012</a></time>
@@ -453,43 +482,6 @@ Gowalla was built by a company called Alamofire (before they changed their name 
 <p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/422-0a295dbebaf7fff8a7590632a228bc08-200.png" alt="422 0a295dbebaf7fff8a7590632a228bc08 200" title="422-0a295dbebaf7fff8a7590632a228bc08-200.png" border="0" width="200" height="200" style="border: 0" /></p>
 
 <p>It was never sent to me (I found it on their server - don't ask) and they never used it on my spot page (saying they don't do portraits for spot icons) but I've always really liked it over the one that was <a href="http://gowalla.com/spots/7127793">eventually used</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">The API behind Gowalla v4</a></h1>
-			
-			<time datetime="2011-10-24" pubdate=""><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">October 24, 2011</a></time>
-    	</header>
-    	<div>
-			<p>A few weeks ago, Gowalla released version 4.0 of their app to an overwhelmingly negative response. I myself will be posting a review soon but in this quick post I wanted to share a few tips on how to use the new API that is powering the app as an official API is apparently not coming until Q1 2012.   
-In a post entitled "<a href="http://groups.google.com/group/gowalla-dev/browse_thread/thread/880cc4a5de51e016">Where the Gowalla API is going</a>" on the official Gowalla Developers Group, it was revealed that most bits of the existing API "should be working" but a version 2 of the API would be coming in 2012 that enables developers to leverage the new features such as stories, lists, likes, guides, and so on. Unfortunately, several parts of the existing API broke on launch of the new app (including OAuth integration which took out nearly all 3rd party apps, trips, and an advanced search API) and some parts were completely removed (such as PubSubhubbub, one of the key things that actually made the Gowalla API a compelling thing to use). I have a number of apps that use the old API and were affected in small ways (I learnt long ago never to make direct calls to the Gowalla API) but there were a few things like trips that I needed direct access to more immediately. So, I spent a few minutes digging into the new Gowalla app and found the new connection details that are required to talk to the new API.</p>
-
-<p>It's actually fairly easy! Firstly, instead of connecting to http://api.gowalla.com/ change the URL to <strong>https://api9000.gowalla.com/</strong></p>
-
-<p>Next, there are 4 headers you have to send with every request. 2 of them, "<code>Accept: application/json</code>" and "<code>X-Gowalla-API-Key</code>", were required for the old API but Gowalla have also added an "<code>X-Gowalla-Bruce-Lee</code>" header (with a password so they know it's the Gowalla app using the API) and an "<code>X-Gowalla-API-Version</code>" header which seems to suggest they are taking my advice of 18 months ago and versioning the API rather than just breaking existing apps. So, the full headers you need to send are:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Accept: application/json
-X-Gowalla-API-Key: YOUR-API-KEY-HERE
-X-Gowalla-Bruce-Lee: l33tkuned0
-X-Gowalla-API-Version: 2</code></pre></figure>
-
-<p>If you do that, you should be able to call an API endpoint such as users/bendodson where you'll find a load of new data that isn't in the normal API. That should also give you a good idea of the naming conventions of new endpoints (e.g. /lists rather than /trips). In all of my testing, existing features such as OAuth have worked fine.</p>
-
-<p>As a final example, the trips detail API is still broken on the current API (despite this being "looked into" 2 weeks ago). If you were to request <code>trips/168</code> you'll get a 404 not found error. This is one of the many broken API calls that is affecting apps that are currently out in the wild. However, if you change your code to use the new URL and the new headers, you can request <code>lists/168</code> to get full details of the trip you are after. Some of the keys will have changed name but it should be enough to get your app at least up and running.</p>
-
-<p>Obviously, you use all of the above at your own risk. Gowalla are unlikely to break anything immediately as any changes to the headers, endpoints, or keys will break their app. However, there will probably be changes as and when they release new versions of their apps.</p>
-
-<p>I have been very vocal on both <a href="https://bendodson.com/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">the good</a> and <a href="http://techcrunch.com/2010/05/12/gowalla-api-problems/">the bad</a> points of the Gowalla API in the past. There had been a real effort to alert 3rd party developers to changes in recent months but the new v4 app fundamentally broke important parts of the API (particularly OAuth login) and fixes were slow coming or have still yet to come with regards to the /trips endpoint. Putting an API out for the new app in Q1 of next year is a very long time to wait for something that really should have launched alongside or shortly after the new app particularly as the API does already exist. In short, Gowalla really have a long way to improve in their dealings with 3rd party developers. Personally, I'm moving my apps away from Gowalla and starting to use other services but I'll be posting more about that soon.</p>
-
-<p><strong>Update [25th Oct 2011]:</strong> Andrew Dupont responded to this article on the Gowalla Devs Group with:</p>
-
-<blockquote><p>At any rate, we've fixed the trips API. Let me know if anything's still out of order.</p></blockquote>
-
-<p>Turns out Gowalla will fix things if you complain enough...</p>
 
 		</div>
 	</article>

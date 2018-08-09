@@ -41,6 +41,103 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">Bulleted Lists with UILabel / UITextView</a></h1>
+			
+			<time datetime="2018-08-09" pubdate=""><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">August 09, 2018</a></time>
+    	</header>
+    	<div>
+			<p>I’ve recently been implementing auto-renewable subscriptions for a client and came across the need to create a bulleted list of notes<sup id="fnref:iapnotes"><a href="#fn:iapnotes" class="footnote">1</a></sup>. There are numerous tutorials available that show how you can do this but all of the ones I found had a flaw of some kind be it using fixed values for bullet widths or not taking variable font sizes from Dynamic Type into consideration.</p>
+
+<p>Here, then, is a quick primer on how you can add correctly aligned bullets to a list be it in a UILabel or UITextView and have it scale correctly dependent on the users text size preferences.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span> <span class="p">{</span>
+
+    <span class="kr">@IBOutlet</span> <span class="kr">weak</span> <span class="kd">var</span> <span class="nv">label</span><span class="p">:</span> <span class="bp">UILabel</span><span class="p">!</span>
+    
+    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+        <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">updateUI</span><span class="p">),</span> <span class="n">name</span><span class="p">:</span> <span class="p">.</span><span class="n">UIContentSizeCategoryDidChange</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="n">updateUI</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">updateUI</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="kd">let</span> <span class="nv">bullet</span> <span class="p">=</span> <span class="s">&quot;•  &quot;</span>
+        
+        <span class="kd">var</span> <span class="nv">strings</span> <span class="p">=</span> <span class="p">[</span><span class="nb">String</span><span class="p">]()</span>
+        <span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Payment will be charged to your iTunes account at confirmation of purchase.&quot;</span><span class="p">)</span>
+        <span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Your subscription will automatically renew unless auto-renew is turned off at least 24-hours before the end of the current subscription period.&quot;</span><span class="p">)</span>
+        <span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Your account will be charged for renewal within 24-hours prior to the end of the current subscription period.&quot;</span><span class="p">)</span>
+        <span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Automatic renewals will cost the same price you were originally charged for the subscription.&quot;</span><span class="p">)</span>
+        <span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;You can manage your subscriptions and turn off auto-renewal by going to your Account Settings on the App Store after purchase.&quot;</span><span class="p">)</span>
+        <span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Read our terms of service and privacy policy for more information.&quot;</span><span class="p">)</span>
+        <span class="n">strings</span> <span class="p">=</span> <span class="n">strings</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span> <span class="k">return</span> <span class="n">bullet</span> <span class="o">+</span> <span class="nv">$0</span> <span class="p">}</span>
+        
+        <span class="kd">var</span> <span class="nv">attributes</span> <span class="p">=</span> <span class="p">[</span><span class="n">NSAttributedStringKey</span><span class="p">:</span> <span class="nb">Any</span><span class="p">]()</span>
+        <span class="n">attributes</span><span class="p">[.</span><span class="n">font</span><span class="p">]</span> <span class="p">=</span> <span class="bp">UIFont</span><span class="p">.</span><span class="n">preferredFont</span><span class="p">(</span><span class="n">forTextStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">attributes</span><span class="p">[.</span><span class="n">foregroundColor</span><span class="p">]</span> <span class="p">=</span> <span class="bp">UIColor</span><span class="p">.</span><span class="n">darkGray</span>
+        
+        <span class="kd">let</span> <span class="nv">paragraphStyle</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+        <span class="n">paragraphStyle</span><span class="p">.</span><span class="n">headIndent</span> <span class="p">=</span> <span class="p">(</span><span class="n">bullet</span> <span class="k">as</span> <span class="bp">NSString</span><span class="p">).</span><span class="n">size</span><span class="p">(</span><span class="n">withAttributes</span><span class="p">:</span> <span class="n">attributes</span><span class="p">).</span><span class="n">width</span>
+        <span class="n">attributes</span><span class="p">[.</span><span class="n">paragraphStyle</span><span class="p">]</span> <span class="p">=</span> <span class="n">paragraphStyle</span>
+
+        <span class="kd">let</span> <span class="nv">string</span> <span class="p">=</span> <span class="n">strings</span><span class="p">.</span><span class="n">joined</span><span class="p">(</span><span class="n">separator</span><span class="p">:</span> <span class="s">&quot;</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">label</span><span class="p">.</span><span class="n">attributedText</span> <span class="p">=</span> <span class="bp">NSAttributedString</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span> <span class="n">attributes</span><span class="p">:</span> <span class="n">attributes</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/bulleted-list-scale.jpg" width="800" height="463" alt="Bulleted List for UILabel and UITextView" /></p>
+
+<p>The first thing to determine is the bullet you want to use. I like to have a • (press <code>option + 8</code>) with two spaces afterwards. We store this in a variable and then build a <code>String</code> array with which we’ll populate each line of our list<sup id="fnref:localise"><a href="#fn:localise" class="footnote">2</a></sup>. These are then mapped to append the bullet we chose to the front of each string.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">bullet</span> <span class="p">=</span> <span class="s">&quot;•  &quot;</span>        
+<span class="kd">var</span> <span class="nv">strings</span> <span class="p">=</span> <span class="p">[</span><span class="nb">String</span><span class="p">]()</span>
+<span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;First line of your list&quot;</span><span class="p">)</span>
+<span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;Second line of your list&quot;</span><span class="p">)</span>
+<span class="n">strings</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;etc&quot;</span><span class="p">)</span>
+<span class="n">strings</span> <span class="p">=</span> <span class="n">strings</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span> <span class="k">return</span> <span class="n">bullet</span> <span class="o">+</span> <span class="nv">$0</span> <span class="p">}</span></code></pre></figure>
+
+<p>Next we create the base attributes of our label or text view such as the font size and colour. As we want the text to scale dependent on the users own text preferences, we use Dynamic Type via <code>preferredFont(forTextStyle: .body)</code> although you can obviously use any font. The bulk of the heavy lifting is done by an <code>NSParagraphStyle</code> attribute called <code>headIndent</code> which adds a fixed amount of padding to all but the first line of a paragraph. We can determine the size that this indent should be by casting our bullet as an <code>NSString</code> and then providing our previously created attributes to the <code>size</code> method. This gives us the width of the bullet and any spacing you added afterwards in the exact font and size you have chosen.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">var</span> <span class="nv">attributes</span> <span class="p">=</span> <span class="p">[</span><span class="n">NSAttributedStringKey</span><span class="p">:</span> <span class="nb">Any</span><span class="p">]()</span>
+<span class="n">attributes</span><span class="p">[.</span><span class="n">font</span><span class="p">]</span> <span class="p">=</span> <span class="bp">UIFont</span><span class="p">.</span><span class="n">preferredFont</span><span class="p">(</span><span class="n">forTextStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">body</span><span class="p">)</span>
+<span class="n">attributes</span><span class="p">[.</span><span class="n">foregroundColor</span><span class="p">]</span> <span class="p">=</span> <span class="bp">UIColor</span><span class="p">.</span><span class="n">darkGray</span>
+
+<span class="kd">let</span> <span class="nv">paragraphStyle</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraphStyle</span><span class="p">.</span><span class="n">headIndent</span> <span class="p">=</span> <span class="p">(</span><span class="n">bullet</span> <span class="k">as</span> <span class="bp">NSString</span><span class="p">).</span><span class="n">size</span><span class="p">(</span><span class="n">withAttributes</span><span class="p">:</span> <span class="n">attributes</span><span class="p">).</span><span class="n">width</span>
+<span class="n">attributes</span><span class="p">[.</span><span class="n">paragraphStyle</span><span class="p">]</span> <span class="p">=</span> <span class="n">paragraphStyle</span></code></pre></figure>
+
+<p>Finally we join our string with line breaks (<code>strings.joined(separator: "\n\n")</code>) and create an attributed string with the attributes including the new paragraph style.</p>
+
+<p>This all works but there are two more things you’ll need to do to support dynamic font scaling. First of all you’ll want to ensure that the ‘Automatically Adjusts Font’ checkbox is selected in Interface Builder for your label or text view<sup id="fnref:automaticallyadjusts"><a href="#fn:automaticallyadjusts" class="footnote">3</a></sup>. Secondly, you’ll want to be notified when the content size changes (i.e. when the user goes to the Settings app and increases or decreases the text size) by subscribing to the <code>UIContentSizeCategoryDidChange</code> notification and regenerating your label. I prefer to do this in a method named <code>updateUI</code> but your personal preference may vary.</p>
+
+<p>The nice thing about this setup is that it is entirely fluid, doesn’t require any 3rd party dependencies, and can be used with any mixture of bullet types be they a single character, a word, or even emoji:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/bulleted-list-marks.jpg" width="800" height="463" alt="Bulleted List with custom bullets for UILabel and UITextView" /></p>
+
+<p>I’ve uploaded a <a href="https://github.com/bendodson/bulleted-list-for-uilabel-uitextview">basic project</a> to GitHub to demonstrate this code in action. Hopefully this article will serve as a reminder that you don’t need to import 3rd party libraries to achieve basic text formatting and that you should always be wary of text code that doesn’t take font scaling into account.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:iapnotes">
+      <p>Sourced from the <a href="http://davidbarnard.com/post/164337147440/testing-auto-renewable-subscriptions-on-ios">excellent tutorial</a> by David Barnard. <a href="#fnref:iapnotes" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:localise">
+      <p>Don’t forget to use <code>NSLocalizedString</code> - I didn’t bother for the sake of brevity in this article. <a href="#fnref:localise" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:automaticallyadjusts">
+      <p>Alternatively you can use the <code>adjustsFontForContentSizeCategory</code> boolean on <code>UILabel</code> and <code>UITextView</code>. <a href="#fnref:automaticallyadjusts" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2018/07/02/solcaster/">Solcaster</a></h1>
 			
 			<time datetime="2018-07-02" pubdate=""><a href="/weblog/2018/07/02/solcaster/">July 02, 2018</a></time>
@@ -480,37 +577,6 @@
     </li>
     <li id="fn:background">
       <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/05/10/reaction-cam/">Reaction Cam</a></h1>
-			
-			<time datetime="2017-05-10" pubdate=""><a href="/weblog/2017/05/10/reaction-cam/">May 10, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m very pleased to announce the release of a new client app I’ve been working on over the past couple of months: <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/reactioncam.jpg" width="800" height="426" /></p>
-
-<p>I was hired by Elliott Brock to build Reaction Cam, an easy-to-use app that allows you to quickly record and share your reaction to anything from video to content in a browser. Due to the limitations of iOS sandboxing, this was an immense technical challenge but the end result is incredibly slick with the power to record a reaction and the content on screen at the same time. Once recording is complete, you can edit your reaction and the content by trimming and rotating as well as swapping what is used as the “picture in picture” recording (or disabling it altogether)<sup id="fnref:pip"><a href="#fn:pip" class="footnote">1</a></sup>. A single file is exported at the end of the process for easy sharing with friends on social media.</p>
-
-<p>Supported media for reacting to includes video (both saved on device and online), photos (complete with a swipeable scrolling interface), and a full browser for viewing everything from tweets to blog posts. In addition to the app, I also built an API and an admin system so that Elliott could handpick recommended videos to react to as well as publishing some of the reactions that had been recorded with the app.</p>
-
-<p>I was given a very loose spec and so I designed the app and worked out all of the UX myself; I even designed the app icon! Reaction Cam is built in Swift 3.1 and makes use of the latest features in iOS 10 to allow it to run quickly on all of the various iOS devices with full scaling support for every screen size.</p>
-
-<p>I really enjoyed working with Elliott on Reaction Cam and hope that people will find it to be a best-in-class app for reaction recording. You can download <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam on the App Store</a> and learn more about it on the <a href="http://reactioncamtv.moonfruit.com/">Reaction Cam website</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:pip">
-      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
