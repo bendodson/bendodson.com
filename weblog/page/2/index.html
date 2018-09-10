@@ -41,6 +41,38 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/05/19/gbbc-2017/">Great British Bee Count 2017</a></h1>
+			
+			<time datetime="2017-05-19" pubdate=""><a href="/weblog/2017/05/19/gbbc-2017/">May 19, 2017</a></time>
+    	</header>
+    	<div>
+			<p>For the past couple of years, I have worked with Two Thirds Water on the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count</a> iOS app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2017:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/gbbc-2017.jpg" width="800" height="500" /></p>
+
+<p>The main update has been a completely new design which fits the more modern “flat” design which was made popular by iOS 7 whilst also putting the navigation within easy thumb reach even on plus-sized devices. There are also many new functionality changes such as an improved bee picker and fact files on each type of bee that can give you a lot more information.</p>
+
+<p>As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch<sup id="fnref:scratch"><a href="#fn:scratch" class="footnote">1</a></sup> so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background<sup id="fnref:background"><a href="#fn:background" class="footnote">2</a></sup>.</p>
+
+<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:scratch">
+      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:background">
+      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/05/10/reaction-cam/">Reaction Cam</a></h1>
 			
 			<time datetime="2017-05-10" pubdate=""><a href="/weblog/2017/05/10/reaction-cam/">May 10, 2017</a></time>
@@ -505,48 +537,6 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 <p>Once the app was completed, I was asked to build <a href="https://itunes.apple.com/gb/app/trimbook-update-manage-your/id1175348893?ls=1&amp;mt=8">TRIMbook</a>, an app for barbers which allows them to manage their appointments and availability. Once again, the app was built with Swift and I was key in both designing the UI and ensuring the API was being used efficiently. I worked closely with the Trim Ventures team to publish both apps on the App Store and also to run wider beta tests via TestFlight prior to launch.</p>
 
 <p>This was an interesting project to work on and I think the end product works well. You can <a href="https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8">download Booktrim from the App Store</a> or <a href="https://www.booktrim.com/">learn more on their website</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/11/15/dont-be-the-idea-person/">Don't be the idea person</a></h1>
-			
-			<time datetime="2016-11-15" pubdate=""><a href="/weblog/2016/11/15/dont-be-the-idea-person/">November 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been a fan of <a href="http://dilbert.com/">Dilbert</a> since the mid-‘90s<sup id="fnref:dilbert"><a href="#fn:dilbert" class="footnote">1</a></sup> and this week a lot of my friends (and some clients) sent me this strip from <a href="http://dilbert.com/strip/2016-11-13">November 13th</a>:</p>
-
-<p><a href="http://dilbert.com/strip/2016-11-13"><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dilbert.jpg" width="800" /></a></p>
-
-<p>Like most things, it’s funny because it’s true. I get several of these types of pitches per week and they never fail to amuse me. I’ve <a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">written about this in detail</a> previously but I still get people who believe they have the next big idea and that it is worth something.</p>
-
-<p>Ideas are worth nothing. Absolutely nothing. It is implementation that is worth something.</p>
-
-<p>The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week<sup id="fnref:incomplete"><a href="#fn:incomplete" class="footnote">2</a></sup>.</p>
-
-<p>If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS<sup id="fnref:apple"><a href="#fn:apple" class="footnote">3</a></sup>. Then, once you’ve understood the process, either pay a developer for a basic MVP<sup id="fnref:mvp"><a href="#fn:mvp" class="footnote">4</a></sup> or pitch to investors to get enough funding to build one.</p>
-
-<p>Don’t ever be “the idea person” and don’t ever expect other people to work for you for free. The world does not work that way.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:dilbert">
-      <p>I have around 14 compendium books of the strips; my favourite is entitled “<a href="https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/">Still Pumped From Using The Mouse</a>” (a reference to a calendar they were making about software developers). <a href="#fnref:dilbert" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:incomplete">
-      <p>“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” <a href="#fnref:incomplete" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:apple">
-      <p>“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. <a href="#fnref:apple" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:mvp">
-      <p>“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. <a href="#fnref:mvp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

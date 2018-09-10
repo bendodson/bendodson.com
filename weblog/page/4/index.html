@@ -41,6 +41,33 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/08/11/moonlight-tvos/">Moonlight tvOS for Apple TV 4</a></h1>
+			
+			<time datetime="2016-08-11" pubdate=""><a href="/weblog/2016/08/11/moonlight-tvos/">August 11, 2016</a></time>
+    	</header>
+    	<div>
+			<p>A few nights ago I was attempting to finish playing Day of the Tentacle on my PC via a Steam Link in my bedroom. For some reason, whilst it all loaded correctly, it was really jerky to play with a severe delay between controller input and response on the screen. As I’d been playing it successfully using GameStream on my Nvidia Shield, I assumed correctly that the issue was with the Steam Link.</p>
+
+<p>Not content to have to either a) go downstairs and use the Nvidia Shield or b) go to my office and play in front of my PC, I instead turned to my Apple TV as I knew there was an open source project called <a href="https://github.com/moonlight-stream/moonlight-ios">Moonlight</a> that basically lets you run the GameStream technology on non-Nvidia devices like iPhone or iPad. I assumed there would be a version for Apple TV but unfortunately it turns out that the AVFoundation frameworks have a <code>__TVOS_PROHIBITED</code> flag on some key components that prevent it from working. That’s when I found a fork by <a href="https://github.com/kevsmithpublic/moonlight-ios">kevsmithpublic</a> that enabled tvOS support with some code changes and requiring you to remove the <code>__TVOS_PROHIBITED</code> flags from the AVFoundation framework<sup id="fnref:frameworks"><a href="#fn:frameworks" class="footnote">1</a></sup>. Unfortunately, I wasn’t able to get it to pair to my PC and after a lot of searching it turns out that the fork was fairly old and hadn’t been updated to the latest specifications for GeForce Experience 3.0 and above.</p>
+
+<p>Determined not to be beaten, I forked the project and then set about updating the code to support the latest Moonlight connections. This ended up being similar to the point and click adventure I was trying to play as I needed to constantly fetch the Apple TV from my bedroom, connect it to my mac, build the project, unplug the Apple TV, reconnect it in my bedroom, and then test if it actually worked (all because I didn’t have a spare monitor in my office as I use an iMac). After several hours (and a few beers) I had the project working and can now stream my games at 1080p from my PC to my Apple TV 4 and play them using an MFI controller.</p>
+
+<p>You can <a href="https://github.com/bendodson/moonlight-tvos">download the project from my GitHub account</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:frameworks">
+      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/08/05/divide-15-virtually-reality/">The Divide #15 - Virtually Reality</a></h1>
 			
 			<time datetime="2016-08-05" pubdate=""><a href="/weblog/2016/08/05/divide-15-virtually-reality/">August 05, 2016</a></time>
@@ -478,154 +505,6 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
   <ol>
     <li id="fn:ipaduniversal">
       <p>This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. <a href="#fnref:ipaduniversal" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">Using a physical button (Flic) with HomeKit scenes and triggers</a></h1>
-			
-			<time datetime="2016-05-18" pubdate=""><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">May 18, 2016</a></time>
-    	</header>
-    	<div>
-			<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff"><a href="#fn:stuff" class="footnote">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
-
-<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing"><a href="#fn:phrasing" class="footnote">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
-
-<p>Over the past few months, I’ve been <a href="https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/">dabbling with HomeKit scenes</a> so that I can control groups of devices all at once like so:</p>
-
-<blockquote>
-  <p><strong>Good Morning</strong></p>
-
-  <ul>
-    <li>Turns on downstairs lights</li>
-    <li>Starts playing my “morning” playlist in kitchen via AirPlay</li>
-    <li>Disables security cameras</li>
-  </ul>
-
-  <p><strong>Good Night</strong></p>
-
-  <ul>
-    <li>Turns off all lights (including bedside table lamp)</li>
-    <li>Stops any playing music</li>
-    <li>Enables security cameras</li>
-  </ul>
-</blockquote>
-
-<p>This has been working well but I frequently forget to use scenes as many of these things can be controlled in other ways. For example, I might turn off the downstairs lights with my Hue Dimmer Switch and then turn off the bedside table lamp via the Hue today widget which means I forget to activate the security cameras. The eventual solution I’ve come up with is a simple push button (from <a href="http://flic.io/">Flic</a>) stuck under my bedside table that toggles between my <em>Good Morning</em> and <em>Good Night</em> scenes. In this article, I’ll tell you how I did it!</p>
-
-<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy"><a href="#fn:biy" class="footnote">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code>manager:didReceiveButtonDown</code> request.</p>
-
-<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground"><a href="#fn:homekitforeground" class="footnote">4</a></sup>.</p>
-
-<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild"><a href="#fn:rebuild" class="footnote">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
-
-<p>I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; <code>ws_morning</code> and <code>ws_evening</code>. I then set up two triggers within HomeKit; <code>WebSocket Morning</code> (which triggers the <em>Good Morning</em> scene when the <code>ws_morning</code> switch turns on) and <code>WebSocket Evening</code> (which triggers the <em>Good Night</em> scene when the <code>ws_evening</code> switch turns on). The only change I needed to make to my scenes was to ensure that both <code>ws_morning</code> and <code>ws_evening</code> are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.</p>
-
-<p>The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named <a href="https://github.com/daltoniam/Starscream">Starscream</a> which allowed me to connect to the server and send commands which led me to this code for the entire project:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
-<span class="kd">import</span> <span class="nc">Starscream</span>
-
-<span class="kd">let</span> <span class="nv">ipAddress</span> <span class="p">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
-<span class="kd">let</span> <span class="nv">flicAppKey</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
-<span class="kd">let</span> <span class="nv">flicAppSecret</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
-
-<span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
-
-    <span class="kd">let</span> <span class="nv">socket</span> <span class="p">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;ws://</span><span class="si">\(</span><span class="n">ipAddress</span><span class="si">)</span><span class="s">/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
-    
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="p">=</span> <span class="kc">self</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">defaultButtonDelegate</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span> <span class="n">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="n">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="n">backgroundExecution</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">setupFlic</span><span class="p">(</span><span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()?.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
-    <span class="p">}</span>
-    
-    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">toggle</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">socket</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
-    <span class="p">}</span>
-    
-
-    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Flic Manager</span>
-    
-    <span class="kd">func</span> <span class="nf">flicManager</span><span class="p">(</span><span class="n">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">?,</span> <span class="n">withError</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">flicButton</span><span class="p">(</span><span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="n">queued</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">toggle</span><span class="p">()</span>
-    <span class="p">}</span>
-    
-    
-    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Websocket Delegate</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidConnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">let</span> <span class="nv">defaults</span> <span class="p">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
-        <span class="kd">let</span> <span class="nv">last</span> <span class="p">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
-        <span class="kd">let</span> <span class="nv">name</span> <span class="p">=</span> <span class="bp">last</span> <span class="p">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="p">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="p">:</span> <span class="s">&quot;ws_morning&quot;</span>
-        <span class="kd">let</span> <span class="nv">params</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="p">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="p">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="n">bool</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]]</span>
-        <span class="kd">let</span> <span class="nv">data</span> <span class="p">=</span> <span class="k">try</span><span class="p">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">string</span> <span class="p">=</span> <span class="nb">String</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">socket</span><span class="p">.</span><span class="n">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-            <span class="n">socket</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
-            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
-            <span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidDisconnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidReceiveData</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidReceiveMessage</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></figure>
-
-<p><strong>Note: this is just a personal project that I built as quickly as possible. By nature, it is a fairly dirty hack. You shouldn’t write professional apps like this.</strong></p>
-
-<p>With this code in place, I can now press my Flic button (stuck to the underside of my bedside table) and it will toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. This is the full process of what is going on:</p>
-
-<ul>
-  <li>Press the Flic button</li>
-  <li>Wakes up the iOS app (if terminated or backgrounded) and hits the <code>toggle</code> function</li>
-  <li>App sends a websocket command to the Homebridge-websocket server</li>
-  <li>Server turns on a fake switch</li>
-  <li>HomeKit notices that the fake switch has been turned on so fires trigger to run appropriate scene</li>
-  <li>Scene activates or deactivates various accessories and then switches the fake switch back off ensuring it is ready for next button press</li>
-</ul>
-
-<p>This is a long way away from the process I’d envisioned (press button, wake up app, toggle scene with HomeKit API) but it has been a fun challenge finding a way to get it work. I now have a physical button that controls multiple aspects of my home with a single press - it’s pretty cool!</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:stuff">
-      <p>Ugh what a horrible expression. I renamed it the <em>Internet of Stuff</em> on <a href="https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/">episode 7 of The Divide</a>. <a href="#fnref:stuff" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:phrasing">
-      <p><a href="https://bendodson.s3.amazonaws.com/phrasing.png"><em>Phrasing</em></a> <a href="#fnref:phrasing" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:biy">
-      <p>“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. <a href="#fnref:biy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:homekitforeground">
-      <p>Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a <code>com.apple.developer.homekit.background-mode</code> entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. <a href="#fnref:homekitforeground" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:rebuild">
-      <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

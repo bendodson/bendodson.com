@@ -41,6 +41,30 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/04/06/divide-11-3d-printing/">The Divide #11 - 3D Printing</a></h1>
+			
+			<time datetime="2016-04-06" pubdate=""><a href="/weblog/2016/04/06/divide-11-3d-printing/">April 06, 2016</a></time>
+    	</header>
+    	<div>
+			<p>The 11th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss 3D printing with a focus on John’s experience of the Da Vinci AIO 1.0. In addition, Chris has some updates on DC Rebirth, John is interested in the Xbox One development kit, and I propose an experiment in the measurement of canine happiness…</p>
+
+<p>You can get The Divide from these fine outlets:</p>
+
+<ul>
+  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
+  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
+  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
+  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
+</ul>
+
+<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/03/23/homekit-wink-and-canary/">HomeKit, Wink, and Canary</a></h1>
 			
 			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/homekit-wink-and-canary/">March 23, 2016</a></time>
@@ -453,70 +477,6 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
 <p><strong>Update, 10th Mar 2016:</strong> <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> has put together some code in order to provide this list as a JSON file instead of a plist; he also has a Node JS implementation to scrape this information regularly from the iTunes Affiliate Link Website. <a href="https://github.com/loretoparisi/itunes-countrycode-node">Check it out on GitHub</a>.</p>
 
 <p><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code>s=143444</code> instead of <code>country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Details on the iOS 9.3 Media Library additions</a></h1>
-			
-			<time datetime="2016-02-23" pubdate=""><a href="/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">February 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p><strong>UPDATE: Thanks to my raising this privacy concern, <a href="https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Apple have resolved this issue as of iOS 10</a>. I’ve left the old post below for posterity.</strong></p>
-
-<p>Due to my <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">article on music library security on iOS</a>, I’ve found myself in the position of being misquoted or misunderstood on sites such as <a href="http://appleinsider.com/articles/16/02/18/inside-ios-93-apple-will-allow-third-party-apps-to-add-music-to-your-icloud-music-library">AppleInsider</a> (mainly in the comments) with regards to the new media library APIs in iOS 9.3. This article is intended to clear up some misunderstandings that people have about these new APIs.</p>
-
-<p>In iOS 9.3, there are several additions to the music library. Indeed, it is the first item listed in the <a href="https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9_3.html#//apple_ref/doc/uid/TP40016661-SW1">What’s New in iOS 9.3</a> developer document:</p>
-
-<blockquote>
-  <p><em>New methods in the Media Player and StoreKit frameworks let you add an Apple Music track to the music library and play it. First, use the SKCloudServiceController API to determine the current capabilities, such as if the device allows playback of Apple Music catalog tracks and the addition of tracks to the library. Then, you can use the MPMediaLibrary method addItemWithProductID:completionHandler: to add a track to the library and the MPMusicPlayerController method setQueueWithStoreIDs: to play a track.</em></p>
-</blockquote>
-
-<p>Firstly, the StoreKit framework has been updated to include an <code>SKCloudServiceController</code> which basically gives an app the opportunity to request access to a user’s media library and to check if they have the ability to stream Apple Music tracks and / or add those tracks to their iCloud Music library.</p>
-
-<p>Next, <code>MPMusicPlayerController</code> has been updated with a new method named <code>setQueueWithStoreIDs</code> which allows you to basically hand over an array of Apple Music identifiers and have those play instantly in the Music app without leaving your own app. Interestingly, this allows you to Rickroll someone in just a few lines of code:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">play</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nv">trackID</span> <span class="p">=</span> <span class="s">&quot;255991760&quot;</span> <span class="c1">// use 302053341 in USA, 255991760 in UK</span>
-    <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">setQueueWithStoreIDs</span><span class="p">([</span><span class="n">trackID</span><span class="p">])</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>This API, whilst interesting, has a few issues; the identifiers for music tracks are different for each country so a US track will not play on a UK Apple Music account<sup id="fnref:storeidentifier"><a href="#fn:storeidentifier" class="footnote">1</a></sup>. There is also no error handling so it’ll just silently fail if you give it an incorrect identifier or one from the wrong store.</p>
-
-<p>The final new addition is to <code>MPMediaLibrary</code> and is a method named <code>addItemWithProductID:completionHandler:</code>. This allows you to add an Apple Music track to the user’s library as long as they gave permission via the <code>SKCloudServiceController</code> and they have a valid Apple Music account. I had some issues getting this working on an iPhone 5c but it worked just fine on an iPad Pro leading me to think this may be an API limited to 64-bit devices (although this is still in beta so that may change). However, the API does not allow you to add MP3s to your library or import Spotify tracks or anything like that; it is just a way to add Apple Music tracks to your library. Why is that useful? The scenario I envision is that it is for apps like Shazam that identify music and then traditionally give you a link to go and see it in Apple Music or the iTunes Store. With this new API, those apps can now add a button such as “add this track to your library?” which will allow them to automatically add the Apple Music track to the media library.</p>
-
-<p>The new APIs do not do any of the following things:</p>
-
-<ul>
-  <li>They do not allow apps to add music to your library if you are not using Apple Music</li>
-  <li>They do not allow apps to add music to your library that is not available on Apple Music</li>
-  <li>They do not allow apps to delete music from your library</li>
-  <li>They do not allow apps to edit metadata on any music in your library (i.e. changing title, artist, genre, rating, artwork)</li>
-</ul>
-
-<p>Crucially, and linking this back to my previous article, <strong>this new permissions system is only for the new “add Apple Music tracks to your library API”; apps do not require permission to scan through your library</strong>. I’m still hopeful this will be addressed as at present the ‘Privacy’ settings screen in iOS 9.3 is incredibly misleading:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/music-library-privacy.jpg" width="800" height="533" /></p>
-
-<p>I take serious issue with the phrase <em>“Apps that have requested access to your media library will appear here”</em> because it makes it sound like apps require permission to access your library which is just not true. My <a href="https://dodoapps.io/music-tracker/">Music Tracker</a> app continues to work unimpeded on iOS 9.3 with no need to request access and, as demonstrated above, you can start playing streamed music in the Music app without authorization. This is all true as of iOS 9.3 beta 4 so hopefully it may get resolved before the final version of iOS 9.3 is released next month.</p>
-
-<p>(<strong>Update:</strong> This was not resolved in the public version of iOS 9.3)</p>
-
-<p>If you have any queries about how these new APIs work or how they will or won’t affect your media library, <a href="https://bendodson.com/contact/">please feel free to contact me</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:storeidentifier">
-      <strike>There is a new API to give you a storefront identifier (mine is "143444,29") but I'm not sure how you translate to a single language like "gb" for use with the iTunes Search API - if anyone can shed some light on that, please let me know!</strike>
-      <p><strong>Update, 10th Mar 2016:</strong> Thanks to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for making me aware of the <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Link website</a> which contains a full list of the store identifiers and their respective ISO country codes which can be used with the iTunes Search API. I’ve <a href="https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">put together a simple class</a> to take care of this automatically. <br /><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code>s=143444</code> instead of <code>country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>. <a href="#fnref:storeidentifier" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

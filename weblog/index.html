@@ -41,6 +41,64 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2018/09/10/building-a-twitch-panel-extension/">Building a Twitch Panel Extension</a></h1>
+			
+			<time datetime="2018-09-10" pubdate=""><a href="/weblog/2018/09/10/building-a-twitch-panel-extension/">September 10, 2018</a></time>
+    	</header>
+    	<div>
+			<p>A couple of months ago I started streaming some of the many video games I play on <a href="https://twitch.tv/ShyGuysTheDod">Twitch</a>. For those that aren’t aware, your Twitch profile can be customised with a number of text or image based panels along with a relatively new “extension” panel which is essentially an iframe. I was spending some time adding the type of wine I was drinking on each stream in a text-based panel and decided it would be more efficient to build a simple panel extension to display this information in a more customised format.</p>
+
+<p>Thus the “<a href="https://www.twitch.tv/ext/a8m0uw4htvsmaaukkcasay84awv8p0-1.0.1">Currently Drinking</a>” extension was born which allows users to add a name, type, location, price, ABV%, description, notes, and an image about the drink they are currently enjoying. I also added the ability to provide a URL for a website such as <a href="https://www.vivino.com/wineries/el-bombero/wines/el-bombero-seleccion-especial-2017">vivino.com</a>, <a href="https://distiller.com/spirits/glenfiddich-18">distiller.com</a>, or <a href="https://untappd.com/b/anheuser-busch-budweiser/3783">untappd.com</a> which is then screen-scraped to provide the information automatically.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/twitch-page.jpg" width="800" height="480" /></p>
+
+<p>This post isn’t going to be a complete tutorial on how to build an extension as I didn’t expect it would be that complex and so didn’t write down the instructions on how to get everything working as I was going along. Suffice to say, the process was a lot more difficult than I initially anticipated! That said, if you have any specific queries, do feel free to <a href="https://bendodson.com/contact/">get in touch</a> and I’ll try and help as best I can.</p>
+
+<p>To start with, a panel extension is basically a website comprising of HTML, CSS, and JavaScript. This is all loaded into an iframe with some restrictions and you can choose to make use of the Extension Backend Service (EBS) which is essentially a NodeJS instance that sends notifications via PubSub. It is recommended that you download the developer rig that Twitch provides which allows you to run and test your extension on a localhost such that when you load your profile page from Twitch.tv you can see your extension loaded in. The setup process for the developer rig is fairly arduous, especially on macOS, and I found myself having to run a fair few more <code>npm install</code> commands than I would like that weren’t documented. I also found that there were a number of differences between the locally hosted version of the extension compared to when it was run on a server, most noticably in that the local version allows the external loading of assets which the hosted version does not<sup id="fnref:hosted"><a href="#fn:hosted" class="footnote">1</a></sup>.</p>
+
+<p>In terms of coding, as you are essentially just writing HTML there isn’t much to be aware of when writing an extension. A panel is always 300px high and you can set a global height for the panel within the Twitch settings<sup id="fnref:height"><a href="#fn:height" class="footnote">2</a></sup> and make use of vertical scrolling if you need to show more content. To configure your extension, you supply another HTML file which is loaded whenever the configure button is pressed but again this is just loaded within an iframe.</p>
+
+<p>As I haven’t really used JavaScript since 2009, I decided to forego the EBS in favour of a PHP backend that I could control. Thankfully this is fairly easy as you can get a unique identifier for the channel that is being viewed via the <code>window.Twitch.ext.onAuthorized(auth)</code> callback. With this, I was able to use a simple AJAX POST request to send the data in my config page to my PHP backend along with the ID of the currently authorized channel. When a panel is loaded, an AJAX GET request with the same channel ID is used to load a JSON response of the data stored in my database. Using this PHP system was also more useful as I was able to add my screen-scraping library to rip out details of the drinks I was enjoying from Vivino, Distiller, and Untappd. Whilst my initial version provided a link back to these pages, I found that each URL needed to be whitelisted on the Twitch extension otherwise they wouldn’t work. As I would have liked to let people link to other websites I ultimately decided to drop the ability as it wouldn’t be feasible to maintain a whitelist that would please everyone.</p>
+
+<p>Once the basic panel was built, I was able to test it on Twitch’s own servers by performing an asset upload. With this, you basically zip up your directory containing your HTML, JS, and CSS code and upload it to their servers at which point it will let you use that code as your panel on your live Twitch page. Crucially, this is only seen by you and accounts you whitelist. As I’d set up the developer rig on my laptop and didn’t want to get it all set up again on my Mac Pro, I ended up tweaking some of my extensions by editing the files locally and just uploading them directly in this way to test them - it took slightly longer but that way I knew what I was looking at is how the extension would look to others.</p>
+
+<p>With the extension looking good, it was then time to submit it to Twitch for approval. I’ve been through this sort of process with Apple before hundreds of times so I’m no stranger to a review process but this one was slightly more arduous. To start with, there are <a href="https://dev.twitch.tv/docs/extensions/guidelines-and-policies/">a lot of restrictions</a> on what you can and cannot do such as not being allowed to have any JavaScript console logging, you aren’t allowed to load into the DOM directly from AJAX (i.e. loading HTML from a remote location), you can’t obfuscate your code nor use a double-click as an input. Your code is inspected by Twitch as part of the review and so everything has to be provided locally except for the <a href="https://dev.twitch.tv/docs/extensions/building/#extension-helper-library">Twitch Extension Helper</a> which must be loaded from a specific location. At first I found the idea of an actual code review to be slightly strange as even Apple doesn’t do this<sup id="fnref:automated"><a href="#fn:automated" class="footnote">3</a></sup> but it makes sense given the nature of JavaScript embedded in an iframe.</p>
+
+<p>After a couple of days, the extension was approved and I was then given the option to release it publicly at which point it shows up in the extension directory with screenshots you provide. As this first extension was relatively easy, I decided to produce a number of “wishlist” panel extensions which would initially be for Steam, Humble, and GOG. These worked in much the same way using a PHP backend to send the URL of the users wishlist; my server would then screen-scrape these pages and store the games in my database where the panel extension could request them in order to load the list. As each extension was for a specific store, I used the URL whitelisting feature to whitelist each domain so you could click on the game to go to the relevant store page.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/twitch-extensions/twitch-wishlist-steam.jpg" width="800" height="480" /></p>
+
+<p>Whilst the extensions were relatively quick and easy to write, the approval process took several weeks as a bug in the process meant they got stuck in limbo for violating one of the rules, namely that “extensions may not transact or encourage the transacting of monetary exchange in relation to any non-Twitch/Amazon commerce instruments”. In essence, an extension could not link to a Steam store page as it is a competitor to Twitch/Amazon. I find this to be slightly silly, especially as a user can happily just write up a list of links in a text-based panel without issue, but those are the rules and the team at Twitch Dev were incredibly helpful at resolving the issue reaching out to me via Twitter DM. I was able to re-submit the three extensions provided that they didn’t link to the external storefronts; this seemed like a reasonable compromise and so I re-submitted and they were approved within several minutes.</p>
+
+<p>The only other thing to mention is the process of updating an extension. I foolishly didn’t test my original “Currently Drinking” extension with the Twitch “dark theme”<sup id="fnref:dark"><a href="#fn:dark" class="footnote">4</a></sup> and received a complaint from a user. Updating an extension is thankfully very easy requiring only that you bump up the version number and upload a new zip file. This goes through the review process again but was approved in under an hour for me. As far as I can tell, there is no forward facing “What’s New” notes or a way for a user to see an extension has been updated; it just happens automatically. It would be nicer if there were a way for users to see when an update has occurred and what has changed but I guess that will be something for the future.</p>
+
+<p>Overall the process of creating a Twitch extension was slightly longer than I would have liked but now that everything is set up and I’ve been through it a few times I think it’ll be very easy to add new ones in future. I’m tempted to try my hand at a video overlay extension but haven’t yet found a compelling enough reason to do so. For now though it has been a pleasant diversion from building iOS apps and so far the extensions have been installed by far more users than I expected.</p>
+
+<p>If you’d like to give them a try, you can find some direct links on my <a href="https://bendodson.com/projects/twitch-extensions/">Twitch Extensions</a> page. You can also <a href="https://twitch.tv/ShyGuysTheDod">follow me on Twitch</a> if you’d like to see some of my extensions in action!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:hosted">
+      <p>To be fair, the <a href="https://dev.twitch.tv/docs/extensions/guidelines-and-policies/">guidelines</a> do state that you should “include all JavaScript and CSS files in the extension’s uploaded assets” but this is not enforced by the developer rig so I spent a lot of time wondering why jQuery worked locally but not on the Twitch site. <a href="#fnref:hosted" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:height">
+      <p>The default is 300px but you can choose anything from 300px to 500px. Unfortunately it isn’t possible for an extension to say at runtime how high it wants to be - it is something that is set globally in advance. <a href="#fnref:height" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:automated">
+      <p>Aside from the automated checks when compiling in Xcode to ensure you aren’t using private frameworks. <a href="#fnref:automated" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:dark">
+      <p>It’s a bit of a pain to check if you are in dark mode or not. You need to run the <code>window.Twitch.ext.onContext(context)</code> callback and then check that for the <code>context.theme</code>. I do this and then append or remove a <code>.dark</code> class to my <code>\&lt;body\&gt;</code> to make it a bit simpler to work with. <a href="#fnref:dark" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">Scalable bulleted lists with UILabel or UITextView</a></h1>
 			
 			<time datetime="2018-08-09" pubdate=""><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">August 09, 2018</a></time>
@@ -545,38 +603,6 @@
     </li>
     <li id="fn:price">
       <p>This has saved me so many subsequent bug follow ups that $15 is almost criminally low. <a href="#fnref:price" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/05/19/gbbc-2017/">Great British Bee Count 2017</a></h1>
-			
-			<time datetime="2017-05-19" pubdate=""><a href="/weblog/2017/05/19/gbbc-2017/">May 19, 2017</a></time>
-    	</header>
-    	<div>
-			<p>For the past couple of years, I have worked with Two Thirds Water on the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count</a> iOS app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2017:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/gbbc-2017.jpg" width="800" height="500" /></p>
-
-<p>The main update has been a completely new design which fits the more modern “flat” design which was made popular by iOS 7 whilst also putting the navigation within easy thumb reach even on plus-sized devices. There are also many new functionality changes such as an improved bee picker and fact files on each type of bee that can give you a lot more information.</p>
-
-<p>As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch<sup id="fnref:scratch"><a href="#fn:scratch" class="footnote">1</a></sup> so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background<sup id="fnref:background"><a href="#fn:background" class="footnote">2</a></sup>.</p>
-
-<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:scratch">
-      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:background">
-      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
