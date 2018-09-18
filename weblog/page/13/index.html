@@ -300,6 +300,15 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>I don’t know about you, but I feel more compelled to clean up these yellow warnings than ticking things off in a todo list.</p>
 
+<h3 id="swift-42-update-18th-september-2018">Swift 4.2 Update (18th September 2018)</h3>
+
+<p>It is now possble with Swift 4.2 to do something similar to the above without the need for a script build phase:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="p">#</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Some warning text&quot;</span><span class="p">)</span>
+<span class="p">#</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Some error text&quot;</span><span class="p">)</span></code></pre></figure>
+
+<p>With <code>#warning()</code> and <code>#error()</code> you can now generate warnings and errors in code without the need for comments or a build phase. You may prefer to use comments still in which case the above still works with iOS 12 / Xcode 10 but this language-level support may be more beneficial in some situations.</p>
+
 <div class="footnotes">
   <ol>
     <li id="fn:comments">
