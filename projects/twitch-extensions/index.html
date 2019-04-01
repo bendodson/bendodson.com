@@ -42,6 +42,8 @@
 		<p>Please feel free to <a href="/contact/">contact me</a> if you run into any problems or have any suggestions for enhancements or new extensions. If you find them useful, a <a href="https://twitch.tv/The_Plainswalker">follow</a> is always appreciated!</p>
 	</article>
 
+	<div id="twitch-live"></div>
+
 	<article>
 		<header id="twitch-drinking">
 			<a href="https://www.twitch.tv/ext/a8m0uw4htvsmaaukkcasay84awv8p0-1.0.1">
@@ -103,10 +105,53 @@
 		<p><a href="https://www.twitch.tv/ext/swm134x7w8jm9z9qkc22sjenx3yd46-1.0.0">View extension on Twitch</a> | <a href="https://twitch.tv/The_Plainswalker">Follow me on Twitch</a></p>
 	</article>
 	
-
-
-	
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+	var clientId = "0w00gnpvp3xhh9gnzuvmhaq4ief1a0";
+var onlineChannel = null;
+
+function BeginGetStream(channelName, onSuccess)
+{
+  $.ajax({
+    url: "https://api.twitch.tv/kraken/streams/" + channelName,
+    dataType: 'json',
+    headers: { 'Client-ID': clientId },
+    success: function(channel)
+    {
+      onSuccess(channel);
+    }
+  });
+}
+
+function UpdateChannelData() 
+{
+  onlineChannel = null;
+
+  var callback = function(channel) {
+    if ( onlineChannel == null ) {
+      if ( channel["stream"] != null ) {
+        onlineChannel = channel["stream"]["channel"]["display_name"];
+      }
+      UpdateTwitchBanner();      
+    }
+  };
+
+  BeginGetStream("The_Plainswalker", callback);
+}
+
+function UpdateTwitchBanner()
+{
+  if (onlineChannel != null) {
+    $("#twitch-live").append('<p>I\'m live on Twitch right now:</p><br><iframe src="https://player.twitch.tv/?channel=' + onlineChannel + '" autoplay="true" frameborder="0" scrolling="no" allowfullscreen="true" width="940" height="529"></iframe>');
+  }
+}
+
+$(function() {
+  UpdateChannelData();
+});
+</script>
 
 		
 		<footer>
