@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-03-05.css" />
+	<link rel="stylesheet" href="/styles-2019-05-21.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -41,6 +41,45 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2019/04/08/foodim/">Foodim</a></h1>
+			
+			<time datetime="2019-04-08" pubdate=""><a href="/weblog/2019/04/08/foodim/">April 08, 2019</a></time>
+    	</header>
+    	<div>
+			<p>Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/foodim.jpg" width="800" height="600" /></p>
+
+<p>It is probably best to let <a href="https://www.nigella.com/latest/foodim">Nigella explain</a> what the app is all about:</p>
+
+<blockquote>
+  <p>It has always been vexing to me that there is no dedicated food photography app, and so many of the filters and so on that are meant to applied on general photography apps do food no favours. So, based on the principle that if something you want doesn’t exist, just go ahead and make it, I’ve been working for some time with my longtime cameraman to develop a food photography app with a built-in filter designed to optimise food and a back-of-shot blur dependent on the angle of the phone (as well as a draw-to-blur feature) to give depth of field.</p>
+</blockquote>
+
+<p>When I first joined the team, there was a basic app that had been built but it wasn’t anywhere near polished enough for launch. The custom made blur filter was working but the app would crash from memory constraints after you took a few photos. I started by rebuilding the photo memory subsystem and working on the fundamental basics of the networking. For example, I worked with the API developer to develop a patch system that pushed short bursts of data to the app when changes were made ensuring that the local cached copy was always up to date and that there was no loading time when answering push notifications<sup id="fnref:pushexplanation"><a href="#fn:pushexplanation" class="footnote">1</a></sup>. I also created a system for the background uploading of images; the image would appear in your feed instantly but the image would update in the background before silently reloading in the feed to use the online copy.</p>
+
+<p>Over time I helped work out UX issues, redesigned various aspects, and helped move some of the camera code over to a newer image processing system including working on the draw-to-blur functionality and improving the gyroscopic tilt mechanic to adapt depth of field. I also used my contacts with Apple Developer Relations to setup a meeting between Apple and Foodim to showcase the app and get their opinion on improvements that could be made.</p>
+
+<p>My work on the app was complete in 2015 but I’ve had the odd bit of correspondence in the mean time as minor issues were resolved. Since then, I believe a new team has been working on some camera improvements and further changes to the app to accommodate newer devices and the changing landscape of iOS development that has occurred since iOS 7 was released. I’ve no idea why it has taken quite so long to launch the app but I’m extremely happy to see it available now in the UK, Australia, and New Zealand.</p>
+
+<p>The app is totally free and can be <a href="https://itunes.apple.com/gb/app/foodim/id1242868470?mt=8&amp;_branch_match_id=659394708476906175">downloaded from the App Store</a>. You can find out more details about the app over at <a href="https://foodim.com/">foodim.com</a>.</p>
+
+<p>And, in case you were wondering, I never did get to meet Nigella in person. I was meant to meet her in London but a printing error at the train station meant I missed my train and had to join the meeting via Skype instead. From that day onward, I never travelled by train without having printed my ticket days in advance…</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:pushexplanation">
+      <p>In most apps of this nature, you’ll get a push notification when a new photo is uploaded; when you tap on the notification, the app is opened but you then need to wait for the post and image to load as they haven’t been prefetched. With this project, a silent push notification was sent that would wake up the app in the background; it would then fetch all of the relevant information and cache it locally before sending a local notification to the user. When that notification was tapped, the post was opened and was ready and waiting for them with no additional downloading required. This is far more common in apps today but was something of a rarity back in the days of iOS 7 when I originally built it! <a href="#fnref:pushexplanation" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2019/03/05/apple-music-artwork-finder/">Announcing the Apple Music Artwork Finder</a></h1>
 			
 			<time datetime="2019-03-05" pubdate=""><a href="/weblog/2019/03/05/apple-music-artwork-finder/">March 05, 2019</a></time>
@@ -53,6 +92,37 @@
 <p>Whether you want the artwork for your <a href="https://developer.apple.com/documentation/applemusicapi">New Music Mix Playlist</a>, the latest <a href="https://itunes.apple.com/gb/album/pray-for-the-wicked/1361152002">Panic! At the Disco album</a>, or for the <a href="https://itunes.apple.com/gb/station/beats-1/ra.978194965">Beats1 banner</a>, the artwork finder should be able to get you the highest quality artwork. Oh, and it’s totally free as well!</p>
 
 <p>Try out the <a href="/projects/apple-music-artwork-finder/">Apple Music Artwork Finder »</a></p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2019/02/27/hawkker/">Hawkker</a></h1>
+			
+			<time datetime="2019-02-27" pubdate=""><a href="/weblog/2019/02/27/hawkker/">February 27, 2019</a></time>
+    	</header>
+    	<div>
+			<p>If you’re an entrepreneur that is looking to get an app built by a large digital agency, how do you ensure you are staying on top of the project if you don’t have any knowledge of how app development works? That was the predicament that Zeid Bsaibes had when he came to me in September 2017 with his project Hawkker, an app to find the best independent food from street markets. He had ruled out working with a sole freelancer as the project was too large comprising of two apps, a website, and a complex server infrastructure, but he didn’t feel comfortable outsourcing to a large agency without some form of oversight. To that end, he hired me in a consultancy role to act as a sounding board for functionality whilst also being able to act as a middle-man between himself and the agency he chose, <a href="https://www.hedgehoglab.com">Hedgehog Lab</a>.</p>
+
+<p>The result is two apps, Hawkker and Hawkker Vendor, both now available on the App Store.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/hawkker.jpg" width="800" height="600" /></p>
+
+<p>To begin with Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on <a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a> and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.</p>
+
+<p>From October 2017 until September 2018, I acted as a liason and mediator between Hawkker and Hedgehog Lab as the app was developed. I performed code reviews, inspected contracts, acted as a constant point of contact to discuss functionality and ideas, and helped mediate where necessary. I was able to assist the agency by explaining to Zeid in depth why something may take x amount of time to develop but I was able to assist Zeid by pushing back at the agency when they were providing unrealistic timelines and also use my technical knowledge to speak with their developers directly rather than going through a non-technical account manager. My role can basically be boiled down to being someone able to translate between entrepreneur and technical staff whilst also providing my own suggestions based on my vast experience of app development.</p>
+
+<p>Towards the end of the project, I acted as a QA performing extensive testing and was able to provide code-level bug reports for Hedgehog Lab to work on.</p>
+
+<p>Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app and included a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.</p>
+
+<p>Whilst this is not the sort of work I usually do, it has opened my eyes to the need for some clients to have a consultant alongside them when engaging with large agencies. Had I not been a part of this process, I have no doubt that the apps would have been far poorer and that Zeid would not have had the wide knowledge he now has of how the apps actually function behind the scenes.</p>
+
+<p>It has been a real pleasure working with Zeid and the rest of Hawkker over the past few years. I’d encourage you to check out the <a href="https://itunes.apple.com/gb/app/hawkker/id1370881088?mt=8">free eater app on the App Store</a> or recommend the <a href="https://hawkker.com/vendors/">vendor website</a> to your favourite street food sellers. You can also learn more about the entire platform at <a href="https://hawkker.com/">hawkker.com</a>.</p>
+
+<p>If you are considering hiring a large agency to deliver your product, I would strongly advise hiring a consultant to sit in on meetings and keep track of the development process. I’d obviously like you to choose me (you can <a href="/contact/">contact me</a> to find out more) but having any technical consultant along with you is going to make the process far easier and help you navigate the sometimes awkward world of agency development.</p>
 
 		</div>
 	</article>
@@ -469,70 +539,6 @@
   <p>The biggest problems are distractions and motivation. It is very easy, especially in the first few months, to kick back and do very little work as you don’t feel the need to rush. Then, when you run out of money you panic and work ridiculously long hours to try and get some invoices sent out. Freelancers typically have periods they call “feast and famine” or “rollercoaster dips” but they are generally referring to having enough advance work; my problem was always that I introduced those periods myself by putting things off as sometimes I’d wake up and just want to play on the Xbox rather than writing an algorithm for a social feed. Thankfully I have now gotten myself into a comfortable routine (especially now that I don’t live on my own) and so things tend to be smooth sailing but at the start it was very difficult to stay motivated when surrounded by nice distractions!</p>
 </blockquote>
 
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/10/26/drinkcoach/">DrinkCoach+</a></h1>
-			
-			<time datetime="2017-10-26" pubdate=""><a href="/weblog/2017/10/26/drinkcoach/">October 26, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app, <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+</a>, that I worked on over the summer:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/drink-coach.jpg" width="800" height="600" /></p>
-
-<p>I worked on DrinkCoach+ for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed for the Haringey Advisory Group on Alcohol (HAGA) and is designed to help people keep a track of their alcohol intake with measurable goals and monitor any events caused by drinking such as moodswings, cravings, or accidents. This is actually version 3.0 of the app with the previous versions having been created by a different developer. The old code was neither available or desireable and so I rebuilt the app from scratch using Swift 4.0 and the latest iOS SDKs to ensure it was future proofed for any future developer to work on.</p>
-
-<p>The app is optimised for all iPhone and iPad devices (including the iPhone X) and makes use of AutoLayout to scale perfectly across the growing number of screen resolutions and aspect ratios. In terms of functionality, there are a number of interesting technologies used in the app including:</p>
-
-<ul>
-  <li><strong>Local notifications:</strong> the app can notify you at certain times and even locations to help keep you on track with your goals. This was all done locally on the device so that notifications could be triggered without an internet connection or unreliable push notifications.</li>
-  <li><strong>Infographic generation:</strong> an infographic detailing how many calories and units you’ve consumed along with your total alcohol expenditure can be displayed in the app and shared as an image.</li>
-  <li><strong>Full customisation:</strong> the drinks in the app can be customised with specific units, calories, and pricing information so that they accurately reflect your usual tipple. Drinks can also be dragged and dropped so that your regular drinks are easier to access.</li>
-</ul>
-
-<p>It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ on the App Store</a> for free and learn more about it at <a href="http://www.drinkcoach.org.uk">drinkcoach.org.uk</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">Forcing left-to-right text in iOS localizations</a></h1>
-			
-			<time datetime="2017-10-04" pubdate=""><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">October 04, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
-
-<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard"><a href="#fn:manualstoryboard" class="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
-
-<p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="p">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
-
-<p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
-
-<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">paragraph</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="p">=</span> <span class="mf">4.0</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="p">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></figure>
-
-<p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:manualstoryboard">
-      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

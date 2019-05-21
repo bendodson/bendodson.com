@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Foodim">
+		<meta property="og:description" content="Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!">
+		<meta property="og:url" content="https://bendodson.com/weblog/2019/04/08/foodim/">
+		
+		<meta name="twitter:title" content="Foodim">
+		<meta name="twitter:description" content="Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2019-05-21.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Foodim</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2019/04/08/foodim/">Foodim</a></h1>
+			
+			<time datetime="2019-04-08" pubdate=""><a href="/weblog/2019/04/08/foodim/">April 08, 2019</a></time>
+    	</header>
+    	<div>
+			<p>Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/foodim.jpg" width="800" height="600" /></p>
+
+<p>It is probably best to let <a href="https://www.nigella.com/latest/foodim">Nigella explain</a> what the app is all about:</p>
+
+<blockquote>
+  <p>It has always been vexing to me that there is no dedicated food photography app, and so many of the filters and so on that are meant to applied on general photography apps do food no favours. So, based on the principle that if something you want doesn’t exist, just go ahead and make it, I’ve been working for some time with my longtime cameraman to develop a food photography app with a built-in filter designed to optimise food and a back-of-shot blur dependent on the angle of the phone (as well as a draw-to-blur feature) to give depth of field.</p>
+</blockquote>
+
+<p>When I first joined the team, there was a basic app that had been built but it wasn’t anywhere near polished enough for launch. The custom made blur filter was working but the app would crash from memory constraints after you took a few photos. I started by rebuilding the photo memory subsystem and working on the fundamental basics of the networking. For example, I worked with the API developer to develop a patch system that pushed short bursts of data to the app when changes were made ensuring that the local cached copy was always up to date and that there was no loading time when answering push notifications<sup id="fnref:pushexplanation"><a href="#fn:pushexplanation" class="footnote">1</a></sup>. I also created a system for the background uploading of images; the image would appear in your feed instantly but the image would update in the background before silently reloading in the feed to use the online copy.</p>
+
+<p>Over time I helped work out UX issues, redesigned various aspects, and helped move some of the camera code over to a newer image processing system including working on the draw-to-blur functionality and improving the gyroscopic tilt mechanic to adapt depth of field. I also used my contacts with Apple Developer Relations to setup a meeting between Apple and Foodim to showcase the app and get their opinion on improvements that could be made.</p>
+
+<p>My work on the app was complete in 2015 but I’ve had the odd bit of correspondence in the mean time as minor issues were resolved. Since then, I believe a new team has been working on some camera improvements and further changes to the app to accommodate newer devices and the changing landscape of iOS development that has occurred since iOS 7 was released. I’ve no idea why it has taken quite so long to launch the app but I’m extremely happy to see it available now in the UK, Australia, and New Zealand.</p>
+
+<p>The app is totally free and can be <a href="https://itunes.apple.com/gb/app/foodim/id1242868470?mt=8&amp;_branch_match_id=659394708476906175">downloaded from the App Store</a>. You can find out more details about the app over at <a href="https://foodim.com/">foodim.com</a>.</p>
+
+<p>And, in case you were wondering, I never did get to meet Nigella in person. I was meant to meet her in London but a printing error at the train station meant I missed my train and had to join the meeting via Skype instead. From that day onward, I never travelled by train without having printed my ticket days in advance…</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:pushexplanation">
+      <p>In most apps of this nature, you’ll get a push notification when a new photo is uploaded; when you tap on the notification, the app is opened but you then need to wait for the post and image to load as they haven’t been prefetched. With this project, a silent push notification was sent that would wake up the app in the background; it would then fetch all of the relevant information and cache it locally before sending a local notification to the user. When that notification was tapped, the post was opened and was ready and waiting for them with no additional downloading required. This is far more common in apps today but was something of a rarity back in the days of iOS 7 when I originally built it! <a href="#fnref:pushexplanation" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2019/03/05/apple-music-artwork-finder/" title="Previous Article" class="pagination-previous">&laquo; Announcing the Apple Music Artwork Finder</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

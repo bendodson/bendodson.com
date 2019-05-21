@@ -6,9 +6,45 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 21 May 2019 14:54:50 +0100</pubDate>
-    <lastBuildDate>Tue, 21 May 2019 14:54:50 +0100</lastBuildDate>
+    <pubDate>Tue, 21 May 2019 16:27:03 +0100</pubDate>
+    <lastBuildDate>Tue, 21 May 2019 16:27:03 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Foodim</title>
+      <link>https://bendodson.com/weblog/2019/04/08/foodim/</link>
+      <pubDate>Mon, 08 Apr 2019 17:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2019/04/08/foodim/</guid>
+      <description>&lt;p&gt;Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/foodim.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It is probably best to let &lt;a href=&quot;https://www.nigella.com/latest/foodim&quot;&gt;Nigella explain&lt;/a&gt; what the app is all about:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It has always been vexing to me that there is no dedicated food photography app, and so many of the filters and so on that are meant to applied on general photography apps do food no favours. So, based on the principle that if something you want doesn’t exist, just go ahead and make it, I’ve been working for some time with my longtime cameraman to develop a food photography app with a built-in filter designed to optimise food and a back-of-shot blur dependent on the angle of the phone (as well as a draw-to-blur feature) to give depth of field.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;When I first joined the team, there was a basic app that had been built but it wasn’t anywhere near polished enough for launch. The custom made blur filter was working but the app would crash from memory constraints after you took a few photos. I started by rebuilding the photo memory subsystem and working on the fundamental basics of the networking. For example, I worked with the API developer to develop a patch system that pushed short bursts of data to the app when changes were made ensuring that the local cached copy was always up to date and that there was no loading time when answering push notifications&lt;sup id=&quot;fnref:pushexplanation&quot;&gt;&lt;a href=&quot;#fn:pushexplanation&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. I also created a system for the background uploading of images; the image would appear in your feed instantly but the image would update in the background before silently reloading in the feed to use the online copy.&lt;/p&gt;
+
+&lt;p&gt;Over time I helped work out UX issues, redesigned various aspects, and helped move some of the camera code over to a newer image processing system including working on the draw-to-blur functionality and improving the gyroscopic tilt mechanic to adapt depth of field. I also used my contacts with Apple Developer Relations to setup a meeting between Apple and Foodim to showcase the app and get their opinion on improvements that could be made.&lt;/p&gt;
+
+&lt;p&gt;My work on the app was complete in 2015 but I’ve had the odd bit of correspondence in the mean time as minor issues were resolved. Since then, I believe a new team has been working on some camera improvements and further changes to the app to accommodate newer devices and the changing landscape of iOS development that has occurred since iOS 7 was released. I’ve no idea why it has taken quite so long to launch the app but I’m extremely happy to see it available now in the UK, Australia, and New Zealand.&lt;/p&gt;
+
+&lt;p&gt;The app is totally free and can be &lt;a href=&quot;https://itunes.apple.com/gb/app/foodim/id1242868470?mt=8&amp;amp;_branch_match_id=659394708476906175&quot;&gt;downloaded from the App Store&lt;/a&gt;. You can find out more details about the app over at &lt;a href=&quot;https://foodim.com/&quot;&gt;foodim.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;And, in case you were wondering, I never did get to meet Nigella in person. I was meant to meet her in London but a printing error at the train station meant I missed my train and had to join the meeting via Skype instead. From that day onward, I never travelled by train without having printed my ticket days in advance…&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:pushexplanation&quot;&gt;
+      &lt;p&gt;In most apps of this nature, you’ll get a push notification when a new photo is uploaded; when you tap on the notification, the app is opened but you then need to wait for the post and image to load as they haven’t been prefetched. With this project, a silent push notification was sent that would wake up the app in the background; it would then fetch all of the relevant information and cache it locally before sending a local notification to the user. When that notification was tapped, the post was opened and was ready and waiting for them with no additional downloading required. This is far more common in apps today but was something of a rarity back in the days of iOS 7 when I originally built it! &lt;a href=&quot;#fnref:pushexplanation&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Announcing the Apple Music Artwork Finder</title>
@@ -23,6 +59,34 @@
 &lt;p&gt;Whether you want the artwork for your &lt;a href=&quot;https://developer.apple.com/documentation/applemusicapi&quot;&gt;New Music Mix Playlist&lt;/a&gt;, the latest &lt;a href=&quot;https://itunes.apple.com/gb/album/pray-for-the-wicked/1361152002&quot;&gt;Panic! At the Disco album&lt;/a&gt;, or for the &lt;a href=&quot;https://itunes.apple.com/gb/station/beats-1/ra.978194965&quot;&gt;Beats1 banner&lt;/a&gt;, the artwork finder should be able to get you the highest quality artwork. Oh, and it’s totally free as well!&lt;/p&gt;
 
 &lt;p&gt;Try out the &lt;a href=&quot;/projects/apple-music-artwork-finder/&quot;&gt;Apple Music Artwork Finder »&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hawkker</title>
+      <link>https://bendodson.com/weblog/2019/02/27/hawkker/</link>
+      <pubDate>Wed, 27 Feb 2019 16:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2019/02/27/hawkker/</guid>
+      <description>&lt;p&gt;If you’re an entrepreneur that is looking to get an app built by a large digital agency, how do you ensure you are staying on top of the project if you don’t have any knowledge of how app development works? That was the predicament that Zeid Bsaibes had when he came to me in September 2017 with his project Hawkker, an app to find the best independent food from street markets. He had ruled out working with a sole freelancer as the project was too large comprising of two apps, a website, and a complex server infrastructure, but he didn’t feel comfortable outsourcing to a large agency without some form of oversight. To that end, he hired me in a consultancy role to act as a sounding board for functionality whilst also being able to act as a middle-man between himself and the agency he chose, &lt;a href=&quot;https://www.hedgehoglab.com&quot;&gt;Hedgehog Lab&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The result is two apps, Hawkker and Hawkker Vendor, both now available on the App Store.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/hawkker.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To begin with Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on &lt;a href=&quot;/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/&quot;&gt;Chipp’d&lt;/a&gt; and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.&lt;/p&gt;
+
+&lt;p&gt;From October 2017 until September 2018, I acted as a liason and mediator between Hawkker and Hedgehog Lab as the app was developed. I performed code reviews, inspected contracts, acted as a constant point of contact to discuss functionality and ideas, and helped mediate where necessary. I was able to assist the agency by explaining to Zeid in depth why something may take x amount of time to develop but I was able to assist Zeid by pushing back at the agency when they were providing unrealistic timelines and also use my technical knowledge to speak with their developers directly rather than going through a non-technical account manager. My role can basically be boiled down to being someone able to translate between entrepreneur and technical staff whilst also providing my own suggestions based on my vast experience of app development.&lt;/p&gt;
+
+&lt;p&gt;Towards the end of the project, I acted as a QA performing extensive testing and was able to provide code-level bug reports for Hedgehog Lab to work on.&lt;/p&gt;
+
+&lt;p&gt;Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app and included a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.&lt;/p&gt;
+
+&lt;p&gt;Whilst this is not the sort of work I usually do, it has opened my eyes to the need for some clients to have a consultant alongside them when engaging with large agencies. Had I not been a part of this process, I have no doubt that the apps would have been far poorer and that Zeid would not have had the wide knowledge he now has of how the apps actually function behind the scenes.&lt;/p&gt;
+
+&lt;p&gt;It has been a real pleasure working with Zeid and the rest of Hawkker over the past few years. I’d encourage you to check out the &lt;a href=&quot;https://itunes.apple.com/gb/app/hawkker/id1370881088?mt=8&quot;&gt;free eater app on the App Store&lt;/a&gt; or recommend the &lt;a href=&quot;https://hawkker.com/vendors/&quot;&gt;vendor website&lt;/a&gt; to your favourite street food sellers. You can also learn more about the entire platform at &lt;a href=&quot;https://hawkker.com/&quot;&gt;hawkker.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you are considering hiring a large agency to deliver your product, I would strongly advise hiring a consultant to sit in on meetings and keep track of the development process. I’d obviously like you to choose me (you can &lt;a href=&quot;/contact/&quot;&gt;contact me&lt;/a&gt; to find out more) but having any technical consultant along with you is going to make the process far easier and help you navigate the sometimes awkward world of agency development.&lt;/p&gt;
 </description>
     </item>
     
@@ -1092,79 +1156,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
     &lt;/li&gt;
     &lt;li id=&quot;fn:mvp&quot;&gt;
       &lt;p&gt;“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. &lt;a href=&quot;#fnref:mvp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Updates to iTunes Artwork Finder</title>
-      <link>https://bendodson.com/weblog/2016/11/08/updates-to-itunes-artwork-finder/</link>
-      <pubDate>Tue, 08 Nov 2016 14:00:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/11/08/updates-to-itunes-artwork-finder/</guid>
-      <description>&lt;p&gt;Last week, my &lt;a href=&quot;https://bendodson.com/projects/itunes-artwork-finder/&quot;&gt;iTunes Artwork Finder&lt;/a&gt; script stopped working due to some &lt;a href=&quot;https://forums.developer.apple.com/message/192916&quot;&gt;changes by Apple&lt;/a&gt; with regards to rate limiting. In the past, searching for something on my site would cause my server to send a request to Apple and get the data back but with so many people using it my server would get blocked within a few seconds.&lt;/p&gt;
-
-&lt;p&gt;After a brief shutdown&lt;sup id=&quot;fnref:thanks&quot;&gt;&lt;a href=&quot;#fn:thanks&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, I’m happy to say that my iTunes Artwork Finder is now back up and running again thanks to a few tweaks. Now, instead of sending all requests from my server, it works like this:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;When you enter a search term (i.e. “Fall out boy” albums in United Kingdom), that is sent to my server where I’ll generate the correct URL that is needed for Apple’s servers&lt;/li&gt;
-  &lt;li&gt;Your browser then takes that URL to make the request directly to Apple&lt;/li&gt;
-  &lt;li&gt;When the data is returned from Apple, the browser then sends it to my server for processing&lt;/li&gt;
-  &lt;li&gt;Results are then displayed!&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This means that there are now 3 network requests instead of 1 but the crucial part is that all requests to Apple’s servers are now made from your own browser so the rate limiting shouldn’t be a problem&lt;sup id=&quot;fnref:ratelimit&quot;&gt;&lt;a href=&quot;#fn:ratelimit&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;Whilst not an ideal solution, it does work and means I can keep everything running for a bit longer. I’m hopeful that Apple will alter how their rate limiting works as at the moment it seems a bit broken, especially with it being required for several apps with the new &lt;a href=&quot;https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/&quot;&gt;Apple Music APIs&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The code for the artwork finder is &lt;a href=&quot;https://github.com/bendodson/itunes-artwork-finder&quot;&gt;available on GitHub&lt;/a&gt; although this uses the old PHP request system rather than my new version as that should be more than good enough for personal usage&lt;sup id=&quot;fnref:personalusage&quot;&gt;&lt;a href=&quot;#fn:personalusage&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you run into any problems, &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;please get in touch&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:thanks&quot;&gt;
-      &lt;p&gt;During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. &lt;a href=&quot;#fnref:thanks&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:ratelimit&quot;&gt;
-      &lt;p&gt;Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. &lt;a href=&quot;#fnref:ratelimit&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:personalusage&quot;&gt;
-      &lt;p&gt;And if you want to do more than just personal usage you should &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;speak to me&lt;/a&gt; first as I don’t really want people to create entire duplicates of my own project. &lt;a href=&quot;#fnref:personalusage&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Vortech</title>
-      <link>https://bendodson.com/weblog/2016/10/29/dimensions/</link>
-      <pubDate>Sat, 29 Oct 2016 16:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/10/29/dimensions/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;Update &lt;em&gt;(9th Nov 2016):&lt;/em&gt;&lt;/strong&gt; I’ve updated this article to reflect the new name for the app, Vortech. Whilst submitting a v1.0.1 update (adding support for some extra figures), Apple took issue with the name Dimensions so I had to change it…&lt;/p&gt;
-
-&lt;p&gt;I’m very happy to announce that my latest self-published app, &lt;a href=&quot;https://dodoapps.io/vortech/&quot;&gt;Vortech&lt;/a&gt;, is now &lt;a href=&quot;https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;amp;mt=8&quot;&gt;available on the App Store&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/dimensions.jpg&quot; width=&quot;800&quot; height=&quot;542&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Vortech is a character and ability tracker for the videogame LEGO Dimensions. It allows you to easily see all 52 currently available characters (waves 1-6) and 73 abilities and track them in your own collection. Whilst there are other tracking apps available (namely the official LEGO Dimensions app), these tend not to be as easy to use and they don’t allow you to cross-reference the special abilities and powers of characters.&lt;/p&gt;
-
-&lt;p&gt;I built the app as I would occassionally come across something that required a special ability and the game might show me a character with that ability. However, as I have a fairly large collection already, it is likely I have a character with the ability and just need to look up which one has it. For example, I might find an area in a level which requires the Sonar Smash ability and the game might show me the character Benny (from The LEGO Movie) as someone with this ability; with my app, I can quickly see who else has that abilty and find I have Marty McFly (from Back To The Future) who will do just as well!&lt;/p&gt;
-
-&lt;p&gt;The entire app is built using Swift 3.0 and I use &lt;a href=&quot;http://realm.io&quot;&gt;Realm&lt;/a&gt; as a mobile database containing all of the character information that I scraped from the official LEGO Dimensions website&lt;sup id=&quot;fnref:legoscraper&quot;&gt;&lt;a href=&quot;#fn:legoscraper&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. I added a few nice touches such as Peek &amp;amp; Pop support for 3D Touch enabled devices and taptic feedback for the iPhone 7 models. The app is completely free and contains no in-app purchases, adverts, or analytics tracking – it doesn’t even require an internet connection!&lt;/p&gt;
-
-&lt;p&gt;You can download &lt;a href=&quot;https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;amp;mt=8&quot;&gt;Vortech on the App Store&lt;/a&gt; and learn more about it on my &lt;a href=&quot;https://dodoapps.io/vortech/&quot;&gt;Dodo Apps website&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you find Vortech useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me directly&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:legoscraper&quot;&gt;
-      &lt;p&gt;I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. &lt;a href=&quot;#fnref:legoscraper&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;

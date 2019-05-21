@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-03-05.css" />
+	<link rel="stylesheet" href="/styles-2019-05-21.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,117 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">Syncing Apple Music with Spotify</a></h1>
+			
+			<time datetime="2017-01-25" pubdate=""><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">January 25, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called <em><a href="https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS">Ben Dodson’s Definitive Hits Collection</a></em> which contained nearly 45 hours of songs I thought were particularly good<sup id="fnref:criteria"><a href="#fn:criteria" class="footnote">1</a></sup>. On most Tuesday nights, my friend and <a href="http://connectingtohost.co.uk/">podcast</a> co-host <a href="http://johnwordsworth.com/">John Wordsworth</a> and I play a few rounds of <a href="https://kyloben.co.uk/games/rocket-league">Rocket League</a> and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:</p>
+
+<ol>
+  <li>As I use Apple Music now, I don’t pay for a Spotify premium account and so I have to put up with adverts (which are utterly terrible).</li>
+  <li>They aren’t in sync so we might be humming (or badly singing) along to a song that the other person isn’t listening to.</li>
+</ol>
+
+<p>Now I could just recreate the playlist in Apple Music to solve the Spotify ads issue but we still wouldn’t be in sync. As we’re both developers, we decided to remedy this problem with a fairly convoluted solution…</p>
+
+<p>The basic idea is that John acts as the host with the playlist on Spotify (on macOS) playing into his headphones. He has written an app that checks if the track has changed and, if it has, sends the track information to my server. I then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to look up the song and find the correct identifier which is then sent to an app on my iPhone via push notification to start the song playing on Apple Music.</p>
+
+<p>I’ll run through each piece and go over the challenges that were encountered.</p>
+
+<h3 id="retrieving-track-details-from-spotify">Retrieving track details from Spotify</h3>
+
+<p>I hadn’t heard of it before but Apple has provided a tool called <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html">Scripting Bridge</a> since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly<sup id="fnref:polling"><a href="#fn:polling" class="footnote">2</a></sup> to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.</p>
+
+<h3 id="finding-a-track-on-apple-music">Finding a track on Apple Music</h3>
+
+<p>The next step is for the server to take the information that has been sent and use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to try and find a match. This is fairly straightforward and a first draft would send a request like this:</p>
+
+<pre><code>https://itunes.apple.com/search?entity=song&amp;term=never+gonna+give+you+up+rick+astley&amp;country=gb
+</code></pre>
+
+<p>Unfortunately the iTunes API does not allow you to search multiple terms (i.e. <code>artist=rick+astley title=never+gonna+give+you+up</code>) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song <em>She Looks So Perfect</em> by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.</p>
+
+<p>The next issue I encountered involves the <a href="https://en.wikipedia.org/wiki/Romanization_of_Belarusian">Romanization of Belarusian</a>; the track <a href="https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013"><em>Solayoh</em></a> is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search <code>term=solayoh+alyona+lanskaya</code> then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.</p>
+
+<p>The final issue on the API side revolves around remastered tracks. The song <em>A Horse with No Name</em> is listed as <em>A Horse with No Name - 2006 Remastered Version</em> on Spotify but Apple Music doesn’t include that suffix even though they have the exact same version of the album. To fix this, if there are no results returned (again)  then I split the string by non-alphanumeric characters and just try the first part in the lookup. Again, this seems to work in 99% of cases.</p>
+
+<p>Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the <code>content_available</code> flag as I want to wake the app up and run some code but not actually display anything to the end user.</p>
+
+<h3 id="the-ios-app">The iOS App</h3>
+
+<p>The final piece of the puzzle is an iOS app with a fairly minimal interface<sup id="fnref:switch"><a href="#fn:switch" class="footnote">3</a></sup>…</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2017/music-sync.jpg" width="800" height="500" /></p>
+
+<p>The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an <code>MPMusicPlayerController</code> but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.</p>
+
+<p>That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “<a href="https://itun.es/gb/6K_2v"><em>Silent Tracks of Various Useful Lengths</em></a>” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music<sup id="fnref:silent"><a href="#fn:silent" class="footnote">4</a></sup>.</p>
+
+<p>Once a silent push is received, it starts to play the track but it also adds the 5 minute silent track to the queue. This is important as it prevents the background audio from terminating should I have a different length of music to Spotify or if a push is delayed due to network reasons. In essence, a normal track will be played followed by a track of silence whilst it waits for the next notification.</p>
+
+<p>The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time<sup id="fnref:clock"><a href="#fn:clock" class="footnote">5</a></sup>. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.</p>
+
+<p>For example, lets suppose John starts listening to <em>C’est La Vie</em> by B*Witched<sup id="fnref:classic"><a href="#fn:classic" class="footnote">6</a></sup> and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.</p>
+
+<p>Amazingly, this crazy system actually works and we are able to have our playlist synced and ad free on two completely separate streaming services. I built my portion of the project as an iOS app as Windows does not have access to Apple Music yet I play Rocket League on the PC; in order to actually hear the audio, I wear a single AirPod in my right ear underneath my Turtle Beach X10 Headset so I can hear the music but still get the audio from the game and Skype.</p>
+
+<p>It was only after we’d got it working that we realised we could have just set up some form of streaming radio server but that likely wouldn’t have been as much fun…</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:criteria">
+      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:polling">
+      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:switch">
+      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:silent">
+      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:clock">
+      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:classic">
+      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/01/18/apples-new-app-prices/">Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</a></h1>
+			
+			<time datetime="2017-01-18" pubdate=""><a href="/weblog/2017/01/18/apples-new-app-prices/">January 18, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p price point or drop it down to 49p. I was <a href="http://www.bbc.co.uk/news/technology-38650296">asked about this by BBC News</a> and gave this quote:</p>
+
+<blockquote>
+  <p>I don’t think many publishers will respond to that change. It’s just throwing money away and there’s no reason to give people in the UK a discount. I certainly won’t be discounting my own apps.</p>
+</blockquote>
+
+<p>I stick by that today as I don’t see why developers should be penalised for Apple adjusting to economic conditions; it is a change in price that UK users will get used to in the same way they did when the lowest tier changed from 59p to 69p and then again to 79p. This is especially true bearing in mind that the US App Store doesn’t have sales tax included whereas the UK does have VAT (so at current exchange rates a $0.99 app would work out around £0.96).</p>
+
+<p>The key thing though, and something I didn’t clock onto fully until looking again at the charts today, is that Alternative Price Tier A and B doesn’t apply just to the UK; they change prices in many places such as China, Australia, and Canada but maintain them in other places such as Japan and Denmark. If you went for Tier A you’d be reducing the price of your app by 50% in the UK but reducing it by a whopping 83% in China! There are also a few odd choices such as Canada’s pricing being $1.39 at Tier 1 (which is $0.99 in the USA) but it drops to $0.99 for both the A and B Alternate Tiers.</p>
+
+<p>If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.</p>
+
+<p>If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -406,98 +517,6 @@
     </li>
     <li id="fn:gmailaccount">
       <p>Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. <a href="#fnref:gmailaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/09/14/pocket-rocket-for-ios-10-with-imessage-app/">Pocket Rocket for iOS 10 (now with an iMessage app)</a></h1>
-			
-			<time datetime="2016-09-14" pubdate=""><a href="/weblog/2016/09/14/pocket-rocket-for-ios-10-with-imessage-app/">September 14, 2016</a></time>
-    	</header>
-    	<div>
-			<p>To coincide with the release of iOS 10, I’m happy to announce a free update is available for my app <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">Pocket Rocket</a> which includes several new features:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-ipad.jpg" width="800" height="500" /></p>
-
-<p>First of all, I’ve added an optional tile-based interface which uses an image from the article or a <a href="https://bendodson.com/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">random colour</a> if one isn’t available. You can long press a tile to get options for sharing, archiving, and deleting the article and tapping will open the article up in Safari or the in-app browser as per your settings. Next, I added the ability to share articles directly from Pocket Rocket; whether you are using the old list view or the new tile-based one, just long press on an article and you’ll be given a share option which uses the standard iOS share sheet so you can transfer the URL to any compatible app.</p>
-
-<p>Finally, I added an iOS 10 iMessage app so you can share articles directly within iMessage:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-imessage.jpg" width="800" height="500" /></p>
-
-<p>This was a really interesting feature for me as it let me get to grips with the new APIs that allow apps to hook into iMessage. There are a few interesting niggles for developers when writing these apps<sup id="fnref:niggles"><a href="#fn:niggles" class="footnote">1</a></sup> but on the whole it is fairly simple and includes a lot more power than I thought they would<sup id="fnref:imessagepower"><a href="#fn:imessagepower" class="footnote">2</a></sup>. With Pocket Rocket, you get a list of all of your articles; you can then tap to include them in your message and send them. Once received, you can tap to have the article open up in a webview directly within iMessage.</p>
-
-<p>I think iMessage apps are going to be a huge deal so I’m excited that Pocket Rocket is one of the first apps available on the iMessage store.</p>
-
-<p>You can <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">get Pocket Rocket for free on the App Store</a>. If you have any feature requests or feedback, please <a href="https://bendodson.com/contact/">get in touch</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:niggles">
-      <p>For example, there is no standard way of seeing when someone tapped a link which is… irritating. Instead you have to work out if a particular message is selected (which happens for a variety of reasons) and then be clever about what you present. <a href="#fnref:niggles" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:imessagepower">
-      <p>I’ve seen one app that lets you use the camera within iMessage - pretty cool! <a href="#fnref:imessagepower" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">Generating a random colour, with a seed, in Swift 3</a></h1>
-			
-			<time datetime="2016-09-10" pubdate=""><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">September 10, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
-
-<p>As each article is <code>UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
-
-<p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
-    
-    <span class="kd">var</span> <span class="nv">total</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="nb">Int</span><span class="p">(</span><span class="nb">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
-    <span class="p">}</span>
-    
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">r</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
-    
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">g</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
-    
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">b</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
-    
-    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="n">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
-
-<p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
-
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2016/random-color-with-seed.jpg" width="800" height="500" /></p>
-
-<p>As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:imessageapp">
-      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

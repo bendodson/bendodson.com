@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-03-05.css" />
+	<link rel="stylesheet" href="/styles-2019-05-21.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,70 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/10/26/drinkcoach/">DrinkCoach+</a></h1>
+			
+			<time datetime="2017-10-26" pubdate=""><a href="/weblog/2017/10/26/drinkcoach/">October 26, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app, <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+</a>, that I worked on over the summer:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/drink-coach.jpg" width="800" height="600" /></p>
+
+<p>I worked on DrinkCoach+ for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed for the Haringey Advisory Group on Alcohol (HAGA) and is designed to help people keep a track of their alcohol intake with measurable goals and monitor any events caused by drinking such as moodswings, cravings, or accidents. This is actually version 3.0 of the app with the previous versions having been created by a different developer. The old code was neither available or desireable and so I rebuilt the app from scratch using Swift 4.0 and the latest iOS SDKs to ensure it was future proofed for any future developer to work on.</p>
+
+<p>The app is optimised for all iPhone and iPad devices (including the iPhone X) and makes use of AutoLayout to scale perfectly across the growing number of screen resolutions and aspect ratios. In terms of functionality, there are a number of interesting technologies used in the app including:</p>
+
+<ul>
+  <li><strong>Local notifications:</strong> the app can notify you at certain times and even locations to help keep you on track with your goals. This was all done locally on the device so that notifications could be triggered without an internet connection or unreliable push notifications.</li>
+  <li><strong>Infographic generation:</strong> an infographic detailing how many calories and units you’ve consumed along with your total alcohol expenditure can be displayed in the app and shared as an image.</li>
+  <li><strong>Full customisation:</strong> the drinks in the app can be customised with specific units, calories, and pricing information so that they accurately reflect your usual tipple. Drinks can also be dragged and dropped so that your regular drinks are easier to access.</li>
+</ul>
+
+<p>It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ on the App Store</a> for free and learn more about it at <a href="http://www.drinkcoach.org.uk">drinkcoach.org.uk</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">Forcing left-to-right text in iOS localizations</a></h1>
+			
+			<time datetime="2017-10-04" pubdate=""><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">October 04, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
+
+<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard"><a href="#fn:manualstoryboard" class="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
+
+<p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="p">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
+
+<p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
+
+<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">paragraph</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="p">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="p">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></figure>
+
+<p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:manualstoryboard">
+      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -489,117 +553,6 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 </ul>
 
 <p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/thecheckedshirt">@thecheckedshirt</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">Syncing Apple Music with Spotify</a></h1>
-			
-			<time datetime="2017-01-25" pubdate=""><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">January 25, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called <em><a href="https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS">Ben Dodson’s Definitive Hits Collection</a></em> which contained nearly 45 hours of songs I thought were particularly good<sup id="fnref:criteria"><a href="#fn:criteria" class="footnote">1</a></sup>. On most Tuesday nights, my friend and <a href="http://connectingtohost.co.uk/">podcast</a> co-host <a href="http://johnwordsworth.com/">John Wordsworth</a> and I play a few rounds of <a href="https://kyloben.co.uk/games/rocket-league">Rocket League</a> and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:</p>
-
-<ol>
-  <li>As I use Apple Music now, I don’t pay for a Spotify premium account and so I have to put up with adverts (which are utterly terrible).</li>
-  <li>They aren’t in sync so we might be humming (or badly singing) along to a song that the other person isn’t listening to.</li>
-</ol>
-
-<p>Now I could just recreate the playlist in Apple Music to solve the Spotify ads issue but we still wouldn’t be in sync. As we’re both developers, we decided to remedy this problem with a fairly convoluted solution…</p>
-
-<p>The basic idea is that John acts as the host with the playlist on Spotify (on macOS) playing into his headphones. He has written an app that checks if the track has changed and, if it has, sends the track information to my server. I then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to look up the song and find the correct identifier which is then sent to an app on my iPhone via push notification to start the song playing on Apple Music.</p>
-
-<p>I’ll run through each piece and go over the challenges that were encountered.</p>
-
-<h3 id="retrieving-track-details-from-spotify">Retrieving track details from Spotify</h3>
-
-<p>I hadn’t heard of it before but Apple has provided a tool called <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html">Scripting Bridge</a> since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly<sup id="fnref:polling"><a href="#fn:polling" class="footnote">2</a></sup> to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.</p>
-
-<h3 id="finding-a-track-on-apple-music">Finding a track on Apple Music</h3>
-
-<p>The next step is for the server to take the information that has been sent and use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to try and find a match. This is fairly straightforward and a first draft would send a request like this:</p>
-
-<pre><code>https://itunes.apple.com/search?entity=song&amp;term=never+gonna+give+you+up+rick+astley&amp;country=gb
-</code></pre>
-
-<p>Unfortunately the iTunes API does not allow you to search multiple terms (i.e. <code>artist=rick+astley title=never+gonna+give+you+up</code>) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song <em>She Looks So Perfect</em> by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.</p>
-
-<p>The next issue I encountered involves the <a href="https://en.wikipedia.org/wiki/Romanization_of_Belarusian">Romanization of Belarusian</a>; the track <a href="https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013"><em>Solayoh</em></a> is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search <code>term=solayoh+alyona+lanskaya</code> then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.</p>
-
-<p>The final issue on the API side revolves around remastered tracks. The song <em>A Horse with No Name</em> is listed as <em>A Horse with No Name - 2006 Remastered Version</em> on Spotify but Apple Music doesn’t include that suffix even though they have the exact same version of the album. To fix this, if there are no results returned (again)  then I split the string by non-alphanumeric characters and just try the first part in the lookup. Again, this seems to work in 99% of cases.</p>
-
-<p>Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the <code>content_available</code> flag as I want to wake the app up and run some code but not actually display anything to the end user.</p>
-
-<h3 id="the-ios-app">The iOS App</h3>
-
-<p>The final piece of the puzzle is an iOS app with a fairly minimal interface<sup id="fnref:switch"><a href="#fn:switch" class="footnote">3</a></sup>…</p>
-
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2017/music-sync.jpg" width="800" height="500" /></p>
-
-<p>The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an <code>MPMusicPlayerController</code> but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.</p>
-
-<p>That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “<a href="https://itun.es/gb/6K_2v"><em>Silent Tracks of Various Useful Lengths</em></a>” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music<sup id="fnref:silent"><a href="#fn:silent" class="footnote">4</a></sup>.</p>
-
-<p>Once a silent push is received, it starts to play the track but it also adds the 5 minute silent track to the queue. This is important as it prevents the background audio from terminating should I have a different length of music to Spotify or if a push is delayed due to network reasons. In essence, a normal track will be played followed by a track of silence whilst it waits for the next notification.</p>
-
-<p>The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time<sup id="fnref:clock"><a href="#fn:clock" class="footnote">5</a></sup>. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.</p>
-
-<p>For example, lets suppose John starts listening to <em>C’est La Vie</em> by B*Witched<sup id="fnref:classic"><a href="#fn:classic" class="footnote">6</a></sup> and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.</p>
-
-<p>Amazingly, this crazy system actually works and we are able to have our playlist synced and ad free on two completely separate streaming services. I built my portion of the project as an iOS app as Windows does not have access to Apple Music yet I play Rocket League on the PC; in order to actually hear the audio, I wear a single AirPod in my right ear underneath my Turtle Beach X10 Headset so I can hear the music but still get the audio from the game and Skype.</p>
-
-<p>It was only after we’d got it working that we realised we could have just set up some form of streaming radio server but that likely wouldn’t have been as much fun…</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:criteria">
-      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:polling">
-      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:switch">
-      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:silent">
-      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:clock">
-      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:classic">
-      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/18/apples-new-app-prices/">Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</a></h1>
-			
-			<time datetime="2017-01-18" pubdate=""><a href="/weblog/2017/01/18/apples-new-app-prices/">January 18, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p price point or drop it down to 49p. I was <a href="http://www.bbc.co.uk/news/technology-38650296">asked about this by BBC News</a> and gave this quote:</p>
-
-<blockquote>
-  <p>I don’t think many publishers will respond to that change. It’s just throwing money away and there’s no reason to give people in the UK a discount. I certainly won’t be discounting my own apps.</p>
-</blockquote>
-
-<p>I stick by that today as I don’t see why developers should be penalised for Apple adjusting to economic conditions; it is a change in price that UK users will get used to in the same way they did when the lowest tier changed from 59p to 69p and then again to 79p. This is especially true bearing in mind that the US App Store doesn’t have sales tax included whereas the UK does have VAT (so at current exchange rates a $0.99 app would work out around £0.96).</p>
-
-<p>The key thing though, and something I didn’t clock onto fully until looking again at the charts today, is that Alternative Price Tier A and B doesn’t apply just to the UK; they change prices in many places such as China, Australia, and Canada but maintain them in other places such as Japan and Denmark. If you went for Tier A you’d be reducing the price of your app by 50% in the UK but reducing it by a whopping 83% in China! There are also a few odd choices such as Canada’s pricing being $1.39 at Tier 1 (which is $0.99 in the USA) but it drops to $0.99 for both the A and B Alternate Tiers.</p>
-
-<p>If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.</p>
-
-<p>If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?</p>
 
 		</div>
 	</article>
