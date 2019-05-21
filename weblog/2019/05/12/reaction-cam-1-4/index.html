@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Reaction Cam v1.4">
+		<meta property="og:description" content="Over the past few weeks I’ve been working on a big update for the Reaction Cam app I built for a client a few years ago. The v1.4 update includes a premium upgrade which unlocks extra features such as pausing video whilst you are reacting, headphone sound balancing, resizing the picture-in-picture reaction, and a whole lot more.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2019/05/12/reaction-cam-1-4/">
+		
+		<meta name="twitter:title" content="Reaction Cam v1.4">
+		<meta name="twitter:description" content="Over the past few weeks I’ve been working on a big update for the Reaction Cam app I built for a client a few years ago. The v1.4 update includes a premium upgrade which unlocks extra features such as pausing video whilst you are reacting, headphone sound balancing, resizing the picture-in-picture reaction, and a whole lot more.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2019-05-21.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Reaction Cam v1.4</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2019/05/12/reaction-cam-1-4/">Reaction Cam v1.4</a></h1>
+			
+			<time datetime="2019-05-12" pubdate=""><a href="/weblog/2019/05/12/reaction-cam-1-4/">May 12, 2019</a></time>
+    	</header>
+    	<div>
+			<p>Over the past few weeks I’ve been working on a big update for the Reaction Cam app I built for a client <a href="/weblog/2017/05/10/reaction-cam/">a few years ago</a>. The v1.4 update includes a premium upgrade which unlocks extra features such as pausing video whilst you are reacting, headphone sound balancing, resizing the picture-in-picture reaction, and a whole lot more.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/reaction-cam-updates.jpg" width="800" height="600" /></p>
+
+<p>The most interesting problem to solve was the ability to pause videos you are reacting to. Originally, when you reacted to a video the front-facing camera would record your reaction whilst the video played on your screen; it was then a fairly easy task of mixing the videos together (the one you were watching and your reaction) as they both started at the same time and would never be longer than the overall video length. With pausing, this changes for two reasons:</p>
+
+<ol>
+  <li>You need to keep track of every pause so you can stop the video and resume it at specific timepoints matched to your reaction recording</li>
+  <li>As cutting timed sections of a video and putting them into a <code>AVMutableComposition</code> leads to blank spaces where the video is paused, it was necessary to capture freeze frames at the point of pausing that could be displayed</li>
+</ol>
+
+<p>This was certainly a difficult task especially as the freeze frames needed to be pixel perfect with the paused video otherwise you’d get a weird jump. I was able to get it working whilst also building in a number of improvements and integrating in app purchases to make this the biggest update yet.</p>
+
+<p>I’m really pleased with the update and it looks like the large userbase is too with nearly 500 reviews rating it at 4 stars.</p>
+
+<p>If you haven’t checked it out, go and <a href="https://itunes.apple.com/us/app/reaction-cam/id1225289579?mt=8">download the free Reaction Cam app</a> from the App Store. You can remove the ads and unlock extra functionality such as the video reaction pausing by upgrading to the premium version for just £0.99/$0.99 - it’s a one-off charge, not a subscription.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2019/04/08/foodim/" title="Previous Article" class="pagination-previous">&laquo; Foodim</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

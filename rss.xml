@@ -6,9 +6,34 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 21 May 2019 16:27:03 +0100</pubDate>
-    <lastBuildDate>Tue, 21 May 2019 16:27:03 +0100</lastBuildDate>
+    <pubDate>Tue, 21 May 2019 16:48:49 +0100</pubDate>
+    <lastBuildDate>Tue, 21 May 2019 16:48:49 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Reaction Cam v1.4</title>
+      <link>https://bendodson.com/weblog/2019/05/12/reaction-cam-1-4/</link>
+      <pubDate>Sun, 12 May 2019 17:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2019/05/12/reaction-cam-1-4/</guid>
+      <description>&lt;p&gt;Over the past few weeks I’ve been working on a big update for the Reaction Cam app I built for a client &lt;a href=&quot;/weblog/2017/05/10/reaction-cam/&quot;&gt;a few years ago&lt;/a&gt;. The v1.4 update includes a premium upgrade which unlocks extra features such as pausing video whilst you are reacting, headphone sound balancing, resizing the picture-in-picture reaction, and a whole lot more.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/reaction-cam-updates.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The most interesting problem to solve was the ability to pause videos you are reacting to. Originally, when you reacted to a video the front-facing camera would record your reaction whilst the video played on your screen; it was then a fairly easy task of mixing the videos together (the one you were watching and your reaction) as they both started at the same time and would never be longer than the overall video length. With pausing, this changes for two reasons:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;You need to keep track of every pause so you can stop the video and resume it at specific timepoints matched to your reaction recording&lt;/li&gt;
+  &lt;li&gt;As cutting timed sections of a video and putting them into a &lt;code&gt;AVMutableComposition&lt;/code&gt; leads to blank spaces where the video is paused, it was necessary to capture freeze frames at the point of pausing that could be displayed&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This was certainly a difficult task especially as the freeze frames needed to be pixel perfect with the paused video otherwise you’d get a weird jump. I was able to get it working whilst also building in a number of improvements and integrating in app purchases to make this the biggest update yet.&lt;/p&gt;
+
+&lt;p&gt;I’m really pleased with the update and it looks like the large userbase is too with nearly 500 reviews rating it at 4 stars.&lt;/p&gt;
+
+&lt;p&gt;If you haven’t checked it out, go and &lt;a href=&quot;https://itunes.apple.com/us/app/reaction-cam/id1225289579?mt=8&quot;&gt;download the free Reaction Cam app&lt;/a&gt; from the App Store. You can remove the ads and unlock extra functionality such as the video reaction pausing by upgrading to the premium version for just £0.99/$0.99 - it’s a one-off charge, not a subscription.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Foodim</title>
@@ -1120,45 +1145,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;p&gt;Once the app was completed, I was asked to build &lt;a href=&quot;https://itunes.apple.com/gb/app/trimbook-update-manage-your/id1175348893?ls=1&amp;amp;mt=8&quot;&gt;TRIMbook&lt;/a&gt;, an app for barbers which allows them to manage their appointments and availability. Once again, the app was built with Swift and I was key in both designing the UI and ensuring the API was being used efficiently. I worked closely with the Trim Ventures team to publish both apps on the App Store and also to run wider beta tests via TestFlight prior to launch.&lt;/p&gt;
 
 &lt;p&gt;This was an interesting project to work on and I think the end product works well. You can &lt;a href=&quot;https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8&quot;&gt;download Booktrim from the App Store&lt;/a&gt; or &lt;a href=&quot;https://www.booktrim.com/&quot;&gt;learn more on their website&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Don't be the idea person</title>
-      <link>https://bendodson.com/weblog/2016/11/15/dont-be-the-idea-person/</link>
-      <pubDate>Tue, 15 Nov 2016 11:00:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/11/15/dont-be-the-idea-person/</guid>
-      <description>&lt;p&gt;I’ve been a fan of &lt;a href=&quot;http://dilbert.com/&quot;&gt;Dilbert&lt;/a&gt; since the mid-‘90s&lt;sup id=&quot;fnref:dilbert&quot;&gt;&lt;a href=&quot;#fn:dilbert&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and this week a lot of my friends (and some clients) sent me this strip from &lt;a href=&quot;http://dilbert.com/strip/2016-11-13&quot;&gt;November 13th&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://dilbert.com/strip/2016-11-13&quot;&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/dilbert.jpg&quot; width=&quot;800&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Like most things, it’s funny because it’s true. I get several of these types of pitches per week and they never fail to amuse me. I’ve &lt;a href=&quot;/weblog/2015/12/22/ios-developers-dont-work-for-free/&quot;&gt;written about this in detail&lt;/a&gt; previously but I still get people who believe they have the next big idea and that it is worth something.&lt;/p&gt;
-
-&lt;p&gt;Ideas are worth nothing. Absolutely nothing. It is implementation that is worth something.&lt;/p&gt;
-
-&lt;p&gt;The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week&lt;sup id=&quot;fnref:incomplete&quot;&gt;&lt;a href=&quot;#fn:incomplete&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS&lt;sup id=&quot;fnref:apple&quot;&gt;&lt;a href=&quot;#fn:apple&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. Then, once you’ve understood the process, either pay a developer for a basic MVP&lt;sup id=&quot;fnref:mvp&quot;&gt;&lt;a href=&quot;#fn:mvp&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; or pitch to investors to get enough funding to build one.&lt;/p&gt;
-
-&lt;p&gt;Don’t ever be “the idea person” and don’t ever expect other people to work for you for free. The world does not work that way.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:dilbert&quot;&gt;
-      &lt;p&gt;I have around 14 compendium books of the strips; my favourite is entitled “&lt;a href=&quot;https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/&quot;&gt;Still Pumped From Using The Mouse&lt;/a&gt;” (a reference to a calendar they were making about software developers). &lt;a href=&quot;#fnref:dilbert&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:incomplete&quot;&gt;
-      &lt;p&gt;“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” &lt;a href=&quot;#fnref:incomplete&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:apple&quot;&gt;
-      &lt;p&gt;“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. &lt;a href=&quot;#fnref:apple&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:mvp&quot;&gt;
-      &lt;p&gt;“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. &lt;a href=&quot;#fnref:mvp&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     
