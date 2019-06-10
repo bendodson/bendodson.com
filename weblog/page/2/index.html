@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-05-21.css" />
+	<link rel="stylesheet" href="/styles-2019-06-10.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,106 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2018/06/05/custom-intents-with-sirikit-ios-12/">Custom Intents with SiriKit on iOS 12</a></h1>
+			
+			<time datetime="2018-06-05" pubdate=""><a href="/weblog/2018/06/05/custom-intents-with-sirikit-ios-12/">June 05, 2018</a></time>
+    	</header>
+    	<div>
+			<p>Yesterday was the start of WWDC 2018 and one new feature in iOS 12 caught my attention amongst the many that were demonstrated:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/heysiritile.jpg" alt="Hey Siri, I lost my keys" width="800" height="450" /></p>
+
+<p>The demo was part of the new Shortcuts system and showed that apps could reveal some functionality to Siri, in this case the Tile app being able to search for your keys. Once the keynote was over and the documentation went live, I had a dig through and was intrigued to find a new “custom intent” within SiriKit exposed as <a href="https://developer.apple.com/documentation/sirikit/inobject?changes=latest_minor">INObject</a>. This is paired with a full demo app in the form of <a href="https://developer.apple.com/documentation/sirikit/accelerating_app_interactions_with_shortcuts?changes=latest_minor">Soup Chef</a> that shows how you can create these custom intents and use them as shortcuts for Siri. The most interesting thing about this is the following concept from the Soup Chef overview:</p>
+
+<blockquote>
+  <p>These types define the schema that Siri uses to identify requests the user makes; for example, “Order tomato soup with cheese.” The parameter combination for this example is: soup and options.</p>
+</blockquote>
+
+<p>When I dug into the code, I found this new <code>Intents.intentdefinition</code> file with which you can create custom intents complete with paramater binding.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-custom-intent.jpg" alt="Custom Intent creation with SiriKit" width="800" height="640" /></p>
+
+<p>This sure looks like the much anticipated ability to write your own Siri code!</p>
+
+<h3 id="what-this-isnt">What this isn’t</h3>
+
+<p>It turns out that isn’t the case. The new custom intents are for “Siri the all-seeing widget assistant” not for “Siri the thing you control with your voice”. These custom intents are designed to be created for very specific use cases and then exposed as shortcuts so that you can access them quickly from your lock screen, add them to a workflow, or activate them with a custom voice command <em>that the user creates</em>. Despite the schema being present and the documentation alluding to voice control, you cannot create your own custom commands such as <em>“Order tomato soup with cheese”</em>.</p>
+
+<p>By way of an example, I have my own app that I use to update my gaming time on my <a href="https://shyguys.io/recently-played/">ShyGuys gaming website</a> and I was hoping to be able to use this system to say <em>“Hey Siri, add 0.8 hours of gaming time to Skyrim on the Switch”</em>. In parameter based terms this would be <em>“add [hours:decimal] of gaming time to [title:string] on the [console:enum]”</em>. Unfortunately this is not yet possible although the system shows promise for this future.</p>
+
+<p>Before I go into how this system works and the intended use case, there is one extra thing in SiriKit that will please many developers; <a href="https://developer.apple.com/documentation/sirikit/media?changes=latest_minor">Media Intent Domain</a> which effectively allows you to use Siri to control media apps such as Spotify, Audible, or Overcast once the developers add the necessary updates.</p>
+
+<h3 id="custom-intents-and-shortcuts">Custom Intents and Shortcuts</h3>
+
+<p>If you are unable to write custom Siri scripts, what then is the point of the new custom intent? It is designed to give you a quick shortcut to commonly used tasks.</p>
+
+<p>In many ways, the Tile app is the perfect demo as it really only does one thing which is to find a specific object. The developers of Tile could create a custom intent of the sort “Find [tile:custom]” and when the app first launches on iOS 12 they can <em>donate</em> an <code>INIntent</code> for every Tile that you own; this basically registers the shortcut with the system so you are telling Siri<sup id="fnref:widgetmaster"><a href="#fn:widgetmaster" class="footnote">1</a></sup> that there is a “Find Keys” intent, “Find Remote” intent, “Find Dog” intent, etc. These intents are exposed to the user as Shortcuts both within the Settings app and in the new Shortcuts app<sup id="fnref:shortcutsapp"><a href="#fn:shortcutsapp" class="footnote">2</a></sup>. Every time you use the Tile app to find something, the specific intent for that device can be re-donated to the system which helps Siri learn and enables it to prompt you when you may need to do this. For example, if you open your Tile app every morning at 8am and tap on your “Keys” Tile to find it, then that “Find Keys” intent is donated to the system helping Siri realise it should probably show you that intent just before 8am. How does it show an intent? By displaying it as a Shortcut on your lock screen, notification centre, Apple Watch, or within the Shortcuts app where it can then be paired with other Shortcuts from other apps (i.e. you could have an “I’m running late” workflow which sends an iMessage to your boss, activates your find keys intent, loads up your route to work in Maps, and opens the garage ready for you to jump into your car).</p>
+
+<p>The piece that makes this slightly more confusing is that you can add a custom Siri voice command to a Shortcut. When Craig demonstrated saying <em>“Hey Siri, I lost my keys”</em>, that is really just a voice command on the “Find Keys” custom intent and is highly specific to that particular Tile; you’d have to record a new one if you wanted to find your TV Remote Tile. These <em>Shortcut Phrases</em> can be created either from within the Settings app or an app can present a view controller<sup id="fnref:inuiaddvoiceshortcutviewcontroller"><a href="#fn:inuiaddvoiceshortcutviewcontroller" class="footnote">3</a></sup> (complete with a suggested command text) that lets the user record their custom snippet.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-shortcut-phrases.jpg" width="800" height="600" /></p>
+
+<p>When a Shortcut is invoked (either by a Shortcut Phrase or by tapping on a Shortcut) it can either launch your app in the foreground or fire up your <code>INExtension</code> that will allow you to then return a custom UI directly within Siri. Both have their uses although again they are fairly specific.</p>
+
+<p>By way of an example, lets say I order a Chinese takeaway every Friday night<sup id="fnref:everyfriday"><a href="#fn:everyfriday" class="footnote">4</a></sup> via the Just Eat app. When I place my order, the app could create two custom intents:</p>
+
+<ol>
+  <li>A generic intent for the takeaway venue: <code>"Order from [name:string]"</code></li>
+  <li>A specific intent for my meal: <code>"Order [menuitems:array] from [name:string]"</code></li>
+</ol>
+
+<p>The first one could launch the Just Eat app and take me directly to the menu for the takeaway I order from so I can peruse and then place my order. The second one would instead be able to place my regular order without opening the app and even provide custom UI to perform an Apple Pay transaction within Siri.</p>
+
+<p>This is super powerful when combined with other Shortcuts as I could then record a Shortcut Phrase <em>“Hey Siri, it’s Friday Friday got to get down on Friday”<sup id="fnref:friday"><a href="#fn:friday" class="footnote">5</a></sup></em> which would turn on my living room lights, open up the Netflix app on my Apple TV<sup id="fnref:dream"><a href="#fn:dream" class="footnote">6</a></sup>, lock the front door, and place my Chinese order.</p>
+
+<p>The fact that these Shortcuts can be created silently by the app and then donated to Siri so it can then suggest them to you at certain points is also super interesting. Siri already knows to show the Just Eat app in my Siri App Suggestions on a Friday night so having it in the future automatically prompt me to place a repeat order will cut out some time. Once lots of apps add support for this it will be cool and perhaps a little scary to see what regular habits we have that we didn’t even realise.</p>
+
+<p>(<strong>Update:</strong> It turns out that apps have been creating Shortcuts since as far back as iOS 8. If you make use of <code>NSUserActivity</code> then these are donated automatically when calling <code>becomeCurrent()</code> or you can use the <code>donate(completion:)</code> method of <code>INInteraction</code> since iOS 10 to donate any of the standard SiriKit interactions such as starting a workout, initiating a voip call, or booking a ride. Any app that has done this, regardless of whether it has been updated for iOS 12, will show in the Shortcuts system.)</p>
+
+<p>To be clear, this system is not yet at the same stage as Alexa or Google Home. You can’t say “Order half crispy aromatic duck and some egg friend rice from Peking House” without first having already placed that order and assigning a Shortcut Phrase to it. However, the jump to that system suddenly doesn’t seem so far. Siri is already getting all of the data it needs thanks to the intents parameter builder and I can’t shake the feeling that these custom Shortcut Phrases are just going to be used to train Siri to lots of different words over the coming year. There is going to need to be some clever work to avoid collisions<sup id="fnref:collisions"><a href="#fn:collisions" class="footnote">7</a></sup> but on the whole I’m excited to see where this heads next.</p>
+
+<p>All of the topics above are due to be covered at WWDC today and tomorrow at the following sessions:</p>
+
+<ul>
+  <li>Tuesday 5pm: “Introduction to Siri Shortcuts” [<a href="https://developer.apple.com/videos/play/wwdc2018/211/">link</a>]</li>
+  <li>Wednesday 10am: “Building for Voice with Siri Shortcuts” [<a href="https://developer.apple.com/videos/play/wwdc2018/214/">link</a>]</li>
+  <li>Wednesday 11am: “Siri Shortcuts on the Siri Watch Face” [<a href="https://developer.apple.com/videos/play/wwdc2018/217/">link</a>]</li>
+</ul>
+
+<p>Also, don’t forget to check out the <a href="https://developer.apple.com/documentation/sirikit/accelerating_app_interactions_with_shortcuts?changes=latest_minor">Soup Chef</a> demo app.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:widgetmaster">
+      <p>Siri the widget master, not the voice. <a href="#fnref:widgetmaster" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:shortcutsapp">
+      <p>Which is not available in iOS 12 Beta 1. <a href="#fnref:shortcutsapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:inuiaddvoiceshortcutviewcontroller">
+      <p><a href="https://developer.apple.com/documentation/sirikit/inuiaddvoiceshortcutviewcontroller?changes=latest_minor"><code>INUIAddVoiceShortcutViewController</code></a> <a href="#fnref:inuiaddvoiceshortcutviewcontroller" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:everyfriday">
+      <p>And maybe Tuesday night as well. Sometimes. <a href="#fnref:everyfriday" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:friday">
+      <p><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0">It’s a classic.</a> <a href="#fnref:friday" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:dream">
+      <p>I can dream - this might be possible with the Shortcuts app but we won’t know until it appears in a later beta seed! <a href="#fnref:dream" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:collisions">
+      <p>Even saying “Hey Siri, use Just Eat to order half crispy aromatic duck and some egg fried rice from Peking House” isn’t great as an app name is not unique (only the app name on the App Store is and even then it can’t distinguish between “Just Eat”, “JustEat”, and “Just Eat!”). It’s a solvable problem but it does add an extra layer of difficulty. <a href="#fnref:collisions" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -516,63 +616,6 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
     </li>
     <li id="fn:ajax">
       <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">Proposal for an Erase Data Passcode</a></h1>
-			
-			<time datetime="2017-02-16" pubdate=""><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">February 16, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Last month, US-born NASA scientist Sidd Bikkannavar was detained by Customs and Border Patrol agents and told he would not be released <a href="http://www.theverge.com/2017/2/12/14583124/nasa-sidd-bikkannavar-detained-cbp-phone-search-trump-travel-ban">until he gave the agents the passcode to his phone</a>. They then took his phone (containing sensitive information from NASA) for 30 minutes before returning it and letting him go. He doesn’t know what information was taken at that point although popular consensus is that the entire device could be cloned within that time period.</p>
-
-<p>Many articles have been written about this but the one that caught my eye was by Quincy Larson of <a href="http://freecodecamp.com">freeCodeCamp</a> entitled “<em>I’ll never bring my phone on an international flight again. Neither should you.</em>”</p>
-
-<blockquote>
-  <p>When you travel internationally, you should leave your mobile phone and laptop at home. You can rent phones at most international airports that include data plans.</p>
-
-  <p>If you have family overseas, you can buy a second phone and laptop and leave them there at their home.</p>
-
-  <p>If you’re an employer, you can create a policy that your employees are not to bring devices with them during international travel. You can then issue them “loaner” laptops and phones once they enter the country.</p>
-
-  <p>Since most of our private data is stored in the cloud — and not on individual devices — you could also reset your phone to its factory settings before boarding an international flight. This process will also delete the keys necessary to unencrypt any residual data on your phone (iOS and Android fully encrypt your data).</p>
-
-  <p>This way, you could bring your physical phone with you, then reinstall apps and re-authenticate with them once you’ve arrived. If you’re asked to hand over your unlocked phone at the border, there won’t be any personal data on it. All your data will be safe behind the world-class security that Facebook, Google, Apple, Signal, and all these other companies use.</p>
-
-  <p>Is all this inconvenient? Absolutely. But it’s the only sane course of action when you consider the gravity of your data falling into the wrong hands.</p>
-</blockquote>
-
-<p>I’ve seen similar <a href="https://twitter.com/eagle8/status/831827723039416321">responses on Twitter</a> including one that you should use a burner phone with a different sim. This is all massively inconvenient, even if you follow the “wipe everything and reinstall once you’ve landed” method; bear in mind that the average iPhone takes hours to re-download all of its data<sup id="fnref:downloaddata"><a href="#fn:downloaddata" class="footnote">1</a></sup> at a point when you likely need to get maps, book transport, etc.</p>
-
-<p>My suggestion is much simpler; Apple (and other handset manufacturers) should introduce an <em>Erase Data Passcode</em>. This would be a user-defined passcode<sup id="fnref:touchid"><a href="#fn:touchid" class="footnote">2</a></sup> that when entered immediately performs a secure wipe of the device in a similar way in which the existing “Erase Data” option works<sup id="fnref:erasedata"><a href="#fn:erasedata" class="footnote">3</a></sup>. It would be expected that the device would disable power-off options during the secure wipe so that the only way to stop it would be to remove the battery (which in most circumstances would take considerable time at which point the data would be erased).</p>
-
-<p>This is a solution that would also work in other cases such as theft, muggings, or a jealous partner. Whilst Apple have long had the option to remotely wipe your device via iCloud.com this has become far less easy to do quickly if you have 2-Factor Authentication enabled<sup id="fnref:2fa"><a href="#fn:2fa" class="footnote">4</a></sup> as you may not have access to your own devices.</p>
-
-<p>I’ve filed a Radar on this issue (<a href="rdar://30553231">rdar://30553231</a>) and would urge any other Apple customers that deem this to be a good idea to duplicate it. Apple goes to extraordinary lengths to protect user data and fight for the privacy of its customers but all of that is pointless if you are compelled to give up the keys to your device<sup id="fnref:xkcd"><a href="#fn:xkcd" class="footnote">5</a></sup>. It is also pointless to have such powerful devices if we need to reset them every time we travel.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:downloaddata">
-      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:touchid">
-      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:erasedata">
-      <p>This is an option within <code>Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:2fa">
-      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:xkcd">
-      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-05-21.css" />
+	<link rel="stylesheet" href="/styles-2019-06-10.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,56 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2019/06/06/uktvplay-for-tvos/">UKTV Play for Apple TV</a></h1>
+			
+			<time datetime="2019-06-06" pubdate=""><a href="/weblog/2019/06/06/uktvplay-for-tvos/">June 06, 2019</a></time>
+    	</header>
+    	<div>
+			<p>In January 2019 I started working with a large brand on an exciting new project; bringing UKTV to the Apple TV.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/apps/uktv-app.jpg" width="800" height="400" /></p>
+
+<p>UKTV is a large media company that is most well known for the Dave channel along with Really, Yesterday, Drama, and Home. Whilst they have had apps on iOS, the web, and other TV set top boxes for some time, they were missing a presence on the Apple TV and contracted me as the sole developer to create their  tvOS app.</p>
+
+<p>Whilst several apps of this nature have been built with TVML templates, I built the app natively in Swift 5 in order that I could match the provided designs as close as possible and have full control over the trackpad on the Siri Remote. This necessitated building a custom navigation bar<sup id="fnref:navbarfocus"><a href="#fn:navbarfocus" class="footnote">1</a></sup> and several complex focus guides to ensure that logical items are selected as the user scrolls around<sup id="fnref:tvosfocus"><a href="#fn:tvosfocus" class="footnote">2</a></sup>. There are also custom components to ensure text can be scrolled perfectly within the settings pages, a code-based login system for easy user authentication, and realtime background blurring of the highlighted series as you scroll around the app.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/apps/uktv-categories.jpg" width="800" height="400" /></p>
+
+<p>Aside from the design, there were also complex integrations required in order to get video playback up and running due to the requirements for traditional TV style adverts and the use of FairPlay DRM on all videos as well as a wide-ranging and technical analytics setup. A comprehensive API was provided for fetching data but several calls are required to render each page due to the rich personalisation of recommended shows; this meant I needed to build a robust caching layer and also an intricate network library to ensure that items were loaded in such a way that duplicate recommendations could be cleanly removed. I also added all of the quality of life touches you expect for an Apple TV app such as Top Shelf integration to display personalised content recommendations on the home screen.</p>
+
+<p>The most exciting aspect for me though was the ability to work on the holy grail of app development; an invitation-only Apple technology. I had always been intrigued as to how some apps (such as BBC iPlayer or ITV Hub) were able to integrate into the TV app and it turns out it is done on an invitation basis much like the first wave of CarPlay compatible apps<sup id="fnref:carplay"><a href="#fn:carplay" class="footnote">3</a></sup>. I’m not permitted to go into the details of how it works, but I can say that a lot of effort was required from UKTV to provide their content in a way that could be used by Apple and that the integration I build had to be tested rigorously by Apple prior to submission to the App Store. One of the best moments in the project was when our contact at Apple said “please share my congrats to your tvOS developer; I don’t remember the last time a dev completed TV App integration in just 2 passes”.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/apps/uktv-taskmaster.jpg" width="800" height="449" alt="UKTV on the TV app" /></p>
+
+<p>All of this hard work seems to have paid off as the app has reached #1 in the App Store in just over 12 hours<sup id="fnref:numberone"><a href="#fn:numberone" class="footnote">4</a></sup>.</p>
+
+<p>I’ve really enjoyed working on this project and I’m looking forward to working with UKTV again in the future. You can download <a href="https://itunes.apple.com/gb/app/uktv-play-tv-on-demand/id596009592#?platform=appleTV">UKTV Play for Apple TV via the App Store</a> and read the <a href="https://corporate.uktv.co.uk/news/article/uktv-play-arrives-apple-tv/">official launch press release</a>.</p>
+
+<p><em>Please note: I did not work on the iOS version of UKTV Play. Whilst iTunes links both apps together, they are entirely separate codebases built by different teams. I was the sole developer on the tvOS version for Apple TV.</em></p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:navbarfocus">
+      <p>Replete with a gentle glimmer as each option is focussed on. <a href="#fnref:navbarfocus" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:tvosfocus">
+      <p>For example, the default behaviour you get with tvOS is that it will focus on the next item in the direction you are scrolling. If you scroll up and there is nothing above (as maybe the row above has less content) then it may skip a row, or worse, not scroll at all. This means there is a need for invisible guidelines throughout the app which refocus the remote to the destination that is needed. It seems a small thing, but it is the area in which tvOS most differs from other Apple platforms and is a particular pain point for iOS developers not familiar with the remote interaction of the Apple TV platform. <a href="#fnref:tvosfocus" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:carplay">
+      <p>CarPlay is now open to all developers building a specific subsection of apps as of iOS 13. <a href="#fnref:carplay" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:numberone">
+      <p>Which I believe makes it my fourth app to reach #1. <a href="#fnref:numberone" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -138,13 +188,13 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/hawkker.jpg" width="800" height="600" /></p>
 
-<p>To begin with Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on <a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a> and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.</p>
+<p>To begin with, Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on <a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a> and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.</p>
 
 <p>From October 2017 until September 2018, I acted as a liason and mediator between Hawkker and Hedgehog Lab as the app was developed. I performed code reviews, inspected contracts, acted as a constant point of contact to discuss functionality and ideas, and helped mediate where necessary. I was able to assist the agency by explaining to Zeid in depth why something may take x amount of time to develop but I was able to assist Zeid by pushing back at the agency when they were providing unrealistic timelines and also use my technical knowledge to speak with their developers directly rather than going through a non-technical account manager. My role can basically be boiled down to being someone able to translate between entrepreneur and technical staff whilst also providing my own suggestions based on my vast experience of app development.</p>
 
 <p>Towards the end of the project, I acted as a QA performing extensive testing and was able to provide code-level bug reports for Hedgehog Lab to work on.</p>
 
-<p>Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app and included a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.</p>
+<p>Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app to include a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.</p>
 
 <p>Whilst this is not the sort of work I usually do, it has opened my eyes to the need for some clients to have a consultant alongside them when engaging with large agencies. Had I not been a part of this process, I have no doubt that the apps would have been far poorer and that Zeid would not have had the wide knowledge he now has of how the apps actually function behind the scenes.</p>
 
@@ -414,106 +464,6 @@
     </li>
     <li id="fn:appstoresearch">
       <p>Which is a ridiculous name. Why not “iPad Only” and “iPad and iPhone”? If they were truly “iPhone Only” they shouldn’t even show up in the same way that Apple TV apps don’t appear on an iPad! <a href="#fnref:appstoresearch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2018/06/05/custom-intents-with-sirikit-ios-12/">Custom Intents with SiriKit on iOS 12</a></h1>
-			
-			<time datetime="2018-06-05" pubdate=""><a href="/weblog/2018/06/05/custom-intents-with-sirikit-ios-12/">June 05, 2018</a></time>
-    	</header>
-    	<div>
-			<p>Yesterday was the start of WWDC 2018 and one new feature in iOS 12 caught my attention amongst the many that were demonstrated:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/heysiritile.jpg" alt="Hey Siri, I lost my keys" width="800" height="450" /></p>
-
-<p>The demo was part of the new Shortcuts system and showed that apps could reveal some functionality to Siri, in this case the Tile app being able to search for your keys. Once the keynote was over and the documentation went live, I had a dig through and was intrigued to find a new “custom intent” within SiriKit exposed as <a href="https://developer.apple.com/documentation/sirikit/inobject?changes=latest_minor">INObject</a>. This is paired with a full demo app in the form of <a href="https://developer.apple.com/documentation/sirikit/accelerating_app_interactions_with_shortcuts?changes=latest_minor">Soup Chef</a> that shows how you can create these custom intents and use them as shortcuts for Siri. The most interesting thing about this is the following concept from the Soup Chef overview:</p>
-
-<blockquote>
-  <p>These types define the schema that Siri uses to identify requests the user makes; for example, “Order tomato soup with cheese.” The parameter combination for this example is: soup and options.</p>
-</blockquote>
-
-<p>When I dug into the code, I found this new <code>Intents.intentdefinition</code> file with which you can create custom intents complete with paramater binding.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-custom-intent.jpg" alt="Custom Intent creation with SiriKit" width="800" height="640" /></p>
-
-<p>This sure looks like the much anticipated ability to write your own Siri code!</p>
-
-<h3 id="what-this-isnt">What this isn’t</h3>
-
-<p>It turns out that isn’t the case. The new custom intents are for “Siri the all-seeing widget assistant” not for “Siri the thing you control with your voice”. These custom intents are designed to be created for very specific use cases and then exposed as shortcuts so that you can access them quickly from your lock screen, add them to a workflow, or activate them with a custom voice command <em>that the user creates</em>. Despite the schema being present and the documentation alluding to voice control, you cannot create your own custom commands such as <em>“Order tomato soup with cheese”</em>.</p>
-
-<p>By way of an example, I have my own app that I use to update my gaming time on my <a href="https://shyguys.io/recently-played/">ShyGuys gaming website</a> and I was hoping to be able to use this system to say <em>“Hey Siri, add 0.8 hours of gaming time to Skyrim on the Switch”</em>. In parameter based terms this would be <em>“add [hours:decimal] of gaming time to [title:string] on the [console:enum]”</em>. Unfortunately this is not yet possible although the system shows promise for this future.</p>
-
-<p>Before I go into how this system works and the intended use case, there is one extra thing in SiriKit that will please many developers; <a href="https://developer.apple.com/documentation/sirikit/media?changes=latest_minor">Media Intent Domain</a> which effectively allows you to use Siri to control media apps such as Spotify, Audible, or Overcast once the developers add the necessary updates.</p>
-
-<h3 id="custom-intents-and-shortcuts">Custom Intents and Shortcuts</h3>
-
-<p>If you are unable to write custom Siri scripts, what then is the point of the new custom intent? It is designed to give you a quick shortcut to commonly used tasks.</p>
-
-<p>In many ways, the Tile app is the perfect demo as it really only does one thing which is to find a specific object. The developers of Tile could create a custom intent of the sort “Find [tile:custom]” and when the app first launches on iOS 12 they can <em>donate</em> an <code>INIntent</code> for every Tile that you own; this basically registers the shortcut with the system so you are telling Siri<sup id="fnref:widgetmaster"><a href="#fn:widgetmaster" class="footnote">1</a></sup> that there is a “Find Keys” intent, “Find Remote” intent, “Find Dog” intent, etc. These intents are exposed to the user as Shortcuts both within the Settings app and in the new Shortcuts app<sup id="fnref:shortcutsapp"><a href="#fn:shortcutsapp" class="footnote">2</a></sup>. Every time you use the Tile app to find something, the specific intent for that device can be re-donated to the system which helps Siri learn and enables it to prompt you when you may need to do this. For example, if you open your Tile app every morning at 8am and tap on your “Keys” Tile to find it, then that “Find Keys” intent is donated to the system helping Siri realise it should probably show you that intent just before 8am. How does it show an intent? By displaying it as a Shortcut on your lock screen, notification centre, Apple Watch, or within the Shortcuts app where it can then be paired with other Shortcuts from other apps (i.e. you could have an “I’m running late” workflow which sends an iMessage to your boss, activates your find keys intent, loads up your route to work in Maps, and opens the garage ready for you to jump into your car).</p>
-
-<p>The piece that makes this slightly more confusing is that you can add a custom Siri voice command to a Shortcut. When Craig demonstrated saying <em>“Hey Siri, I lost my keys”</em>, that is really just a voice command on the “Find Keys” custom intent and is highly specific to that particular Tile; you’d have to record a new one if you wanted to find your TV Remote Tile. These <em>Shortcut Phrases</em> can be created either from within the Settings app or an app can present a view controller<sup id="fnref:inuiaddvoiceshortcutviewcontroller"><a href="#fn:inuiaddvoiceshortcutviewcontroller" class="footnote">3</a></sup> (complete with a suggested command text) that lets the user record their custom snippet.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-shortcut-phrases.jpg" width="800" height="600" /></p>
-
-<p>When a Shortcut is invoked (either by a Shortcut Phrase or by tapping on a Shortcut) it can either launch your app in the foreground or fire up your <code>INExtension</code> that will allow you to then return a custom UI directly within Siri. Both have their uses although again they are fairly specific.</p>
-
-<p>By way of an example, lets say I order a Chinese takeaway every Friday night<sup id="fnref:everyfriday"><a href="#fn:everyfriday" class="footnote">4</a></sup> via the Just Eat app. When I place my order, the app could create two custom intents:</p>
-
-<ol>
-  <li>A generic intent for the takeaway venue: <code>"Order from [name:string]"</code></li>
-  <li>A specific intent for my meal: <code>"Order [menuitems:array] from [name:string]"</code></li>
-</ol>
-
-<p>The first one could launch the Just Eat app and take me directly to the menu for the takeaway I order from so I can peruse and then place my order. The second one would instead be able to place my regular order without opening the app and even provide custom UI to perform an Apple Pay transaction within Siri.</p>
-
-<p>This is super powerful when combined with other Shortcuts as I could then record a Shortcut Phrase <em>“Hey Siri, it’s Friday Friday got to get down on Friday”<sup id="fnref:friday"><a href="#fn:friday" class="footnote">5</a></sup></em> which would turn on my living room lights, open up the Netflix app on my Apple TV<sup id="fnref:dream"><a href="#fn:dream" class="footnote">6</a></sup>, lock the front door, and place my Chinese order.</p>
-
-<p>The fact that these Shortcuts can be created silently by the app and then donated to Siri so it can then suggest them to you at certain points is also super interesting. Siri already knows to show the Just Eat app in my Siri App Suggestions on a Friday night so having it in the future automatically prompt me to place a repeat order will cut out some time. Once lots of apps add support for this it will be cool and perhaps a little scary to see what regular habits we have that we didn’t even realise.</p>
-
-<p>(<strong>Update:</strong> It turns out that apps have been creating Shortcuts since as far back as iOS 8. If you make use of <code>NSUserActivity</code> then these are donated automatically when calling <code>becomeCurrent()</code> or you can use the <code>donate(completion:)</code> method of <code>INInteraction</code> since iOS 10 to donate any of the standard SiriKit interactions such as starting a workout, initiating a voip call, or booking a ride. Any app that has done this, regardless of whether it has been updated for iOS 12, will show in the Shortcuts system.)</p>
-
-<p>To be clear, this system is not yet at the same stage as Alexa or Google Home. You can’t say “Order half crispy aromatic duck and some egg friend rice from Peking House” without first having already placed that order and assigning a Shortcut Phrase to it. However, the jump to that system suddenly doesn’t seem so far. Siri is already getting all of the data it needs thanks to the intents parameter builder and I can’t shake the feeling that these custom Shortcut Phrases are just going to be used to train Siri to lots of different words over the coming year. There is going to need to be some clever work to avoid collisions<sup id="fnref:collisions"><a href="#fn:collisions" class="footnote">7</a></sup> but on the whole I’m excited to see where this heads next.</p>
-
-<p>All of the topics above are due to be covered at WWDC today and tomorrow at the following sessions:</p>
-
-<ul>
-  <li>Tuesday 5pm: “Introduction to Siri Shortcuts” [<a href="https://developer.apple.com/videos/play/wwdc2018/211/">link</a>]</li>
-  <li>Wednesday 10am: “Building for Voice with Siri Shortcuts” [<a href="https://developer.apple.com/videos/play/wwdc2018/214/">link</a>]</li>
-  <li>Wednesday 11am: “Siri Shortcuts on the Siri Watch Face” [<a href="https://developer.apple.com/videos/play/wwdc2018/217/">link</a>]</li>
-</ul>
-
-<p>Also, don’t forget to check out the <a href="https://developer.apple.com/documentation/sirikit/accelerating_app_interactions_with_shortcuts?changes=latest_minor">Soup Chef</a> demo app.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:widgetmaster">
-      <p>Siri the widget master, not the voice. <a href="#fnref:widgetmaster" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:shortcutsapp">
-      <p>Which is not available in iOS 12 Beta 1. <a href="#fnref:shortcutsapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:inuiaddvoiceshortcutviewcontroller">
-      <p><a href="https://developer.apple.com/documentation/sirikit/inuiaddvoiceshortcutviewcontroller?changes=latest_minor"><code>INUIAddVoiceShortcutViewController</code></a> <a href="#fnref:inuiaddvoiceshortcutviewcontroller" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:everyfriday">
-      <p>And maybe Tuesday night as well. Sometimes. <a href="#fnref:everyfriday" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:friday">
-      <p><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0">It’s a classic.</a> <a href="#fnref:friday" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:dream">
-      <p>I can dream - this might be possible with the Shortcuts app but we won’t know until it appears in a later beta seed! <a href="#fnref:dream" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:collisions">
-      <p>Even saying “Hey Siri, use Just Eat to order half crispy aromatic duck and some egg fried rice from Peking House” isn’t great as an app name is not unique (only the app name on the App Store is and even then it can’t distinguish between “Just Eat”, “JustEat”, and “Just Eat!”). It’s a solvable problem but it does add an extra layer of difficulty. <a href="#fnref:collisions" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

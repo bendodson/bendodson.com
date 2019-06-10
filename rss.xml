@@ -6,9 +6,56 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Sat, 08 Jun 2019 12:54:42 +0100</pubDate>
-    <lastBuildDate>Sat, 08 Jun 2019 12:54:42 +0100</lastBuildDate>
+    <pubDate>Mon, 10 Jun 2019 11:23:25 +0100</pubDate>
+    <lastBuildDate>Mon, 10 Jun 2019 11:23:25 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>UKTV Play for Apple TV</title>
+      <link>https://bendodson.com/weblog/2019/06/06/uktvplay-for-tvos/</link>
+      <pubDate>Thu, 06 Jun 2019 17:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2019/06/06/uktvplay-for-tvos/</guid>
+      <description>&lt;p&gt;In January 2019 I started working with a large brand on an exciting new project; bringing UKTV to the Apple TV.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/uktv-app.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;UKTV is a large media company that is most well known for the Dave channel along with Really, Yesterday, Drama, and Home. Whilst they have had apps on iOS, the web, and other TV set top boxes for some time, they were missing a presence on the Apple TV and contracted me as the sole developer to create their  tvOS app.&lt;/p&gt;
+
+&lt;p&gt;Whilst several apps of this nature have been built with TVML templates, I built the app natively in Swift 5 in order that I could match the provided designs as close as possible and have full control over the trackpad on the Siri Remote. This necessitated building a custom navigation bar&lt;sup id=&quot;fnref:navbarfocus&quot;&gt;&lt;a href=&quot;#fn:navbarfocus&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and several complex focus guides to ensure that logical items are selected as the user scrolls around&lt;sup id=&quot;fnref:tvosfocus&quot;&gt;&lt;a href=&quot;#fn:tvosfocus&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. There are also custom components to ensure text can be scrolled perfectly within the settings pages, a code-based login system for easy user authentication, and realtime background blurring of the highlighted series as you scroll around the app.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/uktv-categories.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Aside from the design, there were also complex integrations required in order to get video playback up and running due to the requirements for traditional TV style adverts and the use of FairPlay DRM on all videos as well as a wide-ranging and technical analytics setup. A comprehensive API was provided for fetching data but several calls are required to render each page due to the rich personalisation of recommended shows; this meant I needed to build a robust caching layer and also an intricate network library to ensure that items were loaded in such a way that duplicate recommendations could be cleanly removed. I also added all of the quality of life touches you expect for an Apple TV app such as Top Shelf integration to display personalised content recommendations on the home screen.&lt;/p&gt;
+
+&lt;p&gt;The most exciting aspect for me though was the ability to work on the holy grail of app development; an invitation-only Apple technology. I had always been intrigued as to how some apps (such as BBC iPlayer or ITV Hub) were able to integrate into the TV app and it turns out it is done on an invitation basis much like the first wave of CarPlay compatible apps&lt;sup id=&quot;fnref:carplay&quot;&gt;&lt;a href=&quot;#fn:carplay&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. I’m not permitted to go into the details of how it works, but I can say that a lot of effort was required from UKTV to provide their content in a way that could be used by Apple and that the integration I build had to be tested rigorously by Apple prior to submission to the App Store. One of the best moments in the project was when our contact at Apple said “please share my congrats to your tvOS developer; I don’t remember the last time a dev completed TV App integration in just 2 passes”.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/uktv-taskmaster.jpg&quot; width=&quot;800&quot; height=&quot;449&quot; alt=&quot;UKTV on the TV app&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;All of this hard work seems to have paid off as the app has reached #1 in the App Store in just over 12 hours&lt;sup id=&quot;fnref:numberone&quot;&gt;&lt;a href=&quot;#fn:numberone&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;I’ve really enjoyed working on this project and I’m looking forward to working with UKTV again in the future. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/uktv-play-tv-on-demand/id596009592#?platform=appleTV&quot;&gt;UKTV Play for Apple TV via the App Store&lt;/a&gt; and read the &lt;a href=&quot;https://corporate.uktv.co.uk/news/article/uktv-play-arrives-apple-tv/&quot;&gt;official launch press release&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Please note: I did not work on the iOS version of UKTV Play. Whilst iTunes links both apps together, they are entirely separate codebases built by different teams. I was the sole developer on the tvOS version for Apple TV.&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:navbarfocus&quot;&gt;
+      &lt;p&gt;Replete with a gentle glimmer as each option is focussed on. &lt;a href=&quot;#fnref:navbarfocus&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:tvosfocus&quot;&gt;
+      &lt;p&gt;For example, the default behaviour you get with tvOS is that it will focus on the next item in the direction you are scrolling. If you scroll up and there is nothing above (as maybe the row above has less content) then it may skip a row, or worse, not scroll at all. This means there is a need for invisible guidelines throughout the app which refocus the remote to the destination that is needed. It seems a small thing, but it is the area in which tvOS most differs from other Apple platforms and is a particular pain point for iOS developers not familiar with the remote interaction of the Apple TV platform. &lt;a href=&quot;#fnref:tvosfocus&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:carplay&quot;&gt;
+      &lt;p&gt;CarPlay is now open to all developers building a specific subsection of apps as of iOS 13. &lt;a href=&quot;#fnref:carplay&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:numberone&quot;&gt;
+      &lt;p&gt;Which I believe makes it my fourth app to reach #1. &lt;a href=&quot;#fnref:numberone&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Reaction Cam v1.4</title>
@@ -99,13 +146,13 @@
 
 &lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/hawkker.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;To begin with Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on &lt;a href=&quot;/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/&quot;&gt;Chipp’d&lt;/a&gt; and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.&lt;/p&gt;
+&lt;p&gt;To begin with, Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on &lt;a href=&quot;/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/&quot;&gt;Chipp’d&lt;/a&gt; and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.&lt;/p&gt;
 
 &lt;p&gt;From October 2017 until September 2018, I acted as a liason and mediator between Hawkker and Hedgehog Lab as the app was developed. I performed code reviews, inspected contracts, acted as a constant point of contact to discuss functionality and ideas, and helped mediate where necessary. I was able to assist the agency by explaining to Zeid in depth why something may take x amount of time to develop but I was able to assist Zeid by pushing back at the agency when they were providing unrealistic timelines and also use my technical knowledge to speak with their developers directly rather than going through a non-technical account manager. My role can basically be boiled down to being someone able to translate between entrepreneur and technical staff whilst also providing my own suggestions based on my vast experience of app development.&lt;/p&gt;
 
 &lt;p&gt;Towards the end of the project, I acted as a QA performing extensive testing and was able to provide code-level bug reports for Hedgehog Lab to work on.&lt;/p&gt;
 
-&lt;p&gt;Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app and included a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.&lt;/p&gt;
+&lt;p&gt;Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app to include a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.&lt;/p&gt;
 
 &lt;p&gt;Whilst this is not the sort of work I usually do, it has opened my eyes to the need for some clients to have a consultant alongside them when engaging with large agencies. Had I not been a part of this process, I have no doubt that the apps would have been far poorer and that Zeid would not have had the wide knowledge he now has of how the apps actually function behind the scenes.&lt;/p&gt;
 
@@ -1127,24 +1174,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Booktrim for iPhone</title>
-      <link>https://bendodson.com/weblog/2016/12/12/booktrim/</link>
-      <pubDate>Mon, 12 Dec 2016 10:00:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2016/12/12/booktrim/</guid>
-      <description>&lt;p&gt;I’m very pleased to announce the launch of a recent client app I developed; &lt;a href=&quot;https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8&quot;&gt;Booktrim&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2016/booktrim.jpg&quot; width=&quot;800&quot; height=&quot;574&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.booktrim.com/&quot;&gt;Booktrim&lt;/a&gt; is a hassle-free app that allows customers to quickly browse barbershops, book a haircut, and pay right from their iPhone. I built the app in Swift and made use of AutoLayout to ensure that everything scales beautifully across the various iPhone Sizes and I worked closely with Trim Ventures’ API developer in order to ensure best practices. I was also instrumental in the design of the application and making sure that the user experience was optimised for making quick appointments on the go.&lt;/p&gt;
-
-&lt;p&gt;Once the app was completed, I was asked to build &lt;a href=&quot;https://itunes.apple.com/gb/app/trimbook-update-manage-your/id1175348893?ls=1&amp;amp;mt=8&quot;&gt;TRIMbook&lt;/a&gt;, an app for barbers which allows them to manage their appointments and availability. Once again, the app was built with Swift and I was key in both designing the UI and ensuring the API was being used efficiently. I worked closely with the Trim Ventures team to publish both apps on the App Store and also to run wider beta tests via TestFlight prior to launch.&lt;/p&gt;
-
-&lt;p&gt;This was an interesting project to work on and I think the end product works well. You can &lt;a href=&quot;https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8&quot;&gt;download Booktrim from the App Store&lt;/a&gt; or &lt;a href=&quot;https://www.booktrim.com/&quot;&gt;learn more on their website&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
