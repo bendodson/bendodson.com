@@ -6,9 +6,168 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Mon, 10 Jun 2019 11:23:25 +0100</pubDate>
-    <lastBuildDate>Mon, 10 Jun 2019 11:23:25 +0100</lastBuildDate>
+    <pubDate>Tue, 11 Jun 2019 13:58:54 +0100</pubDate>
+    <lastBuildDate>Tue, 11 Jun 2019 13:58:54 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Detecting text with VNRecognizeTextRequest in iOS 13</title>
+      <link>https://bendodson.com/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/</link>
+      <pubDate>Tue, 11 Jun 2019 09:30:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/</guid>
+      <description>&lt;p&gt;At WWDC 2017, Apple introduced the Vision framework alongside iOS 11. Vision was designed to help developers classify and identify things such as objects, horizontal planes, barcodes, facial expressions, and text. However, the text detection only recognized where text was displayed, not the actual content of the text&lt;sup id=&quot;fnref:textrecog11&quot;&gt;&lt;a href=&quot;#fn:textrecog11&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. With the introduction of iOS 13 at WWDC last week, this has thankfully been solved with some updates to the Vision framework adding genuine text recognition.&lt;/p&gt;
+
+&lt;p&gt;To test this out, I’ve built a very basic app that can recognise a Magic The Gathering card and retrieve some pertinent information from it, namely the title, set code, and collector number. Here’s an example card and the highlighted text I would like to retrieve.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/mtg-components.jpg&quot; alt=&quot;The components of a Magic card to extract with Vision&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You may be looking at this and thinking “that text is pretty small” or that there is a lot of other text around that could get in the way. This is not a problem for Vision.&lt;/p&gt;
+
+&lt;p&gt;To get started, we need to create a &lt;code&gt;VNRecognizeTextRequest&lt;/code&gt;. This is essentially a declaration of what we are hoping to find along with the set up for what language and accuracy we are looking for:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VNRecognizeTextRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handleDetectedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;recognitionLevel&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accurate&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;recognitionLanguages&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;en_GB&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;We give our request a completion handler (in this case a function that looks like &lt;code&gt;handleDetectedText(request: VNRequest?, error: Error?)&lt;/code&gt;) and then set some properties. You can choose between a &lt;code&gt;.fast&lt;/code&gt; or &lt;code&gt;.accurate&lt;/code&gt; recognition level which should be fairly self-explanatory; as I’m looking at quite small text along the bottom of the card, I’ve opted for higher accuracy although the faster option does seem to be good enough for larger pieces of text. I’ve also locked the request to British English as I know all of my cards match that locale; you can specify multiple languages but be aware that scanning may take slightly longer for each additional language.&lt;/p&gt;
+
+&lt;p&gt;There are two other properties which bear mentioning:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;customWords&lt;/code&gt;: you can provide an array of strings that will be used over the built-in lexicon. This is useful if you know you have some unusual words or if you are seeing misreadings. I’m not using it for this project but if I were to build a commercial scanner I would likely include some of the more difficult cards such as &lt;a href=&quot;https://scryfall.com/card/war/50/fblthp-the-lost&quot;&gt;Fblthp, the Lost&lt;/a&gt; to avoid issues.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;minimumTextHeight&lt;/code&gt;: this is a float that denotes a size, relative to the image height, at which text should no longer be recognized. If I was building this scanner to just get the card name then this would be useful for removing all of the other text that isn’t necessary but I need the smallest pieces so for now I’ve ignored this property. Obviously the speed would increase if you are ignoring smaller text.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now that we have our request, we need to use it with an image and a request handler like so:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;requests&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;textDetectionRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageRequestHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VNImageRequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cgImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cgImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;orientation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[:])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;DispatchQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;qos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInitiated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageRequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;perform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Error: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;I’m using an image direct from the camera or camera roll which I’ve converted from a &lt;code&gt;UIImage&lt;/code&gt; to a &lt;code&gt;CGImage&lt;/code&gt;. This is used in the &lt;code&gt;VNImageRequestHandler&lt;/code&gt; along with an orientation flag to help the request handler understand what text it should be recognizing. For the purposes of this demo, I’m always using my phone in portrait with cards that are in portrait so naturally I’ve chosen the orientation of &lt;code&gt;.right&lt;/code&gt;. Wait, what? It turns out camera orientation on your device is completely separate to the device rotation and is always deemed to be on the left (as it was determined the default for taking photos back in 2009 was to hold your phone in landscape). Of course, times have changed and we mostly shoot photos and video in portrait but the camera is still aligned to the left so we have to counteract this. I could write an entire article about this subject but for now just go with the fact that we are orienting to the right in this scenario!&lt;/p&gt;
+
+&lt;p&gt;Once our handler is set up, we open up a user initiated thread and try to perform our requests. You may notice that this is an array of requests and that is because you could try to pull out multiple pieces of data in the same pass (i.e. identifying faces and text from the same image). As long as there aren’t any errors, the callback we created with our request will be called once text is detected:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handleDetectedText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VNRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;ERROR: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;No text found&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;observation&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VNRecognizedTextObservation&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;observation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;topCandidates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;confidence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;observation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;boundingBox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;bp&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Our handler is given back our request which now has a results property. Each result is a &lt;code&gt;VNRecognizedTextObservation&lt;/code&gt; which itself has a number of candidates for us to investigate. You can choose to receive up to 10 candidates for each piece of recognized text and they are sorted in decreasing confidence order. This can be useful if you have some specific terminology that maybe the parser is getting incorrect on the first try but determines correctly later even if it is less confident. For this example, we only want the first result so we loop through &lt;code&gt;observation.topCandidates(1)&lt;/code&gt; and extract both the text and a confidence value. Whilst the candidate itself has different text and confidence, the bounding box is the same regardless and is provided by the observation. The bounding box uses a normalized coordinate system with the origin in the bottom-left so you’ll need to convert it if you want it to play nicely with UIKit.&lt;/p&gt;
+
+&lt;p&gt;That’s pretty much all there is to it. If I run a &lt;a href=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/carnage-tyrant.jpeg&quot;&gt;photo of a card&lt;/a&gt; through this, I’ll get the following result in just under 0.5s on an iPhone XS Max:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;Carnage Tyrant
+1.0
+(0.2654155572255453, 0.6955686092376709, 0.18710780143737793, 0.019915008544921786)
+
+
+Creature
+1.0
+(0.26317582130432127, 0.423814058303833, 0.09479101498921716, 0.013565015792846635)
+
+
+Dinosaur
+1.0
+(0.3883238156636556, 0.42648010253906254, 0.10021591186523438, 0.014479541778564364)
+
+
+Carnage Tyrant can&amp;#39;t be countered.
+1.0
+(0.26538230578104655, 0.3742666244506836, 0.4300231456756592, 0.024643898010253906)
+
+
+Trample, hexproof
+0.5
+(0.2610074838002523, 0.34864263534545903, 0.23053167661031088, 0.022259855270385653)
+
+
+Sun Empire commanders are well versed
+1.0
+(0.2619712670644124, 0.31746063232421873, 0.45549616813659666, 0.022649812698364302)
+
+
+in advanced martial strategy. Still, the
+1.0
+(0.2623249689737956, 0.29798884391784664, 0.4314465204874674, 0.021180248260498136)
+
+
+correct maneuver is usually to deploy the
+1.0
+(0.2620727062225342, 0.2772137641906738, 0.4592740217844645, 0.02083740234375009)
+
+
+giant, implacable death lizard.
+1.0
+(0.2610833962758382, 0.252408218383789, 0.3502468903859457, 0.023736238479614258)
+
+
+7/6
+0.5
+(0.6693102518717448, 0.23347826004028316, 0.04697717030843107, 0.018937730789184593)
+
+
+179/279 M
+1.0
+(0.24829587936401368, 0.21893787384033203, 0.08339192072550453, 0.011646795272827193)
+
+
+XLN: EN N YEONG-HAO HAN
+0.5
+(0.246867307027181, 0.20903720855712893, 0.19095951716105145, 0.012227916717529319)
+
+
+TN &amp;amp; 0 2017 Wizards of the Coast
+1.0
+(0.5428387324015299, 0.21133480072021482, 0.19361832936604817, 0.011657810211181618)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;That is incredibly good! Every piece of text that has been recognized has been separated into it’s own bounding box and returned as a result with most garnering a 1.0 confidence rating. Even the very small copyright text is mostly correct&lt;sup id=&quot;fnref:mostlycorrect&quot;&gt;&lt;a href=&quot;#fn:mostlycorrect&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. This was all done on a 3024x4032 image weighing in at 3.1MB and it would be even faster if I resized the image first. It is also worth noting that this process is far quicker on the new A12 Bionic chips that have a dedicated Neural Engine; it runs just fine on older hardware but will take seconds rather than milliseconds.&lt;/p&gt;
+
+&lt;p&gt;With the text recognized, the last thing to do is to pull out the pieces of information I want. I won’t put all the code here but the key logic is to iterate through each bounding box and determine the location so I can pick out the text in the lower left hand corner and that in the top left hand corner whilst ignoring anything further along to the right. The end result is a scanning app that can pull out exactly the information I need in under a second&lt;sup id=&quot;fnref:scryfall&quot;&gt;&lt;a href=&quot;#fn:scryfall&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/mtg-recognized.jpg&quot; alt=&quot;iOS app to detect Magic The Gathering cards with iOS 13 Vision Framework&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This example app is &lt;a href=&quot;https://github.com/bendodson/MTG-VNRecognizeTextRequest&quot;&gt;available on GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:textrecog11&quot;&gt;
+      &lt;p&gt;This seemed odd to be me at the time and still does now. Sure it was nice to be able to see a bounding box around individual bits of text but then having to pull them out and OCR them yourself was a pain. &lt;a href=&quot;#fnref:textrecog11&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:mostlycorrect&quot;&gt;
+      &lt;p&gt;Although, ironically, the confidence is 1.0 but it put TN instead of ™ and 0 instead of ©. A high confidence does not mean the parser is correct! &lt;a href=&quot;#fnref:mostlycorrect&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:scryfall&quot;&gt;
+      &lt;p&gt;In reality I only need the set number and set code; these can then be used with an API call to &lt;a href=&quot;https://scryfall.com/&quot;&gt;Scryfall&lt;/a&gt; to fetch all of the other possible information about this card including game rulings and monetary value. &lt;a href=&quot;#fnref:scryfall&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>UKTV Play for Apple TV</title>
@@ -1148,32 +1307,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
 &lt;p&gt;If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.&lt;/p&gt;
 
 &lt;p&gt;If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sporta 2.0</title>
-      <link>https://bendodson.com/weblog/2017/01/10/sporta/</link>
-      <pubDate>Tue, 10 Jan 2017 10:00:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2017/01/10/sporta/</guid>
-      <description>&lt;p&gt;I’m pleased to announce the release of a new client app I worked on late last year: &lt;a href=&quot;https://itunes.apple.com/gb/app/sporta/id945757003?mt=8&quot;&gt;Sporta&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/sporta.jpg&quot; width=&quot;800&quot; height=&quot;511&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Sporta is an app to keep football fans up to date with the latest matches via local notifications in advance of a game. You simply select which teams you are interested in from the Premier League, Sky Bet Championship, The FA Cup, the Scottish Premiership, or international matches featuring England, Scotland, Wales, or Ireland. You can then choose a reminder time prior to the match (from 5 minutes up to 1 week) and the app will automatically send you a local notification to remind you about the match with details of kick off time, the teams involved, and the venue.&lt;/p&gt;
-
-&lt;p&gt;I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline&lt;sup id=&quot;fnref:offline&quot;&gt;&lt;a href=&quot;#fn:offline&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Finally, I used the &lt;a href=&quot;http://realm.io&quot;&gt;Realm mobile database&lt;/a&gt; in order to store the match data and be able to quickly execute queries such as “&lt;em&gt;fetch all fixtures that contain teams x, y, and z as either the home or away team&lt;/em&gt;”.&lt;/p&gt;
-
-&lt;p&gt;This was a really fun project to work on and I’m particularly pleased with how reliable the notifications are. If you are a football fan, you can download &lt;a href=&quot;https://itunes.apple.com/gb/app/sporta/id945757003?mt=8&quot;&gt;Sporta on the App Store&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:offline&quot;&gt;
-      &lt;p&gt;The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). &lt;a href=&quot;#fnref:offline&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     
