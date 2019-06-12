@@ -41,6 +41,80 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/">Customising a website for iOS 13 / macOS Mojave Dark Mode</a></h1>
+			
+			<time datetime="2019-06-12" pubdate=""><a href="/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/">June 12, 2019</a></time>
+    	</header>
+    	<div>
+			<p>On our <a href="https://thecheckedshirt.com/episode-35"><em>The Checked Shirt</em></a> podcast yesterday, Jason and I were discussing the announcements at WWDC and in particular the new “Dark Mode” in iOS 13<sup id="fnref:darkmodehypo"><a href="#fn:darkmodehypo" class="footnote">1</a></sup>. One question Jason asked (as I’m running the iOS 13 beta) is how Safari treats websites; are the colours suddenly inverted?</p>
+
+<p>No. It turns out that just before the release of macOS Mojave last year, the W3C added a draft spec for <code>prefers-color-scheme</code> which is supported by Safari (from v12.1), Chrome (from v76), and Firefox (from v67). Since iOS 13 also includes a dark mode, Mobile Safari now supports this selector as well.</p>
+
+<p>There are three possible values:</p>
+
+<ul>
+  <li><code>no-preference</code> (evaluates as false): the default value if the device doesn’t support a mode or if the user hasn’t made a choice</li>
+  <li><code>light</code>: the user has chosen a light theme</li>
+  <li><code>dark</code>: the user has chosen a dark theme</li>
+</ul>
+
+<p>In practice, usage is insanely simple. For my own website, my CSS is entirely for the light theme and then I use <code>@media (prefers-color-scheme: dark)</code> to override the relevant pieces for my dark mode like such:</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span></span><span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">prefers-color-scheme</span><span class="o">:</span> <span class="nt">dark</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nt">body</span> <span class="p">{</span>
+        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+        <span class="k">background</span><span class="p">:</span> <span class="mh">#000</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nt">a</span> <span class="p">{</span>
+        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+        <span class="k">border-bottom</span><span class="p">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="kc">solid</span> <span class="mh">#fff</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nt">footer</span> <span class="nt">p</span> <span class="p">{</span>
+        <span class="k">color</span><span class="p">:</span> <span class="mh">#aaa</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nt">header</span> <span class="nt">h1</span><span class="o">,</span>
+    <span class="nt">header</span> <span class="nt">h2</span> <span class="p">{</span>
+        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nt">header</span> <span class="nt">h1</span> <span class="nt">a</span> <span class="p">{</span>
+        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nt">nav</span> <span class="nt">ul</span> <span class="nt">li</span> <span class="p">{</span>
+        <span class="k">background</span><span class="p">:</span> <span class="mh">#000</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">.</span><span class="nc">divider</span> <span class="p">{</span>
+        <span class="k">border-bottom</span><span class="p">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="kc">solid</span> <span class="mh">#ddd</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The result is a website that seamlessly matches the theme that the user has selected for their device:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/bendodson-darkmode.jpg" alt="Enabling Dark Mode on a website for iOS 13" width="800" height="600" /></p>
+
+<p>A nice touch with this is that the update is instantaneous, at least on iOS 13 and macOS Mojave with Safari; simply change the theme and the CSS will update without the need for a refresh!</p>
+
+<p>I haven’t seen many websites provide an automatic dark mode switcher but I have a feeling it will become far more popular once iOS 13 is released later this year.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:darkmodehypo">
+      <p>Of which I am rightly a hypocrite having complained for years about the never-ending demand for such a mode only to find that I quite like using it… <a href="#fnref:darkmodehypo" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">Detecting text with VNRecognizeTextRequest in iOS 13</a></h1>
 			
 			<time datetime="2019-06-11" pubdate=""><a href="/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">June 11, 2019</a></time>
@@ -536,43 +610,6 @@ TN &amp; 0 2017 Wizards of the Coast
     </li>
     <li id="fn:automaticallyadjusts">
       <p>Alternatively you can use the <code>adjustsFontForContentSizeCategory</code> boolean on <code>UILabel</code> and <code>UITextView</code>. <a href="#fnref:automaticallyadjusts" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2018/07/02/solcaster/">Solcaster</a></h1>
-			
-			<time datetime="2018-07-02" pubdate=""><a href="/weblog/2018/07/02/solcaster/">July 02, 2018</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app I’ve been working on for the last few weeks: <a href="https://itunes.apple.com/us/app/solcaster/id1387772375?ls=1&amp;mt=8">Solcaster</a>, the reverse weather app.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/solcaster.jpg" width="800" height="468" /></p>
-
-<p>I worked as the only iOS developer on Solcaster for Reidefine LLC working remotely from the UK. The app is an interesting concept in that it helps you find weather you might be looking for rather than telling you what the weather is like right now. When you open the app, you can choose the type of weather you are looking for, the area you are searching from, and the maximum amount of travelling you are willing to do. It then runs this through a sophisticated algorithm of my own design to show you where you can find that weather. This is useful for a wide range of people be they searching for sun, snow, storms, wind, or even rain<sup id="fnref:rain"><a href="#fn:rain" class="footnote">1</a></sup>!</p>
-
-<p>Once you’ve found an area you are interested in, Solcaster provides even more information including the previous and future weather<sup id="fnref:previousfuture"><a href="#fn:previousfuture" class="footnote">2</a></sup>, interesting hikes and climbs, and any events that may be in the local area. This is all powered by a number of APIs with an intelligent caching layer that makes requests as fast and responsive as possible. In addition, there are deeply customisable settings including temperature thresholds, wind speeds, snow accumulation, and of course the option to choose between Celsius and Fahrenheit.</p>
-
-<p>The app is written entirely in Swift 4.1 and is optimised for all iPhone sizes including the relatively new iPhone X. There are a number of interesting Apple technologies being used including iCloud sync which helps keep the settings the same across all of your devices as well as syncing your favourited trips and recent searches. Whilst the app is free to download, it is limited to searching within a 1 hour radius and does contain ads from Admob. For a single in-app purchase of $1.99, the ads are removed and the radius can be extended up to 8 hours. This unlock is also synced automatically through iCloud sync so that you don’t ever need to hit the “restore purchases” button that is ubiquitious with in-app purchases<sup id="fnref:restore"><a href="#fn:restore" class="footnote">3</a></sup>.</p>
-
-<p>I really enjoyed working with Reidefine LLC on this project and building something a little bit different to other weather apps on the market. You can download <a href="https://itunes.apple.com/us/app/solcaster/id1387772375?ls=1&amp;mt=8">Solcaster on the App Store</a> for free and learn more about it at <a href="https://www.solcaster.com">solcaster.com</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:rain">
-      <p>I’m currently in the middle of a heatwave in Leicester. Unfortunately my nearest rain is in 300 miles away in France… tempting! <a href="#fnref:rain" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:previousfuture">
-      <p>Why the previous weather? If you’re a snowboarder the amount of snow that fell yesterday is probably more important to you than the weather today. <a href="#fnref:previousfuture" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:restore">
-      <p>It is mandatory for iOS apps to provide a “restore purchases” button when using in-app purchases so that functionality can be restored should you delete and reinstall the app, restore from a backup, or update to a new device. My thinking was that it was far better to sync this information through the secure iCloud sync such that this unlocking is seamless. You can try it by downloading and upgrading Solcaster on one device then opening it on another; within a second or two of opening the app you’ll notice the ads pop away without the need to tap a button and sign in to your Apple account. Wonderful! <a href="#fnref:restore" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

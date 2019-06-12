@@ -6,9 +6,80 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 12 Jun 2019 01:39:20 +0100</pubDate>
-    <lastBuildDate>Wed, 12 Jun 2019 01:39:20 +0100</lastBuildDate>
+    <pubDate>Wed, 12 Jun 2019 10:23:28 +0100</pubDate>
+    <lastBuildDate>Wed, 12 Jun 2019 10:23:28 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Customising a website for iOS 13 / macOS Mojave Dark Mode</title>
+      <link>https://bendodson.com/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/</link>
+      <pubDate>Wed, 12 Jun 2019 09:30:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/</guid>
+      <description>&lt;p&gt;On our &lt;a href=&quot;https://thecheckedshirt.com/episode-35&quot;&gt;&lt;em&gt;The Checked Shirt&lt;/em&gt;&lt;/a&gt; podcast yesterday, Jason and I were discussing the announcements at WWDC and in particular the new “Dark Mode” in iOS 13&lt;sup id=&quot;fnref:darkmodehypo&quot;&gt;&lt;a href=&quot;#fn:darkmodehypo&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. One question Jason asked (as I’m running the iOS 13 beta) is how Safari treats websites; are the colours suddenly inverted?&lt;/p&gt;
+
+&lt;p&gt;No. It turns out that just before the release of macOS Mojave last year, the W3C added a draft spec for &lt;code&gt;prefers-color-scheme&lt;/code&gt; which is supported by Safari (from v12.1), Chrome (from v76), and Firefox (from v67). Since iOS 13 also includes a dark mode, Mobile Safari now supports this selector as well.&lt;/p&gt;
+
+&lt;p&gt;There are three possible values:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;no-preference&lt;/code&gt; (evaluates as false): the default value if the device doesn’t support a mode or if the user hasn’t made a choice&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;light&lt;/code&gt;: the user has chosen a light theme&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;dark&lt;/code&gt;: the user has chosen a dark theme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In practice, usage is insanely simple. For my own website, my CSS is entirely for the light theme and then I use &lt;code&gt;@media (prefers-color-scheme: dark)&lt;/code&gt; to override the relevant pieces for my dark mode like such:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;media&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;prefers-color-scheme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;dark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#fff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#fff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;border-bottom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;px&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#fff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;footer&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#aaa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;h2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#fff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#fff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;nav&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;divider&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;border-bottom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;px&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;#ddd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The result is a website that seamlessly matches the theme that the user has selected for their device:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2019/bendodson-darkmode.jpg&quot; alt=&quot;Enabling Dark Mode on a website for iOS 13&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A nice touch with this is that the update is instantaneous, at least on iOS 13 and macOS Mojave with Safari; simply change the theme and the CSS will update without the need for a refresh!&lt;/p&gt;
+
+&lt;p&gt;I haven’t seen many websites provide an automatic dark mode switcher but I have a feeling it will become far more popular once iOS 13 is released later this year.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:darkmodehypo&quot;&gt;
+      &lt;p&gt;Of which I am rightly a hypocrite having complained for years about the never-ending demand for such a mode only to find that I quite like using it… &lt;a href=&quot;#fnref:darkmodehypo&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Detecting text with VNRecognizeTextRequest in iOS 13</title>
@@ -1285,28 +1356,6 @@ _Did you enjoy this weekly roundup? Make sure you don&amp;#39;t miss one by subs
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</title>
-      <link>https://bendodson.com/weblog/2017/01/18/apples-new-app-prices/</link>
-      <pubDate>Wed, 18 Jan 2017 10:30:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2017/01/18/apples-new-app-prices/</guid>
-      <description>&lt;p&gt;Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p price point or drop it down to 49p. I was &lt;a href=&quot;http://www.bbc.co.uk/news/technology-38650296&quot;&gt;asked about this by BBC News&lt;/a&gt; and gave this quote:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I don’t think many publishers will respond to that change. It’s just throwing money away and there’s no reason to give people in the UK a discount. I certainly won’t be discounting my own apps.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I stick by that today as I don’t see why developers should be penalised for Apple adjusting to economic conditions; it is a change in price that UK users will get used to in the same way they did when the lowest tier changed from 59p to 69p and then again to 79p. This is especially true bearing in mind that the US App Store doesn’t have sales tax included whereas the UK does have VAT (so at current exchange rates a $0.99 app would work out around £0.96).&lt;/p&gt;
-
-&lt;p&gt;The key thing though, and something I didn’t clock onto fully until looking again at the charts today, is that Alternative Price Tier A and B doesn’t apply just to the UK; they change prices in many places such as China, Australia, and Canada but maintain them in other places such as Japan and Denmark. If you went for Tier A you’d be reducing the price of your app by 50% in the UK but reducing it by a whopping 83% in China! There are also a few odd choices such as Canada’s pricing being $1.39 at Tier 1 (which is $0.99 in the USA) but it drops to $0.99 for both the A and B Alternate Tiers.&lt;/p&gt;
-
-&lt;p&gt;If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.&lt;/p&gt;
-
-&lt;p&gt;If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?&lt;/p&gt;
 </description>
     </item>
     
