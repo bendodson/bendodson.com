@@ -1,3 +1,4 @@
+
 var countries = {
     ae: 'United Arab Emirates',
     ag: 'Antigua and Barbuda',
@@ -172,6 +173,7 @@ function transformToAssocArray( prmstr ) {
 }
 
 function performSearch() {
+    $('#appletvprompt').css('display', 'none');
     $('#results').html('');
     $('#results').append('<h3>Searching...</h3>');
 
@@ -212,6 +214,11 @@ function performSearch() {
                 dataType: 'json'
 
             }).done(function(data) {
+
+                if (entity == 'tvSeason' || entity == 'movie') {
+                    $('#appletvprompt').css('display', 'block');    
+                }
+                
 
                 $('#results').html('');
                 if (data.error) {

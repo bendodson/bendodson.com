@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-08-18.css" />
+	<link rel="stylesheet" href="/styles-2019-08-19.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,55 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/03/23/homekit-wink-and-canary/">HomeKit, Wink, and Canary</a></h1>
+			
+			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/homekit-wink-and-canary/">March 23, 2016</a></time>
+    	</header>
+    	<div>
+			<p>A couple of weeks ago I took the plunge and bought a <a href="https://canary.is">Canary</a>, an internet-connected personal security camera and air quality monitoring system. It has been working great so far and comes with a decent iPhone app that allows you to control the camera and have it activate automatically based on location. There are three different operating modes; armed, disarmed, and privacy. Whilst armed, you’ll get a notification when any activity is detected whereas disarmed will still record and store any video when there is motion but it won’t notify you<sup id="fnref:disarmed"><a href="#fn:disarmed" class="footnote">1</a></sup>. Privacy completely shuts off the camera and microphone.</p>
+
+<p>For the simple reason that I don’t want everything that happens in my living room whilst I’m in it to be streamed to a 3rd party server, I have set the iPhone app to switch between armed and privacy modes; this means that if nobody is in the house, it automatically arms itself but will shut off the camera and microphone as soon as a family member gets back home. The problem with this is that the camera is then in privacy mode when we go to bed as obviously our phones are still in the house; if somebody breaks in, we won’t have any video evidence. I can open the iOS app and manually arm the Canary but <a href="https://en.wikipedia.org/wiki/Sod%27s_law">Sod’s Law</a> means I’ll probably get an intruder on the night I forget to do that<sup id="fnref:morning"><a href="#fn:morning" class="footnote">2</a></sup>.</p>
+
+<p>My first thought was a scheduling system could be put in place to automatically arm and disarm the Canary if I’m in the house but the app doesn’t have that functionality and there is no public API. I then discovered that Canary have partnered with <a href="http://www.wink.com">Wink</a>, a platform that allows multiple devices to connect together so you can do things like have the lights turn on when motion is detected. This is really useful and does allow for the sort of scheduling I’d envisioned, but then I came up with a better solution; tying it into my existing HomeKit routine.</p>
+
+<p>I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">blogged about HomeKit before</a> and specifically about <a href="https://github.com/nfarina/homebridge">Homebridge</a> which allows you to get non-HomeKit enabled devices to work with the system. Canary is not a HomeKit enabled device and with no open API it wasn’t possible for me to write a plugin. However, Wink does have an <a href="https://github.com/KraigM/homebridge-wink">existing Homebridge plugin</a> allowing you to control most devices connected to Wink via HomeKit. Unfortunately, HomeKit doesn’t support cameras and so neither does that Wink plugin. Back to the drawing board!</p>
+
+<p>After a bit of tinkering, I realised I could just re-purpose an existing supported HomeKit protocol; locks. In HomeKit, locks are basic binary operators that are either “secured” or “unsecured”. This works perfectly for my Canary as I could denote it as a doorlock and then have “secured” equal “armed”, and “unsecured” equal “privacy”. After a few minutes, I managed to fork the existing plugin and create a <a href="https://github.com/bendodson/homebridge-wink">new version with this hack in place</a>. Once downloaded, you just need to add the following platform in your Homebridge config file:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;homebridge-wink.Wink&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Wink&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;client_id&quot;</span><span class="p">:</span> <span class="s2">&quot;quirky_wink_android_app&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;client_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;e749124ad386a5a35c0ab554a4f2c045&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-USERNAME-HERE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;YOUR-WINK-PASSWORD-HERE&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;hide_groups&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="nt">&quot;hide_ids&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><em>(Sidenote: most of my time tonight was spent trying to find a client_id and client_secret to use for the config. To get these, you usually have to email Wink with response times being around 7-10 days. I decided to rip it out of the Android app instead…)</em></p>
+
+<p>Once you restart Homebridge, any of your Canary devices in Wink should show up in HomeKit automatically. You can then say something like “Hey Siri, lock the living room” to arm the Canary. I personally like to use HomeKit scenes which allow me to control the Canary automatically with my existing “good morning” and “good night” Siri phrases. I find this much more reliable than a schedule as I already use these phrases every time I go to bed and wake up in order to turn my lights on and off (whereas a schedule might turn the camera on whilst we’re still awake or turn it off before we get up).</p>
+
+<p>Hopefully in the future we’ll see a public API for Canary and support for cameras in HomeKit so I can make this slightly less hacky but it works for now and means I’ll no longer forget to disable privacy mode at night. If you’re interested in trying this setup yourself, <a href="https://github.com/bendodson/homebridge-wink">check out the plugin on GitHub</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:disarmed">
+      <p>The use case for this is things like capturing a babies first steps, the sort of thing you could easily miss but can easily find in the 12-hour log of a practically always-on camera. <a href="#fnref:disarmed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:morning">
+      <p>And I often forget to turn it off when I get up which means my wife and I get a notification of me groggily letting the dogs out every morning. <a href="#fnref:morning" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -465,38 +514,6 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
     <li id="fn:storeidentifier">
       <strike>There is a new API to give you a storefront identifier (mine is "143444,29") but I'm not sure how you translate to a single language like "gb" for use with the iTunes Search API - if anyone can shed some light on that, please let me know!</strike>
       <p><strong>Update, 10th Mar 2016:</strong> Thanks to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for making me aware of the <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Link website</a> which contains a full list of the store identifiers and their respective ISO country codes which can be used with the iTunes Search API. I’ve <a href="https://bendodson.com/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">put together a simple class</a> to take care of this automatically. <br /><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code>s=143444</code> instead of <code>country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>. <a href="#fnref:storeidentifier" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/02/17/divide-8-drunkstarter-crowdfunding/">The Divide #8 - Drunkstarter: A discussion on crowdfunding</a></h1>
-			
-			<time datetime="2016-02-17" pubdate=""><a href="/weblog/2016/02/17/divide-8-drunkstarter-crowdfunding/">February 17, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 8th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss crowdfunding<sup id="fnref:crowdfunding"><a href="#fn:crowdfunding" class="footnote">1</a></sup> along with some of our favourite Kickstarter campaigns. We also check in on Mass Effect 4 pricing, dissect the iPhone <em>Code 53</em> issue, and wonder if Nicolas Cage movies can fix online dating.</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:crowdfunding">
-      <p>Chris hasn’t tried it, John loves it, and I hate it. <a href="#fnref:crowdfunding" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Introducing the Apple TV Shows &amp; Movies Artwork Finder">
+		<meta property="og:description" content="An updated finder for 16:9 artwork suitable for the TV app in iOS 12.3 and macOS Catalina.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2019/08/19/introducing-apple-tv-movies-artwork-finder/">
+		
+		<meta name="twitter:title" content="Introducing the Apple TV Shows &amp; Movies Artwork Finder">
+		<meta name="twitter:description" content="An updated finder for 16:9 artwork suitable for the TV app in iOS 12.3 and macOS Catalina.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3.amazonaws.com/weblog/2019/tbbt-before-after.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3.amazonaws.com/weblog/2019/tbbt-before-after.jpg">			
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2019-08-19.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Introducing the Apple TV Shows & Movies Artwork Finder</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2019/08/19/introducing-apple-tv-movies-artwork-finder/">Introducing the Apple TV Shows & Movies Artwork Finder</a></h1>
+			
+			<time datetime="2019-08-19" pubdate=""><a href="/weblog/2019/08/19/introducing-apple-tv-movies-artwork-finder/">August 19, 2019</a></time>
+    	</header>
+    	<div>
+			<p>With iOS 12.3, Apple unveiled a new design for the TV app featuring an industry unstandard 16:9 aspect ratio for cover artwork. This new design was used for both TV shows and movies which had been 1:1 squares and 3:2 portraits respectively. Apple doubled down on this design with the preview of macOS Catalina over the summer and the imminent removal of iTunes.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/apple-artwork-before-after.jpg" alt="Apple TV and Movie artwork: before and after iOS 12.3 redesign" width="800" height="800" /></p>
+
+<p>This new art style is notable for a few reasons. Firstly, it is almost the exact opposite to every other platform that uses portrait style artwork. Secondly, there must have been an insane amount of work done by the graphics department at Apple to get this ready. These aren’t just automated crops but brand new artwork treatments across tens of thousands of films and TV shows (which get this new treatment for each season).</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/tbbt-before-after.jpg" alt="The Big Bang Theory artwork before and after the iOS 12.3 TV update" width="800" height="350" /></p>
+
+<p>This update doesn’t extend to every single property on the store but the vast majority of popular titles seem to have been updated. For those that haven’t, Apple typically places the old rectangular artwork into the 16:9 frame with an aspect fit and then uses a blurred version of the artwork in aspect fill to produce a <a href="https://bendodson.s3.amazonaws.com/weblog/2019/brass-eye-apple-tv.png">passable thumbnail</a>.</p>
+
+<p>Since this new style debuted, I’ve received a lot of email asking when my <a href="/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> would be updated to support it. Unfortunately the old iTunes Search API does not provide this new artwork as it relates to the now defunct iTunes and a new API has not been forthcoming. Instead, I had to do some digging around and a bit of reverse engineering in order to bring you the <a href="/projects/apple-tv-movies-artwork-finder/"><strong>Apple TV Shows &amp; Movies Artwork Finder</strong></a>, a brand new tool designed specifically to fetch these new artwork styles.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/thewalkingdead.jpg" alt="The Walking Dead in Ben Dodson's Apple TV Shows Artwork Finder" width="800" height="400" /></p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/jurassicworld.jpg" alt="Jurassic World in Ben Dodson's Apple Movies Artwork Finder" width="800" height="400" /></p>
+
+<p>When you perform a search, you’ll receive results for TV shows and movies in the same way as searching within the TV app. For each show or film, you’ll get access to a huge array of artwork including such things as the new 16:9 cover art, the old iTunes style cover art, preview frames, full screen imagery and previews, transparent PNG logos, and even parallax files as used by the Apple TV. Clicking on a TV show will give you similar options for each season of the show.</p>
+
+<p>I’m not going to be open sourcing or detailing exactly how this works at present as the lack of a public API makes it far more likely that Apple would take issue with this tool. However, in broad terms your search is sent to my server<sup id="fnref:tracking"><a href="#fn:tracking" class="footnote">1</a></sup> to generate the necessary URLs and then your own browser makes the requests directly to Apple in order that IP blocking or rate limiting won’t affect the tool for everybody.</p>
+
+<p>As always, this artwork finder is completely free and I do not accept financial donations. If you want to thank me, you can <a href="/contact/">drop me an email</a>, <a href="https://twitch.tv/the_plainswalker/">follow me on Twitch</a>, check out <a href="/apps/">some of my iOS apps</a>, or share a link to the finder on your own blog.</p>
+
+<p><a href="/projects/apple-tv-movies-artwork-finder/">Apple TV Shows &amp; Movies Artwork Finder »</a></p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:tracking">
+      <p>I don’t log search terms in any way. I don’t even use basic analytics on my website as it is information I neither need nor want. I only know how many people use these tools due to the overwhelming number of emails I get about them every day! <a href="#fnref:tracking" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/" title="Previous Article" class="pagination-previous">&laquo; Customising a website for iOS 13 / macOS Mojave Dark Mode</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

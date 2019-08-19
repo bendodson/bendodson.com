@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-08-18.css" />
+	<link rel="stylesheet" href="/styles-2019-08-19.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,30 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/08/05/divide-15-virtually-reality/">The Divide #15 - Virtually Reality</a></h1>
+			
+			<time datetime="2016-08-05" pubdate=""><a href="/weblog/2016/08/05/divide-15-virtually-reality/">August 05, 2016</a></time>
+    	</header>
+    	<div>
+			<p>After a short summer break we’re back with <a href="http://thedivide.co.uk/episodes/15">episode 15 of The Divide podcast</a> which is all about virtual reality. John has a fancy new HTC Vive, I’m trying to convince myself I don’t need one, and Chris just wants to be on the bridge with Captain Janeway…</p>
+
+<p>You can get The Divide from these fine outlets:</p>
+
+<ul>
+  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
+  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
+  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
+  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
+</ul>
+
+<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -604,199 +628,6 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     </li>
     <li id="fn:rebuild">
       <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">Fetching RSS Feeds for Steam game updates</a></h1>
-			
-			<time datetime="2016-05-17" pubdate=""><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">May 17, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc"><a href="#fn:gamingpc" class="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
-
-<p>A quick search found <a href="http://www.getoffmalawn.com/steamnews">SteamNews</a>, a website that aims to turn Steam Community pages into RSS feeds. However, a lot of games are missing and it doesn’t solve the problem of fetching the feeds for my account; I’d still need to go through and add them manually. I also don’t like relying on 3rd party services which I can’t install on my own server.</p>
-
-<p>After a bit of exploring on the Steam pages, I found that most games have an RSS feed of their news page; this, combined with my publicly available profile page listing my owned games, has led me to write a basic PHP script to loop through my games, find the matching RSS feed, and then add it to my Feedbin account:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
-
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_USERNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;your username here&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;your password here&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;STEAM_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;your steam id here i.e. bendodson&#39;</span><span class="p">);</span>
-
-<span class="k">require</span> <span class="s1">&#39;vendor/autoload.php&#39;</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">Goutte\Client</span><span class="p">;</span>
-
-<span class="nv">$html</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://steamcommunity.com/id/&#39;</span><span class="o">.</span><span class="nx">STEAM_ID</span><span class="o">.</span><span class="s1">&#39;/games/?tab=all&#39;</span><span class="p">);</span>
-
-<span class="nv">$match</span> <span class="o">=</span> <span class="s2">&quot;rgGames = &quot;</span><span class="p">;</span>
-<span class="nv">$start</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$match</span><span class="p">)</span> <span class="o">+</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$match</span><span class="p">);</span>
-<span class="nv">$json</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nb">strtok</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$start</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="nv">$array</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
-
-<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-<span class="k">if</span> <span class="p">(</span><span class="nv">$games</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nv">$games</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="p">}</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nv">$unsubscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-0&#39;</span><span class="p">;</span>
-	<span class="nv">$subscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-1&#39;</span><span class="p">;</span>
-	<span class="nv">$failed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-x&#39;</span><span class="p">;</span>
-	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$unsubscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$subscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$failed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">))</span> <span class="p">{</span>
-		<span class="nv">$games</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$unsubscribed</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
-
-<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-<span class="nv">$index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$games</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">list</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subscribed</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="nv">$game</span><span class="p">);</span>
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$subscribed</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">);</span>
-	<span class="p">}</span>
-	<span class="nv">$index</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">echo</span> <span class="s1">&#39;Done&#39;</span><span class="p">;</span>
-
-
-<span class="k">function</span> <span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
-
-	<span class="nv">$key</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">?</span> <span class="nv">$id</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
-	<span class="nv">$feedURL</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">?</span> <span class="s1">&#39;http://steamcommunity.com/games/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/rss/&#39;</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
-	<span class="k">echo</span> <span class="s1">&#39;Subscribing to &#39;</span><span class="o">.</span><span class="nv">$feedURL</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">;</span>
-	<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;feed_url&quot;</span> <span class="o">=&gt;</span> <span class="nv">$feedURL</span><span class="p">]);</span>
-
-	<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Content-Type: application/json; charset=utf-8&#39;</span><span class="p">]);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">&#39;https://api.feedbin.com/v2/subscriptions.json&#39;</span><span class="p">);</span>    	
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERPWD</span><span class="p">,</span> <span class="nx">FEEDBIN_USERNAME</span> <span class="o">.</span> <span class="s2">&quot;:&quot;</span> <span class="o">.</span> <span class="nx">FEEDBIN_PASSWORD</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
-	<span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-	<span class="nv">$statusCode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
-	<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">404</span> <span class="o">&amp;&amp;</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
-
-		<span class="nv">$success</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
-
-		<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
-		<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;http://steamcommunity.com/app/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/allnews/&#39;</span><span class="p">);</span>
-		<span class="nv">$elements</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;#apphub_InitialContent .Announcement_Card:first-child&#39;</span><span class="p">);</span>
-		<span class="k">if</span> <span class="p">(</span><span class="nv">$elements</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$elements</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;data-modal-content-url&#39;</span><span class="p">);</span>
-			<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
-				<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-				<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Subscribe to RSS Feed&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);;</span>
-				<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
-					<span class="nv">$success</span> <span class="o">=</span> <span class="nx">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-				<span class="p">}</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-
-		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$success</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-			<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;-x&#39;</span><span class="p">;</span>
-			<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>			
-			<span class="k">echo</span> <span class="s1">&#39;Failed&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">;</span>
-		<span class="p">}</span>
-
-
-	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span><span class="p">)</span> <span class="p">{</span>
-
-		<span class="nv">$subscription</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
-		<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;feed_id&quot;</span> <span class="o">=&gt;</span> <span class="nv">$subscription</span><span class="o">-&gt;</span><span class="na">feed_id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Steam Games&quot;</span><span class="p">]);</span>
-		
-		<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Content-Type: application/json; charset=utf-8&#39;</span><span class="p">]);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">&#39;https://api.feedbin.com/v2/taggings.json&#39;</span><span class="p">);</span>    	
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERPWD</span><span class="p">,</span> <span class="nx">FEEDBIN_USERNAME</span> <span class="o">.</span> <span class="s2">&quot;:&quot;</span> <span class="o">.</span> <span class="nx">FEEDBIN_PASSWORD</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
-		<span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-		<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-
-	<span class="p">}</span>
-
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span> <span class="o">||</span> <span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-		<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;-1&#39;</span><span class="p">;</span>
-		<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
-		<span class="k">echo</span> <span class="s1">&#39;Subscribed!&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">;</span>
-		<span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-	<span class="p">}</span>
-
-	<span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>There is a fair amount going on in this script<sup id="fnref:goodpractice"><a href="#fn:goodpractice" class="footnote">2</a></sup> but the basic overview is:</p>
-
-<ol>
-  <li>
-    <p>Fetch a list of owned games from the public profile of the entered Steam ID. Most of the Steam pages are built with Javascript but this page fortunately has the entire library as JSON within the page. After a simple bit of extraction, I have a full list of every game owned.</p>
-  </li>
-  <li>
-    <p>Update a local text file<sup id="fnref:database"><a href="#fn:database" class="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
-  </li>
-  <li>
-    <p>Just to be a pain, Steam doesn’t have a standard format for it’s RSS feeds. Whilst most of them contain the game ID, some of them don’t. The first step is to go with the usual URL and then if that fails we’ll use <a href="https://github.com/FriendsOfPHP/Goutte">Goutte</a> to manually scrape the news page and then the first news item in order to grab the correct RSS feed. For example, the game ID of <a href="http://store.steampowered.com/app/240/">Counter-Strike: Source</a> is 240 so the script will first try <code>http://steamcommunity.com/games/240/rss/</code> but when that fails it’ll crawl through some pages to discover the correct URL is <code>http://steamcommunity.com/games/CSS/rss/</code> - there seems to be no logic as to which games have a shorthand name and which don’t and there isn’t an easy way to work out what the name would be.</p>
-  </li>
-  <li>
-    <p>Once I have a valid RSS feed, it is subscribed to via the <a href="https://github.com/feedbin/feedbin-api">Feedbin API</a>. As an added bonus, I also tag the subscription “Steam Games” so they show up all together in my RSS reader of choice, <a href="http://reederapp.com/mac/">Reeder</a>: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-feeds.jpg" width="800" height="559" alt="Steam RSS feeds in Reeder via Feedbin" /></p>
-  </li>
-  <li>
-    <p>Sometimes, the process might fail as in the case of <a href="http://steamcommunity.com/app/4540/allnews/">Titan Quest</a> which has no updates and thus no RSS feed. If that happens, the game is marked in the text file so that it can be safely ignored. In my own version of the script, I added Slack integration so I get a notification when a game fails so I check to see if it is a simple case of no feed or if my script has broken: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-slack.jpg" width="700" height="200" alt="Steam RSS feed failure in Slack" /></p>
-  </li>
-</ol>
-
-<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour"><a href="#fn:twentyfour" class="footnote">4</a></sup>.</p>
-
-<p>One idea I dabbled with was fetching the feeds myself and building a single large RSS feed that I could subscribe to. There are a few issues there though:</p>
-
-<ul>
-  <li>
-    <p>It would require me to constantly fetch each feed which could be huge if I own hundreds of games. I already pay for my RSS subscription service (Feedbin) so why add more complexity when they can do that for me?</p>
-  </li>
-  <li>
-    <p>I’d be sacrificing some customisation. If I’m not interested in a specific game, I can simply remove the feed from Feedbin. My script doesn’t check subscriptions so it won’t try and re-add it.</p>
-  </li>
-  <li>
-    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame"><a href="#fn:youngmansgame" class="footnote">5</a></sup>.</p>
-  </li>
-</ul>
-
-<p>I’ve put all of the <a href="https://github.com/bendodson/Steam-RSS">code on GitHub</a> in case it is of interest to anyone.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:gamingpc">
-      <p>The main reasons being far higher resolution and quality, cheaper games, and virtual reality. I’ll miss Xbox achievements but the boost in visual quality more than makes up for that (and with controller support and a SteamLink, I can still play most games on my sofa with an Xbox One Elite Controller). <a href="#fnref:gamingpc" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:goodpractice">
-      <p>Please do not look at this and assume this is any way good practice. This is a very fast and loose piece of coding in order to achieve a specific goal as quickly as possible; most of it will break if Steam update their HTML pages (very likely). <a href="#fnref:goodpractice" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:database">
-      <p>“Why not use a database” - I couldn’t be bothered to set one up. A basic text file does the job. <a href="#fnref:database" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:twentyfour">
-      <p>“Within the hour” - can you tell I’ve been rewatching 24 lately? <a href="#fnref:twentyfour" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:youngmansgame">
-      <p>When I was younger, that is exactly what I would have done but as I’ve grown older I’ve realised that hosting stuff for free is a massive headache. Much better to stick the code on GitHub and let people use it on their own if they want. <a href="#fnref:youngmansgame" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
