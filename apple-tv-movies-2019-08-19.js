@@ -133,7 +133,7 @@ function renderResults(results) {
             }            
             for (var j = 0; j < result.images.length; j++) {
                 var image = result.images[j];
-                html += '<li><a href="'+image.url+'" target="_blank">'+image.name+'</a> ('+image.width+'x'+image.height+'px)</li>';
+                html += '<li><a href="'+image.url+'" target="_blank">'+image.name+'</a> ('+image.width+'x'+image.height+'px • '+image.format+')</li>';
             }
             html += '</ul></div>';
                             
