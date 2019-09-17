@@ -6,7 +6,7 @@ function BeginGetStream(channelName, onSuccess)
   $.ajax({
     url: "https://api.twitch.tv/kraken/streams/" + channelName,
     dataType: 'json',
-    headers: { 'Client-ID': clientId },
+    headers: { 'Client-ID': clientId, 'Accept': 'application/vnd.twitchtv.v5+json' },
     success: function(channel)
     {
       onSuccess(channel);
@@ -27,7 +27,7 @@ function UpdateChannelData()
     }
   };
 
-  BeginGetStream("The_Plainswalker", callback);
+  BeginGetStream("18572113", callback);
 }
 
 function UpdateTwitchBanner()
