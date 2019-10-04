@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2019-08-19.css" />
+	<link rel="stylesheet" href="/styles-2019-10-04.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,48 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/11/15/dont-be-the-idea-person/">Don't be the idea person</a></h1>
+			
+			<time datetime="2016-11-15" pubdate=""><a href="/weblog/2016/11/15/dont-be-the-idea-person/">November 15, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been a fan of <a href="http://dilbert.com/">Dilbert</a> since the mid-‘90s<sup id="fnref:dilbert"><a href="#fn:dilbert" class="footnote">1</a></sup> and this week a lot of my friends (and some clients) sent me this strip from <a href="http://dilbert.com/strip/2016-11-13">November 13th</a>:</p>
+
+<p><a href="http://dilbert.com/strip/2016-11-13"><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dilbert.jpg" width="800" /></a></p>
+
+<p>Like most things, it’s funny because it’s true. I get several of these types of pitches per week and they never fail to amuse me. I’ve <a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">written about this in detail</a> previously but I still get people who believe they have the next big idea and that it is worth something.</p>
+
+<p>Ideas are worth nothing. Absolutely nothing. It is implementation that is worth something.</p>
+
+<p>The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week<sup id="fnref:incomplete"><a href="#fn:incomplete" class="footnote">2</a></sup>.</p>
+
+<p>If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS<sup id="fnref:apple"><a href="#fn:apple" class="footnote">3</a></sup>. Then, once you’ve understood the process, either pay a developer for a basic MVP<sup id="fnref:mvp"><a href="#fn:mvp" class="footnote">4</a></sup> or pitch to investors to get enough funding to build one.</p>
+
+<p>Don’t ever be “the idea person” and don’t ever expect other people to work for you for free. The world does not work that way.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:dilbert">
+      <p>I have around 14 compendium books of the strips; my favourite is entitled “<a href="https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/">Still Pumped From Using The Mouse</a>” (a reference to a calendar they were making about software developers). <a href="#fnref:dilbert" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:incomplete">
+      <p>“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” <a href="#fnref:incomplete" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:apple">
+      <p>“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. <a href="#fnref:apple" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:mvp">
+      <p>“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. <a href="#fnref:mvp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -484,33 +526,6 @@
   <ol>
     <li id="fn:featureby">
       <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/11/moonlight-tvos/">Moonlight tvOS for Apple TV 4</a></h1>
-			
-			<time datetime="2016-08-11" pubdate=""><a href="/weblog/2016/08/11/moonlight-tvos/">August 11, 2016</a></time>
-    	</header>
-    	<div>
-			<p>A few nights ago I was attempting to finish playing Day of the Tentacle on my PC via a Steam Link in my bedroom. For some reason, whilst it all loaded correctly, it was really jerky to play with a severe delay between controller input and response on the screen. As I’d been playing it successfully using GameStream on my Nvidia Shield, I assumed correctly that the issue was with the Steam Link.</p>
-
-<p>Not content to have to either a) go downstairs and use the Nvidia Shield or b) go to my office and play in front of my PC, I instead turned to my Apple TV as I knew there was an open source project called <a href="https://github.com/moonlight-stream/moonlight-ios">Moonlight</a> that basically lets you run the GameStream technology on non-Nvidia devices like iPhone or iPad. I assumed there would be a version for Apple TV but unfortunately it turns out that the AVFoundation frameworks have a <code>__TVOS_PROHIBITED</code> flag on some key components that prevent it from working. That’s when I found a fork by <a href="https://github.com/kevsmithpublic/moonlight-ios">kevsmithpublic</a> that enabled tvOS support with some code changes and requiring you to remove the <code>__TVOS_PROHIBITED</code> flags from the AVFoundation framework<sup id="fnref:frameworks"><a href="#fn:frameworks" class="footnote">1</a></sup>. Unfortunately, I wasn’t able to get it to pair to my PC and after a lot of searching it turns out that the fork was fairly old and hadn’t been updated to the latest specifications for GeForce Experience 3.0 and above.</p>
-
-<p>Determined not to be beaten, I forked the project and then set about updating the code to support the latest Moonlight connections. This ended up being similar to the point and click adventure I was trying to play as I needed to constantly fetch the Apple TV from my bedroom, connect it to my mac, build the project, unplug the Apple TV, reconnect it in my bedroom, and then test if it actually worked (all because I didn’t have a spare monitor in my office as I use an iMac). After several hours (and a few beers) I had the project working and can now stream my games at 1080p from my PC to my Apple TV 4 and play them using an MFI controller.</p>
-
-<p>You can <a href="https://github.com/bendodson/moonlight-tvos">download the project from my GitHub account</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:frameworks">
-      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
