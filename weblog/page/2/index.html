@@ -41,6 +41,37 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2019/02/27/hawkker/">Hawkker</a></h1>
+			
+			<time datetime="2019-02-27" pubdate=""><a href="/weblog/2019/02/27/hawkker/">February 27, 2019</a></time>
+    	</header>
+    	<div>
+			<p>If you’re an entrepreneur that is looking to get an app built by a large digital agency, how do you ensure you are staying on top of the project if you don’t have any knowledge of how app development works? That was the predicament that Zeid Bsaibes had when he came to me in September 2017 with his project Hawkker, an app to find the best independent food from street markets. He had ruled out working with a sole freelancer as the project was too large comprising of two apps, a website, and a complex server infrastructure, but he didn’t feel comfortable outsourcing to a large agency without some form of oversight. To that end, he hired me in a consultancy role to act as a sounding board for functionality whilst also being able to act as a middle-man between himself and the agency he chose, <a href="https://www.hedgehoglab.com">Hedgehog Lab</a>.</p>
+
+<p>The result is two apps, Hawkker and Hawkker Vendor, both now available on the App Store.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/hawkker.jpg" width="800" height="600" /></p>
+
+<p>To begin with, Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on <a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a> and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.</p>
+
+<p>From October 2017 until September 2018, I acted as a liason and mediator between Hawkker and Hedgehog Lab as the app was developed. I performed code reviews, inspected contracts, acted as a constant point of contact to discuss functionality and ideas, and helped mediate where necessary. I was able to assist the agency by explaining to Zeid in depth why something may take x amount of time to develop but I was able to assist Zeid by pushing back at the agency when they were providing unrealistic timelines and also use my technical knowledge to speak with their developers directly rather than going through a non-technical account manager. My role can basically be boiled down to being someone able to translate between entrepreneur and technical staff whilst also providing my own suggestions based on my vast experience of app development.</p>
+
+<p>Towards the end of the project, I acted as a QA performing extensive testing and was able to provide code-level bug reports for Hedgehog Lab to work on.</p>
+
+<p>Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app to include a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.</p>
+
+<p>Whilst this is not the sort of work I usually do, it has opened my eyes to the need for some clients to have a consultant alongside them when engaging with large agencies. Had I not been a part of this process, I have no doubt that the apps would have been far poorer and that Zeid would not have had the wide knowledge he now has of how the apps actually function behind the scenes.</p>
+
+<p>It has been a real pleasure working with Zeid and the rest of Hawkker over the past few years. I’d encourage you to check out the <a href="https://itunes.apple.com/gb/app/hawkker/id1370881088?mt=8">free eater app on the App Store</a> or recommend the <a href="https://hawkker.com/vendors/">vendor website</a> to your favourite street food sellers. You can also learn more about the entire platform at <a href="https://hawkker.com/">hawkker.com</a>.</p>
+
+<p>If you are considering hiring a large agency to deliver your product, I would strongly advise hiring a consultant to sit in on meetings and keep track of the development process. I’d obviously like you to choose me (you can <a href="/contact/">contact me</a> to find out more) but having any technical consultant along with you is going to make the process far easier and help you navigate the sometimes awkward world of agency development.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2018/11/12/drinkcoach-updates/">DrinkCoach Updates</a></h1>
 			
 			<time datetime="2018-11-12" pubdate=""><a href="/weblog/2018/11/12/drinkcoach-updates/">November 12, 2018</a></time>
@@ -511,86 +542,6 @@
   <ol>
     <li id="fn:manualstoryboard">
       <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">MPMediaItem+CanAddToLibrary.swift</a></h1>
-			
-			<time datetime="2017-07-19" pubdate=""><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">July 19, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Since iOS 9.3 it has been possible to <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">add Apple Music tracks to the media library</a> as such:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">library</span> <span class="p">=</span> <span class="bp">MPMediaLibrary</span><span class="p">()</span>
-<span class="n">library</span><span class="p">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">withProductID</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-	<span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-		<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
-	<span class="p">}</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift"><a href="#fn:mpmediaitemswift" class="footnote">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
-<span class="kd">import</span> <span class="nc">MediaPlayer</span>
-
-<span class="kd">extension</span> <span class="bp">MPMediaItem</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nv">canAddToLibrary</span><span class="p">:</span> <span class="nb">Bool</span> <span class="p">{</span>
-        <span class="kd">let</span> <span class="nv">id</span> <span class="p">=</span> <span class="bp">MPMediaPropertyPredicate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">persistentID</span><span class="p">,</span> <span class="n">forProperty</span><span class="p">:</span> <span class="n">MPMediaItemPropertyPersistentID</span><span class="p">)</span>
-        <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">(</span><span class="n">filterPredicates</span><span class="p">:</span> <span class="p">[</span><span class="n">id</span><span class="p">])</span>
-        <span class="kd">let</span> <span class="nv">count</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">?.</span><span class="bp">count</span> <span class="p">??</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="bp">count</span> <span class="p">==</span> <span class="mi">0</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></figure>
-
-<p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code>MPMediaQuery</code>. Unfortunately you can’t search on  the <code>MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist"><a href="#fn:playlist" class="footnote">2</a></sup> by listening to the <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code>nowPlayingItem</code> on my <code>MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">var</span> <span class="nv">player</span> <span class="p">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
-
-<span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-    
-    <span class="n">player</span><span class="p">.</span><span class="n">beginGeneratingPlaybackNotifications</span><span class="p">()</span>
-    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">playbackStateDidChange</span><span class="p">),</span> <span class="n">name</span><span class="p">:</span> <span class="p">.</span><span class="n">MPMusicPlayerControllerNowPlayingItemDidChange</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-<span class="p">}</span>
-
-
-<span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">playbackStateDidChange</span><span class="p">()</span> <span class="p">{</span>
-    
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">player</span><span class="p">.</span><span class="n">nowPlayingItem</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-
-    <span class="c1">// at this point we do not know if the track can be added - any UI for adding should be hidden</span>
-
-    <span class="k">if</span> <span class="n">item</span><span class="p">.</span><span class="n">canAddToLibrary</span> <span class="p">{</span>
-    	<span class="c1">// show your &quot;Add to library&quot; button</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    	<span class="c1">// show some UI to explain &quot;Already in library&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for <code>MPMusicPlayerControllerPlaybackStateDidChange</code> but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> works consistently and will still yield an <code>MPMediaItem</code> with which to work with.</p>
-
-<p><strong>IMPORTANT:</strong> The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!)</p>
-
-<p><a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">Checkout the <code>MPMediaItem+CanAddToLibrary</code> Swift extension on GitHub</a></p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:mpmediaitemswift">
-      <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:playlist">
-      <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

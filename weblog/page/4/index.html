@@ -41,6 +41,35 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/01/10/sporta/">Sporta 2.0</a></h1>
+			
+			<time datetime="2017-01-10" pubdate=""><a href="/weblog/2017/01/10/sporta/">January 10, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app I worked on late last year: <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/apps/sporta.jpg" width="800" height="511" /></p>
+
+<p>Sporta is an app to keep football fans up to date with the latest matches via local notifications in advance of a game. You simply select which teams you are interested in from the Premier League, Sky Bet Championship, The FA Cup, the Scottish Premiership, or international matches featuring England, Scotland, Wales, or Ireland. You can then choose a reminder time prior to the match (from 5 minutes up to 1 week) and the app will automatically send you a local notification to remind you about the match with details of kick off time, the teams involved, and the venue.</p>
+
+<p>I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline<sup id="fnref:offline"><a href="#fn:offline" class="footnote">1</a></sup>. Finally, I used the <a href="http://realm.io">Realm mobile database</a> in order to store the match data and be able to quickly execute queries such as “<em>fetch all fixtures that contain teams x, y, and z as either the home or away team</em>”.</p>
+
+<p>This was a really fun project to work on and I’m particularly pleased with how reliable the notifications are. If you are a football fan, you can download <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta on the App Store</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:offline">
+      <p>The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). <a href="#fnref:offline" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/12/12/booktrim/">Booktrim for iPhone</a></h1>
 			
 			<time datetime="2016-12-12" pubdate=""><a href="/weblog/2016/12/12/booktrim/">December 12, 2016</a></time>
@@ -472,41 +501,6 @@
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/23/tips-for-remote-working/">Tips for Remote Working</a></h1>
-			
-			<time datetime="2016-08-23" pubdate=""><a href="/weblog/2016/08/23/tips-for-remote-working/">August 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently asked by <a href="http://inc.com/">Inc.com</a> to contribute to a feature asking several successful remote workers to share their favourite tips and tools to sustain productivity when working remotely. You can <a href="http://www.inc.com/stacey-macnaught/successful-remote-workers-share-their-productivity-secrets.html">read the full article on their website</a> but I’ve also put their questions and my answers below:</p>
-
-<h3 id="how-long-have-you-worked-remotely">How long have you worked remotely?</h3>
-
-<blockquote>
-  <p>Around 6 years</p>
-</blockquote>
-
-<h3 id="what-does-a-typical-day-look-like-for-you">What does a typical day look like for you?</h3>
-
-<blockquote>
-  <p>I’ll wake up and go and deal with my dogs first thing around 6.30am whilst getting breakfast ready for my wife. Once she has left, I’ll read and deal with any overnight emails before doing a concentrated burst of work until around 1pm. After lunch, I’ll typically go for a walk and do a bit more work before playing some video games on my PC before my wife gets home. We’ll then walk the dogs, cook some dinner, and generally watch TV. Once she falls asleep, I’ll either do some more work or play some video games depending on how busy my schedule is.</p>
-</blockquote>
-
-<h3 id="whats-the-one-tip-or-tool-youd-give-to-anyone-looking-to-get-started-remote-working-to-keep-productive">What’s the one tip or tool you’d give to anyone looking to get started remote working to keep productive?</h3>
-
-<blockquote>
-  <p>Develop a schedule and stick to it. The hardest thing in the world is finding the motivation to start on a new project but once you’ve done 10 minutes of work you’ll be raring to go on the next 10 minutes and the next. To work remotely, you need the self-control to work when you don’t want to, the passion in your work to keep going, and the common sense to know when a 30 minute break is going to actually help rather than hinder you.</p>
-</blockquote>
-
-<blockquote>
-  <p>With regards to tools, I can strongly recommend <a href="http://cushionapp.com/">Cushion</a> as an incredible way of managing your schedule, invoices, and expenses; it’ll make sure you don’t get overbooked (a big no-no) and also help you manage your finances better.</p>
-</blockquote>
 
 		</div>
 	</article>
