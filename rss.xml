@@ -6,9 +6,176 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Tue, 11 Feb 2020 22:36:52 +0000</pubDate>
-    <lastBuildDate>Tue, 11 Feb 2020 22:36:52 +0000</lastBuildDate>
+    <pubDate>Sat, 29 Feb 2020 11:38:24 +0000</pubDate>
+    <lastBuildDate>Sat, 29 Feb 2020 11:38:24 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Side Project #2: (Feed Me) Seymour</title>
+      <link>https://bendodson.com/weblog/2020/02/28/seymour/</link>
+      <pubDate>Fri, 28 Feb 2020 19:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2020/02/28/seymour/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is part of a &lt;a href=&quot;/sideprojects/&quot;&gt;monthly series of blog posts&lt;/a&gt; in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; &lt;a href=&quot;https://bendodson.s3.amazonaws.com/butitdoesrun.jpg&quot;&gt;it just needs to run&lt;/a&gt;!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve cheated slightly this month by working on two side projects; a simple iOS app and a SwiftUI watchOS app. The Apple Watch app isn’t quite ready yet so instead I’m going to show you “Seymour”, an app that sends me push notifications when relevant articles are posted online.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2020/seymour.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;the-problem&quot;&gt;The Problem&lt;/h3&gt;
+
+&lt;p&gt;I’m travelling to The Happiest Place On Earth™ next week and as I’m staying in a Disney hotel I was able to book fastpasses for rides 60 days in advance. The issue is that a new ride, &lt;a href=&quot;https://www.disneyworld.eu/attractions/hollywood-studios/mickey-minnies-runaway-railway/&quot;&gt;Mickey &amp;amp; Minnie’s Runaway Railway&lt;/a&gt;, is due to open whilst I’m there but fastpasses were not yet available to be booked as the opening date hadn’t been formally announced. When the announcement finally came, I didn’t see it for 5 hours as I was busy and hadn’t been checking my numerous theme park RSS feeds&lt;sup id=&quot;fnref:rssfeeds&quot;&gt;&lt;a href=&quot;#fn:rssfeeds&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Fortunately I was still able to grab one of the remaining fastpasses for later in my holiday but I was determined that this shouldn’t happen again…&lt;/p&gt;
+
+&lt;p&gt;I use the excellent &lt;a href=&quot;https://feedbin.com&quot;&gt;Feedbin service&lt;/a&gt;&lt;sup id=&quot;fnref:reeder&quot;&gt;&lt;a href=&quot;#fn:reeder&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to keep up with my feeds and it turns out they have an app called &lt;a href=&quot;https://feedbin.com/notifier&quot;&gt;Feedbin Notifier&lt;/a&gt;, but it doesn’t seem to work. It only supports one search term and the examples all use single words which didn’t give me total faith that the phrase “rise of the resistence OR space 220 OR fastpass” would parse correctly. There was also no detail on how regularly the checking was done and whilst I managed to get a notification for the term “apple” I couldn’t get it to work for much else. As I couldn’t trust it would do what I needed it to, I decided it was quicker and easier to just build it myself.&lt;/p&gt;
+
+&lt;p&gt;“Couldn’t you just use &lt;a href=&quot;https://support.google.com/googlenews/answer/9005590?co=GENIE.Platform%3DiOS&amp;amp;hl=en&amp;amp;oco=0&quot;&gt;Google News notifications&lt;/a&gt;?”. I already do for some things&lt;sup id=&quot;fnref:juryduty&quot;&gt;&lt;a href=&quot;#fn:juryduty&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; but it’s far too slow for my use case. The types of articles I’m interested in require me to act within around 15 minutes so too slow for Google News which typically takes 12-24 hours to send a notification.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-name&quot;&gt;The Name&lt;/h3&gt;
+
+&lt;p&gt;Like most other developers, I start a side project with the most important decision; choosing a name. Sometimes this can be a days long process but for this app it was relatively quick. I wanted to do some kind of play on words with Feedbin and was looking at things like “Feed Trash Can” or “Feed Trough” but I didn’t really like any of them. I was saying them out loud in bed whilst working on the app and my wife instinctively said “&lt;a href=&quot;https://www.youtube.com/watch?v=L7SkrYF8lCU&quot;&gt;Feed Me Seymour&lt;/a&gt;”. I shortened it down to just “Seymour” and decided this was a perfect name as it was letting me “See More” of the things I wanted to see.&lt;/p&gt;
+
+&lt;p&gt;As the app isn’t going to be released publicly I did a Google Image Search for “Feed Me Seymour” in the hope of finding some sort of silhouetted version of the singing plant. Instead I found this Mario crossover at &lt;a href=&quot;https://www.snorgtees.com/t-shirts/feed-me-seymour&quot;&gt;Snorgtees&lt;/a&gt; which was perfect.&lt;/p&gt;
+
+&lt;h3 id=&quot;feed-me&quot;&gt;Feed Me&lt;/h3&gt;
+
+&lt;p&gt;The iOS app is ridiculous simple so I’m not going to spend too much time describing that. It consists of a table view listing my search terms and each row can be swiped to delete the term. The + button in the top right presents a &lt;code&gt;UIAlertController&lt;/code&gt; with a text field for adding a search term. The fetch, add, and delete commands are all sent to an incredibly basic PHP API I wrote which syncs to my MySQL database.&lt;/p&gt;
+
+&lt;p&gt;The real work is to fetch the latest feeds from my Feedbin account and then search each article for any matching text strings:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;$pdo = new PDO(&amp;quot;mysql:charset=utf8mb4;host=&amp;quot; . $db_host . &amp;quot;;dbname=&amp;quot; . $db_name, $db_user, $db_pass);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$pdo-&amp;gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$pdo-&amp;gt;setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$headers = [];&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$url = &amp;#39;https://api.feedbin.com/v2/entries.json&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ch = curl_init($url);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_TIMEOUT, 30);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_USERPWD, &amp;#39;ben@bendodson.com:keepitsecretkeepitsafe&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_HTTPHEADER, [&amp;#39;If-None-Match: \&amp;#39;&amp;#39;.file_get_contents(&amp;#39;etag.txt&amp;#39;).&amp;#39;\&amp;#39;&amp;#39;]);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_setopt($ch, CURLOPT_HEADERFUNCTION,&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  function($curl, $header) use (&amp;amp;$headers)&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $len = strlen($header);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $header = explode(&amp;#39;:&amp;#39;, $header, 2);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    if (count($header) &amp;lt; 2) // ignore invalid headers&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;      return $len;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;    $headers[strtolower(trim($header[0]))][] = trim($header[1]);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;    return $len;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  }&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$json = curl_exec($ch);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$info = curl_getinfo($ch);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;curl_close($ch);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;file_put_contents(&amp;#39;etag.txt&amp;#39;, $headers[&amp;#39;etag&amp;#39;][0]);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$stmt = $pdo-&amp;gt;prepare(&amp;#39;select * from keywords&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$stmt-&amp;gt;execute();&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$keywords = array_column($stmt-&amp;gt;fetchAll(), &amp;#39;phrase&amp;#39;);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$ids = [];&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$entries = [];&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$array = json_decode($json);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$countStmt = $pdo-&amp;gt;prepare(&amp;#39;select count(id) as total from entries where id = :id&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;foreach ($array as $entry) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $countStmt-&amp;gt;execute([&amp;#39;id&amp;#39; =&amp;gt; $entry-&amp;gt;id]);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $count = (int)$countStmt-&amp;gt;fetch()[&amp;#39;total&amp;#39;];&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    if ($count) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;        continue;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    }&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;    foreach ($keywords as $keyword) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;        if (stripos($entry-&amp;gt;title, $keyword) !== false || stripos($entry-&amp;gt;content, $keyword) !== false) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            $entries[] = $entry;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            break;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;        }&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    }&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;    $ids[] = $entry-&amp;gt;id;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$notificationStmt = $pdo-&amp;gt;prepare(&amp;#39;insert into notifications (title, message, url, created_at) values (:title, :message, :url, :created)&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$idStmt = $pdo-&amp;gt;prepare(&amp;#39;insert into entries (id) values (:id)&amp;#39;);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$pdo-&amp;gt;beginTransaction();&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;foreach ($ids as $id) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $idStmt-&amp;gt;execute([&amp;#39;id&amp;#39; =&amp;gt; $id]);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$pdo-&amp;gt;commit();&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;foreach ($entries as $entry) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $notificationStmt-&amp;gt;execute([&amp;#39;title&amp;#39; =&amp;gt; $entry-&amp;gt;title, &amp;#39;message&amp;#39; =&amp;gt; $entry-&amp;gt;summary, &amp;#39;url&amp;#39; =&amp;gt; $entry-&amp;gt;url, &amp;#39;created&amp;#39; =&amp;gt; date(&amp;#39;Y-m-d H:i:s&amp;#39;)]);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $data = [&amp;quot;app_id&amp;quot; =&amp;gt; &amp;quot;my-onesignal-app-id&amp;quot;, &amp;quot;contents&amp;quot; =&amp;gt; [&amp;quot;en&amp;quot; =&amp;gt; $entry-&amp;gt;summary], &amp;quot;headings&amp;quot; =&amp;gt; [&amp;quot;en&amp;quot; =&amp;gt; $entry-&amp;gt;title], &amp;quot;included_segments&amp;quot; =&amp;gt; [&amp;quot;All&amp;quot;], &amp;quot;data&amp;quot; =&amp;gt; [&amp;quot;url&amp;quot; =&amp;gt; $entry-&amp;gt;url]];&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $ch = curl_init(&amp;#39;https://onesignal.com/api/v1/notifications&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, &amp;quot;POST&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    curl_setopt($ch, CURLOPT_HTTPHEADER, [&amp;#39;Content-Type: application/json&amp;#39;, &amp;#39;Authorization: Basic [OBFUSCATED]&amp;#39;]);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $response = curl_exec($ch);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    curl_close($ch);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Feedbin provide an &lt;a href=&quot;https://github.com/feedbin/feedbin-api&quot;&gt;API&lt;/a&gt; for fetching the latest articles from all of your feeds. It has support for &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag&quot;&gt;ETag caching&lt;/a&gt; so I store the latest tag to avoid unnecessary loading on their end as this script will run every 60 seconds.&lt;/p&gt;
+
+&lt;p&gt;Once the articles are fetched, I ignore any that I’ve already seen before (worked out by storing the ids in my database after each run) and then proceed to do a case insensitive check for my keywords against both the title and content of the article. If there are any matches, these get added to an array which is later looped over in order to send a push notification via &lt;a href=&quot;https://onesignal.com&quot;&gt;OneSignal&lt;/a&gt; containing the title, article summary, and the URL.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2020/seymour-watch.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This runs on a 1 minute CRON job so in theory I should get alerted of any matching articles within 60 seconds of them being published. I don’t know how often Feedbin polls the various RSS feeds I track but in practice I have found that I’m getting notified almost immediately so evidently they’re doing some form of dark magic.&lt;/p&gt;
+
+&lt;h3 id=&quot;viewing-the-content&quot;&gt;Viewing the content&lt;/h3&gt;
+
+&lt;p&gt;Once the notification is delivered, I thought it would be a nice bonus to be able to tap to open up the article in a browser. It turns out that the OneSignal SDK can do this automatically if you send a “url” parameter as part of your Push Notification request but it has a few issues; there’s a short lag between the app opening and the browser being shown, the controller is within a modal dialogue that can only be dismissed by swiping at the top of the page (tricky on a big phone), and it’s using either a &lt;code&gt;UIWebView&lt;/code&gt; or a &lt;code&gt;WKWebView&lt;/code&gt; which means there is no support for content blockers, no Reader View, and no easy way to open the page in Safari or other apps. The solution is to send the URL as part of the data payload and parse it myself within the app to open an &lt;code&gt;SFSafariViewController&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2020/seymour-webviews.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Can you see the difference in the image above? With the webview provided by OneSignal we can just see the start of the title of the article&lt;sup id=&quot;fnref:disneyfoodblog&quot;&gt;&lt;a href=&quot;#fn:disneyfoodblog&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; obscured by the home indicator, and this is on the Max-sized iPhone! The SFSafariViewController in Reader View is far superior showing the full title, the first paragraph, and an image. It also loaded faster thanks to the support for content blockers and I have easy access to open this in Safari or share it along with controls for changing fonts, etc.&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;This whole thing took about 2 hours of which the majority was fiddling around with ETags. At the moment I have only two search terms set up:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.disneyworld.co.uk/attractions/hollywood-studios/star-wars-rise-of-the-resistance/&quot;&gt;Rise of the Resistance&lt;/a&gt;&lt;/strong&gt;: Quite possibly the best theme park attraction ever made, Rise of the Resistance opened in December 2019 and since then has been using a virtual queueing system which typically gets booked out for the day within an hour. Whilst I don’t expect this is going to be moved to FastPass any time soon, I keep this notification just in case!&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.disneyworld.co.uk/dining/epcot/space-220/&quot;&gt;Space 220&lt;/a&gt;&lt;/strong&gt;: This is a new restaurant in Epcot that was supposed to be open last year and was then rumoured to be opening in February. That still hasn’t happened but it’s feasible the opening will happen whilst I’m there and I definitely want to be one of the first to book a reservation.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Whilst I could have set up a screen scraper of some sort to monitor these pages for changes&lt;sup id=&quot;fnref:airpods&quot;&gt;&lt;a href=&quot;#fn:airpods&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;, I much prefer operating on top of RSS as it tends to be that the feeds I follow will post updates ridiculously quickly and are likely more reliable than tracking HTML changes. It’s also more flexible as I’m sure there will be things in future that I’ll want to monitor in this way. For example, I tested the app a few weeks ago to get notified when &lt;a href=&quot;https://home.pokemon.com/en-us/&quot;&gt;Pokémon HOME&lt;/a&gt; was released on the App Store.&lt;/p&gt;
+
+&lt;p&gt;As ever, I hope this will inspire you to work on your own side projects! Next month I’ll be talking about the watch app that has ended up taking a lot longer than I’d originally anticipated…&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:rssfeeds&quot;&gt;
+      &lt;p&gt;I’ve blogged about this before but RSS is how I consume nearly everything I read online. Twitter doesn’t even come close. With RSS you can subscribe to nearly any website that publishes articles and get them all in a nice app with no ads, no Javascript, and no other superfluous crap. At the time of writing, I subscribe to around 500 different feeds encompassing everything from theme park news and video game updates to Swift developer blogs and philosophy articles. &lt;a href=&quot;#fnref:rssfeeds&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:reeder&quot;&gt;
+      &lt;p&gt;In conjunction with the &lt;a href=&quot;https://reederapp.com&quot;&gt;Reeder apps&lt;/a&gt; on iOS and macOS. &lt;a href=&quot;#fnref:reeder&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:juryduty&quot;&gt;
+      &lt;p&gt;I use Google News Notifier to see if &lt;a href=&quot;https://www.youtube.com/watch?v=j13oJajXx0M&quot;&gt;my name&lt;/a&gt; comes up anywhere and also to keep tabs on a court case I sat on as part of Jury Duty. &lt;a href=&quot;#fnref:juryduty&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:disneyfoodblog&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.disneyfoodblog.com&quot;&gt;Disney Food Blog&lt;/a&gt; is one of the best theme park sites I follow but their website is very hard to view on mobile hence the need for Reader View. Whilst it’s more of a necessity for that page, I find myself using Reader View for most websites as it is nearly always far better. &lt;a href=&quot;#fnref:disneyfoodblog&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:airpods&quot;&gt;
+      &lt;p&gt;I did do this when the AirPods were first announced; fetch the HTML of the store page every five minutes and then send a notification when it changed so I could jump in and buy a pair. &lt;a href=&quot;#fnref:airpods&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Side Project #1: Sealed</title>
@@ -16,7 +183,9 @@
       <pubDate>Sat, 01 Feb 2020 11:00:00 +0000</pubDate>
       <author>ben@bendodson.com (Ben Dodson)</author>
       <guid>https://bendodson.com/weblog/2020/02/01/sealed/</guid>
-      <description>&lt;p&gt;I am a huge advocate of side projects, small apps that let you test an idea in isolation usually for your own personal use. Over the course of my 14 year career as a software developer I’ve always tried to encourage new developers to work on side projects as a way of honing their craft. There are three reasons for this: firstly, building something for yourself is far more rewarding than building something for a client; secondly, it gives you an excuse to try out new technologies or methodologies that can then improve future client work without running the risk of derailing a major project&lt;sup id=&quot;fnref:clientguineapig&quot;&gt;&lt;a href=&quot;#fn:clientguineapig&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;; and thirdly, it’s a great way of building up a portfolio if you’re starting out. I’ve always built bizarre little side projects and apps ranging from an iPad app to manage my wine collection to various PHP scripts that extract my time playing video games on Steam. Sometimes these side projects turn into full apps such as &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Library Tracker&lt;/a&gt; and &lt;a href=&quot;https://dodoapps.io/pocket-rocket/&quot;&gt;Pocket Rocket&lt;/a&gt; but usually they are highly bespoke utilities for me that nobody else gets to see. Until now…&lt;/p&gt;
+      <description>&lt;p&gt;&lt;em&gt;This is part of a &lt;a href=&quot;/sideprojects/&quot;&gt;monthly series of blog posts&lt;/a&gt; in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; &lt;a href=&quot;https://bendodson.s3.amazonaws.com/butitdoesrun.jpg&quot;&gt;it just needs to run&lt;/a&gt;!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I am a huge advocate of side projects, small apps that let you test an idea in isolation usually for your own personal use. Over the course of my 14 year career as a software developer I’ve always tried to encourage new developers to work on side projects as a way of honing their craft. There are three reasons for this: firstly, building something for yourself is far more rewarding than building something for a client; secondly, it gives you an excuse to try out new technologies or methodologies that can then improve future client work without running the risk of derailing a major project&lt;sup id=&quot;fnref:clientguineapig&quot;&gt;&lt;a href=&quot;#fn:clientguineapig&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;; and thirdly, it’s a great way of building up a portfolio if you’re starting out. I’ve always built bizarre little side projects and apps ranging from an iPad app to manage my wine collection to various PHP scripts that extract my time playing video games on Steam. Sometimes these side projects turn into full apps such as &lt;a href=&quot;https://dodoapps.io/music-tracker/&quot;&gt;Music Library Tracker&lt;/a&gt; and &lt;a href=&quot;https://dodoapps.io/pocket-rocket/&quot;&gt;Pocket Rocket&lt;/a&gt; but usually they are highly bespoke utilities for me that nobody else gets to see. Until now…&lt;/p&gt;
 
 &lt;p&gt;This year I’ve decided to start a new series of articles where I’ll show a side project I’ve built over the past month. Today’s article is all about “Sealed”, an iPad app I build in January 2020 to simulate the opening of Magic the Gathering booster packs.&lt;/p&gt;
 
@@ -1425,26 +1594,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>AlcoPath</title>
-      <link>https://bendodson.com/weblog/2017/03/27/alcopath/</link>
-      <pubDate>Mon, 27 Mar 2017 11:30:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2017/03/27/alcopath/</guid>
-      <description>&lt;p&gt;I’m pleased to announce the release of a new client app I’ve been working on for the past few weeks: &lt;a href=&quot;https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8&quot;&gt;AlcoPath&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/alcopath.jpg&quot; width=&quot;800&quot; height=&quot;426&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I worked on AlcoPath for &lt;a href=&quot;http://www.orbismedia.co.uk&quot;&gt;Orbis Media&lt;/a&gt; as a freelance iOS developer. The app was designed in consultation with the the Nottinghamshire Healthcare NHS Foundation Trust and features a WEKP Cognitive Assessment (incorporating 6CIT, Ataxia test, Opthalmoplegia test, and other associated risk factors) to diagnose Wernicke’s encephalopathy, a Withdrawal Assessment for Alcohol using a revised CIWA-Ar scale, and industry recommended pathways all in-line with NICE Guidance.&lt;/p&gt;
-
-&lt;p&gt;The app is available for free and can be used by clinical staff on both iPhone and iPad thanks to a scaling interface suitable for all device sizes. An A4-sized PDF can be generated with the personalised results of each assessment and this can be printed directly from the app. Push notifications were also integrated to inform users quickly of any updates.&lt;/p&gt;
-
-&lt;p&gt;In order to render the various assessment questions efficiently and accurately, I built a local PHP-based tool to input the various questions and output a JSON file that the app would then interpret to build each question and the various ways of answering be that with a toggle, multiple selection, or text entry. This prevented the need for the app to connect to an online database but also enabled me to make prompt updates should new questions need to be added or existing questions be edited in the future.&lt;/p&gt;
-
-&lt;p&gt;It was a great experience working with Orbis Media on this app and the feedback from clinicians has been great so far. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8&quot;&gt;AlcoPath on the App Store&lt;/a&gt; and learn more about it at &lt;a href=&quot;http://www.alcopath.co.uk/&quot;&gt;AlcoPath.co.uk&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

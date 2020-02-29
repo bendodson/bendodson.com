@@ -41,12 +41,184 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2020/02/28/seymour/">Side Project #2: (Feed Me) Seymour</a></h1>
+			
+			<time datetime="2020-02-28" pubdate=""><a href="/weblog/2020/02/28/seymour/">February 28, 2020</a></time>
+    	</header>
+    	<div>
+			<p><em>This is part of a <a href="/sideprojects/">monthly series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</em></p>
+
+<p>I’ve cheated slightly this month by working on two side projects; a simple iOS app and a SwiftUI watchOS app. The Apple Watch app isn’t quite ready yet so instead I’m going to show you “Seymour”, an app that sends me push notifications when relevant articles are posted online.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour.jpg" width="800" height="600" /></p>
+
+<h3 id="the-problem">The Problem</h3>
+
+<p>I’m travelling to The Happiest Place On Earth™ next week and as I’m staying in a Disney hotel I was able to book fastpasses for rides 60 days in advance. The issue is that a new ride, <a href="https://www.disneyworld.eu/attractions/hollywood-studios/mickey-minnies-runaway-railway/">Mickey &amp; Minnie’s Runaway Railway</a>, is due to open whilst I’m there but fastpasses were not yet available to be booked as the opening date hadn’t been formally announced. When the announcement finally came, I didn’t see it for 5 hours as I was busy and hadn’t been checking my numerous theme park RSS feeds<sup id="fnref:rssfeeds"><a href="#fn:rssfeeds" class="footnote">1</a></sup>. Fortunately I was still able to grab one of the remaining fastpasses for later in my holiday but I was determined that this shouldn’t happen again…</p>
+
+<p>I use the excellent <a href="https://feedbin.com">Feedbin service</a><sup id="fnref:reeder"><a href="#fn:reeder" class="footnote">2</a></sup> to keep up with my feeds and it turns out they have an app called <a href="https://feedbin.com/notifier">Feedbin Notifier</a>, but it doesn’t seem to work. It only supports one search term and the examples all use single words which didn’t give me total faith that the phrase “rise of the resistence OR space 220 OR fastpass” would parse correctly. There was also no detail on how regularly the checking was done and whilst I managed to get a notification for the term “apple” I couldn’t get it to work for much else. As I couldn’t trust it would do what I needed it to, I decided it was quicker and easier to just build it myself.</p>
+
+<p>“Couldn’t you just use <a href="https://support.google.com/googlenews/answer/9005590?co=GENIE.Platform%3DiOS&amp;hl=en&amp;oco=0">Google News notifications</a>?”. I already do for some things<sup id="fnref:juryduty"><a href="#fn:juryduty" class="footnote">3</a></sup> but it’s far too slow for my use case. The types of articles I’m interested in require me to act within around 15 minutes so too slow for Google News which typically takes 12-24 hours to send a notification.</p>
+
+<h3 id="the-name">The Name</h3>
+
+<p>Like most other developers, I start a side project with the most important decision; choosing a name. Sometimes this can be a days long process but for this app it was relatively quick. I wanted to do some kind of play on words with Feedbin and was looking at things like “Feed Trash Can” or “Feed Trough” but I didn’t really like any of them. I was saying them out loud in bed whilst working on the app and my wife instinctively said “<a href="https://www.youtube.com/watch?v=L7SkrYF8lCU">Feed Me Seymour</a>”. I shortened it down to just “Seymour” and decided this was a perfect name as it was letting me “See More” of the things I wanted to see.</p>
+
+<p>As the app isn’t going to be released publicly I did a Google Image Search for “Feed Me Seymour” in the hope of finding some sort of silhouetted version of the singing plant. Instead I found this Mario crossover at <a href="https://www.snorgtees.com/t-shirts/feed-me-seymour">Snorgtees</a> which was perfect.</p>
+
+<h3 id="feed-me">Feed Me</h3>
+
+<p>The iOS app is ridiculous simple so I’m not going to spend too much time describing that. It consists of a table view listing my search terms and each row can be swiped to delete the term. The + button in the top right presents a <code>UIAlertController</code> with a text field for adding a search term. The fetch, add, and delete commands are all sent to an incredibly basic PHP API I wrote which syncs to my MySQL database.</p>
+
+<p>The real work is to fetch the latest feeds from my Feedbin account and then search each article for any matching text strings:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="x">$pdo = new PDO(&quot;mysql:charset=utf8mb4;host=&quot; . $db_host . &quot;;dbname=&quot; . $db_name, $db_user, $db_pass);</span>
+<span class="x">$pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</span>
+<span class="x">$pdo-&gt;setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);</span>
+
+<span class="x">$headers = [];</span>
+<span class="x">$url = &#39;https://api.feedbin.com/v2/entries.json&#39;;</span>
+<span class="x">$ch = curl_init($url);</span>
+<span class="x">curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);</span>
+<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);</span>
+<span class="x">curl_setopt($ch, CURLOPT_TIMEOUT, 30);</span>
+<span class="x">curl_setopt($ch, CURLOPT_USERPWD, &#39;ben@bendodson.com:keepitsecretkeepitsafe&#39;);</span>
+<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, [&#39;If-None-Match: \&#39;&#39;.file_get_contents(&#39;etag.txt&#39;).&#39;\&#39;&#39;]);</span>
+<span class="x">curl_setopt($ch, CURLOPT_HEADERFUNCTION,</span>
+<span class="x">  function($curl, $header) use (&amp;$headers)</span>
+<span class="x">  {</span>
+<span class="x">    $len = strlen($header);</span>
+<span class="x">    $header = explode(&#39;:&#39;, $header, 2);</span>
+<span class="x">    if (count($header) &lt; 2) // ignore invalid headers</span>
+<span class="x">      return $len;</span>
+
+<span class="x">    $headers[strtolower(trim($header[0]))][] = trim($header[1]);</span>
+
+<span class="x">    return $len;</span>
+<span class="x">  }</span>
+<span class="x">);</span>
+<span class="x">$json = curl_exec($ch);</span>
+<span class="x">$info = curl_getinfo($ch);</span>
+<span class="x">curl_close($ch);</span>
+
+<span class="x">file_put_contents(&#39;etag.txt&#39;, $headers[&#39;etag&#39;][0]);</span>
+
+<span class="x">$stmt = $pdo-&gt;prepare(&#39;select * from keywords&#39;);</span>
+<span class="x">$stmt-&gt;execute();</span>
+<span class="x">$keywords = array_column($stmt-&gt;fetchAll(), &#39;phrase&#39;);</span>
+
+<span class="x">$ids = [];</span>
+<span class="x">$entries = [];</span>
+<span class="x">$array = json_decode($json);</span>
+<span class="x">$countStmt = $pdo-&gt;prepare(&#39;select count(id) as total from entries where id = :id&#39;);</span>
+<span class="x">foreach ($array as $entry) {</span>
+<span class="x">    $countStmt-&gt;execute([&#39;id&#39; =&gt; $entry-&gt;id]);</span>
+<span class="x">    $count = (int)$countStmt-&gt;fetch()[&#39;total&#39;];</span>
+<span class="x">    if ($count) {</span>
+<span class="x">        continue;</span>
+<span class="x">    }</span>
+
+<span class="x">    foreach ($keywords as $keyword) {</span>
+<span class="x">        if (stripos($entry-&gt;title, $keyword) !== false || stripos($entry-&gt;content, $keyword) !== false) {</span>
+<span class="x">            $entries[] = $entry;</span>
+<span class="x">            break;</span>
+<span class="x">        }</span>
+<span class="x">    }</span>
+
+<span class="x">    $ids[] = $entry-&gt;id;</span>
+<span class="x">}</span>
+
+<span class="x">$notificationStmt = $pdo-&gt;prepare(&#39;insert into notifications (title, message, url, created_at) values (:title, :message, :url, :created)&#39;);</span>
+<span class="x">$idStmt = $pdo-&gt;prepare(&#39;insert into entries (id) values (:id)&#39;);</span>
+
+<span class="x">$pdo-&gt;beginTransaction();</span>
+<span class="x">foreach ($ids as $id) {</span>
+<span class="x">    $idStmt-&gt;execute([&#39;id&#39; =&gt; $id]);</span>
+<span class="x">}</span>
+<span class="x">$pdo-&gt;commit();</span>
+
+<span class="x">foreach ($entries as $entry) {</span>
+<span class="x">    $notificationStmt-&gt;execute([&#39;title&#39; =&gt; $entry-&gt;title, &#39;message&#39; =&gt; $entry-&gt;summary, &#39;url&#39; =&gt; $entry-&gt;url, &#39;created&#39; =&gt; date(&#39;Y-m-d H:i:s&#39;)]);</span>
+<span class="x">    </span>
+<span class="x">    $data = [&quot;app_id&quot; =&gt; &quot;my-onesignal-app-id&quot;, &quot;contents&quot; =&gt; [&quot;en&quot; =&gt; $entry-&gt;summary], &quot;headings&quot; =&gt; [&quot;en&quot; =&gt; $entry-&gt;title], &quot;included_segments&quot; =&gt; [&quot;All&quot;], &quot;data&quot; =&gt; [&quot;url&quot; =&gt; $entry-&gt;url]];</span>
+<span class="x">    $ch = curl_init(&#39;https://onesignal.com/api/v1/notifications&#39;);</span>
+<span class="x">    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, &quot;POST&quot;);</span>
+<span class="x">    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));</span>
+<span class="x">    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">    curl_setopt($ch, CURLOPT_HTTPHEADER, [&#39;Content-Type: application/json&#39;, &#39;Authorization: Basic [OBFUSCATED]&#39;]);</span>
+<span class="x">    $response = curl_exec($ch);</span>
+<span class="x">    curl_close($ch);</span>
+
+<span class="x">}</span></code></pre></figure>
+
+<p>Feedbin provide an <a href="https://github.com/feedbin/feedbin-api">API</a> for fetching the latest articles from all of your feeds. It has support for <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag caching</a> so I store the latest tag to avoid unnecessary loading on their end as this script will run every 60 seconds.</p>
+
+<p>Once the articles are fetched, I ignore any that I’ve already seen before (worked out by storing the ids in my database after each run) and then proceed to do a case insensitive check for my keywords against both the title and content of the article. If there are any matches, these get added to an array which is later looped over in order to send a push notification via <a href="https://onesignal.com">OneSignal</a> containing the title, article summary, and the URL.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-watch.jpg" width="800" height="600" /></p>
+
+<p>This runs on a 1 minute CRON job so in theory I should get alerted of any matching articles within 60 seconds of them being published. I don’t know how often Feedbin polls the various RSS feeds I track but in practice I have found that I’m getting notified almost immediately so evidently they’re doing some form of dark magic.</p>
+
+<h3 id="viewing-the-content">Viewing the content</h3>
+
+<p>Once the notification is delivered, I thought it would be a nice bonus to be able to tap to open up the article in a browser. It turns out that the OneSignal SDK can do this automatically if you send a “url” parameter as part of your Push Notification request but it has a few issues; there’s a short lag between the app opening and the browser being shown, the controller is within a modal dialogue that can only be dismissed by swiping at the top of the page (tricky on a big phone), and it’s using either a <code>UIWebView</code> or a <code>WKWebView</code> which means there is no support for content blockers, no Reader View, and no easy way to open the page in Safari or other apps. The solution is to send the URL as part of the data payload and parse it myself within the app to open an <code>SFSafariViewController</code>:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-webviews.jpg" width="800" height="600" /></p>
+
+<p>Can you see the difference in the image above? With the webview provided by OneSignal we can just see the start of the title of the article<sup id="fnref:disneyfoodblog"><a href="#fn:disneyfoodblog" class="footnote">4</a></sup> obscured by the home indicator, and this is on the Max-sized iPhone! The SFSafariViewController in Reader View is far superior showing the full title, the first paragraph, and an image. It also loaded faster thanks to the support for content blockers and I have easy access to open this in Safari or share it along with controls for changing fonts, etc.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This whole thing took about 2 hours of which the majority was fiddling around with ETags. At the moment I have only two search terms set up:</p>
+
+<ul>
+  <li>
+    <p><strong><a href="https://www.disneyworld.co.uk/attractions/hollywood-studios/star-wars-rise-of-the-resistance/">Rise of the Resistance</a></strong>: Quite possibly the best theme park attraction ever made, Rise of the Resistance opened in December 2019 and since then has been using a virtual queueing system which typically gets booked out for the day within an hour. Whilst I don’t expect this is going to be moved to FastPass any time soon, I keep this notification just in case!</p>
+  </li>
+  <li>
+    <p><strong><a href="https://www.disneyworld.co.uk/dining/epcot/space-220/">Space 220</a></strong>: This is a new restaurant in Epcot that was supposed to be open last year and was then rumoured to be opening in February. That still hasn’t happened but it’s feasible the opening will happen whilst I’m there and I definitely want to be one of the first to book a reservation.</p>
+  </li>
+</ul>
+
+<p>Whilst I could have set up a screen scraper of some sort to monitor these pages for changes<sup id="fnref:airpods"><a href="#fn:airpods" class="footnote">5</a></sup>, I much prefer operating on top of RSS as it tends to be that the feeds I follow will post updates ridiculously quickly and are likely more reliable than tracking HTML changes. It’s also more flexible as I’m sure there will be things in future that I’ll want to monitor in this way. For example, I tested the app a few weeks ago to get notified when <a href="https://home.pokemon.com/en-us/">Pokémon HOME</a> was released on the App Store.</p>
+
+<p>As ever, I hope this will inspire you to work on your own side projects! Next month I’ll be talking about the watch app that has ended up taking a lot longer than I’d originally anticipated…</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:rssfeeds">
+      <p>I’ve blogged about this before but RSS is how I consume nearly everything I read online. Twitter doesn’t even come close. With RSS you can subscribe to nearly any website that publishes articles and get them all in a nice app with no ads, no Javascript, and no other superfluous crap. At the time of writing, I subscribe to around 500 different feeds encompassing everything from theme park news and video game updates to Swift developer blogs and philosophy articles. <a href="#fnref:rssfeeds" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:reeder">
+      <p>In conjunction with the <a href="https://reederapp.com">Reeder apps</a> on iOS and macOS. <a href="#fnref:reeder" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:juryduty">
+      <p>I use Google News Notifier to see if <a href="https://www.youtube.com/watch?v=j13oJajXx0M">my name</a> comes up anywhere and also to keep tabs on a court case I sat on as part of Jury Duty. <a href="#fnref:juryduty" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:disneyfoodblog">
+      <p><a href="https://www.disneyfoodblog.com">Disney Food Blog</a> is one of the best theme park sites I follow but their website is very hard to view on mobile hence the need for Reader View. Whilst it’s more of a necessity for that page, I find myself using Reader View for most websites as it is nearly always far better. <a href="#fnref:disneyfoodblog" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:airpods">
+      <p>I did do this when the AirPods were first announced; fetch the HTML of the store page every five minutes and then send a notification when it changed so I could jump in and buy a pair. <a href="#fnref:airpods" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2020/02/01/sealed/">Side Project #1: Sealed</a></h1>
 			
 			<time datetime="2020-02-01" pubdate=""><a href="/weblog/2020/02/01/sealed/">February 01, 2020</a></time>
     	</header>
     	<div>
-			<p>I am a huge advocate of side projects, small apps that let you test an idea in isolation usually for your own personal use. Over the course of my 14 year career as a software developer I’ve always tried to encourage new developers to work on side projects as a way of honing their craft. There are three reasons for this: firstly, building something for yourself is far more rewarding than building something for a client; secondly, it gives you an excuse to try out new technologies or methodologies that can then improve future client work without running the risk of derailing a major project<sup id="fnref:clientguineapig"><a href="#fn:clientguineapig" class="footnote">1</a></sup>; and thirdly, it’s a great way of building up a portfolio if you’re starting out. I’ve always built bizarre little side projects and apps ranging from an iPad app to manage my wine collection to various PHP scripts that extract my time playing video games on Steam. Sometimes these side projects turn into full apps such as <a href="https://dodoapps.io/music-tracker/">Music Library Tracker</a> and <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a> but usually they are highly bespoke utilities for me that nobody else gets to see. Until now…</p>
+			<p><em>This is part of a <a href="/sideprojects/">monthly series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</em></p>
+
+<p>I am a huge advocate of side projects, small apps that let you test an idea in isolation usually for your own personal use. Over the course of my 14 year career as a software developer I’ve always tried to encourage new developers to work on side projects as a way of honing their craft. There are three reasons for this: firstly, building something for yourself is far more rewarding than building something for a client; secondly, it gives you an excuse to try out new technologies or methodologies that can then improve future client work without running the risk of derailing a major project<sup id="fnref:clientguineapig"><a href="#fn:clientguineapig" class="footnote">1</a></sup>; and thirdly, it’s a great way of building up a portfolio if you’re starting out. I’ve always built bizarre little side projects and apps ranging from an iPad app to manage my wine collection to various PHP scripts that extract my time playing video games on Steam. Sometimes these side projects turn into full apps such as <a href="https://dodoapps.io/music-tracker/">Music Library Tracker</a> and <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a> but usually they are highly bespoke utilities for me that nobody else gets to see. Until now…</p>
 
 <p>This year I’ve decided to start a new series of articles where I’ll show a side project I’ve built over the past month. Today’s article is all about “Sealed”, an iPad app I build in January 2020 to simulate the opening of Magic the Gathering booster packs.</p>
 
@@ -818,25 +990,6 @@ TN &amp; 0 2017 Wizards of the Coast
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/03/05/apple-music-artwork-finder/">Announcing the Apple Music Artwork Finder</a></h1>
-			
-			<time datetime="2019-03-05" pubdate=""><a href="/weblog/2019/03/05/apple-music-artwork-finder/">March 05, 2019</a></time>
-    	</header>
-    	<div>
-			<p>When I launched my <a href="/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> a few years ago, I had no idea how popular it would become. It is currently used thousands of times per day to help people find high resolution artwork for their albums, apps, books, TV shows, and movies. Since the launch of Apple Music, I’ve had regular emails from users that wanted to access the artwork used for playlists across the service; I’ve finally done something about it!</p>
-
-<p>Today I’m happy to announce the <a href="/projects/apple-music-artwork-finder">Apple Music Artwork Finder</a> which grabs ultra high resolution artwork of albums, playlists, and radio stations from Apple Music. It’s ridiculously easy to use and just requires you to paste in an Apple Music URL. With that, it can make some requests to the <a href="https://developer.apple.com/documentation/applemusicapi">Apple Music API</a> to retrieve the artwork.</p>
-
-<p>Whether you want the artwork for your <a href="https://developer.apple.com/documentation/applemusicapi">New Music Mix Playlist</a>, the latest <a href="https://itunes.apple.com/gb/album/pray-for-the-wicked/1361152002">Panic! At the Disco album</a>, or for the <a href="https://itunes.apple.com/gb/station/beats-1/ra.978194965">Beats1 banner</a>, the artwork finder should be able to get you the highest quality artwork. Oh, and it’s totally free as well!</p>
-
-<p>Try out the <a href="/projects/apple-music-artwork-finder/">Apple Music Artwork Finder »</a></p>
 
 		</div>
 	</article>

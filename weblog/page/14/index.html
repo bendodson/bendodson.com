@@ -41,6 +41,58 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/02/12/iap-icons-featured-app-store/">IAP and icons in the 'Featured' section of the App Store</a></h1>
+			
+			<time datetime="2015-02-12" pubdate=""><a href="/weblog/2015/02/12/iap-icons-featured-app-store/">February 12, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Apple did something slightly different with their weekly update of the <em>Featured</em> section of the App Store today that is bound to get people talking: they singled out Apps without In-App Purchases:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-pay-once.jpg" alt="Pay Once and Play on the App Store" /></p>
+
+<p>This section contains a number of great games that have no IAP within them. Unfortunately this section is hidden by the first few slides in the top banner the most prominent of which is for King of Thieves, a new freemium game by ZeptoLab (of Cut The Rope fame):</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-king.jpg" alt="King of Thieves on the App Store" /></p>
+
+<p>What I find particularly distasteful about this is that it is a timer-filled game in which the top IAP costs £40<sup id="fnref:topiap"><a href="#fn:topiap" class="footnote">1</a></sup> and is obviously the complete opposite of what Apple are trying to achieve with the above campaign.</p>
+
+<p>In any case, I noticed some other interesting editorial decisions this week all based in the <em>What’s New</em> section.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-abc.jpg" alt="ABC App Icons" /></p>
+
+<p>Is it just me or does that say A B C?</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-7.jpg" alt="7 App Icons" /></p>
+
+<p>Two apps placed next to each other using a number 7 for their icon.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-m.jpg" alt="M App Icons" /></p>
+
+<p>Two apps placed next to each other using an M in a circle for their icon.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-tick.jpg" alt="Tick App Icons" /></p>
+
+<p>Two apps placed next to each other using a tick for their icon.</p>
+
+<p>It seems strange that with so much choice in the App Store, Apple chose to feature so many apps with similar icons and then place them directly next to each other. I can’t remember the last time I found a truly good app on the front page of the App Store (that wasn’t featured elsewhere beforehand) but I really hope they find a way to improve App Store discovery soon<sup id="fnref:discovery"><a href="#fn:discovery" class="footnote">2</a></sup>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:topiap">
+      <p><del>What is worse is that if you view the King of Thieves app in the App Store, the section called “In-App Purchases” isn’t listed so you can’t see these IAPs until you download the game. With WallaBee, we keep our prices intentionally low and you can see that reflected in that list. I’m not sure why King of Thieves is exempt from this.</del> It looks like this was just a timing issue - as of now, there are two IAPs listed (the cheapest) so I’m assuming that this is simply a “most popular” list that gets slowly populated over time. <a href="#fnref:topiap" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:discovery">
+      <p>On which note, <a href="http://www.macrumors.com/2015/02/12/pinterest-app-pins/">the App Store joined Pinterest today and added a feature called App Pins</a> that allows users to install apps without leaving the app - I’m not sure why this is being pitched as a new thing as this kind of modal App Store pane has been available to developers since iOS 7… <a href="#fnref:discovery" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/02/08/xcode-6-essentials/">Xcode 6 Essentials</a></h1>
 			
 			<time datetime="2015-02-08" pubdate=""><a href="/weblog/2015/02/08/xcode-6-essentials/">February 08, 2015</a></time>
@@ -340,52 +392,6 @@
     </li>
     <li id="fn:fka">
       <p>For a while I tried to educate people as to how a GIF keyboard can’t read your iMessages. I gave up after a while. <a href="#fnref:fka" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">Showing TODO as a warning in a Swift Xcode project</a></h1>
-			
-			<time datetime="2014-10-02" pubdate=""><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">October 02, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I rarely use comments when I’m coding<sup id="fnref:comments"><a href="#fn:comments" class="footnote">1</a></sup>. I do make one exception though; using <code>// TODO:</code> and <code>// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-jump-bar.jpg" alt="TODO comments in the Xcode jump bar" /></p>
-
-<p>The issue I have with this is that it is very easy to forget about them unless you are using the jump bar frequently. I used to log them in my todo manager, <a href="http://culturedcode.com/things/">Things</a>, but that duplicates the workload. It would be much more useful if those errors were flagged in some way…</p>
-
-<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code>TODO:</code> and <code>FIXME:</code> as warnings in a Swift project:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;searching </span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2"> for </span><span class="si">${</span><span class="nv">TAGS</span><span class="si">}</span><span class="s2">&quot;</span>
-find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2">&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;(</span><span class="nv">$TAGS</span><span class="s2">).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/(</span><span class="nv">$TAGS</span><span class="s2">)/ warning: \$1/&quot;</span></code></pre></figure>
-
-<p>The result is an unmissable warning whenever you run your project.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-warning.jpg" alt="TODO warnings in an Xcode Swift project" /></p>
-
-<p>I don’t know about you, but I feel more compelled to clean up these yellow warnings than ticking things off in a todo list.</p>
-
-<h3 id="swift-42-update-18th-september-2018">Swift 4.2 Update (18th September 2018)</h3>
-
-<p>It is now possble with Swift 4.2 to do something similar to the above without the need for a script build phase:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="p">#</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Some warning text&quot;</span><span class="p">)</span>
-<span class="p">#</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Some error text&quot;</span><span class="p">)</span></code></pre></figure>
-
-<p>With <code>#warning()</code> and <code>#error()</code> you can now generate warnings and errors in code without the need for comments or a build phase. You may prefer to use comments still in which case the above still works with iOS 12 / Xcode 10 but this language-level support may be more beneficial in some situations.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:comments">
-      <p>If your code needs commenting, it isn’t clear enough. Refactor until it is. If it doesn’t make sense because of semantics, rethink your naming conventions. <a href="#fnref:comments" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

@@ -41,6 +41,65 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">Your music library is a security and privacy risk on iOS</a></h1>
+			
+			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">January 13, 2016</a></time>
+    	</header>
+    	<div>
+			<p><strong>UPDATE: Thanks to my raising this privacy concern, <a href="https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Apple have resolved this issue as of iOS 10</a>. I’ve left the old post below for posterity.</strong></p>
+
+<p>Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing <a href="https://dodoapps.io/music-tracker/">Music Tracker</a><sup id="fnref:musictracker"><a href="#fn:musictracker" class="footnote">1</a></sup> I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songsQuery</span><span class="p">()</span>
+<span class="k">if</span> <span class="kd">let</span> <span class="nv">items</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">items</span> <span class="p">{</span>
+    	<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: </span><span class="si">\(</span><span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>That’s just a basic example that’ll output the title of every song in your library but there is a lot of danger in that. This process happens completely silently and in my tests I was able to loop through a library of 10000 songs, put all the metadata in a JSON file<sup id="fnref:json"><a href="#fn:json" class="footnote">2</a></sup>, and upload it to a server in under 2 seconds!</p>
+
+<p>But why is this a security or privacy risk? Off the top of my head, I can think of two massive risks:</p>
+
+<ol>
+  <li>
+    <p>Your library says a lot about you<sup id="fnref:bwitched"><a href="#fn:bwitched" class="footnote">3</a></sup>. If an advertising company was able to get a complete list of your music library (along with changes to it over time) then they could very easily target you with specific ads. Added a lot of Taylor Swift recently? Here are some ads relevant to that.</p>
+  </li>
+  <li>
+    <p>When iOS first came out there was something called a UDID which basically identified your device uniquely. This was used by marketers to track you across multiple apps and build up a profile. This was stopped by Apple a few years back and replaced with an advertising identifier which you can turn off and which can only be used between apps from the same company (where they are probably already tracking you). However, with a full music library, it would be fairly easy to track someone across multiple apps as periodic snapshots could be compared on a server.</p>
+  </li>
+</ol>
+
+<p>I’ve no idea if apps are already doing this in the background silently but it is something that shouldn’t be able to happen. To that end, I’ve filed a bug report with Apple (<a href="https://openradar.appspot.com/radar?id=6078139771912192">rdar://24168798</a>) to ask that they implement the same privacy controls that they do for contacts, calendars, photos, and location; a prompt when an app tries to access this data and the ability to grant or reject that permission through the system wide settings. Hopefully this is something Apple will implement in iOS 10 – if you’d like to see this happen, please duplicate bug 24168798 in the <a href="https://bugreport.apple.com">Apple Bug Reporter</a> as that is the best way to bring it to their attention.</p>
+
+<p><strong>Update, 20th Jan 2016:</strong> A few people have pointed out that the first beta of iOS 9.3 does have a new privacy setting for “Media Library”. However, this does not stop the above line of code and read-only access to your library; instead, it is part of a new feature that allows for apps to add songs to your iCloud Music Library but requires your permission to do so. Apps that use the MPMediaQuery above won’t even appear in the Media Library permissions page to disable so this is not the solution some think it is.</p>
+
+<p><strong>Update, 23rd Feb 2016:</strong> Several articles are now linking to this and picking up on my comments about iOS 9.3 above and horribly misunderstanding what those new APIs do. I’ve published a <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">new article detailing exactly what the new APIs in iOS 9.3 add to the music library</a> (and what they don’t add). As of iOS 9.3 beta 4, there are no privacy controls on scanning your music library and it still works exactly as I’ve described above.</p>
+
+<p><strong>Update, 25th March 2016:</strong> With the public release of iOS 9.3, this issue is not resolved <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">as per my post last month</a>.</p>
+
+<p><strong>Update, 13th June 2016:</strong> Thanks to my raising awareness of this issue, iOS 10 (released in beta for developers today) has added full privacy controls for read access to the local media library. I’ll write up a post in the future about how the new APIs work (<a href="https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">done</a>).</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:musictracker">
+      <p><a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">Available on the App Store</a>. Find out more at <a href="https://dodoapps.io/music-tracker/">Dodo Apps</a>. <a href="#fnref:musictracker" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:json">
+      <p>I <a href="https://github.com/bendodson/music-library">uploaded it to GitHub</a> so you can get a feel for how big a file it generates in that small amount of time. <a href="#fnref:json" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:bwitched">
+      <p>Let’s not read into what <a href="https://itun.es/gb/Tr4Wr?i=298026101"><em>C’est La Vie</em> by B*Witched</a> means about me… <a href="#fnref:bwitched" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/01/13/munchkin-report/">Munchkin Report</a></h1>
 			
 			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/munchkin-report/">January 13, 2016</a></time>
@@ -373,48 +432,6 @@ There is a huge amount of paid work available to freelance developers and it pay
     </li>
     <li id="fn:reader">
       <p>The reader view is only available in the in-app browser, powered by SFSafariViewController, as there is no URL scheme for opening Safari with reader view enabled. I’ve submitted a Radar (<a href="https://openradar.appspot.com/radar?id=5024178285576192">rdar://23684808</a>) <a href="#fnref:reader" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles Apple Watch app</a></h1>
-			
-			<time datetime="2015-12-17" pubdate=""><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">December 17, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">Natural Cycles</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-app.jpg" width="800" height="450" /></p>
-
-<p><a href="https://www.naturalcycles.com/en/">Natural Cycles</a> is a popular iPhone and Android app that allows you to track your fertility or plan a pregnancy. It can tell you when you are fertile, when you are ovulating, when your next period is due, when you are pregnant, and the progress of your pregnancy. I was hired as a freelance Swift developer to build an Apple Watch app that would be bundled in with their big v2.0 update and would allow viewing and logging of this critical information. The app allows you to see your current fertility level, body temperature, and progress of your period as well as viewing messages from Natural Cycles. In addition, you can quickly update your current body temperature and menstrual flow within the app:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-log.jpg" width="800" height="450" /></p>
-
-<p>As well as the core Apple Watch app, I also added support for Notifications and Glances making for an even quicker way to view your information:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-glance.jpg" width="800" height="450" /></p>
-
-<p>My favourite feature, however, is the addition of full text Complications so you can see your current body temperature and fertility status on your watch face:<sup id="fnref:fertility"><a href="#fn:fertility" class="footnote">1</a></sup></p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-complication.jpg" width="800" height="450" /></p>
-
-<p>The project was quite difficult (but rewarding!) for a few reasons. Firstly, the design was very ambitious when watchOS severely limits the amount of customisation that can be performed. Secondly, the iOS app was a Cordova app<sup id="fnref:cordova"><a href="#fn:cordova" class="footnote">2</a></sup> rather than a native app which meant I had to write a JavaScript plugin and set up some build scripts in order for the native Swift watchOS code to be able to speak with the iPhone. There was also a requirement to make the app as easy as possible to update (i.e. updating the iOS app shouldn’t break the watchOS app) and so I built everything such that the phone takes care of all logic and a lot of the UI so the watch app can be altered without going through the App Store review process.</p>
-
-<p>This was a really exciting project to work on and I’m very happy with the end results. You can <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">download Natural Cycles from the App Store</a> or <a href="https://www.naturalcycles.com/en/">learn more on their website</a>.</p>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:fertility">
-      <p>This did lead to an awkward situation when I’d left the complication enabled on my Mickey Mouse face that I use at weekends; the weekend after testing was complete, I switched to my Mickey Mouse face to be greeted with the words “Not Fertile” underneath his tapping foot! <a href="#fnref:fertility" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:cordova">
-      <p>I don’t usually work on non-native apps but I was willing to make an exception as the bulk of code I’d write would be fully native (as there is no way to write non-native apps on the Apple Watch due to the lack of a UIWebView) <a href="#fnref:cordova" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

@@ -41,6 +41,55 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a></h1>
+			
+			<time datetime="2015-10-05" pubdate=""><a href="/weblog/2015/10/05/healthkit-radar-22977320/">October 05, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Working with any code, it is inevitable that you’ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a “radar” so that they can track and hopefully fix any issues that arise. The issue is that the <a href="http://bugreport.apple.com/">Apple Bug Reporter</a> is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it’s fix. This has led to sites like <a href="https://openradar.appspot.com/">Open Radar</a> that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.</p>
+
+<p>In any case, today I found an interesting bug in HealthKit. iOS 9 added a new method named <code>deleteObjectsOfType:predicate:withCompletion</code> which is supposed to let you delete any objects you have written to HealthKit nice and easily. For example, I might have an app which constantly checks your step count and flights climbed throughout the day and so it will want to delete any steps and flights from 00.00 to 23.59 before it adds the updated count. Unfortunately, the method doesn’t seem to respect the <code>type</code> parameter and so it will delete everything that matches your query regardless of what <code>HKObjectType</code> it is.</p>
+
+<p>For example, consider the following code:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">date</span> <span class="p">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+
+<span class="kd">let</span> <span class="nv">predicate</span> <span class="p">=</span> <span class="bp">HKQuery</span><span class="p">.</span><span class="n">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="n">beginningOfDay</span><span class="p">(),</span> <span class="n">endDate</span><span class="p">:</span> <span class="bp">NSDate</span><span class="p">().</span><span class="n">endOfDay</span><span class="p">(),</span> <span class="n">options</span><span class="p">:</span> <span class="p">.</span><span class="n">None</span><span class="p">)</span>
+
+<span class="kd">let</span> <span class="nv">stepType</span> <span class="p">=</span> <span class="bp">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="n">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="bp">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted </span><span class="si">\(</span><span class="bp">count</span><span class="si">)</span><span class="s"> step objects: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="kd">let</span> <span class="nv">stepQuantity</span> <span class="p">=</span> <span class="bp">HKQuantity</span><span class="p">(</span><span class="n">unit</span><span class="p">:</span> <span class="bp">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="n">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nv">stepSample</span> <span class="p">=</span> <span class="bp">HKQuantitySample</span><span class="p">(</span><span class="n">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="n">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="n">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nv">flightsType</span> <span class="p">=</span> <span class="bp">HKQuantityType</span><span class="p">.</span><span class="n">quantityTypeForIdentifier</span><span class="p">(</span><span class="n">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">deleteObjectsOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="n">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="n">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="bp">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;deleted </span><span class="si">\(</span><span class="bp">count</span><span class="si">)</span><span class="s"> flight objects: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="kd">let</span> <span class="nv">flightsQuantity</span> <span class="p">=</span> <span class="bp">HKQuantity</span><span class="p">(</span><span class="n">unit</span><span class="p">:</span> <span class="bp">HKUnit</span><span class="p">.</span><span class="n">countUnit</span><span class="p">(),</span> <span class="n">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nv">flightsSample</span> <span class="p">=</span> <span class="bp">HKQuantitySample</span><span class="p">(</span><span class="n">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="n">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="n">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+<span class="n">healthStore</span><span class="p">.</span><span class="n">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The expected result is that you’ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you’ll only get the Flights Climbed entry as the line <code>healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code>HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don’t add up with what is expected:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
+
+<p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I’ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you’ll need to do a manual search for objects with <code>HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
+
+<p><strong>Update:</strong> I’ve put together a fix for this issue with a new <code>HKHealthStore</code> method, <a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/"><code>deleteSamplesOfType:predicate:withCompletion:</code></a></p>
+
+<p><strong>Update:</strong> Whilst iOS 9.1 hasn’t fixed this issue, my bug report has today (23rd Oct 2015) been marked as a duplicate of issue 23097982 so looks like they may be getting around to fixing it. iOS 9.2 perhaps?</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">The Times They Are A-Changin'</a></h1>
 			
 			<time datetime="2015-09-25" pubdate=""><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">September 25, 2015</a></time>
@@ -469,33 +518,6 @@ Every villain<sup id="fnref:almost"><a href="#fn:almost" class="footnote">5</a><
     </li>
     <li id="fn:twist">
       <p>I’ve seen a lot of comments about “the readers are on the right so how will I use it if I wear my watch on my left hand like 90% of the population”. I’ve got this clever trick called “moving your arm across your body”… worked like a charm at the McDonalds payment terminal. <a href="#fnref:twist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">Forcing UIStatusBarStyle for UIImagePickerController</a></h1>
-			
-			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">July 10, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I stumbled upon an interesting problem today which I’ve experienced a couple of times before; if you are using white text for the status bar in your application (<code>UIStatusBarStyle.LightContent</code>) then it will be turned black once you present a UIImagePickerController. This can not only look ugly but will remain when you dismiss the controller. Usually I just change the appearance of the navigation bar within the picker to get around this (and set it back to the correct colour upon dismissing the controller) but on this particular app I wanted to force the UIImagePickerController to use the light style status bar. Fortunately it is quite easy.</p>
-
-<p>When you use the UIImagePickerControllerDelegate, you are also required to adopt the UINavigationControllerDelegate. This has a method named <code>navigationController:willShowViewController:animated:</code> which will be called both when you present the controller and when you navigate between albums. Using this, it is trivial to force the status bar to remain the same<sup id="fnref:assumption"><a href="#fn:assumption" class="footnote">1</a></sup>:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="n">navigationController</span><span class="p">:</span> <span class="bp">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="n">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">)</span> <span class="p">{</span>
-	<span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">statusBarStyle</span> <span class="p">=</span> <span class="p">.</span><span class="n">LightContent</span>
-<span class="p">}</span></code></pre></figure>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:assumption">
-      <p>This is of course assuming you have <em>View controller-based status bar appearance</em> set to NO in your Info.plist file so that you can use UIApplication to change the status bar. <a href="#fnref:assumption" class="reversefootnote">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
