@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Exorbitantcy and the fight against the App Store">
+		<meta property="og:description" content="Last month, outspoken CEO of Epic Games Tim Sweeney ranted about the App Store in an interview with CNBC:">
+		<meta property="og:url" content="https://bendodson.com/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">
+		
+		<meta name="twitter:title" content="Exorbitantcy and the fight against the App Store">
+		<meta name="twitter:description" content="Last month, outspoken CEO of Epic Games Tim Sweeney ranted about the App Store in an interview with CNBC:">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3.amazonaws.com/weblog/2020/nineteen-eighty-fortnite.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3.amazonaws.com/weblog/2020/nineteen-eighty-fortnite.jpg">			
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2019-10-25.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Exorbitantcy and the fight against the App Store</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">Exorbitantcy and the fight against the App Store</a></h1>
+			
+			<time datetime="2020-08-13" pubdate=""><a href="/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">August 13, 2020</a></time>
+    	</header>
+    	<div>
+			<p>Last month, outspoken CEO of Epic Games Tim Sweeney ranted about the App Store in an <a href="https://www.cnbc.com/2020/07/24/epic-games-ceo-tim-sweeney-apple-crippled-app-store-with-30percent-cut.html">interview with CNBC</a>:</p>
+
+<blockquote>
+  <p>Apple has locked down and crippled the ecosystem by inventing an absolute monopoly on the distribution of software, on the monetization of software. They are preventing an entire category of businesses and applications from being engulfed in their ecosystem by virtue of excluding competitors from each aspect of their business that they’re protecting.</p>
+
+  <p>If every developer could accept their own payments and avoid the 30% tax by Apple and Google we could pass the savings along to all our consumers and players would get a better deal on items. And you’d have economic competition.</p>
+</blockquote>
+
+<p>Today, the rhetoric turned into action as Epic announced “<a href="https://www.epicgames.com/fortnite/en-US/news/the-fortnite-mega-drop-permanent-discounts-up-to-20-percent">direct payment on mobile</a>”:</p>
+
+<blockquote>
+  <p>Today, we’re also introducing a new way to pay on iOS and Android: Epic direct payment. When you choose to use Epic direct payments, you save up to 20% as Epic passes along payment processing savings to you.</p>
+
+  <p>Currently, when using Apple and Google payment options, Apple and Google collect a 30% fee, and the up to 20% price drop does not apply. If Apple or Google lower their fees on payments in the future, Epic will pass along the savings to you.</p>
+</blockquote>
+
+<p>Here’s how it looks in the UK version of the game<sup id="fnref:abtesting"><a href="#fn:abtesting" class="footnote">1</a></sup>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/fortnite-payment.jpg" width="800" height="370" /></p>
+
+<p>This is obviously in clear contravention of the App Store Review Guidelines<sup id="fnref:guidelines"><a href="#fn:guidelines" class="footnote">2</a></sup>, specifically <strong><a href="https://developer.apple.com/app-store/review/guidelines/#in-app-purchase">3.1.1 In-App Purchase</a></strong>:</p>
+
+<blockquote>
+  <p>If you want to unlock features or functionality within your app, (by way of example: subscriptions, in-game currencies, game levels, access to premium content, or unlocking a full version), you must use in-app purchase. Apps may not use their own mechanisms to unlock content or functionality, such as license keys, augmented reality markers, QR codes, etc. Apps and their metadata may not include buttons, external links, or other calls to action that direct customers to purchasing mechanisms other than in-app purchase.</p>
+</blockquote>
+
+<p>There isn’t a scenario where Epic doesn’t know this and it’s also highly unlikely that Apple accidentally approved an app update which made these changes. It’s probably the case that the code for this was included in the app binary but was disabled via a server switch until today. This means that Apple reviewed the app update, approved it, and then Epic changed the functionality which is also against the rules. This is more likely when you consider that the “what’s new” text for the update which is meant to outline what changed in the version doesn’t mention anything about these new payment options.</p>
+
+<p>Regardless of where you stand on the issue of Apple’s payment cut, the action taken by Epic here is in clear violation of the platform guidelines leaving Apple with a difficult choice; remove Fortnite from the App Store or try and resolve this directly with Epic which will likely lead to every other aggrieved developer trying something similar.</p>
+
+<p>Of course, within a few hours Apple had removed Fortnite from the App Store. This isn’t that much of a big deal as it is likely installed on millions of devices already and I doubt there are many more users flocking to the game at this stage. The app isn’t being forcibly removed from user’s devices and if you’ve ever downloaded it in the past you can still redownload it right now and get the current version. That said, it’s quite a striking image to see Apple remove what is undoubtedly one of the biggest, if not <em>the</em> biggest, games from their store especially when they were likely making millions of dollars from it thanks to their 30% cut of in-app purchases.</p>
+
+<p>Now clearly Epic knew this was going to happen as minutes after the app was removed they were advertising a short film called “<a href="https://www.youtube.com/watch?v=euiSHuaw6Q4">Nineteen Eighty-Fortnite</a><sup id="fnref:nineteendate"><a href="#fn:nineteendate" class="footnote">3</a></sup>” (a clear callback to Apple’s famous Ridley Scott directed <a href="https://www.youtube.com/watch?v=VtvjbmoDx-I">1984 advert</a>) and had filed a <a href="https://cdn2.unrealengine.com/apple-complaint-734589783.pdf">complaint for injunctive relief</a>. In short, this is a well executed publicity stunt in which Epic knew they could goad Apple into removing them from the App Store.</p>
+
+<p>From here on out it’s likely to be an escalating war between the two companies as Apple tries to explain that their rules have been broken and Epic tries to get them to completely change their rules. I don’t see a situation in which either company comes out looking particularly good nor do I see Apple suddenly doing an about turn on a business practice they’ve maintained since the App Store was launched back in 2008. And why should they? It’s their platform and the rules are clear and unambiguous; you can’t circumvent App Store review and you can’t offer your own payment system for these types of transactions. If Epic doesn’t like that, then they don’t have to sell their products on Apple devices. Nobody is entitled to run on any platform they want at the price that they want.</p>
+
+<p>The thing that irks me most about this is that Epic are choosing to call Apple’s take an “<a href="https://www.epicgames.com/site/en-US/fortnite-mega-drop-faq">exhorbitant <em>[sic]</em> 30% fee on all payments</a>”. It can’t really be described as exorbitant when it’s been the industry standard for over a decade on multiple platforms including Google Play on Android and Steam on PC.</p>
+
+<p>What I find exorbitant is the selling of costumes in a game for upwards of £20. I find it exorbitant that to purchase anything within Fortnite you first have to purchase an intermediary currency whereby you can’t ever get the exact amount you need. For example, here are the current prices on Fortnite today including the new 20% price drop they’ve added if you purchase direct from Epic:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/fortnite-vbucks.jpg" width="800" height="370" /></p>
+
+<p>And here are some of the items available for purchase:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/fortnite-item-shop.jpg" width="800" height="370" /></p>
+
+<p>Note that there is no equality between the two. If you want to buy a 1200 V-Buck “The Brat” outfit you’ll need to either pay £12.98 to buy two packs of 1000 V-Bucks (leaving you 800 spare) or pay £3.01 more to buy 2800 V-Bucks (leaving you 1600 spare). This is nothing new of course<sup id="fnref:guilty"><a href="#fn:guilty" class="footnote">4</a></sup> and is a well trodden psychological trick designed to give you a form of credit so purchases have less friction; I can thoroughly recommend Jamie Madigan’s excellent website “<a href="https://www.psychologyofgames.com/">The psychology of video games</a>” and his article on “<a href="https://www.psychologyofgames.com/2020/01/the-perils-of-in-game-currency/">The perils of in-game currency</a>” if you want to find out more.</p>
+
+<p>These kind of spending tricks are the worst aspects of the App Store along with the £99 gem bundles that are frequently seen in Match-3 timer games. Worse yet are the loot boxes that are there merely to get children hooked on gambling and which governments around the world are now starting to investigate. Fortnite isn’t as bad as these, but the fact that Epic was able to reduce it’s 30% cut to 12% on it’s PC storefront due to the huge profit they’d made on selling kids overpriced cosmetics in Fortnite isn’t exactly laudable.</p>
+
+<p>Apple are by no means blameless in any of this either. They’ve created the store that allowed these high-price consumables to be commonplace and whilst they could easily improve developers lives by reducing the 30% fee they’ve chosen not to. I’ve long thought a good compromise would be some form of sliding scale along the lines of £0-10k is free, £10k-100k is 30%, then £100k+ is 15%. Of course, doing that means taking a huge financial hit to a multi-billion dollar business<sup id="fnref:appstorebusiness"><a href="#fn:appstorebusiness" class="footnote">5</a></sup>.</p>
+
+<p>For my part, I’d be glad to see a reduction in the 30% fee but I don’t want to see multiple store fronts being allowed on iOS; that there is only once place to get apps is a huge benefit to most users and developers. Whilst I doubt it will happen, I would dearly love for Apple to fight back by banning the selling of intermediary currencies in apps and instead only allowing direct purchases (i.e. that “The Brat” outfit would be clearly labelled as a £7.99 purchase). That sort of change would make genuine shock-waves through the industry and actually let something good come of this entire situation. It’s far more likely however that this is just going to end in endless courtroom battles and some form of App Store regulation.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:abtesting">
+      <p>I don’t know whether it’s A/B testing or a change since the update was released but in all of the promo shots of this on Epic’s blog the Apple payment system <a href="https://cdn2.unrealengine.com/epic-direct-pay-apple-app-store-2045x979-730312642.png?resize=1&amp;w=1000&amp;quality=high">comes first</a> but in the app Epic’s payment system is on top. <a href="#fnref:abtesting" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:guidelines">
+      <p>They’re called guidelines but they’re rules. They really should be named as such. <a href="#fnref:guidelines" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:nineteendate">
+      <p>It even has <a href="https://bendodson.s3.amazonaws.com/weblog/2020/nineteen-eighty-fortnite.jpg">today’s date on the screen</a> within the video so this was clearly very well planned. <a href="#fnref:nineteendate" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:guilty">
+      <p>And it’s something I’m guilty of myself. I ran a popular freemium game called WallaBee back in 2011 which had it’s own intermediate currency known as honeycombs. Of course, we provided plenty of ways for players to get these for free (usually by doing more exercise by travelling outside long before Pokémon Go came along) and the cheapest pack at £0.99 would be more than enough to buy any of the items in the game. If somebody spent over a certain amount within a certain time period, we’d reach out to them to make sure there weren’t any issues (in one case somebody was frequently gifted App Store cards from their work so they spent them all on our game). I had a blueprint for a more ethical in-app purchasing system for the long worked on v2 of the game but I ended up selling the company before I could put that in action. <a href="#fnref:guilty" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:appstorebusiness">
+      <p>Whilst the App Store is small fry compared to the money Apple rakes in from hardware it is still a significant business. It’s very well to say “they’ve got so much money, they can reduce their fees” but, again, why should they? Part of being a successful business is not giving your money away! <a href="#fnref:appstorebusiness" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2020/02/28/seymour/" title="Previous Article" class="pagination-previous">&laquo; Side Project #2: (Feed Me) Seymour</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>
