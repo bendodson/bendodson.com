@@ -34,7 +34,7 @@ function UpdateTwitchBanner()
 {
   if (onlineChannel != null) {
     $('#thanks').remove();
-    $("#results").after('<div id="thanks"><p>Want to say thanks for the free artwork? You already are by watching my live Twitch stream below! If you\'re interested in Magic The Gathering or Planet Coaster then feel free to give me a <a href="https://twitch.tv/The_Plainswalker">follow on Twitch as well</a>. Thanks!</p><iframe src="https://player.twitch.tv/?channel=' + onlineChannel + '" autoplay="true" frameborder="0" scrolling="no" allowfullscreen="true" width="740" height="416"></iframe></div>');
+    $("#results").after('<div id="thanks"><p>Want to say thanks for the free artwork? You already are by watching my live Twitch stream below! If you\'re interested in theme parks or Flight Simulator then feel free to give me a <a href="https://twitch.tv/The_Plainswalker">follow on Twitch as well</a>. Thanks!</p><iframe src="https://player.twitch.tv/?channel=' + onlineChannel + '&parent=bendodson.com" autoplay="true" frameborder="0" scrolling="no" allowfullscreen="true" width="740" height="416"></iframe></div>');
   }
 }
 
