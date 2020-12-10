@@ -5,7 +5,7 @@ $(document).ready(function() {
 
     var params = getSearchParameters();
     if (params.query && params.storefront) {
-        $('#query').val(params.query);
+        $('#query').val(params.query).replace("+", " ");
         $('#storefront').val(params.storefront);
         performSearch();
     };
