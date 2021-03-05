@@ -33,12 +33,13 @@ function performSearch() {
                 console.log(data);
                 if (data.tracks.length > 0) {
                     html += '<table id="tracks-table">';
-                    html += '<tr><th></th><th>Title</th><th>Duration (seconds)<th></tr>';
+                    html += '<tr><th></th><th>Title</th><th>Duration<th></tr>';
                     for (var i = 0; i < data.tracks.length; i++) {
                         var track = data.tracks[i]
                         html += '<tr><td>' + track.trackNumber + '</td><td>' + track.name + '</td><td>' + track.duration + '</td></tr>';
                     }
                     html += '</table>';
+                    html += '<p>' + data.metadata.replace("\n", '<br>') + '</p>';
                 }
 
             }
