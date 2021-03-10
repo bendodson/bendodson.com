@@ -4,7 +4,11 @@ body {
 	color: #333;
 	font-size: 20px;
 	line-height: 1.7em;
-	font-family: 'PT Sans Caption', sans-serif;
+	font-family: -apple-system, 'PT Sans Caption', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: -apple-system-ui-serif, -ui-serif, -apple-system, sans-serif;
 }
 
 a {
@@ -204,6 +208,12 @@ article h2 {
 	padding: 0;
 }
 
+article h3 {
+	font-size: 1.3em;
+	margin: 1.5em 0 .75em 0;
+	padding: 0;	
+}
+
 blockquote {
 	margin: 1em 2em;
 }
@@ -351,7 +361,6 @@ blockquote {
 	padding: 8px 0 0 74px;
 	margin: 0;
 	text-align: left;
-	font-family: tahoma, sans-serif;
 }
 
 #apps article header p {
@@ -517,7 +526,6 @@ blockquote {
 #code article header h3 {
 	padding: 0;
 	margin: 0;
-	font-family: tahoma, sans-serif;
 }
 
 #code article header p {
@@ -538,7 +546,6 @@ blockquote {
 	padding: 8px 0 0 74px;
 	margin: 0;
 	text-align: left;
-	font-family: tahoma, sans-serif;
 }
 
 #twitch-extensions article header p {
@@ -707,6 +714,40 @@ hr {
 	padding: 0 5px;
 }
 
+div.gofigure img {
+	padding: 0;
+}
+
+div.gofigure figure {
+	margin: 0;
+	font-style: italic;
+	font-size: 0.8em;
+	text-align: center;
+	line-height: 1.4em;
+	padding: 10px 0 10px 0;
+}
+
+article div.tangent {
+	border: 1px dashed black;
+	padding: 0 20px;
+	font-size: 0.85em;
+	overflow: auto;
+	line-height: 1.5em;
+	margin: 40px 0;
+}
+
+article div.tangent h4 {
+	margin: 1em 0 0.5em 0;
+	text-decoration: underline;
+}
+
+span.prelude {
+	font-size: 0.8em;
+	line-height: 1.5em;
+	font-style: italic;
+	display: block;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
 		color: #fff;
@@ -755,6 +796,10 @@ hr {
 		border-top: 1px solid #fff;
 	}
 
+	article div.tangent {
+		border: 1px dashed #fff;
+	}
+
 	#pagination a {
 		color: #ddd;
 	}
@@ -790,4 +835,9 @@ hr {
 	#thanks {
 		background: #222;
 	}
+}
+
+article div.gofigure {
+	border-bottom: 0;
+	padding-bottom: 0;	
 }

@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2021-03-04.css" />
+	<link rel="stylesheet" href="/styles-2021-03-10.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,45 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">Does iOS 5 finally allow retina display iPhone apps to run unscaled on the iPad?</a></h1>
+			
+			<time datetime="2011-06-10" pubdate=""><a href="/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">June 10, 2011</a></time>
+    	</header>
+    	<div>
+			<p>When the iPad was first launched, one of its original touted features was the ability to run the majority of apps available in the app store (the only ones that wouldn't work were those requiring a camera but they should now work on the iPad 2). This was a great boon for Apple as they were able to claim that there were hundreds of thousands of apps available at launch but the implementation kinda sucked. Unless the app was a game (which tends to scale quite nicely if built using OpenGL), you'd end up with a pixelly mess. With the launch of the iPhone 4 and Retina Display level apps, I had always assumed that the iPad would get an update to allow it to run Retina Display iPhone apps at their full 960x640 resolution but nothing was forthcoming. So, has this been fixed in iOS 5?</p>
+<p>In a word, no, nothing has changed at all (as of iOS 5 Beta 1 at least).</p>
+<p>I had been meaning to write a post about the issue of app scaling a few months ago but what finally pushed me into action (aside from the iOS 5 beta) was an update for one of my favourite games, Peggle, which finally bring Retina Display graphics to the iPhone. It was then that I thought that perhaps Apple had finally gotten Retina Display apps working on the iPad but unfortunately it looks like that isn't going to be happening. This is a great shame as there are many brilliant iPhone games that have been optimised for the iPhone and would work brilliantly on the iPad, but the developers just haven't bothered to update them. Peggle is a good case in point so I'm going to use it as a demonstration with some screenshots I've knocked up to illustrate my point (note that you can click on the images below to see the real size versions).</p>
+<p>First off, here is Peggle running on the iPhone 4 at full Retina Display resolution:</p>
+<a href="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPHONE-RETINA-full.jpg" target="_blank"><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPHONE-RETINA.jpg" alt="iPhone 4 with Peggle on a Retina Display" title="IPHONE-RETINA.jpg" border="0" width="600" height="322" /></a>
+
+<p>Looks pretty nice! Now let's take a look at it on the iPad 2:</p>
+
+<a href="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPAD-NORMAL-1x-full.jpg" target="_blank"><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPAD-NORMAL-1x.jpg" alt="iPad running Peggle at 1x resolution" title="IPAD-NORMAL-1x.jpg" border="0" width="600" height="420" /></a>
+
+<p>That is running at 480x320px black boxed in the middle of the screen. Now this doesn't look too bad as it would look exactly as the app would on a handset without a Retina Display (that is to say that there would be no pixelation at this size). Obviously it's awful from a usability point of view (why play a game using less than 25% of your screen?) but the real problem comes when we tap 2x to scale it up to almost full size on the iPad:</p>
+
+<a href="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPAD-NORMAL-2x-full.jpg" target="_blank"><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPAD-NORMAL-2x.jpg" alt="iPad running Peggle at 2x resolution" title="IPAD-NORMAL-2x.jpg" border="0" width="600" height="420" /></a>
+
+<p>(it probably doesn't look too bad in the thumbnail but click to see it at it's native size and you'll see the issue).</p>
+
+<p>The problem is that rather than using the 960x640px assets that are available in the app (as they are used on the iPhone 4), the iPad instead just doubles up the 480x320px version resulting in a fairly fuzzy mess. Seeing as the assets exist in the app already, it should look something more like this:</p>
+
+<a href="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPAD-WITH-RETINA-full.jpg" target="_blank"><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/06/IPAD-WITH-RETINA.jpg" alt="Mockup showing an iPad running Peggle at iPhone 4 Retina Display resolution" title="IPAD-WITH-RETINA.jpg" border="0" width="600" height="420" /></a>
+
+<p>The iPad (both the original and the iPad 2) are more than powerful enough to cope with it so it can't be an issue of hardware specs. The only technical problem I could see would be what happens when you scale between 1x and 2x modes (as it would be difficult to have it dynamically switch between the two resolutions). However, my solution would be that if you are running an app updated to Retina Display quality, it should always run at the full size removing the need for the button.</p>
+
+<p>Overall, I think the real problem is that Apple don't want iPhone apps to look good on the iPad. If games like Peggle worked on the iPad at pretty much native resolution, then there would be no incentive for iOS developers to develop solely for the iPad. This isn't a problem so much for games (aside from losing revenue for games that have "HD" added on the end... I'm looking at you Angry Birds) but it might be for apps like Facebook (not that they've bothered making an iPad app anyway). If normal utilities worked at double-resolution, the main argument for developing apps on the iPad would be for UI reasons, and not all iOS developers care about that (though they should).</p>
+
+<p>Looks like the iPad is forever going to be limited to running iPhone apps at a scaled resolution.</p>
+
+<p><strong>Update - 22nd June 2011:</strong> Ben Wetzel emailed me to let me know about <a href="http://rpetri.ch/cydia/retinapad/">RetinaPad</a>, an app for jailbroken iPads that allows you to run Retina Display iPhone apps at full resolution - it will also scale up common components and text for non-Retina Display apps.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -482,92 +521,6 @@ You can <a href="https://bendodson.com/projects/itunes-tv-artwork/">find the wor
 
 <p>As you can see, it makes a fairly standard API call to the US iTunes store (as that has far more content than any of the others) which returns a lot of information about the particular entity (in this case a TV series).  However, the artwork URL provided is only good for a 100x100px image so I us  a basic <code>str_replace</code> to change that to 600x600 (the only other size I've found that works is 200x200).  Once that's done, I grab the title and stick it all in an array to loop through later - simple!</p>
 <p>Hopefully this script will be of some use to you - it's certainly made my library look a lot nicer when browsing on an iPad or an Apple TV!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">Gamification, Social Validation, Gowalla, and moving on from Wallabee - What I learned at SXSW</a></h1>
-			
-			<time datetime="2011-03-27" pubdate=""><a href="/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">March 27, 2011</a></time>
-    	</header>
-    	<div>
-			<p>Since childhood, I’ve been a huge fan of maps and the concept of location. I used to spend hours drawing maps of the neighborhood where I lived and reading books and magazines about different countries and places around the world. Much later, I became a web developer and would spend a lot of time playing with the Google Maps APIs and creating mashups with the FireEagle service.  When the iPhone came out, I was hooked; not only for the simplistic UI (I could write an entire blog on how less is more with UI) but by the fact that your location was always in the palm of your hand.  Once the iPhone SDK came out, I switched careers purely because location-based apps were the stuff of my dreams and that’s what I wanted to spend my time on.   
-Earlier this month, I headed to Austin for my first experience of SXSW.  Whilst many people (myself included) went for the talks and networking opportunities, I was mainly interested in meeting the people behind Gowalla, a location-based service I’ve spent a lot of time with over the past 3 years.  In Austin, I was staying with a group of friends who had come not for SXSW, but to collect the rare items and pins that would be available through Gowalla.</p>
-
-<p>The purpose of this blog post is to explain what I’ve learned about the future of location-based services both from talking to Gowalla employees, and watching how people play Gowalla in the real world.</p>
-
-<h3>Gamification and Social Validation</h3>
-
-<p>One of the key buzzwords of SXSW 2011 was “gamification” which is loosely defined as:</p>
-
-<blockquote><p>The use of game play mechanics for non-game applications, particularly consumer-oriented web and mobile sites, in order to encourage people to adopt the applications</p></blockquote>
-
-<p>In the same way that apps add “tweet this” and “facebook that” buttons in order to tick the box for social media, it seems that the future is based around the idea of adding a game layer purely because other apps have one.  These mechanics tend to be of the badge variety which works by giving the user digital badges for reaching certain goals.  Some go further by giving you physical things (e.g. stickers) rather than digital items.</p>
-
-<p>In addition to gamification, there is also the proliferation of the “check in” model of thinking.  This is the idea that you can now check in to anything be it a location (Gowalla, Foursquare), TV shows (Miso, Glue), Books (GoodReads), or just about anything else you can think of.  When the models are combined with social networks like Twitter of Facebook, it seems that most applications are generally designed to do 2 things; either tell people what you are doing or show-off to other people about how good you are at a digital task.</p>
-
-<p>For me, the best talk at SXSW was by<a href="http://twitter.com/jw"> Josh Williams</a>, CEO of <a href="http://gowalla.com/">Gowalla</a>, in which he discussed the future of location-based services in a talk entitled “<a href="http://www.slideshare.net/firewheel/where-are-we-going-sxsw-2011">Where are we going</a>”.  The candid presentation talked a lot about where services had gone wrong but was also self-admittedly contradictory (especially when you look at the Gowalla service overall which I’ll come onto later).  However, he had one key slide which I think resonated with everybody in the room:</p>
-
-
-
-<blockquote><p>Social validation is the primary driver for activity on today’s web</p></blockquote>
-
-
-
-<p>This is a profound idea that suggests the reason that people play with game layers, send tweets, check in on apps, and use social networks and services is purely based on egotism; we do things not because we want to, but because we want to be accepted by society. This is not a new idea, but it is one that I think a lot of people have been blind to for a long time.  With one sentence, Williams had made me uninstall a number of apps on my phone and take a fundamental look at the projects I was working on and the people I was interacting with.</p>
-
-<p>Another key quote from the talk was:</p>
-
-
-
-<blockquote><p>Game mechanics are subservient to the usefulness of a service</p></blockquote>
-
-
-
-<p>Whilst this one didn’t hit me with as much impact as the piece on social validation, it’s something I’ve not been able to stop thinking about over the past few weeks. Social validation is the main reason people use a game mechanic but what is the driver for playing a regular game, watching TV, or reading a book? After thinking on it, I’ve concluded that the driver for offline tasks tends to be story, whilst online we tend to want to  share our story.  By way of example, I might watch Mad Men as I enjoy the plot, but I’ll tweet about it because I want social validation.</p>
-
-<p>This describes the correlation between offline and social networking well enough, but what about game mechanics? These were created in order to incentivise a story action but tend more often to promote the idea of social validation.  An interesting game mechanic to look at would be something like Xbox Achievements or PS3 trophies. These were designed to extend the life of a game by adding extra challenges that weren’t part of the main storyline yet have now evolved into an exercise in social validation.  People will now play games not because they are interested in the game itself but because they want a higher gamerscore. I’ve seen (and been a part of) this idea myself and it’s only when I think about it that I realise that the best games I’ve played are generally the ones which don’t have achievements. Games like Zelda and Final Fantasy are good because of the story and core mechanic, not because they improve my gamerscore.  I’m not saying that all achievements are bad, but I do feel that a game like Assassins Creed II is detracted from when players are performing tasks such as collecting 100 feathers for the sole reason of improving their gamerscore.</p>
-
-<p>Whilst console games can have both this social validation aspect and a good storyline, a worrying trend with most new game mechanics and online games is that they don’t have the story portion at all.  For instance, what is the point of Farmville?  There is no ending, there is storyline, it is simply a game based around social validation.  So it is for services like PackRat (made by the same people as Gowalla) in which you can collect items simply for the purpose of showing other people.  Both these games (and others) have an element of a game currency (for purchases of items in the game world) which can be topped up with real money.  You therefore end up actually paying real money to purchase items in a digital world for the sole purpose of showing them off to other people.  I eventually stopped playing PackRat when I came to the realisation that I was spending money and time (sometimes jumping up when new items came out so I could be the first to get one) on a service which actually had no benefit.  I maintain that the reason for this is that there is no ending - users might spend time collecting all the Pokémon on a Nintendo DS as they know there is an ending, but with Farmville, PackRat, et al., the whole thing is continual.</p>
-
-<h3>Gowalla: A game of two halves</h3>
-
-<p>So, what of location-based services?  Gowalla has a difficult task ahead of it currently as it is walking a line of two different concepts; the idea of exploring the world and the idea of collecting items.  I believe these can be defined as story and social validation respectively. </p>
-
-<p>Gowalla have used variations of “explore the world” since they first started and it is one of the key things that drew me to them.  With their beautiful artwork, it was easy to imagine that your travels were like those in the past where travelers would place a sticker on their suitcase from each place they visited.  The concept of a digital passport imitating the real world was exciting and they have done a great job of extending this with featured spots and trips.  More recently, highlights and notes have allowed users to show where there favorite places are both publicly and privately and encourage other people to visit those locations.  One of the most interesting pieces they are working on is in telling the “story” of your travels.  This has begun with them joining your flights together and showing the distance (and connecting flights if applicable) when you check-in at 2 or more airports in a row.  They used this feature to award a special pin for those that had travelled to SXSW when they landed back at their originating airport (so I got mine at Heathrow after travelling back from Austin airport).  Williams has been mentioning for a long time that these flight updates are “just the beginning” and I can envisage a future in which they can build up a digital holiday keepsake for you (complete with photos, highlights, check-ins, and tweets) by using this information.</p>
-
-<p>However, the other side of Gowalla is one based on a game layer.  Items have long been a sore point to many users (including myself for a time) as they were one of the key features that differentiated Gowalla from other location based services (such as Foursquare).  As most new users were coming from PackRat, it is easy to see why items were such a key part to many peoples experience.  However, like the never-ending gamification I described earlier, there is no ending for items.  Once you have them all, you don’t get anything as a new one might be released next week.  Therefore there is no end and no purpose to collecting them other than to show off to other people for social validation.</p>
-
-<p>Gowalla have been slowly trying to lessen the importance of items within the game in order to focus on story, but as they have done so the community has been more and more vocal about the changes.  One of the changes was to make it so that checking in to more than 5 places within an hour would trigger a switch preventing you from receiving items for the next 24 hours.  This was at odds with the “collect them all” aspect of items which require checking in all over the place in order to get them but was done in the interest of making people check-in where they are right now rather than checking-in everywhere within 5km (the current distance you are allowed to check-in from your actual location) just to get items.</p>
-
-<p>Unfortunately, I was privy to many embarrasing moments at SXSW where the Gowalla team were subjected to people complaining about items, check-ins, and the other aspects that I’m sure Gowalla don’t really care about (as they don’t build on the story mechanic).  I saw some of the most childish outbursts I’ve ever seen in my life over something as simple as a digital item and it really put me off items as a whole.</p>
-
-<p>In my opinion, Gowalla need to cut items lose in order to really grow as a service.  Judging by the complaints on their GetSatisfaction pages, I’d say that the vast majority of complaints are about the game mechanic rather than the overall service and its story elements.  If they were to cut off the game mechanic, Gowalla would lose a lot of users, but they’d be able to focus on the key part of the service; “seeing the world”.  This in turn would build a better product and allow them to regain users who share their vision rather than trying to maintain the careful balance they have at present.</p>
-
-<p>My current belief is that items are slowly being fashioned into rewards, a feature that was launched at SXSW.  With rewards, some of the digital items you find are actually usable as promotional offers (so you might get a “free taco” item which allows you get a free taco when you check-in at certain locations).  If they removed the non-reward items, they could have a social layer which has a purpose and isn’t tied so intrinsically with the limitations of exploration.  By that, I mean that people would be encouraged to check-in only where they are currently, and by doing so they may receive one of these promotional rewards.  Once a reward is used, it should then be archived as it then serves as a history of the promotions you’ve earned (which are a story in themselves).  By doing this, you no longer have a part of the service which encourages multiple check-ins for items which have no value beyond social validation.</p>
-
-<p>I have no idea if this is there current plan, but it seems a sensible way forward.</p>
-
-<h3>Wallabee: A project based on Gowalla items</h3>
-
-<p>If you’re familiar with my projects, you’ll know of a service I created called <a href="http://wallabeegame.com/">Wallabee</a>.  It’s a website (and set of apps) that build on the Gowalla API and basically dishes out a lot of information about items in particular.  I originally created it as I wanted an easy way of finding out which types of spots items appeared at.  Items were a fun feature at the start of Gowalla and I would travel to whole new places just to pick up an item - I used to think I was doing this because I wanted items but I eventually realised that I was enjoying having a reason to go to new places and “see the world”. Once I made the site public, it gathered a large following and has grown into various things since.  There are apps, item hunters, tools to show Flickr photos at different spots, and a new guide which introduces players to key Gowalla concepts (as Gowalla itself has no tutorial).  However, the most popular things every time have been things to do with items (which is confirmed by a new feature I built recently called the Item Directory which shows people where every item can be found in real time).</p>
-
-<p>After SXSW and thinking on both the attitudes of people I’d seen and the talks I’d heard, as well as mulling over everything I’ve said above with regards to social validation, gamification, and the future of Gowalla, I decided that I just didn’t want to do this anymore.  I’ve been working on Wallabee in its various incarnations for two and a half years and it wasn’t until I took a step back that I realised everything I was doing was based on items.  I’m not interested in Gowalla items. I haven’t even been actively trying  to collect them myself for the past year (yet I seem to have got them all just because of my slow check-in rate) so why am I building free apps based around them? I realised that I was doing it not because I wanted to, but because it was what most of the followers I’d gained (by starting with item-based tools) were asking for.</p>
-
-<p>I’ve therefore decided to stop working on Wallabee and instead focus on building location-based apps that extend the story aspects of travel rather than the gamification aspects.  If you’re a Wallabee user, then you’ll want to<a href="http://wallabeegame.com/pouch/2011/03/27/moving-on-from-wallabee/"> read my post on the Wallabee site about how this affects you</a>, but basically I’m handing the site over to another developer who is interested in the gamification layer and in building upon the brand I’ve created.</p>
-
-<p>I will still be using the Gowalla API and the Gowalla service as I think it shows great potential and is a genuinely exciting location-based service.  I’ll be doing this under my own name rather than the Wallabee brand, however, and the apps will mostly be of a paid nature.  This begins soon with a completely new app which I’ll be releasing shortly.</p>
-
-<h3>To the future</h3>
-
-<p>This blog post ended up being about five times longer than I intended but I hope it gives you an insight into what I think about location-based services moving forward as well as some of the social issues around game mechanics.  To finish, I’d like to take one more quote from Josh Williams talk at SXSW:</p>
-
-<blockquote><p>Stay true to your vision</p></blockquote>
-
-<p>I lost track of my vision when I started developing tools that I wasn’t using myself.  I’m looking forward to returning to my vision by creating new apps that will help people explore the world around them.</p>
 
 		</div>
 	</article>

@@ -8,7 +8,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2021-03-04.css" />
+	<link rel="stylesheet" href="/styles-2021-03-10.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +38,127 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">MailRoute blacklisting via email</a></h1>
+			
+			<time datetime="2016-09-15" pubdate=""><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">September 15, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been using <a href="http://mailroute.net/">MailRoute</a> on and off for the past few years<sup id="fnref:sanebox" role="doc-noteref"><a href="#fn:sanebox" class="footnote">1</a></sup> in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their website. Whilst you can whitelist domains easily from the daily digest of caught spam, there is no feature that lets you forward spam to them in order to have it blacklisted (despite people, including me, <a href="https://support.mailroute.net/entries/23555217-Blacklist-by-email">requesting it since 2013</a>). After having a look at the <a href="https://support.mailroute.net/forums/21682281-API">MailRoute API</a>, I decided it was time to fix this myself.</p>
+
+<p>There are several components in getting this working.</p>
+
+<ol>
+  <li>I created a new email address with <a href="http://gmail.com">Gmail</a> which will catch my forwarded spam<sup id="fnref:gmailspam" role="doc-noteref"><a href="#fn:gmailspam" class="footnote">2</a></sup>.</li>
+  <li>I set up an account with <a href="http://context.io">Context.io</a> and connected it to the gmail account<sup id="fnref:gmailaccount" role="doc-noteref"><a href="#fn:gmailaccount" class="footnote">3</a></sup>.</li>
+  <li>I put the following code <a href="https://github.com/bendodson/mailroute-blacklist-with-contextio">available on GitHub</a> on a 15 minute CRON job</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+
+<span class="k">require_once</span> <span class="s1">'OAuth.php'</span><span class="p">;</span>
+
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_KEY'</span><span class="p">,</span> <span class="s1">'your-contextio-consumer-key'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_SECRET'</span><span class="p">,</span> <span class="s1">'your-contextio-consumer-secret'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_USER_ID'</span><span class="p">,</span> <span class="s1">'your-contextio-user-id'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_TRASH_NAME'</span><span class="p">,</span> <span class="s1">'[Gmail]/Trash'</span><span class="p">);</span> <span class="c1">// change if not using Gmail</span>
+
+<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_USER'</span><span class="p">,</span> <span class="s1">'your-mailroute-username'</span><span class="p">);</span> <span class="c1">// should be your email address</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_API_KEY'</span><span class="p">,</span> <span class="s1">'your-mailroute-api-key'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_EMAIL_ACCOUNT_ID'</span><span class="p">,</span> <span class="s1">'your-mailroute-email-id'</span><span class="p">);</span> <span class="c1">// numeric - can be found in admin.mailroute.net network traffic</span>
+
+<span class="nv">$whitelist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'sending@example.com'</span><span class="p">];</span> <span class="c1">// add the email address you are forwarding from or you'll blacklist yourself...</span>
+
+<span class="nv">$inbox</span> <span class="o">=</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages'</span><span class="p">);</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$inbox</span> <span class="k">as</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$message</span><span class="o">-&gt;</span><span class="p">{</span><span class="s1">'message_id'</span><span class="p">};</span>
+    <span class="nv">$body</span> <span class="o">=</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/body'</span><span class="p">);</span>
+    <span class="nv">$content</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nv">$body</span><span class="o">-&gt;</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">));</span>
+    <span class="nv">$emails</span> <span class="o">=</span> <span class="nf">extractEmailAddresses</span><span class="p">(</span><span class="nv">$content</span><span class="p">);</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$emails</span> <span class="k">as</span> <span class="nv">$email</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$email</span><span class="p">,</span> <span class="nv">$whitelist</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nf">performRequest</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="s1">'https://admin.mailroute.net/api/v1/wblist/'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'email_account'</span> <span class="o">=&gt;</span> <span class="s1">'/api/v1/email_account/'</span><span class="mf">.</span><span class="no">MAILROUTE_EMAIL_ACCOUNT_ID</span><span class="mf">.</span><span class="s1">'/'</span><span class="p">,</span> <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span> <span class="s1">'wb'</span> <span class="o">=&gt;</span> <span class="s1">'b'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'Authorization: ApiKey '</span><span class="mf">.</span><span class="no">MAILROUTE_USER</span><span class="mf">.</span><span class="s1">':'</span><span class="mf">.</span><span class="no">MAILROUTE_API_KEY</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'PUT'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages/'</span><span class="mf">.</span><span class="nv">$id</span><span class="p">,</span> <span class="p">[</span><span class="s1">'new_folder_id'</span> <span class="o">=&gt;</span> <span class="no">CONTEXT_TRASH_NAME</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="k">echo</span> <span class="s1">'DONE!'</span><span class="p">;</span>
+
+
+
+<span class="c1">// CURL</span>
+
+<span class="k">function</span> <span class="n">performOAuthRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="nv">$signatureMethod</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OAuthSignatureMethod_HMAC_SHA1</span><span class="p">();</span>
+    <span class="nv">$oauthConsumer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OAuthConsumer</span><span class="p">(</span><span class="no">CONTEXT_KEY</span><span class="p">,</span> <span class="no">CONTEXT_SECRET</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">);</span>
+    <span class="nv">$oauthRequest</span> <span class="o">=</span> <span class="nc">OAuthRequest</span><span class="o">::</span><span class="nf">from_consumer_and_token</span><span class="p">(</span><span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
+    <span class="nv">$oauthRequest</span><span class="o">-&gt;</span><span class="nf">sign_request</span><span class="p">(</span><span class="nv">$signatureMethod</span><span class="p">,</span> <span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$oauthRequest</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="n">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+
+    <span class="nv">$headers</span><span class="p">[]</span> <span class="o">=</span> <span class="s1">'Content-Type: application/json'</span><span class="p">;</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$httpMethod</span> <span class="o">!=</span> <span class="s1">'GET'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$params</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+    <span class="nv">$httpcode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLINFO_HTTP_CODE</span><span class="p">);</span>
+    <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+
+<span class="c1">// Email parsing</span>
+
+<span class="k">function</span> <span class="n">extractEmailAddresses</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nv">$emails</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
+   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
+
+   <span class="k">foreach</span><span class="p">(</span><span class="nb">preg_split</span><span class="p">(</span><span class="s1">'/ /'</span><span class="p">,</span> <span class="nv">$string</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$token</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$email</span> <span class="o">=</span> <span class="nb">filter_var</span><span class="p">(</span><span class="nv">$token</span><span class="p">,</span> <span class="no">FILTER_VALIDATE_EMAIL</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$email</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="nv">$emails</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$email</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">array_unique</span><span class="p">(</span><span class="nv">$emails</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now all you need to do is forward any spam you receive to the Gmail account you set up. Every 15 minutes, the CRON job will run and check the inbox for any emails. When it finds some, it will parse them for email addresses and blacklist them with MailRoute before deleting them.</p>
+
+<p>In an ideal world, MailRoute would implement a custom email address for blacklisting but this seems to be working for now.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:sanebox" role="doc-endnote">
+      <p>I stopped using MailRoute a while back and was using the black hole feature of <a href="http://sanebox.com/">Sanebox</a> but I’ve just stopped using them as found the free service <a href="http://followupthen.com/">FollowUpThen</a> - I was getting a lot of spam after the switch off so decided to re-activate MailRoute this week. I use <a href="http://fastmail.fm">Fastmail</a> for my email in case you were wondering. <a href="#fnref:sanebox" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:gmailspam" role="doc-endnote">
+      <p>As you’ll be forwarding emails to Gmail, you’ll want to disable its spam filter as otherwise your emails won’t end up in the inbox for processing by Context. To do this, you’ll need to set up a new rule which matches the email ‘@’ and ensures it never goes to spam. <a href="#fnref:gmailspam" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:gmailaccount" role="doc-endnote">
+      <p>Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. <a href="#fnref:gmailaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -491,30 +612,6 @@
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">The Divide #14 - WWDC 2016, 'iTunes with tabs'</a></h1>
-			
-			<time datetime="2016-06-15" pubdate=""><a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">June 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The <a href="http://thedivide.co.uk/episodes/14">14th episode of The Divide podcast</a> is now available in which we take look at the new announcements about watchOS, tvOS, macOS, and iOS in a special episode almost as long as the WWDC keynote itself. We also have a brief chat about the latest news from E3 and Chris gets upset about the Stay Puft Marshmallow Man.</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
 
 		</div>
 	</article>
