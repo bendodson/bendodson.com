@@ -56,28 +56,28 @@
 			<time datetime="2016-02-26" pubdate=""><a href="/weblog/2016/02/26/storefront-additions-skcloudservicecontroller-to-country-code/">February 26, 2016</a></time>
     	</header>
     	<div>
-			<p>In <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">my article a few days ago</a>, I noted that <code>SKCloudServiceController</code> would give you a storefront identifier but that there was very little information about how to use that identifier when using the iTunes Search API. As it turns out, Apple do provide a list of store identifiers with their respective ISO country codes on their <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Links website</a> - a big thank you to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for directing me to it.</p>
+			<p>In <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">my article a few days ago</a>, I noted that <code class="language-plaintext highlighter-rouge">SKCloudServiceController</code> would give you a storefront identifier but that there was very little information about how to use that identifier when using the iTunes Search API. As it turns out, Apple do provide a list of store identifiers with their respective ISO country codes on their <a href="https://affiliate.itunes.apple.com/resources/documentation/linking-to-the-itunes-music-store/">iTunes Affiliate Links website</a> - a big thank you to <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> for directing me to it.</p>
 
 <p>In order to make things a bit easier for other developers, <a href="https://github.com/bendodson/storefront-assistant">I’ve put together a simple class and plist file</a> that will automatically return a country code for the current user’s store. It’s incredibly simple:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">StorefrontAssistant</span><span class="p">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">StorefrontAssistant</span><span class="o">.</span><span class="n">countryCode</span> <span class="p">{</span> <span class="p">(</span><span class="n">countryCode</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="kd">let</span> <span class="nv">countryCode</span> <span class="p">=</span> <span class="n">countryCode</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Country code: </span><span class="si">\(</span><span class="n">countryCode</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">countryCode</span> <span class="o">=</span> <span class="n">countryCode</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Country code: </span><span class="se">\(</span><span class="n">countryCode</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
 <p>Storefront Assistant will automatically request permissions to access the Media Library and then fetch the current storefront identifier for the logged in user. If there are any issues (i.e. permissions denied, no connectivity, country code can’t be found) then an NSError will be returned.</p>
 
-<p>Once you have the country code, you can then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to search for tracks in the correct country; these can then be used with <code>MPMusicPlayerController</code> for immediate playback or <code>MPMediaLibrary</code> for saving to the user’s Media Library.</p>
+<p>Once you have the country code, you can then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to search for tracks in the correct country; these can then be used with <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> for immediate playback or <code class="language-plaintext highlighter-rouge">MPMediaLibrary</code> for saving to the user’s Media Library.</p>
 
 <p>The full code is <a href="https://github.com/bendodson/storefront-assistant">available on GitHub</a>.</p>
 
 <p><strong>Update, 10th Mar 2016:</strong> <a href="https://twitter.com/loretoparisi">Loreto Parisi</a> has put together some code in order to provide this list as a JSON file instead of a plist; he also has a Node JS implementation to scrape this information regularly from the iTunes Affiliate Link Website. <a href="https://github.com/loretoparisi/itunes-countrycode-node">Check it out on GitHub</a>.</p>
 
-<p><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code>s=143444</code> instead of <code>country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>.</p>
+<p><strong>Update, 31st Mar 2016:</strong> Thanks to <a href="https://twitter.com/AbrasMateus">Matt Abras</a> it turns out that the above code isn’t necessary; you can just use the undocumented <code class="language-plaintext highlighter-rouge">s=143444</code> instead of <code class="language-plaintext highlighter-rouge">country=gb</code> when using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a>.</p>
 
 		</div>
 	</article>

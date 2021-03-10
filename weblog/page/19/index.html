@@ -86,7 +86,7 @@
 			<p>Lewis Peckover:</p>
 
 <blockquote>
-  <p>If you’re on O2’s UK mobile network (not ADSL), you’ll (probably) see a line beginning with <code>x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
+  <p>If you’re on O2’s UK mobile network (not ADSL), you’ll (probably) see a line beginning with <code class="language-plaintext highlighter-rouge">x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
 </blockquote>
 
 <p>Looks like O2 is sending users mobile phone numbers in plain text over HTTP headers to every site they visit whilst using their network. At the moment the issue appears to be limited to certain APNS on the UK O2 network.</p>
@@ -196,17 +196,17 @@
 <p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0066.png" alt="SiriProxy-TubeUpdates - A standard request" title="IMG_0066.PNG" border="0" /></p>
 <p>I've not dabbled with Ruby for a while but building the plugin was fairly straightforward. All of the code is <a href="https://github.com/bendodson/SiriProxy-TubeUpdates/">available on GitHub</a> but the main piece looks like this:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span></span><span class="n">listen_for</span> <span class="sr">/[what is,what&#39;s] the status of (.*)/i</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
-	<span class="n">encodedline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
-	<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://tubeupdates.com/siri/?line=&#39;</span><span class="o">+</span><span class="n">encodedline</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">listen_for</span> <span class="sr">/[what is,what's] the status of (.*)/i</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+	<span class="n">encodedline</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'+'</span><span class="p">)</span>
+	<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://tubeupdates.com/siri/?line='</span><span class="o">+</span><span class="n">encodedline</span><span class="p">)</span>
 	<span class="n">json</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="n">get</span> <span class="n">url</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span> <span class="n">json</span>
-	<span class="n">say</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;status&quot;</span><span class="o">]</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">json</span>
+	<span class="n">say</span> <span class="n">result</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]</span>
     
-	<span class="k">if</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;messages&quot;</span><span class="o">].</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
-	    <span class="n">response</span> <span class="o">=</span> <span class="n">ask</span> <span class="s2">&quot;There are additional details. Would you like to hear them?&quot;</span>
+	<span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">].</span><span class="nf">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+	    <span class="n">response</span> <span class="o">=</span> <span class="n">ask</span> <span class="s2">"There are additional details. Would you like to hear them?"</span>
 	    <span class="k">if</span><span class="p">(</span><span class="n">response</span> <span class="o">=~</span> <span class="sr">/yes/i</span><span class="p">)</span> <span class="c1">#process their response            </span>
-	        <span class="n">result</span><span class="o">[</span><span class="s2">&quot;messages&quot;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">message</span> <span class="o">|</span>
+	        <span class="n">result</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">].</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">message</span> <span class="o">|</span>
 	            <span class="n">say</span> <span class="n">message</span>
 	        <span class="p">}</span>
 	    <span class="k">end</span>
@@ -337,7 +337,7 @@ In a post entitled "<a href="http://groups.google.com/group/gowalla-dev/browse_t
 
 <p>Next, there are 4 headers you have to send with every request. 2 of them, "<code>Accept: application/json</code>" and "<code>X-Gowalla-API-Key</code>", were required for the old API but Gowalla have also added an "<code>X-Gowalla-Bruce-Lee</code>" header (with a password so they know it's the Gowalla app using the API) and an "<code>X-Gowalla-API-Version</code>" header which seems to suggest they are taking my advice of 18 months ago and versioning the API rather than just breaking existing apps. So, the full headers you need to send are:</p>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Accept: application/json
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Accept: application/json
 X-Gowalla-API-Key: YOUR-API-KEY-HERE
 X-Gowalla-Bruce-Lee: l33tkuned0
 X-Gowalla-API-Version: 2</code></pre></figure>

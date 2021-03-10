@@ -67,11 +67,11 @@
 
 <h3 id="the-problem">The Problem</h3>
 
-<p>I’m travelling to The Happiest Place On Earth™ next week and as I’m staying in a Disney hotel I was able to book fastpasses for rides 60 days in advance. The issue is that a new ride, <a href="https://www.disneyworld.eu/attractions/hollywood-studios/mickey-minnies-runaway-railway/">Mickey &amp; Minnie’s Runaway Railway</a>, is due to open whilst I’m there but fastpasses were not yet available to be booked as the opening date hadn’t been formally announced. When the announcement finally came, I didn’t see it for 5 hours as I was busy and hadn’t been checking my numerous theme park RSS feeds<sup id="fnref:rssfeeds"><a href="#fn:rssfeeds" class="footnote">1</a></sup>. Fortunately I was still able to grab one of the remaining fastpasses for later in my holiday but I was determined that this shouldn’t happen again…</p>
+<p>I’m travelling to The Happiest Place On Earth™ next week and as I’m staying in a Disney hotel I was able to book fastpasses for rides 60 days in advance. The issue is that a new ride, <a href="https://www.disneyworld.eu/attractions/hollywood-studios/mickey-minnies-runaway-railway/">Mickey &amp; Minnie’s Runaway Railway</a>, is due to open whilst I’m there but fastpasses were not yet available to be booked as the opening date hadn’t been formally announced. When the announcement finally came, I didn’t see it for 5 hours as I was busy and hadn’t been checking my numerous theme park RSS feeds<sup id="fnref:rssfeeds" role="doc-noteref"><a href="#fn:rssfeeds" class="footnote">1</a></sup>. Fortunately I was still able to grab one of the remaining fastpasses for later in my holiday but I was determined that this shouldn’t happen again…</p>
 
-<p>I use the excellent <a href="https://feedbin.com">Feedbin service</a><sup id="fnref:reeder"><a href="#fn:reeder" class="footnote">2</a></sup> to keep up with my feeds and it turns out they have an app called <a href="https://feedbin.com/notifier">Feedbin Notifier</a>, but it doesn’t seem to work. It only supports one search term and the examples all use single words which didn’t give me total faith that the phrase “rise of the resistence OR space 220 OR fastpass” would parse correctly. There was also no detail on how regularly the checking was done and whilst I managed to get a notification for the term “apple” I couldn’t get it to work for much else. As I couldn’t trust it would do what I needed it to, I decided it was quicker and easier to just build it myself.</p>
+<p>I use the excellent <a href="https://feedbin.com">Feedbin service</a><sup id="fnref:reeder" role="doc-noteref"><a href="#fn:reeder" class="footnote">2</a></sup> to keep up with my feeds and it turns out they have an app called <a href="https://feedbin.com/notifier">Feedbin Notifier</a>, but it doesn’t seem to work. It only supports one search term and the examples all use single words which didn’t give me total faith that the phrase “rise of the resistence OR space 220 OR fastpass” would parse correctly. There was also no detail on how regularly the checking was done and whilst I managed to get a notification for the term “apple” I couldn’t get it to work for much else. As I couldn’t trust it would do what I needed it to, I decided it was quicker and easier to just build it myself.</p>
 
-<p>“Couldn’t you just use <a href="https://support.google.com/googlenews/answer/9005590?co=GENIE.Platform%3DiOS&amp;hl=en&amp;oco=0">Google News notifications</a>?”. I already do for some things<sup id="fnref:juryduty"><a href="#fn:juryduty" class="footnote">3</a></sup> but it’s far too slow for my use case. The types of articles I’m interested in require me to act within around 15 minutes so too slow for Google News which typically takes 12-24 hours to send a notification.</p>
+<p>“Couldn’t you just use <a href="https://support.google.com/googlenews/answer/9005590?co=GENIE.Platform%3DiOS&amp;hl=en&amp;oco=0">Google News notifications</a>?”. I already do for some things<sup id="fnref:juryduty" role="doc-noteref"><a href="#fn:juryduty" class="footnote">3</a></sup> but it’s far too slow for my use case. The types of articles I’m interested in require me to act within around 15 minutes so too slow for Google News which typically takes 12-24 hours to send a notification.</p>
 
 <h3 id="the-name">The Name</h3>
 
@@ -81,89 +81,89 @@
 
 <h3 id="feed-me">Feed Me</h3>
 
-<p>The iOS app is ridiculous simple so I’m not going to spend too much time describing that. It consists of a table view listing my search terms and each row can be swiped to delete the term. The + button in the top right presents a <code>UIAlertController</code> with a text field for adding a search term. The fetch, add, and delete commands are all sent to an incredibly basic PHP API I wrote which syncs to my MySQL database.</p>
+<p>The iOS app is ridiculous simple so I’m not going to spend too much time describing that. It consists of a table view listing my search terms and each row can be swiped to delete the term. The + button in the top right presents a <code class="language-plaintext highlighter-rouge">UIAlertController</code> with a text field for adding a search term. The fetch, add, and delete commands are all sent to an incredibly basic PHP API I wrote which syncs to my MySQL database.</p>
 
 <p>The real work is to fetch the latest feeds from my Feedbin account and then search each article for any matching text strings:</p>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="x">$pdo = new PDO(&quot;mysql:charset=utf8mb4;host=&quot; . $db_host . &quot;;dbname=&quot; . $db_name, $db_user, $db_pass);</span>
-<span class="x">$pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</span>
-<span class="x">$pdo-&gt;setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="nv">$pdo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PDO</span><span class="p">(</span><span class="s2">"mysql:charset=utf8mb4;host="</span> <span class="mf">.</span> <span class="nv">$db_host</span> <span class="mf">.</span> <span class="s2">";dbname="</span> <span class="mf">.</span> <span class="nv">$db_name</span><span class="p">,</span> <span class="nv">$db_user</span><span class="p">,</span> <span class="nv">$db_pass</span><span class="p">);</span>
+<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">setAttribute</span><span class="p">(</span><span class="no">PDO</span><span class="o">::</span><span class="no">ATTR_ERRMODE</span><span class="p">,</span> <span class="no">PDO</span><span class="o">::</span><span class="no">ERRMODE_EXCEPTION</span><span class="p">);</span>
+<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">setAttribute</span><span class="p">(</span><span class="no">PDO</span><span class="o">::</span><span class="no">ATTR_DEFAULT_FETCH_MODE</span><span class="p">,</span> <span class="no">PDO</span><span class="o">::</span><span class="no">FETCH_ASSOC</span><span class="p">);</span>
 
-<span class="x">$headers = [];</span>
-<span class="x">$url = &#39;https://api.feedbin.com/v2/entries.json&#39;;</span>
-<span class="x">$ch = curl_init($url);</span>
-<span class="x">curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);</span>
-<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
-<span class="x">curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);</span>
-<span class="x">curl_setopt($ch, CURLOPT_TIMEOUT, 30);</span>
-<span class="x">curl_setopt($ch, CURLOPT_USERPWD, &#39;ben@bendodson.com:keepitsecretkeepitsafe&#39;);</span>
-<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, [&#39;If-None-Match: \&#39;&#39;.file_get_contents(&#39;etag.txt&#39;).&#39;\&#39;&#39;]);</span>
-<span class="x">curl_setopt($ch, CURLOPT_HEADERFUNCTION,</span>
-<span class="x">  function($curl, $header) use (&amp;$headers)</span>
-<span class="x">  {</span>
-<span class="x">    $len = strlen($header);</span>
-<span class="x">    $header = explode(&#39;:&#39;, $header, 2);</span>
-<span class="x">    if (count($header) &lt; 2) // ignore invalid headers</span>
-<span class="x">      return $len;</span>
+<span class="nv">$headers</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'https://api.feedbin.com/v2/entries.json'</span><span class="p">;</span>
+<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERPWD</span><span class="p">,</span> <span class="s1">'ben@bendodson.com:keepitsecretkeepitsafe'</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'If-None-Match: \''</span><span class="mf">.</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'etag.txt'</span><span class="p">)</span><span class="mf">.</span><span class="s1">'\''</span><span class="p">]);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HEADERFUNCTION</span><span class="p">,</span>
+  <span class="k">function</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nv">$header</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="o">&amp;</span><span class="nv">$headers</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="nv">$len</span> <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
+    <span class="nv">$header</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">':'</span><span class="p">,</span> <span class="nv">$header</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$header</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// ignore invalid headers</span>
+      <span class="k">return</span> <span class="nv">$len</span><span class="p">;</span>
 
-<span class="x">    $headers[strtolower(trim($header[0]))][] = trim($header[1]);</span>
+    <span class="nv">$headers</span><span class="p">[</span><span class="nb">strtolower</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">[</span><span class="mi">0</span><span class="p">]))][]</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
 
-<span class="x">    return $len;</span>
-<span class="x">  }</span>
-<span class="x">);</span>
-<span class="x">$json = curl_exec($ch);</span>
-<span class="x">$info = curl_getinfo($ch);</span>
-<span class="x">curl_close($ch);</span>
+    <span class="k">return</span> <span class="nv">$len</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+<span class="nv">$json</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="nv">$info</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 
-<span class="x">file_put_contents(&#39;etag.txt&#39;, $headers[&#39;etag&#39;][0]);</span>
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'etag.txt'</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">[</span><span class="s1">'etag'</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
 
-<span class="x">$stmt = $pdo-&gt;prepare(&#39;select * from keywords&#39;);</span>
-<span class="x">$stmt-&gt;execute();</span>
-<span class="x">$keywords = array_column($stmt-&gt;fetchAll(), &#39;phrase&#39;);</span>
+<span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'select * from keywords'</span><span class="p">);</span>
+<span class="nv">$stmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">();</span>
+<span class="nv">$keywords</span> <span class="o">=</span> <span class="nb">array_column</span><span class="p">(</span><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="nf">fetchAll</span><span class="p">(),</span> <span class="s1">'phrase'</span><span class="p">);</span>
 
-<span class="x">$ids = [];</span>
-<span class="x">$entries = [];</span>
-<span class="x">$array = json_decode($json);</span>
-<span class="x">$countStmt = $pdo-&gt;prepare(&#39;select count(id) as total from entries where id = :id&#39;);</span>
-<span class="x">foreach ($array as $entry) {</span>
-<span class="x">    $countStmt-&gt;execute([&#39;id&#39; =&gt; $entry-&gt;id]);</span>
-<span class="x">    $count = (int)$countStmt-&gt;fetch()[&#39;total&#39;];</span>
-<span class="x">    if ($count) {</span>
-<span class="x">        continue;</span>
-<span class="x">    }</span>
+<span class="nv">$ids</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nv">$entries</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nv">$array</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
+<span class="nv">$countStmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'select count(id) as total from entries where id = :id'</span><span class="p">);</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$entry</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$countStmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">([</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">]);</span>
+    <span class="nv">$count</span> <span class="o">=</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span><span class="nv">$countStmt</span><span class="o">-&gt;</span><span class="nf">fetch</span><span class="p">()[</span><span class="s1">'total'</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
 
-<span class="x">    foreach ($keywords as $keyword) {</span>
-<span class="x">        if (stripos($entry-&gt;title, $keyword) !== false || stripos($entry-&gt;content, $keyword) !== false) {</span>
-<span class="x">            $entries[] = $entry;</span>
-<span class="x">            break;</span>
-<span class="x">        }</span>
-<span class="x">    }</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$keywords</span> <span class="k">as</span> <span class="nv">$keyword</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">stripos</span><span class="p">(</span><span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="nv">$keyword</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span> <span class="o">||</span> <span class="nb">stripos</span><span class="p">(</span><span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">,</span> <span class="nv">$keyword</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$entries</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$entry</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-<span class="x">    $ids[] = $entry-&gt;id;</span>
-<span class="x">}</span>
+    <span class="nv">$ids</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="x">$notificationStmt = $pdo-&gt;prepare(&#39;insert into notifications (title, message, url, created_at) values (:title, :message, :url, :created)&#39;);</span>
-<span class="x">$idStmt = $pdo-&gt;prepare(&#39;insert into entries (id) values (:id)&#39;);</span>
+<span class="nv">$notificationStmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'insert into notifications (title, message, url, created_at) values (:title, :message, :url, :created)'</span><span class="p">);</span>
+<span class="nv">$idStmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'insert into entries (id) values (:id)'</span><span class="p">);</span>
 
-<span class="x">$pdo-&gt;beginTransaction();</span>
-<span class="x">foreach ($ids as $id) {</span>
-<span class="x">    $idStmt-&gt;execute([&#39;id&#39; =&gt; $id]);</span>
-<span class="x">}</span>
-<span class="x">$pdo-&gt;commit();</span>
+<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">beginTransaction</span><span class="p">();</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$ids</span> <span class="k">as</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$idStmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">([</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">commit</span><span class="p">();</span>
 
-<span class="x">foreach ($entries as $entry) {</span>
-<span class="x">    $notificationStmt-&gt;execute([&#39;title&#39; =&gt; $entry-&gt;title, &#39;message&#39; =&gt; $entry-&gt;summary, &#39;url&#39; =&gt; $entry-&gt;url, &#39;created&#39; =&gt; date(&#39;Y-m-d H:i:s&#39;)]);</span>
-<span class="x">    </span>
-<span class="x">    $data = [&quot;app_id&quot; =&gt; &quot;my-onesignal-app-id&quot;, &quot;contents&quot; =&gt; [&quot;en&quot; =&gt; $entry-&gt;summary], &quot;headings&quot; =&gt; [&quot;en&quot; =&gt; $entry-&gt;title], &quot;included_segments&quot; =&gt; [&quot;All&quot;], &quot;data&quot; =&gt; [&quot;url&quot; =&gt; $entry-&gt;url]];</span>
-<span class="x">    $ch = curl_init(&#39;https://onesignal.com/api/v1/notifications&#39;);</span>
-<span class="x">    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, &quot;POST&quot;);</span>
-<span class="x">    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));</span>
-<span class="x">    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
-<span class="x">    curl_setopt($ch, CURLOPT_HTTPHEADER, [&#39;Content-Type: application/json&#39;, &#39;Authorization: Basic [OBFUSCATED]&#39;]);</span>
-<span class="x">    $response = curl_exec($ch);</span>
-<span class="x">    curl_close($ch);</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$entries</span> <span class="k">as</span> <span class="nv">$entry</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$notificationStmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">([</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">summary</span><span class="p">,</span> <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">url</span><span class="p">,</span> <span class="s1">'created'</span> <span class="o">=&gt;</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">)]);</span>
+    
+    <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"app_id"</span> <span class="o">=&gt;</span> <span class="s2">"my-onesignal-app-id"</span><span class="p">,</span> <span class="s2">"contents"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"en"</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">summary</span><span class="p">],</span> <span class="s2">"headings"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"en"</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">],</span> <span class="s2">"included_segments"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"All"</span><span class="p">],</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"url"</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">url</span><span class="p">]];</span>
+    <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="s1">'https://onesignal.com/api/v1/notifications'</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">));</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/json'</span><span class="p">,</span> <span class="s1">'Authorization: Basic [OBFUSCATED]'</span><span class="p">]);</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+    <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 
-<span class="x">}</span></code></pre></figure>
+<span class="p">}</span></code></pre></figure>
 
 <p>Feedbin provide an <a href="https://github.com/feedbin/feedbin-api">API</a> for fetching the latest articles from all of your feeds. It has support for <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag caching</a> so I store the latest tag to avoid unnecessary loading on their end as this script will run every 60 seconds.</p>
 
@@ -175,11 +175,11 @@
 
 <h3 id="viewing-the-content">Viewing the content</h3>
 
-<p>Once the notification is delivered, I thought it would be a nice bonus to be able to tap to open up the article in a browser. It turns out that the OneSignal SDK can do this automatically if you send a “url” parameter as part of your Push Notification request but it has a few issues; there’s a short lag between the app opening and the browser being shown, the controller is within a modal dialogue that can only be dismissed by swiping at the top of the page (tricky on a big phone), and it’s using either a <code>UIWebView</code> or a <code>WKWebView</code> which means there is no support for content blockers, no Reader View, and no easy way to open the page in Safari or other apps. The solution is to send the URL as part of the data payload and parse it myself within the app to open an <code>SFSafariViewController</code>:</p>
+<p>Once the notification is delivered, I thought it would be a nice bonus to be able to tap to open up the article in a browser. It turns out that the OneSignal SDK can do this automatically if you send a “url” parameter as part of your Push Notification request but it has a few issues; there’s a short lag between the app opening and the browser being shown, the controller is within a modal dialogue that can only be dismissed by swiping at the top of the page (tricky on a big phone), and it’s using either a <code class="language-plaintext highlighter-rouge">UIWebView</code> or a <code class="language-plaintext highlighter-rouge">WKWebView</code> which means there is no support for content blockers, no Reader View, and no easy way to open the page in Safari or other apps. The solution is to send the URL as part of the data payload and parse it myself within the app to open an <code class="language-plaintext highlighter-rouge">SFSafariViewController</code>:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-webviews.jpg" width="800" height="600" /></p>
 
-<p>Can you see the difference in the image above? With the webview provided by OneSignal we can just see the start of the title of the article<sup id="fnref:disneyfoodblog"><a href="#fn:disneyfoodblog" class="footnote">4</a></sup> obscured by the home indicator, and this is on the Max-sized iPhone! The SFSafariViewController in Reader View is far superior showing the full title, the first paragraph, and an image. It also loaded faster thanks to the support for content blockers and I have easy access to open this in Safari or share it along with controls for changing fonts, etc.</p>
+<p>Can you see the difference in the image above? With the webview provided by OneSignal we can just see the start of the title of the article<sup id="fnref:disneyfoodblog" role="doc-noteref"><a href="#fn:disneyfoodblog" class="footnote">4</a></sup> obscured by the home indicator, and this is on the Max-sized iPhone! The SFSafariViewController in Reader View is far superior showing the full title, the first paragraph, and an image. It also loaded faster thanks to the support for content blockers and I have easy access to open this in Safari or share it along with controls for changing fonts, etc.</p>
 
 <h3 id="conclusion">Conclusion</h3>
 
@@ -194,26 +194,26 @@
   </li>
 </ul>
 
-<p>Whilst I could have set up a screen scraper of some sort to monitor these pages for changes<sup id="fnref:airpods"><a href="#fn:airpods" class="footnote">5</a></sup>, I much prefer operating on top of RSS as it tends to be that the feeds I follow will post updates ridiculously quickly and are likely more reliable than tracking HTML changes. It’s also more flexible as I’m sure there will be things in future that I’ll want to monitor in this way. For example, I tested the app a few weeks ago to get notified when <a href="https://home.pokemon.com/en-us/">Pokémon HOME</a> was released on the App Store.</p>
+<p>Whilst I could have set up a screen scraper of some sort to monitor these pages for changes<sup id="fnref:airpods" role="doc-noteref"><a href="#fn:airpods" class="footnote">5</a></sup>, I much prefer operating on top of RSS as it tends to be that the feeds I follow will post updates ridiculously quickly and are likely more reliable than tracking HTML changes. It’s also more flexible as I’m sure there will be things in future that I’ll want to monitor in this way. For example, I tested the app a few weeks ago to get notified when <a href="https://home.pokemon.com/en-us/">Pokémon HOME</a> was released on the App Store.</p>
 
 <p>As ever, I hope this will inspire you to work on your own side projects! Next month I’ll be talking about the watch app that has ended up taking a lot longer than I’d originally anticipated…</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:rssfeeds">
-      <p>I’ve blogged about this before but RSS is how I consume nearly everything I read online. Twitter doesn’t even come close. With RSS you can subscribe to nearly any website that publishes articles and get them all in a nice app with no ads, no Javascript, and no other superfluous crap. At the time of writing, I subscribe to around 500 different feeds encompassing everything from theme park news and video game updates to Swift developer blogs and philosophy articles. <a href="#fnref:rssfeeds" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:rssfeeds" role="doc-endnote">
+      <p>I’ve blogged about this before but RSS is how I consume nearly everything I read online. Twitter doesn’t even come close. With RSS you can subscribe to nearly any website that publishes articles and get them all in a nice app with no ads, no Javascript, and no other superfluous crap. At the time of writing, I subscribe to around 500 different feeds encompassing everything from theme park news and video game updates to Swift developer blogs and philosophy articles. <a href="#fnref:rssfeeds" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:reeder">
-      <p>In conjunction with the <a href="https://reederapp.com">Reeder apps</a> on iOS and macOS. <a href="#fnref:reeder" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:reeder" role="doc-endnote">
+      <p>In conjunction with the <a href="https://reederapp.com">Reeder apps</a> on iOS and macOS. <a href="#fnref:reeder" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:juryduty">
-      <p>I use Google News Notifier to see if <a href="https://www.youtube.com/watch?v=j13oJajXx0M">my name</a> comes up anywhere and also to keep tabs on a court case I sat on as part of Jury Duty. <a href="#fnref:juryduty" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:juryduty" role="doc-endnote">
+      <p>I use Google News Notifier to see if <a href="https://www.youtube.com/watch?v=j13oJajXx0M">my name</a> comes up anywhere and also to keep tabs on a court case I sat on as part of Jury Duty. <a href="#fnref:juryduty" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:disneyfoodblog">
-      <p><a href="https://www.disneyfoodblog.com">Disney Food Blog</a> is one of the best theme park sites I follow but their website is very hard to view on mobile hence the need for Reader View. Whilst it’s more of a necessity for that page, I find myself using Reader View for most websites as it is nearly always far better. <a href="#fnref:disneyfoodblog" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:disneyfoodblog" role="doc-endnote">
+      <p><a href="https://www.disneyfoodblog.com">Disney Food Blog</a> is one of the best theme park sites I follow but their website is very hard to view on mobile hence the need for Reader View. Whilst it’s more of a necessity for that page, I find myself using Reader View for most websites as it is nearly always far better. <a href="#fnref:disneyfoodblog" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:airpods">
-      <p>I did do this when the AirPods were first announced; fetch the HTML of the store page every five minutes and then send a notification when it changed so I could jump in and buy a pair. <a href="#fnref:airpods" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:airpods" role="doc-endnote">
+      <p>I did do this when the AirPods were first announced; fetch the HTML of the store page every five minutes and then send a notification when it changed so I could jump in and buy a pair. <a href="#fnref:airpods" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

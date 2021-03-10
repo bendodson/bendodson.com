@@ -62,17 +62,17 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/audiorecorderviewcontroller.jpg" width="800" /></p>
 
-<p>Usage is insanely simple and modelled on such classes as <code>UIImagePickerController</code>:</p>
+<p>Usage is insanely simple and modelled on such classes as <code class="language-plaintext highlighter-rouge">UIImagePickerController</code>:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">presentAudioRecorder</span><span class="p">(</span><span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="n">AudioRecorderViewController</span><span class="p">()</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">audioRecorderDelegate</span> <span class="p">=</span> <span class="kc">self</span>
-    <span class="n">presentViewController</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">presentAudioRecorder</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">AudioRecorderViewController</span><span class="p">()</span>
+    <span class="n">controller</span><span class="o">.</span><span class="n">audioRecorderDelegate</span> <span class="o">=</span> <span class="k">self</span>
+    <span class="nf">presentViewController</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nf">audioRecorderViewControllerDismissed</span><span class="p">(</span><span class="n">withFileURL</span> <span class="n">fileURL</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">?)</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">audioRecorderViewControllerDismissed</span><span class="p">(</span><span class="n">withFileURL</span> <span class="nv">fileURL</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="p">{</span>
     <span class="c1">// do something with fileURL</span>
-    <span class="n">dismissViewControllerAnimated</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="nf">dismissViewControllerAnimated</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
 <p>Check out <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController-Swift on GitHub</a>.</p>

@@ -59,7 +59,7 @@
 			<time datetime="2019-06-11" pubdate=""><a href="/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">June 11, 2019</a></time>
     	</header>
     	<div>
-			<p>At WWDC 2017, Apple introduced the Vision framework alongside iOS 11. Vision was designed to help developers classify and identify things such as objects, horizontal planes, barcodes, facial expressions, and text. However, the text detection only recognized where text was displayed, not the actual content of the text<sup id="fnref:textrecog11"><a href="#fn:textrecog11" class="footnote">1</a></sup>. With the introduction of iOS 13 at WWDC last week, this has thankfully been solved with some updates to the Vision framework adding genuine text recognition.</p>
+			<p>At WWDC 2017, Apple introduced the Vision framework alongside iOS 11. Vision was designed to help developers classify and identify things such as objects, horizontal planes, barcodes, facial expressions, and text. However, the text detection only recognized where text was displayed, not the actual content of the text<sup id="fnref:textrecog11" role="doc-noteref"><a href="#fn:textrecog11" class="footnote">1</a></sup>. With the introduction of iOS 13 at WWDC last week, this has thankfully been solved with some updates to the Vision framework adding genuine text recognition.</p>
 
 <p>To test this out, I’ve built a very basic app that can recognise a Magic The Gathering card and retrieve some pertinent information from it, namely the title, set code, and collector number. Here’s an example card and the highlighted text I would like to retrieve.</p>
 
@@ -67,64 +67,64 @@
 
 <p>You may be looking at this and thinking “that text is pretty small” or that there is a lot of other text around that could get in the way. This is not a problem for Vision.</p>
 
-<p>To get started, we need to create a <code>VNRecognizeTextRequest</code>. This is essentially a declaration of what we are hoping to find along with the set up for what language and accuracy we are looking for:</p>
+<p>To get started, we need to create a <code class="language-plaintext highlighter-rouge">VNRecognizeTextRequest</code>. This is essentially a declaration of what we are hoping to find along with the set up for what language and accuracy we are looking for:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">request</span> <span class="p">=</span> <span class="n">VNRecognizeTextRequest</span><span class="p">(</span><span class="n">completionHandler</span><span class="p">:</span> <span class="kc">self</span><span class="p">.</span><span class="n">handleDetectedText</span><span class="p">)</span>
-<span class="n">request</span><span class="p">.</span><span class="n">recognitionLevel</span> <span class="p">=</span> <span class="p">.</span><span class="n">accurate</span>
-<span class="n">request</span><span class="p">.</span><span class="n">recognitionLanguages</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;en_GB&quot;</span><span class="p">]</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">request</span> <span class="o">=</span> <span class="kt">VNRecognizeTextRequest</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">handleDetectedText</span><span class="p">)</span>
+<span class="n">request</span><span class="o">.</span><span class="n">recognitionLevel</span> <span class="o">=</span> <span class="o">.</span><span class="n">accurate</span>
+<span class="n">request</span><span class="o">.</span><span class="n">recognitionLanguages</span> <span class="o">=</span> <span class="p">[</span><span class="s">"en_GB"</span><span class="p">]</span></code></pre></figure>
 
-<p>We give our request a completion handler (in this case a function that looks like <code>handleDetectedText(request: VNRequest?, error: Error?)</code>) and then set some properties. You can choose between a <code>.fast</code> or <code>.accurate</code> recognition level which should be fairly self-explanatory; as I’m looking at quite small text along the bottom of the card, I’ve opted for higher accuracy although the faster option does seem to be good enough for larger pieces of text. I’ve also locked the request to British English as I know all of my cards match that locale; you can specify multiple languages but be aware that scanning may take slightly longer for each additional language.</p>
+<p>We give our request a completion handler (in this case a function that looks like <code class="language-plaintext highlighter-rouge">handleDetectedText(request: VNRequest?, error: Error?)</code>) and then set some properties. You can choose between a <code class="language-plaintext highlighter-rouge">.fast</code> or <code class="language-plaintext highlighter-rouge">.accurate</code> recognition level which should be fairly self-explanatory; as I’m looking at quite small text along the bottom of the card, I’ve opted for higher accuracy although the faster option does seem to be good enough for larger pieces of text. I’ve also locked the request to British English as I know all of my cards match that locale; you can specify multiple languages but be aware that scanning may take slightly longer for each additional language.</p>
 
 <p>There are two other properties which bear mentioning:</p>
 
 <ul>
-  <li><code>customWords</code>: you can provide an array of strings that will be used over the built-in lexicon. This is useful if you know you have some unusual words or if you are seeing misreadings. I’m not using it for this project but if I were to build a commercial scanner I would likely include some of the more difficult cards such as <a href="https://scryfall.com/card/war/50/fblthp-the-lost">Fblthp, the Lost</a> to avoid issues.</li>
-  <li><code>minimumTextHeight</code>: this is a float that denotes a size, relative to the image height, at which text should no longer be recognized. If I was building this scanner to just get the card name then this would be useful for removing all of the other text that isn’t necessary but I need the smallest pieces so for now I’ve ignored this property. Obviously the speed would increase if you are ignoring smaller text.</li>
+  <li><code class="language-plaintext highlighter-rouge">customWords</code>: you can provide an array of strings that will be used over the built-in lexicon. This is useful if you know you have some unusual words or if you are seeing misreadings. I’m not using it for this project but if I were to build a commercial scanner I would likely include some of the more difficult cards such as <a href="https://scryfall.com/card/war/50/fblthp-the-lost">Fblthp, the Lost</a> to avoid issues.</li>
+  <li><code class="language-plaintext highlighter-rouge">minimumTextHeight</code>: this is a float that denotes a size, relative to the image height, at which text should no longer be recognized. If I was building this scanner to just get the card name then this would be useful for removing all of the other text that isn’t necessary but I need the smallest pieces so for now I’ve ignored this property. Obviously the speed would increase if you are ignoring smaller text.</li>
 </ul>
 
 <p>Now that we have our request, we need to use it with an image and a request handler like so:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">requests</span> <span class="p">=</span> <span class="p">[</span><span class="n">textDetectionRequest</span><span class="p">]</span>
-<span class="kd">let</span> <span class="nv">imageRequestHandler</span> <span class="p">=</span> <span class="n">VNImageRequestHandler</span><span class="p">(</span><span class="n">cgImage</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">,</span> <span class="n">orientation</span><span class="p">:</span> <span class="p">.</span><span class="kr">right</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="p">[:])</span>
-<span class="n">DispatchQueue</span><span class="p">.</span><span class="n">global</span><span class="p">(</span><span class="n">qos</span><span class="p">:</span> <span class="p">.</span><span class="n">userInitiated</span><span class="p">).</span><span class="n">async</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">requests</span> <span class="o">=</span> <span class="p">[</span><span class="n">textDetectionRequest</span><span class="p">]</span>
+<span class="k">let</span> <span class="nv">imageRequestHandler</span> <span class="o">=</span> <span class="kt">VNImageRequestHandler</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">,</span> <span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[:])</span>
+<span class="kt">DispatchQueue</span><span class="o">.</span><span class="nf">global</span><span class="p">(</span><span class="nv">qos</span><span class="p">:</span> <span class="o">.</span><span class="n">userInitiated</span><span class="p">)</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
     <span class="k">do</span> <span class="p">{</span>
-        <span class="k">try</span> <span class="n">imageRequestHandler</span><span class="p">.</span><span class="n">perform</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
-    <span class="p">}</span> <span class="k">catch</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">{</span>
-        <span class="bp">print</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="k">try</span> <span class="n">imageRequestHandler</span><span class="o">.</span><span class="nf">perform</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>I’m using an image direct from the camera or camera roll which I’ve converted from a <code>UIImage</code> to a <code>CGImage</code>. This is used in the <code>VNImageRequestHandler</code> along with an orientation flag to help the request handler understand what text it should be recognizing. For the purposes of this demo, I’m always using my phone in portrait with cards that are in portrait so naturally I’ve chosen the orientation of <code>.right</code>. Wait, what? It turns out camera orientation on your device is completely separate to the device rotation and is always deemed to be on the left (as it was determined the default for taking photos back in 2009 was to hold your phone in landscape). Of course, times have changed and we mostly shoot photos and video in portrait but the camera is still aligned to the left so we have to counteract this. I could write an entire article about this subject but for now just go with the fact that we are orienting to the right in this scenario!</p>
+<p>I’m using an image direct from the camera or camera roll which I’ve converted from a <code class="language-plaintext highlighter-rouge">UIImage</code> to a <code class="language-plaintext highlighter-rouge">CGImage</code>. This is used in the <code class="language-plaintext highlighter-rouge">VNImageRequestHandler</code> along with an orientation flag to help the request handler understand what text it should be recognizing. For the purposes of this demo, I’m always using my phone in portrait with cards that are in portrait so naturally I’ve chosen the orientation of <code class="language-plaintext highlighter-rouge">.right</code>. Wait, what? It turns out camera orientation on your device is completely separate to the device rotation and is always deemed to be on the left (as it was determined the default for taking photos back in 2009 was to hold your phone in landscape). Of course, times have changed and we mostly shoot photos and video in portrait but the camera is still aligned to the left so we have to counteract this. I could write an entire article about this subject but for now just go with the fact that we are orienting to the right in this scenario!</p>
 
 <p>Once our handler is set up, we open up a user initiated thread and try to perform our requests. You may notice that this is an array of requests and that is because you could try to pull out multiple pieces of data in the same pass (i.e. identifying faces and text from the same image). As long as there aren’t any errors, the callback we created with our request will be called once text is detected:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">handleDetectedText</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">VNRequest</span><span class="p">?,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Error</span><span class="p">?)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-        <span class="bp">print</span><span class="p">(</span><span class="s">&quot;ERROR: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">handleDetectedText</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt">VNRequest</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"ERROR: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">results</span> <span class="p">=</span> <span class="n">request</span><span class="p">?.</span><span class="n">results</span><span class="p">,</span> <span class="n">results</span><span class="p">.</span><span class="bp">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="bp">print</span><span class="p">(</span><span class="s">&quot;No text found&quot;</span><span class="p">)</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">results</span> <span class="o">=</span> <span class="n">request</span><span class="p">?</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"No text found"</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
     <span class="k">for</span> <span class="n">result</span> <span class="k">in</span> <span class="n">results</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">observation</span> <span class="p">=</span> <span class="n">result</span> <span class="k">as</span><span class="p">?</span> <span class="n">VNRecognizedTextObservation</span> <span class="p">{</span>
-            <span class="k">for</span> <span class="n">text</span> <span class="k">in</span> <span class="n">observation</span><span class="p">.</span><span class="n">topCandidates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="bp">print</span><span class="p">(</span><span class="n">text</span><span class="p">.</span><span class="n">string</span><span class="p">)</span>
-                <span class="bp">print</span><span class="p">(</span><span class="n">text</span><span class="p">.</span><span class="n">confidence</span><span class="p">)</span>
-                <span class="bp">print</span><span class="p">(</span><span class="n">observation</span><span class="p">.</span><span class="n">boundingBox</span><span class="p">)</span>
-                <span class="bp">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">observation</span> <span class="o">=</span> <span class="n">result</span> <span class="k">as?</span> <span class="kt">VNRecognizedTextObservation</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="n">text</span> <span class="k">in</span> <span class="n">observation</span><span class="o">.</span><span class="nf">topCandidates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">confidence</span><span class="p">)</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">)</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>Our handler is given back our request which now has a results property. Each result is a <code>VNRecognizedTextObservation</code> which itself has a number of candidates for us to investigate. You can choose to receive up to 10 candidates for each piece of recognized text and they are sorted in decreasing confidence order. This can be useful if you have some specific terminology that maybe the parser is getting incorrect on the first try but determines correctly later even if it is less confident. For this example, we only want the first result so we loop through <code>observation.topCandidates(1)</code> and extract both the text and a confidence value. Whilst the candidate itself has different text and confidence, the bounding box is the same regardless and is provided by the observation. The bounding box uses a normalized coordinate system with the origin in the bottom-left so you’ll need to convert it if you want it to play nicely with UIKit.</p>
+<p>Our handler is given back our request which now has a results property. Each result is a <code class="language-plaintext highlighter-rouge">VNRecognizedTextObservation</code> which itself has a number of candidates for us to investigate. You can choose to receive up to 10 candidates for each piece of recognized text and they are sorted in decreasing confidence order. This can be useful if you have some specific terminology that maybe the parser is getting incorrect on the first try but determines correctly later even if it is less confident. For this example, we only want the first result so we loop through <code class="language-plaintext highlighter-rouge">observation.topCandidates(1)</code> and extract both the text and a confidence value. Whilst the candidate itself has different text and confidence, the bounding box is the same regardless and is provided by the observation. The bounding box uses a normalized coordinate system with the origin in the bottom-left so you’ll need to convert it if you want it to play nicely with UIKit.</p>
 
 <p>That’s pretty much all there is to it. If I run a <a href="https://bendodson.s3.amazonaws.com/weblog/2019/carnage-tyrant.jpeg">photo of a card</a> through this, I’ll get the following result in just under 0.5s on an iPhone XS Max:</p>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Carnage Tyrant
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Carnage Tyrant
 1.0
 (0.2654155572255453, 0.6955686092376709, 0.18710780143737793, 0.019915008544921786)
 
@@ -139,7 +139,7 @@ Dinosaur
 (0.3883238156636556, 0.42648010253906254, 0.10021591186523438, 0.014479541778564364)
 
 
-Carnage Tyrant can&#39;t be countered.
+Carnage Tyrant can't be countered.
 1.0
 (0.26538230578104655, 0.3742666244506836, 0.4300231456756592, 0.024643898010253906)
 
@@ -188,24 +188,24 @@ TN &amp; 0 2017 Wizards of the Coast
 1.0
 (0.5428387324015299, 0.21133480072021482, 0.19361832936604817, 0.011657810211181618)</code></pre></figure>
 
-<p>That is incredibly good! Every piece of text that has been recognized has been separated into it’s own bounding box and returned as a result with most garnering a 1.0 confidence rating. Even the very small copyright text is mostly correct<sup id="fnref:mostlycorrect"><a href="#fn:mostlycorrect" class="footnote">2</a></sup>. This was all done on a 3024x4032 image weighing in at 3.1MB and it would be even faster if I resized the image first. It is also worth noting that this process is far quicker on the new A12 Bionic chips that have a dedicated Neural Engine; it runs just fine on older hardware but will take seconds rather than milliseconds.</p>
+<p>That is incredibly good! Every piece of text that has been recognized has been separated into it’s own bounding box and returned as a result with most garnering a 1.0 confidence rating. Even the very small copyright text is mostly correct<sup id="fnref:mostlycorrect" role="doc-noteref"><a href="#fn:mostlycorrect" class="footnote">2</a></sup>. This was all done on a 3024x4032 image weighing in at 3.1MB and it would be even faster if I resized the image first. It is also worth noting that this process is far quicker on the new A12 Bionic chips that have a dedicated Neural Engine; it runs just fine on older hardware but will take seconds rather than milliseconds.</p>
 
-<p>With the text recognized, the last thing to do is to pull out the pieces of information I want. I won’t put all the code here but the key logic is to iterate through each bounding box and determine the location so I can pick out the text in the lower left hand corner and that in the top left hand corner whilst ignoring anything further along to the right. The end result is a scanning app that can pull out exactly the information I need in under a second<sup id="fnref:scryfall"><a href="#fn:scryfall" class="footnote">3</a></sup>.</p>
+<p>With the text recognized, the last thing to do is to pull out the pieces of information I want. I won’t put all the code here but the key logic is to iterate through each bounding box and determine the location so I can pick out the text in the lower left hand corner and that in the top left hand corner whilst ignoring anything further along to the right. The end result is a scanning app that can pull out exactly the information I need in under a second<sup id="fnref:scryfall" role="doc-noteref"><a href="#fn:scryfall" class="footnote">3</a></sup>.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/mtg-recognized.jpg" alt="iOS app to detect Magic The Gathering cards with iOS 13 Vision Framework" width="800" height="500" /></p>
 
 <p>This example app is <a href="https://github.com/bendodson/MTG-VNRecognizeTextRequest">available on GitHub</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:textrecog11">
-      <p>This seemed odd to be me at the time and still does now. Sure it was nice to be able to see a bounding box around individual bits of text but then having to pull them out and OCR them yourself was a pain. <a href="#fnref:textrecog11" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:textrecog11" role="doc-endnote">
+      <p>This seemed odd to be me at the time and still does now. Sure it was nice to be able to see a bounding box around individual bits of text but then having to pull them out and OCR them yourself was a pain. <a href="#fnref:textrecog11" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:mostlycorrect">
-      <p>Although, ironically, the confidence is 1.0 but it put TN instead of ™ and 0 instead of ©. A high confidence does not mean the parser is correct! <a href="#fnref:mostlycorrect" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:mostlycorrect" role="doc-endnote">
+      <p>Although, ironically, the confidence is 1.0 but it put TN instead of ™ and 0 instead of ©. A high confidence does not mean the parser is correct! <a href="#fnref:mostlycorrect" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:scryfall">
-      <p>In reality I only need the set number and set code; these can then be used with an API call to <a href="https://scryfall.com/">Scryfall</a> to fetch all of the other possible information about this card including game rulings and monetary value. <a href="#fnref:scryfall" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:scryfall" role="doc-endnote">
+      <p>In reality I only need the set number and set code; these can then be used with an API call to <a href="https://scryfall.com/">Scryfall</a> to fetch all of the other possible information about this card including game rulings and monetary value. <a href="#fnref:scryfall" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

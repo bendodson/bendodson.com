@@ -58,7 +58,7 @@
 <p>When you swipe up from the bottom of the screen on iOS, you get Control Center which gives you quick access to certain features (like WiFi), controls (for music / video), and apps (Torch, Timer, etc). I’d like the ability to a) use 3D touch to get more options when using the features section (so I can choose a new WiFi network) and b) be able to choose the apps and features that show up in that area. I never need quick access to the calculator.</p>
 
 <h3 id="carplay">CarPlay</h3>
-<p>I’ve been using CarPlay for around a year now (via an after market <a href="http://www.alpine.co.uk/p/Products/digital-media-receiver-4660/ilx-700">Alpine iLX-700</a>) and I absolutely love it. However, 3rd party apps are limited to a few selected audio apps like Spotify and Overcast which use a simple template that doesn’t work very well. I’d like to see support for any 3rd party app to use CarPlay and for it to use UIKit so that any interface can be displayed. <a href="https://twitter.com/bendodson/status/712573913977524224">I noticed in March</a> that iOS 9.3 added a <code>UIUserInterfaceIdiom</code> for CarPlay so hopefully this is coming.</p>
+<p>I’ve been using CarPlay for around a year now (via an after market <a href="http://www.alpine.co.uk/p/Products/digital-media-receiver-4660/ilx-700">Alpine iLX-700</a>) and I absolutely love it. However, 3rd party apps are limited to a few selected audio apps like Spotify and Overcast which use a simple template that doesn’t work very well. I’d like to see support for any 3rd party app to use CarPlay and for it to use UIKit so that any interface can be displayed. <a href="https://twitter.com/bendodson/status/712573913977524224">I noticed in March</a> that iOS 9.3 added a <code class="language-plaintext highlighter-rouge">UIUserInterfaceIdiom</code> for CarPlay so hopefully this is coming.</p>
 
 <h3 id="airplay">AirPlay</h3>
 <p>I have a number of AirPlay devices around the house and one of the things that frustrates me most is that I can’t use Siri to control them. I’d like to be able to say “Hey Siri, play my cooking playlist in the kitchen” and have it just work. I’ve been able to <a href="https://bendodson.com/weblog/2016/05/24/homekit-and-airplay/">hack this functionality together</a> via some Applescript and a fake HomeKit setup on my Mac called Homebridge but it’d be nice to have it built in natively. Also, iTunes on the Mac can AirPlay to multiple speakers at once whereas iOS can’t.</p>
@@ -100,55 +100,55 @@
     	<div>
 			<p>A few days ago I wrote an article about <a href="https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/">getting my Flic button to work with HomeKit</a>. Since then, I’ve had a few requests from people wondering how I was getting iTunes to work with HomeKit such that it could start a playlist on some AirPlay speakers. Today I’ve <a href="https://www.npmjs.com/~bendodson#packages">released a couple of HomeBridge plugins to NPM</a> and I’ll detail how I’ve got my system working.</p>
 
-<p>First of all, my entire setup is powered by the awesome <a href="https://github.com/nfarina/homebridge">Homebridge</a> system which I’ve written about <a href="https://www.google.co.uk/#q=site:bendodson.com+homebridge">at great length</a>. I found a plugin from <a href="https://github.com/dansays">Dan Budiac</a> called <a href="https://github.com/dansays/homebridge-applescript">homebridge-applescript</a> which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “<code>tell application iTunes to pause</code>”) but I needed something a bit longer for dealing with AirPlay. I <a href="https://github.com/bendodson/homebridge-applescript">forked Dan’s project</a> to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:</p>
+<p>First of all, my entire setup is powered by the awesome <a href="https://github.com/nfarina/homebridge">Homebridge</a> system which I’ve written about <a href="https://www.google.co.uk/#q=site:bendodson.com+homebridge">at great length</a>. I found a plugin from <a href="https://github.com/dansays">Dan Budiac</a> called <a href="https://github.com/dansays/homebridge-applescript">homebridge-applescript</a> which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “<code class="language-plaintext highlighter-rouge">tell application iTunes to pause</code>”) but I needed something a bit longer for dealing with AirPlay. I <a href="https://github.com/bendodson/homebridge-applescript">forked Dan’s project</a> to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:</p>
 
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-	<span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
-	<span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Kitchen Music&quot;</span><span class="p">,</span>
-	<span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript&quot;</span><span class="p">,</span>
-	<span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/stopMusic.applescript&quot;</span>
-<span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+	</span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFile"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kitchen Music"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/stopMusic.applescript"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
-<p>This allowed me to then use my existing <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">alarm clock script</a> in order to make iTunes connect to my kitchen speakers and play a specific playlist<sup id="fnref:twoplaylists"><a href="#fn:twoplaylists" class="footnote">1</a></sup> when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.</p>
+<p>This allowed me to then use my existing <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">alarm clock script</a> in order to make iTunes connect to my kitchen speakers and play a specific playlist<sup id="fnref:twoplaylists" role="doc-noteref"><a href="#fn:twoplaylists" class="footnote">1</a></sup> when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.</p>
 
-<p>This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle<sup id="fnref:playpause"><a href="#fn:playpause" class="footnote">2</a></sup> without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:</p>
+<p>This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle<sup id="fnref:playpause" role="doc-noteref"><a href="#fn:playpause" class="footnote">2</a></sup> without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:</p>
 
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Play Pause Control&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/playMusic.applescript&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/pauseMusic.applescript&quot;</span>
-<span class="p">}</span><span class="err">,</span>
-<span class="p">{</span>
-    <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFile&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Music Track Control&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/nextTrack.applescript&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/previousTrack.applescript&quot;</span>
-<span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFile"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Music Play Pause Control"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/playMusic.applescript"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/pauseMusic.applescript"</span><span class="w">
+</span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFile"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Music Track Control"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/nextTrack.applescript"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/previousTrack.applescript"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
 <p><em>I won’t detail the AppleScript for each of these as they are fairly basic.</em></p>
 
 <p>Next, I used the ‘Scenes’ feature of HomeKit to set up named scenes that related to each toggle. For example, “iTunes next track” is a scene that ensures the “Music Track Control” accessory is turned on whereas “iTunes previous track” ensures that accessory is off. The play / pause controls work in a similar way. Once activated, this meant I could say things like “<em>Hey Siri, iTunes next track</em>” or “<em>Hey Siri, pause iTunes</em>”.</p>
 
-<p>Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount<sup id="fnref:volumeamount"><a href="#fn:volumeamount" class="footnote">3</a></sup>. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; <a href="https://github.com/bendodson/homebridge-applescript-file-lightbulb">homebridge-applescript-file-lightbulb</a><sup id="fnref:naming"><a href="#fn:naming" class="footnote">4</a></sup>.</p>
+<p>Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount<sup id="fnref:volumeamount" role="doc-noteref"><a href="#fn:volumeamount" class="footnote">3</a></sup>. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; <a href="https://github.com/bendodson/homebridge-applescript-file-lightbulb">homebridge-applescript-file-lightbulb</a><sup id="fnref:naming" role="doc-noteref"><a href="#fn:naming" class="footnote">4</a></sup>.</p>
 
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-    <span class="nt">&quot;accessory&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplescriptFileLightbulb&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;iTunes volume&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;on&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;off&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;brightness&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/bendodson/Dropbox/Scripts/volume.applescript&quot;</span>
-<span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFileLightbulb"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iTunes volume"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"brightness"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/volume.applescript"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
-<p>The <code>volume.applescript</code> file looks like this:</p>
+<p>The <code class="language-plaintext highlighter-rouge">volume.applescript</code> file looks like this:</p>
 
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">on</span> <span class="nb">run</span> <span class="nv">argv</span>
-	<span class="k">set</span> <span class="nv">v</span> <span class="k">to</span> <span class="nb">item</span> <span class="mi">1</span> <span class="k">of</span> <span class="nv">argv</span>
-	<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-		<span class="k">set</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">v</span>
-	<span class="k">end</span> <span class="k">tell</span>
-<span class="k">end</span> <span class="nb">run</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">on</span> <span class="nb">run</span><span class="w"> </span><span class="nv">argv</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">v</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">argv</span><span class="w">
+	</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+		</span><span class="k">set</span><span class="w"> </span><span class="na">sound</span><span class="w"> </span><span class="na">volume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">v</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="nb">run</span></code></pre></figure>
 
 <p>With this in place, I can say “<em>Hey Siri, set iTunes volume to 50%</em>” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “<em>set [name] to [percentage]</em>” as being “<em>change the brightness of this device</em>” just in this case we are hitting an AppleScript with our brightness value.
 <img src="https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg" width="375" height="375" />
@@ -156,19 +156,19 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>You can find both of my Homebridge plugins on <a href="https://www.npmjs.com/~bendodson#packages">NPM</a> and <a href="https://github.com/bendodson/">GitHub</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:twoplaylists">
-      <p>Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. The code for that is <code>if weekday of (current date) is Sunday then</code> <a href="#fnref:twoplaylists" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:twoplaylists" role="doc-endnote">
+      <p>Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. The code for that is <code class="language-plaintext highlighter-rouge">if weekday of (current date) is Sunday then</code> <a href="#fnref:twoplaylists" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:playpause">
-      <p>At first I’d get around this by just using “<em>turn off kitchen music</em>” followed by “<em>turn on kitchen music</em>” as the playlist was shuffled but hardly an ideal solution. <a href="#fnref:playpause" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:playpause" role="doc-endnote">
+      <p>At first I’d get around this by just using “<em>turn off kitchen music</em>” followed by “<em>turn on kitchen music</em>” as the playlist was shuffled but hardly an ideal solution. <a href="#fnref:playpause" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:volumeamount">
-      <p>I could have done the same as the track control AppleScript and had a “iTunes volume up” and “iTunes volume down” scene to increase or decrease by 10% each time but that would be a pain if you wanted to change the volume by a large amount. <a href="#fnref:volumeamount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:volumeamount" role="doc-endnote">
+      <p>I could have done the same as the track control AppleScript and had a “iTunes volume up” and “iTunes volume down” scene to increase or decrease by 10% each time but that would be a pain if you wanted to change the volume by a large amount. <a href="#fnref:volumeamount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:naming">
-      <p>I shouldn’t be allowed to name things. <a href="#fnref:naming" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:naming" role="doc-endnote">
+      <p>I shouldn’t be allowed to name things. <a href="#fnref:naming" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -188,14 +188,14 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/gbbc-2016.jpg" width="800" height="500" /></p>
 
-<p>There are several updates including a redesigned bee picker, more details of the bees, and a list of plants suitable for attracting bees sponsored by Waitrose. The app is also now universal with support for both the iPhone and iPad<sup id="fnref:ipaduniversal"><a href="#fn:ipaduniversal" class="footnote">1</a></sup>.</p>
+<p>There are several updates including a redesigned bee picker, more details of the bees, and a list of plants suitable for attracting bees sponsored by Waitrose. The app is also now universal with support for both the iPhone and iPad<sup id="fnref:ipaduniversal" role="doc-noteref"><a href="#fn:ipaduniversal" class="footnote">1</a></sup>.</p>
 
 <p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:ipaduniversal">
-      <p>This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. <a href="#fnref:ipaduniversal" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:ipaduniversal" role="doc-endnote">
+      <p>This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. <a href="#fnref:ipaduniversal" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -211,9 +211,9 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 			<time datetime="2016-05-18" pubdate=""><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">May 18, 2016</a></time>
     	</header>
     	<div>
-			<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff"><a href="#fn:stuff" class="footnote">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
+			<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff" role="doc-noteref"><a href="#fn:stuff" class="footnote">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
 
-<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing"><a href="#fn:phrasing" class="footnote">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
+<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing" role="doc-noteref"><a href="#fn:phrasing" class="footnote">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
 
 <p>Over the past few months, I’ve been <a href="https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/">dabbling with HomeKit scenes</a> so that I can control groups of devices all at once like so:</p>
 
@@ -237,78 +237,78 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>This has been working well but I frequently forget to use scenes as many of these things can be controlled in other ways. For example, I might turn off the downstairs lights with my Hue Dimmer Switch and then turn off the bedside table lamp via the Hue today widget which means I forget to activate the security cameras. The eventual solution I’ve come up with is a simple push button (from <a href="http://flic.io/">Flic</a>) stuck under my bedside table that toggles between my <em>Good Morning</em> and <em>Good Night</em> scenes. In this article, I’ll tell you how I did it!</p>
 
-<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy"><a href="#fn:biy" class="footnote">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code>manager:didReceiveButtonDown</code> request.</p>
+<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy" role="doc-noteref"><a href="#fn:biy" class="footnote">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code class="language-plaintext highlighter-rouge">manager:didReceiveButtonDown</code> request.</p>
 
-<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground"><a href="#fn:homekitforeground" class="footnote">4</a></sup>.</p>
+<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground" role="doc-noteref"><a href="#fn:homekitforeground" class="footnote">4</a></sup>.</p>
 
-<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild"><a href="#fn:rebuild" class="footnote">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
+<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild" role="doc-noteref"><a href="#fn:rebuild" class="footnote">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
 
-<p>I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; <code>ws_morning</code> and <code>ws_evening</code>. I then set up two triggers within HomeKit; <code>WebSocket Morning</code> (which triggers the <em>Good Morning</em> scene when the <code>ws_morning</code> switch turns on) and <code>WebSocket Evening</code> (which triggers the <em>Good Night</em> scene when the <code>ws_evening</code> switch turns on). The only change I needed to make to my scenes was to ensure that both <code>ws_morning</code> and <code>ws_evening</code> are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.</p>
+<p>I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; <code class="language-plaintext highlighter-rouge">ws_morning</code> and <code class="language-plaintext highlighter-rouge">ws_evening</code>. I then set up two triggers within HomeKit; <code class="language-plaintext highlighter-rouge">WebSocket Morning</code> (which triggers the <em>Good Morning</em> scene when the <code class="language-plaintext highlighter-rouge">ws_morning</code> switch turns on) and <code class="language-plaintext highlighter-rouge">WebSocket Evening</code> (which triggers the <em>Good Night</em> scene when the <code class="language-plaintext highlighter-rouge">ws_evening</code> switch turns on). The only change I needed to make to my scenes was to ensure that both <code class="language-plaintext highlighter-rouge">ws_morning</code> and <code class="language-plaintext highlighter-rouge">ws_evening</code> are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.</p>
 
 <p>The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named <a href="https://github.com/daltoniam/Starscream">Starscream</a> which allowed me to connect to the server and send commands which led me to this code for the entire project:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
-<span class="kd">import</span> <span class="nc">Starscream</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">Starscream</span>
 
-<span class="kd">let</span> <span class="nv">ipAddress</span> <span class="p">=</span> <span class="s">&quot;192.168.1.100:4050&quot;</span>
-<span class="kd">let</span> <span class="nv">flicAppKey</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Key&quot;</span>
-<span class="kd">let</span> <span class="nv">flicAppSecret</span> <span class="p">=</span> <span class="s">&quot;Your-Flic-App-Secret&quot;</span>
+<span class="k">let</span> <span class="nv">ipAddress</span> <span class="o">=</span> <span class="s">"192.168.1.100:4050"</span>
+<span class="k">let</span> <span class="nv">flicAppKey</span> <span class="o">=</span> <span class="s">"Your-Flic-App-Key"</span>
+<span class="k">let</span> <span class="nv">flicAppSecret</span> <span class="o">=</span> <span class="s">"Your-Flic-App-Secret"</span>
 
-<span class="kd">class</span> <span class="nc">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="n">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="n">WebSocketDelegate</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="kt">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="kt">WebSocketDelegate</span> <span class="p">{</span>
 
-    <span class="kd">let</span> <span class="nv">socket</span> <span class="p">=</span> <span class="n">WebSocket</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="s">&quot;ws://</span><span class="si">\(</span><span class="n">ipAddress</span><span class="si">)</span><span class="s">/&quot;</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">socket</span> <span class="o">=</span> <span class="kt">WebSocket</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"ws://</span><span class="se">\(</span><span class="n">ipAddress</span><span class="se">)</span><span class="s">/"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
     
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-        <span class="n">socket</span><span class="p">.</span><span class="n">delegate</span> <span class="p">=</span> <span class="kc">self</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">configureWithDelegate</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">defaultButtonDelegate</span><span class="p">:</span> <span class="kc">self</span><span class="p">,</span> <span class="n">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="n">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="n">backgroundExecution</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+        <span class="kt">SCLFlicManager</span><span class="o">.</span><span class="nf">configureWithDelegate</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="n">defaultButtonDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="nv">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="nv">backgroundExecution</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">setupFlic</span><span class="p">(</span><span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">SCLFlicManager</span><span class="p">.</span><span class="n">sharedManager</span><span class="p">()?.</span><span class="n">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">&quot;sceneControl&quot;</span><span class="p">)</span>
+    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">setupFlic</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">SCLFlicManager</span><span class="o">.</span><span class="nf">sharedManager</span><span class="p">()?</span><span class="o">.</span><span class="nf">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">"sceneControl"</span><span class="p">)</span>
     <span class="p">}</span>
     
-    <span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">toggle</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">socket</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">toggle</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">socket</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
     <span class="p">}</span>
     
 
-    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Flic Manager</span>
+    <span class="c1">// MARK: Flic Manager</span>
     
-    <span class="kd">func</span> <span class="nf">flicManager</span><span class="p">(</span><span class="n">manager</span><span class="p">:</span> <span class="n">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">?,</span> <span class="n">withError</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-            <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;ERROR: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="kd">func</span> <span class="nf">flicManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="nv">button</span><span class="p">:</span> <span class="kt">SCLFlicButton</span><span class="p">?,</span> <span class="n">withError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+            <span class="kt">NSLog</span><span class="p">(</span><span class="s">"ERROR: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="kd">func</span> <span class="nf">flicButton</span><span class="p">(</span><span class="n">button</span><span class="p">:</span> <span class="n">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="n">queued</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">toggle</span><span class="p">()</span>
+    <span class="kd">func</span> <span class="nf">flicButton</span><span class="p">(</span><span class="nv">button</span><span class="p">:</span> <span class="kt">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="nv">queued</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">age</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">toggle</span><span class="p">()</span>
     <span class="p">}</span>
     
     
-    <span class="c1">// </span><span class="cs">MARK:</span><span class="c1"> Websocket Delegate</span>
+    <span class="c1">// MARK: Websocket Delegate</span>
     
-    <span class="kd">func</span> <span class="nf">websocketDidConnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">let</span> <span class="nv">defaults</span> <span class="p">=</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">()</span>
-        <span class="kd">let</span> <span class="nv">last</span> <span class="p">=</span> <span class="n">defaults</span><span class="p">.</span><span class="n">stringForKey</span><span class="p">(</span><span class="s">&quot;last_status&quot;</span><span class="p">)</span>
-        <span class="kd">let</span> <span class="nv">name</span> <span class="p">=</span> <span class="bp">last</span> <span class="p">==</span> <span class="s">&quot;ws_morning&quot;</span> <span class="p">?</span> <span class="s">&quot;ws_evening&quot;</span> <span class="p">:</span> <span class="s">&quot;ws_morning&quot;</span>
-        <span class="kd">let</span> <span class="nv">params</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;topic&quot;</span><span class="p">:</span> <span class="s">&quot;setValue&quot;</span><span class="p">,</span> <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">&quot;characteristic&quot;</span><span class="p">:</span> <span class="s">&quot;On&quot;</span><span class="p">,</span> <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="bp">NSNumber</span><span class="p">(</span><span class="n">bool</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]]</span>
-        <span class="kd">let</span> <span class="nv">data</span> <span class="p">=</span> <span class="k">try</span><span class="p">!</span> <span class="bp">NSJSONSerialization</span><span class="p">.</span><span class="n">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="p">.</span><span class="n">PrettyPrinted</span><span class="p">)</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">string</span> <span class="p">=</span> <span class="nb">String</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">socket</span><span class="p">.</span><span class="n">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-            <span class="n">socket</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
-            <span class="n">defaults</span><span class="p">.</span><span class="n">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">forKey</span><span class="p">:</span> <span class="s">&quot;last_status&quot;</span><span class="p">)</span>
-            <span class="n">defaults</span><span class="p">.</span><span class="n">synchronize</span><span class="p">()</span>
+    <span class="kd">func</span> <span class="nf">websocketDidConnect</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">defaults</span> <span class="o">=</span> <span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span>
+        <span class="k">let</span> <span class="nv">last</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="nf">stringForKey</span><span class="p">(</span><span class="s">"last_status"</span><span class="p">)</span>
+        <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">last</span> <span class="o">==</span> <span class="s">"ws_morning"</span> <span class="p">?</span> <span class="s">"ws_evening"</span> <span class="p">:</span> <span class="s">"ws_morning"</span>
+        <span class="k">let</span> <span class="nv">params</span> <span class="o">=</span> <span class="p">[</span><span class="s">"topic"</span><span class="p">:</span> <span class="s">"setValue"</span><span class="p">,</span> <span class="s">"payload"</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">"characteristic"</span><span class="p">:</span> <span class="s">"On"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">bool</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]]</span>
+        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">NSJSONSerialization</span><span class="o">.</span><span class="nf">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="kt">PrettyPrinted</span><span class="p">)</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">socket</span><span class="o">.</span><span class="nf">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">socket</span><span class="o">.</span><span class="nf">disconnect</span><span class="p">()</span>
+            <span class="n">defaults</span><span class="o">.</span><span class="nf">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="s">"last_status"</span><span class="p">)</span>
+            <span class="n">defaults</span><span class="o">.</span><span class="nf">synchronize</span><span class="p">()</span>
         <span class="p">}</span>
     <span class="p">}</span>
     
-    <span class="kd">func</span> <span class="nf">websocketDidDisconnect</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidDisconnect</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-    <span class="kd">func</span> <span class="nf">websocketDidReceiveData</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">NSData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidReceiveData</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">,</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">}</span>
     
-    <span class="kd">func</span> <span class="nf">websocketDidReceiveMessage</span><span class="p">(</span><span class="n">socket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">websocketDidReceiveMessage</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">}</span>
     
 <span class="p">}</span></code></pre></figure>
@@ -319,7 +319,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <ul>
   <li>Press the Flic button</li>
-  <li>Wakes up the iOS app (if terminated or backgrounded) and hits the <code>toggle</code> function</li>
+  <li>Wakes up the iOS app (if terminated or backgrounded) and hits the <code class="language-plaintext highlighter-rouge">toggle</code> function</li>
   <li>App sends a websocket command to the Homebridge-websocket server</li>
   <li>Server turns on a fake switch</li>
   <li>HomeKit notices that the fake switch has been turned on so fires trigger to run appropriate scene</li>
@@ -328,22 +328,22 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>This is a long way away from the process I’d envisioned (press button, wake up app, toggle scene with HomeKit API) but it has been a fun challenge finding a way to get it work. I now have a physical button that controls multiple aspects of my home with a single press - it’s pretty cool!</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:stuff">
-      <p>Ugh what a horrible expression. I renamed it the <em>Internet of Stuff</em> on <a href="https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/">episode 7 of The Divide</a>. <a href="#fnref:stuff" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:stuff" role="doc-endnote">
+      <p>Ugh what a horrible expression. I renamed it the <em>Internet of Stuff</em> on <a href="https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/">episode 7 of The Divide</a>. <a href="#fnref:stuff" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:phrasing">
-      <p><a href="https://bendodson.s3.amazonaws.com/phrasing.png"><em>Phrasing</em></a> <a href="#fnref:phrasing" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:phrasing" role="doc-endnote">
+      <p><a href="https://bendodson.s3.amazonaws.com/phrasing.png"><em>Phrasing</em></a> <a href="#fnref:phrasing" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:biy">
-      <p>“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. <a href="#fnref:biy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:biy" role="doc-endnote">
+      <p>“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. <a href="#fnref:biy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:homekitforeground">
-      <p>Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a <code>com.apple.developer.homekit.background-mode</code> entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. <a href="#fnref:homekitforeground" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:homekitforeground" role="doc-endnote">
+      <p>Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a <code class="language-plaintext highlighter-rouge">com.apple.developer.homekit.background-mode</code> entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. <a href="#fnref:homekitforeground" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:rebuild">
-      <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:rebuild" role="doc-endnote">
+      <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -359,141 +359,141 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 			<time datetime="2016-05-17" pubdate=""><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">May 17, 2016</a></time>
     	</header>
     	<div>
-			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc"><a href="#fn:gamingpc" class="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
+			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc" role="doc-noteref"><a href="#fn:gamingpc" class="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
 
 <p>A quick search found <a href="http://www.getoffmalawn.com/steamnews">SteamNews</a>, a website that aims to turn Steam Community pages into RSS feeds. However, a lot of games are missing and it doesn’t solve the problem of fetching the feeds for my account; I’d still need to go through and add them manually. I also don’t like relying on 3rd party services which I can’t install on my own server.</p>
 
 <p>After a bit of exploring on the Steam pages, I found that most games have an RSS feed of their news page; this, combined with my publicly available profile page listing my owned games, has led me to write a basic PHP script to loop through my games, find the matching RSS feed, and then add it to my Feedbin account:</p>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_USERNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;your username here&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;FEEDBIN_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;your password here&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;STEAM_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;your steam id here i.e. bendodson&#39;</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'FEEDBIN_USERNAME'</span><span class="p">,</span> <span class="s1">'your username here'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'FEEDBIN_PASSWORD'</span><span class="p">,</span> <span class="s1">'your password here'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'STEAM_ID'</span><span class="p">,</span> <span class="s1">'your steam id here i.e. bendodson'</span><span class="p">);</span>
 
-<span class="k">require</span> <span class="s1">&#39;vendor/autoload.php&#39;</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">Goutte\Client</span><span class="p">;</span>
+<span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Goutte\Client</span><span class="p">;</span>
 
-<span class="nv">$html</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;http://steamcommunity.com/id/&#39;</span><span class="o">.</span><span class="nx">STEAM_ID</span><span class="o">.</span><span class="s1">&#39;/games/?tab=all&#39;</span><span class="p">);</span>
+<span class="nv">$html</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'http://steamcommunity.com/id/'</span><span class="mf">.</span><span class="no">STEAM_ID</span><span class="mf">.</span><span class="s1">'/games/?tab=all'</span><span class="p">);</span>
 
-<span class="nv">$match</span> <span class="o">=</span> <span class="s2">&quot;rgGames = &quot;</span><span class="p">;</span>
+<span class="nv">$match</span> <span class="o">=</span> <span class="s2">"rgGames = "</span><span class="p">;</span>
 <span class="nv">$start</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$match</span><span class="p">)</span> <span class="o">+</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$match</span><span class="p">);</span>
-<span class="nv">$json</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nb">strtok</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$start</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="nv">$json</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nb">strtok</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$start</span><span class="p">),</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
 <span class="nv">$array</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
 
-<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-<span class="k">if</span> <span class="p">(</span><span class="nv">$games</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$games</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nv">$games</span> <span class="o">=</span> <span class="p">[];</span>
 <span class="p">}</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nv">$unsubscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-0&#39;</span><span class="p">;</span>
-	<span class="nv">$subscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-1&#39;</span><span class="p">;</span>
-	<span class="nv">$failed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="na">appid</span><span class="o">.</span><span class="s1">&#39;-x&#39;</span><span class="p">;</span>
+	<span class="nv">$unsubscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="n">appid</span><span class="mf">.</span><span class="s1">'-0'</span><span class="p">;</span>
+	<span class="nv">$subscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="n">appid</span><span class="mf">.</span><span class="s1">'-1'</span><span class="p">;</span>
+	<span class="nv">$failed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="n">appid</span><span class="mf">.</span><span class="s1">'-x'</span><span class="p">;</span>
 	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$unsubscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$subscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$failed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">))</span> <span class="p">{</span>
 		<span class="nv">$games</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$unsubscribed</span><span class="p">;</span>
 	<span class="p">}</span>
 <span class="p">}</span>
-<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
 
-<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
+<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
 <span class="nv">$index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$games</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">list</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subscribed</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="nv">$game</span><span class="p">);</span>
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$subscribed</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">);</span>
+	<span class="k">list</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subscribed</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="nv">$game</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$subscribed</span> <span class="o">==</span> <span class="s1">'0'</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">);</span>
 	<span class="p">}</span>
 	<span class="nv">$index</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="k">echo</span> <span class="s1">&#39;Done&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s1">'Done'</span><span class="p">;</span>
 
 
-<span class="k">function</span> <span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">function</span> <span class="n">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span> <span class="p">{</span>
 
-	<span class="nv">$key</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">?</span> <span class="nv">$id</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
-	<span class="nv">$feedURL</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="o">?</span> <span class="s1">&#39;http://steamcommunity.com/games/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/rss/&#39;</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
-	<span class="k">echo</span> <span class="s1">&#39;Subscribing to &#39;</span><span class="o">.</span><span class="nv">$feedURL</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="p">;</span>
-	<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;feed_url&quot;</span> <span class="o">=&gt;</span> <span class="nv">$feedURL</span><span class="p">]);</span>
+	<span class="nv">$key</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">''</span> <span class="o">?</span> <span class="nv">$id</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
+	<span class="nv">$feedURL</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">''</span> <span class="o">?</span> <span class="s1">'http://steamcommunity.com/games/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/rss/'</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
+	<span class="k">echo</span> <span class="s1">'Subscribing to '</span><span class="mf">.</span><span class="nv">$feedURL</span><span class="mf">.</span><span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
+	<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">"feed_url"</span> <span class="o">=&gt;</span> <span class="nv">$feedURL</span><span class="p">]);</span>
 
 	<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Content-Type: application/json; charset=utf-8&#39;</span><span class="p">]);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">&#39;https://api.feedbin.com/v2/subscriptions.json&#39;</span><span class="p">);</span>    	
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERPWD</span><span class="p">,</span> <span class="nx">FEEDBIN_USERNAME</span> <span class="o">.</span> <span class="s2">&quot;:&quot;</span> <span class="o">.</span> <span class="nx">FEEDBIN_PASSWORD</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/json; charset=utf-8'</span><span class="p">]);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.feedbin.com/v2/subscriptions.json'</span><span class="p">);</span>    	
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERPWD</span><span class="p">,</span> <span class="no">FEEDBIN_USERNAME</span> <span class="mf">.</span> <span class="s2">":"</span> <span class="mf">.</span> <span class="no">FEEDBIN_PASSWORD</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
 	<span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-	<span class="nv">$statusCode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
+	<span class="nv">$statusCode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLINFO_HTTP_CODE</span><span class="p">);</span>
 	<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">404</span> <span class="o">&amp;&amp;</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">404</span> <span class="o">&amp;&amp;</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">''</span><span class="p">)</span> <span class="p">{</span>
 
-		<span class="nv">$success</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+		<span class="nv">$success</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
 
-		<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
-		<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;http://steamcommunity.com/app/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/allnews/&#39;</span><span class="p">);</span>
-		<span class="nv">$elements</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;#apphub_InitialContent .Announcement_Card:first-child&#39;</span><span class="p">);</span>
-		<span class="k">if</span> <span class="p">(</span><span class="nv">$elements</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$elements</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;data-modal-content-url&#39;</span><span class="p">);</span>
+		<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Client</span><span class="p">();</span>
+		<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'http://steamcommunity.com/app/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/allnews/'</span><span class="p">);</span>
+		<span class="nv">$elements</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">filter</span><span class="p">(</span><span class="s1">'#apphub_InitialContent .Announcement_Card:first-child'</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nv">$elements</span><span class="o">-&gt;</span><span class="nb">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$elements</span><span class="o">-&gt;</span><span class="nf">attr</span><span class="p">(</span><span class="s1">'data-modal-content-url'</span><span class="p">);</span>
 			<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
-				<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-				<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Subscribe to RSS Feed&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);;</span>
+				<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Client</span><span class="p">();</span>
+				<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+				<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">selectLink</span><span class="p">(</span><span class="s1">'Subscribe to RSS Feed'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">attr</span><span class="p">(</span><span class="s1">'href'</span><span class="p">);;</span>
 				<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
-					<span class="nv">$success</span> <span class="o">=</span> <span class="nx">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+					<span class="nv">$success</span> <span class="o">=</span> <span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
 				<span class="p">}</span>
 			<span class="p">}</span>
 		<span class="p">}</span>
 
 		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$success</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-			<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;-x&#39;</span><span class="p">;</span>
-			<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>			
-			<span class="k">echo</span> <span class="s1">&#39;Failed&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">;</span>
+			<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
+			<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="mf">.</span><span class="s1">'-x'</span><span class="p">;</span>
+			<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>			
+			<span class="k">echo</span> <span class="s1">'Failed&lt;br&gt;&lt;br&gt;'</span><span class="p">;</span>
 		<span class="p">}</span>
 
 
 	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span><span class="p">)</span> <span class="p">{</span>
 
 		<span class="nv">$subscription</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
-		<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">&quot;feed_id&quot;</span> <span class="o">=&gt;</span> <span class="nv">$subscription</span><span class="o">-&gt;</span><span class="na">feed_id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Steam Games&quot;</span><span class="p">]);</span>
+		<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">"feed_id"</span> <span class="o">=&gt;</span> <span class="nv">$subscription</span><span class="o">-&gt;</span><span class="n">feed_id</span><span class="p">,</span> <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"Steam Games"</span><span class="p">]);</span>
 		
 		<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Content-Type: application/json; charset=utf-8&#39;</span><span class="p">]);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="s1">&#39;https://api.feedbin.com/v2/taggings.json&#39;</span><span class="p">);</span>    	
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_USERPWD</span><span class="p">,</span> <span class="nx">FEEDBIN_USERNAME</span> <span class="o">.</span> <span class="s2">&quot;:&quot;</span> <span class="o">.</span> <span class="nx">FEEDBIN_PASSWORD</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/json; charset=utf-8'</span><span class="p">]);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.feedbin.com/v2/taggings.json'</span><span class="p">);</span>    	
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERPWD</span><span class="p">,</span> <span class="no">FEEDBIN_USERNAME</span> <span class="mf">.</span> <span class="s2">":"</span> <span class="mf">.</span> <span class="no">FEEDBIN_PASSWORD</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
 		<span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 		<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
 
 	<span class="p">}</span>
 
 	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span> <span class="o">||</span> <span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">));</span>
-		<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;-1&#39;</span><span class="p">;</span>
-		<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">&#39;games.txt&#39;</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
-		<span class="k">echo</span> <span class="s1">&#39;Subscribed!&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">;</span>
-		<span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+		<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
+		<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="mf">.</span><span class="s1">'-1'</span><span class="p">;</span>
+		<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
+		<span class="k">echo</span> <span class="s1">'Subscribed!&lt;br&gt;&lt;br&gt;'</span><span class="p">;</span>
+		<span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
 	<span class="p">}</span>
 
-	<span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+	<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>There is a fair amount going on in this script<sup id="fnref:goodpractice"><a href="#fn:goodpractice" class="footnote">2</a></sup> but the basic overview is:</p>
+<p>There is a fair amount going on in this script<sup id="fnref:goodpractice" role="doc-noteref"><a href="#fn:goodpractice" class="footnote">2</a></sup> but the basic overview is:</p>
 
 <ol>
   <li>
     <p>Fetch a list of owned games from the public profile of the entered Steam ID. Most of the Steam pages are built with Javascript but this page fortunately has the entire library as JSON within the page. After a simple bit of extraction, I have a full list of every game owned.</p>
   </li>
   <li>
-    <p>Update a local text file<sup id="fnref:database"><a href="#fn:database" class="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
+    <p>Update a local text file<sup id="fnref:database" role="doc-noteref"><a href="#fn:database" class="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
   </li>
   <li>
-    <p>Just to be a pain, Steam doesn’t have a standard format for it’s RSS feeds. Whilst most of them contain the game ID, some of them don’t. The first step is to go with the usual URL and then if that fails we’ll use <a href="https://github.com/FriendsOfPHP/Goutte">Goutte</a> to manually scrape the news page and then the first news item in order to grab the correct RSS feed. For example, the game ID of <a href="http://store.steampowered.com/app/240/">Counter-Strike: Source</a> is 240 so the script will first try <code>http://steamcommunity.com/games/240/rss/</code> but when that fails it’ll crawl through some pages to discover the correct URL is <code>http://steamcommunity.com/games/CSS/rss/</code> - there seems to be no logic as to which games have a shorthand name and which don’t and there isn’t an easy way to work out what the name would be.</p>
+    <p>Just to be a pain, Steam doesn’t have a standard format for it’s RSS feeds. Whilst most of them contain the game ID, some of them don’t. The first step is to go with the usual URL and then if that fails we’ll use <a href="https://github.com/FriendsOfPHP/Goutte">Goutte</a> to manually scrape the news page and then the first news item in order to grab the correct RSS feed. For example, the game ID of <a href="http://store.steampowered.com/app/240/">Counter-Strike: Source</a> is 240 so the script will first try <code class="language-plaintext highlighter-rouge">http://steamcommunity.com/games/240/rss/</code> but when that fails it’ll crawl through some pages to discover the correct URL is <code class="language-plaintext highlighter-rouge">http://steamcommunity.com/games/CSS/rss/</code> - there seems to be no logic as to which games have a shorthand name and which don’t and there isn’t an easy way to work out what the name would be.</p>
   </li>
   <li>
     <p>Once I have a valid RSS feed, it is subscribed to via the <a href="https://github.com/feedbin/feedbin-api">Feedbin API</a>. As an added bonus, I also tag the subscription “Steam Games” so they show up all together in my RSS reader of choice, <a href="http://reederapp.com/mac/">Reeder</a>: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-feeds.jpg" width="800" height="559" alt="Steam RSS feeds in Reeder via Feedbin" /></p>
@@ -503,7 +503,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
   </li>
 </ol>
 
-<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour"><a href="#fn:twentyfour" class="footnote">4</a></sup>.</p>
+<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour" role="doc-noteref"><a href="#fn:twentyfour" class="footnote">4</a></sup>.</p>
 
 <p>One idea I dabbled with was fetching the feeds myself and building a single large RSS feed that I could subscribe to. There are a few issues there though:</p>
 
@@ -515,28 +515,28 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     <p>I’d be sacrificing some customisation. If I’m not interested in a specific game, I can simply remove the feed from Feedbin. My script doesn’t check subscriptions so it won’t try and re-add it.</p>
   </li>
   <li>
-    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame"><a href="#fn:youngmansgame" class="footnote">5</a></sup>.</p>
+    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame" role="doc-noteref"><a href="#fn:youngmansgame" class="footnote">5</a></sup>.</p>
   </li>
 </ul>
 
 <p>I’ve put all of the <a href="https://github.com/bendodson/Steam-RSS">code on GitHub</a> in case it is of interest to anyone.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:gamingpc">
-      <p>The main reasons being far higher resolution and quality, cheaper games, and virtual reality. I’ll miss Xbox achievements but the boost in visual quality more than makes up for that (and with controller support and a SteamLink, I can still play most games on my sofa with an Xbox One Elite Controller). <a href="#fnref:gamingpc" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:gamingpc" role="doc-endnote">
+      <p>The main reasons being far higher resolution and quality, cheaper games, and virtual reality. I’ll miss Xbox achievements but the boost in visual quality more than makes up for that (and with controller support and a SteamLink, I can still play most games on my sofa with an Xbox One Elite Controller). <a href="#fnref:gamingpc" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:goodpractice">
-      <p>Please do not look at this and assume this is any way good practice. This is a very fast and loose piece of coding in order to achieve a specific goal as quickly as possible; most of it will break if Steam update their HTML pages (very likely). <a href="#fnref:goodpractice" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:goodpractice" role="doc-endnote">
+      <p>Please do not look at this and assume this is any way good practice. This is a very fast and loose piece of coding in order to achieve a specific goal as quickly as possible; most of it will break if Steam update their HTML pages (very likely). <a href="#fnref:goodpractice" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:database">
-      <p>“Why not use a database” - I couldn’t be bothered to set one up. A basic text file does the job. <a href="#fnref:database" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:database" role="doc-endnote">
+      <p>“Why not use a database” - I couldn’t be bothered to set one up. A basic text file does the job. <a href="#fnref:database" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:twentyfour">
-      <p>“Within the hour” - can you tell I’ve been rewatching 24 lately? <a href="#fnref:twentyfour" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:twentyfour" role="doc-endnote">
+      <p>“Within the hour” - can you tell I’ve been rewatching 24 lately? <a href="#fnref:twentyfour" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:youngmansgame">
-      <p>When I was younger, that is exactly what I would have done but as I’ve grown older I’ve realised that hosting stuff for free is a massive headache. Much better to stick the code on GitHub and let people use it on their own if they want. <a href="#fnref:youngmansgame" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:youngmansgame" role="doc-endnote">
+      <p>When I was younger, that is exactly what I would have done but as I’ve grown older I’ve realised that hosting stuff for free is a massive headache. Much better to stick the code on GitHub and let people use it on their own if they want. <a href="#fnref:youngmansgame" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -554,42 +554,42 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     	<div>
 			<p>A few years ago, <a href="https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">I wrote a convoluted AppleScript</a> that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was released due to a number of changes to AppleScript support; there were also changes to OS X which prevented AppleScripts from launching via Calendar alerts.</p>
 
-<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
+<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject" role="doc-noteref"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
 
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">AirplayDeviceName</span> <span class="k">to</span> <span class="s2">&quot;Kitchen&quot;</span>
-<span class="k">set</span> <span class="nv">PlaylistName</span> <span class="k">to</span> <span class="s2">&quot;Morning&quot;</span>
-<span class="k">set</span> <span class="nv">AirplayVolume</span> <span class="k">to</span> <span class="mi">100</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">AirplayDeviceName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Kitchen"</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Morning"</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayVolume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">100</span><span class="w">
 
-<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
-	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-		<span class="k">set</span> <span class="na">visible</span> <span class="k">of</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="no">true</span>
-		<span class="k">set</span> <span class="nb">the</span> <span class="na">view</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
-	<span class="k">end</span> <span class="k">tell</span>
-<span class="k">end</span> <span class="k">tell</span>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
+	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+		</span><span class="k">set</span><span class="w"> </span><span class="na">visible</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
+		</span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">view</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
-	<span class="k">tell</span> <span class="nv">process</span> <span class="s2">&quot;iTunes&quot;</span> <span class="k">to</span> <span class="k">if</span> <span class="nb">exists</span> <span class="k">then</span>
-		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Songs&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
-		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;On&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
-	<span class="k">end</span> <span class="k">if</span>
-<span class="k">end</span> <span class="k">tell</span>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
+	</span><span class="k">tell</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">exists</span><span class="w"> </span><span class="k">then</span><span class="w">
+		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Songs"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Controls"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
+		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"On"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Controls"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-	<span class="k">set</span> <span class="nv">AirplayNames</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="na">name</span> <span class="k">of</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
-	<span class="k">set</span> <span class="nv">AirplayDevices</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
-	<span class="k">set</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="p">{}</span>
-	<span class="k">repeat</span> <span class="nv">with</span> <span class="nv">i</span> <span class="k">from</span> <span class="mi">1</span> <span class="k">to</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">AirplayNames</span>
-		<span class="k">if</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayNames</span> <span class="k">as </span><span class="nc">string</span> <span class="o">=</span> <span class="nv">AirplayDeviceName</span> <span class="k">then</span> <span class="k">set</span> <span class="k">end</span> <span class="k">of</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayDevices</span>
-	<span class="k">end</span> <span class="k">repeat</span>
-	<span class="k">set</span> <span class="nv">current</span> <span class="nv">AirPlay</span> <span class="nv">devices</span> <span class="k">to</span> <span class="nv">AirplayToPlay</span>
-<span class="k">end</span> <span class="k">tell</span>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="k">get</span><span class="w"> </span><span class="na">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="p">)</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayDevices</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="k">get</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="p">)</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
+	</span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">AirplayDeviceName</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayDevices</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">current</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-	<span class="nb">play</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
-	<span class="k">set</span> <span class="nb">the</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">AirplayVolume</span>
-<span class="k">end</span> <span class="k">tell</span></code></pre></figure>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+	</span><span class="nb">play</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">sound</span><span class="w"> </span><span class="na">volume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">AirplayVolume</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
 
 <p>The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.</p>
 
@@ -605,10 +605,10 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>The full code (and previous version) is <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">available on GitHub</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:homekitproject">
-      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:homekitproject" role="doc-endnote">
+      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -650,7 +650,7 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     	<div>
 			<p>I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!</p>
 
-<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags"><a href="#fn:flags" class="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
+<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags" role="doc-noteref"><a href="#fn:flags" class="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
 
 <blockquote>
   <p>What they did is both crazy and genius. Instead of assigning a codepoint to each flag, which is the obvious way to do it (and the way the rest of the emoji are encoded), the standard defines twenty-six “regional indicator symbols”, from U+1F1E6 REGIONAL INDICATOR SYMBOL LETTER A to U+1F1FF REGIONAL INDICATOR SYMBOL LETTER Z. In order to include a country’s flag in your text, you first look up the country’s two-letter ISO 3166-1 code and then write the two regional indicator symbols corresponding to those letters. A font with support for that flag treats the two-codepoint sequence as a ligature, replacing the combination with a single pictogram.</p>
@@ -662,11 +662,11 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p>Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="n">countryCode</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nv">string</span> <span class="p">=</span> <span class="s">&quot;&quot;</span>
-    <span class="kd">var</span> <span class="nv">country</span> <span class="p">=</span> <span class="n">countryCode</span><span class="p">.</span><span class="n">uppercaseString</span>
-    <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">string</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="p">.</span><span class="n">value</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="nv">countryCode</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">string</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="k">var</span> <span class="nv">country</span> <span class="o">=</span> <span class="n">countryCode</span><span class="o">.</span><span class="n">uppercaseString</span>
+    <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="o">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
+        <span class="n">string</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">string</span>
 <span class="p">}</span></code></pre></figure>
@@ -675,17 +675,17 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/flag-playground.jpg" width="800" height="419" /></p>
 
-<p>If you use an incorrect code such as “en”<sup id="fnref:england"><a href="#fn:england" class="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
+<p>If you use an incorrect code such as “en”<sup id="fnref:england" role="doc-noteref"><a href="#fn:england" class="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
 
 <p>You can <a href="https://github.com/bendodson/flag-emoji-from-country-code">download my example playground from GitHub</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:flags">
-      <p>Most were supported in iOS 8.3 but hidden from the emoji keyboard; iOS 9.0 added an extra 40 to complete the set including such places as Antarctica and Taiwan. They also added support for the EU flag. <a href="#fnref:flags" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:flags" role="doc-endnote">
+      <p>Most were supported in iOS 8.3 but hidden from the emoji keyboard; iOS 9.0 added an extra 40 to complete the set including such places as Antarctica and Taiwan. They also added support for the EU flag. <a href="#fnref:flags" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:england">
-      <p>England is not an iOS 3166-1 country and so there is no “en” code. There is a proposal for subdivisions to be supported so something like “gb-eng” would work but it is not accepted yet and iOS has no flags for places like England, Wales, or Scotland. <a href="#fnref:england" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:england" role="doc-endnote">
+      <p>England is not an iOS 3166-1 country and so there is no “en” code. There is a proposal for subdivisions to be supported so something like “gb-eng” would work but it is not accepted yet and iOS has no flags for places like England, Wales, or Scotland. <a href="#fnref:england" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -715,9 +715,9 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
   </li>
 </ol>
 
-<p>The solution to the first problem is very simple; there will be an adapter accessory<sup id="fnref:adapterprice"><a href="#fn:adapterprice" class="footnote">1</a></sup> to allow you to plug 3.5mm headphones into the lightning port. I personally don’t have a problem with this; if you have expensive headphones and an expensive phone, the cost of buying an adapter is negligible really and it is unlikely to add any bulk as it’ll just be extending the cord that you’ll already be using. You are unlikely to buy an adapter to use the existing bundled EarPods as it is certain that Apple would bundle in some lightning powered EarPods so really the adapter is for those with existing expensive 3.5mm based headphones.</p>
+<p>The solution to the first problem is very simple; there will be an adapter accessory<sup id="fnref:adapterprice" role="doc-noteref"><a href="#fn:adapterprice" class="footnote">1</a></sup> to allow you to plug 3.5mm headphones into the lightning port. I personally don’t have a problem with this; if you have expensive headphones and an expensive phone, the cost of buying an adapter is negligible really and it is unlikely to add any bulk as it’ll just be extending the cord that you’ll already be using. You are unlikely to buy an adapter to use the existing bundled EarPods as it is certain that Apple would bundle in some lightning powered EarPods so really the adapter is for those with existing expensive 3.5mm based headphones.</p>
 
-<p>However, the other two issues are more problematic. There is an issue that you may very well want to charge your iPhone whilst listening to music via headphones and Bluetooth does suck when you are watching video as it is often out of sync by a few milliseconds. I own a pair of Beats Studio Wireless which connect either via Bluetooth or via a 3.5mm cable; I regularly use the cable when watching Netflix in bed as I find the lag incredibly irritating<sup id="fnref:audiolag"><a href="#fn:audiolag" class="footnote">2</a></sup>. In addition, I can charge my phone at the same time.</p>
+<p>However, the other two issues are more problematic. There is an issue that you may very well want to charge your iPhone whilst listening to music via headphones and Bluetooth does suck when you are watching video as it is often out of sync by a few milliseconds. I own a pair of Beats Studio Wireless which connect either via Bluetooth or via a 3.5mm cable; I regularly use the cable when watching Netflix in bed as I find the lag incredibly irritating<sup id="fnref:audiolag" role="doc-noteref"><a href="#fn:audiolag" class="footnote">2</a></sup>. In addition, I can charge my phone at the same time.</p>
 
 <p>Some people have proposed that the iPhone 7 could get conductive charging much like the Apple Watch but this seems highly unlikely to me; the amount of space required to do that is huge (compared to a 3.5mm jack) and it charges very slowly, especially with an iPhone 6 Plus sized battery.</p>
 
@@ -728,27 +728,27 @@ This has been a fun little exercise in trying to hack HomeKit into what I want t
     <p>The bundled headphones will be lightning but will have some sort of lightning passthrough so you can continue to power your device or use any other lightning accessory at the same time.</p>
   </li>
   <li>
-    <p>There will be wireless headphones that will work with some new proprietary sync method<sup id="fnref:airplay"><a href="#fn:airplay" class="footnote">3</a></sup> but can also work with a lightning cable for both listening and charging. They would be called “AirPods” and would either be bundled as the lightning headphones or be available separately for something like £79 / $99. A <a href="http://9to5mac.com/2016/04/21/apple-wireless-headphones-lightning-headphones/">recent patent</a> that was unearthed would seem to indicate this as a solid option. Extra points to Apple if it is a custom wireless solution and it works with the Apple Watch 2.</p>
+    <p>There will be wireless headphones that will work with some new proprietary sync method<sup id="fnref:airplay" role="doc-noteref"><a href="#fn:airplay" class="footnote">3</a></sup> but can also work with a lightning cable for both listening and charging. They would be called “AirPods” and would either be bundled as the lightning headphones or be available separately for something like £79 / $99. A <a href="http://9to5mac.com/2016/04/21/apple-wireless-headphones-lightning-headphones/">recent patent</a> that was unearthed would seem to indicate this as a solid option. Extra points to Apple if it is a custom wireless solution and it works with the Apple Watch 2.</p>
   </li>
 </ol>
 
-<p>Both of these proposals get around the charging issue and the Bluetooth lag issue. I think it more likely that we’ll get basic lightning headphones included and then have to pay for the fancier lightning / wireless ones but it isn’t outside the realm of possibility that they could be bundled. That said, I also wouldn’t put it past Apple to say “you can use headphones or you can charge your phone” similar to the “charge or use peripheral” attitude to the solo USB-C port on the MacBook<sup id="fnref:macbook"><a href="#fn:macbook" class="footnote">4</a></sup>.</p>
+<p>Both of these proposals get around the charging issue and the Bluetooth lag issue. I think it more likely that we’ll get basic lightning headphones included and then have to pay for the fancier lightning / wireless ones but it isn’t outside the realm of possibility that they could be bundled. That said, I also wouldn’t put it past Apple to say “you can use headphones or you can charge your phone” similar to the “charge or use peripheral” attitude to the solo USB-C port on the MacBook<sup id="fnref:macbook" role="doc-noteref"><a href="#fn:macbook" class="footnote">4</a></sup>.</p>
 
 <p>The only thing that seems certain is that the 3.5mm port will not be available; you’ll need to use either an adapter or whatever new headphones Apple release.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:adapterprice">
-      <p>Likely priced at $29.99 / £24.99 because they can. You’ll get a cheap version on Amazon for $9.99 / £6.99 within a month. <a href="#fnref:adapterprice" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:adapterprice" role="doc-endnote">
+      <p>Likely priced at $29.99 / £24.99 because they can. You’ll get a cheap version on Amazon for $9.99 / £6.99 within a month. <a href="#fnref:adapterprice" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:audiolag">
-      <p>I couldn’t care less about audio lag for listening to music or podcasts as it really doesn’t matter and isn’t noticeable; it only affects video as 50ms of lag will mean that the actors lips don’t move precisely with their voice which is offputting. <a href="#fnref:audiolag" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:audiolag" role="doc-endnote">
+      <p>I couldn’t care less about audio lag for listening to music or podcasts as it really doesn’t matter and isn’t noticeable; it only affects video as 50ms of lag will mean that the actors lips don’t move precisely with their voice which is offputting. <a href="#fnref:audiolag" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:airplay">
-      <p>They would probably use the “AirPlay” brand. <a href="#fnref:airplay" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:airplay" role="doc-endnote">
+      <p>They would probably use the “AirPlay” brand. <a href="#fnref:airplay" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:macbook">
-      <p>Which I own and have had no issues with. Interesting that it retains a 3.5mm jack though when a USB-C port on both sides would make more sense to my mind. <a href="#fnref:macbook" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:macbook" role="doc-endnote">
+      <p>Which I own and have had no issues with. Interesting that it retains a 3.5mm jack though when a USB-C port on both sides would make more sense to my mind. <a href="#fnref:macbook" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

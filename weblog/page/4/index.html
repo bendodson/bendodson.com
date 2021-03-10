@@ -46,7 +46,7 @@
 			<time datetime="2017-01-25" pubdate=""><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">January 25, 2017</a></time>
     	</header>
     	<div>
-			<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called <em><a href="https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS">Ben Dodson’s Definitive Hits Collection</a></em> which contained nearly 45 hours of songs I thought were particularly good<sup id="fnref:criteria"><a href="#fn:criteria" class="footnote">1</a></sup>. On most Tuesday nights, my friend and <a href="http://connectingtohost.co.uk/">podcast</a> co-host <a href="http://johnwordsworth.com/">John Wordsworth</a> and I play a few rounds of <a href="https://kyloben.co.uk/games/rocket-league">Rocket League</a> and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:</p>
+			<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called <em><a href="https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS">Ben Dodson’s Definitive Hits Collection</a></em> which contained nearly 45 hours of songs I thought were particularly good<sup id="fnref:criteria" role="doc-noteref"><a href="#fn:criteria" class="footnote">1</a></sup>. On most Tuesday nights, my friend and <a href="http://connectingtohost.co.uk/">podcast</a> co-host <a href="http://johnwordsworth.com/">John Wordsworth</a> and I play a few rounds of <a href="https://kyloben.co.uk/games/rocket-league">Rocket League</a> and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:</p>
 
 <ol>
   <li>As I use Apple Music now, I don’t pay for a Spotify premium account and so I have to put up with adverts (which are utterly terrible).</li>
@@ -61,62 +61,62 @@
 
 <h3 id="retrieving-track-details-from-spotify">Retrieving track details from Spotify</h3>
 
-<p>I hadn’t heard of it before but Apple has provided a tool called <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html">Scripting Bridge</a> since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly<sup id="fnref:polling"><a href="#fn:polling" class="footnote">2</a></sup> to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.</p>
+<p>I hadn’t heard of it before but Apple has provided a tool called <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html">Scripting Bridge</a> since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly<sup id="fnref:polling" role="doc-noteref"><a href="#fn:polling" class="footnote">2</a></sup> to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.</p>
 
 <h3 id="finding-a-track-on-apple-music">Finding a track on Apple Music</h3>
 
 <p>The next step is for the server to take the information that has been sent and use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to try and find a match. This is fairly straightforward and a first draft would send a request like this:</p>
 
-<pre><code>https://itunes.apple.com/search?entity=song&amp;term=never+gonna+give+you+up+rick+astley&amp;country=gb
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://itunes.apple.com/search?entity=song&amp;term=never+gonna+give+you+up+rick+astley&amp;country=gb
+</code></pre></div></div>
 
-<p>Unfortunately the iTunes API does not allow you to search multiple terms (i.e. <code>artist=rick+astley title=never+gonna+give+you+up</code>) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song <em>She Looks So Perfect</em> by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.</p>
+<p>Unfortunately the iTunes API does not allow you to search multiple terms (i.e. <code class="language-plaintext highlighter-rouge">artist=rick+astley title=never+gonna+give+you+up</code>) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song <em>She Looks So Perfect</em> by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.</p>
 
-<p>The next issue I encountered involves the <a href="https://en.wikipedia.org/wiki/Romanization_of_Belarusian">Romanization of Belarusian</a>; the track <a href="https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013"><em>Solayoh</em></a> is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search <code>term=solayoh+alyona+lanskaya</code> then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.</p>
+<p>The next issue I encountered involves the <a href="https://en.wikipedia.org/wiki/Romanization_of_Belarusian">Romanization of Belarusian</a>; the track <a href="https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013"><em>Solayoh</em></a> is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search <code class="language-plaintext highlighter-rouge">term=solayoh+alyona+lanskaya</code> then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.</p>
 
 <p>The final issue on the API side revolves around remastered tracks. The song <em>A Horse with No Name</em> is listed as <em>A Horse with No Name - 2006 Remastered Version</em> on Spotify but Apple Music doesn’t include that suffix even though they have the exact same version of the album. To fix this, if there are no results returned (again)  then I split the string by non-alphanumeric characters and just try the first part in the lookup. Again, this seems to work in 99% of cases.</p>
 
-<p>Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the <code>content_available</code> flag as I want to wake the app up and run some code but not actually display anything to the end user.</p>
+<p>Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the <code class="language-plaintext highlighter-rouge">content_available</code> flag as I want to wake the app up and run some code but not actually display anything to the end user.</p>
 
 <h3 id="the-ios-app">The iOS App</h3>
 
-<p>The final piece of the puzzle is an iOS app with a fairly minimal interface<sup id="fnref:switch"><a href="#fn:switch" class="footnote">3</a></sup>…</p>
+<p>The final piece of the puzzle is an iOS app with a fairly minimal interface<sup id="fnref:switch" role="doc-noteref"><a href="#fn:switch" class="footnote">3</a></sup>…</p>
 
 <p><img src="http://bendodson.s3.amazonaws.com/weblog/2017/music-sync.jpg" width="800" height="500" /></p>
 
-<p>The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an <code>MPMusicPlayerController</code> but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.</p>
+<p>The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.</p>
 
-<p>That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “<a href="https://itun.es/gb/6K_2v"><em>Silent Tracks of Various Useful Lengths</em></a>” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music<sup id="fnref:silent"><a href="#fn:silent" class="footnote">4</a></sup>.</p>
+<p>That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “<a href="https://itun.es/gb/6K_2v"><em>Silent Tracks of Various Useful Lengths</em></a>” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music<sup id="fnref:silent" role="doc-noteref"><a href="#fn:silent" class="footnote">4</a></sup>.</p>
 
 <p>Once a silent push is received, it starts to play the track but it also adds the 5 minute silent track to the queue. This is important as it prevents the background audio from terminating should I have a different length of music to Spotify or if a push is delayed due to network reasons. In essence, a normal track will be played followed by a track of silence whilst it waits for the next notification.</p>
 
-<p>The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time<sup id="fnref:clock"><a href="#fn:clock" class="footnote">5</a></sup>. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.</p>
+<p>The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time<sup id="fnref:clock" role="doc-noteref"><a href="#fn:clock" class="footnote">5</a></sup>. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.</p>
 
-<p>For example, lets suppose John starts listening to <em>C’est La Vie</em> by B*Witched<sup id="fnref:classic"><a href="#fn:classic" class="footnote">6</a></sup> and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.</p>
+<p>For example, lets suppose John starts listening to <em>C’est La Vie</em> by B*Witched<sup id="fnref:classic" role="doc-noteref"><a href="#fn:classic" class="footnote">6</a></sup> and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.</p>
 
 <p>Amazingly, this crazy system actually works and we are able to have our playlist synced and ad free on two completely separate streaming services. I built my portion of the project as an iOS app as Windows does not have access to Apple Music yet I play Rocket League on the PC; in order to actually hear the audio, I wear a single AirPod in my right ear underneath my Turtle Beach X10 Headset so I can hear the music but still get the audio from the game and Skype.</p>
 
 <p>It was only after we’d got it working that we realised we could have just set up some form of streaming radio server but that likely wouldn’t have been as much fun…</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:criteria">
-      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:criteria" role="doc-endnote">
+      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:polling">
-      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:polling" role="doc-endnote">
+      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:switch">
-      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:switch" role="doc-endnote">
+      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:silent">
-      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:silent" role="doc-endnote">
+      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:clock">
-      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:clock" role="doc-endnote">
+      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:classic">
-      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:classic" role="doc-endnote">
+      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -163,14 +163,14 @@
 
 <p>Sporta is an app to keep football fans up to date with the latest matches via local notifications in advance of a game. You simply select which teams you are interested in from the Premier League, Sky Bet Championship, The FA Cup, the Scottish Premiership, or international matches featuring England, Scotland, Wales, or Ireland. You can then choose a reminder time prior to the match (from 5 minutes up to 1 week) and the app will automatically send you a local notification to remind you about the match with details of kick off time, the teams involved, and the venue.</p>
 
-<p>I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline<sup id="fnref:offline"><a href="#fn:offline" class="footnote">1</a></sup>. Finally, I used the <a href="http://realm.io">Realm mobile database</a> in order to store the match data and be able to quickly execute queries such as “<em>fetch all fixtures that contain teams x, y, and z as either the home or away team</em>”.</p>
+<p>I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline<sup id="fnref:offline" role="doc-noteref"><a href="#fn:offline" class="footnote">1</a></sup>. Finally, I used the <a href="http://realm.io">Realm mobile database</a> in order to store the match data and be able to quickly execute queries such as “<em>fetch all fixtures that contain teams x, y, and z as either the home or away team</em>”.</p>
 
 <p>This was a really fun project to work on and I’m particularly pleased with how reliable the notifications are. If you are a football fan, you can download <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta on the App Store</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:offline">
-      <p>The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). <a href="#fnref:offline" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:offline" role="doc-endnote">
+      <p>The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). <a href="#fnref:offline" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -207,7 +207,7 @@
 			<time datetime="2016-11-15" pubdate=""><a href="/weblog/2016/11/15/dont-be-the-idea-person/">November 15, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been a fan of <a href="http://dilbert.com/">Dilbert</a> since the mid-‘90s<sup id="fnref:dilbert"><a href="#fn:dilbert" class="footnote">1</a></sup> and this week a lot of my friends (and some clients) sent me this strip from <a href="http://dilbert.com/strip/2016-11-13">November 13th</a>:</p>
+			<p>I’ve been a fan of <a href="http://dilbert.com/">Dilbert</a> since the mid-‘90s<sup id="fnref:dilbert" role="doc-noteref"><a href="#fn:dilbert" class="footnote">1</a></sup> and this week a lot of my friends (and some clients) sent me this strip from <a href="http://dilbert.com/strip/2016-11-13">November 13th</a>:</p>
 
 <p><a href="http://dilbert.com/strip/2016-11-13"><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dilbert.jpg" width="800" /></a></p>
 
@@ -215,25 +215,25 @@
 
 <p>Ideas are worth nothing. Absolutely nothing. It is implementation that is worth something.</p>
 
-<p>The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week<sup id="fnref:incomplete"><a href="#fn:incomplete" class="footnote">2</a></sup>.</p>
+<p>The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week<sup id="fnref:incomplete" role="doc-noteref"><a href="#fn:incomplete" class="footnote">2</a></sup>.</p>
 
-<p>If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS<sup id="fnref:apple"><a href="#fn:apple" class="footnote">3</a></sup>. Then, once you’ve understood the process, either pay a developer for a basic MVP<sup id="fnref:mvp"><a href="#fn:mvp" class="footnote">4</a></sup> or pitch to investors to get enough funding to build one.</p>
+<p>If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS<sup id="fnref:apple" role="doc-noteref"><a href="#fn:apple" class="footnote">3</a></sup>. Then, once you’ve understood the process, either pay a developer for a basic MVP<sup id="fnref:mvp" role="doc-noteref"><a href="#fn:mvp" class="footnote">4</a></sup> or pitch to investors to get enough funding to build one.</p>
 
 <p>Don’t ever be “the idea person” and don’t ever expect other people to work for you for free. The world does not work that way.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:dilbert">
-      <p>I have around 14 compendium books of the strips; my favourite is entitled “<a href="https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/">Still Pumped From Using The Mouse</a>” (a reference to a calendar they were making about software developers). <a href="#fnref:dilbert" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:dilbert" role="doc-endnote">
+      <p>I have around 14 compendium books of the strips; my favourite is entitled “<a href="https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/">Still Pumped From Using The Mouse</a>” (a reference to a calendar they were making about software developers). <a href="#fnref:dilbert" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:incomplete">
-      <p>“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” <a href="#fnref:incomplete" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:incomplete" role="doc-endnote">
+      <p>“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” <a href="#fnref:incomplete" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:apple">
-      <p>“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. <a href="#fnref:apple" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:apple" role="doc-endnote">
+      <p>“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. <a href="#fnref:apple" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:mvp">
-      <p>“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. <a href="#fnref:mvp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:mvp" role="doc-endnote">
+      <p>“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. <a href="#fnref:mvp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -251,7 +251,7 @@
     	<div>
 			<p>Last week, my <a href="https://bendodson.com/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> script stopped working due to some <a href="https://forums.developer.apple.com/message/192916">changes by Apple</a> with regards to rate limiting. In the past, searching for something on my site would cause my server to send a request to Apple and get the data back but with so many people using it my server would get blocked within a few seconds.</p>
 
-<p>After a brief shutdown<sup id="fnref:thanks"><a href="#fn:thanks" class="footnote">1</a></sup>, I’m happy to say that my iTunes Artwork Finder is now back up and running again thanks to a few tweaks. Now, instead of sending all requests from my server, it works like this:</p>
+<p>After a brief shutdown<sup id="fnref:thanks" role="doc-noteref"><a href="#fn:thanks" class="footnote">1</a></sup>, I’m happy to say that my iTunes Artwork Finder is now back up and running again thanks to a few tweaks. Now, instead of sending all requests from my server, it works like this:</p>
 
 <ol>
   <li>When you enter a search term (i.e. “Fall out boy” albums in United Kingdom), that is sent to my server where I’ll generate the correct URL that is needed for Apple’s servers</li>
@@ -260,24 +260,24 @@
   <li>Results are then displayed!</li>
 </ol>
 
-<p>This means that there are now 3 network requests instead of 1 but the crucial part is that all requests to Apple’s servers are now made from your own browser so the rate limiting shouldn’t be a problem<sup id="fnref:ratelimit"><a href="#fn:ratelimit" class="footnote">2</a></sup>.</p>
+<p>This means that there are now 3 network requests instead of 1 but the crucial part is that all requests to Apple’s servers are now made from your own browser so the rate limiting shouldn’t be a problem<sup id="fnref:ratelimit" role="doc-noteref"><a href="#fn:ratelimit" class="footnote">2</a></sup>.</p>
 
 <p>Whilst not an ideal solution, it does work and means I can keep everything running for a bit longer. I’m hopeful that Apple will alter how their rate limiting works as at the moment it seems a bit broken, especially with it being required for several apps with the new <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Apple Music APIs</a>.</p>
 
-<p>The code for the artwork finder is <a href="https://github.com/bendodson/itunes-artwork-finder">available on GitHub</a> although this uses the old PHP request system rather than my new version as that should be more than good enough for personal usage<sup id="fnref:personalusage"><a href="#fn:personalusage" class="footnote">3</a></sup>.</p>
+<p>The code for the artwork finder is <a href="https://github.com/bendodson/itunes-artwork-finder">available on GitHub</a> although this uses the old PHP request system rather than my new version as that should be more than good enough for personal usage<sup id="fnref:personalusage" role="doc-noteref"><a href="#fn:personalusage" class="footnote">3</a></sup>.</p>
 
 <p>If you run into any problems, <a href="https://bendodson.com/contact/">please get in touch</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:thanks">
-      <p>During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. <a href="#fnref:thanks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:thanks" role="doc-endnote">
+      <p>During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. <a href="#fnref:thanks" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:ratelimit">
-      <p>Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. <a href="#fnref:ratelimit" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:ratelimit" role="doc-endnote">
+      <p>Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. <a href="#fnref:ratelimit" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:personalusage">
-      <p>And if you want to do more than just personal usage you should <a href="https://bendodson.com/contact/">speak to me</a> first as I don’t really want people to create entire duplicates of my own project. <a href="#fnref:personalusage" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:personalusage" role="doc-endnote">
+      <p>And if you want to do more than just personal usage you should <a href="https://bendodson.com/contact/">speak to me</a> first as I don’t really want people to create entire duplicates of my own project. <a href="#fnref:personalusage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -303,16 +303,16 @@
 
 <p>I built the app as I would occassionally come across something that required a special ability and the game might show me a character with that ability. However, as I have a fairly large collection already, it is likely I have a character with the ability and just need to look up which one has it. For example, I might find an area in a level which requires the Sonar Smash ability and the game might show me the character Benny (from The LEGO Movie) as someone with this ability; with my app, I can quickly see who else has that abilty and find I have Marty McFly (from Back To The Future) who will do just as well!</p>
 
-<p>The entire app is built using Swift 3.0 and I use <a href="http://realm.io">Realm</a> as a mobile database containing all of the character information that I scraped from the official LEGO Dimensions website<sup id="fnref:legoscraper"><a href="#fn:legoscraper" class="footnote">1</a></sup>. I added a few nice touches such as Peek &amp; Pop support for 3D Touch enabled devices and taptic feedback for the iPhone 7 models. The app is completely free and contains no in-app purchases, adverts, or analytics tracking – it doesn’t even require an internet connection!</p>
+<p>The entire app is built using Swift 3.0 and I use <a href="http://realm.io">Realm</a> as a mobile database containing all of the character information that I scraped from the official LEGO Dimensions website<sup id="fnref:legoscraper" role="doc-noteref"><a href="#fn:legoscraper" class="footnote">1</a></sup>. I added a few nice touches such as Peek &amp; Pop support for 3D Touch enabled devices and taptic feedback for the iPhone 7 models. The app is completely free and contains no in-app purchases, adverts, or analytics tracking – it doesn’t even require an internet connection!</p>
 
 <p>You can download <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">Vortech on the App Store</a> and learn more about it on my <a href="https://dodoapps.io/vortech/">Dodo Apps website</a>.</p>
 
 <p>If you find Vortech useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can <a href="https://bendodson.com/contact/">contact me directly</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:legoscraper">
-      <p>I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. <a href="#fnref:legoscraper" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:legoscraper" role="doc-endnote">
+      <p>I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. <a href="#fnref:legoscraper" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -411,76 +411,76 @@
 			<time datetime="2016-09-15" pubdate=""><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">September 15, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been using <a href="http://mailroute.net/">MailRoute</a> on and off for the past few years<sup id="fnref:sanebox"><a href="#fn:sanebox" class="footnote">1</a></sup> in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their website. Whilst you can whitelist domains easily from the daily digest of caught spam, there is no feature that lets you forward spam to them in order to have it blacklisted (despite people, including me, <a href="https://support.mailroute.net/entries/23555217-Blacklist-by-email">requesting it since 2013</a>). After having a look at the <a href="https://support.mailroute.net/forums/21682281-API">MailRoute API</a>, I decided it was time to fix this myself.</p>
+			<p>I’ve been using <a href="http://mailroute.net/">MailRoute</a> on and off for the past few years<sup id="fnref:sanebox" role="doc-noteref"><a href="#fn:sanebox" class="footnote">1</a></sup> in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their website. Whilst you can whitelist domains easily from the daily digest of caught spam, there is no feature that lets you forward spam to them in order to have it blacklisted (despite people, including me, <a href="https://support.mailroute.net/entries/23555217-Blacklist-by-email">requesting it since 2013</a>). After having a look at the <a href="https://support.mailroute.net/forums/21682281-API">MailRoute API</a>, I decided it was time to fix this myself.</p>
 
 <p>There are several components in getting this working.</p>
 
 <ol>
-  <li>I created a new email address with <a href="http://gmail.com">Gmail</a> which will catch my forwarded spam<sup id="fnref:gmailspam"><a href="#fn:gmailspam" class="footnote">2</a></sup>.</li>
-  <li>I set up an account with <a href="http://context.io">Context.io</a> and connected it to the gmail account<sup id="fnref:gmailaccount"><a href="#fn:gmailaccount" class="footnote">3</a></sup>.</li>
+  <li>I created a new email address with <a href="http://gmail.com">Gmail</a> which will catch my forwarded spam<sup id="fnref:gmailspam" role="doc-noteref"><a href="#fn:gmailspam" class="footnote">2</a></sup>.</li>
+  <li>I set up an account with <a href="http://context.io">Context.io</a> and connected it to the gmail account<sup id="fnref:gmailaccount" role="doc-noteref"><a href="#fn:gmailaccount" class="footnote">3</a></sup>.</li>
   <li>I put the following code <a href="https://github.com/bendodson/mailroute-blacklist-with-contextio">available on GitHub</a> on a 15 minute CRON job</li>
 </ol>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
-<span class="k">require_once</span> <span class="s1">&#39;OAuth.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="s1">'OAuth.php'</span><span class="p">;</span>
 
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;CONTEXT_KEY&#39;</span><span class="p">,</span> <span class="s1">&#39;your-contextio-consumer-key&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;CONTEXT_SECRET&#39;</span><span class="p">,</span> <span class="s1">&#39;your-contextio-consumer-secret&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;CONTEXT_USER_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;your-contextio-user-id&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;CONTEXT_TRASH_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;[Gmail]/Trash&#39;</span><span class="p">);</span> <span class="c1">// change if not using Gmail</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_KEY'</span><span class="p">,</span> <span class="s1">'your-contextio-consumer-key'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_SECRET'</span><span class="p">,</span> <span class="s1">'your-contextio-consumer-secret'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_USER_ID'</span><span class="p">,</span> <span class="s1">'your-contextio-user-id'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_TRASH_NAME'</span><span class="p">,</span> <span class="s1">'[Gmail]/Trash'</span><span class="p">);</span> <span class="c1">// change if not using Gmail</span>
 
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;MAILROUTE_USER&#39;</span><span class="p">,</span> <span class="s1">&#39;your-mailroute-username&#39;</span><span class="p">);</span> <span class="c1">// should be your email address</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;MAILROUTE_API_KEY&#39;</span><span class="p">,</span> <span class="s1">&#39;your-mailroute-api-key&#39;</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">&#39;MAILROUTE_EMAIL_ACCOUNT_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;your-mailroute-email-id&#39;</span><span class="p">);</span> <span class="c1">// numeric - can be found in admin.mailroute.net network traffic</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_USER'</span><span class="p">,</span> <span class="s1">'your-mailroute-username'</span><span class="p">);</span> <span class="c1">// should be your email address</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_API_KEY'</span><span class="p">,</span> <span class="s1">'your-mailroute-api-key'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_EMAIL_ACCOUNT_ID'</span><span class="p">,</span> <span class="s1">'your-mailroute-email-id'</span><span class="p">);</span> <span class="c1">// numeric - can be found in admin.mailroute.net network traffic</span>
 
-<span class="nv">$whitelist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sending@example.com&#39;</span><span class="p">];</span> <span class="c1">// add the email address you are forwarding from or you&#39;ll blacklist yourself...</span>
+<span class="nv">$whitelist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'sending@example.com'</span><span class="p">];</span> <span class="c1">// add the email address you are forwarding from or you'll blacklist yourself...</span>
 
-<span class="nv">$inbox</span> <span class="o">=</span> <span class="nx">performOAuthRequest</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;https://api.context.io/lite/users/&#39;</span><span class="o">.</span><span class="nx">CONTEXT_USER_ID</span><span class="o">.</span><span class="s1">&#39;/email_accounts/0/folders/inbox/messages&#39;</span><span class="p">);</span>
+<span class="nv">$inbox</span> <span class="o">=</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages'</span><span class="p">);</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$inbox</span> <span class="k">as</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$message</span><span class="o">-&gt;</span><span class="p">{</span><span class="s1">&#39;message_id&#39;</span><span class="p">};</span>
-    <span class="nv">$body</span> <span class="o">=</span> <span class="nx">performOAuthRequest</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;https://api.context.io/lite/users/&#39;</span><span class="o">.</span><span class="nx">CONTEXT_USER_ID</span><span class="o">.</span><span class="s1">&#39;/email_accounts/0/folders/inbox/messages/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="o">.</span><span class="s1">&#39;/body&#39;</span><span class="p">);</span>
-    <span class="nv">$content</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nv">$body</span><span class="o">-&gt;</span><span class="na">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">content</span><span class="p">));</span>
-    <span class="nv">$emails</span> <span class="o">=</span> <span class="nx">extractEmailAddresses</span><span class="p">(</span><span class="nv">$content</span><span class="p">);</span>
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$message</span><span class="o">-&gt;</span><span class="p">{</span><span class="s1">'message_id'</span><span class="p">};</span>
+    <span class="nv">$body</span> <span class="o">=</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/body'</span><span class="p">);</span>
+    <span class="nv">$content</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nv">$body</span><span class="o">-&gt;</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">));</span>
+    <span class="nv">$emails</span> <span class="o">=</span> <span class="nf">extractEmailAddresses</span><span class="p">(</span><span class="nv">$content</span><span class="p">);</span>
     <span class="k">foreach</span> <span class="p">(</span><span class="nv">$emails</span> <span class="k">as</span> <span class="nv">$email</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$email</span><span class="p">,</span> <span class="nv">$whitelist</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nx">performRequest</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;https://admin.mailroute.net/api/v1/wblist/&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;email_account&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/api/v1/email_account/&#39;</span><span class="o">.</span><span class="nx">MAILROUTE_EMAIL_ACCOUNT_ID</span><span class="o">.</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Authorization: ApiKey &#39;</span><span class="o">.</span><span class="nx">MAILROUTE_USER</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nx">MAILROUTE_API_KEY</span><span class="p">]);</span>
+            <span class="nf">performRequest</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="s1">'https://admin.mailroute.net/api/v1/wblist/'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'email_account'</span> <span class="o">=&gt;</span> <span class="s1">'/api/v1/email_account/'</span><span class="mf">.</span><span class="no">MAILROUTE_EMAIL_ACCOUNT_ID</span><span class="mf">.</span><span class="s1">'/'</span><span class="p">,</span> <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span> <span class="s1">'wb'</span> <span class="o">=&gt;</span> <span class="s1">'b'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'Authorization: ApiKey '</span><span class="mf">.</span><span class="no">MAILROUTE_USER</span><span class="mf">.</span><span class="s1">':'</span><span class="mf">.</span><span class="no">MAILROUTE_API_KEY</span><span class="p">]);</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="nx">performOAuthRequest</span><span class="p">(</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span> <span class="s1">&#39;https://api.context.io/lite/users/&#39;</span><span class="o">.</span><span class="nx">CONTEXT_USER_ID</span><span class="o">.</span><span class="s1">&#39;/email_accounts/0/folders/inbox/messages/&#39;</span><span class="o">.</span><span class="nv">$id</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;new_folder_id&#39;</span> <span class="o">=&gt;</span> <span class="nx">CONTEXT_TRASH_NAME</span><span class="p">]);</span>
+    <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'PUT'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages/'</span><span class="mf">.</span><span class="nv">$id</span><span class="p">,</span> <span class="p">[</span><span class="s1">'new_folder_id'</span> <span class="o">=&gt;</span> <span class="no">CONTEXT_TRASH_NAME</span><span class="p">]);</span>
 <span class="p">}</span>
 
-<span class="k">echo</span> <span class="s1">&#39;DONE!&#39;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s1">'DONE!'</span><span class="p">;</span>
 
 
 
 <span class="c1">// CURL</span>
 
-<span class="k">function</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
-    <span class="nv">$signatureMethod</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OAuthSignatureMethod_HMAC_SHA1</span><span class="p">();</span>
-    <span class="nv">$oauthConsumer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OAuthConsumer</span><span class="p">(</span><span class="nx">CONTEXT_KEY</span><span class="p">,</span> <span class="nx">CONTEXT_SECRET</span><span class="p">,</span> <span class="k">NULL</span><span class="p">);</span>
-    <span class="nv">$oauthRequest</span> <span class="o">=</span> <span class="nx">OAuthRequest</span><span class="o">::</span><span class="na">from_consumer_and_token</span><span class="p">(</span><span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
-    <span class="nv">$oauthRequest</span><span class="o">-&gt;</span><span class="na">sign_request</span><span class="p">(</span><span class="nv">$signatureMethod</span><span class="p">,</span> <span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="k">NULL</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$oauthRequest</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
+<span class="k">function</span> <span class="n">performOAuthRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="nv">$signatureMethod</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OAuthSignatureMethod_HMAC_SHA1</span><span class="p">();</span>
+    <span class="nv">$oauthConsumer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OAuthConsumer</span><span class="p">(</span><span class="no">CONTEXT_KEY</span><span class="p">,</span> <span class="no">CONTEXT_SECRET</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">);</span>
+    <span class="nv">$oauthRequest</span> <span class="o">=</span> <span class="nc">OAuthRequest</span><span class="o">::</span><span class="nf">from_consumer_and_token</span><span class="p">(</span><span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
+    <span class="nv">$oauthRequest</span><span class="o">-&gt;</span><span class="nf">sign_request</span><span class="p">(</span><span class="nv">$signatureMethod</span><span class="p">,</span> <span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nf">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$oauthRequest</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="k">function</span> <span class="nf">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
+<span class="k">function</span> <span class="n">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
     <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
 
-    <span class="nv">$headers</span><span class="p">[]</span> <span class="o">=</span> <span class="s1">&#39;Content-Type: application/json&#39;</span><span class="p">;</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+    <span class="nv">$headers</span><span class="p">[]</span> <span class="o">=</span> <span class="s1">'Content-Type: application/json'</span><span class="p">;</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">]))</span> <span class="p">{</span>
-        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nv">$httpMethod</span> <span class="o">!=</span> <span class="s1">&#39;GET&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$params</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$httpMethod</span> <span class="o">!=</span> <span class="s1">'GET'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$params</span><span class="p">));</span>
     <span class="p">}</span>
     <span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-    <span class="nv">$httpcode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLINFO_HTTP_CODE</span><span class="p">);</span>
+    <span class="nv">$httpcode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLINFO_HTTP_CODE</span><span class="p">);</span>
     <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
     <span class="k">return</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
 <span class="p">}</span>
@@ -489,14 +489,14 @@
 
 <span class="c1">// Email parsing</span>
 
-<span class="k">function</span> <span class="nf">extractEmailAddresses</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">function</span> <span class="n">extractEmailAddresses</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span> <span class="p">{</span>
    <span class="nv">$emails</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
-   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
+   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
+   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
 
-   <span class="k">foreach</span><span class="p">(</span><span class="nb">preg_split</span><span class="p">(</span><span class="s1">&#39;/ /&#39;</span><span class="p">,</span> <span class="nv">$string</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$token</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$email</span> <span class="o">=</span> <span class="nb">filter_var</span><span class="p">(</span><span class="nv">$token</span><span class="p">,</span> <span class="nx">FILTER_VALIDATE_EMAIL</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$email</span> <span class="o">!==</span> <span class="k">false</span><span class="p">)</span> <span class="p">{</span> 
+   <span class="k">foreach</span><span class="p">(</span><span class="nb">preg_split</span><span class="p">(</span><span class="s1">'/ /'</span><span class="p">,</span> <span class="nv">$string</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$token</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$email</span> <span class="o">=</span> <span class="nb">filter_var</span><span class="p">(</span><span class="nv">$token</span><span class="p">,</span> <span class="no">FILTER_VALIDATE_EMAIL</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$email</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span> 
             <span class="nv">$emails</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$email</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -507,16 +507,16 @@
 
 <p>In an ideal world, MailRoute would implement a custom email address for blacklisting but this seems to be working for now.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:sanebox">
-      <p>I stopped using MailRoute a while back and was using the black hole feature of <a href="http://sanebox.com/">Sanebox</a> but I’ve just stopped using them as found the free service <a href="http://followupthen.com/">FollowUpThen</a> - I was getting a lot of spam after the switch off so decided to re-activate MailRoute this week. I use <a href="http://fastmail.fm">Fastmail</a> for my email in case you were wondering. <a href="#fnref:sanebox" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:sanebox" role="doc-endnote">
+      <p>I stopped using MailRoute a while back and was using the black hole feature of <a href="http://sanebox.com/">Sanebox</a> but I’ve just stopped using them as found the free service <a href="http://followupthen.com/">FollowUpThen</a> - I was getting a lot of spam after the switch off so decided to re-activate MailRoute this week. I use <a href="http://fastmail.fm">Fastmail</a> for my email in case you were wondering. <a href="#fnref:sanebox" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:gmailspam">
-      <p>As you’ll be forwarding emails to Gmail, you’ll want to disable its spam filter as otherwise your emails won’t end up in the inbox for processing by Context. To do this, you’ll need to set up a new rule which matches the email ‘@’ and ensures it never goes to spam. <a href="#fnref:gmailspam" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:gmailspam" role="doc-endnote">
+      <p>As you’ll be forwarding emails to Gmail, you’ll want to disable its spam filter as otherwise your emails won’t end up in the inbox for processing by Context. To do this, you’ll need to set up a new rule which matches the email ‘@’ and ensures it never goes to spam. <a href="#fnref:gmailspam" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:gmailaccount">
-      <p>Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. <a href="#fnref:gmailaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:gmailaccount" role="doc-endnote">
+      <p>Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. <a href="#fnref:gmailaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

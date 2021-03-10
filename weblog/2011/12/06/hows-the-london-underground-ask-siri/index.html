@@ -60,17 +60,17 @@
 <p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0066.png" alt="SiriProxy-TubeUpdates - A standard request" title="IMG_0066.PNG" border="0" /></p>
 <p>I've not dabbled with Ruby for a while but building the plugin was fairly straightforward. All of the code is <a href="https://github.com/bendodson/SiriProxy-TubeUpdates/">available on GitHub</a> but the main piece looks like this:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span></span><span class="n">listen_for</span> <span class="sr">/[what is,what&#39;s] the status of (.*)/i</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
-	<span class="n">encodedline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
-	<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://tubeupdates.com/siri/?line=&#39;</span><span class="o">+</span><span class="n">encodedline</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">listen_for</span> <span class="sr">/[what is,what's] the status of (.*)/i</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+	<span class="n">encodedline</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'+'</span><span class="p">)</span>
+	<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'http://tubeupdates.com/siri/?line='</span><span class="o">+</span><span class="n">encodedline</span><span class="p">)</span>
 	<span class="n">json</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="n">get</span> <span class="n">url</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span> <span class="n">json</span>
-	<span class="n">say</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;status&quot;</span><span class="o">]</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">json</span>
+	<span class="n">say</span> <span class="n">result</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]</span>
     
-	<span class="k">if</span> <span class="n">result</span><span class="o">[</span><span class="s2">&quot;messages&quot;</span><span class="o">].</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
-	    <span class="n">response</span> <span class="o">=</span> <span class="n">ask</span> <span class="s2">&quot;There are additional details. Would you like to hear them?&quot;</span>
+	<span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">].</span><span class="nf">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+	    <span class="n">response</span> <span class="o">=</span> <span class="n">ask</span> <span class="s2">"There are additional details. Would you like to hear them?"</span>
 	    <span class="k">if</span><span class="p">(</span><span class="n">response</span> <span class="o">=~</span> <span class="sr">/yes/i</span><span class="p">)</span> <span class="c1">#process their response            </span>
-	        <span class="n">result</span><span class="o">[</span><span class="s2">&quot;messages&quot;</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">message</span> <span class="o">|</span>
+	        <span class="n">result</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">].</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">message</span> <span class="o">|</span>
 	            <span class="n">say</span> <span class="n">message</span>
 	        <span class="p">}</span>
 	    <span class="k">end</span>

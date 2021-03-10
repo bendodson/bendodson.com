@@ -56,23 +56,23 @@
 			<time datetime="2016-01-11" pubdate=""><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">January 11, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been using <a href="http://jekyllrb.com">Jekyll</a> as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes<sup id="fnref:footnotes"><a href="#fn:footnotes" class="footnote">1</a></sup>, the return arrow (↩︎) is converted into an emoji (<a href="http://emojipedia.org/leftwards-arrow-with-hook/️">↩️</a>) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.</p>
+			<p>I’ve been using <a href="http://jekyllrb.com">Jekyll</a> as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes<sup id="fnref:footnotes" role="doc-noteref"><a href="#fn:footnotes" class="footnote">1</a></sup>, the return arrow (↩︎) is converted into an emoji (<a href="http://emojipedia.org/leftwards-arrow-with-hook/️">↩️</a>) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.</p>
 
-<p>Firstly, this isn’t an issue with Jekyll but with <a href="http://kramdown.gettalong.org">kramdown</a> which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above<sup id="fnref:kramdown"><a href="#fn:kramdown" class="footnote">2</a></sup> that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your <code>_config.yml</code> file:</p>
+<p>Firstly, this isn’t an issue with Jekyll but with <a href="http://kramdown.gettalong.org">kramdown</a> which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above<sup id="fnref:kramdown" role="doc-noteref"><a href="#fn:kramdown" class="footnote">2</a></sup> that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your <code class="language-plaintext highlighter-rouge">_config.yml</code> file:</p>
 
-<pre><code>kramdown:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kramdown:
   	  footnote_backlink: "&amp;#8617;&amp;#xfe0e;"
-</code></pre>
+</code></pre></div></div>
 
 <p>Regenerate your site and you should find that the emoji arrow is now back to a ↩︎.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:footnotes">
-      <p>like this one! <a href="#fnref:footnotes" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:footnotes" role="doc-endnote">
+      <p>like this one! <a href="#fnref:footnotes" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:kramdown">
-      <p>You may need to run <code>gem update kramdown</code> if you installed Jekyll a while ago. <a href="#fnref:kramdown" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:kramdown" role="doc-endnote">
+      <p>You may need to run <code class="language-plaintext highlighter-rouge">gem update kramdown</code> if you installed Jekyll a while ago. <a href="#fnref:kramdown" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

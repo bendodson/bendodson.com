@@ -56,19 +56,19 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-imessage.jpg" width="800" height="500" /></p>
 
-<p>This was a really interesting feature for me as it let me get to grips with the new APIs that allow apps to hook into iMessage. There are a few interesting niggles for developers when writing these apps<sup id="fnref:niggles"><a href="#fn:niggles" class="footnote">1</a></sup> but on the whole it is fairly simple and includes a lot more power than I thought they would<sup id="fnref:imessagepower"><a href="#fn:imessagepower" class="footnote">2</a></sup>. With Pocket Rocket, you get a list of all of your articles; you can then tap to include them in your message and send them. Once received, you can tap to have the article open up in a webview directly within iMessage.</p>
+<p>This was a really interesting feature for me as it let me get to grips with the new APIs that allow apps to hook into iMessage. There are a few interesting niggles for developers when writing these apps<sup id="fnref:niggles" role="doc-noteref"><a href="#fn:niggles" class="footnote">1</a></sup> but on the whole it is fairly simple and includes a lot more power than I thought they would<sup id="fnref:imessagepower" role="doc-noteref"><a href="#fn:imessagepower" class="footnote">2</a></sup>. With Pocket Rocket, you get a list of all of your articles; you can then tap to include them in your message and send them. Once received, you can tap to have the article open up in a webview directly within iMessage.</p>
 
 <p>I think iMessage apps are going to be a huge deal so I’m excited that Pocket Rocket is one of the first apps available on the iMessage store.</p>
 
 <p>You can <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">get Pocket Rocket for free on the App Store</a>. If you have any feature requests or feedback, please <a href="https://bendodson.com/contact/">get in touch</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:niggles">
-      <p>For example, there is no standard way of seeing when someone tapped a link which is… irritating. Instead you have to work out if a particular message is selected (which happens for a variety of reasons) and then be clever about what you present. <a href="#fnref:niggles" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:niggles" role="doc-endnote">
+      <p>For example, there is no standard way of seeing when someone tapped a link which is… irritating. Instead you have to work out if a particular message is selected (which happens for a variety of reasons) and then be clever about what you present. <a href="#fnref:niggles" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:imessagepower">
-      <p>I’ve seen one app that lets you use the camera within iMessage - pretty cool! <a href="#fnref:imessagepower" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:imessagepower" role="doc-endnote">
+      <p>I’ve seen one app that lets you use the camera within iMessage - pretty cool! <a href="#fnref:imessagepower" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -84,34 +84,34 @@
 			<time datetime="2016-09-10" pubdate=""><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">September 10, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
+			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp" role="doc-noteref"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
 
-<p>As each article is <code>UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
+<p>As each article is <code class="language-plaintext highlighter-rouge">UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
 
-<p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
+<p>Thankfully this is fairly easy if we use the <code class="language-plaintext highlighter-rouge">srand48</code> and <code class="language-plaintext highlighter-rouge">drand48</code> functions:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="nv">seed</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIColor</span> <span class="p">{</span>
     
-    <span class="kd">var</span> <span class="nv">total</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="nb">Int</span><span class="p">(</span><span class="nb">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="k">var</span> <span class="nv">total</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="o">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="kt">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
     <span class="p">}</span>
     
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">r</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
     
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">g</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">g</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
     
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">b</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
     
-    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="n">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
+<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code class="language-plaintext highlighter-rouge">drand48</code> function by using <code class="language-plaintext highlighter-rouge">srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
 
 <p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
 
@@ -119,10 +119,10 @@
 
 <p>As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:imessageapp">
-      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:imessageapp" role="doc-endnote">
+      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -181,11 +181,11 @@
 
 <iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/96MIV-HcByI?list=PLbTRLLbwMtevdMea2cVjGPEopDu7atfl2" frameborder="0" allowfullscreen=""></iframe>
 
-<p>This was a really interesting feature for me to build as I wasn’t sure initially how it would work. It turns out that it is actually fairly easy by adding your animations directly to the various <code>CALayers</code> and then using an <code>AVVideoCompositionCoreAnimationTool</code> as your <code>AVMutableVideoComposition</code> animation tool. Fun stuff!</p>
+<p>This was a really interesting feature for me to build as I wasn’t sure initially how it would work. It turns out that it is actually fairly easy by adding your animations directly to the various <code class="language-plaintext highlighter-rouge">CALayers</code> and then using an <code class="language-plaintext highlighter-rouge">AVVideoCompositionCoreAnimationTool</code> as your <code class="language-plaintext highlighter-rouge">AVMutableVideoComposition</code> animation tool. Fun stuff!</p>
 
 <h3 id="v211">v2.1.1</h3>
 
-<p>Released just a few days later, Brapp 2.1.1 included the ability to pin your favourite beat or post to the top of your profile feed<sup id="fnref:featureby"><a href="#fn:featureby" class="footnote">1</a></sup> and added a “Now Playing” bar along the bottom of the app with a similar style to Apple Music. It also introduced synchornicity between the website and app for notifications which is an interesting problem to solve; basically, if someone reads the notifications on the website, a silent push needs to be sent to the app in order to remove the badge icon so you don’t think you have new notifications. There were also some pretty meaty performance upgrades behind the scenes.</p>
+<p>Released just a few days later, Brapp 2.1.1 included the ability to pin your favourite beat or post to the top of your profile feed<sup id="fnref:featureby" role="doc-noteref"><a href="#fn:featureby" class="footnote">1</a></sup> and added a “Now Playing” bar along the bottom of the app with a similar style to Apple Music. It also introduced synchornicity between the website and app for notifications which is an interesting problem to solve; basically, if someone reads the notifications on the website, a silent push needs to be sent to the app in order to remove the badge icon so you don’t think you have new notifications. There were also some pretty meaty performance upgrades behind the scenes.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-now-playing.jpg" width="375" height="90" /></p>
 
@@ -197,10 +197,10 @@
 
 <p>Once again, Brapp has been a really fun project to work on. I can’t say enough good things about the people behind it and am looking forward to working with them again in the future. If you haven’t checked it out yet, you can <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">get Brapp for free on the App Store</a>. You can also read about the <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">initial build and release</a>, the <a href="https://bendodson.com/weblog/2015/11/27/brapp-v1.1/">v1.1 update last November</a>, and the <a href="https://bendodson.com/weblog/2016/03/11/brapp-v2/">v2 update earlier this year</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:featureby">
-      <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:featureby" role="doc-endnote">
+      <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -218,16 +218,16 @@
     	<div>
 			<p>A few nights ago I was attempting to finish playing Day of the Tentacle on my PC via a Steam Link in my bedroom. For some reason, whilst it all loaded correctly, it was really jerky to play with a severe delay between controller input and response on the screen. As I’d been playing it successfully using GameStream on my Nvidia Shield, I assumed correctly that the issue was with the Steam Link.</p>
 
-<p>Not content to have to either a) go downstairs and use the Nvidia Shield or b) go to my office and play in front of my PC, I instead turned to my Apple TV as I knew there was an open source project called <a href="https://github.com/moonlight-stream/moonlight-ios">Moonlight</a> that basically lets you run the GameStream technology on non-Nvidia devices like iPhone or iPad. I assumed there would be a version for Apple TV but unfortunately it turns out that the AVFoundation frameworks have a <code>__TVOS_PROHIBITED</code> flag on some key components that prevent it from working. That’s when I found a fork by <a href="https://github.com/kevsmithpublic/moonlight-ios">kevsmithpublic</a> that enabled tvOS support with some code changes and requiring you to remove the <code>__TVOS_PROHIBITED</code> flags from the AVFoundation framework<sup id="fnref:frameworks"><a href="#fn:frameworks" class="footnote">1</a></sup>. Unfortunately, I wasn’t able to get it to pair to my PC and after a lot of searching it turns out that the fork was fairly old and hadn’t been updated to the latest specifications for GeForce Experience 3.0 and above.</p>
+<p>Not content to have to either a) go downstairs and use the Nvidia Shield or b) go to my office and play in front of my PC, I instead turned to my Apple TV as I knew there was an open source project called <a href="https://github.com/moonlight-stream/moonlight-ios">Moonlight</a> that basically lets you run the GameStream technology on non-Nvidia devices like iPhone or iPad. I assumed there would be a version for Apple TV but unfortunately it turns out that the AVFoundation frameworks have a <code class="language-plaintext highlighter-rouge">__TVOS_PROHIBITED</code> flag on some key components that prevent it from working. That’s when I found a fork by <a href="https://github.com/kevsmithpublic/moonlight-ios">kevsmithpublic</a> that enabled tvOS support with some code changes and requiring you to remove the <code class="language-plaintext highlighter-rouge">__TVOS_PROHIBITED</code> flags from the AVFoundation framework<sup id="fnref:frameworks" role="doc-noteref"><a href="#fn:frameworks" class="footnote">1</a></sup>. Unfortunately, I wasn’t able to get it to pair to my PC and after a lot of searching it turns out that the fork was fairly old and hadn’t been updated to the latest specifications for GeForce Experience 3.0 and above.</p>
 
 <p>Determined not to be beaten, I forked the project and then set about updating the code to support the latest Moonlight connections. This ended up being similar to the point and click adventure I was trying to play as I needed to constantly fetch the Apple TV from my bedroom, connect it to my mac, build the project, unplug the Apple TV, reconnect it in my bedroom, and then test if it actually worked (all because I didn’t have a spare monitor in my office as I use an iMac). After several hours (and a few beers) I had the project working and can now stream my games at 1080p from my PC to my Apple TV 4 and play them using an MFI controller.</p>
 
 <p>You can <a href="https://github.com/bendodson/moonlight-tvos">download the project from my GitHub account</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:frameworks">
-      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:frameworks" role="doc-endnote">
+      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -267,82 +267,82 @@
 			<time datetime="2016-08-02" pubdate=""><a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">August 02, 2016</a></time>
     	</header>
     	<div>
-			<p>As I’ve mentioned <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">many times before</a>, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps<sup id="fnref:proof"><a href="#fn:proof" class="footnote">1</a></sup>. Thankfully, this has now been fixed in iOS 10<sup id="fnref:fixed"><a href="#fn:fixed" class="footnote">2</a></sup>.</p>
+			<p>As I’ve mentioned <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">many times before</a>, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps<sup id="fnref:proof" role="doc-noteref"><a href="#fn:proof" class="footnote">1</a></sup>. Thankfully, this has now been fixed in iOS 10<sup id="fnref:fixed" role="doc-noteref"><a href="#fn:fixed" class="footnote">2</a></sup>.</p>
 
 <p>In this article, I’ll explain how to update your apps to support this new privacy requirement. Before I do that, I’m going to show you what happens if you run an app built against the iOS 9.3 SDK (or earlier) on iOS 10:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/access-apple-music.jpg" width="800" height="450" alt="[app name] would like to access Apple Music" /></p>
 
-<p>You’ll be prompted<sup id="fnref:permissiontext"><a href="#fn:permissiontext" class="footnote">3</a></sup> to allow permissions as soon as any media library code is encountered be that on app startup or in a background process such as that used by <a href="https://dodoapps.io/music-tracker/">Music Tracker</a>. If you decline to give permission then the app will quit to the home screen and you will not be able to use it. This is a big change from previous permission switches whereby apps built against the old SDK would be exempt from new permissions (i.e. if your iOS 7 SDK compiled app ran on iOS 8, it wouldn’t crash because it wasn’t using the new location privacy options). Personally I like this change as it allows you to see clearly which apps were abusing these APIs such as <a href="https://twitter.com/rosyna/status/743427770760364034">Canary</a> and <a href="https://twitter.com/chinanderm/status/743091483595546624">Google Calendar</a>.</p>
+<p>You’ll be prompted<sup id="fnref:permissiontext" role="doc-noteref"><a href="#fn:permissiontext" class="footnote">3</a></sup> to allow permissions as soon as any media library code is encountered be that on app startup or in a background process such as that used by <a href="https://dodoapps.io/music-tracker/">Music Tracker</a>. If you decline to give permission then the app will quit to the home screen and you will not be able to use it. This is a big change from previous permission switches whereby apps built against the old SDK would be exempt from new permissions (i.e. if your iOS 7 SDK compiled app ran on iOS 8, it wouldn’t crash because it wasn’t using the new location privacy options). Personally I like this change as it allows you to see clearly which apps were abusing these APIs such as <a href="https://twitter.com/rosyna/status/743427770760364034">Canary</a> and <a href="https://twitter.com/chinanderm/status/743091483595546624">Google Calendar</a>.</p>
 
-<p><strong>Bottom line</strong>: If you are using <code>MPMediaQuery</code> or similar in your app, you’d better update it with the iOS 10 SDK as soon as possible as otherwise you are going to get a lot of crashes if your users don’t allow the permission (or a lot of awkward questions if you shouldn’t be using this API).</p>
+<p><strong>Bottom line</strong>: If you are using <code class="language-plaintext highlighter-rouge">MPMediaQuery</code> or similar in your app, you’d better update it with the iOS 10 SDK as soon as possible as otherwise you are going to get a lot of crashes if your users don’t allow the permission (or a lot of awkward questions if you shouldn’t be using this API).</p>
 
 <p>How do you update your app to request permission for these APIs? First of all, lets whip up a basic example with Swift 3 that will pull the title of the first track in your music library:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="kc">_</span> <span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
-    <span class="k">if</span> <span class="kd">let</span> <span class="nv">items</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">first</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: </span><span class="si">\(</span><span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">MPMediaQuery</span><span class="o">.</span><span class="nf">songs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">first</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Title: </span><span class="se">\(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is <code>NSAppleMusicUsageDescription</code>. If you don’t add this key, your app will crash as soon as you try and access an <code>MPMediaQuery</code> with the following message:</p>
+<p>In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is <code class="language-plaintext highlighter-rouge">NSAppleMusicUsageDescription</code>. If you don’t add this key, your app will crash as soon as you try and access an <code class="language-plaintext highlighter-rouge">MPMediaQuery</code> with the following message:</p>
 
 <blockquote>
   <p><em>This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSAppleMusicUsageDescription key with a string value explaining to the user how the app uses this data.</em></p>
 </blockquote>
 
-<p>With the <code>NSAppleMusicUsageDescription</code> key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the <code>query.items</code> property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the <code>MPMediaLibrary.authorizationStatus()</code> and <code>requestAuthorization((MPMediaLibraryAuthorizationStatus) -&gt; Void)</code> APIs that were added in iOS 9.3 to do something like this:</p>
+<p>With the <code class="language-plaintext highlighter-rouge">NSAppleMusicUsageDescription</code> key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the <code class="language-plaintext highlighter-rouge">query.items</code> property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the <code class="language-plaintext highlighter-rouge">MPMediaLibrary.authorizationStatus()</code> and <code class="language-plaintext highlighter-rouge">requestAuthorization((MPMediaLibraryAuthorizationStatus) -&gt; Void)</code> APIs that were added in iOS 9.3 to do something like this:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kr">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="kc">_</span> <span class="n">sender</span><span class="p">:</span> <span class="nb">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="bp">MPMediaLibrary</span><span class="p">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
-        <span class="k">if</span> <span class="n">status</span> <span class="p">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
-            <span class="kc">self</span><span class="p">.</span><span class="n">runMediaLibraryQuery</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">MPMediaLibrary</span><span class="o">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="o">.</span><span class="n">authorized</span> <span class="p">{</span>
+            <span class="k">self</span><span class="o">.</span><span class="nf">runMediaLibraryQuery</span><span class="p">()</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="kc">self</span><span class="p">.</span><span class="n">displayMediaLibraryError</span><span class="p">()</span>
+            <span class="k">self</span><span class="o">.</span><span class="nf">displayMediaLibraryError</span><span class="p">()</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="kd">func</span> <span class="nf">runMediaLibraryQuery</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">.</span><span class="n">songs</span><span class="p">()</span>
-    <span class="k">if</span> <span class="kd">let</span> <span class="nv">items</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">items</span><span class="p">.</span><span class="bp">first</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Title: </span><span class="si">\(</span><span class="n">item</span><span class="p">.</span><span class="n">title</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">MPMediaQuery</span><span class="o">.</span><span class="nf">songs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">first</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Title: </span><span class="se">\(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="kd">func</span> <span class="nf">displayMediaLibraryError</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nv">error</span><span class="p">:</span> <span class="nb">String</span>
-    <span class="k">switch</span> <span class="bp">MPMediaLibrary</span><span class="p">.</span><span class="n">authorizationStatus</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="p">.</span><span class="n">restricted</span><span class="p">:</span>
-        <span class="n">error</span> <span class="p">=</span> <span class="s">&quot;Media library access restricted by corporate or parental settings&quot;</span>
-    <span class="k">case</span> <span class="p">.</span><span class="n">denied</span><span class="p">:</span>
-        <span class="n">error</span> <span class="p">=</span> <span class="s">&quot;Media library access denied by user&quot;</span>
+    <span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">switch</span> <span class="kt">MPMediaLibrary</span><span class="o">.</span><span class="nf">authorizationStatus</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">restricted</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s">"Media library access restricted by corporate or parental settings"</span>
+    <span class="k">case</span> <span class="o">.</span><span class="nv">denied</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s">"Media library access denied by user"</span>
     <span class="k">default</span><span class="p">:</span>
-        <span class="n">error</span> <span class="p">=</span> <span class="s">&quot;Unknown error&quot;</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s">"Unknown error"</span>
     <span class="p">}</span>
     
-    <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">UIAlertController</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;Error&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span> <span class="n">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
-    <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">UIAlertAction</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span>
-    <span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"Error"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+    <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span>
+    <span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>You first need to request authorization and then run your code only if the status is <code>authorized</code>. If not, then you should display an error specific to whether or not the request was <code>denied</code> or <code>restricted</code> (usually by corporate or parental controls).</p>
+<p>You first need to request authorization and then run your code only if the status is <code class="language-plaintext highlighter-rouge">authorized</code>. If not, then you should display an error specific to whether or not the request was <code class="language-plaintext highlighter-rouge">denied</code> or <code class="language-plaintext highlighter-rouge">restricted</code> (usually by corporate or parental controls).</p>
 
 <p>I’ve put an <a href="https://github.com/bendodson/media-library-access-in-ios-10">example project on GitHub</a> which uses the code above by way of demonstration.</p>
 
 <p>I’m extremely grateful to everyone that has helped share my posts about this issue and to the engineers at Apple for fixing this privacy flaw. I’ll update this post should anything change between now and the expected public release of iOS 10 in September.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:proof">
-      <p>Whilst I had no concrete proof of this at the time of writing those articles, it <a href="https://twitter.com/rosyna/status/743398363496751104">looks like I was right that this was a widespread problem</a>. <a href="#fnref:proof" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:proof" role="doc-endnote">
+      <p>Whilst I had no concrete proof of this at the time of writing those articles, it <a href="https://twitter.com/rosyna/status/743398363496751104">looks like I was right that this was a widespread problem</a>. <a href="#fnref:proof" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:fixed">
-      <p>I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. <a href="#fnref:fixed" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:fixed" role="doc-endnote">
+      <p>I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. <a href="#fnref:fixed" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:permissiontext">
-      <p>In earlier builds of iOS 10 you’d be asked “<em>[App Name] Would Like to Access Apple Music</em>” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “<em>[App Name] Would Like to Access Apple Music and Your Media Library</em>”. <a href="#fnref:permissiontext" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:permissiontext" role="doc-endnote">
+      <p>In earlier builds of iOS 10 you’d be asked “<em>[App Name] Would Like to Access Apple Music</em>” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “<em>[App Name] Would Like to Access Apple Music and Your Media Library</em>”. <a href="#fnref:permissiontext" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -358,7 +358,7 @@
 			<time datetime="2016-07-20" pubdate=""><a href="/weblog/2016/07/20/talking-shop-with-ben-dodson/">July 20, 2016</a></time>
     	</header>
     	<div>
-			<p>I was recently interviewed by the lovely folks at <a href="http://cushionapp.com/">Cushion</a><sup id="fnref:cushion"><a href="#fn:cushion" class="footnote">1</a></sup> as part of their <a href="http://cushionapp.com/talking-shop/">Talking Shop series</a> about my life as a freelancer. You can <a href="http://cushionapp.com/talking-shop/ben-dodson/">read the full interview on their website</a> but I’ve also put their questions and my answers below:</p>
+			<p>I was recently interviewed by the lovely folks at <a href="http://cushionapp.com/">Cushion</a><sup id="fnref:cushion" role="doc-noteref"><a href="#fn:cushion" class="footnote">1</a></sup> as part of their <a href="http://cushionapp.com/talking-shop/">Talking Shop series</a> about my life as a freelancer. You can <a href="http://cushionapp.com/talking-shop/ben-dodson/">read the full interview on their website</a> but I’ve also put their questions and my answers below:</p>
 
 <h3 id="how-did-you-get-your-start">How did you get your start?</h3>
 
@@ -414,10 +414,10 @@
   <p>Keep it simple. I spent a long time researching and reading up on various how-to-get-things-done philosophies, buying every to-do list manager there was. Now I just have a basic list, make my own invoices, and track everything else in Cushion. If you spend a fortune on loads of tools and to-do lists and all that, you end up spending more time tweaking your setup for productivity than actually being productive.</p>
 </blockquote>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:cushion">
-      <p>If you’re a freelancer, you should definitely check out <a href="http://cushionapp.com/">Cushion</a>. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. <a href="#fnref:cushion" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:cushion" role="doc-endnote">
+      <p>If you’re a freelancer, you should definitely check out <a href="http://cushionapp.com/">Cushion</a>. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. <a href="#fnref:cushion" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -444,50 +444,50 @@
   </li>
 </ol>
 
-<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill"><a href="#fn:overkill" class="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
+<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill" role="doc-noteref"><a href="#fn:overkill" class="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
 
-<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount"><a href="#fn:appleaccount" class="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
+<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount" role="doc-noteref"><a href="#fn:appleaccount" class="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
 
 <p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">container</span> <span class="p">=</span> <span class="bp">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
-<span class="n">container</span><span class="p">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">recordID</span> <span class="p">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="s">&quot;)</span>
-<span class="s">        return</span>
-<span class="s">    }</span>
-<span class="s">    </span>
-<span class="s">    NSLog(&quot;</span><span class="n">Identifier</span><span class="p">:</span> <span class="err">\</span><span class="si">(</span><span class="n">recordID</span><span class="p">.</span><span class="n">recordName</span><span class="si">)</span><span class="s">&quot;)    </span>
-<span class="s">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">container</span> <span class="o">=</span> <span class="kt">CKContainer</span><span class="o">.</span><span class="nf">defaultContainer</span><span class="p">()</span>
+<span class="n">container</span><span class="o">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="s">")
+        return
+    }
+    
+    NSLog("</span><span class="kt">Identifier</span><span class="p">:</span> <span class="p">\(</span><span class="n">recordID</span><span class="o">.</span><span class="n">recordName</span><span class="p">)</span><span class="s">")    
+}</span></code></pre></figure>
 
 <p>The identifier returned will be 34 characters long and look something like this:</p>
 
-<p><code>_e990774f93dd6625b11af6d40fceb310</code></p>
+<p><code class="language-plaintext highlighter-rouge">_e990774f93dd6625b11af6d40fceb310</code></p>
 
 <p>Once you have that, you can then send it to your server to match it against whatever content you want to link to this particular user. Now whenever they use your app on any device with the same Apple account, they’ll have access to everything without the need for a manual account creation process and without having to hand over any personal information. The entire process is completely silent and is very secure as the identifier is generated from both the Apple account and your CloudKit container - it can’t be used by other apps nor can it be reverse-engineered to give you personal details of the user.</p>
 
-<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code>import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
+<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code class="language-plaintext highlighter-rouge">import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">identifier</span> <span class="p">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">AppleCloudIdentifier</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
     
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: </span><span class="si">\(</span><span class="n">identifier</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Cloud identifier: </span><span class="se">\(</span><span class="n">identifier</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>I’ve named it <code>AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
+<p>I’ve named it <code class="language-plaintext highlighter-rouge">AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
 
-<p><strong>UPDATE [3rd May 2019]:</strong> I needed use of this in a recent project and so I’ve updated the code to make use of Swift 5 and the new <code>Result</code> type.</p>
+<p><strong>UPDATE [3rd May 2019]:</strong> I needed use of this in a recent project and so I’ve updated the code to make use of Swift 5 and the new <code class="language-plaintext highlighter-rouge">Result</code> type.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:overkill">
-      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:overkill" role="doc-endnote">
+      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:appleaccount">
-      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:appleaccount" role="doc-endnote">
+      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

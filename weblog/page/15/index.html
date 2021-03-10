@@ -46,9 +46,9 @@
 			<time datetime="2014-10-07" pubdate=""><a href="/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">October 07, 2014</a></time>
     	</header>
     	<div>
-			<p>I’ve never had a desire to change the stock keyboard on iOS. When the announcement was made at WWDC 2014, I thought that it was an interesting feature, but not one I would ever want to use. That changed when I saw the teaser page for <a href="http://popkey.co">PopKey</a>, a keyboard that allowed you to paste animated GIFs straight into your conversations. That made me think about keyboards in a different way and how developers might create interesting keyboards that aren’t just improved ways of typing<sup id="fnref:swype"><a href="#fn:swype" class="footnote">1</a></sup>.</p>
+			<p>I’ve never had a desire to change the stock keyboard on iOS. When the announcement was made at WWDC 2014, I thought that it was an interesting feature, but not one I would ever want to use. That changed when I saw the teaser page for <a href="http://popkey.co">PopKey</a>, a keyboard that allowed you to paste animated GIFs straight into your conversations. That made me think about keyboards in a different way and how developers might create interesting keyboards that aren’t just improved ways of typing<sup id="fnref:swype" role="doc-noteref"><a href="#fn:swype" class="footnote">1</a></sup>.</p>
 
-<p>As it turns out, PopKey isn’t very good. It doesn’t have search, watermarks the images, requires you to create an account and give over your phone number, and it was beaten by <a href="https://www.riffsy.com">Riffsy</a> which is actually better<sup id="fnref:riffsy"><a href="#fn:riffsy" class="footnote">2</a></sup>.</p>
+<p>As it turns out, PopKey isn’t very good. It doesn’t have search, watermarks the images, requires you to create an account and give over your phone number, and it was beaten by <a href="https://www.riffsy.com">Riffsy</a> which is actually better<sup id="fnref:riffsy" role="doc-noteref"><a href="#fn:riffsy" class="footnote">2</a></sup>.</p>
 
 <p>Anyway, the problem I’ve seen over and over again is that these keyboards require “Full Access”. This is a feature that basically enables the keyboard to talk to its host app and to the internet. The reason you might want this for a keyboard is that it might do auto-correct (iOS 8 keyboards do not have access to the Apple auto-correct algorithms) and therefore does some processing in an app or in the cloud. With Riffsy and PopKey, this is obviously required in order that it can download the GIFs from the internet. The real issue isn’t that it requires this access, but that Apple puts up this message when you enable it:</p>
 
@@ -60,20 +60,20 @@
 
 <p>The basic problem is that the alert message you see is almost too scary and doesn’t give enough information. It was obviously written for what Apple expected; text keyboards. I’m not sure of a complete solution but as a start it needs to make it clearer that only things you type in <em>that</em> keyboard can be (potentially) seen by the developer. You don’t type anything in a GIF keyboard so the developers, if they are logging everything, can only see what stupid images you are sending. In addition, 3rd party apps can block custom keyboards from showing on sensitive screens (i.e. when entering your master password in 1Password or entering your pin in a banking app) and password fields automatically disable 3rd party apps (try it in Safari to see).</p>
 
-<p>It is developers that will suffer for this. End users are already up in arms about privacy and demanding keyboards not use this feature whilst clients don’t necessarily understand what is going on and just see the negative feedback. I’ve been approached by a number of prospective clients to build these keyboards and so far I’ve put them off by showing them the <a href="https://twitter.com/search?q=full%20keyboard%20access&amp;src=typd"><em>‘Full Keyboard Access’</em> search on Twitter</a>.<sup id="fnref:fka"><a href="#fn:fka" class="footnote">3</a></sup></p>
+<p>It is developers that will suffer for this. End users are already up in arms about privacy and demanding keyboards not use this feature whilst clients don’t necessarily understand what is going on and just see the negative feedback. I’ve been approached by a number of prospective clients to build these keyboards and so far I’ve put them off by showing them the <a href="https://twitter.com/search?q=full%20keyboard%20access&amp;src=typd"><em>‘Full Keyboard Access’</em> search on Twitter</a>.<sup id="fnref:fka" role="doc-noteref"><a href="#fn:fka" class="footnote">3</a></sup></p>
 
 <p>It seems to me to that Apple are treating the keyboard as a power feature and expect people to understand how it works under the hood. Seeing as some security savvy developers are cautious about installing these things, I think Apple has a lot of improvements to make in the way keyboards are installed, especially if it is to avoid negative fallout from end users who think that developers can steal your credit card number with an emoji keyboard. It’s good to be cautious about these things, but at the moment people are completely paranoid due to the installation process.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:swype">
-      <p>That is if you call swiping an improvement. Sidenote: I hate that since iOS 8 a lot of people misspell the verb ‘swipe’ as ‘swype’ (as in “I can’t swype through this page in your app”) <a href="#fnref:swype" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:swype" role="doc-endnote">
+      <p>That is if you call swiping an improvement. Sidenote: I hate that since iOS 8 a lot of people misspell the verb ‘swipe’ as ‘swype’ (as in “I can’t swype through this page in your app”) <a href="#fnref:swype" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:riffsy">
-      <p>It irritates me that PopKey is the more well known keyboard though. This is entirely due to the fact that it put up a really nicely designed teaser page in advance and has got a lot of press coverage. I think it is really bad they still use the tagline “The world’s first animated GIF keyboard” when it clearly wasn’t and has so many flaws compared to the app that came first. That it is featured by Apple in the Best New Apps section is a great shame. <a href="#fnref:riffsy" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:riffsy" role="doc-endnote">
+      <p>It irritates me that PopKey is the more well known keyboard though. This is entirely due to the fact that it put up a really nicely designed teaser page in advance and has got a lot of press coverage. I think it is really bad they still use the tagline “The world’s first animated GIF keyboard” when it clearly wasn’t and has so many flaws compared to the app that came first. That it is featured by Apple in the Best New Apps section is a great shame. <a href="#fnref:riffsy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:fka">
-      <p>For a while I tried to educate people as to how a GIF keyboard can’t read your iMessages. I gave up after a while. <a href="#fnref:fka" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:fka" role="doc-endnote">
+      <p>For a while I tried to educate people as to how a GIF keyboard can’t read your iMessages. I gave up after a while. <a href="#fnref:fka" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -89,17 +89,17 @@
 			<time datetime="2014-10-02" pubdate=""><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">October 02, 2014</a></time>
     	</header>
     	<div>
-			<p>I rarely use comments when I’m coding<sup id="fnref:comments"><a href="#fn:comments" class="footnote">1</a></sup>. I do make one exception though; using <code>// TODO:</code> and <code>// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
+			<p>I rarely use comments when I’m coding<sup id="fnref:comments" role="doc-noteref"><a href="#fn:comments" class="footnote">1</a></sup>. I do make one exception though; using <code class="language-plaintext highlighter-rouge">// TODO:</code> and <code class="language-plaintext highlighter-rouge">// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-jump-bar.jpg" alt="TODO comments in the Xcode jump bar" /></p>
 
 <p>The issue I have with this is that it is very easy to forget about them unless you are using the jump bar frequently. I used to log them in my todo manager, <a href="http://culturedcode.com/things/">Things</a>, but that duplicates the workload. It would be much more useful if those errors were flagged in some way…</p>
 
-<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code>TODO:</code> and <code>FIXME:</code> as warnings in a Swift project:</p>
+<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code class="language-plaintext highlighter-rouge">TODO:</code> and <code class="language-plaintext highlighter-rouge">FIXME:</code> as warnings in a Swift project:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;searching </span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2"> for </span><span class="si">${</span><span class="nv">TAGS</span><span class="si">}</span><span class="s2">&quot;</span>
-find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2">&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;(</span><span class="nv">$TAGS</span><span class="s2">).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/(</span><span class="nv">$TAGS</span><span class="s2">)/ warning: \$1/&quot;</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">TAGS</span><span class="o">=</span><span class="s2">"TODO:|FIXME:"</span>
+<span class="nb">echo</span> <span class="s2">"searching </span><span class="k">${</span><span class="nv">SRCROOT</span><span class="k">}</span><span class="s2"> for </span><span class="k">${</span><span class="nv">TAGS</span><span class="k">}</span><span class="s2">"</span>
+find <span class="s2">"</span><span class="k">${</span><span class="nv">SRCROOT</span><span class="k">}</span><span class="s2">"</span> <span class="se">\(</span> <span class="nt">-name</span> <span class="s2">"*.swift"</span> <span class="se">\)</span> <span class="nt">-print0</span> | xargs <span class="nt">-0</span> egrep <span class="nt">--with-filename</span> <span class="nt">--line-number</span> <span class="nt">--only-matching</span> <span class="s2">"(</span><span class="nv">$TAGS</span><span class="s2">).*</span><span class="se">\$</span><span class="s2">"</span> | perl <span class="nt">-p</span> <span class="nt">-e</span> <span class="s2">"s/(</span><span class="nv">$TAGS</span><span class="s2">)/ warning: </span><span class="se">\$</span><span class="s2">1/"</span></code></pre></figure>
 
 <p>The result is an unmissable warning whenever you run your project.</p>
 
@@ -111,15 +111,15 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>It is now possble with Swift 4.2 to do something similar to the above without the need for a script build phase:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="p">#</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Some warning text&quot;</span><span class="p">)</span>
-<span class="p">#</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Some error text&quot;</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cp">#warning("Some warning text")</span>
+<span class="cp">#error("Some error text")</span></code></pre></figure>
 
-<p>With <code>#warning()</code> and <code>#error()</code> you can now generate warnings and errors in code without the need for comments or a build phase. You may prefer to use comments still in which case the above still works with iOS 12 / Xcode 10 but this language-level support may be more beneficial in some situations.</p>
+<p>With <code class="language-plaintext highlighter-rouge">#warning()</code> and <code class="language-plaintext highlighter-rouge">#error()</code> you can now generate warnings and errors in code without the need for comments or a build phase. You may prefer to use comments still in which case the above still works with iOS 12 / Xcode 10 but this language-level support may be more beneficial in some situations.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:comments">
-      <p>If your code needs commenting, it isn’t clear enough. Refactor until it is. If it doesn’t make sense because of semantics, rethink your naming conventions. <a href="#fnref:comments" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:comments" role="doc-endnote">
+      <p>If your code needs commenting, it isn’t clear enough. Refactor until it is. If it doesn’t make sense because of semantics, rethink your naming conventions. <a href="#fnref:comments" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -135,14 +135,14 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 			<time datetime="2014-09-30" pubdate=""><a href="/weblog/2014/09/30/donating-blood/">September 30, 2014</a></time>
     	</header>
     	<div>
-			<p>I’ve been donating blood for just over 10 years and went for my quarterly donation yesterday. If you don’t donate already, please consider <a href="http://blood.co.uk">finding your nearest donor session</a> and donating - most donations are done with a mobile team and are likely to be in a village hall or similar. It is a fairly quick and painless process and the National Blood Service is always in need of regular supplies for transplants and cancer treatment<sup id="fnref:rare"><a href="#fn:rare" class="footnote">1</a></sup>. Not only do you get to save lives and have your blood screened for anything dangeous, you also get a cup of tea and some biscuits afterwards.</p>
+			<p>I’ve been donating blood for just over 10 years and went for my quarterly donation yesterday. If you don’t donate already, please consider <a href="http://blood.co.uk">finding your nearest donor session</a> and donating - most donations are done with a mobile team and are likely to be in a village hall or similar. It is a fairly quick and painless process and the National Blood Service is always in need of regular supplies for transplants and cancer treatment<sup id="fnref:rare" role="doc-noteref"><a href="#fn:rare" class="footnote">1</a></sup>. Not only do you get to save lives and have your blood screened for anything dangeous, you also get a cup of tea and some biscuits afterwards.</p>
 
 <p>Take a look at the <a href="http://blood.co.uk/">National Blood Service website</a> to learn more and find your nearest donor session.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:rare">
-      <p>Especially if you have a rare blood type. I’m AB- which has the smallest amount of <a href="http://www.blood.co.uk/about-blood/stock-levels-statistics/">stock in the national blood bank</a>. <a href="#fnref:rare" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:rare" role="doc-endnote">
+      <p>Especially if you have a rare blood type. I’m AB- which has the smallest amount of <a href="http://www.blood.co.uk/about-blood/stock-levels-statistics/">stock in the national blood bank</a>. <a href="#fnref:rare" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -162,16 +162,16 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>To my mind, this is a fairly simple case of entrapment with a journalist pretending to be somebody in order to get a gossip story for a newspaper. This does not require a resignation and is a further indication of what is wrong with our politics; MPs are not held to account the same as regular people.</p>
 
-<p>If you worked on the checkout in ASDA and you started flirting with someone on Whatsapp despite being married, you don’t have to resign when everybody finds out. However, you do have to resign if you take money from the till<sup id="fnref:sacked"><a href="#fn:sacked" class="footnote">1</a></sup>.</p>
+<p>If you worked on the checkout in ASDA and you started flirting with someone on Whatsapp despite being married, you don’t have to resign when everybody finds out. However, you do have to resign if you take money from the till<sup id="fnref:sacked" role="doc-noteref"><a href="#fn:sacked" class="footnote">1</a></sup>.</p>
 
 <p>So it should be for MPs. They are regular people and they shouldn’t have to give up their career for stupid things they have done in their private lives that are totally legal. The argument “<a href="http://www.mirror.co.uk/news/uk-news/brooks-newmark-lied-wife---4342177">he lied to his wife so what stops him lying to voters</a>” is idiotic; unless there is proof that his private life is affecting his work, then it is certainly not in the public interest.</p>
 
 <p>If an MP or any other public figure is doing something illegal, then it is fair to hold them to account. It is not fair to use their private life especially if they have been manipulated into it.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:sacked">
-      <p>Well, you’d be sacked actually. <a href="#fnref:sacked" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:sacked" role="doc-endnote">
+      <p>Well, you’d be sacked actually. <a href="#fnref:sacked" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -193,14 +193,14 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>IslandBreak is a smart travel guide for the Bahamas with a complete list of restaurants, bars, historical sites, hotels, beaches, and tours.</p>
 
-<p>The app was interesting to work on due to the need for a completely offline experience. This wasn’t limited to just the points of interest and itineraries (which feature a huge amount of beautiful high-resolution photos) but also the map; this was a requirement so that tourists don’t have to use their data plans, particularly in an area which has very poor mobile reception<sup id="fnref:reception"><a href="#fn:reception" class="footnote">1</a></sup>. Getting a full map of the islands complete with multiple zoom levels and the experience you expect on iOS was difficult, but works really well. In addition, I built an online CMS so that the app content can be updated remotely without going through the App Store approval process.</p>
+<p>The app was interesting to work on due to the need for a completely offline experience. This wasn’t limited to just the points of interest and itineraries (which feature a huge amount of beautiful high-resolution photos) but also the map; this was a requirement so that tourists don’t have to use their data plans, particularly in an area which has very poor mobile reception<sup id="fnref:reception" role="doc-noteref"><a href="#fn:reception" class="footnote">1</a></sup>. Getting a full map of the islands complete with multiple zoom levels and the experience you expect on iOS was difficult, but works really well. In addition, I built an online CMS so that the app content can be updated remotely without going through the App Store approval process.</p>
 
 <p>You can check it out by <a href="https://itunes.apple.com/us/app/islandbreak-travel-guide-for/id839013319?mt=8">downloading from the App Store</a> (currently priced at $0.99) or visiting <a href="http://islandbreakapp.com/">islandbreakapp.com</a></p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:reception">
-      <p>I speak from experience. I’ve been to the Bahamas a few times and proposed to my wife there; we had to wait until we were back in Florida before we could share the news! <a href="#fnref:reception" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:reception" role="doc-endnote">
+      <p>I speak from experience. I’ve been to the Bahamas a few times and proposed to my wife there; we had to wait until we were back in Florida before we could share the news! <a href="#fnref:reception" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -222,7 +222,7 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-iap-summary.png" alt="iTunes Connect Edit IAP Summary" /></p>
 
-<p>The reference name is ‘v1.1 25000 Honeycombs’<sup id="fnref:reference"><a href="#fn:reference" class="footnote">1</a></sup> and the display name for UK English is ‘pack of 25000 honeycombs’. This means the purchase screen ends up looking like this:</p>
+<p>The reference name is ‘v1.1 25000 Honeycombs’<sup id="fnref:reference" role="doc-noteref"><a href="#fn:reference" class="footnote">1</a></sup> and the display name for UK English is ‘pack of 25000 honeycombs’. This means the purchase screen ends up looking like this:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/ios8-app.png" alt="iOS 8 IAP Display Name incorrect" /></p>
 
@@ -240,10 +240,10 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p><strong>Update (26th September 2014):</strong> Tony McBride emailed me to say that he was experiencing the same issues on iOS 7 building against the iOS 7 SDK. I’ve confirmed it is happening in WallaBee v1.4.1 (built with iOS 8 SDK) running on iOS 7. Looks like it may be an App Store issue rather than an iOS 8 issue. I’ve updated this post to remove references to it being a solely iOS 8 problem.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:reference">
-      <p>In case you are wondering why, I forget exactly. I think there were different packs in v1.0 which we then increased in v1.1 - some of the increases overlapped (i.e. 15000 became 25000) and so I had to use a different name. Prepending the version seemed to be a sensible choice as nobody would see it. <a href="#fnref:reference" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:reference" role="doc-endnote">
+      <p>In case you are wondering why, I forget exactly. I think there were different packs in v1.0 which we then increased in v1.1 - some of the increases overlapped (i.e. 15000 became 25000) and so I had to use a different name. Prepending the version seemed to be a sensible choice as nobody would see it. <a href="#fnref:reference" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -259,7 +259,7 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 			<time datetime="2014-09-24" pubdate=""><a href="/weblog/2014/09/24/how-not-to-deliver-a-speech/">September 24, 2014</a></time>
     	</header>
     	<div>
-			<p>Yesterday, Ed Miliband delivered his speech to the Labour Party conference but <a href="http://www.bbc.co.uk/news/uk-politics-29339581">embarrassingly left out a large portion</a> about one of the most important topics of this decade; the budget defecit<sup id="fnref:joke"><a href="#fn:joke" class="footnote">1</a></sup>.</p>
+			<p>Yesterday, Ed Miliband delivered his speech to the Labour Party conference but <a href="http://www.bbc.co.uk/news/uk-politics-29339581">embarrassingly left out a large portion</a> about one of the most important topics of this decade; the budget defecit<sup id="fnref:joke" role="doc-noteref"><a href="#fn:joke" class="footnote">1</a></sup>.</p>
 
 <p>I’ve given quite a few speeches in the past and often give out advice to people (mainly developers) who are preparing to give a presentation or some form of pitch. The two key pieces of advice I always give out are:</p>
 
@@ -268,7 +268,7 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
   <li><strong>Don’t use notes</strong>.</li>
 </ol>
 
-<p>In my opinion, you should never write a speech out in full. To do this means you are then locked in and can’t adapt to a changing situation. This is especially true if you are doing a speech in which you have to follow someone, something goes wrong<sup id="fnref:apple"><a href="#fn:apple" class="footnote">2</a></sup>, or you are talking about things that could change. Additionally, I don’t believe in using notes. Nobody wants to see their presenter looking down at a little card, or worse, a mobile phone. If you are going to use notes, keep them discreetly on a table and only consult them whilst your audience is applauding or laughing (if they are doing neither, change your speech). They should also be only the loosest of bullet points to keep you on track.</p>
+<p>In my opinion, you should never write a speech out in full. To do this means you are then locked in and can’t adapt to a changing situation. This is especially true if you are doing a speech in which you have to follow someone, something goes wrong<sup id="fnref:apple" role="doc-noteref"><a href="#fn:apple" class="footnote">2</a></sup>, or you are talking about things that could change. Additionally, I don’t believe in using notes. Nobody wants to see their presenter looking down at a little card, or worse, a mobile phone. If you are going to use notes, keep them discreetly on a table and only consult them whilst your audience is applauding or laughing (if they are doing neither, change your speech). They should also be only the loosest of bullet points to keep you on track.</p>
 
 <p>Ed made a mistake by breaking both of these rules badly. He wrote a speech but then made changes at the 11th hour (about the Scottish referendum) making it harder to memorise; he also (very stupidly) distributed the speech in advance so it was obvious when he had left something out. Finally, he had notes printed on thin paper through a clear table; easy for anybody with a camera (i.e. the national press in the front row at a political conference) to see and know when you’ve missed something.</p>
 
@@ -287,13 +287,13 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>In the end, a speech is simply a one-way conversation with multiple people. Imagine you are telling a friend about the thing you are speaking on and everything should fall into place easily. If you try to remember an essay, then the speech will be difficult to remember, uncomfortable to watch, and far more likely to go wrong.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:joke">
-      <p>You could say he had a defecit in his speech <em>*rimshot*</em> <a href="#fnref:joke" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:joke" role="doc-endnote">
+      <p>You could say he had a defecit in his speech <em>*rimshot*</em> <a href="#fnref:joke" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:apple">
-      <p>My favourite example of this is the original iPhone launch. <a href="https://www.youtube.com/watch?v=t4OEsI0Sc_s&amp;t=1h14m59s">Towards the end of the presentation</a>, Steve Job’s ‘clicker’ broke so he couldn’t advance the presentation. Whilst he was waiting for it to be fixed, he told a brilliant anecdote about Steve Wozniak jamming televisions when they were younger. The whole delivery was natural and unscripted and he was able to recover straight back to talking about predicted market share - you can’t do that when you are leaning heavily on memory nor a text-heavy presentation. <a href="#fnref:apple" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:apple" role="doc-endnote">
+      <p>My favourite example of this is the original iPhone launch. <a href="https://www.youtube.com/watch?v=t4OEsI0Sc_s&amp;t=1h14m59s">Towards the end of the presentation</a>, Steve Job’s ‘clicker’ broke so he couldn’t advance the presentation. Whilst he was waiting for it to be fixed, he told a brilliant anecdote about Steve Wozniak jamming televisions when they were younger. The whole delivery was natural and unscripted and he was able to recover straight back to talking about predicted market share - you can’t do that when you are leaning heavily on memory nor a text-heavy presentation. <a href="#fnref:apple" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -311,13 +311,13 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
     	<div>
 			<p>In the last week, I’ve tried to purchase two things that made me question the way in which choices are presented to us whilst purchasing. It also made me think about how we market our in app purchases within <a href="http://wallabeegame.com/">WallaBee</a>.</p>
 
-<p>The first choice I questioned was Disney Infinity 2.0, the latest version of the sandbox game that lets you mix and match Disney characters in a toy box environment. At launch, there are only 2 ways to get the game; buying the <a href="http://www.amazon.co.uk/Disney-Infinity-Marvel-Superheroes-Starter/dp/B00JQYN7W4/ref=sr_1_1?s=videogames&amp;ie=UTF8&amp;qid=1411455254&amp;sr=1-1&amp;keywords=disney+infinity+2++xbox+one">Marvel Superheroes Starter Pack</a> (£57)<sup id="fnref:marvel"><a href="#fn:marvel" class="footnote">1</a></sup> which includes 3 figures and a play set piece (which gives you several hours of themed game play) or the <a href="http://www.amazon.co.uk/Disney-Infinity-Toybox-Pack-Xbox/dp/B00MTG1PRU/ref=sr_1_6?s=videogames&amp;ie=UTF8&amp;qid=1411455254&amp;sr=1-6&amp;keywords=disney+infinity+2++xbox+one">Disney Toybox Pack</a> (£55) which comes with just 2 figures and 2 game discs (which give you power ups). Both sets come with a USB base to place your characters on and the actual videogame software (on disc) which gives you the Toy Box mode. The issue here is that the Marvel pack comes with an extra character and a play set piece<sup id="fnref:playset"><a href="#fn:playset" class="footnote">2</a></sup> which will give you much more than just the toy box for only £2 extra. My second issue is that there is no upgrade path for those like me that already have a lot of the original Disney Infinity stuff. I already have a USB base and 17 characters so I really only need the videogame disc in order to get the new toy box mode up and running; I could then buy something like the <a href="http://www.amazon.co.uk/gp/product/B00LGYJBJ0/ref=s9_simh_gw_p63_d0_i5?pf_rd_m=A3P5ROKL5A1OLE&amp;pf_rd_s=center-2&amp;pf_rd_r=191X9FSDAEAJWFGFXW9Q&amp;pf_rd_t=101&amp;pf_rd_p=455344027&amp;pf_rd_i=468294">Guardians of the Galaxy Playset Pack</a> (£28) which gives you a playset piece and 2 characters to use within it.</p>
+<p>The first choice I questioned was Disney Infinity 2.0, the latest version of the sandbox game that lets you mix and match Disney characters in a toy box environment. At launch, there are only 2 ways to get the game; buying the <a href="http://www.amazon.co.uk/Disney-Infinity-Marvel-Superheroes-Starter/dp/B00JQYN7W4/ref=sr_1_1?s=videogames&amp;ie=UTF8&amp;qid=1411455254&amp;sr=1-1&amp;keywords=disney+infinity+2++xbox+one">Marvel Superheroes Starter Pack</a> (£57)<sup id="fnref:marvel" role="doc-noteref"><a href="#fn:marvel" class="footnote">1</a></sup> which includes 3 figures and a play set piece (which gives you several hours of themed game play) or the <a href="http://www.amazon.co.uk/Disney-Infinity-Toybox-Pack-Xbox/dp/B00MTG1PRU/ref=sr_1_6?s=videogames&amp;ie=UTF8&amp;qid=1411455254&amp;sr=1-6&amp;keywords=disney+infinity+2++xbox+one">Disney Toybox Pack</a> (£55) which comes with just 2 figures and 2 game discs (which give you power ups). Both sets come with a USB base to place your characters on and the actual videogame software (on disc) which gives you the Toy Box mode. The issue here is that the Marvel pack comes with an extra character and a play set piece<sup id="fnref:playset" role="doc-noteref"><a href="#fn:playset" class="footnote">2</a></sup> which will give you much more than just the toy box for only £2 extra. My second issue is that there is no upgrade path for those like me that already have a lot of the original Disney Infinity stuff. I already have a USB base and 17 characters so I really only need the videogame disc in order to get the new toy box mode up and running; I could then buy something like the <a href="http://www.amazon.co.uk/gp/product/B00LGYJBJ0/ref=s9_simh_gw_p63_d0_i5?pf_rd_m=A3P5ROKL5A1OLE&amp;pf_rd_s=center-2&amp;pf_rd_r=191X9FSDAEAJWFGFXW9Q&amp;pf_rd_t=101&amp;pf_rd_p=455344027&amp;pf_rd_i=468294">Guardians of the Galaxy Playset Pack</a> (£28) which gives you a playset piece and 2 characters to use within it.</p>
 
 <p>As it stands, there is no way to get the software either on its own or in a digital form which seems crazy in this day and age. Nearly all of my Xbox One games are the digital versions because I hate having to swap the discs to play a game (especially when it is only reading it to unlock the DRM - the actual game is installed onto the hard drive so the disc is used purely for authentication).</p>
 
 <p>I’ll most likely end up buying the Marvel version as it just makes financial sense even though I’m not that interested in the characters or the playset.</p>
 
-<p>The second purchase that I’ve questioned was the new iPhone 6 models. The pricing<sup id="fnref:iphonepricing"><a href="#fn:iphonepricing" class="footnote">3</a></sup> looks like this for the iPhone 6 Plus:</p>
+<p>The second purchase that I’ve questioned was the new iPhone 6 models. The pricing<sup id="fnref:iphonepricing" role="doc-noteref"><a href="#fn:iphonepricing" class="footnote">3</a></sup> looks like this for the iPhone 6 Plus:</p>
 
 <ul>
   <li>16GB: £619</li>
@@ -331,7 +331,7 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>So why do companies do this? In the case of Disney Infinity, I think they just want to cover their backs and try to stop anybody buying the game without the USB base and some characters as otherwise the game won’t work. My wife suggested they could make the game available as a digital download but just put a warning that you need to have some bits from the previous game; from experience I know that nobody reads those warnings. With the iPhone 6, I can only imagine that they really want people to buy the 64GB model and so by starting at 16GB they are basically showing you a bad option in the hope you’ll buy the better model. This has an extra benefit that they can say “starting at £619” when they know most people will go to the £699 model.</p>
 
-<p>We do something very similar in WallaBee with our packs of honeycombs (our freemium currency). Here is a quick list of the packs we sell along with their price<sup id="fnref:salesprice"><a href="#fn:salesprice" class="footnote">4</a></sup> and the percentage of sales<sup id="fnref:salespercentage"><a href="#fn:salespercentage" class="footnote">5</a></sup> each one has:</p>
+<p>We do something very similar in WallaBee with our packs of honeycombs (our freemium currency). Here is a quick list of the packs we sell along with their price<sup id="fnref:salesprice" role="doc-noteref"><a href="#fn:salesprice" class="footnote">4</a></sup> and the percentage of sales<sup id="fnref:salespercentage" role="doc-noteref"><a href="#fn:salespercentage" class="footnote">5</a></sup> each one has:</p>
 
 <ul>
   <li>25000hc - £7.99 - 81%</li>
@@ -346,31 +346,31 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>The point I’m getting is that we could probably scrap all but the 25000hc and 15000hc packs without negatively affecting sales, but then there would be less choice available to our players. We did drop a 10000hc pack a while ago when we were experimenting with a grid based sales page; it was the least popular option and we wanted just 6 items to keep the design even. I’m not sure if minimising the amount of options further would be good as it means making people compromise as in the case of Disney Infinity and the iPhone 6; I’ll buy the options they are pushing me too but I won’t feel good about it.</p>
 
-<p>An interesting counterpoint to this is the way in which we sell locks within WallaBee. Locks allow you to protect items you drop from being taken by other people and we sell them in packs of 10 for £0.69. Many players have asked us to sell them in packs like honeycombs so that we could do a range of options for each budget but the reason we keep them at a single price point is that they are massively popular; in fact, they are our most purchased in app purchase<sup id="fnref:mostpurchased"><a href="#fn:mostpurchased" class="footnote">6</a></sup>. Whilst selling a pack of 50 or a 100 might generate more sales, it would mean that a £0.69 in app purchase would no longer be most popular. Why is that important? On the App Store, you can see the top in app purchases for a game and it is my feeling that showing a £0.69 item at the top of that list rather than a £7.99 one looks better to new players who are often sceptical about how much money a freemium game is going to try and take from them.</p>
+<p>An interesting counterpoint to this is the way in which we sell locks within WallaBee. Locks allow you to protect items you drop from being taken by other people and we sell them in packs of 10 for £0.69. Many players have asked us to sell them in packs like honeycombs so that we could do a range of options for each budget but the reason we keep them at a single price point is that they are massively popular; in fact, they are our most purchased in app purchase<sup id="fnref:mostpurchased" role="doc-noteref"><a href="#fn:mostpurchased" class="footnote">6</a></sup>. Whilst selling a pack of 50 or a 100 might generate more sales, it would mean that a £0.69 in app purchase would no longer be most popular. Why is that important? On the App Store, you can see the top in app purchases for a game and it is my feeling that showing a £0.69 item at the top of that list rather than a £7.99 one looks better to new players who are often sceptical about how much money a freemium game is going to try and take from them.</p>
 
 <p>I’m pretty pleased with the way that we do real world transactions in WallaBee but we are going to be making a big drive for what we like to call “ethical freemium” in the future with several big changes. One of the things we don’t do now and never will is sell huge packs at prices like £64.99 - I see this in many freemium games and it is just gross (as well as looking bad in the “top in app purchases” screen on the App Store). Something I have often toyed with for those that do want to make larger purchases, such as those who want to buy multiple lock packs, is to add some form of payment processing on our website that is separate to the App Store; that way, players could buy as many locks as they want without affecting our top purchases list.</p>
 
 <p>When it comes down to it, choice is simply an illusion. Most of the time, you are being cajoled into making a specific purchase. In the case of Disney Infinity and the iPhone 6, it seems pretty obvious. With WallaBee, we’ve experimented both with offering choice (as in our honeycomb packs) and offering no choice (with our locks). It’s hard to say which works best but I think I prefer having a single option to choose from rather than being given several but being subliminally pushed to a chosen option. Maybe I should remove those superfluous honeycomb packs after all.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:marvel">
-      <p>There is a “<a href="http://direct.asda.com/Disney-Infinity-2.0-Collector%27s-Edition-Avengers-Starter-Pack---PS3/003751266,default,pd.html&amp;cmpid=ppc-_-ad-pla-_-ggle-pla-_-Video-Games-and-Consoles-_-003751266&amp;cm_mmc=ad-ppc-_-ggle-pla-_-Video-Games-and-Consoles-_-003751266&amp;istCompanyId=71f4ae42-94c5-4821-aa58-05eff6da2486&amp;istItemId=watmpparq&amp;istBid=tztx">Collector’s Edition</a>” as well at £110 but it is essentially the same thing with more characters. <a href="#fnref:marvel" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:marvel" role="doc-endnote">
+      <p>There is a “<a href="http://direct.asda.com/Disney-Infinity-2.0-Collector%27s-Edition-Avengers-Starter-Pack---PS3/003751266,default,pd.html&amp;cmpid=ppc-_-ad-pla-_-ggle-pla-_-Video-Games-and-Consoles-_-003751266&amp;cm_mmc=ad-ppc-_-ggle-pla-_-Video-Games-and-Consoles-_-003751266&amp;istCompanyId=71f4ae42-94c5-4821-aa58-05eff6da2486&amp;istItemId=watmpparq&amp;istBid=tztx">Collector’s Edition</a>” as well at £110 but it is essentially the same thing with more characters. <a href="#fnref:marvel" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:playset">
-      <p>The play sets are basically movie tie-in games in that you can only use characters from that series within them and you’ll get around 5-10 hours of story driven gameplay. It means that Disney can release a new game within Disney Infinity without having to redistribute the base software (you just buy one of these pieces that goes on the USB board). <a href="#fnref:playset" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:playset" role="doc-endnote">
+      <p>The play sets are basically movie tie-in games in that you can only use characters from that series within them and you’ll get around 5-10 hours of story driven gameplay. It means that Disney can release a new game within Disney Infinity without having to redistribute the base software (you just buy one of these pieces that goes on the USB board). <a href="#fnref:playset" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:iphonepricing">
-      <p>This is for an unlocked iPhone 6 Plus in the UK. Obviously with a carrier and a plan the cost would be different. <a href="#fnref:iphonepricing" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:iphonepricing" role="doc-endnote">
+      <p>This is for an unlocked iPhone 6 Plus in the UK. Obviously with a carrier and a plan the cost would be different. <a href="#fnref:iphonepricing" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:salesprice">
-      <p>The price differs around the world based on tiers that Apple sets up - they scale beautifully in USD but look less obvious in GBP. <a href="#fnref:salesprice" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:salesprice" role="doc-endnote">
+      <p>The price differs around the world based on tiers that Apple sets up - they scale beautifully in USD but look less obvious in GBP. <a href="#fnref:salesprice" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:salespercentage">
-      <p>Data from 22nd August 2014 to 22nd September 2014. <a href="#fnref:salespercentage" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:salespercentage" role="doc-endnote">
+      <p>Data from 22nd August 2014 to 22nd September 2014. <a href="#fnref:salespercentage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:mostpurchased">
-      <p>This is the IAP that most people buy; it isn’t the one that makes the most money (that would be the 25000hc pack) <a href="#fnref:mostpurchased" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:mostpurchased" role="doc-endnote">
+      <p>This is the IAP that most people buy; it isn’t the one that makes the most money (that would be the 25000hc pack) <a href="#fnref:mostpurchased" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

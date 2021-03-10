@@ -58,42 +58,42 @@
     	<div>
 			<p>A few years ago, <a href="https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">I wrote a convoluted AppleScript</a> that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was released due to a number of changes to AppleScript support; there were also changes to OS X which prevented AppleScripts from launching via Calendar alerts.</p>
 
-<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
+<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject" role="doc-noteref"><a href="#fn:homekitproject" class="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
 
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span></span><span class="k">set</span> <span class="nv">AirplayDeviceName</span> <span class="k">to</span> <span class="s2">&quot;Kitchen&quot;</span>
-<span class="k">set</span> <span class="nv">PlaylistName</span> <span class="k">to</span> <span class="s2">&quot;Morning&quot;</span>
-<span class="k">set</span> <span class="nv">AirplayVolume</span> <span class="k">to</span> <span class="mi">100</span>
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">AirplayDeviceName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Kitchen"</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Morning"</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayVolume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">100</span><span class="w">
 
-<span class="nb">activate</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
+</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
-	<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-		<span class="k">set</span> <span class="na">visible</span> <span class="k">of</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="no">true</span>
-		<span class="k">set</span> <span class="nb">the</span> <span class="na">view</span> <span class="k">of</span> <span class="nb">the</span> <span class="nb">front</span> <span class="nb">browser</span> <span class="na">window</span> <span class="k">to</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
-	<span class="k">end</span> <span class="k">tell</span>
-<span class="k">end</span> <span class="k">tell</span>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
+	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+		</span><span class="k">set</span><span class="w"> </span><span class="na">visible</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
+		</span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">view</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
-	<span class="k">tell</span> <span class="nv">process</span> <span class="s2">&quot;iTunes&quot;</span> <span class="k">to</span> <span class="k">if</span> <span class="nb">exists</span> <span class="k">then</span>
-		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Songs&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
-		<span class="nv">click</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;On&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nb">item</span> <span class="s2">&quot;Shuffle&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="s2">&quot;Controls&quot;</span> <span class="k">of</span> <span class="na">menu</span> <span class="nv">bar</span> <span class="mi">1</span>
-	<span class="k">end</span> <span class="k">if</span>
-<span class="k">end</span> <span class="k">tell</span>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
+	</span><span class="k">tell</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">exists</span><span class="w"> </span><span class="k">then</span><span class="w">
+		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Songs"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Controls"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
+		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"On"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Controls"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-	<span class="k">set</span> <span class="nv">AirplayNames</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="na">name</span> <span class="k">of</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
-	<span class="k">set</span> <span class="nv">AirplayDevices</span> <span class="k">to</span> <span class="p">(</span><span class="k">get</span> <span class="nv">AirPlay</span> <span class="nv">devices</span><span class="p">)</span>
-	<span class="k">set</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="p">{}</span>
-	<span class="k">repeat</span> <span class="nv">with</span> <span class="nv">i</span> <span class="k">from</span> <span class="mi">1</span> <span class="k">to</span> <span class="nv">length</span> <span class="k">of</span> <span class="nv">AirplayNames</span>
-		<span class="k">if</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayNames</span> <span class="k">as </span><span class="nc">string</span> <span class="o">=</span> <span class="nv">AirplayDeviceName</span> <span class="k">then</span> <span class="k">set</span> <span class="k">end</span> <span class="k">of</span> <span class="nv">AirplayToPlay</span> <span class="k">to</span> <span class="nb">item</span> <span class="nv">i</span> <span class="k">of</span> <span class="nv">AirplayDevices</span>
-	<span class="k">end</span> <span class="k">repeat</span>
-	<span class="k">set</span> <span class="nv">current</span> <span class="nv">AirPlay</span> <span class="nv">devices</span> <span class="k">to</span> <span class="nv">AirplayToPlay</span>
-<span class="k">end</span> <span class="k">tell</span>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="k">get</span><span class="w"> </span><span class="na">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="p">)</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayDevices</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="k">get</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="p">)</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
+	</span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">AirplayDeviceName</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayDevices</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">current</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
 
-<span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;iTunes&quot;</span>
-	<span class="nb">play</span> <span class="nv">playlist</span> <span class="nv">PlaylistName</span>
-	<span class="k">set</span> <span class="nb">the</span> <span class="na">sound</span> <span class="na">volume</span> <span class="k">to</span> <span class="nv">AirplayVolume</span>
-<span class="k">end</span> <span class="k">tell</span></code></pre></figure>
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
+	</span><span class="nb">play</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">sound</span><span class="w"> </span><span class="na">volume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">AirplayVolume</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
 
 <p>The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.</p>
 
@@ -109,10 +109,10 @@
 
 <p>The full code (and previous version) is <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">available on GitHub</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:homekitproject">
-      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:homekitproject" role="doc-endnote">
+      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

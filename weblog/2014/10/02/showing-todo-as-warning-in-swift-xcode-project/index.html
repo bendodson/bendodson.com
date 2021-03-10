@@ -56,17 +56,17 @@
 			<time datetime="2014-10-02" pubdate=""><a href="/weblog/2014/10/02/showing-todo-as-warning-in-swift-xcode-project/">October 02, 2014</a></time>
     	</header>
     	<div>
-			<p>I rarely use comments when I’m coding<sup id="fnref:comments"><a href="#fn:comments" class="footnote">1</a></sup>. I do make one exception though; using <code>// TODO:</code> and <code>// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
+			<p>I rarely use comments when I’m coding<sup id="fnref:comments" role="doc-noteref"><a href="#fn:comments" class="footnote">1</a></sup>. I do make one exception though; using <code class="language-plaintext highlighter-rouge">// TODO:</code> and <code class="language-plaintext highlighter-rouge">// FIXME:</code> to highlight pieces of code I need to revisit at a later date. The advantage of doing this is that the lines then show up in the jump bar popover in bold text with one-click access to the exact line:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/todo-jump-bar.jpg" alt="TODO comments in the Xcode jump bar" /></p>
 
 <p>The issue I have with this is that it is very easy to forget about them unless you are using the jump bar frequently. I used to log them in my todo manager, <a href="http://culturedcode.com/things/">Things</a>, but that duplicates the workload. It would be much more useful if those errors were flagged in some way…</p>
 
-<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code>TODO:</code> and <code>FIXME:</code> as warnings in a Swift project:</p>
+<p><a href="http://jeffreysambells.com/2013/01/31/generate-xcode-warnings-from-todo-comments">Jeffrey Sambells wrote a post</a> on how to flag these comments as Xcode warnings but that only applies for Objective-C. With a slight tweak, here is a run script build phase for flagging <code class="language-plaintext highlighter-rouge">TODO:</code> and <code class="language-plaintext highlighter-rouge">FIXME:</code> as warnings in a Swift project:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">TAGS</span><span class="o">=</span><span class="s2">&quot;TODO:|FIXME:&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;searching </span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2"> for </span><span class="si">${</span><span class="nv">TAGS</span><span class="si">}</span><span class="s2">&quot;</span>
-find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SRCROOT</span><span class="si">}</span><span class="s2">&quot;</span> <span class="se">\(</span> -name <span class="s2">&quot;*.swift&quot;</span> <span class="se">\)</span> -print0 <span class="p">|</span> xargs -0 egrep --with-filename --line-number --only-matching <span class="s2">&quot;(</span><span class="nv">$TAGS</span><span class="s2">).*\$&quot;</span> <span class="p">|</span> perl -p -e <span class="s2">&quot;s/(</span><span class="nv">$TAGS</span><span class="s2">)/ warning: \$1/&quot;</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">TAGS</span><span class="o">=</span><span class="s2">"TODO:|FIXME:"</span>
+<span class="nb">echo</span> <span class="s2">"searching </span><span class="k">${</span><span class="nv">SRCROOT</span><span class="k">}</span><span class="s2"> for </span><span class="k">${</span><span class="nv">TAGS</span><span class="k">}</span><span class="s2">"</span>
+find <span class="s2">"</span><span class="k">${</span><span class="nv">SRCROOT</span><span class="k">}</span><span class="s2">"</span> <span class="se">\(</span> <span class="nt">-name</span> <span class="s2">"*.swift"</span> <span class="se">\)</span> <span class="nt">-print0</span> | xargs <span class="nt">-0</span> egrep <span class="nt">--with-filename</span> <span class="nt">--line-number</span> <span class="nt">--only-matching</span> <span class="s2">"(</span><span class="nv">$TAGS</span><span class="s2">).*</span><span class="se">\$</span><span class="s2">"</span> | perl <span class="nt">-p</span> <span class="nt">-e</span> <span class="s2">"s/(</span><span class="nv">$TAGS</span><span class="s2">)/ warning: </span><span class="se">\$</span><span class="s2">1/"</span></code></pre></figure>
 
 <p>The result is an unmissable warning whenever you run your project.</p>
 
@@ -78,15 +78,15 @@ find <span class="s2">&quot;</span><span class="si">${</span><span class="nv">SR
 
 <p>It is now possble with Swift 4.2 to do something similar to the above without the need for a script build phase:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="p">#</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Some warning text&quot;</span><span class="p">)</span>
-<span class="p">#</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Some error text&quot;</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cp">#warning("Some warning text")</span>
+<span class="cp">#error("Some error text")</span></code></pre></figure>
 
-<p>With <code>#warning()</code> and <code>#error()</code> you can now generate warnings and errors in code without the need for comments or a build phase. You may prefer to use comments still in which case the above still works with iOS 12 / Xcode 10 but this language-level support may be more beneficial in some situations.</p>
+<p>With <code class="language-plaintext highlighter-rouge">#warning()</code> and <code class="language-plaintext highlighter-rouge">#error()</code> you can now generate warnings and errors in code without the need for comments or a build phase. You may prefer to use comments still in which case the above still works with iOS 12 / Xcode 10 but this language-level support may be more beneficial in some situations.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:comments">
-      <p>If your code needs commenting, it isn’t clear enough. Refactor until it is. If it doesn’t make sense because of semantics, rethink your naming conventions. <a href="#fnref:comments" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:comments" role="doc-endnote">
+      <p>If your code needs commenting, it isn’t clear enough. Refactor until it is. If it doesn’t make sense because of semantics, rethink your naming conventions. <a href="#fnref:comments" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

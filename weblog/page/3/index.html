@@ -75,26 +75,26 @@
     	<div>
 			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
 
-<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard"><a href="#fn:manualstoryboard" class="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
+<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard" role="doc-noteref"><a href="#fn:manualstoryboard" class="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
 
-<p>Instead, I came across a property added to UIView in iOS 9 named <code>semanticContentAttribute</code>. This allows you to choose <code>unspecified</code> (the default which flips based on localization), <code>playback</code> and <code>spatial</code> which are special cases for media controls or directional controls, and <code>forceLeftToRight</code> and <code>forceRightToLeft</code> which work as their names would suggest. Thanks to the <code>UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
+<p>Instead, I came across a property added to UIView in iOS 9 named <code class="language-plaintext highlighter-rouge">semanticContentAttribute</code>. This allows you to choose <code class="language-plaintext highlighter-rouge">unspecified</code> (the default which flips based on localization), <code class="language-plaintext highlighter-rouge">playback</code> and <code class="language-plaintext highlighter-rouge">spatial</code> which are special cases for media controls or directional controls, and <code class="language-plaintext highlighter-rouge">forceLeftToRight</code> and <code class="language-plaintext highlighter-rouge">forceRightToLeft</code> which work as their names would suggest. Thanks to the <code class="language-plaintext highlighter-rouge">UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="bp">UIView</span><span class="p">.</span><span class="n">appearance</span><span class="p">().</span><span class="n">semanticContentAttribute</span> <span class="p">=</span> <span class="p">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">UIView</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="o">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
 
-<p>This not only flips all content back to left-to-right but also ensures that your <code>UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code>appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
+<p>This not only flips all content back to left-to-right but also ensures that your <code class="language-plaintext highlighter-rouge">UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code class="language-plaintext highlighter-rouge">appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
 
-<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code>NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code>alignment</code> which is always left on my devices due to my English language but the default is actually <code>natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
+<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code class="language-plaintext highlighter-rouge">NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code class="language-plaintext highlighter-rouge">alignment</code> which is always left on my devices due to my English language but the default is actually <code class="language-plaintext highlighter-rouge">natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">paragraph</span> <span class="p">=</span> <span class="bp">NSMutableParagraphStyle</span><span class="p">()</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">lineSpacing</span> <span class="p">=</span> <span class="mf">4.0</span>
-<span class="n">paragraph</span><span class="p">.</span><span class="n">alignment</span> <span class="p">=</span> <span class="p">.</span><span class="kr">left</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">paragraph</span> <span class="o">=</span> <span class="kt">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="o">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="o">.</span><span class="n">left</span></code></pre></figure>
 
 <p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:manualstoryboard">
-      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:manualstoryboard" role="doc-endnote">
+      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -112,69 +112,69 @@
     	<div>
 			<p>Since iOS 9.3 it has been possible to <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">add Apple Music tracks to the media library</a> as such:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">library</span> <span class="p">=</span> <span class="bp">MPMediaLibrary</span><span class="p">()</span>
-<span class="n">library</span><span class="p">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">withProductID</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-	<span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-		<span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">library</span> <span class="o">=</span> <span class="kt">MPMediaLibrary</span><span class="p">()</span>
+<span class="n">library</span><span class="o">.</span><span class="nf">addItem</span><span class="p">(</span><span class="nv">withProductID</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+	<span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+		<span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 	<span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift"><a href="#fn:mpmediaitemswift" class="footnote">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
+<p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift" role="doc-noteref"><a href="#fn:mpmediaitemswift" class="footnote">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">import</span> <span class="nc">UIKit</span>
-<span class="kd">import</span> <span class="nc">MediaPlayer</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">MediaPlayer</span>
 
-<span class="kd">extension</span> <span class="bp">MPMediaItem</span> <span class="p">{</span>
+<span class="kd">extension</span> <span class="kt">MPMediaItem</span> <span class="p">{</span>
 
-    <span class="kd">var</span> <span class="nv">canAddToLibrary</span><span class="p">:</span> <span class="nb">Bool</span> <span class="p">{</span>
-        <span class="kd">let</span> <span class="nv">id</span> <span class="p">=</span> <span class="bp">MPMediaPropertyPredicate</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">persistentID</span><span class="p">,</span> <span class="n">forProperty</span><span class="p">:</span> <span class="n">MPMediaItemPropertyPersistentID</span><span class="p">)</span>
-        <span class="kd">let</span> <span class="nv">query</span> <span class="p">=</span> <span class="bp">MPMediaQuery</span><span class="p">(</span><span class="n">filterPredicates</span><span class="p">:</span> <span class="p">[</span><span class="n">id</span><span class="p">])</span>
-        <span class="kd">let</span> <span class="nv">count</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">items</span><span class="p">?.</span><span class="bp">count</span> <span class="p">??</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="bp">count</span> <span class="p">==</span> <span class="mi">0</span>
+    <span class="k">var</span> <span class="nv">canAddToLibrary</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">MPMediaPropertyPredicate</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="n">persistentID</span><span class="p">,</span> <span class="nv">forProperty</span><span class="p">:</span> <span class="kt">MPMediaItemPropertyPersistentID</span><span class="p">)</span>
+        <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">MPMediaQuery</span><span class="p">(</span><span class="nv">filterPredicates</span><span class="p">:</span> <span class="p">[</span><span class="n">id</span><span class="p">])</span>
+        <span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">items</span><span class="p">?</span><span class="o">.</span><span class="n">count</span> <span class="p">??</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
     <span class="p">}</span>
     
 <span class="p">}</span></code></pre></figure>
 
-<p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code>MPMediaQuery</code>. Unfortunately you can’t search on  the <code>MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist"><a href="#fn:playlist" class="footnote">2</a></sup> by listening to the <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code>nowPlayingItem</code> on my <code>MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
+<p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code class="language-plaintext highlighter-rouge">MPMediaQuery</code>. Unfortunately you can’t search on  the <code class="language-plaintext highlighter-rouge">MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist" role="doc-noteref"><a href="#fn:playlist" class="footnote">2</a></sup> by listening to the <code class="language-plaintext highlighter-rouge">MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code class="language-plaintext highlighter-rouge">nowPlayingItem</code> on my <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">var</span> <span class="nv">player</span> <span class="p">=</span> <span class="bp">MPMusicPlayerController</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nv">player</span> <span class="o">=</span> <span class="kt">MPMusicPlayerController</span><span class="p">()</span>
 
-<span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
     
-    <span class="n">player</span><span class="p">.</span><span class="n">beginGeneratingPlaybackNotifications</span><span class="p">()</span>
-    <span class="n">NotificationCenter</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="kc">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="k">#selector</span><span class="p">(</span><span class="n">playbackStateDidChange</span><span class="p">),</span> <span class="n">name</span><span class="p">:</span> <span class="p">.</span><span class="n">MPMusicPlayerControllerNowPlayingItemDidChange</span><span class="p">,</span> <span class="n">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="nf">beginGeneratingPlaybackNotifications</span><span class="p">()</span>
+    <span class="kt">NotificationCenter</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">playbackStateDidChange</span><span class="kd">)</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="o">.</span><span class="kt">MPMusicPlayerControllerNowPlayingItemDidChange</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
 
 
-<span class="kr">@objc</span> <span class="kd">func</span> <span class="nf">playbackStateDidChange</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">@objc</span> <span class="kd">func</span> <span class="nf">playbackStateDidChange</span><span class="p">()</span> <span class="p">{</span>
     
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">player</span><span class="p">.</span><span class="n">nowPlayingItem</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">nowPlayingItem</span> <span class="k">else</span> <span class="p">{</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
     <span class="c1">// at this point we do not know if the track can be added - any UI for adding should be hidden</span>
 
-    <span class="k">if</span> <span class="n">item</span><span class="p">.</span><span class="n">canAddToLibrary</span> <span class="p">{</span>
-    	<span class="c1">// show your &quot;Add to library&quot; button</span>
+    <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">canAddToLibrary</span> <span class="p">{</span>
+    	<span class="c1">// show your "Add to library" button</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    	<span class="c1">// show some UI to explain &quot;Already in library&quot;</span>
+    	<span class="c1">// show some UI to explain "Already in library"</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for <code>MPMusicPlayerControllerPlaybackStateDidChange</code> but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for <code>MPMusicPlayerControllerNowPlayingItemDidChange</code> works consistently and will still yield an <code>MPMediaItem</code> with which to work with.</p>
+<p>I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for <code class="language-plaintext highlighter-rouge">MPMusicPlayerControllerPlaybackStateDidChange</code> but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for <code class="language-plaintext highlighter-rouge">MPMusicPlayerControllerNowPlayingItemDidChange</code> works consistently and will still yield an <code class="language-plaintext highlighter-rouge">MPMediaItem</code> with which to work with.</p>
 
 <p><strong>IMPORTANT:</strong> The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!)</p>
 
-<p><a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">Checkout the <code>MPMediaItem+CanAddToLibrary</code> Swift extension on GitHub</a></p>
+<p><a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">Checkout the <code class="language-plaintext highlighter-rouge">MPMediaItem+CanAddToLibrary</code> Swift extension on GitHub</a></p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:mpmediaitemswift">
-      <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:mpmediaitemswift" role="doc-endnote">
+      <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:playlist">
-      <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:playlist" role="doc-endnote">
+      <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -194,20 +194,20 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/flawless.jpg" width="800" height="450" /></p>
 
-<p>Flawless is an absolute godsend for developers working on pixel perfect designs. It is a plugin for the iOS simulator that allows you to compare what is rendering on screen with a static image via various different modes and a slider for opacity. In this way, you can make sure that what you have built matches the image precisely. The app is a plugin for the simulator itself so you don’t need to add any extra code or frameworks to your project. It also works with static images<sup id="fnref:plugin"><a href="#fn:plugin" class="footnote">1</a></sup> so you don’t need to worry how your designs are provided be that by Sketch, Photoshop, or other<sup id="fnref:indesign"><a href="#fn:indesign" class="footnote">2</a></sup>.</p>
+<p>Flawless is an absolute godsend for developers working on pixel perfect designs. It is a plugin for the iOS simulator that allows you to compare what is rendering on screen with a static image via various different modes and a slider for opacity. In this way, you can make sure that what you have built matches the image precisely. The app is a plugin for the simulator itself so you don’t need to add any extra code or frameworks to your project. It also works with static images<sup id="fnref:plugin" role="doc-noteref"><a href="#fn:plugin" class="footnote">1</a></sup> so you don’t need to worry how your designs are provided be that by Sketch, Photoshop, or other<sup id="fnref:indesign" role="doc-noteref"><a href="#fn:indesign" class="footnote">2</a></sup>.</p>
 
-<p>I’ve been lucky enough to be both a beta tester and to be interviewed by Lisa and Ahmed about my workflows to help them tweak the app. If you are an app developer that has to work to a fixed design, you should definitely check it out. Flawless is <a href="https://gum.co/SyRKm">available for macOS</a> at the bargain price of $15<sup id="fnref:price"><a href="#fn:price" class="footnote">3</a></sup> and you can find out more (and get a free trial) on their website at <a href="https://flawlessapp.io">flawlessapp.io</a>.</p>
+<p>I’ve been lucky enough to be both a beta tester and to be interviewed by Lisa and Ahmed about my workflows to help them tweak the app. If you are an app developer that has to work to a fixed design, you should definitely check it out. Flawless is <a href="https://gum.co/SyRKm">available for macOS</a> at the bargain price of $15<sup id="fnref:price" role="doc-noteref"><a href="#fn:price" class="footnote">3</a></sup> and you can find out more (and get a free trial) on their website at <a href="https://flawlessapp.io">flawlessapp.io</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:plugin">
-      <p>I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. <a href="#fnref:plugin" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:plugin" role="doc-endnote">
+      <p>I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. <a href="#fnref:plugin" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:indesign">
-      <p>I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 <a href="#fnref:indesign" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:indesign" role="doc-endnote">
+      <p>I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 <a href="#fnref:indesign" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:price">
-      <p>This has saved me so many subsequent bug follow ups that $15 is almost criminally low. <a href="#fnref:price" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:price" role="doc-endnote">
+      <p>This has saved me so many subsequent bug follow ups that $15 is almost criminally low. <a href="#fnref:price" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -229,17 +229,17 @@
 
 <p>The main update has been a completely new design which fits the more modern “flat” design which was made popular by iOS 7 whilst also putting the navigation within easy thumb reach even on plus-sized devices. There are also many new functionality changes such as an improved bee picker and fact files on each type of bee that can give you a lot more information.</p>
 
-<p>As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch<sup id="fnref:scratch"><a href="#fn:scratch" class="footnote">1</a></sup> so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background<sup id="fnref:background"><a href="#fn:background" class="footnote">2</a></sup>.</p>
+<p>As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch<sup id="fnref:scratch" role="doc-noteref"><a href="#fn:scratch" class="footnote">1</a></sup> so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background<sup id="fnref:background" role="doc-noteref"><a href="#fn:background" class="footnote">2</a></sup>.</p>
 
 <p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:scratch">
-      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:scratch" role="doc-endnote">
+      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:background">
-      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:background" role="doc-endnote">
+      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -259,7 +259,7 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/reactioncam.jpg" width="800" height="426" /></p>
 
-<p>I was hired by Elliott Brock to build Reaction Cam, an easy-to-use app that allows you to quickly record and share your reaction to anything from video to content in a browser. Due to the limitations of iOS sandboxing, this was an immense technical challenge but the end result is incredibly slick with the power to record a reaction and the content on screen at the same time. Once recording is complete, you can edit your reaction and the content by trimming and rotating as well as swapping what is used as the “picture in picture” recording (or disabling it altogether)<sup id="fnref:pip"><a href="#fn:pip" class="footnote">1</a></sup>. A single file is exported at the end of the process for easy sharing with friends on social media.</p>
+<p>I was hired by Elliott Brock to build Reaction Cam, an easy-to-use app that allows you to quickly record and share your reaction to anything from video to content in a browser. Due to the limitations of iOS sandboxing, this was an immense technical challenge but the end result is incredibly slick with the power to record a reaction and the content on screen at the same time. Once recording is complete, you can edit your reaction and the content by trimming and rotating as well as swapping what is used as the “picture in picture” recording (or disabling it altogether)<sup id="fnref:pip" role="doc-noteref"><a href="#fn:pip" class="footnote">1</a></sup>. A single file is exported at the end of the process for easy sharing with friends on social media.</p>
 
 <p>Supported media for reacting to includes video (both saved on device and online), photos (complete with a swipeable scrolling interface), and a full browser for viewing everything from tweets to blog posts. In addition to the app, I also built an API and an admin system so that Elliott could handpick recommended videos to react to as well as publishing some of the reactions that had been recorded with the app.</p>
 
@@ -267,10 +267,10 @@
 
 <p>I really enjoyed working with Elliott on Reaction Cam and hope that people will find it to be a best-in-class app for reaction recording. You can download <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam on the App Store</a> and learn more about it on the <a href="http://reactioncamtv.moonfruit.com/">Reaction Cam website</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:pip">
-      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:pip" role="doc-endnote">
+      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -311,32 +311,32 @@
     	<div>
 			<p>I’ve been running my <a href="https://kyloben.co.uk/">Kylo Ben</a> website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interesting links I’ve found, my articles, podcasts, game releases, games I’ve played, and games I’ve purchased which means an average post will take between 1.5 to 2 hours to write. Being a developer means I can build my own digital tools to help me out and so last week I built a few little tools to help cut that time dramatically.</p>
 
-<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket"><a href="#fn:pocket" class="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
+<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket" role="doc-noteref"><a href="#fn:pocket" class="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-ios-extension.jpg" width="800" height="600" alt="[app name] would like to access Apple Music" /></p>
 
-<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality"><a href="#fn:codequality" class="footnote">2</a></sup>:</p>
+<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality" role="doc-noteref"><a href="#fn:codequality" class="footnote">2</a></sup>:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">ShareViewController</span><span class="p">:</span> <span class="bp">SLComposeServiceViewController</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">ShareViewController</span><span class="p">:</span> <span class="kt">SLComposeServiceViewController</span> <span class="p">{</span>
 
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Bool</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
         <span class="k">return</span> <span class="kc">true</span>
     <span class="p">}</span>
 
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">extensionContext</span><span class="p">?.</span><span class="n">inputItems</span><span class="p">.</span><span class="bp">first</span> <span class="k">as</span><span class="p">?</span> <span class="bp">NSExtensionItem</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">itemProvider</span> <span class="p">=</span> <span class="n">item</span><span class="p">.</span><span class="n">attachments</span><span class="p">?.</span><span class="bp">first</span> <span class="k">as</span><span class="p">?</span> <span class="bp">NSItemProvider</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="n">itemProvider</span><span class="p">.</span><span class="n">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">itemProvider</span><span class="p">.</span><span class="n">loadItem</span><span class="p">(</span><span class="n">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="nb">String</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="kd">let</span> <span class="nv">shareURL</span> <span class="p">=</span> <span class="n">url</span> <span class="k">as</span><span class="p">?</span> <span class="n">URL</span> <span class="p">{</span>
-                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">shareURL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="kc">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="n">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">UIAlertController</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;ERROR&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s">&quot;That didn&#39;t work: </span><span class="si">\(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="si">)</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
-                                <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">UIAlertAction</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
-                                    <span class="kc">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="p">!.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">extensionContext</span><span class="p">?</span><span class="o">.</span><span class="n">inputItems</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSExtensionItem</span><span class="p">,</span> <span class="k">let</span> <span class="nv">itemProvider</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">attachments</span><span class="p">?</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSItemProvider</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="n">itemProvider</span><span class="o">.</span><span class="nf">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">itemProvider</span><span class="o">.</span><span class="nf">loadItem</span><span class="p">(</span><span class="nv">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">shareURL</span> <span class="o">=</span> <span class="n">url</span> <span class="k">as?</span> <span class="kt">URL</span> <span class="p">{</span>
+                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">shareURL</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">textView</span><span class="o">.</span><span class="n">text</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"ERROR"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="s">"That didn't work: </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="se">)</span><span class="s">"</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+                                <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
+                                    <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                                 <span class="p">}))</span>
-                                <span class="kc">self</span><span class="p">.</span><span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                                <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="kc">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="p">!.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                                <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                             <span class="p">}</span>
                         <span class="p">})</span>
                     <span class="p">}</span>
@@ -345,31 +345,31 @@
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="p">}</span>
 
 <span class="p">}</span></code></pre></figure>
 
-<p>This is paired with an <code>NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
+<p>This is paired with an <code class="language-plaintext highlighter-rouge">NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-safari-extension.jpg" width="800" height="86" alt="[app name] would like to access Apple Music" /></p>
 
-<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax"><a href="#fn:ajax" class="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
+<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax" role="doc-noteref"><a href="#fn:ajax" class="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">SafariExtensionHandler</span><span class="p">:</span> <span class="n">SFSafariExtensionHandler</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">SafariExtensionHandler</span><span class="p">:</span> <span class="kt">SFSafariExtensionHandler</span> <span class="p">{</span>
     
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="n">window</span><span class="p">:</span> <span class="n">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">window</span><span class="p">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
-            <span class="n">tab</span><span class="p">?.</span><span class="n">getActivePage</span><span class="p">(</span><span class="n">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
-                <span class="n">page</span><span class="p">?.</span><span class="n">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="kd">let</span> <span class="nv">properties</span> <span class="p">=</span> <span class="n">properties</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">url</span> <span class="p">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">url</span> <span class="p">{</span>
-                        <span class="kd">let</span> <span class="nv">title</span> <span class="p">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">&quot;Unknown Title&quot;</span>
-                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="n">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;PROBLEM! </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
+            <span class="n">tab</span><span class="p">?</span><span class="o">.</span><span class="nf">getActivePage</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
+                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="p">,</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">url</span> <span class="p">{</span>
+                        <span class="k">let</span> <span class="nv">title</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">"Unknown Title"</span>
+                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="kt">NSLog</span><span class="p">(</span><span class="s">"PROBLEM! </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="n">page</span><span class="p">?.</span><span class="n">reload</span><span class="p">()</span>
+                                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">reload</span><span class="p">()</span>
                             <span class="p">}</span>
                         <span class="p">})</span>
                     <span class="p">}</span>
@@ -384,17 +384,17 @@
 
 <p>The basic template of my weekly update is the same every week and I used to use a number of custom MySQL queries to pull out the various information I needed and then write it up manually. Now that I have my links stored in my database, I decided to write a PHP script to generate as much of my update as possible so all I need to do is fill in some of the blanks that aren’t automatically provided (i.e. upcoming game release dates) and write my own thoughts and opinions around the news articles. I have a basic PHP script which runs a number of MySQL queries and then generates a Markdown document like this:</p>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Introduction...
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Introduction...
 
 ###News
 
-[Final Fantasy 15&#39;s PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
+[Final Fantasy 15's PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
 
 [New PlayStation 4 Pro patch for Final Fantasy XV makes it look worse | Ars Technica](https://arstechnica.com/gaming/2017/02/new-playstation-4-pro-patch-for-final-fantasy-xv-makes-it-look-worse/#p3)
 
 [This tiny Nintendo Switch feature is already making fans super happy - Polygon](http://www.polygon.com/2017/2/20/14668988/nintendo-switch-click-sound-effect-joy-con)
 
-[Alto&#39;s Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
+[Alto's Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
 
 [never gonna give you up - What’s In the Box?2?! Take 2](http://tyrod.com/post/157494246009/whats-in-the-box2-take-2)
 
@@ -417,7 +417,7 @@
 And finally, 
 
 ###My Posts
-- Making the earth move with Stagehand — &quot;I really like the premise of a &quot;reverse platformer&quot; but there simply isn&#39;t enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto&#39;s Adventure_, and _Super Mario Run_&quot; [[link](https://kyloben.co.uk/stagehand-review)]
+- Making the earth move with Stagehand — "I really like the premise of a "reverse platformer" but there simply isn't enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto's Adventure_, and _Super Mario Run_" [[link](https://kyloben.co.uk/stagehand-review)]
 
 ###Podcasts
 - Podcast #xx: Title [[link]()]
@@ -442,13 +442,13 @@ This week I spent 9.6 hours playing six different games:
 
 This week I added 2 new games to my library: _Crusader Kings II_, _Night in the Woods_.
 
-Details on games I&#39;m planning on playing this week...
+Details on games I'm planning on playing this week...
 
 Until next time, have a great week!
 
 ---
 
-_Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it&#39;s this post in email form every Monday!_</code></pre></figure>
+_Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it's this post in email form every Monday!_</code></pre></figure>
 
 <p>The news URLs are simply pulled from the database and wrapped up so that each link uses the title of the page as provided by the macOS and iOS extensions. I will nearly always change the link title (as it’ll be part of a sentence) but it allows me to quickly see what an article is about without needing to open it up and re-read it. The “my posts” section requires no editing at all as it pulls the title, link, and a pull quote directly from the articles I’ve published in the previous week. The podcasts and upcoming game release sections can’t be automatically populated (yet) so I just use placeholder text for these to reduce the amount of effort required. The final section on my gaming time uses a number of queries to get the exact amount of time I’ve spent playing in the past week, adds placeholders for each game so I can write about them, and then lists out any new games I’ve added to my library; all of this is thanks to some scripts I wrote a while back that scrape my Steam and Xbox One libraries to track changes and allow me to render a page showing <a href="https://kyloben.co.uk/gaming-time/">my gaming time</a> for the past few months.</p>
 
@@ -456,16 +456,16 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 
 <p>With these tools, I can now write my weekly update pretty quickly and only have to focus on what I want to say rather than spending time on copying, pasting, and formatting. If you’re interested in video games, <a href="https://kyloben.co.uk/weekly">sign up to the weekly email</a> as it is the best way to get a digest of what has been happening over the past week as well as seeing what new games are arriving.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:pocket">
-      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:pocket" role="doc-endnote">
+      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:codequality">
-      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:codequality" role="doc-endnote">
+      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:ajax">
-      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:ajax" role="doc-endnote">
+      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
@@ -499,30 +499,30 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
   <p>Is all this inconvenient? Absolutely. But it’s the only sane course of action when you consider the gravity of your data falling into the wrong hands.</p>
 </blockquote>
 
-<p>I’ve seen similar <a href="https://twitter.com/eagle8/status/831827723039416321">responses on Twitter</a> including one that you should use a burner phone with a different sim. This is all massively inconvenient, even if you follow the “wipe everything and reinstall once you’ve landed” method; bear in mind that the average iPhone takes hours to re-download all of its data<sup id="fnref:downloaddata"><a href="#fn:downloaddata" class="footnote">1</a></sup> at a point when you likely need to get maps, book transport, etc.</p>
+<p>I’ve seen similar <a href="https://twitter.com/eagle8/status/831827723039416321">responses on Twitter</a> including one that you should use a burner phone with a different sim. This is all massively inconvenient, even if you follow the “wipe everything and reinstall once you’ve landed” method; bear in mind that the average iPhone takes hours to re-download all of its data<sup id="fnref:downloaddata" role="doc-noteref"><a href="#fn:downloaddata" class="footnote">1</a></sup> at a point when you likely need to get maps, book transport, etc.</p>
 
-<p>My suggestion is much simpler; Apple (and other handset manufacturers) should introduce an <em>Erase Data Passcode</em>. This would be a user-defined passcode<sup id="fnref:touchid"><a href="#fn:touchid" class="footnote">2</a></sup> that when entered immediately performs a secure wipe of the device in a similar way in which the existing “Erase Data” option works<sup id="fnref:erasedata"><a href="#fn:erasedata" class="footnote">3</a></sup>. It would be expected that the device would disable power-off options during the secure wipe so that the only way to stop it would be to remove the battery (which in most circumstances would take considerable time at which point the data would be erased).</p>
+<p>My suggestion is much simpler; Apple (and other handset manufacturers) should introduce an <em>Erase Data Passcode</em>. This would be a user-defined passcode<sup id="fnref:touchid" role="doc-noteref"><a href="#fn:touchid" class="footnote">2</a></sup> that when entered immediately performs a secure wipe of the device in a similar way in which the existing “Erase Data” option works<sup id="fnref:erasedata" role="doc-noteref"><a href="#fn:erasedata" class="footnote">3</a></sup>. It would be expected that the device would disable power-off options during the secure wipe so that the only way to stop it would be to remove the battery (which in most circumstances would take considerable time at which point the data would be erased).</p>
 
-<p>This is a solution that would also work in other cases such as theft, muggings, or a jealous partner. Whilst Apple have long had the option to remotely wipe your device via iCloud.com this has become far less easy to do quickly if you have 2-Factor Authentication enabled<sup id="fnref:2fa"><a href="#fn:2fa" class="footnote">4</a></sup> as you may not have access to your own devices.</p>
+<p>This is a solution that would also work in other cases such as theft, muggings, or a jealous partner. Whilst Apple have long had the option to remotely wipe your device via iCloud.com this has become far less easy to do quickly if you have 2-Factor Authentication enabled<sup id="fnref:2fa" role="doc-noteref"><a href="#fn:2fa" class="footnote">4</a></sup> as you may not have access to your own devices.</p>
 
-<p>I’ve filed a Radar on this issue (<a href="rdar://30553231">rdar://30553231</a>) and would urge any other Apple customers that deem this to be a good idea to duplicate it. Apple goes to extraordinary lengths to protect user data and fight for the privacy of its customers but all of that is pointless if you are compelled to give up the keys to your device<sup id="fnref:xkcd"><a href="#fn:xkcd" class="footnote">5</a></sup>. It is also pointless to have such powerful devices if we need to reset them every time we travel.</p>
+<p>I’ve filed a Radar on this issue (<a href="rdar://30553231">rdar://30553231</a>) and would urge any other Apple customers that deem this to be a good idea to duplicate it. Apple goes to extraordinary lengths to protect user data and fight for the privacy of its customers but all of that is pointless if you are compelled to give up the keys to your device<sup id="fnref:xkcd" role="doc-noteref"><a href="#fn:xkcd" class="footnote">5</a></sup>. It is also pointless to have such powerful devices if we need to reset them every time we travel.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:downloaddata">
-      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:downloaddata" role="doc-endnote">
+      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:touchid">
-      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:touchid" role="doc-endnote">
+      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:erasedata">
-      <p>This is an option within <code>Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:erasedata" role="doc-endnote">
+      <p>This is an option within <code class="language-plaintext highlighter-rouge">Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:2fa">
-      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:2fa" role="doc-endnote">
+      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:xkcd">
-      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:xkcd" role="doc-endnote">
+      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

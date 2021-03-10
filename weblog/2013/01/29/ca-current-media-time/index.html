@@ -80,7 +80,7 @@
 
 <p>After a lot of googling, <a href="http://www.opensource.apple.com/source/shell_cmds/shell_cmds-56/w/w.c">I found a solution</a> that was based on the device uptime rather than an arbitrary ‘absolute’ time:</p>
 
-<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">time_t</span><span class="p">)</span><span class="nf">uptime</span>
+<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">time_t</span><span class="p">)</span><span class="n">uptime</span>
 <span class="p">{</span>
     <span class="k">struct</span> <span class="n">timeval</span> <span class="n">boottime</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">mib</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">CTL_KERN</span><span class="p">,</span> <span class="n">KERN_BOOTTIME</span><span class="p">};</span>

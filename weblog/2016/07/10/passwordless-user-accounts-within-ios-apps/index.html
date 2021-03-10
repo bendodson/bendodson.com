@@ -67,50 +67,50 @@
   </li>
 </ol>
 
-<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill"><a href="#fn:overkill" class="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
+<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill" role="doc-noteref"><a href="#fn:overkill" class="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
 
-<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount"><a href="#fn:appleaccount" class="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
+<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount" role="doc-noteref"><a href="#fn:appleaccount" class="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
 
 <p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">let</span> <span class="nv">container</span> <span class="p">=</span> <span class="bp">CKContainer</span><span class="p">.</span><span class="n">defaultContainer</span><span class="p">()</span>
-<span class="n">container</span><span class="p">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">recordID</span> <span class="p">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="s">&quot;)</span>
-<span class="s">        return</span>
-<span class="s">    }</span>
-<span class="s">    </span>
-<span class="s">    NSLog(&quot;</span><span class="n">Identifier</span><span class="p">:</span> <span class="err">\</span><span class="si">(</span><span class="n">recordID</span><span class="p">.</span><span class="n">recordName</span><span class="si">)</span><span class="s">&quot;)    </span>
-<span class="s">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">container</span> <span class="o">=</span> <span class="kt">CKContainer</span><span class="o">.</span><span class="nf">defaultContainer</span><span class="p">()</span>
+<span class="n">container</span><span class="o">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="s">")
+        return
+    }
+    
+    NSLog("</span><span class="kt">Identifier</span><span class="p">:</span> <span class="p">\(</span><span class="n">recordID</span><span class="o">.</span><span class="n">recordName</span><span class="p">)</span><span class="s">")    
+}</span></code></pre></figure>
 
 <p>The identifier returned will be 34 characters long and look something like this:</p>
 
-<p><code>_e990774f93dd6625b11af6d40fceb310</code></p>
+<p><code class="language-plaintext highlighter-rouge">_e990774f93dd6625b11af6d40fceb310</code></p>
 
 <p>Once you have that, you can then send it to your server to match it against whatever content you want to link to this particular user. Now whenever they use your app on any device with the same Apple account, they’ll have access to everything without the need for a manual account creation process and without having to hand over any personal information. The entire process is completely silent and is very secure as the identifier is generated from both the Apple account and your CloudKit container - it can’t be used by other apps nor can it be reverse-engineered to give you personal details of the user.</p>
 
-<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code>import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
+<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code class="language-plaintext highlighter-rouge">import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="n">AppleCloudIdentifier</span><span class="p">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">identifier</span> <span class="p">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">AppleCloudIdentifier</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
     
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;Cloud identifier: </span><span class="si">\(</span><span class="n">identifier</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Cloud identifier: </span><span class="se">\(</span><span class="n">identifier</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>I’ve named it <code>AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
+<p>I’ve named it <code class="language-plaintext highlighter-rouge">AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
 
-<p><strong>UPDATE [3rd May 2019]:</strong> I needed use of this in a recent project and so I’ve updated the code to make use of Swift 5 and the new <code>Result</code> type.</p>
+<p><strong>UPDATE [3rd May 2019]:</strong> I needed use of this in a recent project and so I’ve updated the code to make use of Swift 5 and the new <code class="language-plaintext highlighter-rouge">Result</code> type.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:overkill">
-      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:overkill" role="doc-endnote">
+      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:appleaccount">
-      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:appleaccount" role="doc-endnote">
+      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

@@ -58,32 +58,32 @@
     	<div>
 			<p>I’ve been running my <a href="https://kyloben.co.uk/">Kylo Ben</a> website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interesting links I’ve found, my articles, podcasts, game releases, games I’ve played, and games I’ve purchased which means an average post will take between 1.5 to 2 hours to write. Being a developer means I can build my own digital tools to help me out and so last week I built a few little tools to help cut that time dramatically.</p>
 
-<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket"><a href="#fn:pocket" class="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
+<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket" role="doc-noteref"><a href="#fn:pocket" class="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-ios-extension.jpg" width="800" height="600" alt="[app name] would like to access Apple Music" /></p>
 
-<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality"><a href="#fn:codequality" class="footnote">2</a></sup>:</p>
+<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality" role="doc-noteref"><a href="#fn:codequality" class="footnote">2</a></sup>:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">ShareViewController</span><span class="p">:</span> <span class="bp">SLComposeServiceViewController</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">ShareViewController</span><span class="p">:</span> <span class="kt">SLComposeServiceViewController</span> <span class="p">{</span>
 
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Bool</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
         <span class="k">return</span> <span class="kc">true</span>
     <span class="p">}</span>
 
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="kd">let</span> <span class="nv">item</span> <span class="p">=</span> <span class="n">extensionContext</span><span class="p">?.</span><span class="n">inputItems</span><span class="p">.</span><span class="bp">first</span> <span class="k">as</span><span class="p">?</span> <span class="bp">NSExtensionItem</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">itemProvider</span> <span class="p">=</span> <span class="n">item</span><span class="p">.</span><span class="n">attachments</span><span class="p">?.</span><span class="bp">first</span> <span class="k">as</span><span class="p">?</span> <span class="bp">NSItemProvider</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="n">itemProvider</span><span class="p">.</span><span class="n">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">itemProvider</span><span class="p">.</span><span class="n">loadItem</span><span class="p">(</span><span class="n">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="nb">String</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="kd">let</span> <span class="nv">shareURL</span> <span class="p">=</span> <span class="n">url</span> <span class="k">as</span><span class="p">?</span> <span class="n">URL</span> <span class="p">{</span>
-                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">shareURL</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="kc">self</span><span class="p">.</span><span class="n">textView</span><span class="p">.</span><span class="n">text</span><span class="p">],</span> <span class="n">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="kd">let</span> <span class="nv">controller</span> <span class="p">=</span> <span class="bp">UIAlertController</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;ERROR&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s">&quot;That didn&#39;t work: </span><span class="si">\(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="si">)</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">preferredStyle</span><span class="p">:</span> <span class="p">.</span><span class="n">alert</span><span class="p">)</span>
-                                <span class="n">controller</span><span class="p">.</span><span class="n">addAction</span><span class="p">(</span><span class="bp">UIAlertAction</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
-                                    <span class="kc">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="p">!.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">extensionContext</span><span class="p">?</span><span class="o">.</span><span class="n">inputItems</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSExtensionItem</span><span class="p">,</span> <span class="k">let</span> <span class="nv">itemProvider</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">attachments</span><span class="p">?</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSItemProvider</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="n">itemProvider</span><span class="o">.</span><span class="nf">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">itemProvider</span><span class="o">.</span><span class="nf">loadItem</span><span class="p">(</span><span class="nv">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">shareURL</span> <span class="o">=</span> <span class="n">url</span> <span class="k">as?</span> <span class="kt">URL</span> <span class="p">{</span>
+                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">shareURL</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">textView</span><span class="o">.</span><span class="n">text</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"ERROR"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="s">"That didn't work: </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="se">)</span><span class="s">"</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+                                <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
+                                    <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                                 <span class="p">}))</span>
-                                <span class="kc">self</span><span class="p">.</span><span class="n">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                                <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="kc">self</span><span class="p">.</span><span class="n">extensionContext</span><span class="p">!.</span><span class="n">completeRequest</span><span class="p">(</span><span class="n">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="n">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                                <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
                             <span class="p">}</span>
                         <span class="p">})</span>
                     <span class="p">}</span>
@@ -92,31 +92,31 @@
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="p">}</span>
 
 <span class="p">}</span></code></pre></figure>
 
-<p>This is paired with an <code>NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
+<p>This is paired with an <code class="language-plaintext highlighter-rouge">NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-safari-extension.jpg" width="800" height="86" alt="[app name] would like to access Apple Music" /></p>
 
-<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax"><a href="#fn:ajax" class="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
+<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax" role="doc-noteref"><a href="#fn:ajax" class="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">class</span> <span class="nc">SafariExtensionHandler</span><span class="p">:</span> <span class="n">SFSafariExtensionHandler</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">SafariExtensionHandler</span><span class="p">:</span> <span class="kt">SFSafariExtensionHandler</span> <span class="p">{</span>
     
-    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="n">window</span><span class="p">:</span> <span class="n">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">window</span><span class="p">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
-            <span class="n">tab</span><span class="p">?.</span><span class="n">getActivePage</span><span class="p">(</span><span class="n">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
-                <span class="n">page</span><span class="p">?.</span><span class="n">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="kd">let</span> <span class="nv">properties</span> <span class="p">=</span> <span class="n">properties</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">url</span> <span class="p">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">url</span> <span class="p">{</span>
-                        <span class="kd">let</span> <span class="nv">title</span> <span class="p">=</span> <span class="n">properties</span><span class="p">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">&quot;Unknown Title&quot;</span>
-                        <span class="n">APIClient</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;save&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="n">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="kd">let</span> <span class="nv">error</span> <span class="p">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="n">NSLog</span><span class="p">(</span><span class="s">&quot;PROBLEM! </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
+            <span class="n">tab</span><span class="p">?</span><span class="o">.</span><span class="nf">getActivePage</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
+                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="p">,</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">url</span> <span class="p">{</span>
+                        <span class="k">let</span> <span class="nv">title</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">"Unknown Title"</span>
+                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="kt">NSLog</span><span class="p">(</span><span class="s">"PROBLEM! </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="n">page</span><span class="p">?.</span><span class="n">reload</span><span class="p">()</span>
+                                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">reload</span><span class="p">()</span>
                             <span class="p">}</span>
                         <span class="p">})</span>
                     <span class="p">}</span>
@@ -131,17 +131,17 @@
 
 <p>The basic template of my weekly update is the same every week and I used to use a number of custom MySQL queries to pull out the various information I needed and then write it up manually. Now that I have my links stored in my database, I decided to write a PHP script to generate as much of my update as possible so all I need to do is fill in some of the blanks that aren’t automatically provided (i.e. upcoming game release dates) and write my own thoughts and opinions around the news articles. I have a basic PHP script which runs a number of MySQL queries and then generates a Markdown document like this:</p>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Introduction...
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Introduction...
 
 ###News
 
-[Final Fantasy 15&#39;s PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
+[Final Fantasy 15's PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
 
 [New PlayStation 4 Pro patch for Final Fantasy XV makes it look worse | Ars Technica](https://arstechnica.com/gaming/2017/02/new-playstation-4-pro-patch-for-final-fantasy-xv-makes-it-look-worse/#p3)
 
 [This tiny Nintendo Switch feature is already making fans super happy - Polygon](http://www.polygon.com/2017/2/20/14668988/nintendo-switch-click-sound-effect-joy-con)
 
-[Alto&#39;s Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
+[Alto's Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
 
 [never gonna give you up - What’s In the Box?2?! Take 2](http://tyrod.com/post/157494246009/whats-in-the-box2-take-2)
 
@@ -164,7 +164,7 @@
 And finally, 
 
 ###My Posts
-- Making the earth move with Stagehand — &quot;I really like the premise of a &quot;reverse platformer&quot; but there simply isn&#39;t enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto&#39;s Adventure_, and _Super Mario Run_&quot; [[link](https://kyloben.co.uk/stagehand-review)]
+- Making the earth move with Stagehand — "I really like the premise of a "reverse platformer" but there simply isn't enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto's Adventure_, and _Super Mario Run_" [[link](https://kyloben.co.uk/stagehand-review)]
 
 ###Podcasts
 - Podcast #xx: Title [[link]()]
@@ -189,13 +189,13 @@ This week I spent 9.6 hours playing six different games:
 
 This week I added 2 new games to my library: _Crusader Kings II_, _Night in the Woods_.
 
-Details on games I&#39;m planning on playing this week...
+Details on games I'm planning on playing this week...
 
 Until next time, have a great week!
 
 ---
 
-_Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it&#39;s this post in email form every Monday!_</code></pre></figure>
+_Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it's this post in email form every Monday!_</code></pre></figure>
 
 <p>The news URLs are simply pulled from the database and wrapped up so that each link uses the title of the page as provided by the macOS and iOS extensions. I will nearly always change the link title (as it’ll be part of a sentence) but it allows me to quickly see what an article is about without needing to open it up and re-read it. The “my posts” section requires no editing at all as it pulls the title, link, and a pull quote directly from the articles I’ve published in the previous week. The podcasts and upcoming game release sections can’t be automatically populated (yet) so I just use placeholder text for these to reduce the amount of effort required. The final section on my gaming time uses a number of queries to get the exact amount of time I’ve spent playing in the past week, adds placeholders for each game so I can write about them, and then lists out any new games I’ve added to my library; all of this is thanks to some scripts I wrote a while back that scrape my Steam and Xbox One libraries to track changes and allow me to render a page showing <a href="https://kyloben.co.uk/gaming-time/">my gaming time</a> for the past few months.</p>
 
@@ -203,16 +203,16 @@ _Did you enjoy this weekly roundup? Make sure you don&#39;t miss one by subscrib
 
 <p>With these tools, I can now write my weekly update pretty quickly and only have to focus on what I want to say rather than spending time on copying, pasting, and formatting. If you’re interested in video games, <a href="https://kyloben.co.uk/weekly">sign up to the weekly email</a> as it is the best way to get a digest of what has been happening over the past week as well as seeing what new games are arriving.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:pocket">
-      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:pocket" role="doc-endnote">
+      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:codequality">
-      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:codequality" role="doc-endnote">
+      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:ajax">
-      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:ajax" role="doc-endnote">
+      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

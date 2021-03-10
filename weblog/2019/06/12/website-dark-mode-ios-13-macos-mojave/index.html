@@ -59,50 +59,50 @@
 			<time datetime="2019-06-12" pubdate=""><a href="/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/">June 12, 2019</a></time>
     	</header>
     	<div>
-			<p>On our <a href="https://thecheckedshirt.com/episode-35"><em>The Checked Shirt</em></a> podcast yesterday, Jason and I were discussing the announcements at WWDC and in particular the new “Dark Mode” in iOS 13<sup id="fnref:darkmodehypo"><a href="#fn:darkmodehypo" class="footnote">1</a></sup>. One question Jason asked (as I’m running the iOS 13 beta) is how Safari treats websites; are the colours suddenly inverted?</p>
+			<p>On our <a href="https://thecheckedshirt.com/episode-35"><em>The Checked Shirt</em></a> podcast yesterday, Jason and I were discussing the announcements at WWDC and in particular the new “Dark Mode” in iOS 13<sup id="fnref:darkmodehypo" role="doc-noteref"><a href="#fn:darkmodehypo" class="footnote">1</a></sup>. One question Jason asked (as I’m running the iOS 13 beta) is how Safari treats websites; are the colours suddenly inverted?</p>
 
-<p>No. It turns out that just before the release of macOS Mojave last year, the W3C added a draft spec for <code>prefers-color-scheme</code> which is supported by Safari (from v12.1), Chrome (from v76), and Firefox (from v67). Since iOS 13 also includes a dark mode, Mobile Safari now supports this selector as well.</p>
+<p>No. It turns out that just before the release of macOS Mojave last year, the W3C added a draft spec for <code class="language-plaintext highlighter-rouge">prefers-color-scheme</code> which is supported by Safari (from v12.1), Chrome (from v76), and Firefox (from v67). Since iOS 13 also includes a dark mode, Mobile Safari now supports this selector as well.</p>
 
 <p>There are three possible values:</p>
 
 <ul>
-  <li><code>no-preference</code> (evaluates as false): the default value if the device doesn’t support a mode or if the user hasn’t made a choice</li>
-  <li><code>light</code>: the user has chosen a light theme</li>
-  <li><code>dark</code>: the user has chosen a dark theme</li>
+  <li><code class="language-plaintext highlighter-rouge">no-preference</code> (evaluates as false): the default value if the device doesn’t support a mode or if the user hasn’t made a choice</li>
+  <li><code class="language-plaintext highlighter-rouge">light</code>: the user has chosen a light theme</li>
+  <li><code class="language-plaintext highlighter-rouge">dark</code>: the user has chosen a dark theme</li>
 </ul>
 
-<p>In practice, usage is insanely simple. For my own website, my CSS is entirely for the light theme and then I use <code>@media (prefers-color-scheme: dark)</code> to override the relevant pieces for my dark mode like such:</p>
+<p>In practice, usage is insanely simple. For my own website, my CSS is entirely for the light theme and then I use <code class="language-plaintext highlighter-rouge">@media (prefers-color-scheme: dark)</code> to override the relevant pieces for my dark mode like such:</p>
 
-<figure class="highlight"><pre><code class="language-css" data-lang="css"><span></span><span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">prefers-color-scheme</span><span class="o">:</span> <span class="nt">dark</span><span class="o">)</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="k">@media</span> <span class="p">(</span><span class="n">prefers-color-scheme</span><span class="p">:</span> <span class="n">dark</span><span class="p">)</span> <span class="p">{</span>
     <span class="nt">body</span> <span class="p">{</span>
-        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
-        <span class="k">background</span><span class="p">:</span> <span class="mh">#000</span><span class="p">;</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
+        <span class="nl">background</span><span class="p">:</span> <span class="m">#000</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="nt">a</span> <span class="p">{</span>
-        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
-        <span class="k">border-bottom</span><span class="p">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="kc">solid</span> <span class="mh">#fff</span><span class="p">;</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
+        <span class="nl">border-bottom</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#fff</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="nt">footer</span> <span class="nt">p</span> <span class="p">{</span>
-        <span class="k">color</span><span class="p">:</span> <span class="mh">#aaa</span><span class="p">;</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="m">#aaa</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="nt">header</span> <span class="nt">h1</span><span class="o">,</span>
     <span class="nt">header</span> <span class="nt">h2</span> <span class="p">{</span>
-        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="nt">header</span> <span class="nt">h1</span> <span class="nt">a</span> <span class="p">{</span>
-        <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
     <span class="p">}</span>
 
     <span class="nt">nav</span> <span class="nt">ul</span> <span class="nt">li</span> <span class="p">{</span>
-        <span class="k">background</span><span class="p">:</span> <span class="mh">#000</span><span class="p">;</span>
+        <span class="nl">background</span><span class="p">:</span> <span class="m">#000</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="p">.</span><span class="nc">divider</span> <span class="p">{</span>
-        <span class="k">border-bottom</span><span class="p">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="kc">solid</span> <span class="mh">#ddd</span><span class="p">;</span>
+    <span class="nc">.divider</span> <span class="p">{</span>
+        <span class="nl">border-bottom</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#ddd</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
@@ -114,10 +114,10 @@
 
 <p>I haven’t seen many websites provide an automatic dark mode switcher but I have a feeling it will become far more popular once iOS 13 is released later this year.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:darkmodehypo">
-      <p>Of which I am rightly a hypocrite having complained for years about the never-ending demand for such a mode only to find that I quite like using it… <a href="#fnref:darkmodehypo" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:darkmodehypo" role="doc-endnote">
+      <p>Of which I am rightly a hypocrite having complained for years about the never-ending demand for such a mode only to find that I quite like using it… <a href="#fnref:darkmodehypo" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

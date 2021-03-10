@@ -56,34 +56,34 @@
 			<time datetime="2016-09-10" pubdate=""><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">September 10, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
+			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp" role="doc-noteref"><a href="#fn:imessageapp" class="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
 
-<p>As each article is <code>UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
+<p>As each article is <code class="language-plaintext highlighter-rouge">UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
 
-<p>Thankfully this is fairly easy if we use the <code>srand48</code> and <code>drand48</code> functions:</p>
+<p>Thankfully this is fairly easy if we use the <code class="language-plaintext highlighter-rouge">srand48</code> and <code class="language-plaintext highlighter-rouge">drand48</code> functions:</p>
 
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span></span><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="bp">UIColor</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="nv">seed</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIColor</span> <span class="p">{</span>
     
-    <span class="kd">var</span> <span class="nv">total</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="p">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="nb">Int</span><span class="p">(</span><span class="nb">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="k">var</span> <span class="nv">total</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="o">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="kt">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
     <span class="p">}</span>
     
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">r</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
     
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">g</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">g</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
     
-    <span class="n">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="kd">let</span> <span class="nv">b</span> <span class="p">=</span> <span class="n">CGFloat</span><span class="p">(</span><span class="n">drand48</span><span class="p">())</span>
+    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
     
-    <span class="k">return</span> <span class="bp">UIColor</span><span class="p">(</span><span class="n">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code>drand48</code> function by using <code>srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
+<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code class="language-plaintext highlighter-rouge">drand48</code> function by using <code class="language-plaintext highlighter-rouge">srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
 
 <p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
 
@@ -91,10 +91,10 @@
 
 <p>As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:imessageapp">
-      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:imessageapp" role="doc-endnote">
+      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

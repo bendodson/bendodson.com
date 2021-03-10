@@ -78,39 +78,39 @@
 
 <p>The Windows Live login, on the other hand, is an entirely different kettle of fish!  The URL you are posting to changes on each request as do the variables that you are posting.  This means we need to make a request to the login page first of all and extract all of the data from the hidden input fields as well as the action attribute of the form.  We can then go about posting that data (along with our email address and password) to the URL we just extracted.  This POST goes through a HTTPS connection though, so we need to modify our cURL request further in order to ensure that SSL certificates are just accepted without question.  Our overall cURL request, with all of these options, will look roughly like this:</p>
 
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span></span><span class="cp">&lt;?php</span>
-<span class="c1">// set up cURL request - the $url would be the action URL that you&#39;re POSTing to</span>
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
+<span class="c1">// set up cURL request - the $url would be the action URL that you're POSTing to</span>
 <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
 
-<span class="c1">// make sure the script follows all redirects and sets each one as the referer of the next request</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_AUTOREFERER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="c1">// make sure the script follows all redirects and sets each one as the referer of the next request</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_AUTOREFERER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
-<span class="c1">// ssl options - don&#39;t verify each certificate, just accept it</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="c1">// ssl options - don't verify each certificate, just accept it</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
-<span class="c1">// fake the user-agent so the site thinks we are a browser, in this case Safari 3.2.1</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="s1">&#39;Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1&#39;</span><span class="p">);</span>
+<span class="c1">// fake the user-agent so the site thinks we are a browser, in this case Safari 3.2.1</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_USERAGENT</span><span class="p">,</span> <span class="s1">'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1'</span><span class="p">);</span>
 
-<span class="c1">// tell cURL to use a text file for all cookies used in the request - $cookie should be a path to a txt file with 755 permissions</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_COOKIEFILE</span><span class="p">,</span> <span class="nv">$cookie</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_COOKIEJAR</span><span class="p">,</span> <span class="nv">$cookie</span><span class="p">);</span>
+<span class="c1">// tell cURL to use a text file for all cookies used in the request - $cookie should be a path to a txt file with 755 permissions</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_COOKIEFILE</span><span class="p">,</span> <span class="nv">$cookie</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_COOKIEJAR</span><span class="p">,</span> <span class="nv">$cookie</span><span class="p">);</span>
 
-<span class="c1">// post options - the data that is going to be sent to the server.  $post should be an array with key=&gt;var pairs of each piece to be sent</span>
+<span class="c1">// post options - the data that is going to be sent to the server.  $post should be an array with key=&gt;var pairs of each piece to be sent</span>
 <span class="k">foreach</span> <span class="p">(</span><span class="nv">$post</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$var</span><span class="p">)</span>
 <span class="p">{</span>
-	<span class="nv">$postfields</span> <span class="o">.=</span> <span class="nv">$key</span> <span class="o">.</span> <span class="s1">&#39;=&#39;</span> <span class="o">.</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nv">$var</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">;</span>
+	<span class="nv">$postfields</span> <span class="mf">.</span><span class="o">=</span> <span class="nv">$key</span> <span class="mf">.</span> <span class="s1">'='</span> <span class="mf">.</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nv">$var</span><span class="p">)</span> <span class="mf">.</span> <span class="s1">'&amp;'</span><span class="p">;</span>
 <span class="p">}</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$postfields</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$postfields</span><span class="p">);</span>
 
-<span class="c1">// make the request and save the result as $response - then close the request</span>
+<span class="c1">// make the request and save the result as $response - then close the request</span>
 <span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
 <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span><span class="x"></span></code></pre></figure>
+<span class="cp">?&gt;</span></code></pre></figure>
 
 <p>I had thought that this would be the end of it and that the returned data would be the first page after logging into Windows Live.  Instead, I got nothing.  Absolutely nothing.  No matter what settings I tinkered with or parts of the code I changed, it was just returning blank.  It was then that I noticed the rather unpleasant JavaScript files on the page and some suspicious &lt;noscript&gt; code at the top of the page.  If you load the login page without JavaScript in a normal browser, then the code in the &lt;noscript&gt; section gets read which has a meta redirect to send you to a page telling you that you must have JavaScript enabled!  I hadn't noticed this previously as my cURL request doesn't understand HTML, it was just returning it as a big lump so I was able to get all of the variables, etc, out without being redirected as I would be in a normal browser.</p>
 

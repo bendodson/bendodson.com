@@ -69,7 +69,7 @@
   <p>These types define the schema that Siri uses to identify requests the user makes; for example, “Order tomato soup with cheese.” The parameter combination for this example is: soup and options.</p>
 </blockquote>
 
-<p>When I dug into the code, I found this new <code>Intents.intentdefinition</code> file with which you can create custom intents complete with paramater binding.</p>
+<p>When I dug into the code, I found this new <code class="language-plaintext highlighter-rouge">Intents.intentdefinition</code> file with which you can create custom intents complete with paramater binding.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-custom-intent.jpg" alt="Custom Intent creation with SiriKit" width="800" height="640" /></p>
 
@@ -87,30 +87,30 @@
 
 <p>If you are unable to write custom Siri scripts, what then is the point of the new custom intent? It is designed to give you a quick shortcut to commonly used tasks.</p>
 
-<p>In many ways, the Tile app is the perfect demo as it really only does one thing which is to find a specific object. The developers of Tile could create a custom intent of the sort “Find [tile:custom]” and when the app first launches on iOS 12 they can <em>donate</em> an <code>INIntent</code> for every Tile that you own; this basically registers the shortcut with the system so you are telling Siri<sup id="fnref:widgetmaster"><a href="#fn:widgetmaster" class="footnote">1</a></sup> that there is a “Find Keys” intent, “Find Remote” intent, “Find Dog” intent, etc. These intents are exposed to the user as Shortcuts both within the Settings app and in the new Shortcuts app<sup id="fnref:shortcutsapp"><a href="#fn:shortcutsapp" class="footnote">2</a></sup>. Every time you use the Tile app to find something, the specific intent for that device can be re-donated to the system which helps Siri learn and enables it to prompt you when you may need to do this. For example, if you open your Tile app every morning at 8am and tap on your “Keys” Tile to find it, then that “Find Keys” intent is donated to the system helping Siri realise it should probably show you that intent just before 8am. How does it show an intent? By displaying it as a Shortcut on your lock screen, notification centre, Apple Watch, or within the Shortcuts app where it can then be paired with other Shortcuts from other apps (i.e. you could have an “I’m running late” workflow which sends an iMessage to your boss, activates your find keys intent, loads up your route to work in Maps, and opens the garage ready for you to jump into your car).</p>
+<p>In many ways, the Tile app is the perfect demo as it really only does one thing which is to find a specific object. The developers of Tile could create a custom intent of the sort “Find [tile:custom]” and when the app first launches on iOS 12 they can <em>donate</em> an <code class="language-plaintext highlighter-rouge">INIntent</code> for every Tile that you own; this basically registers the shortcut with the system so you are telling Siri<sup id="fnref:widgetmaster" role="doc-noteref"><a href="#fn:widgetmaster" class="footnote">1</a></sup> that there is a “Find Keys” intent, “Find Remote” intent, “Find Dog” intent, etc. These intents are exposed to the user as Shortcuts both within the Settings app and in the new Shortcuts app<sup id="fnref:shortcutsapp" role="doc-noteref"><a href="#fn:shortcutsapp" class="footnote">2</a></sup>. Every time you use the Tile app to find something, the specific intent for that device can be re-donated to the system which helps Siri learn and enables it to prompt you when you may need to do this. For example, if you open your Tile app every morning at 8am and tap on your “Keys” Tile to find it, then that “Find Keys” intent is donated to the system helping Siri realise it should probably show you that intent just before 8am. How does it show an intent? By displaying it as a Shortcut on your lock screen, notification centre, Apple Watch, or within the Shortcuts app where it can then be paired with other Shortcuts from other apps (i.e. you could have an “I’m running late” workflow which sends an iMessage to your boss, activates your find keys intent, loads up your route to work in Maps, and opens the garage ready for you to jump into your car).</p>
 
-<p>The piece that makes this slightly more confusing is that you can add a custom Siri voice command to a Shortcut. When Craig demonstrated saying <em>“Hey Siri, I lost my keys”</em>, that is really just a voice command on the “Find Keys” custom intent and is highly specific to that particular Tile; you’d have to record a new one if you wanted to find your TV Remote Tile. These <em>Shortcut Phrases</em> can be created either from within the Settings app or an app can present a view controller<sup id="fnref:inuiaddvoiceshortcutviewcontroller"><a href="#fn:inuiaddvoiceshortcutviewcontroller" class="footnote">3</a></sup> (complete with a suggested command text) that lets the user record their custom snippet.</p>
+<p>The piece that makes this slightly more confusing is that you can add a custom Siri voice command to a Shortcut. When Craig demonstrated saying <em>“Hey Siri, I lost my keys”</em>, that is really just a voice command on the “Find Keys” custom intent and is highly specific to that particular Tile; you’d have to record a new one if you wanted to find your TV Remote Tile. These <em>Shortcut Phrases</em> can be created either from within the Settings app or an app can present a view controller<sup id="fnref:inuiaddvoiceshortcutviewcontroller" role="doc-noteref"><a href="#fn:inuiaddvoiceshortcutviewcontroller" class="footnote">3</a></sup> (complete with a suggested command text) that lets the user record their custom snippet.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-shortcut-phrases.jpg" width="800" height="600" /></p>
 
-<p>When a Shortcut is invoked (either by a Shortcut Phrase or by tapping on a Shortcut) it can either launch your app in the foreground or fire up your <code>INExtension</code> that will allow you to then return a custom UI directly within Siri. Both have their uses although again they are fairly specific.</p>
+<p>When a Shortcut is invoked (either by a Shortcut Phrase or by tapping on a Shortcut) it can either launch your app in the foreground or fire up your <code class="language-plaintext highlighter-rouge">INExtension</code> that will allow you to then return a custom UI directly within Siri. Both have their uses although again they are fairly specific.</p>
 
-<p>By way of an example, lets say I order a Chinese takeaway every Friday night<sup id="fnref:everyfriday"><a href="#fn:everyfriday" class="footnote">4</a></sup> via the Just Eat app. When I place my order, the app could create two custom intents:</p>
+<p>By way of an example, lets say I order a Chinese takeaway every Friday night<sup id="fnref:everyfriday" role="doc-noteref"><a href="#fn:everyfriday" class="footnote">4</a></sup> via the Just Eat app. When I place my order, the app could create two custom intents:</p>
 
 <ol>
-  <li>A generic intent for the takeaway venue: <code>"Order from [name:string]"</code></li>
-  <li>A specific intent for my meal: <code>"Order [menuitems:array] from [name:string]"</code></li>
+  <li>A generic intent for the takeaway venue: <code class="language-plaintext highlighter-rouge">"Order from [name:string]"</code></li>
+  <li>A specific intent for my meal: <code class="language-plaintext highlighter-rouge">"Order [menuitems:array] from [name:string]"</code></li>
 </ol>
 
 <p>The first one could launch the Just Eat app and take me directly to the menu for the takeaway I order from so I can peruse and then place my order. The second one would instead be able to place my regular order without opening the app and even provide custom UI to perform an Apple Pay transaction within Siri.</p>
 
-<p>This is super powerful when combined with other Shortcuts as I could then record a Shortcut Phrase <em>“Hey Siri, it’s Friday Friday got to get down on Friday”<sup id="fnref:friday"><a href="#fn:friday" class="footnote">5</a></sup></em> which would turn on my living room lights, open up the Netflix app on my Apple TV<sup id="fnref:dream"><a href="#fn:dream" class="footnote">6</a></sup>, lock the front door, and place my Chinese order.</p>
+<p>This is super powerful when combined with other Shortcuts as I could then record a Shortcut Phrase <em>“Hey Siri, it’s Friday Friday got to get down on Friday”<sup id="fnref:friday" role="doc-noteref"><a href="#fn:friday" class="footnote">5</a></sup></em> which would turn on my living room lights, open up the Netflix app on my Apple TV<sup id="fnref:dream" role="doc-noteref"><a href="#fn:dream" class="footnote">6</a></sup>, lock the front door, and place my Chinese order.</p>
 
 <p>The fact that these Shortcuts can be created silently by the app and then donated to Siri so it can then suggest them to you at certain points is also super interesting. Siri already knows to show the Just Eat app in my Siri App Suggestions on a Friday night so having it in the future automatically prompt me to place a repeat order will cut out some time. Once lots of apps add support for this it will be cool and perhaps a little scary to see what regular habits we have that we didn’t even realise.</p>
 
-<p>(<strong>Update:</strong> It turns out that apps have been creating Shortcuts since as far back as iOS 8. If you make use of <code>NSUserActivity</code> then these are donated automatically when calling <code>becomeCurrent()</code> or you can use the <code>donate(completion:)</code> method of <code>INInteraction</code> since iOS 10 to donate any of the standard SiriKit interactions such as starting a workout, initiating a voip call, or booking a ride. Any app that has done this, regardless of whether it has been updated for iOS 12, will show in the Shortcuts system.)</p>
+<p>(<strong>Update:</strong> It turns out that apps have been creating Shortcuts since as far back as iOS 8. If you make use of <code class="language-plaintext highlighter-rouge">NSUserActivity</code> then these are donated automatically when calling <code class="language-plaintext highlighter-rouge">becomeCurrent()</code> or you can use the <code class="language-plaintext highlighter-rouge">donate(completion:)</code> method of <code class="language-plaintext highlighter-rouge">INInteraction</code> since iOS 10 to donate any of the standard SiriKit interactions such as starting a workout, initiating a voip call, or booking a ride. Any app that has done this, regardless of whether it has been updated for iOS 12, will show in the Shortcuts system.)</p>
 
-<p>To be clear, this system is not yet at the same stage as Alexa or Google Home. You can’t say “Order half crispy aromatic duck and some egg friend rice from Peking House” without first having already placed that order and assigning a Shortcut Phrase to it. However, the jump to that system suddenly doesn’t seem so far. Siri is already getting all of the data it needs thanks to the intents parameter builder and I can’t shake the feeling that these custom Shortcut Phrases are just going to be used to train Siri to lots of different words over the coming year. There is going to need to be some clever work to avoid collisions<sup id="fnref:collisions"><a href="#fn:collisions" class="footnote">7</a></sup> but on the whole I’m excited to see where this heads next.</p>
+<p>To be clear, this system is not yet at the same stage as Alexa or Google Home. You can’t say “Order half crispy aromatic duck and some egg friend rice from Peking House” without first having already placed that order and assigning a Shortcut Phrase to it. However, the jump to that system suddenly doesn’t seem so far. Siri is already getting all of the data it needs thanks to the intents parameter builder and I can’t shake the feeling that these custom Shortcut Phrases are just going to be used to train Siri to lots of different words over the coming year. There is going to need to be some clever work to avoid collisions<sup id="fnref:collisions" role="doc-noteref"><a href="#fn:collisions" class="footnote">7</a></sup> but on the whole I’m excited to see where this heads next.</p>
 
 <p>All of the topics above are due to be covered at WWDC today and tomorrow at the following sessions:</p>
 
@@ -122,28 +122,28 @@
 
 <p>Also, don’t forget to check out the <a href="https://developer.apple.com/documentation/sirikit/accelerating_app_interactions_with_shortcuts?changes=latest_minor">Soup Chef</a> demo app.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:widgetmaster">
-      <p>Siri the widget master, not the voice. <a href="#fnref:widgetmaster" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:widgetmaster" role="doc-endnote">
+      <p>Siri the widget master, not the voice. <a href="#fnref:widgetmaster" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:shortcutsapp">
-      <p>Which is not available in iOS 12 Beta 1. <a href="#fnref:shortcutsapp" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:shortcutsapp" role="doc-endnote">
+      <p>Which is not available in iOS 12 Beta 1. <a href="#fnref:shortcutsapp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:inuiaddvoiceshortcutviewcontroller">
-      <p><a href="https://developer.apple.com/documentation/sirikit/inuiaddvoiceshortcutviewcontroller?changes=latest_minor"><code>INUIAddVoiceShortcutViewController</code></a> <a href="#fnref:inuiaddvoiceshortcutviewcontroller" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:inuiaddvoiceshortcutviewcontroller" role="doc-endnote">
+      <p><a href="https://developer.apple.com/documentation/sirikit/inuiaddvoiceshortcutviewcontroller?changes=latest_minor"><code class="language-plaintext highlighter-rouge">INUIAddVoiceShortcutViewController</code></a> <a href="#fnref:inuiaddvoiceshortcutviewcontroller" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:everyfriday">
-      <p>And maybe Tuesday night as well. Sometimes. <a href="#fnref:everyfriday" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:everyfriday" role="doc-endnote">
+      <p>And maybe Tuesday night as well. Sometimes. <a href="#fnref:everyfriday" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:friday">
-      <p><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0">It’s a classic.</a> <a href="#fnref:friday" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:friday" role="doc-endnote">
+      <p><a href="https://www.youtube.com/watch?v=kfVsfOSbJY0">It’s a classic.</a> <a href="#fnref:friday" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:dream">
-      <p>I can dream - this might be possible with the Shortcuts app but we won’t know until it appears in a later beta seed! <a href="#fnref:dream" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:dream" role="doc-endnote">
+      <p>I can dream - this might be possible with the Shortcuts app but we won’t know until it appears in a later beta seed! <a href="#fnref:dream" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:collisions">
-      <p>Even saying “Hey Siri, use Just Eat to order half crispy aromatic duck and some egg fried rice from Peking House” isn’t great as an app name is not unique (only the app name on the App Store is and even then it can’t distinguish between “Just Eat”, “JustEat”, and “Just Eat!”). It’s a solvable problem but it does add an extra layer of difficulty. <a href="#fnref:collisions" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:collisions" role="doc-endnote">
+      <p>Even saying “Hey Siri, use Just Eat to order half crispy aromatic duck and some egg fried rice from Peking House” isn’t great as an app name is not unique (only the app name on the App Store is and even then it can’t distinguish between “Just Eat”, “JustEat”, and “Just Eat!”). It’s a solvable problem but it does add an extra layer of difficulty. <a href="#fnref:collisions" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

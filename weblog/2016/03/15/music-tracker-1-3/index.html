@@ -61,9 +61,9 @@
 
 <p>In this version, I’ve focused on speed and stability. The original scanning engine has been completely rewritten from the ground up and now runs faster and for larger libraries than ever before.</p>
 
-<p>Previously, the app would wake up once an hour and have around 30 seconds in order to scan the library, look for additions, changes, and deletions, and then save all of that information locally. This worked great for small libraries on newer devices like the iPhone 6s but didn’t work so well on an iPhone 5s with a library of over 75000 songs. The reason for this is that iOS limits the amount of time an app can run in the background<sup id="fnref:sensible"><a href="#fn:sensible" class="footnote">1</a></sup>; if the entirity of the process wasn’t complete in the time allowed, then it would simply fail. This meant that customers with large libraries were typically seeing no updates as the app wasn’t able to get through the entirity of the library within the 30 second window allowed.</p>
+<p>Previously, the app would wake up once an hour and have around 30 seconds in order to scan the library, look for additions, changes, and deletions, and then save all of that information locally. This worked great for small libraries on newer devices like the iPhone 6s but didn’t work so well on an iPhone 5s with a library of over 75000 songs. The reason for this is that iOS limits the amount of time an app can run in the background<sup id="fnref:sensible" role="doc-noteref"><a href="#fn:sensible" class="footnote">1</a></sup>; if the entirity of the process wasn’t complete in the time allowed, then it would simply fail. This meant that customers with large libraries were typically seeing no updates as the app wasn’t able to get through the entirity of the library within the 30 second window allowed.</p>
 
-<p>To fix this, I rewrote the scanning engine to be faster but to also work in batches. If iOS terminates the Music Tracker process (as it is taking too long) then the current state is saved and will pick up from where it left off the next time the process is restarted<sup id="fnref:process"><a href="#fn:process" class="footnote">2</a></sup>. This means that huge libraries can now be scanned correctly as they are broken up over a few passes rather than trying to do it all at once. A nice side benefit of this is that the app can now handle older hardware<sup id="fnref:hardware"><a href="#fn:hardware" class="footnote">3</a></sup> which previously was too slow to handle even small libraries in a single pass.</p>
+<p>To fix this, I rewrote the scanning engine to be faster but to also work in batches. If iOS terminates the Music Tracker process (as it is taking too long) then the current state is saved and will pick up from where it left off the next time the process is restarted<sup id="fnref:process" role="doc-noteref"><a href="#fn:process" class="footnote">2</a></sup>. This means that huge libraries can now be scanned correctly as they are broken up over a few passes rather than trying to do it all at once. A nice side benefit of this is that the app can now handle older hardware<sup id="fnref:hardware" role="doc-noteref"><a href="#fn:hardware" class="footnote">3</a></sup> which previously was too slow to handle even small libraries in a single pass.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/music-tracker-sync.jpg" width="800" height="400" />
 In order to accomodate this new multi-pass scanning engine, I’ve also changed the way in which manual updates are performed within the app. Previously you could “pull to refresh” on the main activity page; this gave you a little spinner icon and not much detail as to what was happening. In v1.3, there is a refresh icon in the top right hand corner that will take you to a new page which details exactly what is going on and shows a progress bar so you can see that it is actually working.</p>
@@ -72,16 +72,16 @@ In order to accomodate this new multi-pass scanning engine, I’ve also changed 
 
 <p>One final thing: on the <a href="https://dancounsell.com/articles/a-better-format-for-press-kits">advice of Dan Counsell</a>, I’ve changed my <a href="https://dodoapps.io/music-tracker/media-kit/">press media kit</a> to be a standard HTML page with full access to everything the old zip download contained including details of the app, screenshots, icons, and mockup images. This makes it easier for the many iOS journalists who have switched to using something like the iPad Pro as their main work machine which doesn’t handle zip files particularly well. You can <a href="https://dodoapps.io/music-tracker/media-kit/">check out the online media kit</a> or <a href="https://bendodson.s3.amazonaws.com/dodo/music-tracker-media-kit.zip">download the media kit as a zip file</a>.</p>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:sensible">
-      <p>This is a sensible thing; tasks should not be allowed to run for large periods of time in the background otherwise they’ll kill your battery. <a href="#fnref:sensible" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:sensible" role="doc-endnote">
+      <p>This is a sensible thing; tasks should not be allowed to run for large periods of time in the background otherwise they’ll kill your battery. <a href="#fnref:sensible" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:process">
-      <p>Music Tracker typically wakes up every hour to check for changes. <a href="#fnref:process" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:process" role="doc-endnote">
+      <p>Music Tracker typically wakes up every hour to check for changes. <a href="#fnref:process" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:hardware">
-      <p>Previously the app was only available on devices with a 64-bit chip. Music Tracker now runs on any device capable of running iOS 9.0 which means the iPhone 4s, iPhone 5, and iPhone 5c are now supported. <a href="#fnref:hardware" class="reversefootnote">&#8617;&#xfe0e;</a></p>
+    <li id="fn:hardware" role="doc-endnote">
+      <p>Previously the app was only available on devices with a 64-bit chip. Music Tracker now runs on any device capable of running iOS 9.0 which means the iPhone 4s, iPhone 5, and iPhone 5c are now supported. <a href="#fnref:hardware" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
