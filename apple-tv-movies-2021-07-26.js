@@ -33,7 +33,7 @@ function transformToAssocArray( prmstr ) {
 	
 function performSearch() {
     $('#results').html('');
-    $('#results').append('<h3>Searching...</h3>');
+    $('#results').append('<h3>Searching...</h3><p>This search tool communicates directly with Apple\'s servers. If this page does not refresh, please ensure you have any content blockers or ad blockers disabled (or whitelist this website) as they can interfere with the communication with Apple. This website does not contain any adverts, analytics, or any form of tracking.');
 
     var query = $('#query').val();
     if (!query.length) {
