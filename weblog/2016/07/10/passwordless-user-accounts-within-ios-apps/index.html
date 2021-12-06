@@ -67,9 +67,9 @@
   </li>
 </ol>
 
-<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill" role="doc-noteref"><a href="#fn:overkill" class="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
+<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill" role="doc-noteref"><a href="#fn:overkill" class="footnote" rel="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
 
-<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount" role="doc-noteref"><a href="#fn:appleaccount" class="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
+<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount" role="doc-noteref"><a href="#fn:appleaccount" class="footnote" rel="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
 
 <p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
 

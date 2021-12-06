@@ -58,7 +58,7 @@
     	<div>
 			<p>I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!</p>
 
-<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags" role="doc-noteref"><a href="#fn:flags" class="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
+<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags" role="doc-noteref"><a href="#fn:flags" class="footnote" rel="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
 
 <blockquote>
   <p>What they did is both crazy and genius. Instead of assigning a codepoint to each flag, which is the obvious way to do it (and the way the rest of the emoji are encoded), the standard defines twenty-six “regional indicator symbols”, from U+1F1E6 REGIONAL INDICATOR SYMBOL LETTER A to U+1F1FF REGIONAL INDICATOR SYMBOL LETTER Z. In order to include a country’s flag in your text, you first look up the country’s two-letter ISO 3166-1 code and then write the two regional indicator symbols corresponding to those letters. A font with support for that flag treats the two-codepoint sequence as a ligature, replacing the combination with a single pictogram.</p>
@@ -83,7 +83,7 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/flag-playground.jpg" width="800" height="419" /></p>
 
-<p>If you use an incorrect code such as “en”<sup id="fnref:england" role="doc-noteref"><a href="#fn:england" class="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
+<p>If you use an incorrect code such as “en”<sup id="fnref:england" role="doc-noteref"><a href="#fn:england" class="footnote" rel="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
 
 <p>You can <a href="https://github.com/bendodson/flag-emoji-from-country-code">download my example playground from GitHub</a>.</p>
 

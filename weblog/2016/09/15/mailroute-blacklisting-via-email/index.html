@@ -56,13 +56,13 @@
 			<time datetime="2016-09-15" pubdate=""><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">September 15, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been using <a href="http://mailroute.net/">MailRoute</a> on and off for the past few years<sup id="fnref:sanebox" role="doc-noteref"><a href="#fn:sanebox" class="footnote">1</a></sup> in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their website. Whilst you can whitelist domains easily from the daily digest of caught spam, there is no feature that lets you forward spam to them in order to have it blacklisted (despite people, including me, <a href="https://support.mailroute.net/entries/23555217-Blacklist-by-email">requesting it since 2013</a>). After having a look at the <a href="https://support.mailroute.net/forums/21682281-API">MailRoute API</a>, I decided it was time to fix this myself.</p>
+			<p>I’ve been using <a href="http://mailroute.net/">MailRoute</a> on and off for the past few years<sup id="fnref:sanebox" role="doc-noteref"><a href="#fn:sanebox" class="footnote" rel="footnote">1</a></sup> in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their website. Whilst you can whitelist domains easily from the daily digest of caught spam, there is no feature that lets you forward spam to them in order to have it blacklisted (despite people, including me, <a href="https://support.mailroute.net/entries/23555217-Blacklist-by-email">requesting it since 2013</a>). After having a look at the <a href="https://support.mailroute.net/forums/21682281-API">MailRoute API</a>, I decided it was time to fix this myself.</p>
 
 <p>There are several components in getting this working.</p>
 
 <ol>
-  <li>I created a new email address with <a href="http://gmail.com">Gmail</a> which will catch my forwarded spam<sup id="fnref:gmailspam" role="doc-noteref"><a href="#fn:gmailspam" class="footnote">2</a></sup>.</li>
-  <li>I set up an account with <a href="http://context.io">Context.io</a> and connected it to the gmail account<sup id="fnref:gmailaccount" role="doc-noteref"><a href="#fn:gmailaccount" class="footnote">3</a></sup>.</li>
+  <li>I created a new email address with <a href="http://gmail.com">Gmail</a> which will catch my forwarded spam<sup id="fnref:gmailspam" role="doc-noteref"><a href="#fn:gmailspam" class="footnote" rel="footnote">2</a></sup>.</li>
+  <li>I set up an account with <a href="http://context.io">Context.io</a> and connected it to the gmail account<sup id="fnref:gmailaccount" role="doc-noteref"><a href="#fn:gmailaccount" class="footnote" rel="footnote">3</a></sup>.</li>
   <li>I put the following code <a href="https://github.com/bendodson/mailroute-blacklist-with-contextio">available on GitHub</a> on a 15 minute CRON job</li>
 </ol>
 

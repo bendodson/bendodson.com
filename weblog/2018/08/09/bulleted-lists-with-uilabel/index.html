@@ -59,7 +59,7 @@
 			<time datetime="2018-08-09" pubdate=""><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">August 09, 2018</a></time>
     	</header>
     	<div>
-			<p>I’ve recently been implementing auto-renewable subscriptions for a client and came across the need to create a bulleted list of notes<sup id="fnref:iapnotes" role="doc-noteref"><a href="#fn:iapnotes" class="footnote">1</a></sup>. There are numerous tutorials available that show how you can do this but all of the ones I found had a flaw of some kind be it using fixed values for bullet widths or not taking variable font sizes from Dynamic Type into consideration.</p>
+			<p>I’ve recently been implementing auto-renewable subscriptions for a client and came across the need to create a bulleted list of notes<sup id="fnref:iapnotes" role="doc-noteref"><a href="#fn:iapnotes" class="footnote" rel="footnote">1</a></sup>. There are numerous tutorials available that show how you can do this but all of the ones I found had a flaw of some kind be it using fixed values for bullet widths or not taking variable font sizes from Dynamic Type into consideration.</p>
 
 <p>Here, then, is a quick primer on how you can add correctly aligned bullets to a list be it in a UILabel or UITextView and have it scale correctly dependent on the users text size preferences.</p>
 
@@ -102,7 +102,7 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/bulleted-list-scale.jpg" width="800" height="463" alt="Bulleted List for UILabel and UITextView" /></p>
 
-<p>The first thing to determine is the bullet you want to use. I like to have a • (press <code class="language-plaintext highlighter-rouge">option + 8</code>) with two spaces afterwards. We store this in a variable and then build a <code class="language-plaintext highlighter-rouge">String</code> array with which we’ll populate each line of our list<sup id="fnref:localise" role="doc-noteref"><a href="#fn:localise" class="footnote">2</a></sup>. These are then mapped to append the bullet we chose to the front of each string.</p>
+<p>The first thing to determine is the bullet you want to use. I like to have a • (press <code class="language-plaintext highlighter-rouge">option + 8</code>) with two spaces afterwards. We store this in a variable and then build a <code class="language-plaintext highlighter-rouge">String</code> array with which we’ll populate each line of our list<sup id="fnref:localise" role="doc-noteref"><a href="#fn:localise" class="footnote" rel="footnote">2</a></sup>. These are then mapped to append the bullet we chose to the front of each string.</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">bullet</span> <span class="o">=</span> <span class="s">"•  "</span>        
 <span class="k">var</span> <span class="nv">strings</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">]()</span>
@@ -123,7 +123,7 @@
 
 <p>Finally we join our string with line breaks (<code class="language-plaintext highlighter-rouge">strings.joined(separator: "\n\n")</code>) and create an attributed string with the attributes including the new paragraph style.</p>
 
-<p>This all works but there are two more things you’ll need to do to support dynamic font scaling. First of all you’ll want to ensure that the ‘Automatically Adjusts Font’ checkbox is selected in Interface Builder for your label or text view<sup id="fnref:automaticallyadjusts" role="doc-noteref"><a href="#fn:automaticallyadjusts" class="footnote">3</a></sup>. Secondly, you’ll want to be notified when the content size changes (i.e. when the user goes to the Settings app and increases or decreases the text size) by subscribing to the <code class="language-plaintext highlighter-rouge">UIContentSizeCategoryDidChange</code> notification and regenerating your label. I prefer to do this in a method named <code class="language-plaintext highlighter-rouge">updateUI</code> but your personal preference may vary.</p>
+<p>This all works but there are two more things you’ll need to do to support dynamic font scaling. First of all you’ll want to ensure that the ‘Automatically Adjusts Font’ checkbox is selected in Interface Builder for your label or text view<sup id="fnref:automaticallyadjusts" role="doc-noteref"><a href="#fn:automaticallyadjusts" class="footnote" rel="footnote">3</a></sup>. Secondly, you’ll want to be notified when the content size changes (i.e. when the user goes to the Settings app and increases or decreases the text size) by subscribing to the <code class="language-plaintext highlighter-rouge">UIContentSizeCategoryDidChange</code> notification and regenerating your label. I prefer to do this in a method named <code class="language-plaintext highlighter-rouge">updateUI</code> but your personal preference may vary.</p>
 
 <p>The nice thing about this setup is that it is entirely fluid, doesn’t require any 3rd party dependencies, and can be used with any mixture of bullet types be they a single character, a word, or even emoji:</p>
 

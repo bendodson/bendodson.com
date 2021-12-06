@@ -56,7 +56,7 @@
 			<time datetime="2016-05-17" pubdate=""><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">May 17, 2016</a></time>
     	</header>
     	<div>
-			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc" role="doc-noteref"><a href="#fn:gamingpc" class="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
+			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc" role="doc-noteref"><a href="#fn:gamingpc" class="footnote" rel="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
 
 <p>A quick search found <a href="http://www.getoffmalawn.com/steamnews">SteamNews</a>, a website that aims to turn Steam Community pages into RSS feeds. However, a lot of games are missing and it doesn’t solve the problem of fetching the feeds for my account; I’d still need to go through and add them manually. I also don’t like relying on 3rd party services which I can’t install on my own server.</p>
 
@@ -180,14 +180,14 @@
 	<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>There is a fair amount going on in this script<sup id="fnref:goodpractice" role="doc-noteref"><a href="#fn:goodpractice" class="footnote">2</a></sup> but the basic overview is:</p>
+<p>There is a fair amount going on in this script<sup id="fnref:goodpractice" role="doc-noteref"><a href="#fn:goodpractice" class="footnote" rel="footnote">2</a></sup> but the basic overview is:</p>
 
 <ol>
   <li>
     <p>Fetch a list of owned games from the public profile of the entered Steam ID. Most of the Steam pages are built with Javascript but this page fortunately has the entire library as JSON within the page. After a simple bit of extraction, I have a full list of every game owned.</p>
   </li>
   <li>
-    <p>Update a local text file<sup id="fnref:database" role="doc-noteref"><a href="#fn:database" class="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
+    <p>Update a local text file<sup id="fnref:database" role="doc-noteref"><a href="#fn:database" class="footnote" rel="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
   </li>
   <li>
     <p>Just to be a pain, Steam doesn’t have a standard format for it’s RSS feeds. Whilst most of them contain the game ID, some of them don’t. The first step is to go with the usual URL and then if that fails we’ll use <a href="https://github.com/FriendsOfPHP/Goutte">Goutte</a> to manually scrape the news page and then the first news item in order to grab the correct RSS feed. For example, the game ID of <a href="http://store.steampowered.com/app/240/">Counter-Strike: Source</a> is 240 so the script will first try <code class="language-plaintext highlighter-rouge">http://steamcommunity.com/games/240/rss/</code> but when that fails it’ll crawl through some pages to discover the correct URL is <code class="language-plaintext highlighter-rouge">http://steamcommunity.com/games/CSS/rss/</code> - there seems to be no logic as to which games have a shorthand name and which don’t and there isn’t an easy way to work out what the name would be.</p>
@@ -200,7 +200,7 @@
   </li>
 </ol>
 
-<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour" role="doc-noteref"><a href="#fn:twentyfour" class="footnote">4</a></sup>.</p>
+<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour" role="doc-noteref"><a href="#fn:twentyfour" class="footnote" rel="footnote">4</a></sup>.</p>
 
 <p>One idea I dabbled with was fetching the feeds myself and building a single large RSS feed that I could subscribe to. There are a few issues there though:</p>
 
@@ -212,7 +212,7 @@
     <p>I’d be sacrificing some customisation. If I’m not interested in a specific game, I can simply remove the feed from Feedbin. My script doesn’t check subscriptions so it won’t try and re-add it.</p>
   </li>
   <li>
-    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame" role="doc-noteref"><a href="#fn:youngmansgame" class="footnote">5</a></sup>.</p>
+    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame" role="doc-noteref"><a href="#fn:youngmansgame" class="footnote" rel="footnote">5</a></sup>.</p>
   </li>
 </ul>
 

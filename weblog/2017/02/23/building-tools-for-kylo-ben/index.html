@@ -58,11 +58,11 @@
     	<div>
 			<p>I’ve been running my <a href="https://kyloben.co.uk/">Kylo Ben</a> website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interesting links I’ve found, my articles, podcasts, game releases, games I’ve played, and games I’ve purchased which means an average post will take between 1.5 to 2 hours to write. Being a developer means I can build my own digital tools to help me out and so last week I built a few little tools to help cut that time dramatically.</p>
 
-<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket" role="doc-noteref"><a href="#fn:pocket" class="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
+<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket" role="doc-noteref"><a href="#fn:pocket" class="footnote" rel="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-ios-extension.jpg" width="800" height="600" alt="[app name] would like to access Apple Music" /></p>
 
-<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality" role="doc-noteref"><a href="#fn:codequality" class="footnote">2</a></sup>:</p>
+<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality" role="doc-noteref"><a href="#fn:codequality" class="footnote" rel="footnote">2</a></sup>:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">ShareViewController</span><span class="p">:</span> <span class="kt">SLComposeServiceViewController</span> <span class="p">{</span>
 
@@ -102,7 +102,7 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-safari-extension.jpg" width="800" height="86" alt="[app name] would like to access Apple Music" /></p>
 
-<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax" role="doc-noteref"><a href="#fn:ajax" class="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
+<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax" role="doc-noteref"><a href="#fn:ajax" class="footnote" rel="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">SafariExtensionHandler</span><span class="p">:</span> <span class="kt">SFSafariExtensionHandler</span> <span class="p">{</span>
     

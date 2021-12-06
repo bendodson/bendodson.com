@@ -58,7 +58,7 @@
     	<div>
 			<p><strong>UPDATE: Thanks to my raising this privacy concern, <a href="https://bendodson.com/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Apple have resolved this issue as of iOS 10</a>. I’ve left the old post below for posterity.</strong></p>
 
-<p>Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing <a href="https://dodoapps.io/music-tracker/">Music Tracker</a><sup id="fnref:musictracker" role="doc-noteref"><a href="#fn:musictracker" class="footnote">1</a></sup> I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:</p>
+<p>Over the years Apple has put a lot of effort into making iOS secure and privacy focussed. You are prompted with dialogue boxes whenever an app tries to access your contacts, calendars, photos, or location and you need to confirm that you want to receive notifications. However, whilst developing <a href="https://dodoapps.io/music-tracker/">Music Tracker</a><sup id="fnref:musictracker" role="doc-noteref"><a href="#fn:musictracker" class="footnote" rel="footnote">1</a></sup> I discovered that there is no privacy prompt when a developer tries to access your library. In fact, they can access all of your music data as simply as this:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">MPMediaQuery</span><span class="o">.</span><span class="nf">songsQuery</span><span class="p">()</span>
 <span class="k">if</span> <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">items</span> <span class="p">{</span>
@@ -67,13 +67,13 @@
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>That’s just a basic example that’ll output the title of every song in your library but there is a lot of danger in that. This process happens completely silently and in my tests I was able to loop through a library of 10000 songs, put all the metadata in a JSON file<sup id="fnref:json" role="doc-noteref"><a href="#fn:json" class="footnote">2</a></sup>, and upload it to a server in under 2 seconds!</p>
+<p>That’s just a basic example that’ll output the title of every song in your library but there is a lot of danger in that. This process happens completely silently and in my tests I was able to loop through a library of 10000 songs, put all the metadata in a JSON file<sup id="fnref:json" role="doc-noteref"><a href="#fn:json" class="footnote" rel="footnote">2</a></sup>, and upload it to a server in under 2 seconds!</p>
 
 <p>But why is this a security or privacy risk? Off the top of my head, I can think of two massive risks:</p>
 
 <ol>
   <li>
-    <p>Your library says a lot about you<sup id="fnref:bwitched" role="doc-noteref"><a href="#fn:bwitched" class="footnote">3</a></sup>. If an advertising company was able to get a complete list of your music library (along with changes to it over time) then they could very easily target you with specific ads. Added a lot of Taylor Swift recently? Here are some ads relevant to that.</p>
+    <p>Your library says a lot about you<sup id="fnref:bwitched" role="doc-noteref"><a href="#fn:bwitched" class="footnote" rel="footnote">3</a></sup>. If an advertising company was able to get a complete list of your music library (along with changes to it over time) then they could very easily target you with specific ads. Added a lot of Taylor Swift recently? Here are some ads relevant to that.</p>
   </li>
   <li>
     <p>When iOS first came out there was something called a UDID which basically identified your device uniquely. This was used by marketers to track you across multiple apps and build up a profile. This was stopped by Apple a few years back and replaced with an advertising identifier which you can turn off and which can only be used between apps from the same company (where they are probably already tracking you). However, with a full music library, it would be fairly easy to track someone across multiple apps as periodic snapshots could be compared on a server.</p>

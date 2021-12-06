@@ -56,7 +56,7 @@
 			<time datetime="2016-01-06" pubdate=""><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">January 06, 2016</a></time>
     	</header>
     	<div>
-			<p>I’ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes<sup id="fnref:udra" role="doc-noteref"><a href="#fn:udra" class="footnote">1</a></sup>. However, this doesn’t work for the CALayer properties <code class="language-plaintext highlighter-rouge">shadowColor</code> and <code class="language-plaintext highlighter-rouge">borderColor</code> as they expect a CGColor rather than a UIColor.</p>
+			<p>I’ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes<sup id="fnref:udra" role="doc-noteref"><a href="#fn:udra" class="footnote" rel="footnote">1</a></sup>. However, this doesn’t work for the CALayer properties <code class="language-plaintext highlighter-rouge">shadowColor</code> and <code class="language-plaintext highlighter-rouge">borderColor</code> as they expect a CGColor rather than a UIColor.</p>
 
 <p>To fix this in a recent project, <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">I created a very basic CALayer extension</a> (in Swift) that adds UIColor accessors so you can set them via the User Defined Runtime Attributes as so:</p>
 
