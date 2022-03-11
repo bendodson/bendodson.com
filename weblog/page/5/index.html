@@ -41,6 +41,42 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/10/12/working-remotely/">Working Remotely</a></h1>
+			
+			<time datetime="2016-10-12" pubdate=""><a href="/weblog/2016/10/12/working-remotely/">October 12, 2016</a></time>
+    	</header>
+    	<div>
+			<p>I was recently asked by <a href="http://remote.co/">Remote.co</a> to take part in a new Q&amp;A section about remote workers. You can <a href="https://remote.co/remote-workers/ben-dodson/">read the full Q&amp;A on their website</a> but I’ve put some of their questions and my answers below:</p>
+
+<h2 id="what-advice-would-you-give-someone-considering-going-remote">What advice would you give someone considering going remote?</h2>
+<blockquote>
+  <p>Discipline. It takes a lot of discipline to work remotely as you’ll find that it is very easy to put off a piece of work when you’re sitting at home. There are no firewalls stopping you from accessing Facebook and Twitter, the Xbox might be sat saying “just one more game”, and before you know it a month has passed and you’ve done nothing.</p>
+</blockquote>
+
+<h2 id="how-do-you-avoid-becoming-distracted-when-working-remotely">How do you avoid becoming distracted when working remotely?</h2>
+<blockquote>
+  <p>I have a pair of noise-cancelling headphones that I bought for working in an open-plan office but they work at home for me as the act of putting them on puts me into “work mode”. The only problem was that if the doorbell went (sidenote: great advantage of working from home is you never miss an Amazon delivery) I wouldn’t hear it; I fixed that by hooking it up to a Philips Hue lightbulb on my desk so I get a visual alert.</p>
+</blockquote>
+
+<h2 id="do-you-have-a-dedicated-home-office">Do you have a dedicated home office?</h2>
+<blockquote>
+  <p>I do have a dedicated room for work. I have a small desk with a 5k iMac and an external 1080p monitor in portrait mode (I find this better for webpages and iPhone simulators). Apart from the computer, my desk only has space for my tea and water and a Blue Yeti microphone I use for podcasting and Skype. I have lots of bookshelves (mainly full of LEGO) and a small orchid by the window.</p>
+</blockquote>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/office.jpg" width="800" height="600" /></p>
+
+<h2 id="whats-the-hardest-part-about-working-with-a-traditional-team-while-youre-remote-how-do-you-overcome-it">What’s the hardest part about working with a traditional team while you’re remote? How do you overcome it?</h2>
+<blockquote>
+  <p>I find the hardest thing is that traditional teams will want to have meetings all the time. They also want you to pop into the office fairly frequently for reasons unknown to me. I’m pretty good at telling prospective clients that I only work remotely and that I don’t do daily catch up calls; I get a good handle for the project and then do a week or two of work before sending over a build for feedback.</p>
+</blockquote>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">MailRoute blacklisting via email</a></h1>
 			
 			<time datetime="2016-09-15" pubdate=""><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">September 15, 2016</a></time>
@@ -539,76 +575,6 @@
   <ol>
     <li id="fn:cushion" role="doc-endnote">
       <p>If you’re a freelancer, you should definitely check out <a href="http://cushionapp.com/">Cushion</a>. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. <a href="#fnref:cushion" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">Creating passwordless user accounts within iOS apps</a></h1>
-			
-			<time datetime="2016-07-10" pubdate=""><a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">July 10, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m currently in the process of writing an app which will store some information for each user on a server; the stored data should be available to the user on all of their devices. Usually there are two ways of dealing with this:</p>
-
-<ol>
-  <li>
-    <p>Build a user access system such that the user has to register to use the service. They’ll need to log in to the app (usually with email address and password) on each of their devices.</p>
-  </li>
-  <li>
-    <p>Use CloudKit to store all of the information in an Apple provided database.</p>
-  </li>
-</ol>
-
-<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill" role="doc-noteref"><a href="#fn:overkill" class="footnote" rel="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
-
-<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount" role="doc-noteref"><a href="#fn:appleaccount" class="footnote" rel="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
-
-<p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">container</span> <span class="o">=</span> <span class="kt">CKContainer</span><span class="o">.</span><span class="nf">defaultContainer</span><span class="p">()</span>
-<span class="n">container</span><span class="o">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="k">let</span> <span class="nv">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="s">")
-        return
-    }
-    
-    NSLog("</span><span class="kt">Identifier</span><span class="p">:</span> <span class="p">\(</span><span class="n">recordID</span><span class="o">.</span><span class="n">recordName</span><span class="p">)</span><span class="s">")    
-}</span></code></pre></figure>
-
-<p>The identifier returned will be 34 characters long and look something like this:</p>
-
-<p><code class="language-plaintext highlighter-rouge">_e990774f93dd6625b11af6d40fceb310</code></p>
-
-<p>Once you have that, you can then send it to your server to match it against whatever content you want to link to this particular user. Now whenever they use your app on any device with the same Apple account, they’ll have access to everything without the need for a manual account creation process and without having to hand over any personal information. The entire process is completely silent and is very secure as the identifier is generated from both the Apple account and your CloudKit container - it can’t be used by other apps nor can it be reverse-engineered to give you personal details of the user.</p>
-
-<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code class="language-plaintext highlighter-rouge">import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">AppleCloudIdentifier</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-    
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Cloud identifier: </span><span class="se">\(</span><span class="n">identifier</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>I’ve named it <code class="language-plaintext highlighter-rouge">AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
-
-<p><strong>UPDATE [3rd May 2019]:</strong> I needed use of this in a recent project and so I’ve updated the code to make use of Swift 5 and the new <code class="language-plaintext highlighter-rouge">Result</code> type.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:overkill" role="doc-endnote">
-      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:appleaccount" role="doc-endnote">
-      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

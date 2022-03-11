@@ -41,6 +41,24 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2010/11/04/contact-forms/">Contact Forms</a></h1>
+			
+			<time datetime="2010-11-04" pubdate=""><a href="/weblog/2010/11/04/contact-forms/">November 04, 2010</a></time>
+    	</header>
+    	<div>
+			<p>Over the last 14 years, I have witnessed the internet expanding rapidly and becoming massively commercialised. With this kind of rampant upscaling, there is always a point at which there are enough people using the system that want to exploit it in some way, usually for monetary gain. With the internet, this has been done rather crudely with the invent of <strong>spam email</strong>. There are large numbers of servers whose primary aim is to crawl the internet searching for an email address. They then generate a list of these email addresses and sell them to companies who will send out mass emails trying to entice people to buy something or other.</p>
+
+<p>As this problem has increased (apparently over 85% of all emails sent are spam), web developers have panicked and come up with all sorts of stupid methods to try and prevent it. Most developers won’t output their email address in plain text on a website (or with a mailto link) but instead choose to try and hide it by doing something along the lines of “ben [at] bendodson [dot] com”. This is highly inaccessible and is a real pain to try and decipher sometimes – and besides, a human spammer could read it anyway! Other developers will set up a contact form and then protect it by means of a Captcha system or some other horrendously inaccessible device. These systems are incredibly difficult and time-consuming for able-bodied people to use let alone those with poor eye sight or other disabilities. Even so, these systems have become prevalent across the internet and show no signs of slowing down. Some contact forms now ask basic mathematic questions to prove you’re human completely over looking the fact that every one of these systems can eventually be thwarted as spam-bot developers adapt to them.</p>
+
+<p>The real problem I have with all of these systems is that they impose limits on web users and slow them down. They pass all responsibility to the user and treat them like spam until proven innocent (by means of a test) rather than just accepting that these things happen and using an automated system that can filter spam from real conversation.
+Therefore, I’ve decided to take a stand against this and publish my email address loud and clear with a link that will open it in your email client of choice. If I get spammed, it really doesn’t bother me – I have a “junk mail” folder which has protected my inbox for a very long time and will continue to do so. Please feel free to <a href="/contact/">contact me</a>  – I look forward to hearing from you soon!</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2009/12/05/why-i-built-an-item-finder-for-gowalla/">Why I built an Item Finder for Gowalla</a></h1>
 			
 			<time datetime="2009-12-05" pubdate=""><a href="/weblog/2009/12/05/why-i-built-an-item-finder-for-gowalla/">December 05, 2009</a></time>
@@ -642,119 +660,6 @@
 <h3>Conclusion</h3>
 
 <p>So now you can easily (if you know PHP) get updates on all your Twitter followers and non-followers.  Feel free to use all the above code and modify to your hearts content - if you found it to be useful, then please leave a comment below.  Oh, and I couldn't possibly write a post about Twitter without reminding you that you can follow me <a href="http://twitter.com/bendodson/">@bendodson</a> ;)</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">Getting Xbox Live Achievements Data: Part 2 - The AppleScript Solution</a></h1>
-			
-			<time datetime="2009-05-19" pubdate=""><a href="/weblog/2009/05/19/getting-xbox-live-achievements-data-part-2-the-applescript-solution/">May 19, 2009</a></time>
-    	</header>
-    	<div>
-			<p>Following on from the <a href="https://bendodson.com/weblog/2009/05/12/getting-xbox-live-achievements-with-php-part-1-the-problems/">first of this series of tutorials</a> on how to extract Xbox Live achievement data using PHP and AppleScript, I thought I would use this second part to look at the AppleScript that powers one side of the system I've put together.  In the next part, I'll be explaining the PHP class I've built, and in the fourth part (the last of the series) I'll be showing you how the two talk together and how you can use the collected data with other APIs such as Facebook Connect.</p>
-
-<p>So, let's have a look at some code!</p>
-
-<h3>XboxLive AppleScript</h3>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">urlFilePath</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"http://externals.bendodson.com/weblog/XboxLive/urls.txt"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">dataFilePath</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"server:XboxLive:data.txt"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">""</span><span class="w">
-
-</span><span class="k">set</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">open for access</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">dataFilePath</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nb">write</span><span class="w"> </span><span class="nv">permission</span><span class="w">
-</span><span class="nb">set eof</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="nb">close access</span><span class="w"> </span><span class="nv">dataFile</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w">
-	</span><span class="nb">open location</span><span class="w"> </span><span class="nv">urlFilePath</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="nv">do</span><span class="w"> </span><span class="nv">JavaScript</span><span class="w"> </span><span class="s2">"window.location.reload()"</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="k">try</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">the</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="na">document</span><span class="p">)</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">try</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-
-</span><span class="k">if</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">open location</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mi">15</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nv">sourceCode</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">source</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="na">document</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">open for access</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">dataFilePath</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nb">write</span><span class="w"> </span><span class="nv">permission</span><span class="w">
-		</span><span class="nb">write</span><span class="w"> </span><span class="nv">sourceCode</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="nv">starting</span><span class="w"> </span><span class="nb">at</span><span class="w"> </span><span class="nv">eof</span><span class="w">
-		</span><span class="nb">close access</span><span class="w"> </span><span class="nv">dataFile</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">close</span><span class="w"> </span><span class="nb">every</span><span class="w"> </span><span class="na">window</span></code></pre></figure>
-
-<p>This is the first time I've used AppleScript for anything other than just playing around and I have to say that as a language it's incredibly good.  Just by reading through the above, you'll probably be able to work out what's going on even if you've never seen any type of programming code in the past.  Even so, I'll go through each section and explain what it does along with the reasons why I decided to do it in this particular way rather than some of the other ways I could have chosen.</p>
-
-<p><em><strong>Note:</strong> All of this AppleScript is completely self-taught from searching around on the internet.  I was going to buy the book <a href="http://www.amazon.co.uk/AppleScript-Missing-Manual-Adam-Goldstein/dp/0596008503/ref=sr_11_1?ie=UTF8&qid=1242776373&sr=11-1">AppleScript: The Missing Manual</a> but I was able to read all the sections I needed on <a href="http://books.google.com/books?id=-ynfWvkwzpwC">Google Books</a> which was convenient - I'll probably buy the book anyway to brush up on a few other areas.  If you are an AppleScript guru and you know a way to optimize my code, please use the comments section below so others can learn and so I can update it.</em></p>
-
-<p>Before we get on to looking at the code, it might be worth briefly recapping how everything will work.  My server will check the XboxLive API in order to see if my gamerscore has increased.  If it has, then it saves the URL of the achievements page for my most recently played game (which it can't itself read due you needing to login to Xbox Live with javascript enabled - something cURL can't do!) in a text file on the server.  My mac mini at home then runs the above AppleScript in order to retrieve the saved URL, open it in Safari, and save the HTML in it's own text file that is available via the internet.  My server will then check this text file, parse the HTML, and save the achievements to a database.</p>
-
-<h3>How does it all work?</h3>
-
-<p>Now we've got that out of the way, let's look at that AppleScript in more detail:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">urlFilePath</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"http://externals.bendodson.com/weblog/XboxLive/urls.txt"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">dataFilePath</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"server:XboxLive:data.txt"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">""</span></code></pre></figure>
-
-<p>These three lines of code are used to define variables which we will use later on in the code.  The first one, <code>urlFilePath</code>, is the URL of the text file on my server that will tell our script what URL we need to retrieve the HTML from.  You'll see how we populate that text file with my XboxLive php class which will be discussed in part three of this four part series.  The second variable, <code>dataFilePath</code>, is interesting as it contains the path to the file we are going to save the HTML to on the local machine.  So why the strange syntax?  This is referred to as Finder syntax and is a way for AppleScript to reference a particular section within Finder, in this case a text file.  It is essentially the same as "/server/XboxLive/data.txt" which we could have used - the difference is that we would have had to have converted that into the Finder syntax in order to use some of the file editing commands we'll use later so I thought it best just to save it correctly at the beginning.</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">open for access</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">dataFilePath</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nb">write</span><span class="w"> </span><span class="nv">permission</span><span class="w">
-</span><span class="nb">set eof</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="nb">close access</span><span class="w"> </span><span class="nv">dataFile</span></code></pre></figure>
-
-<p>These three lines are again fairly easy to follow.  We set a variable of <code>dataFile</code> to be the handler of the file declared in the path of <code>dataFilePath</code>.  Note that we have specifically mentioned we want to use write permissions as the default is just to use read permissions.  The next line sets the eof or "end of file" within the handler to 0 whilst the following line tidies up by closing the file handler (which isn't strictly necessary but good practice).  The reason for setting <code>eof</code> to 0 is that we want to delete the contents of the file before we put anything else in later.  This is practical for the simple reason that we don't want our PHP script on the server to parse a load of data in the text file (or even download it) if it's something it has already read as that would be a waste of processing power and bandwidth.</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w">
-	</span><span class="nb">open location</span><span class="w"> </span><span class="nv">urlFilePath</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="nv">do</span><span class="w"> </span><span class="nv">JavaScript</span><span class="w"> </span><span class="s2">"window.location.reload()"</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="k">try</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">the</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="na">document</span><span class="p">)</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">try</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
-
-<p>Now we get to the first real section of the code that deals with our problem.  In these lines, the application Safari is made to open the text file on the server that may contain the URLs, refresh that page using JavaScript, and then attempt to set the variable <code>toCrawl</code> to the text of the file.  Before we even examine this in depth, you may be wondering something along the lines of "why don't you download the file or read it with FTP rather than opening it in Safari" and this would be sensible.  My initial thoughts on how to get the text on the server into a variable in my AppleScript was to access the file via FTP.  OS X has very basic FTP support (read only unfortunately) that can be mounted through Finder and then accessed using the Finder syntax we used earlier on.  I had originally written some AppleScript that would run in the startup process of the mac mini which would mount the drive.  Then, this AppleScript read the file in using <code>open for access file urlFilePath</code> and set the variable that way.  It all worked perfectly until the server changed the contents of the URL text file.  No matter what I did, the text file came back the same as it had when first fetched and it was that that I realised that the FTP built into Finder is fundamentally flawed as everything is cached.  If you don't edit the file through Finder (e.g. by using a mac application that saves it again through Finder) then it will never know it's updated and thus can't be used in this scenario.</p>
-
-<p>With that out of the way, let's look at my workaround.  The first and last lines are the opening and closing of a <code>tell</code>; a way to get an application to do what we want.  In this instance we are going to tell Safari to open the URL saved in the variable <code>urlFilePath</code> and then delay for one second.  This delay is needed as Safari may take this long to open the URL.  Without the delay, we may be in danger of running code on a page that hasn't loaded.  In the next line, we tell JavaScript to reload the document before waiting another second for this to complete.  This refresh is necessary to clear any caching of the document.  The final section is used to set the variable <code>toCrawl</code> to the contents of the browser window.  You may wonder why there is a <code>try</code> statement wrapped around it?  This is because if the text file was empty and you tried to get <code>the text of the front document</code>, the script would error.  To get around that, we initially set the variable (in the very first block of code if you remember?) and then use <code>try</code> to reset the variable only if no error would be caused in doing so.  Very useful!</p>
-
-<p>By the end of this block of code, we will have a variable which will either contain a URL if the text file on the server had one, or it will be empty, meaning that the server is not requesting any HTML.  Let's move on to the next section:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">if</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">open location</span><span class="w"> </span><span class="nv">toCrawl</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mi">15</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nv">sourceCode</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">source</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="na">document</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">open for access</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">dataFilePath</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nb">write</span><span class="w"> </span><span class="nv">permission</span><span class="w">
-		</span><span class="nb">write</span><span class="w"> </span><span class="nv">sourceCode</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">dataFile</span><span class="w"> </span><span class="nv">starting</span><span class="w"> </span><span class="nb">at</span><span class="w"> </span><span class="nv">eof</span><span class="w">
-		</span><span class="nb">close access</span><span class="w"> </span><span class="nv">dataFile</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">if</span></code></pre></figure>
-
-<p>This is the core piece of functionality that I was trying to achieve all in this block of 11 lines.  This script will open a URL in Safari, and then save the source code of the loaded page in a text file.  You'll notice that the first and last lines are an <code>if</code> statement relating to the length of the <code>toCrawl</code> variable.  I don't unlock achievements every 5 minutes of the day and so, more often than not, the <code>toCrawl</code> variable will be empty.  If it is, then we want to completely ignore the next section of code as there is no reason whatsoever to run it!</p>
-
-<p>The next line is a one line <code>tell</code> to make Safari open the URL we saved which is then followed by a 15 second delay.  You'll notice this is a lot longer than the 1 second delays earlier.  The reason for this is that, in the first case, it was a simple text file with around 100 characters in it and so loaded incredibly quickly.  This URL, conversely, will be a very large page (around the 100kb mark) that may go through a series of 5 redirects depending on how recently the page was accessed.  This is because after 15 minutes of inactivity, the site forces you back to the login page but I have a cookie stored that will then automatically log me back in.  It just takes a few seconds to go through the process of all the redirects to get to the actual page hence the long time delay.</p>
-
-<p>The last section is a simple expansion of the code we used at the beginning.  We tell Safari to set a variable of <code>sourceCode</code> to be the source of the page that's open - we also tell it to be forced as a string in case there are any casting issues.  Next, we open the <code>dataFilePath</code> and set a handler of <code>dataFile</code> so that we can then write the <code>sourceCode</code> variable into the file starting at the end of the file (which we all know is masquerading as the beginning of the file also as we set it earlier on... keep up!) before tidying up after ourselves and closing access to the handler.  Easy!</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">close</span><span class="w"> </span><span class="nb">every</span><span class="w"> </span><span class="na">window</span></code></pre></figure>
-
-<p>In the very final line of code, we tell Safari to close all of it's windows in preparation for the next iteration.  This may not seem terribly important, but trust me, if you neglect to put it in and then unlock 10 achievements, you'll find your mac now has 20 open Safari windows!</p>
-
-<h3>Conclusion</h3>
-
-<p>So that's all there is to this section - a large chunk of AppleScript and a rationale as to why I had to open Safari to get at a text document rather than doing it a slightly more simple way via FTP (due to massive caching issues).  I hope this post has introduced some of you to AppleScript which I have found to be a rather powerful tool when it comes to mac development.  It's very easy to understand and is a great way of transitioning from a web-based language to a desktop-based one especially as you can save AppleScript as a standard mac application.</p>
-
-<p>Join me again for part three of this four part series when I'll be looking at this from the other angle; the PHP server that needs to parse the HTML we have gathered using this AppleScript.  To make sure you don't miss a section, you can <a href="https://bendodson.com/weblog/feed/">subscribe to the RSS Feed</a> or <a href="http://twitter.com/bendodson/">follow me on Twitter</a>.  Please feel free to leave any comments or suggestions on this page.</p>
 
 		</div>
 	</article>
