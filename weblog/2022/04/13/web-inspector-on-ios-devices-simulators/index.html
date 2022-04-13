@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Web Inspector on iOS devices and Simulators">
+		<meta property="og:description" content="How to debug HTML and JS in Safari iOS, SFSafariViewController, and WKWebView using Web Inspector on macOS.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">
+		
+		<meta name="twitter:title" content="Web Inspector on iOS devices and Simulators">
+		<meta name="twitter:description" content="How to debug HTML and JS in Safari iOS, SFSafariViewController, and WKWebView using Web Inspector on macOS.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3.amazonaws.com/weblog/2022/web-inspector-open-graph.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3.amazonaws.com/weblog/2022/web-inspector-open-graph.jpg">			
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2021-03-10.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Web Inspector on iOS devices and Simulators</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">Web Inspector on iOS devices and Simulators</a></h1>
+			
+			<time datetime="2022-04-13" pubdate=""><a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">April 13, 2022</a></time>
+    	</header>
+    	<div>
+			<p>Over the past few weeks I’ve worked on a number of projects that have necessitated me working with HTML and JavaScript be that via Safari on iOS, an SFSafariViewController, or in an embedded WKWebView. In all of these cases, I’ve needed to dive into the DOM to see what styles are being applied to certain elements or dig into a JavaScript Console to work out why some code isn’t working. On desktop, this is trivial as Safari has a Web Inspector panel built in similar to other browsers. It turns out it is also trivial on mobile as the exact same tool can be used with both iOS simulators and physical devices.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/ios-simulator-web-inspector.jpg" width="800" height="536" />
+    <figure>Activating the Web Inspector for Safari in an iOS Simulator. Note that it is also possible to look at the "Extension Background Page" for the Browser Note Safari Extension that is also installed and running.</figure>
+</div>
+
+<p>If you select the ‘Develop’ tab from the menu bar of Safari on macOS, you’ll see a list of all of your connected devices and actively running simulators<sup id="fnref:naming" role="doc-noteref"><a href="#fn:naming" class="footnote" rel="footnote">1</a></sup>. Drilling into this will then show all of the active web instances you can interact with; notice how the content within Safari has highlighted blue within the Simulator as I’ve moused over the twitter.com web instance above. When you click, a web inspector panel is then produced which allows you to make all the usual interrogations and changes you can within desktop Safari such as interacting with the console or changing CSS values of elements to see how they would look in realtime.</p>
+
+<p>Here’s an example using a WKWebView within one of my client projects, <a href="https://spanish.yabla.com">Yabla Spanish</a>:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/ios-device-web-inspector.jpg" width="800" height="400" />
+    <figure>As I hover over the DOM in the web inspector, the same highlighting that appears in desktop Safari appears within the WKWebView on my physical device (note the green box showing the 24px padding within that div).</figure>
+</div>
+
+<p>Discovering that simulators and devices could be interacted with in this way has been a huge timesaver for me. Whilst <a href="/weblog/2022/03/11/browser-note/">developing Browser Note</a>, I was constantly needing to tweak CSS values and investigate the current state of the DOM as websites have various tricks to try and make ads or cookie notices appear on top of all content (and the note needed to be on top at all times - you should totally take a look at <a href="https://apps.apple.com/us/app/browser-note/id1613527249">Browser Note</a> whilst you’re here). In doing this, I was then able to put this knowledge to use on no less than 3 client projects in the past month; this validates my theory that by working on your own <a href="/sideprojects/">side projects</a> you can improve your efficiency when it comes to work projects.</p>
+
+<p>There are a few caveats to be aware of when using the Web Inspector with an iOS device or simulator:</p>
+
+<ul>
+  <li>If you want to use this on an actual device you’ll first need to enable the Web Inspector on iOS. To do this, go to the Settings app and then Safari &gt; Advanced and toggle the Web Inspector on.</li>
+  <li>Whilst the Web Inspector can interrogate WKWebView, it can only do this for apps you are running via Xcode. You cannot look at the WKWebView of apps you did not create nor of your own apps from TestFlight / the App Store. However, you can inspect debug builds installed via Xcode even if the debugger is not active (i.e. you build to the device then quit Xcode).</li>
+  <li>Conversely, you can use the Web Inspector with any SFSafariViewController even if it is not in your own app.</li>
+  <li>Whilst it is still possible to submit apps that use UIWebView, the web inspector will not work with them; <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/wkwebview.jpg">it needs to be WKWebView</a>.</li>
+  <li>This also works for AppKit, SwiftUI, and Catalyst apps on macOS.</li>
+</ul>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:naming" role="doc-endnote">
+      <p>I use an “iDod” naming prefix for all of my devices; a throwback pun to my first Apple product, the iPod. <a href="#fnref:naming" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2022/03/11/browser-note/" title="Previous Article" class="pagination-previous">&laquo; Browser Note and the process of building an iOS 15 Safari Extension</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

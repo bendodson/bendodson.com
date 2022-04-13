@@ -41,6 +41,178 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">Building tools for Kylo Ben</a></h1>
+			
+			<time datetime="2017-02-23" pubdate=""><a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">February 23, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’ve been running my <a href="https://kyloben.co.uk/">Kylo Ben</a> website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interesting links I’ve found, my articles, podcasts, game releases, games I’ve played, and games I’ve purchased which means an average post will take between 1.5 to 2 hours to write. Being a developer means I can build my own digital tools to help me out and so last week I built a few little tools to help cut that time dramatically.</p>
+
+<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket" role="doc-noteref"><a href="#fn:pocket" class="footnote" rel="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-ios-extension.jpg" width="800" height="600" alt="[app name] would like to access Apple Music" /></p>
+
+<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality" role="doc-noteref"><a href="#fn:codequality" class="footnote" rel="footnote">2</a></sup>:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">ShareViewController</span><span class="p">:</span> <span class="kt">SLComposeServiceViewController</span> <span class="p">{</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">extensionContext</span><span class="p">?</span><span class="o">.</span><span class="n">inputItems</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSExtensionItem</span><span class="p">,</span> <span class="k">let</span> <span class="nv">itemProvider</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">attachments</span><span class="p">?</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSItemProvider</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="n">itemProvider</span><span class="o">.</span><span class="nf">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">itemProvider</span><span class="o">.</span><span class="nf">loadItem</span><span class="p">(</span><span class="nv">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">shareURL</span> <span class="o">=</span> <span class="n">url</span> <span class="k">as?</span> <span class="kt">URL</span> <span class="p">{</span>
+                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">shareURL</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">textView</span><span class="o">.</span><span class="n">text</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"ERROR"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="s">"That didn't work: </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="se">)</span><span class="s">"</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+                                <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
+                                    <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                                <span class="p">}))</span>
+                                <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                                <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                            <span class="p">}</span>
+                        <span class="p">})</span>
+                    <span class="p">}</span>
+                <span class="p">})</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>This is paired with an <code class="language-plaintext highlighter-rouge">NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-safari-extension.jpg" width="800" height="86" alt="[app name] would like to access Apple Music" /></p>
+
+<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax" role="doc-noteref"><a href="#fn:ajax" class="footnote" rel="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">SafariExtensionHandler</span><span class="p">:</span> <span class="kt">SFSafariExtensionHandler</span> <span class="p">{</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
+            <span class="n">tab</span><span class="p">?</span><span class="o">.</span><span class="nf">getActivePage</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
+                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="p">,</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">url</span> <span class="p">{</span>
+                        <span class="k">let</span> <span class="nv">title</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">"Unknown Title"</span>
+                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+                                <span class="kt">NSLog</span><span class="p">(</span><span class="s">"PROBLEM! </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">reload</span><span class="p">()</span>
+                            <span class="p">}</span>
+                        <span class="p">})</span>
+                    <span class="p">}</span>
+                <span class="p">})</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>When I click on the controller icon, the method above is called and the URL and title are sent to my server; once completed, the page reloads to show me it has been successful. I spent a long time trying to just get a simple alert to display on either success or failure but I couldn’t get it to work correctly. It is possible to interact with JavaScript and I was able to log to the console but any alert would silently fail. If anybody has any tips on that, I’d <a href="https://bendodson.com/contact/">love to know how to improve it</a>.</p>
+
+<p>The basic template of my weekly update is the same every week and I used to use a number of custom MySQL queries to pull out the various information I needed and then write it up manually. Now that I have my links stored in my database, I decided to write a PHP script to generate as much of my update as possible so all I need to do is fill in some of the blanks that aren’t automatically provided (i.e. upcoming game release dates) and write my own thoughts and opinions around the news articles. I have a basic PHP script which runs a number of MySQL queries and then generates a Markdown document like this:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Introduction...
+
+###News
+
+[Final Fantasy 15's PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
+
+[New PlayStation 4 Pro patch for Final Fantasy XV makes it look worse | Ars Technica](https://arstechnica.com/gaming/2017/02/new-playstation-4-pro-patch-for-final-fantasy-xv-makes-it-look-worse/#p3)
+
+[This tiny Nintendo Switch feature is already making fans super happy - Polygon](http://www.polygon.com/2017/2/20/14668988/nintendo-switch-click-sound-effect-joy-con)
+
+[Alto's Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
+
+[never gonna give you up - What’s In the Box?2?! Take 2](http://tyrod.com/post/157494246009/whats-in-the-box2-take-2)
+
+[Steam Community :: Group Announcements :: Orwell](http://steamcommunity.com/games/491950/announcements/detail/484538095747263770)
+
+[Nintendo tag teams with John Cena for living room-inspired Switch demos - Polygon](http://www.polygon.com/2017/2/21/14682742/nintendo-switch-john-cena)
+
+[Look What Mega Bloks Is Doing To Pokémon ](http://kotaku.com/look-what-mega-bloks-done-to-pokemon-1792555348)
+
+[Pillars of Eternity 2 campaign clears $3 million - Polygon](http://www.polygon.com/2017/2/21/14689394/pillars-of-eternity-2-deadfire-funded-3-million-fig)
+
+[Take a look at how itty-bitty the Nintendo Switch cartridge is - Polygon](http://www.polygon.com/2017/2/21/14691596/nintendo-switch-cartridge-size-comparison)
+
+[Australia Is Coming To Civilization VI](http://kotaku.com/australia-is-coming-to-civilization-vi-1792599435)
+
+[Rocket League Original Minis toys expanding with light-up cars - Polygon](http://www.polygon.com/2017/2/21/14692528/rocket-league-original-minis-light-up-cars)
+
+[Hot and heavy Mass Effect pack comes to Cards Against Humanity - Polygon](http://www.polygon.com/2017/2/22/14698798/cards-against-humanity-mass-effect-pack)
+
+And finally, 
+
+###My Posts
+- Making the earth move with Stagehand — "I really like the premise of a "reverse platformer" but there simply isn't enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto's Adventure_, and _Super Mario Run_" [[link](https://kyloben.co.uk/stagehand-review)]
+
+###Podcasts
+- Podcast #xx: Title [[link]()]
+- Another Podcast #xx: Title [[link]()]
+
+###Upcoming Game Releases
+- _Game Title #1_ (date - platforms) [[link]()]
+- _Game Title #2_ (date - platforms) [[link]()]
+- _Game Title #3_ (date - platforms) [[link]()]
+- _Game Title #4_ (date - platforms) [[link]()]
+- _Game Title #5_ (date - platforms) [[link]()]
+
+###Gaming Time
+This week I spent 9.6 hours playing six different games:
+
+- **Stagehand** (0.5hrs): Text...
+- **Rocket League** (0.6hrs): Text...
+- **Pokémon Moon** (0.7hrs): Text...
+- **Forza Horizon 3** (1.1hrs): Text...
+- **SteamWorld Heist** (2.8hrs): Text...
+- **Night in the Woods** (3.9hrs): Text...
+
+This week I added 2 new games to my library: _Crusader Kings II_, _Night in the Woods_.
+
+Details on games I'm planning on playing this week...
+
+Until next time, have a great week!
+
+---
+
+_Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it's this post in email form every Monday!_</code></pre></figure>
+
+<p>The news URLs are simply pulled from the database and wrapped up so that each link uses the title of the page as provided by the macOS and iOS extensions. I will nearly always change the link title (as it’ll be part of a sentence) but it allows me to quickly see what an article is about without needing to open it up and re-read it. The “my posts” section requires no editing at all as it pulls the title, link, and a pull quote directly from the articles I’ve published in the previous week. The podcasts and upcoming game release sections can’t be automatically populated (yet) so I just use placeholder text for these to reduce the amount of effort required. The final section on my gaming time uses a number of queries to get the exact amount of time I’ve spent playing in the past week, adds placeholders for each game so I can write about them, and then lists out any new games I’ve added to my library; all of this is thanks to some scripts I wrote a while back that scrape my Steam and Xbox One libraries to track changes and allow me to render a page showing <a href="https://kyloben.co.uk/gaming-time/">my gaming time</a> for the past few months.</p>
+
+<p>Once I’ve finished writing, the Markdown file is uploaded to my server and the weekly update will then appear on the website. I then use Byword’s “copy as HTML” feature to generate a HTML version and use that with Mailchimp to write and send out the <a href="https://kyloben.co.uk/weekly">email version</a> of the update.</p>
+
+<p>With these tools, I can now write my weekly update pretty quickly and only have to focus on what I want to say rather than spending time on copying, pasting, and formatting. If you’re interested in video games, <a href="https://kyloben.co.uk/weekly">sign up to the weekly email</a> as it is the best way to get a digest of what has been happening over the past week as well as seeing what new games are arriving.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:pocket" role="doc-endnote">
+      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:codequality" role="doc-endnote">
+      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:ajax" role="doc-endnote">
+      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">Proposal for an Erase Data Passcode</a></h1>
 			
 			<time datetime="2017-02-16" pubdate=""><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">February 16, 2017</a></time>
@@ -400,53 +572,6 @@
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/27/kylo-ben/">Kylo Ben</a></h1>
-			
-			<time datetime="2016-10-27" pubdate=""><a href="/weblog/2016/10/27/kylo-ben/">October 27, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I have three main hobbies; coding, video games, and LEGO. With the first, I’m fortunate to have a flexible job that allows me to code on tons of different and varied projects every day. With the last, I’ve literally run out of space for the models I already have (most of which are over 2000 bricks in size). Video games, then, are really my main hobby. In the last year I’ve <a href="http://connectingtohost.com/">started a podcast on co-operative gaming</a>, built a powerful gaming PC, and spent somewhere in the region of 900 hours playing games. Today I’m happy to announce a new website I’ve been working on dedicated to my gaming hobby; it’s called <a href="http://kyloben.co.uk">Kylo Ben</a>:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/kylo-ben.jpg" width="800" height="400" /></p>
-
-<p>Kylo Ben is divided into several different sections:</p>
-
-<h3 id="articles">Articles</h3>
-
-<p>I’m currently varying between reviews, things I’m excited about, and general thought pieces on the industry. So far, I have published:</p>
-
-<ul>
-  <li>A look ahead at the <a href="http://kyloben.co.uk/titanfall-2-achievements">achievements in Titanfall 2</a> (compared to Titanfall)</li>
-  <li>A review of minimalistic transport sim, <a href="http://kyloben.co.uk/mini-metro-review">Mini Metro</a></li>
-  <li>A piece about <a href="http://kyloben.co.uk/my-first-steam-refund">my first refund on Steam</a> in 11 years</li>
-  <li>Some thoughts on the <a href="http://kyloben.co.uk/thoughts-on-the-nintendo-switch">Nintendo Switch</a> announcement</li>
-  <li>A review of the <a href="http://kyloben.co.uk/lego-dimensions-doctor-who">Doctor Who LEGO Dimensions level pack</a></li>
-  <li>A roundup of the <a href="http://kyloben.co.uk/humble-monthly-october-2016">games in the October Humble Bundle</a></li>
-</ul>
-
-<p>I’m trying to write new pieces every couple of days and it has proven to be a good way to practice my writing and get some long form thoughts out that don’t fit neatly into a 140 character tweet. It also means I can keep these game centric pieces away from my more work-oriented blog here at <a href="https://bendodson.com/">bendodson.com</a>.</p>
-
-<h3 id="about">About</h3>
-
-<p>I’ve listed a few things about my current gaming setups on my <a href="http://kyloben.co.uk/about/">about page</a>. It details the components in my gaming PC, my current console and mobile gaming systems, and a look through the various consoles I’ve owned since I started gaming in 1991.</p>
-
-<h3 id="games">Games</h3>
-
-<p>I have a single page which lists all of the games I currently own on both Steam and my Xbox One. Each game has more details including purchase date, last played, total gaming time, and a short note about where I’m currently at with the game. I also list any articles related to that game for easy reference (and vice versa). For example, here is the entry for <a href="http://kyloben.co.uk/games/mini-metro">Mini Metro</a>.</p>
-
-<h3 id="gaming-time">Gaming Time</h3>
-
-<p>This is perhaps my biggest achievement; a complete log of time spent on each game. The page updates daily and will list each game I’ve played over the last 2 months along with duration and a link through to more details. This is done through a combination of two custom scripts I wrote to scrape both my Steam library and Xbox Live / Windows 10 account periodically for changes. It’s been fascinating for me to see exactly how long I’ve spent on certain games (*cough* <a href="http://kyloben.co.uk/games/peggle-2">Peggle 2</a> *cough*) and will allow me to easily write a regular piece on games I’ve played over the previous month.</p>
-
-<p>I’m really excited to be writing regularly about my biggest hobby and I’m looking forward to posting frequently for the foreseeable future. I have a few extra things to announce soon including some apps and game mods so <a href="https://twitter.com/bendodson">follow me on Twitter</a> for the latest updates. Alternatively, there is an <a href="http://kyloben.co.uk/rss.xml">RSS feed available</a> for Kylo Ben which will keep you up to date on any new articles. If you have any thoughts or suggestions for improvements, please <a href="https://bendodson.com/contact">get in touch</a>.</p>
-
 
 		</div>
 	</article>

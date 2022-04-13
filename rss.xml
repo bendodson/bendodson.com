@@ -6,9 +6,53 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Fri, 11 Mar 2022 12:54:59 +0000</pubDate>
-    <lastBuildDate>Fri, 11 Mar 2022 12:54:59 +0000</lastBuildDate>
+    <pubDate>Wed, 13 Apr 2022 12:17:30 +0100</pubDate>
+    <lastBuildDate>Wed, 13 Apr 2022 12:17:30 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Web Inspector on iOS devices and Simulators</title>
+      <link>https://bendodson.com/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/</link>
+      <pubDate>Wed, 13 Apr 2022 09:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/</guid>
+      <description>&lt;p&gt;Over the past few weeks I’ve worked on a number of projects that have necessitated me working with HTML and JavaScript be that via Safari on iOS, an SFSafariViewController, or in an embedded WKWebView. In all of these cases, I’ve needed to dive into the DOM to see what styles are being applied to certain elements or dig into a JavaScript Console to work out why some code isn’t working. On desktop, this is trivial as Safari has a Web Inspector panel built in similar to other browsers. It turns out it is also trivial on mobile as the exact same tool can be used with both iOS simulators and physical devices.&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2022/ios-simulator-web-inspector.jpg&quot; width=&quot;800&quot; height=&quot;536&quot; /&gt;
+    &lt;figure&gt;Activating the Web Inspector for Safari in an iOS Simulator. Note that it is also possible to look at the &quot;Extension Background Page&quot; for the Browser Note Safari Extension that is also installed and running.&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you select the ‘Develop’ tab from the menu bar of Safari on macOS, you’ll see a list of all of your connected devices and actively running simulators&lt;sup id=&quot;fnref:naming&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:naming&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Drilling into this will then show all of the active web instances you can interact with; notice how the content within Safari has highlighted blue within the Simulator as I’ve moused over the twitter.com web instance above. When you click, a web inspector panel is then produced which allows you to make all the usual interrogations and changes you can within desktop Safari such as interacting with the console or changing CSS values of elements to see how they would look in realtime.&lt;/p&gt;
+
+&lt;p&gt;Here’s an example using a WKWebView within one of my client projects, &lt;a href=&quot;https://spanish.yabla.com&quot;&gt;Yabla Spanish&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2022/ios-device-web-inspector.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;
+    &lt;figure&gt;As I hover over the DOM in the web inspector, the same highlighting that appears in desktop Safari appears within the WKWebView on my physical device (note the green box showing the 24px padding within that div).&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Discovering that simulators and devices could be interacted with in this way has been a huge timesaver for me. Whilst &lt;a href=&quot;/weblog/2022/03/11/browser-note/&quot;&gt;developing Browser Note&lt;/a&gt;, I was constantly needing to tweak CSS values and investigate the current state of the DOM as websites have various tricks to try and make ads or cookie notices appear on top of all content (and the note needed to be on top at all times - you should totally take a look at &lt;a href=&quot;https://apps.apple.com/us/app/browser-note/id1613527249&quot;&gt;Browser Note&lt;/a&gt; whilst you’re here). In doing this, I was then able to put this knowledge to use on no less than 3 client projects in the past month; this validates my theory that by working on your own &lt;a href=&quot;/sideprojects/&quot;&gt;side projects&lt;/a&gt; you can improve your efficiency when it comes to work projects.&lt;/p&gt;
+
+&lt;p&gt;There are a few caveats to be aware of when using the Web Inspector with an iOS device or simulator:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;If you want to use this on an actual device you’ll first need to enable the Web Inspector on iOS. To do this, go to the Settings app and then Safari &amp;gt; Advanced and toggle the Web Inspector on.&lt;/li&gt;
+  &lt;li&gt;Whilst the Web Inspector can interrogate WKWebView, it can only do this for apps you are running via Xcode. You cannot look at the WKWebView of apps you did not create nor of your own apps from TestFlight / the App Store. However, you can inspect debug builds installed via Xcode even if the debugger is not active (i.e. you build to the device then quit Xcode).&lt;/li&gt;
+  &lt;li&gt;Conversely, you can use the Web Inspector with any SFSafariViewController even if it is not in your own app.&lt;/li&gt;
+  &lt;li&gt;Whilst it is still possible to submit apps that use UIWebView, the web inspector will not work with them; &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/wkwebview.jpg&quot;&gt;it needs to be WKWebView&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;This also works for AppKit, SwiftUI, and Catalyst apps on macOS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:naming&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I use an “iDod” naming prefix for all of my devices; a throwback pun to my first Apple product, the iPod. &lt;a href=&quot;#fnref:naming&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Browser Note and the process of building an iOS 15 Safari Extension</title>
@@ -2209,83 +2253,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
   &lt;ol&gt;
     &lt;li id=&quot;fn:manualstoryboard&quot; role=&quot;doc-endnote&quot;&gt;
       &lt;p&gt;If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! &lt;a href=&quot;#fnref:manualstoryboard&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>MPMediaItem+CanAddToLibrary.swift</title>
-      <link>https://bendodson.com/weblog/2017/07/19/mpmediaitem-canaddtolibrary/</link>
-      <pubDate>Wed, 19 Jul 2017 08:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2017/07/19/mpmediaitem-canaddtolibrary/</guid>
-      <description>&lt;p&gt;Since iOS 9.3 it has been possible to &lt;a href=&quot;https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/&quot;&gt;add Apple Music tracks to the media library&lt;/a&gt; as such:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;library&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MPMediaLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withProductID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Error: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;localizedDescription&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a &lt;a href=&quot;https://github.com/bendodson/MPMediaItem-CanAddToLibrary&quot;&gt;simple Swift extension&lt;/a&gt;&lt;sup id=&quot;fnref:mpmediaitemswift&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:mpmediaitemswift&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for MPMediaItem that tells you if a currently playing track is available in your library:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIKit&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MediaPlayer&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MPMediaItem&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;canAddToLibrary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MPMediaPropertyPredicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistentID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MPMediaItemPropertyPersistentID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MPMediaQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;filterPredicates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMediaQuery&lt;/code&gt;. Unfortunately you can’t search on  the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMediaItemPropertyPlaybackStoreID&lt;/code&gt; (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps&lt;sup id=&quot;fnref:playlist&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:playlist&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; by listening to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/code&gt; notification and then checking if there is a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nowPlayingItem&lt;/code&gt; on my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMusicPlayerController&lt;/code&gt; instance; if there is then check it to find the current status:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;player&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MPMusicPlayerController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    
-    &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;beginGeneratingPlaybackNotifications&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;NotificationCenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#selector(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;playbackStateDidChange&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-
-&lt;span class=&quot;kd&quot;&gt;@objc&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;playbackStateDidChange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    
-    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nowPlayingItem&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// at this point we do not know if the track can be added - any UI for adding should be hidden&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;canAddToLibrary&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;c1&quot;&gt;// show your &quot;Add to library&quot; button&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;c1&quot;&gt;// show some UI to explain &quot;Already in library&quot;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;I am fairly sure this is how the Music app works on iOS as you’ll notice when skipping tracks that the UI for the track status is completely hidden until the track is ready to play at which point either an add button or a tick will appear. One thing that caught me out was listening for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMusicPlayerControllerPlaybackStateDidChange&lt;/code&gt; but this seems to fire inconsistently both on iOS 10 and iOS 11 (unless you are on an iPad and run the Music app in split-screen mode in which case it always works) - checking for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMusicPlayerControllerNowPlayingItemDidChange&lt;/code&gt; works consistently and will still yield an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMediaItem&lt;/code&gt; with which to work with.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;IMPORTANT:&lt;/strong&gt; The user will need to have granted permission to access their media library in order for this extension to work. It will crash your app if you do not have NSAppleMusicUsageDescription in your Info.plist (although that is the bare minimum - you should actively check for capabilities before using this as no point showing an “Add to library” button if the user doesn’t have that capability!)&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/bendodson/MPMediaItem-CanAddToLibrary&quot;&gt;Checkout the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPMediaItem+CanAddToLibrary&lt;/code&gt; Swift extension on GitHub&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:mpmediaitemswift&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. &lt;a href=&quot;#fnref:mpmediaitemswift&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:playlist&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me&lt;/a&gt; for a test version before it launches in September… &lt;a href=&quot;#fnref:playlist&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
