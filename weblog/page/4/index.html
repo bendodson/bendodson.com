@@ -41,6 +41,29 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/03/27/alcopath/">AlcoPath</a></h1>
+			
+			<time datetime="2017-03-27" pubdate=""><a href="/weblog/2017/03/27/alcopath/">March 27, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app I’ve been working on for the past few weeks: <a href="https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8">AlcoPath</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/alcopath.jpg" width="800" height="426" /></p>
+
+<p>I worked on AlcoPath for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed in consultation with the the Nottinghamshire Healthcare NHS Foundation Trust and features a WEKP Cognitive Assessment (incorporating 6CIT, Ataxia test, Opthalmoplegia test, and other associated risk factors) to diagnose Wernicke’s encephalopathy, a Withdrawal Assessment for Alcohol using a revised CIWA-Ar scale, and industry recommended pathways all in-line with NICE Guidance.</p>
+
+<p>The app is available for free and can be used by clinical staff on both iPhone and iPad thanks to a scaling interface suitable for all device sizes. An A4-sized PDF can be generated with the personalised results of each assessment and this can be printed directly from the app. Push notifications were also integrated to inform users quickly of any updates.</p>
+
+<p>In order to render the various assessment questions efficiently and accurately, I built a local PHP-based tool to input the various questions and output a JSON file that the app would then interpret to build each question and the various ways of answering be that with a toggle, multiple selection, or text entry. This prevented the need for the app to connect to an online database but also enabled me to make prompt updates should new questions need to be added or existing questions be edited in the future.</p>
+
+<p>It was a great experience working with Orbis Media on this app and the feedback from clinicians has been great so far. You can download <a href="https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8">AlcoPath on the App Store</a> and learn more about it at <a href="http://www.alcopath.co.uk/">AlcoPath.co.uk</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">Building tools for Kylo Ben</a></h1>
 			
 			<time datetime="2017-02-23" pubdate=""><a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">February 23, 2017</a></time>
@@ -534,41 +557,6 @@ _Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing 
     </li>
     <li id="fn:personalusage" role="doc-endnote">
       <p>And if you want to do more than just personal usage you should <a href="https://bendodson.com/contact/">speak to me</a> first as I don’t really want people to create entire duplicates of my own project. <a href="#fnref:personalusage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/29/dimensions/">Vortech</a></h1>
-			
-			<time datetime="2016-10-29" pubdate=""><a href="/weblog/2016/10/29/dimensions/">October 29, 2016</a></time>
-    	</header>
-    	<div>
-			<p><strong>Update <em>(9th Nov 2016):</em></strong> I’ve updated this article to reflect the new name for the app, Vortech. Whilst submitting a v1.0.1 update (adding support for some extra figures), Apple took issue with the name Dimensions so I had to change it…</p>
-
-<p>I’m very happy to announce that my latest self-published app, <a href="https://dodoapps.io/vortech/">Vortech</a>, is now <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">available on the App Store</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dimensions.jpg" width="800" height="542" /></p>
-
-<p>Vortech is a character and ability tracker for the videogame LEGO Dimensions. It allows you to easily see all 52 currently available characters (waves 1-6) and 73 abilities and track them in your own collection. Whilst there are other tracking apps available (namely the official LEGO Dimensions app), these tend not to be as easy to use and they don’t allow you to cross-reference the special abilities and powers of characters.</p>
-
-<p>I built the app as I would occassionally come across something that required a special ability and the game might show me a character with that ability. However, as I have a fairly large collection already, it is likely I have a character with the ability and just need to look up which one has it. For example, I might find an area in a level which requires the Sonar Smash ability and the game might show me the character Benny (from The LEGO Movie) as someone with this ability; with my app, I can quickly see who else has that abilty and find I have Marty McFly (from Back To The Future) who will do just as well!</p>
-
-<p>The entire app is built using Swift 3.0 and I use <a href="http://realm.io">Realm</a> as a mobile database containing all of the character information that I scraped from the official LEGO Dimensions website<sup id="fnref:legoscraper" role="doc-noteref"><a href="#fn:legoscraper" class="footnote" rel="footnote">1</a></sup>. I added a few nice touches such as Peek &amp; Pop support for 3D Touch enabled devices and taptic feedback for the iPhone 7 models. The app is completely free and contains no in-app purchases, adverts, or analytics tracking – it doesn’t even require an internet connection!</p>
-
-<p>You can download <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">Vortech on the App Store</a> and learn more about it on my <a href="https://dodoapps.io/vortech/">Dodo Apps website</a>.</p>
-
-<p>If you find Vortech useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can <a href="https://bendodson.com/contact/">contact me directly</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:legoscraper" role="doc-endnote">
-      <p>I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. <a href="#fnref:legoscraper" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

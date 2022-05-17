@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Unlisted App Distribution on the App Store">
+		<meta property="og:description" content="The somewhat uninituitive steps to get a private app distribution link on the App Store">
+		<meta property="og:url" content="https://bendodson.com/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/">
+		
+		<meta name="twitter:title" content="Unlisted App Distribution on the App Store">
+		<meta name="twitter:description" content="The somewhat uninituitive steps to get a private app distribution link on the App Store">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/unlisted-app-cover.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/unlisted-app-cover.jpg">			
+		
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2022-04-13.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Unlisted App Distribution on the App Store</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/">Unlisted App Distribution on the App Store</a></h1>
+			
+			<time datetime="2022-05-17" pubdate=""><a href="/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/">May 17, 2022</a></time>
+    	</header>
+    	<div>
+			<p>Back in 2015 I was commissioned to rebuild an iOS app for <a href="https://www.models1.co.uk">models1</a>, the largest modelling agency in Europe. The app performed double duty acting as a personal portfolio for models within the agency and a collection of all of the portfolios for the agents. As it was only for staff and models, the app was distributed via an Enterprise certificate which allowed me to generate a single .ipa and produce a website where users could download the app directly to their devices. Over the years, this process became slightly more arduous as the user would need to manually approve the enterprise certificate within their device settings but it worked.</p>
+
+<p>A little while later I also built a small app that allowed talent scouts to choose multiple photos and fill out some details in a form which was then compiled into an email. This, again, was distributed via an Enterprise account.</p>
+
+<p>Fast forward to 2022 and my client had allowed their developer account to lapse. Upon trying to renew, they were told by Apple that they no longer met the <a href="https://developer.apple.com/programs/enterprise/">current program requirements</a> and that they should seek to distribute via Apple Business Manager, Ad Hoc Distribution, TestFlight, or the App Store. The Apple Business Manager would not have worked well as that is essentially a full MDM system whereby the client would need to manage all devices (which would not be suitable for the models). Similarly, Ad Hoc Distribution would be a pain as we’d need UDIDs for every device we want to distribute to and TestFlight would require sending out new builds every 90 days; the App Store being public would not be an option given the niche aspect of the app.</p>
+
+<p>Luckily I’d remembered that Apple had announced a new “unlisted” status back in January which would allow you to upload your app to the App Store but make it available only via a direct link, kind of like the public link system within TestFlight<sup id="fnref:noexpire" role="doc-noteref"><a href="#fn:noexpire" class="footnote" rel="footnote">1</a></sup>. I browsed around App Store Connect but could find no mention of it within the “Pricing and Availability” tab which only allowed me to go down the business route. It turns out you have to <a href="https://developer.apple.com/support/unlisted-app-distribution/">apply for unlisted status</a> via a form:</p>
+
+<blockquote>
+  <p>You’ll need to submit a request to receive a link to your unlisted app. <strong>If your app hasn’t been submitted for review or was already approved for public download on the App Store, simply complete the request form</strong>. If your app was already approved for private download on Apple Business Manager or Apple School Manager, you’ll need to create a new app record in App Store Connect, upload your binary, and set the distribution method to Public before completing the request form.</p>
+</blockquote>
+
+<p>To start with, I uploaded a build and filled out all of the metadata on App Store Connect including screenshots, description, review notes, etc. I then attempted to fill out <a href="https://developer.apple.com/contact/request/unlisted-app/">the form</a> but was denied access, despite being an admin, as it is only available to the account holder. For reference, the questions they ask are:</p>
+
+<ul>
+  <li>App Name</li>
+  <li>Apple ID of App</li>
+  <li>Describe in detail the business problem your app solves</li>
+  <li>Why do you prefer to distribute this app unlisted on the App Store instead of privately to specific organizations on Apple Business Manager or Apple School Manager?</li>
+  <li>What is the estimated size of your app’s user base?</li>
+  <li>Who is the audience for your app?</li>
+  <li>In what regions will your app be available?</li>
+</ul>
+
+<p>My client filled this out and within 24 hours they had a reply:</p>
+
+<blockquote>
+  <p>After careful review, we regret that we’re unable to approve your request for unlisted app distribution at this time.</p>
+
+  <p>In order to evaluate your app, please complete all the required metadata in App Store Connect, including app name, description, keywords, and screenshots and submit for review.</p>
+</blockquote>
+
+<p>This was a surprise as everything was set up on App Store Connect. After another email back and forth, Apple replied with:</p>
+
+<blockquote>
+  <p>I will reiterate the note below, and say that all unlisted apps must be submitted for App Store review.</p>
+</blockquote>
+
+<p>So it turns out you <em>do</em> need to still submit the app via App Store Connect but also fill in a request form. Obviously we did not want the app to go live publicly so I set everything to “Manual release” and then added an extra line to the review notes that read:</p>
+
+<blockquote>
+  <p>IMPORTANT: We will request “unlisted” status for this app, it is not for general release but we were told by unlistedapp_request@apple.com that we needed to submit this to App Review before requesting this status.</p>
+</blockquote>
+
+<p>I submitted the app and my client filled out the request form again. The next day, I received notification that both apps had been rejected by App Review for <em>Guideline 2.1 - Information Needed</em>:</p>
+
+<blockquote>
+  <p>We need more information about your business model and your users to help you find the best distribution option for your app</p>
+
+  <p>Please review the following questions and provide as much detailed information as you can for each question.</p>
+
+  <ol>
+    <li>Is your app restricted to users who are part of a single company? This may include users of the company’s partners, employees, and contractors.</li>
+    <li>Is your app designed for use by a limited or specific group of companies?
+      <ul>
+        <li>If yes, which companies use this app?</li>
+        <li>If not, can any company become a client and utilize this app?</li>
+      </ul>
+    </li>
+    <li>What features in the app, if any, are intended for use by the general public?</li>
+    <li>Identify the specific countries or regions where you plan to distribute your app.</li>
+    <li>How do users obtain an account?</li>
+    <li>Is there are any paid content in the app? For example, do users pay for opening an account or using certain features in the app?</li>
+    <li>Who pays for the paid content and how do users access it?</li>
+  </ol>
+</blockquote>
+
+<p>You’ll note that a lot of this is similar to the form that was already filled out 🤔</p>
+
+<p>I was out of the office for the day so had not gotten around to replying to these questions when out of the blue I got two notifications to say the apps had been approved for the App Store! It looks like App Review had rejected the app as they were not suitable for App Store release (hence the questions above) but had completely ignored my note about the unlisted status. Then, later that day, the team that deals with unlisted apps looked at them and approved them.</p>
+
+<p>When I went back to App Store Connect, it now showed a new “Unlisted App URL” within the “App Distribution Methods” on the Pricing and Availability page<sup id="fnref:manual" role="doc-noteref"><a href="#fn:manual" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/unlisted-app-url.jpg" width="600" height="150" />
+</div>
+
+<p>A few thoughts:</p>
+
+<ol>
+  <li>This process is not great and I’m not sure why they’ve decided to split it across two separate systems. It would surely make more sense to have “Unlisted” be an option within App Store Connect and then App Review can have the correct team contact you to ask whatever questions they need, especially as the distribution is done through App Store Connect.</li>
+  <li>The documentation clearly says you only need to fill out the form if the app hasn’t been submitted for review. I’m not sure why we needed to submit the app only for it to be rejected by a different team?</li>
+  <li>The “Unlisted App URL” you get is actually the same as what the public URL would be. This strikes me as odd, especially as you can convert an already public app into an unlisted one (though you can’t go back to being public). Those URLs are going to be cached by search engines, etc, so seems like a bit of a flaw. This wasn’t an issue for us but worth mentioning.</li>
+  <li>Viewing the app on the App Store is exactly the same as if you’d shared any public URL; the store page is identical with screenshots, description, ratings, App Privacy, etc. There is no indication whatsoever that this is a private page.</li>
+</ol>
+
+<p>Overall I like that this system exists and that there is a way to get apps to a very specific small audience without paying 3x the cost for an enterprise account or going through the Apple Business Manager. I was also pleasantly surprised that the very basic app for talent scouts was approved as I did not think it would be; it looks like the App Store Guidelines are much less strictly enforced than they are for a public release<sup id="fnref:lucky" role="doc-noteref"><a href="#fn:lucky" class="footnote" rel="footnote">3</a></sup>. However, there are clearly some teething problems that need to be ironed out.</p>
+
+<p>In any case, if you’re looking to get an unlisted app on the App Store, just be aware that a rejection may not necessarily be all it seems!</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:noexpire" role="doc-endnote">
+      <p>Similar, but App Store apps don’t typically expire so a single build would be enough until iOS changes necessitate another build. <a href="#fnref:noexpire" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:manual" role="doc-endnote">
+      <p>As the app was still set to “Manual release” I had to press the release button. I was a bit nervous of this as the language is still “Are you sure you want to release this to the App Store” but it did not make it publicly available; once you have the unlisted URL there is no way to make the app public. <a href="#fnref:manual" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:lucky" role="doc-endnote">
+      <p>Or we got lucky 😂 <a href="#fnref:lucky" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/" title="Previous Article" class="pagination-previous">&laquo; Web Inspector on iOS devices and Simulators</a>
+    
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

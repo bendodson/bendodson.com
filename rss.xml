@@ -6,9 +6,121 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Wed, 13 Apr 2022 12:26:10 +0100</pubDate>
-    <lastBuildDate>Wed, 13 Apr 2022 12:26:10 +0100</lastBuildDate>
+    <pubDate>Tue, 17 May 2022 22:30:31 +0100</pubDate>
+    <lastBuildDate>Tue, 17 May 2022 22:30:31 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Unlisted App Distribution on the App Store</title>
+      <link>https://bendodson.com/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/</link>
+      <pubDate>Tue, 17 May 2022 22:30:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/</guid>
+      <description>&lt;p&gt;Back in 2015 I was commissioned to rebuild an iOS app for &lt;a href=&quot;https://www.models1.co.uk&quot;&gt;models1&lt;/a&gt;, the largest modelling agency in Europe. The app performed double duty acting as a personal portfolio for models within the agency and a collection of all of the portfolios for the agents. As it was only for staff and models, the app was distributed via an Enterprise certificate which allowed me to generate a single .ipa and produce a website where users could download the app directly to their devices. Over the years, this process became slightly more arduous as the user would need to manually approve the enterprise certificate within their device settings but it worked.&lt;/p&gt;
+
+&lt;p&gt;A little while later I also built a small app that allowed talent scouts to choose multiple photos and fill out some details in a form which was then compiled into an email. This, again, was distributed via an Enterprise account.&lt;/p&gt;
+
+&lt;p&gt;Fast forward to 2022 and my client had allowed their developer account to lapse. Upon trying to renew, they were told by Apple that they no longer met the &lt;a href=&quot;https://developer.apple.com/programs/enterprise/&quot;&gt;current program requirements&lt;/a&gt; and that they should seek to distribute via Apple Business Manager, Ad Hoc Distribution, TestFlight, or the App Store. The Apple Business Manager would not have worked well as that is essentially a full MDM system whereby the client would need to manage all devices (which would not be suitable for the models). Similarly, Ad Hoc Distribution would be a pain as we’d need UDIDs for every device we want to distribute to and TestFlight would require sending out new builds every 90 days; the App Store being public would not be an option given the niche aspect of the app.&lt;/p&gt;
+
+&lt;p&gt;Luckily I’d remembered that Apple had announced a new “unlisted” status back in January which would allow you to upload your app to the App Store but make it available only via a direct link, kind of like the public link system within TestFlight&lt;sup id=&quot;fnref:noexpire&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:noexpire&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. I browsed around App Store Connect but could find no mention of it within the “Pricing and Availability” tab which only allowed me to go down the business route. It turns out you have to &lt;a href=&quot;https://developer.apple.com/support/unlisted-app-distribution/&quot;&gt;apply for unlisted status&lt;/a&gt; via a form:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You’ll need to submit a request to receive a link to your unlisted app. &lt;strong&gt;If your app hasn’t been submitted for review or was already approved for public download on the App Store, simply complete the request form&lt;/strong&gt;. If your app was already approved for private download on Apple Business Manager or Apple School Manager, you’ll need to create a new app record in App Store Connect, upload your binary, and set the distribution method to Public before completing the request form.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To start with, I uploaded a build and filled out all of the metadata on App Store Connect including screenshots, description, review notes, etc. I then attempted to fill out &lt;a href=&quot;https://developer.apple.com/contact/request/unlisted-app/&quot;&gt;the form&lt;/a&gt; but was denied access, despite being an admin, as it is only available to the account holder. For reference, the questions they ask are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;App Name&lt;/li&gt;
+  &lt;li&gt;Apple ID of App&lt;/li&gt;
+  &lt;li&gt;Describe in detail the business problem your app solves&lt;/li&gt;
+  &lt;li&gt;Why do you prefer to distribute this app unlisted on the App Store instead of privately to specific organizations on Apple Business Manager or Apple School Manager?&lt;/li&gt;
+  &lt;li&gt;What is the estimated size of your app’s user base?&lt;/li&gt;
+  &lt;li&gt;Who is the audience for your app?&lt;/li&gt;
+  &lt;li&gt;In what regions will your app be available?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;My client filled this out and within 24 hours they had a reply:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;After careful review, we regret that we’re unable to approve your request for unlisted app distribution at this time.&lt;/p&gt;
+
+  &lt;p&gt;In order to evaluate your app, please complete all the required metadata in App Store Connect, including app name, description, keywords, and screenshots and submit for review.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This was a surprise as everything was set up on App Store Connect. After another email back and forth, Apple replied with:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I will reiterate the note below, and say that all unlisted apps must be submitted for App Store review.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So it turns out you &lt;em&gt;do&lt;/em&gt; need to still submit the app via App Store Connect but also fill in a request form. Obviously we did not want the app to go live publicly so I set everything to “Manual release” and then added an extra line to the review notes that read:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;IMPORTANT: We will request “unlisted” status for this app, it is not for general release but we were told by unlistedapp_request@apple.com that we needed to submit this to App Review before requesting this status.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I submitted the app and my client filled out the request form again. The next day, I received notification that both apps had been rejected by App Review for &lt;em&gt;Guideline 2.1 - Information Needed&lt;/em&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We need more information about your business model and your users to help you find the best distribution option for your app&lt;/p&gt;
+
+  &lt;p&gt;Please review the following questions and provide as much detailed information as you can for each question.&lt;/p&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;Is your app restricted to users who are part of a single company? This may include users of the company’s partners, employees, and contractors.&lt;/li&gt;
+    &lt;li&gt;Is your app designed for use by a limited or specific group of companies?
+      &lt;ul&gt;
+        &lt;li&gt;If yes, which companies use this app?&lt;/li&gt;
+        &lt;li&gt;If not, can any company become a client and utilize this app?&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;What features in the app, if any, are intended for use by the general public?&lt;/li&gt;
+    &lt;li&gt;Identify the specific countries or regions where you plan to distribute your app.&lt;/li&gt;
+    &lt;li&gt;How do users obtain an account?&lt;/li&gt;
+    &lt;li&gt;Is there are any paid content in the app? For example, do users pay for opening an account or using certain features in the app?&lt;/li&gt;
+    &lt;li&gt;Who pays for the paid content and how do users access it?&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You’ll note that a lot of this is similar to the form that was already filled out 🤔&lt;/p&gt;
+
+&lt;p&gt;I was out of the office for the day so had not gotten around to replying to these questions when out of the blue I got two notifications to say the apps had been approved for the App Store! It looks like App Review had rejected the app as they were not suitable for App Store release (hence the questions above) but had completely ignored my note about the unlisted status. Then, later that day, the team that deals with unlisted apps looked at them and approved them.&lt;/p&gt;
+
+&lt;p&gt;When I went back to App Store Connect, it now showed a new “Unlisted App URL” within the “App Distribution Methods” on the Pricing and Availability page&lt;sup id=&quot;fnref:manual&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:manual&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2022/unlisted-app-url.jpg&quot; width=&quot;600&quot; height=&quot;150&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A few thoughts:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;This process is not great and I’m not sure why they’ve decided to split it across two separate systems. It would surely make more sense to have “Unlisted” be an option within App Store Connect and then App Review can have the correct team contact you to ask whatever questions they need, especially as the distribution is done through App Store Connect.&lt;/li&gt;
+  &lt;li&gt;The documentation clearly says you only need to fill out the form if the app hasn’t been submitted for review. I’m not sure why we needed to submit the app only for it to be rejected by a different team?&lt;/li&gt;
+  &lt;li&gt;The “Unlisted App URL” you get is actually the same as what the public URL would be. This strikes me as odd, especially as you can convert an already public app into an unlisted one (though you can’t go back to being public). Those URLs are going to be cached by search engines, etc, so seems like a bit of a flaw. This wasn’t an issue for us but worth mentioning.&lt;/li&gt;
+  &lt;li&gt;Viewing the app on the App Store is exactly the same as if you’d shared any public URL; the store page is identical with screenshots, description, ratings, App Privacy, etc. There is no indication whatsoever that this is a private page.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Overall I like that this system exists and that there is a way to get apps to a very specific small audience without paying 3x the cost for an enterprise account or going through the Apple Business Manager. I was also pleasantly surprised that the very basic app for talent scouts was approved as I did not think it would be; it looks like the App Store Guidelines are much less strictly enforced than they are for a public release&lt;sup id=&quot;fnref:lucky&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:lucky&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. However, there are clearly some teething problems that need to be ironed out.&lt;/p&gt;
+
+&lt;p&gt;In any case, if you’re looking to get an unlisted app on the App Store, just be aware that a rejection may not necessarily be all it seems!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:noexpire&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Similar, but App Store apps don’t typically expire so a single build would be enough until iOS changes necessitate another build. &lt;a href=&quot;#fnref:noexpire&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:manual&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;As the app was still set to “Manual release” I had to press the release button. I was a bit nervous of this as the language is still “Are you sure you want to release this to the App Store” but it did not make it publicly available; once you have the unlisted URL there is no way to make the app public. &lt;a href=&quot;#fnref:manual&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:lucky&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Or we got lucky 😂 &lt;a href=&quot;#fnref:lucky&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Web Inspector on iOS devices and Simulators</title>
@@ -2222,40 +2334,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
 &lt;/ul&gt;
 
 &lt;p&gt;It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8&quot;&gt;DrinkCoach+ on the App Store&lt;/a&gt; for free and learn more about it at &lt;a href=&quot;http://www.drinkcoach.org.uk&quot;&gt;drinkcoach.org.uk&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Forcing left-to-right text in iOS localizations</title>
-      <link>https://bendodson.com/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/</link>
-      <pubDate>Wed, 04 Oct 2017 09:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/</guid>
-      <description>&lt;p&gt;Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.&lt;/p&gt;
-
-&lt;p&gt;After a bit of searching, the &lt;a href=&quot;https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib&quot;&gt;general consensus&lt;/a&gt; was that I’d need to manually alter&lt;sup id=&quot;fnref:manualstoryboard&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:manualstoryboard&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.&lt;/p&gt;
-
-&lt;p&gt;Instead, I came across a property added to UIView in iOS 9 named &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;semanticContentAttribute&lt;/code&gt;. This allows you to choose &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unspecified&lt;/code&gt; (the default which flips based on localization), &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;playback&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spatial&lt;/code&gt; which are special cases for media controls or directional controls, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;forceLeftToRight&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;forceRightToLeft&lt;/code&gt; which work as their names would suggest. Thanks to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UIAppearance&lt;/code&gt; protocol, disabling the flipping globally is a simple one-liner:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kt&quot;&gt;UIView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;appearance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;semanticContentAttribute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forceLeftToRight&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This not only flips all content back to left-to-right but also ensures that your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt; will animate from left-to-right as well. Of course, you can also use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;appearanceWhenContainedIn:&lt;/code&gt; method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.&lt;/p&gt;
-
-&lt;p&gt;The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NSMutableParagraphStyle&lt;/code&gt; to set custom line heights and I leave the other properties to their defaults. One of these is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alignment&lt;/code&gt; which is always left on my devices due to my English language but the default is actually &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;natural&lt;/code&gt; which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;paragraph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSMutableParagraphStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;paragraph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lineSpacing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;4.0&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;paragraph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alignment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:manualstoryboard&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! &lt;a href=&quot;#fnref:manualstoryboard&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     
