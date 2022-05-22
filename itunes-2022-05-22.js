@@ -270,10 +270,20 @@ $(document).ready(function() {
 	};
 
     var params = getSearchParameters();
-    if (params.entity && params.query && params.country) {
+
+    if (params.entity) {
+        $('#entity').val(params.entity);   
+    }
+
+    if (params.query) {
         $('#query').val(params.query);
-        $('#entity').val(params.entity);
+    }
+
+    if (params.country) {
         $('#country').val(params.country);
+    }
+
+    if (params.entity && params.query && params.country) {
         performSearch();
     };
 
