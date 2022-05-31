@@ -188,8 +188,7 @@ function performSearch() {
     $.ajax({
         type: "GET",
         crossDomain: true,
-        //url: 'https://itunesartwork.bendodson.com/api.php',
-        url: 'http://localhost:8888/api.php',
+        url: 'https://itunesartwork.bendodson.com/api.php',
         data: {query: query, entity: entity, country: country, type: 'request'},
         dataType: 'json'
     }).done(function(data) {
@@ -210,8 +209,7 @@ function performSearch() {
 
                 type: "POST",
                 crossDomain: true,
-                //url: 'https://itunesartwork.bendodson.com/api.php',
-                url: 'http://localhost:8888/api.php',
+                url: 'https://itunesartwork.bendodson.com/api.php',
                 data: {json: JSON.stringify(data), type: 'data', entity: entity},
                 dataType: 'json'
 
