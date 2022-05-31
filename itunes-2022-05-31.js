@@ -188,7 +188,8 @@ function performSearch() {
     $.ajax({
         type: "GET",
         crossDomain: true,
-        url: 'https://itunesartwork.bendodson.com/api.php',
+        //url: 'https://itunesartwork.bendodson.com/api.php',
+        url: 'http://localhost:8888/api.php',
         data: {query: query, entity: entity, country: country, type: 'request'},
         dataType: 'json'
     }).done(function(data) {
@@ -209,7 +210,8 @@ function performSearch() {
 
                 type: "POST",
                 crossDomain: true,
-                url: 'https://itunesartwork.bendodson.com/api.php',
+                //url: 'https://itunesartwork.bendodson.com/api.php',
+                url: 'http://localhost:8888/api.php',
                 data: {json: JSON.stringify(data), type: 'data', entity: entity},
                 dataType: 'json'
 
@@ -233,7 +235,8 @@ function performSearch() {
 
                             var html = '<div><h3>'+result.title+'</h3>';
                             if (entity != 'software' && entity != 'iPadSoftware' && entity != 'macSoftware') {
-                                html += '<p><a href="'+result.url+'" target="_blank">Standard Resolution</a> | <a href="'+result.hires+'" target="_blank">High Resolution</a> <em><small>'+result.warning+'</small></em></p>';
+                                var uncompressed = result.uncompressed ? '<a href="' + result.uncompressed + '" target="_blank">Uncompressed High Resolution</a>' : '<a href="'+result.hires+'" target="_blank">High Resolution</a>';
+                                html += '<p><a href="'+result.url+'" target="_blank">Standard Resolution</a> | ' + uncompressed + '</p>';
                             } else if (entity == 'software' || entity == 'iPadSoftware') {
                                 html += '<p><a href="./app/?url='+encodeURIComponent(result.appstore)+'&country='+country+'" target="_blank">View screenshots / videos</a></p>';
                             }
