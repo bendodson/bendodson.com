@@ -238,7 +238,7 @@ function performSearch() {
                             } else if (entity == 'software' || entity == 'iPadSoftware') {
                                 html += '<p><a href="./app/?url='+encodeURIComponent(result.appstore)+'&country='+country+'" target="_blank">View screenshots / videos</a></p>';
                             }
-                            html += '<a href="'+result.url+'" target="_blank"><img src="'+result.url+'" alt="iTunes Artwork for \''+result.title+'\'" width="'+result.width+'" height="'+result.height+'"></a>';
+                            html += '<a href="'+result.url+'" target="_blank" title="iTunes Artwork for \''+result.title+'\'" download="'+result.title+'"><img src="'+result.url+'" alt="iTunes Artwork for \''+result.title+'\'" width="'+result.width+'" height="'+result.height+'"></a>';
                             html += '</div>';
 
                             $('#results').append(html);
