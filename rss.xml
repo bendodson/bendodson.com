@@ -6,9 +6,75 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, iOS Developer and WallaBee Founder</description>
     <language>en-gb</language>
-    <pubDate>Mon, 27 Jun 2022 14:33:41 +0100</pubDate>
-    <lastBuildDate>Mon, 27 Jun 2022 14:33:41 +0100</lastBuildDate>
+    <pubDate>Mon, 27 Jun 2022 19:42:41 +0100</pubDate>
+    <lastBuildDate>Mon, 27 Jun 2022 19:42:41 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Introducing the Spatial Audio Finder</title>
+      <link>https://bendodson.com/weblog/2022/06/27/spatial-audio-finder/</link>
+      <pubDate>Mon, 27 Jun 2022 17:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2022/06/27/spatial-audio-finder/</guid>
+      <description>&lt;p&gt;I love Spatial Audio. The sound quality and the balance of the individual audio elements is truly extraordinary and a huge advantage for Apple Music over other streaming services. But the process of &lt;em&gt;finding&lt;/em&gt; supported tracks is… well, a bit rubbish.&lt;/p&gt;
+
+&lt;p&gt;At the moment, there are 3 ways to discover Spatial Audio tracks:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Using Apple’s own &lt;a href=&quot;https://music.apple.com/gb/curator/apple-music-spatial-audio/1564180390&quot;&gt;curated category&lt;/a&gt; which features a number of playlists and a rotating list of songs that have been added to the service. This is only a very small subset of all of the tracks though and requires a lot of scrolling and trying to work out what is new and what isn’t.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Going to an &lt;a href=&quot;https://music.apple.com/gb/album/songs-about-jane/1440851650&quot;&gt;album page&lt;/a&gt; on Apple Music and seeing if it shows the Dolby Atmos logo. This only works if the entire album is available in Spatial Audio; it can’t tell you if individual tracks are available (something which my &lt;a href=&quot;https://bendodson.com/projects/apple-music-artwork-finder/&quot;&gt;Apple Music Artwork Finder&lt;/a&gt; can do!)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Playing songs in your library; if they have Spatial Audio, it’ll kick in and show a Dolby Atmos logo. This obviously only works on a song-by-song basis and is therefore very slow.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now there is a better way. Introducing the &lt;a href=&quot;https://bendodson.com/projects/spatial-audio-finder/&quot;&gt;Spatial Audio Finder&lt;/a&gt;, the quickest way to see which tracks by your favourite artists are available in Spatial Audio:&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2022/spatial-audio-finder.gif&quot; width=&quot;800&quot; height=&quot;657&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So how does this work? At WWDC 2022, Apple made a small change to the &lt;a href=&quot;https://developer.apple.com/documentation/applemusicapi/&quot;&gt;Apple Music API&lt;/a&gt; such that it is now possible to request &lt;a href=&quot;https://developer.apple.com/documentation/applemusicapi/songs/attributes&quot;&gt;audioVariants&lt;/a&gt; as an extended attribute on songs and albums. Within this are such things as Lossless Audio, Dolby Audio, and Dolby Atmos (which denotes Spatial Audio). Whilst I would like to be able to just see Dolby Atmos as a flag on songs within my library, this new API method at least can get me the information via a fairly laborious process. Essentially, I scrape these data points and build up my own database which I can then query very quickly.&lt;/p&gt;
+
+&lt;p&gt;To begin with, I built a system which would accept an Apple Music identifier for a song; it would then fetch the album that song belongs to in order to get a full list of all the tracks along with whether they support Spatial Audio or not&lt;sup id=&quot;fnref:examplesong&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:examplesong&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. I then store this information in my database along with a “last checked” flag. My script runs continuously and will check to see if there are any songs present that have not been checked in the past 2 weeks and do not have Spatial Audio. If a song or album gains Spatial Audio status, then I tweet it via a new account; &lt;a href=&quot;https://twitter.com/NewSpatialAudio&quot;&gt;@NewSpatialAudio&lt;/a&gt;&lt;sup id=&quot;fnref:newspatialaudio&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:newspatialaudio&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;With this in place, it becomes trivial to build up the database as I just need to throw in a load of song identifiers and the script will churn away fetching all of the information and actually expanding it to more songs as it will gather the entire album. I began by importing my entire music library which is relatively simple thanks to my &lt;a href=&quot;https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;amp;mt=8&quot;&gt;Music Library Tracker&lt;/a&gt; app which allowed me to collect all of my song identifiers in a matter of milliseconds. I have 7508 songs in my library but as many of them are single tracks from albums, my script expanded this out to over 16000 tracks (of which around 1000 had support for Spatial Audio).&lt;/p&gt;
+
+&lt;p&gt;This is obviously skewed to my musical preferences so the next step was to add the various Spatial Audio playlists that Apple curates. I’ve stored the identifiers of all of their playlists from “&lt;a href=&quot;https://music.apple.com/gb/playlist/made-for-spatial/pl.154af9931b214278a64274c410046e69&quot;&gt;Made for Spatial Audio&lt;/a&gt;” and “&lt;a href=&quot;https://music.apple.com/gb/playlist/hits-in-spatial-audio/pl.ba2404fbc4464b8ba2d60399189cf24e&quot;&gt;Hits in Spatial Audio&lt;/a&gt;” to “&lt;a href=&quot;https://music.apple.com/gb/playlist/jazz-in-spatial-audio/pl.efbd24628ff04ff3b5e416a6e237d753&quot;&gt;Jazz in Spatial Audio&lt;/a&gt;” and “&lt;a href=&quot;https://music.apple.com/gb/playlist/bollywood-in-spatial-audio/pl.74a13ae85e1f48dbb4a2804bd7660cbb&quot;&gt;Bollywood in Spatial Audio&lt;/a&gt;”. These playlists helpfully have a “last updated” flag on them so I check them frequently but only fetch all of their track identifiers if they have changed. This added another 20000 tracks of which most were compatible with Spatial Audio&lt;sup id=&quot;fnref:outliers&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:outliers&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;At this point I was able to see which songs in my library were updated to Spatial Audio and also see new releases and when my tracks got upgraded thanks to the &lt;a href=&quot;https://twitter.com/NewSpatialAudio&quot;&gt;@NewSpatialAudio&lt;/a&gt; account. As every change thus far had been tweeted, it was possible to search Twitter for specific artists to see what songs or albums were compatible doing something like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;from:newspatialaudio &quot;avril lavigne&quot;&lt;/code&gt;&lt;sup id=&quot;fnref:sk8erboi&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:sk8erboi&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;. Unfortunately, it turned out this was only working when I was logged in as @NewSpatialAudio and results were mixed if searching from different accounts. I don’t know if this is due to spam protection or some form of caching but it meant there was a need for a new tool; &lt;a href=&quot;https://bendodson.com/projects/spatial-audio-finder/&quot;&gt;Spatial Audio Finder&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Creating the Spatial Audio Finder was relatively easy as I had all the building blocks in place. You enter an artist name and hit search, then I look up all the tracks in my database and list the songs that have been updated. In the end it took a bit longer as I realised I’d want to have the album artwork and track numbers on the page, and I wasn’t currently collecting that information; this would need to be added to my data necessitating a full re-fetch of the nearly 40000 tracks. I also decided that it was likely people might search for an artist that was not in my database. To remedy that, if a search is made and there are zero results, I go and fetch the top 25 songs for that artist on Apple Music and add their identifiers to the database which will typically expand out to their most popular albums which are the likeliest candidates for upgraded audio&lt;sup id=&quot;fnref:michael&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:michael&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;. In this way, the more that people use this tool, the more Spatial Audio tracks will be discovered.&lt;/p&gt;
+
+&lt;p&gt;I hope that the &lt;a href=&quot;https://bendodson.com/projects/spatial-audio-finder/&quot;&gt;Spatial Audio Finder&lt;/a&gt; will be useful to many people, but this is just a stop gap solution. My ultimate goal is to be able to scan your music library and then show you the tracks that have been updated to Spatial Audio then go a step further and generate a Spatial Audio playlist for you that gets updated automatically as new songs get upgraded on the service. The first step of this will be happening very soon as I release a new version of my &lt;a href=&quot;https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;amp;mt=8&quot;&gt;Music Library Tracker&lt;/a&gt; app that will allow you to opt-in to upload your library to the Spatial Audio database; the next step after that will be showing you what tracks in your library have been updated! This will in turn expand the musical variety being placed into the database and showcase more Spatial Audio tracks. Eventually, I should have the most complete record of Spatial Audio tracks outside of Apple and also the fastest and most useful ways of accessing that data.&lt;/p&gt;
+
+&lt;p&gt;If you run into any issues, please do &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;contact me&lt;/a&gt; so I can improve the service as much as I can.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:examplesong&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;For example, if I fetch the song “&lt;a href=&quot;https://music.apple.com/gb/album/this-love/1440851650?i=1440851719&quot;&gt;This Love&lt;/a&gt;” by Maroon 5 (which has the identifier &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1440851719&lt;/code&gt;), then that will give me the full album (identifier &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1440851650&lt;/code&gt;) along with all the tracks so I don’t need to check each track individually. &lt;a href=&quot;#fnref:examplesong&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:newspatialaudio&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;The account will differentiate between individual tracks on an album and full albums that support Spatial Audio. I also distinguish between old tracks being upgraded to Spatial Audio versus new releases by checking if the release date was in the past 2 weeks or not. &lt;a href=&quot;#fnref:newspatialaudio&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:outliers&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;They aren’t &lt;em&gt;all&lt;/em&gt; compatible as there might be a single song in a playlist which is the only Spatial Audio song on an album; I fetch the entire album so I can monitor if other tracks get added over time. &lt;a href=&quot;#fnref:outliers&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:sk8erboi&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Yes, “Sk8er Boi” is available in Spatial Audio. &lt;a href=&quot;#fnref:sk8erboi&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:michael&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I can’t believe there isn’t a single Michael Jackson song rendered in Spatial Audio yet (although you can get &lt;a href=&quot;https://music.apple.com/us/album/i-want-you-back/1440912101?i=1440912105&quot;&gt;I Want You Back&lt;/a&gt; and &lt;a href=&quot;https://music.apple.com/us/album/abc/1440912101?i=1440912109&quot;&gt;ABC&lt;/a&gt; by the Jackson 5). &lt;a href=&quot;#fnref:michael&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Unlisted App Distribution on the App Store</title>
@@ -2310,30 +2376,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
   &lt;p&gt;The biggest problems are distractions and motivation. It is very easy, especially in the first few months, to kick back and do very little work as you don’t feel the need to rush. Then, when you run out of money you panic and work ridiculously long hours to try and get some invoices sent out. Freelancers typically have periods they call “feast and famine” or “rollercoaster dips” but they are generally referring to having enough advance work; my problem was always that I introduced those periods myself by putting things off as sometimes I’d wake up and just want to play on the Xbox rather than writing an algorithm for a social feed. Thankfully I have now gotten myself into a comfortable routine (especially now that I don’t live on my own) and so things tend to be smooth sailing but at the start it was very difficult to stay motivated when surrounded by nice distractions!&lt;/p&gt;
 &lt;/blockquote&gt;
 
-</description>
-    </item>
-    
-    <item>
-      <title>DrinkCoach+</title>
-      <link>https://bendodson.com/weblog/2017/10/26/drinkcoach/</link>
-      <pubDate>Thu, 26 Oct 2017 17:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2017/10/26/drinkcoach/</guid>
-      <description>&lt;p&gt;I’m pleased to announce the release of a new client app, &lt;a href=&quot;https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8&quot;&gt;DrinkCoach+&lt;/a&gt;, that I worked on over the summer:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2017/drink-coach.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I worked on DrinkCoach+ for &lt;a href=&quot;http://www.orbismedia.co.uk&quot;&gt;Orbis Media&lt;/a&gt; as a freelance iOS developer. The app was designed for the Haringey Advisory Group on Alcohol (HAGA) and is designed to help people keep a track of their alcohol intake with measurable goals and monitor any events caused by drinking such as moodswings, cravings, or accidents. This is actually version 3.0 of the app with the previous versions having been created by a different developer. The old code was neither available or desireable and so I rebuilt the app from scratch using Swift 4.0 and the latest iOS SDKs to ensure it was future proofed for any future developer to work on.&lt;/p&gt;
-
-&lt;p&gt;The app is optimised for all iPhone and iPad devices (including the iPhone X) and makes use of AutoLayout to scale perfectly across the growing number of screen resolutions and aspect ratios. In terms of functionality, there are a number of interesting technologies used in the app including:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Local notifications:&lt;/strong&gt; the app can notify you at certain times and even locations to help keep you on track with your goals. This was all done locally on the device so that notifications could be triggered without an internet connection or unreliable push notifications.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Infographic generation:&lt;/strong&gt; an infographic detailing how many calories and units you’ve consumed along with your total alcohol expenditure can be displayed in the app and shared as an image.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Full customisation:&lt;/strong&gt; the drinks in the app can be customised with specific units, calories, and pricing information so that they accurately reflect your usual tipple. Drinks can also be dragged and dropped so that your regular drinks are easier to access.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8&quot;&gt;DrinkCoach+ on the App Store&lt;/a&gt; for free and learn more about it at &lt;a href=&quot;http://www.drinkcoach.org.uk&quot;&gt;drinkcoach.org.uk&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
