@@ -352,18 +352,21 @@ blockquote {
 	margin: 0 0 0 40px;
 }
 
-#apps article header
+#apps article header,
+#spatial-audio-finder article #results header
 {
 	border-bottom: 1px solid #999;
 }
 
-#apps article header h3 {
+#apps article header h3,
+#spatial-audio-finder article #results header h3 {
 	padding: 8px 0 0 74px;
 	margin: 0;
 	text-align: left;
 }
 
-#apps article header p {
+#apps article header p,
+#spatial-audio-finder article #results header p {
 	padding: 0 0 5px 74px;
 	margin: -4px 0 0 0;
 	font-size: 0.9em;
@@ -375,6 +378,32 @@ blockquote {
 	margin: 0;
 }
 
+#spatial-audio-finder #results {
+	margin-top: 40px;
+	padding-bottom:  0;
+}
+
+#spatial-audio-finder #results table {
+	font-size:  0.8em;
+	margin-top:  20px;
+}
+
+#spatial-audio-finder #results table td:first-child {
+	text-align: right;
+	width:  40px;
+	padding-right:  5px;
+	color:  #bbb;
+}
+
+#spatial-audio-finder #results table tr {
+	line-height:  1.25em;
+}
+
+#spatial-audio-finder #results .nonSpatialAudio {
+	font-size:  0.6em;
+	font-style: italic;
+	color:  #999;
+}
 
 #app-wallabee {
 	background: url('https://bendodson.s3.amazonaws.com/apps/icons/wallabee-57.png') left center no-repeat;
@@ -599,7 +628,8 @@ blockquote {
 
 #itunes-artwork-finder div,
 #apple-music-playlist-artwork div,
-#apple-tv-movies-artwork-finder div {
+#apple-tv-movies-artwork-finder div,
+#spatial-audio-finder div {
 	border-bottom: none;
 }
 
@@ -607,6 +637,7 @@ blockquote {
 	width: 400px;
 }
 
+#spatial-audio-finder input[type="text"],
 #apple-tv-movies-artwork-finder input[type="text"] {
 	width: 300px;
 }
@@ -659,7 +690,7 @@ hr {
 
 #musictracker {
 	padding: 20px 40px 20px 100px;
-	background: #e0e0e0 url('https://bendodson.s3.amazonaws.com/apps/icons/musictracker-60.png') 20px center no-repeat;
+	background: #f0f0f0 url('https://bendodson.s3.amazonaws.com/apps/icons/musictracker-60.png') 20px center no-repeat;
 	border-radius: 2em;
 	width: 660px;
 }
@@ -671,9 +702,25 @@ hr {
 	line-height: 1.5em;
 }
 
+#newspatialaudio {
+	padding: 20px 40px 20px 100px;
+	background: #f0f0f0 url('https://bendodson.s3.amazonaws.com/apps/icons/twitter-60.png') 20px center no-repeat;
+	border-radius: 2em;
+	width: 660px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#newspatialaudio p {
+	padding: 0;
+	margin: 0;
+	font-size: 0.8em;
+	line-height: 1.5em;
+}
+
 #browsernote {
 	padding: 20px 40px 20px 100px;
-	background: #e0e0e0 url('https://bendodson.s3.amazonaws.com/apps/icons/browser-note-60.png') 20px center no-repeat;
+	background: #f0f0f0 url('https://bendodson.s3.amazonaws.com/apps/icons/browser-note-60.png') 20px center no-repeat;
 	border-radius: 2em;
 	width: 660px;
 }
@@ -687,7 +734,7 @@ hr {
 
 
 #thanks {
-	background: #e0e0e0;
+	background: #f0f0f0;
 	padding: 20px 30px;
 	margin-bottom: 40px;
 	border-radius: 2em;
@@ -697,7 +744,7 @@ hr {
 }
 
 #appletvprompt {
-	background: #e0e0e0;
+	background: #f0f0f0;
 	padding: 20px 30px;
 	margin-top: 40px;
 	margin-bottom: 40px;
@@ -845,12 +892,14 @@ span.prelude {
 
 	#apps article header,
 	#code article header,
+	#spatial-audio-finder article #results header,
 	#twitch-extensions article header {
 		border-bottom: 1px solid #ccc;
 	}
 
 	#apps article header p,
 	#code article header p,
+	#spatial-audio-finder article #results header p,
 	#twitch-extensions article header p {
 		color: #ccc;
 	}
@@ -861,6 +910,10 @@ span.prelude {
 
 	#browsernote {
 		background: #222 url('https://bendodson.s3.amazonaws.com/apps/icons/browser-note-60.png') 20px center no-repeat;
+	}
+
+	#newspatialaudio {
+		background: #222 url('https://bendodson.s3.amazonaws.com/apps/icons/twitter-60.png') 20px center no-repeat;
 	}
 
 	#thanks {
