@@ -5,10 +5,12 @@
 	
 	
 
+	
+
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2022-06-27.css" />
+	<link rel="stylesheet" href="/styles-2022-07-12.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -38,6 +40,105 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2011/12/03/goodbye-gowalla/">Goodbye Gowalla</a></h1>
+			
+			<time datetime="2011-12-03" pubdate=""><a href="/weblog/2011/12/03/goodbye-gowalla/">December 03, 2011</a></time>
+    	</header>
+    	<div>
+			<p>I'd originally been planning to post up a review of Gowalla v4 (late I know, but it was fairly in-depth look at a company gone mad) but last nights news that Gowalla is to be acquired by Facebook means that I've bought forward another post I'd been planning; my goodbye to Gowalla. After being a loyal user for just over 2 years, the time has finally come for me to delete the app that has been a key part of my life for a rather long time.   
+<h3>Beginnings</h3>
+Gowalla was built by a company called Alamofire (before they changed their name to just Gowalla) and I became acquainted to it via one of their other projects; <a href="http://apps.facebook.com/packrat/">PackRat</a>. It was a game that involved collecting sets of cards with different icons on was pretty addictive. When they decided to make a mobile game, I assumed it would be similar to PackRat but with a location element. Instead, Gowalla was created allowing you to check-in at places as well as collect virtual items. The collection part wasn't terribly well thought out and went through several iterations but it garnered quite a cult following. In addition to items, you could collect "stamps" by checking in at locations and "pins" by completing tasks (e.g. check in at 10 different coffee shops).</p>
+<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/100-stamps.png" alt="My first 100 stamps!" title="100-stamps.PNG" border="0" /></p>
+<p>For a time, everything was rosy. New items would come out on a Tuesday (leading to mass checkins at the categories the item was likely to appear at) and people were steadily competing to see how many stamps they could get. I think the highest I ever saw was somebody who had checked in at over 9500 places.</p>
+<p>During 2009, I quit playing PackRat as they introduced a number of changes which made the game less enjoyable (e.g. locking key cards unless you got friends to join the game, adding "bling"). This was probably a premonition of things to come as Gowalla would eventually make the same mistake - disenfranchising their core audience rather than embracing it.</p>
+
+<h3>Developing for Gowalla</h3>
+<p>In October 2009 I <a href="https://bendodson.com/weblog/2009/10/07/gowalla-tools-web-app-find-your-missing-gowalla-items/">created a basic web app for iPhone</a> that would allow you to find items by showing you the categories that were most likely to drop a specific item. It proved to be incredibly popular, so over Christmas 2009 I introduced 13 new tools or web apps in a project I called "Gowalla Tools" which ranged from being able to view Flickr photos at Gowalla spots to temporarily turning Gowalla.com into a PackRat game (thanks to some JavaScript) which would allow people to collect coins which were then used to give out prizes. This again was so popular that I started to devote more time to making apps that ran on top of Gowalla. There wasn't an official API when I started but by early 2010, Gowalla launched the first version of their API. This is where things started to deteriorate…</p>
+
+<h3>The Fallout</h3>
+<p>The new API started out with good intentions, but constant breakages and undocumented changes made it a frustration to use, let alone build apps with. At the time, I'd been working on a native iPhone app but there was no way it could go out with the Gowalla API as it was. Had Gowalla altered anything, then the app would have remained broken until I could fix it and then sit through the 2 week Apple App Review process - not ideal. So it was that I rallied together a few other developers and a number of Gowalla players and wrote a letter entitled "<a href="http://gowallatools.com/api/">Thoughts On The Gowalla API</a>". Gowalla never replied or apologised (and one of the team called me a "jackass" when I met them at SXSW a year later) but the API did eventually improve months later.</p>
+
+<h3>The Reconcilliation</h3>
+<p>In August 2010, after the API had been updated and a number of (highly priced) apps had been built on top of it, I decided to <a href="http://vimeo.com/14045036">relaunch Gowalla Tools</a>. Initially it was going to be called "Gowalla Plus" but that idea didn't sit well with Gowalla:</p>
+
+<blockquote>
+	<p>Hey Ben,</p>
+	<p>Adam sent along your email to me regarding naming conventions. Hopefully I can address both of our concerns in this email.</p>
+	<p>These are always sticky situations because we want to support the app developers building great apps on the API, but we also need to avoid confusion from both a legal and customer support standpoint. You've likely observed that our naming conventions follow this standard approach:</p>
+	<p>Gowalla for iPhone, Gowalla for iPad, Gowalla for Android, etc.</p>
+	<p>I'm afraid GowallaPlus is simply too close to our mark and if we let it fly, we have to let everything fly from a trademark standpoint. To be honest, I've always been a concerned about GowallaTools, but have wanted to avoid hassling you.</p>
+	<p>We deal with complaints and support email every week from folks who believe certain apps sold in the iTunes store starting with Gowalla in their names are actually our product. We'll be working with each of these developers to change their names.</p>
+	<p>I'm not against a mention of Gowalla in the name. I just can't have the name on the front side.</p>
+	<p>[ProductName] for Gowalla would be acceptable.</p>
+	<p>The likelihood of folks believing GowallaPlus is our app is super high, based on our experience with the other apps in the store.</p>
+	<p>Thanks for letting us know your thoughts in advance. I'm in hopes we can encourage you to develop your own brand name for your line up of products. I think you've got a good thing going.</p>
+	<p>Related: I'd love to get a beta of the "travel edition" if you're open to it. I'm traveling to South America later this month and would love to give it run. Seems perfect!</p>
+	<p>Let me know your thoughts and questions. I know we haven't always been your favorite guys to be developing with, but I hope we can find some solutions here that work for everyone.</p>
+	<p>Thanks Ben!</p>
+	<p>jw</p>
+</blockquote>
+
+<p>Of course, no other app was ever actually removed for having the word "Gowalla" in it. In any case, I decided to rebrand my projects as "Wallabee" and started off by releasing my <a href="https://bendodson.com/projects/wallabee/#travel">"Wallabee: Travel Edition" app</a>; an app that let you check-in multiple people on Gowalla with more than 99% savings on data usage (which translates into big savings if you're using data roaming). Unfortunately, despite being a free app (and the encouragement from Josh above), Gowalla never publicised it in anyway e.g. on their Twitter feed or blog.</p>
+
+<p>Over Christmas 2010, I <a href="http://wallabeegame.com/xmas2010/">unleashed some plans for further apps and developments</a> including an Item Hunter, Time Travel Edition (showing historical changes to places), and version 2 of the Travel Edition app. Unfortunately the release of version 2.0 was <a href="http://wallabeegame.com/pouch/2010/12/14/travel-edition-2-0-delay-due-to-functionality-changes/">delayed</a> due to Gowalla having an issue with the mass check-in facility I'd added.</p>
+<p>Finally, in March 2011, myself and a number of good friends I've made through Gowalla launched the <a href="http://wallabeegame.com/pouch/">Wallabee Pouch</a>, a definitive guide to all aspects of Gowalla. It also featured the "<a href="http://wallabeegame.com/pouch/items/directory/">Item Directory</a>", the largest repository of information about Gowalla items including real-time item drop rates and statistics.</p>
+
+<h3>SXSW / Re-evaluation</h3>
+<p>In late 2010, I decided to head over to Austin for SXSW in March 2011 as I was keen to meet up with the Gowalla team and a few other Gowalla players were all heading over for a week of item hunting, stamp collecting, and general socialising. I'd also opened up a conversation with Gowalla around their vacancy for an iPhone developer so I was keen to have a discussion about it whilst I was there. Unfortunately, things turned out slightly different to how I imagined. I saw firsthand some of the pettiness and childlike behaviour that certain players exhibited around items and suddenly realised why Gowalla tried not to have much to do with their original players if they all acted like that. Despite organising a meet up around the iPhone developer role, it fell through with the HR contact failing to arrange anything (apparently a systemic problem within the company - departments often have no interaction with each other and there is "rampant disorganisation" - that was a quote from an employee).</p>
+<p>The most important part for me of SXSW was listening to Josh's talk on the future of location-based services, a talk that I still maintain is one of the most interesting I've ever attended. It was at that point that I realised the writing was on the wall for the item-based gamification of Gowalla and that they would eventually change into just being a service based on check-ins. I decided to stop focussing on items and <a href="https://bendodson.com/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">stood down from Wallabee</a> to focus on making travel based tools instead. My premonition turned out to be correct when <a href="http://blog.gowalla.com/post/9378150015/going-forward">Gowalla announced that items wouldn't be making it</a> to the next version of the app in August 2011.</p>
+
+<h3>Highlights</h3>
+<p>Once I'd stopped working on Wallabee, I started focussing intently on my next big project; <a href="http://highlightsapp.com/">Highlights</a>. It was an app that would help you find the best places around you by using recommendations from other users. The twist was that it used location data from both Foursquare and Gowalla and used a complex algorithm to rank them based on comments, tips, highlights, photos, etc. It also pulled in vast amounts of data from other services like Last.fm, Yelp, and Flickr. To power the system, I tapped into the Pubsubhubbub hub for Gowalla courtesy of <a href="http://superfeedr.com/">Superfeedr</a> - this allowed me to get every checkin that happened on Gowalla in real-time and build up my own vast database of checkin data and locations thus bypassing the need to directly connect to Gowalla's API (due to the issues I'd had previously). You can <a href="https://bendodson.com/weblog/2011/07/25/the-inside-story-on-powering-highlights/">read more about the integration in a post I did about it</a> if that sort of thing interests you!</p>
+<p>On September 2nd (which also happened to be my birthday), Apple made Highlights their "iPad App of the Week".</p>
+<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0001.png" alt="Highlights - iPad App of the Week" title="IMG_0001.PNG" border="0" /></p>
+<p>I sent some promotional codes direct to Josh (and a few other Gowalla staff members) in the hope that they might at least tweet about the app or put up a blog post about it as they had for other apps (although I found out later that the one app they publicised was part-built by one of their developers). As a one-man development studio, a single tweet from Gowalla would have made a big difference in the number of downloads but unfortunately it didn't happen. Despite being featured by Apple, given high ratings on app review sites, and being reviewed in numerous magazines and popular sites (such as TUAW), Gowalla didn't want to acknowledge it. </p>
+<p>If I was running a company with an API and one of the apps got a lot of good press, I'd be the first person to try and publicise it as it can only benefit both parties. It still surprises me that Gowalla never understood 3rd party developers and I often wonder why they even bothered making a public API.</p>
+
+<h3>Gowalla v4.0</h3>
+<p>During September 2011, Gowalla released version 4.0 of their app to great fanfare at TechCrunch Disrupt. On the surface, it looked like a solid update. A beautiful design and a core rethinking of the product meant that they were stepping in the direction I thought they would after the talk at SXSW. However, once I got to use the app, I couldn't believe how badly wrong they had got it. I'm not going to go into a huge amount of detail on it (as I believe the app will disappear soon anyway) but here are my main points about what is wrong with Gowalla v4:</p>
+
+<ul>
+<li><strong>Stories</strong> - The fundamental idea that a check-in is a story is genius. Whilst going to the grocery store isn't really worthy of a "story", there are many times when story is exactly the word to use. When I heard about it, I thought that Gowalla would extend the great work they'd done on starting and ending points of journeys. They had previously put out an update which would show a little aeroplane graphic showing when people had travelled from one location to another and had gone further to detect when a journey had begun and ended. For instance, I got a "Survived SXSW" badge only once I got back to Gatwick Airport in the UK as that's when my SXSW journey had begun from. I imagined they'd use this so that if I went on holiday, it would detect that and bundle up all my checkins and photos as a single story. What actually happened is that a story is a single place only thing and is more about the people that are there rather than the places. It works great if you have lots of friends in a single place but it kind of sucks if you're doing a pub crawl or going to more than one place. The fact that people can also check you in despite not being there (some people kept saying "Ben's here" at spots in the US which kind of annoyed me) instantly made this a painful update.</li>
+<li><strong>Notes</strong> - In Gowalla v3, you could leave notes for people at a spot. They could only read these notes when they checked in at that place. This was a great usage of the location-based nature of the app but was removed. Apparently it was going to be put back in at some point but it's never materialised.</li>
+<li><strong>Guides</strong> - The main button on the Gowalla app is a section called "Guides". It's beautifully designed (looks a bit like the "popular" section of Highlights) but is completely inappropriate to be the main feature of the app. It basically shows you the best places to go in a city based on check-ins and what Gowalla have featured (as well as other companies like Disney and National Geographic). The problems are twofold; 1) it's poorly implemented (the top spot to visit in Disney's Animal Kingdom was Spaceship Earth, the iconic ride from Epcot - not quite right) and 2) it's limited to 60 places. This means that in the UK, the only guide is for London. The next nearest is Amsterdam. How this is of any use to people day-to-day is beyond me. The key feature should have been stories until such a point that guides were auto-generated (like Highlights is) at which point it could have been more prominent.</li>
+</ul>
+
+<p>Those are just 3 of the main criticisms I have but overall the whole product is just lousy. Whilst it's beautiful to look at, very little thought has gone into how the user will engage the product as highlighted by the way Guides is the largest button in the interface. I also got really frustrated with the way that bits of the UI would load in later (so the photos might appear and then a few seconds later text would appear). This is obviously to keep loading times down but there is no indicator of it happening so the UI is constantly moving leading to a jarring experience. From a technical point of view, it has obviously not undergone any external testing as it crashes a huge amount.</p>
+
+<p>Overall, the product felt like it had been rushed to get it out for TechCrunch Disrupt. Rather than pausing and releasing a top-rate product, they pushed out a half-built poorly thought out mess and they have suffered for it. Whilst there are many reviews hammering them for removing items (and not delivering on their promise of letting people export them in a "really cool way"), there are hundreds of 1 star reviews on iTunes from people hating the new update for the reasons above. I think the biggest problem is that they removed functionality without replacing it within anything better. Also, the changes weren't communicated to regular users. My mum, for example, loved using Gowalla v3 but when v4 came up she had no idea what had happened. She, like many users, doesn't read the Gowalla blog or see the updates on TechCrunch so had no idea that items were going or that they were going to fundamentally change direction.</p>
+
+<p>How could it have been done better? I had always thought that Gowalla would spin off into two kick-ass products; a game (based on items) and a check-in service (with stories as I described them). Instead, it cut off the bit it didn't like and released an updated check-in service that did less than it promised. It doesn't aid in the discovery of places and it doesn't aid in the telling of stories.</p>
+
+<h3>Facebook</h3>
+
+<p>After a torrent of negative feedback, suspicions grew that Gowalla would be shut down during November 2011. Many of their employees had started using Foursquare and it looked like several prominent members of <a href="http://twitter.com/#!/etherbrian/status/137330108997443586">staff had been sacked</a>. To make matters worse, Gowalla v4.0.3 had mysteriously disappeared from the App Store without warning. When rumours emerged that Gowalla was <a href="http://money.cnn.com/2011/11/30/technology/startup_acquisitions/">looking for a buyer</a> (and had been brushed off by Google and Groupon) I thought that they would definitely be disappearing. Who would want to buy a company that had made such a monumental cockup and was haemorrhaging users?</p>
+
+<p>Ah, Facebook.</p>
+
+<p>Using a tactic referred to as "aqhiring", it would appear that Facebook is <a href="http://money.cnn.com/2011/12/02/technology/gowalla_facebook/index.htm">buying Gowalla out</a> and taking some of the employees to Facebook HQ to work on a new timeline feature. This most likely means that Gowalla will close down (and I'd imagine PackRat with it) as all the staff are reassigned to Facebook projects - I think it highly unlikely that Gowalla will survive as a Facebook product or keep going alone.</p>
+
+<p>Many people are now worried about data from Gowalla being moved over to Facebook. We'll have to wait and see if this actually happens but in the mean time a large number of people are deleting their Gowalla accounts to keep their privacy safe. I'm now officially done with Gowalla and today I did the same.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/Screen-Shot-2011-12-03-at-12.54.54.png" alt="Screen Shot 2011 12 03 at 12 54 54" title="Screen Shot 2011-12-03 at 12.54.54.png" border="0" /></p>
+
+<h3>In closing...</h3>
+
+<p>Gowalla has been a big part of my life for the past couple of years. I've made some great friends and I've had some truly great experiences. Discovering new places when looking for items was a highlight and I'm proud of the apps and features I was able to build on top of Gowalla. However, there have also been some truly horrible times both with Gowalla itself and some of the people that have played it. Whilst I wish them all the best, I honestly don't think Gowalla is going to survive in it's current form and I don't think that it should.</p>
+
+<p>To finish off, I'd like to thank everybody who made Gowalla a great experience for me from the people I've met playing to those that supported the apps I built. I'd also like to personally thank 3 people at Gowalla who helped me out when they could and to whom I'm very grateful; Jon Carroll, Adam McManus, and Andrew Dupont. I hope they get what they want from the transition that is about to happen.</p>
+
+<p>I'd also like to thank whoever at Gowalla designed this icon for my "Ben Dodson Apps" spot...</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/422-0a295dbebaf7fff8a7590632a228bc08-200.png" alt="422 0a295dbebaf7fff8a7590632a228bc08 200" title="422-0a295dbebaf7fff8a7590632a228bc08-200.png" border="0" width="200" height="200" style="border: 0" /></p>
+
+<p>It was never sent to me (I found it on their server - don't ask) and they never used it on my spot page (saying they don't do portraits for spot icons) but I've always really liked it over the one that was <a href="http://gowalla.com/spots/7127793">eventually used</a>.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -500,68 +601,6 @@ The most crucial thing about the core Apple products -- Macs, iPhones, iPads, an
 <p>In addition to these new articles and language filters, I have also updated the <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">WikiLocation.org website</a> with a new visual design which should make it easier to find critical information. Finally, the API has been relocated to a new dedicated server to provide even faster access for your applications.</p>
 
 <p>If you have any feedback or questions relating to the API, please <a href="https://bendodson.com/weblog/2014/08/19/retiring-tubeupdates-and-wikilocation/">get in touch</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">One year on: further thoughts on the Gowalla API</a></h1>
-			
-			<time datetime="2011-05-12" pubdate=""><a href="/weblog/2011/05/12/one-year-on-further-thoughts-on-the-gowalla-api/">May 12, 2011</a></time>
-    	</header>
-    	<div>
-			<p>Today is the one-year anniversary of a letter I put together entitled "<a href="http://gowallatools.com/api/">Thoughts on the Gowalla API</a>", a very critical look at the ever-changing API provided for the popular location-based service.  The article was picked up on <a href="http://techcrunch.com/2010/05/12/gowalla-api-problems/">TechCrunch</a> and has been <a href="http://blog.apigee.com/detail/api_design_rules/">mentioned at conferences</a> and events but I also like to think that it prompted a few changes. In this post, I want to revisit some of the points I made and hopefully highlight some of the changes that have come about as well showing where further improvements could be made.</p>
-
-<h2>History</h2>
-<p>When I first put the post together, I was running a service called Gowalla Tools and coming up against constant changes to the API and a very unresponsive developer community.  I decided to put the tools and services I was building on indefinite hiatus whilst I waited for some changes to take place.  The most important of these was putting in place a process of notifying API developers when changes were going to happen rather than making them and only occasionally sending out a notification a few days later. Fortunately this is now the case and Gowalla have assembled a fantastic team of developers who are constantly available on the <a href="http://groups.google.com/group/gowalla-dev">Gowalla Developers Google Group</a>. The big changes really started to happen in August 2010 when <a href="http://blog.gowalla.com/post/977720465/hello-3rd-party-apps-gowalla-checks-in-with-oauth">Gowalla announced that their OAuth 2.0 implementation</a> was now complete and you could now make secure authenticated calls including the ability to check users in at a spot (something which hadn't existed up until that point).</p>
-
-<p>Once OAuth 2.0 was introduced, I started to play around with the API again and launched a new service called <a href="http://wallabeegame.com/">Wallabee</a> in September.  The first application was entitled "<a href="http://wallabeegame.com/apps/travel-edition/">Wallabee: Travel Edition</a>" and allowed users to check-in using over 95% less data than the official app making it a) much faster and b) a lot cheaper when you are travelling overseas.  The app was a big success, frequently appearing in the "What's Hot" section of the App Store, and several of the Gowalla employees have used it whilst travelling. Over Christmas I made a number of announcements about future app plans and in March 2011 I, along with a number of contributors, launched The Wallabee Pouch. It was a new player guide, a directory of information, and home to <a href="http://wallabeegame.com/pouch/items/directory/">The Item Directory</a>, the largest and most up-to-date repository of Gowalla items.  This was all made possible due to an API that no longer changed and the incredibly helpful advice provided by many of the Gowalla Developers. I'd like to personally thank <a href="http://twitter.com/amcmanus/">Adam McManus</a> who provided a lot of advice and support whilst I was working on The Item Directory, probably the biggest drain on their API at present.</p>
-
-<p>I went to SXSW in March and was very privileged to meet the Gowalla team and spend some time chatting to their developers. I also listened to some incredibly powerful talks by <a href="http://schedule.sxsw.com/events/event_IAP6984">Josh Williams</a> and <a href="http://schedule.sxsw.com/events/event_IAP5756">Jon Carroll</a> which made me make some fundamental changes to the way I was working with Gowalla - you can read all about that on my <a href="https://bendodson.com/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">SXSW and Gamification post</a>.  It eventually led to me handing over Wallabee to another developer so I could focus on some of my own Gowalla apps that were focussed on the story and travelling elements of the service rather than the item and game based sections, but I'll get back to this shortly.</p>
-
-<h2>The API</h2>
-
-<blockquote><p>We accept that changes have to happen but these just need to be conveyed to developers in a better way. We propose that any changes be submitted to the Gowalla Developer Group at least 1 week in advance of a change so that we can update our code as necessary. We also suggest that a “version” parameter be added across the API so that legacy scripts can continue to work without changes. In this way, a developer can move to the next API version to take advantage of any new features and data but won’t risk having their hard work undone by what could be a very minor change (e.g. renaming a parameter).</p></blockquote>
-
-<p>This is probably the biggest area of improvement that the Gowalla API has undergone. This time last year, parameters were changed without consultation and code breakage was a frequent distraction. Now however, many changes are submitted to the Developer Group in advance and opinion is sought on the best ways to improve the API. This was highlighted most recently to me by Rob Mack who sent out an <a href="http://groups.google.com/group/gowalla-dev/browse_thread/thread/412852f04007ab4a#">incredibly detailed post about changes</a> they were going to make to the Check-In API. The changes were detailed along with a timeline of when they'd go into effect (3 weeks in future) and a promise that anybody who wouldn't be able to meet the deadline would be able to get an extension if they emailed. This was followed up weekly with reminders of the impending changes. It's this kind of conversation and service that goes beyond what I had originally suggested and makes it such a pleasure to work with the API now. There have been numerous suggestions from the community that have been added to the API in recent months and responses to bugs or questions are incredibly fast.  Whilst versioning hasn't come into effect, it hasn't really needed to as any changes have been non-destructive or have had a sensible transition period.</p>
-
-<blockquote><p>It may also be worth setting up a dedicated Twitter account for API changes as Foursquare has done with @foursquareapi - this would allow you to make quick posts to the community about any changes or downtime.</p></blockquote>
-
-<p>Whilst posts on the Developer Board have been greatly improved, I still believe that having a Twitter account for broadcasts about downtime or any major changes would be a good idea. I currently subscribe to the full emails of the board and so I can get an email whenever anybody posts something new - sometimes these are API developers asking basic questions yet sometimes they are important posts by the Gowalla devs that could easily get lost in the noise (especially if you have digests on). By having a feed that just posted notices from the Gowalla developers, visibility of changes would be greatly improved.</p>
-
-
-<h2>Cheating</h2>
-
-<p>I originally wrote a section about cheaters purely because the option to check-in was not available in the API despite the fact it could be done easily using a JavaScript hack on the mobile site. The main reason for not having it in the API was that it would increase the ease for cheaters to make false check-ins just to collect stamps and items. Whilst the API was eventually updated to allow check-ins, the number of people cheating the system is still very high.  A lot of trips are completed by people that haven't been to the spots and increases in check-in radius (which was a sliding scale depending on spot size and is now 5km regardless) have only exacerbated the problem. A lot of Gowalla players report these users to Gowalla via GetSatisfaction or email but there isn't any visibility on action taken. There have, however, been instances where users have been suspended for checking-in too fast, oftentimes incorrectly just on the basis of community feedback.  In my letter last year, I said:</p>
-
-<blockquote><p>With regards to cheating, it should be fairly simple to ascertain if somebody is checking-in illegally as you can measure the time and distance between two spots and see if the speed is over a certain threshold (e.g. if you have checked-in at Austin and London within 2 minutes then there is obviously a problem). An automated system could monitor such things and then suspend an account giving it limited permissions (e.g. no item trading) until a Gowalla developer (or STE member) has a chance to review the account and unlock or ban the user.</p></blockquote>
-
-<p>I know that this is possible as I decided to build my own system to do exactly this detection in order to stop the vigilante justice that had been seen.  However, many of the cheating accounts are private and are therefore unaccessible through the API which means Gowalla needs to tackle this problem themselves. I still believe that an automated system could work and involving the STE members would allow for a certain level of visibility on solving the issue.</p>
-
-<p>These issues are particularly troubling at the moment due to the launch of Gowalla Rewards, the ability to pick up items at certain locations which have some form of real world reward attached to them. This issue has been solved slightly by <a href="http://wallabeegame.com/pouch/items/tips/">a policy Gowalla put in place</a> which basically limits how many items you receive based on the number of check-ins you make - whilst a good system, it did essentially pitch those players who like items against those that like the stamps and trips (again read my <a href="https://bendodson.com/weblog/2011/03/27/gamification-social-validation-gowalla-and-moving-on-from-wallabee-what-i-learned-at-sxsw/">post on gamification</a> for more details on this) and it wasn't relayed to the community very well at all.  There is still a lot of work to be done in this area in my opinion.</p>
-
-
-<h2>Publicising</h2>
-
-<p>One of other items I suggested was:</p>
-
-<blockquote><p>Creating a directory of applications that use the API (such as Foursquare has)</p></blockquote>
-
-<p>Again, this is something that hasn't happened yet but there have been some very small moves to publicise things that have been made with the Gowalla API.  On the post announcing OAuth integration, a couple of projects that used the API were mentioned and on the official Gowalla twitter feed, a couple of web apps have been mentioned (they both did the same thing about 4 months apart, but still).  However, making brief reference to 4 apps over the course of a year doesn't really promote all of the cool things that people are making. It also doesn't encourage other developers to get involved as, without promotion by Gowalla, the API feels a little like an afterthought which is a shame given the huge amount of improvement that has been made.</p>
-
-<p>A page highlighting some of the applications made using the API would enable new developers to see a benefit to writing apps for the service - it also enables developers to get their app across to the core audience (as most apps developed are going to be targeting users already on the Gowalla service). I'm hopeful that the Gowalla twitter account will be posting out a few more of the great 3rd party apps that people have made over the coming months.</p>
-
-<h2>Documentation</h2>
-
-<p>One of the final criticisms I had was in the documentation of the API as it was particularly sparse.  Most of the comments on the Developer Boards were about errors being returned that weren't documented anywhere or about nuances in the API calls (e.g. why can't I check-in at the same place twice within an hour?) - However, the documentation has improved dramatically over the last few months with the Gowalla team listening to feedback from developers and patching up the docs or adding new pages as requested. A particularly difficult area was the new <a href="http://hub.gowalla.com/">PubSubHubbub</a> feature (which should really be publicised more - it's amazing) yet <a href="http://gowalla.com/api/docs/pshb">documentation was put up within a few days</a> of a request on the boards.</p>
-
-<h2>Summary</h2>
-
-<p>Overall, the Gowalla API has improved dramatically in the past year. With a solid foundation and regular updates from developers, there is now very little risk to basing an app on the API as opposed to last year when maintenance was taking longer than development.  There are still a few areas which could use improvement, particularly around publicising of 3rd party endeavours and communicating better around misdemeanours, but on the whole I can wholeheartedly recommend the API to any developer interested in location based services. There have been a lot of new API calls created and I get the feeling that there is some very exciting stuff around the corner. I would also recommend looking into the <a href="http://hub.gowalla.com/">PubSubHubbub</a> functionality as this puts Gowalla way ahead of its competitors by providing real-time notification of check-ins.</p>
-
-<p>Finally, I'd like to thank all the developers at Gowalla who have put so much time and effort into improving the API, particularly <a href="http://twitter.com/therealadam">Adam Keys</a>, <a href="http://twitter.com/andrewdupont">Andrew Dupont</a>, and <a href="http://twitter.com/robmack">Rob Mack</a> who have been incredibly responsive on the Developer Boards.</p>
 
 		</div>
 	</article>
