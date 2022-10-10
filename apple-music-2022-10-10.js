@@ -24,10 +24,11 @@ function performSearch() {
             html += '<ul>';
             html += '<li><a href="'+data.thumb+'" target="_blank">Standard Resolution (1000x1000px)</a></li>';
             html += '<li><a href="'+data.large+'" target="_blank">Highest Resolution (uncompressed)</a></li>';
-            if (data.banner) {
-                html += '<li><a href="'+data.banner+'" target="_blank">Banner Artwork</a></li>';    
+            if (data.type == 'albums' || data.type == 'playlists') {
+                html += '<li id="animated-artwork">Searching for animated artwork...</li>';
             }
             html += '</ul>';
+
             if (data.type == 'albums') {
                 console.log(data);
                 if (data.tracks.length > 0) {
@@ -54,7 +55,29 @@ function performSearch() {
             }
             html += '</div>';
 
-            $('#results').append(html);           
+            $('#results').append(html);
+
+            if (data.type == 'albums' || data.type == 'playlists') {
+                performAnimationSearch();      
+            }
+        }
+    });
+}
+
+function performAnimationSearch() {
+    var query = $('#url').val();
+    
+    $.ajax({
+        type: "POST",
+        crossDomain: true,
+        url: 'https://clients.dodoapps.io/playlist-precis/playlist-artwork.php',
+        data: {url: query, animation: true},
+        dataType: 'json'
+    }).done(function(data) {
+        if (data.animatedUrl != '') {
+            $('#animated-artwork').html('<a href="'+data.animatedUrl+'" target="_blank">Animated Artwork</a>');
+        } else {
+            $('#animated-artwork').html('No animated artwork could be found');    
         }
     });
 }
