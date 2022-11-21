@@ -22,7 +22,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2022-07-12.css" />
+	<link rel="stylesheet" href="/styles-2022-11-21.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -57,6 +57,8 @@
 			
 			<time datetime="2011-10-24" pubdate=""><a href="/weblog/2011/10/24/the-api-behind-gowalla-v4/">October 24, 2011</a></time>
     	</header>
+    	
+		
     	<div>
 			<p>A few weeks ago, Gowalla released version 4.0 of their app to an overwhelmingly negative response. I myself will be posting a review soon but in this quick post I wanted to share a few tips on how to use the new API that is powering the app as an official API is apparently not coming until Q1 2012.   
 In a post entitled "<a href="http://groups.google.com/group/gowalla-dev/browse_thread/thread/880cc4a5de51e016">Where the Gowalla API is going</a>" on the official Gowalla Developers Group, it was revealed that most bits of the existing API "should be working" but a version 2 of the API would be coming in 2012 that enables developers to leverage the new features such as stories, lists, likes, guides, and so on. Unfortunately, several parts of the existing API broke on launch of the new app (including OAuth integration which took out nearly all 3rd party apps, trips, and an advanced search API) and some parts were completely removed (such as PubSubhubbub, one of the key things that actually made the Gowalla API a compelling thing to use). I have a number of apps that use the old API and were affected in small ways (I learnt long ago never to make direct calls to the Gowalla API) but there were a few things like trips that I needed direct access to more immediately. So, I spent a few minutes digging into the new Gowalla app and found the new connection details that are required to talk to the new API.</p>
@@ -95,6 +97,13 @@ X-Gowalla-API-Version: 2</code></pre></figure>
 	 
 		<a href="/weblog/2011/08/20/highlights-v1-1-gowalla-trips-last-fm-events-and-translations/" title="Previous Article" class="pagination-previous">&laquo; Highlights v1.1 - Gowalla Trips, Last.fm Events, and Translations</a>
     
+</section>
+
+<section id="newsletter-section">
+	<div id="newsletter">
+		<p>Want to keep up to date? Sign up to <a href="https://www.thedododeveloper.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
+		<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="320" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
+	</div>
 </section>
 		
 		<footer>
