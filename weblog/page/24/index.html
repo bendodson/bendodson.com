@@ -43,6 +43,89 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2009/04/28/poor-usability-on-the-web-part-1-online-banking/">Poor Usability on the Web - Part 1: Online Banking</a></h1>
+			
+			<time datetime="2009-04-28" pubdate=""><a href="/weblog/2009/04/28/poor-usability-on-the-web-part-1-online-banking/">April 28, 2009</a></time>
+    	</header>
+    	<div>
+			<p>For some reason, I get frustrated really easily on the internet when I come across something that doesn't work intuitively.  It seems that the majority of people are desensitised to the various hurdles of thought on both the internet and computers in general (e.g. pressing "Start" in windows to get to the "Shut Down" option) yet more and more I find myself getting annoyed that people can't get the most basic things right on the internet.  Now that I'm working as a web consultant, I'm hoping to be able to get a lot of clients to just look at the systems and sites they have created and apply a bit more common sense to them in the way popularised by the excellent "<a href="http://www.amazon.co.uk/Dont-Make-Think-Usability-Circle-Com/dp/0789723107">Don't Make Me Think</a>" by Steve Krug.  This is a view extended by Joshua Porter's "<a href="http://www.amazon.co.uk/Designing-Social-Voices-That-Matter/dp/0321534921">Designing for the Social Web</a>" (which I shall be reviewing here shortly) although that is geared slightly more towards customer service and social networks than the all encompassing issue of usability and best practice.</p>
+
+<p>So, for my first real post on <a href="https://bendodson.com/weblog/">my new website</a> I thought I'd perform a basic usability study of the online banking system from the <a href="http://www.rbs.co.uk/">Royal Bank of Scotland</a>; a website that frustrates me every time I want to check my bank balance online.</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/homepage-1024x718.png" alt="The RBS Homepage" title="RBS Homepage" width="640" height="448" class="size-large wp-image-62" />
+
+<p>I'm using the <a href="http://www.apple.com/safari/">Safari 4 Beta</a> on a MacBook for the purpose of this demonstration and wanted to demonstrate that the RBS homepage (above) loads absolutely fine in this configuration.  However, as soon as you click on the "Log In" button on the right hand side, you get this page:</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/unsupported-640x449.png" alt="Unsupported browser on RBS Digital Banking" title="RBS Unsupported Browser" width="640" height="449" class="size-large wp-image-71" />
+
+<p>To be fair, the unsupported browser thing isn't a problem for me as Safari 4 has a very useful 'Develop' menu in the toolbar that lets me choose a different user-agent so I can pretend it's Safari 3.2.1 (which I'll do shortly to let me into the banking).  What does annoy me is that there is no reason for them to detect your browser as the site isn't any different depending on your browser.  At the very least, if the browser isn't supported (for some sort of CSS hacking rules perhaps?) it should load up a plain text version rather than just lock you out completely.  It really adds insult to injury seeing as by changing the user-agent, the site works absolutely fine.  Now I'm not suggesting that they should be updating their site every time a new browser comes out to avoid this message.  On the contrary, I'm suggesting that they should completely abolish the specific browser sniffing and just detect browsers (by functionality rather than name) which definitely don't work (e.g. IE 5.5 or Netscape 4) and offer them a textual fallback.</p>
+
+<p>Other usability problems with this page include a "Log Out" button when you haven't logged in yet, and a "Restart Log In" button which just reloads the page.  On the plus side, they do have a link to "<a href="http://www.rbs.co.uk/personal/online-banking.ashx">Information on supported browsers</a>" but this rapidly turns to a negative as there is absolutely no information there at all on supported browsers - the problem isn't even acknowledged!  At the very least there should be a list of supported browsers with links so you can upgrade, etc, but to have a link which goes to no meaningful information is just ridiculous.</p>
+
+<p>Anyway, if we happen to be using a supported browser (or if we spoof our user-agent as I have to do), then we'll move on to the next page; the first stage of actually logging in.</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/login-640x449.png" alt="RBS Login: Entering your customer number" title="RBS Login" width="640" height="449" class="size-large wp-image-75" />
+
+<p>Now this page in itself isn't too bad.  Yes you have to enter a 10 digit number decided by the bank rather than an email address or an easy-to-remember username and it's only one field when it could in fact have been added to the previous page (e.g. enter number and then begin log in as <a href="http://www.hsbc.co.uk/1/2/HSBCINTEGRATION/CAM10;jsessionid=0000jNdUUpybSyihihLj-yc9J_m:11j71ffl3?IDV_URL=hsbc.MyHSBC_pib">HSBC</a> does it) but compared to the other pages it's fairly acceptable.  The only thing I would change is minimising the amount of text and enlarging the 'Next' button - it doesn't need to be small and hidden away at the bottom of the page!</p>
+
+<p>We now come on to my favourite page; security clearance.</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/security-640x449.png" alt="RBS Login: Entering security details" title="RBS Login Security Page" width="640" height="449" class="size-large wp-image-78" />
+
+<p>For me, this page is where all notion of web standards, accessibility, and best practice fall apart.  Before I begin, I would like to say that I understand fully the need to break up a security number and only enter certain digits for authorisation - it's obviously to stop anything like keyloggers or people watching you type as they'll only get a portion of the password and the next time you come to login you'll be asked to enter a different part.  I don't have a problem with that.  I do, however, have a problem with being asked to enter parts of my password in a completely random order.  Is there any particular reason why I have to enter 1st digit, 4th digit, then 2nd digit?  It makes every attempt a brain-teaser in itself as I have to conciously remember the security code, count up the number of digits, and then do it twice more to work out the order.  More often than not I'll be saying it under my breath in order to keep it in my fairly poor short-term memory so anybody near me would get the code anyway!</p>
+
+<p>To make it even worse, once you've typed a digit, some javascript runs that automatically moves your cursor to the next input box.  I have never liked this convention as it falls against best practice and expected behaviour.  Nobody expects it to automatically move you to the next box as there are few websites that do it - it's not the default action on input forms.  The only time I have ever been able to see an acceptable use for this is when entering in a product key or something similar e.g. a long (over 20 characters) string of randomly generated text that has been broken apart into smaller chunks of 4 or 5 to make it easier for humans to transcribe.  That is the only situation that people expect the behaviour as it is the only place that the majority will have seen it happen before (although one could argue that my description of a product key could equally apply to a telephone number and I wouldn't dispute that).  However, for a single digit number that is masked by an asterix, it is completely unneccessary and confusing.  The part that really gets me though is that if you mistype, you can't tab back and delete it as you'll be automatically moved forward to the next input.  You either have to press <kbd>shift + tab</kbd> and then <kbd>backspace</kbd> incredibly quickly or disable javascript.  I'm quite quick on a keyboard thanks to a lifetime of being sat behind one but I can imagine that this is incredibly frustrating for a user who doesn't know what's going on or is a little slower at typing!</p>
+
+<p>Speaking of slow typers or disabled users, we come to the "Users with Special Needs" section.  This seems to have been bolted on to the end of the login process almost as an afterthought or simple nod to the fact that people may have accessibility issues preventing them from accessing the system.  Rather than disabling the javascript or making the buttons bigger, the "Users with Special Needs" checkbox simply serves to disable the automatic refreshing of the page when the security timer expires.  Like most online services of a secure nature, the website will lock you out if you're inactive for a certain period of time.  In the case of the RBS banking system, this is done with JavaScript and you are physically kicked out of the system rather than getting an error when you navigate to a page after the timeout.  I've no idea why disabling this feature falls under "special needs" but there we go!</p>
+
+<p>So, if you managed to decipher your password, enter it correctly first time, and scrolled down and squinted to find the next button, you will move to your welcome screen where you can get the basic overview of your accounts, right?  Wrong!</p>
+
+<p>Occasionally a screen will appear with something in capitals along the lines of *WARNING* WATCH OUT FOR PHISHING ATTACKS - WE DON'T EMAIL YOU.  I don't really mind these as they don't happen all of the time and it's good to know that the bank is trying to protect it's customers by reminding them of common sense.  It does have a ridiculously small 'next' button under-the-fold (similar to the other pages) but it's not a regular occurrence so not a major gripe for me.  This next screen which does show up every time is though&hellip;</p>
+
+<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/04/final-628x600.png" alt="RBS Login: The confirmation page" title="RBS Login Final Page" width="628" height="600" class="size-large wp-image-82" />
+
+<p>This page has been designed for the sole purpose of getting people to keep their information up to date as well as advertising new products / services.  There is absolutely no benefit to the user as far as I can tell.  If we look at the first part, it tells the user when they last logged in, part of their address, and their email address.  Knowing when you last logged in might be useful as that way you can see if someone else has logged in than wasn't you - however, in reality most people don't remember exactly when they last logged in and I would assume that the vast majority of people don't even read that sentence.  The address section is completely redundant as it only shows a small section and again people are unlikely to read it.  If you move house, you are quite obviously going to change your bank details and I don't think a reminder every time you log in to your internet banking is necessary.  The final section about your email address is again redundant as the bank never emails it's customers.  Why?  There are too many phishing attacks in this day and age so the majority of emails from banks look like spam!  Besides, what are they going to email you?  Probably just adverts for other services such as advanced bank accounts and mortgages.</p>
+
+<p>Everything below-the-fold (including the next button again!) is just advertising space.  In this screenshot, they are advertising paperless billing (which you probably already know about if you're using online banking) and the misleading "Even safer online banking" which is advertising for it's free security suite which basically tells you that you're connected to the banks website and not another website.  It only works on 32-bit windows running either IE or Firefox and won't work with screen readers.  Whilst this 'advertising' is inevitable, it does not need to be shown every time the user logs in especially not on the confirmation of login page!  It's also ironic that they choose to advertise their free software to make you more secure after you've logged in rather than at the start of the journey (where they do mention it but in much smaller writing rather than the large banner ad they use here).</p>
+
+<p>Once you have clicked the next button, you are finally taken into the online banking system and you can get on with whatever task you need to perform such as checking your balance or making a payment (which requires an external card reader and a whole lot of hassle, but that's a rant for another day!)</p>
+
+<h3>Summary</h3>
+
+<p>As I've tried to point out above, there are numerous accessibility and usability problems in the above scenario of logging into a mainstream online banking system.  As a brief recount, I need to:</p>
+
+<ol>
+<li>Go to homepage</li>
+<li>Fake my user-agent</li>
+<li>Type in my 10-digit 'customer number'</li>
+<li>Fill out random digits from both a security number and password (in a random order)</li>
+<li>Occassionally see a notices page</li>
+<li>View a reminder of my last login, part of my address, and email address as well as bank service advertising</li>
+<li>Finally get to my online banking overview</li>
+</ol>
+
+<p>That weighs in at an astonishing <strong>6 pages</strong> just to login to my account!  That doesn't include going back to the start if you happen to mistype some of the details or if you get trapped in the "ever advancing javascript inputs of doom" (patent pending).</p>
+
+<h3>Recommendations</h3>
+
+<p>There are several basic steps that RBS can take to rectify the process of logging onto their online banking system.</p>
+
+<p>Firstly, they need to remove the browser sniffing and instead take up the practice of graceful degradation, that is to say show the best way of doing it and then fall back to more simple methods if the browser is too old.  There is no good reason why the latest browsers (which are by virtue more secure) should not be allowed access to the site.</p>
+
+<p>Next, the javascript 'enhancements' need to be completely removed not only due to accessibility concerns but also because they break traditional UI design and user expectation.  This goes for both the self-advancing input boxes and the automatic logout - you shouldn't need to tick a box to say that you don't want to be redirected from a site with JavaScript.</p>
+
+<p>Finally, the entire process can be minimised down to 2 pages.  This is done by adding the 'customer number' input next to the initial 'Log In' box on the RBS homepage, and then having a single page to have both the two security checks (no random ordering of input boxes please!) and details of their antivirus package.  Once you've passed security, you should be taken to the overview page where you can then at the top of the page have a small section about when you last logged in and then use sidebars for advertising of services such as 'paperless billing' or reminding customers to keep their address details up to date.</p>
+
+<p>With these three simple steps, the headaches for all customers can be removed, and the process would become easy-to-use rather than a constant struggle!</p>
+
+<p>I'd be interested to know of anyone's views on accessibility and usability with regards to online banking systems - please use the comments box below or <a href="https://bendodson.com/contact/">contact me</a>.  You can also let me know if there are any particular sites that have glaring usability issues that you'd like me to investigate in the future.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2009/04/26/london-underground-tube-updates-api-is-live/">London Underground Tube Updates API is live!</a></h1>
 			
 			<time datetime="2009-04-26" pubdate=""><a href="/weblog/2009/04/26/london-underground-tube-updates-api-is-live/">April 26, 2009</a></time>
@@ -339,27 +422,6 @@ Twitter, Inc.<br />
 <p>I use mac mail to manage all of my RSS feeds and find that it does a fairly good job - everything gets synced over to my iPhone as well so I can keep up to date when I'm on the train etc.  I also have a few RSS feeds on my <a href="http://www.google.com/ig" rel="external">iGoogle homepage</a> so I can see the latest <a href="http://xkcd.com/" rel="external">xkcd</a> or <a href="http://www.dilbert.com/" rel="external">dilbert</a> strip whilst I'm pretending to work.  Now I'm fairly sure you can set Outlook up to receive RSS feeds - so why doesn't this developer do that?  Apparently, if Windows were to crash (unlikely but stay with me on this) then he would lose all of the RSS feeds he was tracking and therefore have to add them again so it's not worth doing.  "You could use <a href="http://www.google.com/help/reader/tour.html" rel="external">Google Reader</a> or any other number of online aggregators" say I.  "Too much effort" says he.  I give up.</p>
 
 <p>So, in the next day or so there will be a "sign up" button on this site so that those of you who can't be bothered with RSS can get email alerts when a new message is posted.  I've also set up a twitter account which will be syndicating the posts on this site as and when they happen - the account to follow is <a href="http://twitter.com/bendodson_com/" title="Stay up to date with bendodson.com/weblog on Twitter" rel="external">bendodson_com</a>.  Oh, and for those of you that have moved into the 21st century, here is the <a href="https://bendodson.com/weblog/rss.xml" rel="external">good old RSS feed</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2008/07/19/website-upgrades-finally-completed/">Website upgrades finally completed</a></h1>
-			
-			<time datetime="2008-07-19" pubdate=""><a href="/weblog/2008/07/19/website-upgrades-finally-completed/">July 19, 2008</a></time>
-    	</header>
-    	<div>
-			<p>Some of the more regular visitors amongst you may have noticed that for the past month or so, <a href="https://bendodson.com/weblog/" title="PHP Developer Ben Dodson">bendodson.com/weblog</a> has been in a mild state of flux - I'm happy to say that everything is now completed and working fully!</p>
-
-<p>I hurried the uploading of the new design as I had some spare time at <a href="http://flickr.com/photos/bendodson/sets/72157605753188176/" title="Mashed 08 at Alexandra Palace" rel="external">Mashed</a> and thought it would be a good idea to get the new site up and running in any state.  Then, the knowledge that my site might not be working would spur me on to fixing it.  A good theory, but apparently not good in practice.</p>
-
-<p>There were several bugs in IE6 (there always are), the site was taking too long to load, and the contact form didn't work at all.</p>
-
-<p>But now, the site has been optimised to a grade A level (according to <a href="http://developer.yahoo.com/yslow/" rel="external">YSlow</a>), the IE6 bugs have been fixed, and email now works from my server so the contact form is working again!</p>
-
-<p>I'll be continuing to make little tweaks and upgrades here and there, but I'll also be returning to the blogging scene and keeping the site regularly updated with various development news.  As a taster, I have recently been playing with a new iPhone 3G, fire eagle, a montage making script that uses flickr, and Google Optimizer (although not all at the same time) so stay tuned!</p>
 
 		</div>
 	</article>

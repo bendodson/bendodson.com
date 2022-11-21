@@ -43,6 +43,52 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2019/10/25/revival/">Revival</a></h1>
+			
+			<time datetime="2019-10-25" pubdate=""><a href="/weblog/2019/10/25/revival/">October 25, 2019</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app I’ve been working on over the past few months: <a href="https://apps.apple.com/gb/app/revival-task-to-do-list/id1351342913">Revival</a>, truly uncomplicated task planning for everyone:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/revival-dark-mode.jpg" width="800" height="600" /></p>
+
+<p>I was originally contacted by <a href="https://wonderboymedia.com">Wonderboy Media</a> with the intention of working on updating their existing reminders app which was looking a little dated and had some issues with broken functionality. After a detailed examination, it was determined that a complete rebuild was needed in order to make a sustainable v2.0 which would last as a solid foundation for many years to come. I worked as the sole iOS developer on the project over many months<sup id="fnref:anotherdev" role="doc-noteref"><a href="#fn:anotherdev" class="footnote" rel="footnote">1</a></sup> as I got to grips with what was a deceptively complex project including such things as local notifications (with snoozing), timezones, locations, subtasks, priorities, lists, tags, notes, files, contacts, subscriptions, integration with the iOS Reminders app, and Siri support! In addition, I completely redesigned the app giving it a far more modern look and feel complete with fluid gestures, sounds, and haptics. I even redesigned the app icon!<sup id="fnref:appicon" role="doc-noteref"><a href="#fn:appicon" class="footnote" rel="footnote">2</a></sup> It should also go without saying that the app was built entirely in Swift 5 using AutoLayout to ensure a flexible design from the 4.7” iPhone SE right up to the 12.9” iPad Pro including the various adaptations that can occur when multitasking on iPadOS.</p>
+
+<p>One of the most complicated pieces was a desire for syncing not only between devices but also via sharing and sending tasks between users. I’m particularly proud of the seamless and accountless syncing system within the app which uses your <a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">CloudKit identifier</a> along with Firebase in order to provide real time syncing between devices – you can literally complete a task on your iPhone and see it update in milliseconds on your iPad! In addition, everything is stored locally on device using Realm in order to keep things incredibly fast and to provide advanced searching capabilities. When it came to sharing a task with another user, I removed the old system which required creating user accounts and sending codes back and forth and instead created a system which provides a simple URL; when opened, the app pulls all of the information you need quickly and securely to either create a copy or grant access to the shared task.</p>
+
+<p>Another complex piece revolved around theming in that users can change both the overall colour of the app and also switch between a light and dark mode. This required a custom solution for being able to change all of the UI on a whim whilst also recognising that iOS 13 was around the corner and would likely include a dark mode. The work I put in paid off and I was able to easily add an “automatic” mode that would change the theme between light and dark based on the iOS preferences<sup id="fnref:complexmode" role="doc-noteref"><a href="#fn:complexmode" class="footnote" rel="footnote">3</a></sup> when iOS 13 was launched.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/revival-languages.jpg" width="800" height="433" /></p>
+
+<p>Whilst there are many aspects to this project that provided additional complications<sup id="fnref:addedcomplications" role="doc-noteref"><a href="#fn:addedcomplications" class="footnote" rel="footnote">4</a></sup>, one of the most satisfying to work on was the localisation of the app to eight additional languages. We worked with <a href="https://www.ibabbleon.com">Babble-on</a> in order to get the required translation files which were easily loaded into the app but I also wanted to improve the experience on the App Store. The previous versions of the app had custom artwork for each language with translated text above but showed the same English interface. I wanted to automate this and improve it, especially as Apple required screenshots for four devices across nine languages. The solution was to use the XCTest framework (along with a custom data loader) to open the app at various pages and take snapshots; these were then used by the deliver and snapshot parts of <a href="https://fastlane.tools">Fastlane</a> to wrap them in a device frame and add the localised text. The result is 180 screenshots each with localised text, the correct frame for the targeted device, and a localised screenshot.</p>
+
+<p>I really enjoyed working with Wonderboy Media on this project and having the opportunity to work on such a complex project. I’m incredibly pleased with both the design and development work that I’ve put into this project and I’m excited to see how it grows in future.</p>
+
+<p>You can download <a href="https://apps.apple.com/gb/app/revival-task-to-do-list/id1351342913">Revival on the App Store</a> for free and subscriptions are available to gain access to advanced features.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:anotherdev" role="doc-endnote">
+      <p>Another developer has now been added to the team to help with a number of exciting new updates which will be rolling out over the next few months. <a href="#fnref:anotherdev" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:appicon" role="doc-endnote">
+      <p>As a reminders app it’s almost law that you have to use a tick but I wanted to have a homage to the skeuomorphic clock-based interface of the old app as well. <a href="http://bendodson.s3.amazonaws.com/apps/icons/revival-1024.png">My solution</a> was to make a clock face with the tick rendered from the hands. <a href="#fnref:appicon" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:complexmode" role="doc-endnote">
+      <p>This is far more complex than it seems as if you choose to have iOS change between light and dark automatically based on the time of day then it is possible for the theme to change whilst you are in the middle of using the app; every view needed to be able to handle the possibility that the underlying theme could change at any second rather than just occurring from the settings panel. <a href="#fnref:complexmode" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:addedcomplications" role="doc-endnote">
+      <p>Auto renewable subscriptions and supporting promoted in-app purchases, getting around the 64-notification limits of the UNUserNotificationCentre when you have 300 notifications to load in, how to efficiently deal with syncing contact information when it could be different on each device, etc. Don’t even talk to me about recreating the entirety of the custom repeat options from the iOS Reminders app! <a href="#fnref:addedcomplications" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2019/09/15/gyfted/">Gyfted</a></h1>
 			
 			<time datetime="2019-09-15" pubdate=""><a href="/weblog/2019/09/15/gyfted/">September 15, 2019</a></time>
@@ -515,27 +561,6 @@ TN &amp; 0 2017 Wizards of the Coast
 <p>It has been a real pleasure working with Zeid and the rest of Hawkker over the past few years. I’d encourage you to check out the <a href="https://itunes.apple.com/gb/app/hawkker/id1370881088?mt=8">free eater app on the App Store</a> or recommend the <a href="https://hawkker.com/vendors/">vendor website</a> to your favourite street food sellers. You can also learn more about the entire platform at <a href="https://hawkker.com/">hawkker.com</a>.</p>
 
 <p>If you are considering hiring a large agency to deliver your product, I would strongly advise hiring a consultant to sit in on meetings and keep track of the development process. I’d obviously like you to choose me (you can <a href="/contact/">contact me</a> to find out more) but having any technical consultant along with you is going to make the process far easier and help you navigate the sometimes awkward world of agency development.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2018/11/12/drinkcoach-updates/">DrinkCoach Updates</a></h1>
-			
-			<time datetime="2018-11-12" pubdate=""><a href="/weblog/2018/11/12/drinkcoach-updates/">November 12, 2018</a></time>
-    	</header>
-    	<div>
-			<p>Over the past few weeks I’ve been working on some big updates to the <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ app</a> that I developed for Orbis Media and the HAGA <a href="/weblog/2017/10/26/drinkcoach/">last year</a>:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/drinkcoach-updates.jpg" width="800" height="600" /></p>
-
-<p>The big change is a new ‘month-at-a-glance’ screen with a scrollable calendar giving you a great overview of your alcohol intake over time. This is enhanced with a ‘Zero-Alcohol Days’ badge that increases each day to show your current streak. In addition to this, a new summary PDF is available which can be generated from a range of dates (i.e. everything from past week and past month to specific from and to dates); this PDF will show you the total number of units, calories, and cost along with an average units per day count and total number of zero-alcohol days. The PDF can be easily downloaded or shared with your healthcare professional. Finally, a number of UX changes were made to improve the layout of the app, support was added for the most recent Apple devices, and the code was updated to Swift 4.2.</p>
-
-<p>In show business, it is often said that you should never work with children or animals. In software development, the equivalent is that you should never work with date formatting. I certainly found building this calendar system from the ground up a challenge and keeping it performant when the local Realm database is full of data was definitely not easy. That said, I’m incredibly pleased with how the update has turned out and it seems the users of the app are too; to date, the app has received over 1200 reviews on the App Store averaging a 4.8 rating whilst also being featured by publications such as The Observer, The Guardian, and The Huffington Post.</p>
-
-<p>It was really great to work with Orbis Media again and I look forward to working with them again in the future. You can download <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ on the App Store</a> for free and learn more about it at <a href="http://www.drinkcoach.org.uk">drinkcoach.org.uk</a>.</p>
 
 		</div>
 	</article>

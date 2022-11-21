@@ -43,6 +43,28 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/05/01/great-british-bee-count-app/">Great British Bee Count iPhone App</a></h1>
+			
+			<time datetime="2015-05-01" pubdate=""><a href="/weblog/2015/05/01/great-british-bee-count-app/">May 01, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I’m happy to announce that another app I worked on earlier this year has gone live in the App Store; <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/gbbc.jpg" width="800" /></p>
+
+<p>The Great British Bee Count is a cause started by <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">Friends of the Earth</a> which invites the public to help monitor the British bee population. To do this, you can download the free app and then choose to log individual types of bee that you see or, new for this year, perform a timed count which invites you to count as many bees as you can (regardless of type) within 2 minutes.</p>
+
+<p>I was asked to update the existing app by <a href="http://twothirdswater.co.uk">Two Thirds Water</a> - I decided it would be quicker to rebuild the app from scratch in Swift rather than try and update what existed previously. This allowed me to easily use several new technologies such as AutoLayout which let me render the pixel-perfect design on all four sizes of iPhone. In addition, I built an offline caching mechanism so you can perform your counts without an internet connection - once a connection is re-established, the counts will be uploaded.</p>
+
+<p>This was a fun project to work on and I think the end result works really well. You can check out <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/04/25/initial-thoughts-on-apple-watch/">Initial thoughts on Apple Watch</a></h1>
 			
 			<time datetime="2015-04-25" pubdate=""><a href="/weblog/2015/04/25/initial-thoughts-on-apple-watch/">April 25, 2015</a></time>
@@ -398,62 +420,6 @@
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/xcode-6-essentials.jpg" alt="Xcode 6 Essentials" /></p>
 
 <p>You can get it now in both print and eBook formats from <a href="https://www.packtpub.com/application-development/xcode-6-essentials">Packt Publishing</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/">SKProduct localized price in Swift</a></h1>
-			
-			<time datetime="2014-12-10" pubdate=""><a href="/weblog/2014/12/10/skproduct-localized-price-in-swift/">December 10, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I’m currently working on a Swift project which uses In App Purchasing (IAP). One of the many pitfalls of IAP is displaying the cost of a product in the correct format; all too often developers use the default US formatting leading to apps showing prices of $0.99 in the UK. Gross!</p>
-
-<p>You may think you can use the locale of the device to format the number and you’d be correct apart from the user may be using an App Store in a different locale to that of their device (i.e. a UK account but they have their device sent to French if that is their primary language). The SKProduct object that iTunes returns has a locale attached so it is fairly simple to format the price with that in order to get the localized version:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">StoreKit</span>
-
-<span class="kd">extension</span> <span class="kt">SKProduct</span> <span class="p">{</span>
-    
-    <span class="kd">func</span> <span class="nf">localizedPrice</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="nv">formatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
-        <span class="n">formatter</span><span class="o">.</span><span class="n">numberStyle</span> <span class="o">=</span> <span class="o">.</span><span class="kt">CurrencyStyle</span>
-        <span class="n">formatter</span><span class="o">.</span><span class="n">locale</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">priceLocale</span>
-        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">price</span><span class="p">)</span><span class="o">!</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></figure>
-
-<p>The above is a simple Swift extension (also <a href="https://github.com/bendodson/SKProduct-LocalizedPrice-Swift">available on GitHub</a>) which, if it is in your project, will automatically be available on any SKProduct object (similar to using Categories in Objective-C). If we assume we have an SKProduct called product, we can now run:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">NSLog</span><span class="p">(</span><span class="s">"The price of this product is </span><span class="se">\(</span><span class="n">product</span><span class="o">.</span><span class="nf">localizedPrice</span><span class="p">()</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="c1">// Example output: The price of this product is £0.99</span></code></pre></figure>
-
-<p>It’s amazing how many apps either don’t display the price of an IAP in advance or display it in the wrong locale. Don’t let your app be one of them.</p>
-
-<p><strong>Update, July 2018:</strong> I’ve updated this script so that it is now an optional string property and written in Swift 4.</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">StoreKit</span>
-
-<span class="kd">extension</span> <span class="kt">SKProduct</span> <span class="p">{</span>
-    
-    <span class="k">var</span> <span class="nv">localizedPrice</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="nv">formatter</span> <span class="o">=</span> <span class="kt">NumberFormatter</span><span class="p">()</span>
-        <span class="n">formatter</span><span class="o">.</span><span class="n">numberStyle</span> <span class="o">=</span> <span class="o">.</span><span class="n">currency</span>
-        <span class="n">formatter</span><span class="o">.</span><span class="n">locale</span> <span class="o">=</span> <span class="n">priceLocale</span>
-        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">price</span><span class="p">)</span>
-    <span class="p">}</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>Usage is much the same although it is no longer a function and you are responsible for unpacking the optional string:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">NSLog</span><span class="p">(</span><span class="s">"The price of this product is </span><span class="se">\(</span><span class="n">product</span><span class="o">.</span><span class="n">localizedPrice</span> <span class="p">??</span> <span class="s">""</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="c1">// Example output: The price of this product is £0.99</span></code></pre></figure>
-
 
 		</div>
 	</article>
