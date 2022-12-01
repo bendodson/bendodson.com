@@ -75,6 +75,9 @@ function performSearch() {
 }
 
 $(document).ready(function() {	
+
+    $('#artist').focus();
+
 	$('#spatial-audio').submit(function() {
 		performSearch();
 		return false;

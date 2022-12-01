@@ -184,6 +184,9 @@ function performSearch() {
 
     var entity = ($('#entity').val()) ? $('#entity').val() : 'tvSeason';
     var country = ($('#country').val()) ? $('#country').val() : 'us';
+
+    localStorage.setItem('itunes-entity', entity);
+    localStorage.setItem('itunes-country', country);
     
     $.ajax({
         type: "GET",
@@ -254,6 +257,7 @@ function performSearch() {
 
 $(document).ready(function() {	
 
+    $('#query').focus();
 
 	var sortable = [];
 	for (var key in countries) {
@@ -286,7 +290,14 @@ $(document).ready(function() {
 
     if (params.entity && params.query && params.country) {
         performSearch();
-    };
+    } else {
+        if (localStorage.getItem('itunes-entity')) {
+            $('#entity').val(localStorage.getItem('itunes-entity'));
+        }
+        if (localStorage.getItem('itunes-country')) {
+            $('#country').val(localStorage.getItem('itunes-country'));
+        }
+    }
 
 	$('#iTunesSearch').submit(function() {
 		performSearch();

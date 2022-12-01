@@ -8,7 +8,12 @@ $(document).ready(function() {
         $('#query').val(params.query.replace("+", " "));
         $('#storefront').val(params.storefront);
         performSearch();
-    };
+    } else if (localStorage.getItem('apple-tv-movies-storefront')) {
+        var storefront = localStorage.getItem('apple-tv-movies-storefront');
+        $('#storefront').val(storefront);
+    }
+
+    $('#query').focus();
 
     $('#iTunesSearch').submit(function() {
         performSearch();
@@ -42,6 +47,8 @@ function performSearch() {
 
     locale = window.navigator.userLanguage || window.navigator.language;
     storefront = $('#storefront').val();
+
+    localStorage.setItem('apple-tv-movies-storefront', storefront);
     
     $.ajax({
         type: "POST",

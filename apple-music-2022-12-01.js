@@ -83,6 +83,9 @@ function performAnimationSearch() {
 }
 
 $(document).ready(function() {	
+
+    $('#url').focus();
+
 	$('#apple-music').submit(function() {
 		performSearch();
 		return false;
