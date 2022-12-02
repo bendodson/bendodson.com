@@ -30,7 +30,18 @@ function performSearch() {
             html += '</ul>';
 
             if (data.type == 'albums') {
-                console.log(data);
+                
+                if (data.discs.length > 0) {
+                    for (var i = data.discs.length - 1; i >= 0; i--) {
+                        var disc = data.discs[i];
+                        html += '<img src="'+disc.thumb+'" alt="" width="600" height="600"></a>';
+                        html += '<ul>';
+                        html += '<li><a href="'+disc.thumb+'" target="_blank">Standard Resolution (1000x1000px)</a></li>';
+                        html += '<li><a href="'+disc.large+'" target="_blank">Highest Resolution (uncompressed)</a></li>';
+                        html += '</ul>';
+                    }
+                }
+
                 if (data.tracks.length > 0) {
                     html += '<table id="tracks-table">';
                     html += '<tr><th></th><th>Title</th><th></th><th>Duration<th></tr>';
