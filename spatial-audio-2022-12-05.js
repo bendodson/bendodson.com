@@ -1,5 +1,8 @@
 function performSearch() {
 
+    var endpoint = 'https://spatialaudio.dodoapps.io/api/';
+    //var endpoint = 'http://localhost:8888/api/';
+
     var query = $('#artist').val();
     if (!query.length) {
         return false;
@@ -9,10 +12,54 @@ function performSearch() {
     $('#results').append('<h3>Searching...</h3>');
 
     $.ajax({
-        type: "POST",
+        type: "GET",
         crossDomain: true,
-        url: 'https://spatialaudio.dodoapps.io/api/artist/',
-        data: {artist: query},
+        url: endpoint + 'artists/',
+        data: {query: query},
+        dataType: 'json'
+    }).done(function(data) {
+        $('#results').html('');
+        
+        if (data.error) {
+            $('#results').append('<h4>'+data.error+'</h4>');
+            return;
+        }
+
+        for (var i = 0; i < data.artists.length; i++) {
+            var artist = data.artists[i];
+
+            var html = '<div class="artist">';
+            html += '<a href="#" class="artist" rel="' + artist.id + '">';
+            html += '<img src="' + artist.artworkUrl +'" />'
+            html += '<p>' + artist.name + '</p>';
+            html += '</a>';
+            html += '</div>';
+
+            $('#results').append(html);
+        }
+
+        $('#results').on("click", "a.artist", function() {
+            fetchArtistTracks($(this).attr('rel'));
+            return false;
+        });
+
+    });
+}
+
+function fetchArtistTracks(artistId) {
+
+    var endpoint = 'https://spatialaudio.dodoapps.io/api/';
+    //var endpoint = 'http://localhost:8888/api/';
+
+
+    $('#results').html('');
+    $('#results').append('<h3>Searching...</h3>');
+
+    $.ajax({
+        type: "GET",
+        crossDomain: true,
+        url: endpoint + 'tracks/',
+        data: {artistId: artistId},
         dataType: 'json'
     }).done(function(data) {
         $('#results').html('');
