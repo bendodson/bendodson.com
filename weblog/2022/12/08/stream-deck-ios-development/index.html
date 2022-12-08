@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Using a Stream Deck for iOS development">
+		<meta property="og:description" content="Improving app development workflows with the Elgato Stream Deck.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2022/12/08/stream-deck-ios-development/">
+		
+		<meta name="twitter:title" content="Using a Stream Deck for iOS development">
+		<meta name="twitter:description" content="Improving app development workflows with the Elgato Stream Deck.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/stream-deck-development.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/stream-deck-development.jpg">			
+		
+	
+
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2022-12-05.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Using a Stream Deck for iOS development</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2022/12/08/stream-deck-ios-development/">Using a Stream Deck for iOS development</a></h1>
+			
+			<time datetime="2022-12-08" pubdate=""><a href="/weblog/2022/12/08/stream-deck-ios-development/">December 08, 2022</a></time>
+    	</header>
+    	
+		
+    	<div>
+			<p>The <a href="https://www.elgato.com/en/stream-deck">Elgato Stream Deck</a> is a fun device with 15 LED buttons that can be programmed to do whatever you want through an app that runs on PC and Mac. It was designed for streamers to be able to quickly switch scenes or present overlays but it has quickly become popular in other areas thanks to its flexible design. I picked one up in 2018 when I was dabbling with streaming but then mostly used it as control box for my Cessna 152 in Flight Simulator 2020 thanks to <a href="https://flightdeck.to/product/flightdeck/">FlightDeck</a>. I eventually replaced this with a bigger flight sim setup<sup id="fnref:flightsim" role="doc-noteref"><a href="#fn:flightsim" class="footnote" rel="footnote">1</a></sup> so the Stream Deck was sitting idle until I had the idea to integrate it into my app development workflow.</p>
+
+<div class="gofigure">
+	<img src="https://bendodson.s3.amazonaws.com/weblog/2022/stream-deck-mac-studio.jpg" width="800" height="450" />
+    <figure>The Stream Deck running alongside my Mac Studio.</figure>
+</div>
+
+<p>I typically work on multiple projects per day as I have a number of active client projects at any one time along with my own independent apps. This means I often waste time getting set up for each project so my initial idea was to have a single button press to get my workspace configured.</p>
+
+<div class="gofigure">
+	<img src="https://bendodson.s3.amazonaws.com/weblog/2022/stream-deck-start.jpg" width="400" height="250" />
+    <figure>A single button per platform to start a project.</figure>
+</div>
+
+<p>For example, I may want to start a specific Toggl timer, open a Jira board, and open the Xcode project. To do this, I created a single AppleScript file that is opened by the Stream Deck that will look something like this:</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Timery"</span><span class="w">
+	</span><span class="nb">activate</span><span class="w">
+	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">keystroke</span><span class="w"> </span><span class="s2">"1"</span><span class="w"> </span><span class="nv">using</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="nv">down</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
+
+</span><span class="nb">do shell script</span><span class="w"> </span><span class="s2">"open https://example.com/jira-board/"</span><span class="w">
+
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">tell</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"Safari"</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="na">frontmost</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
+	</span><span class="k">if</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Move to DELL P2415Q"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Window"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nb">exists</span><span class="w"> </span><span class="k">then</span><span class="w">
+		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Move to DELL P2415Q"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Window"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
+	</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+	</span><span class="k">set</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">attribute</span><span class="w"> </span><span class="s2">"AXFullScreen"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
+
+</span><span class="nb">do shell script</span><span class="w"> </span><span class="s2">"open ~/Files/Clients/UKTV/iOS/App\\ Files/UKTV.xcodeproj"</span></code></pre></figure>
+
+<p>In the first block I activate the Timery app and tell it to perform the keyboard shortcut ⌘+<em>n</em> where <em>n</em> is the project as it appears in Timery’s list. This will start a timer going for the project so I can track my time. I typically only use this for clients that I’m working with on a large project or have a regular maintenance contract with; for smaller ad hoc work I’ll instead throw an alert to remind me to start a timer manually.</p>
+
+<p>The second block will open a URL in Safari to any website I might find relevant. This is typically a Jira or Trello board but can sometimes be to some API documentation, a GitHub issue pages, or even a local URL to open up a list in Things.</p>
+
+<p>The third block is very specific to my hardware setup. I have an ultrawide monitor that I use as my primary display and then a 4K Dell monitor in portrait orientation to the side that I typically use for browsing and iOS simulators. This code tells Safari to move to that portrait monitor and then switch to full screen mode.</p>
+
+<p>The final line opens up the Xcode project. I usually work in fullscreen mode on my primary monitor so it’ll typically move to a new space automatically without me needing to program that in.</p>
+
+<p>With this simple script, I can press a single button to get everything configured. It’s probably only saving me 20 seconds of time but psychologically it lets me jump immediately into a project.</p>
+
+<div class="gofigure">
+	<img src="https://bendodson.s3.amazonaws.com/weblog/2022/stream-deck-finder.jpg" width="400" height="250" />
+    <figure>Opening a project directory.</figure>
+</div>
+
+<p>Another minor hassle I encounter on a daily basis is opening up the directory where all of a project’s files are stored. I’ll typically do this if I need to look at some artwork I’ve saved or some documentation so I have a very simple script to open up the current project directory:</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="nb">do shell script</span><span class="w"> </span><span class="s2">"open ~/Files/Clients/UKTV/"</span></code></pre></figure>
+
+<p>This is again a psychological improvement as I hate wasting time digging down through Finder to get to the location I need.</p>
+
+<div class="gofigure">
+	<img src="https://bendodson.s3.amazonaws.com/weblog/2022/stream-deck-build.jpg" width="400" height="250" />
+    <figure>Building and exporting iOS / tvOS apps.</figure>
+</div>
+
+<p>So far I’ve only made minor improvements to my productivity but this last button saves me a huge amount of time; automated building. Whilst many developers will handle this task with some form of Continuous Integration or using the new Xcode Cloud feature, this typically doesn’t work well for me due to the number of projects I’m involved with at any one time. Instead, I use <a href="https://fastlane.tools">Fastlane</a> to perform a wide array of tasks at once such as increasing build numbers, pushing to GitHub, building, and uploading to TestFlight.</p>
+
+<p>Here is a typical Fastfile<sup id="fnref:fastfile" role="doc-noteref"><a href="#fn:fastfile" class="footnote" rel="footnote">2</a></sup> for one of my client projects:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Config</span>
+<span class="n">xcode_version</span> <span class="o">=</span> <span class="s2">"14.1.0"</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"UKTV"</span><span class="p">,</span> <span class="s2">"NotificationServiceExtension"</span><span class="p">]</span>
+<span class="n">git_remote</span> <span class="o">=</span> <span class="s2">"origin/main"</span>
+
+<span class="c1"># Import shared Fastfile</span>
+<span class="n">import</span> <span class="s2">"~/Files/Scripts/SharedFastfile.rb"</span>
+
+<span class="n">lane</span> <span class="ss">:distribute</span> <span class="k">do</span>
+
+  <span class="n">ensure_git_status_clean</span><span class="p">()</span>
+
+  <span class="n">xcode_select</span><span class="p">(</span><span class="s2">"/Applications/Xcode-"</span> <span class="o">+</span> <span class="n">xcode_version</span> <span class="o">+</span> <span class="s2">".app"</span><span class="p">)</span>
+
+  <span class="n">shared_increase_version</span><span class="p">(</span>
+    <span class="ss">targets: </span><span class="n">targets</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">","</span><span class="p">),</span>
+    <span class="ss">push_to: </span><span class="n">git_remote</span>
+  <span class="p">)</span>
+
+  <span class="n">version</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"shared-tmp.txt"</span><span class="p">)</span>
+  <span class="no">UI</span><span class="p">.</span><span class="nf">important</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+
+  <span class="n">build_app</span><span class="p">(</span>
+    <span class="ss">output_directory: </span><span class="s2">"builds"</span><span class="p">,</span>
+    <span class="ss">output_name: </span><span class="n">version</span>
+  <span class="p">)</span>
+
+  <span class="n">upload_to_testflight</span><span class="p">(</span>
+    <span class="ss">ipa: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s2">".ipa"</span><span class="p">,</span>
+    <span class="ss">skip_submission: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">skip_waiting_for_build_processing: </span><span class="kp">true</span><span class="p">,</span>
+  <span class="p">)</span>
+
+  <span class="n">upload_symbols_to_crashlytics</span><span class="p">(</span><span class="ss">dsym_path: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s2">".app.dSYM.zip"</span><span class="p">,</span> <span class="ss">binary_path: </span><span class="s1">'scripts/upload-symbols'</span><span class="p">)</span>
+
+<span class="k">end</span></code></pre></figure>
+
+<p>To start with I specify the Xcode version I want to use, the targets of the project, and the name of the remote git repository. I then import a Ruby file which I’ll come to shortly.</p>
+
+<p>The only lane is <code class="language-plaintext highlighter-rouge">distribute</code> and the first check is to ensure the Git repository is clean. If there are any uncommitted changes, the script will exit out and present an error. I then select the correct version of Xcode<sup id="fnref:xcode" role="doc-noteref"><a href="#fn:xcode" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p>The next section includes a <code class="language-plaintext highlighter-rouge">shared_increase_version()</code> function which comes from the imported Ruby file:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">##</span>
+<span class="c1"># INCREASE_VERSION</span>
+<span class="c1"># </span>
+<span class="c1"># Prompts the user for a version number. If new provided, update all targets and reset</span>
+<span class="c1"># builder number to 1. Otherwise, just bump the build number.</span>
+
+<span class="n">private_lane</span> <span class="ss">:shared_increase_version</span> <span class="k">do</span> <span class="o">|</span><span class="n">options</span><span class="o">|</span>
+
+  <span class="c1"># Fetch all targets as comma-separated string and convert to array</span>
+  <span class="k">if</span> <span class="o">!</span><span class="n">options</span><span class="p">[</span><span class="ss">:targets</span><span class="p">]</span>
+    <span class="no">UI</span><span class="p">.</span><span class="nf">user_error!</span><span class="p">(</span><span class="s2">"You must provide at least one target in 'targets'"</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">targets</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="ss">:targets</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+  <span class="c1"># Fetch current version using default Fastlane action with the first target</span>
+  <span class="n">version</span> <span class="o">=</span> <span class="n">get_version_number</span><span class="p">(</span><span class="ss">target: </span><span class="n">targets</span><span class="p">.</span><span class="nf">at</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+  <span class="c1"># Prompt for new marketing version</span>
+  <span class="n">new_version</span> <span class="o">=</span> <span class="no">UI</span><span class="p">.</span><span class="nf">input</span><span class="p">(</span><span class="s2">"New marketing version? &lt;press enter to keep it at v</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">&gt;"</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">new_version</span><span class="p">.</span><span class="nf">strip</span> <span class="o">==</span> <span class="s2">""</span>
+    <span class="c1"># No change to version so just increase build number</span>
+    <span class="n">increment_build_number</span><span class="p">()</span> 
+  <span class="k">else</span>
+    <span class="c1"># Loop through each target and increment version number with "versioning" plugin</span>
+    <span class="c1"># The native 'increment_version_number' action does not work with recent versions of Xcode</span>
+    <span class="n">targets</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+      <span class="n">increment_version_number_in_plist</span><span class="p">(</span><span class="ss">version_number: </span><span class="n">new_version</span><span class="p">,</span> <span class="ss">target: </span><span class="n">target</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">new_version</span>
+
+    <span class="c1"># Set build number to 1 using default Fastlane action (shows a warning about ${SRCROOT} but it does work)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="ss">:alwaysIncrementBuildNumber</span><span class="p">]</span>
+      <span class="n">increment_build_number</span><span class="p">()</span>
+    <span class="k">else</span> 
+      <span class="n">increment_build_number</span><span class="p">(</span><span class="ss">build_number: </span><span class="mi">1</span><span class="p">)</span>  
+    <span class="k">end</span>
+    
+  <span class="k">end</span>
+
+  <span class="c1"># Fetch build number</span>
+  <span class="n">build_number</span> <span class="o">=</span> <span class="n">get_build_number</span><span class="p">()</span>
+
+  <span class="c1"># Write the new version number to the shared-tmp.txt file so calling lane can pick it up</span>
+  <span class="c1"># This is a limitation of Fastlane not being able to return values in a shared lane</span>
+  <span class="n">version_string</span> <span class="o">=</span> <span class="s2">"v"</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s2">"-b"</span> <span class="o">+</span> <span class="n">build_number</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"shared-tmp.txt"</span><span class="p">,</span> <span class="n">version_string</span><span class="p">)</span>
+
+  <span class="c1"># Message to the user to show the new version and build number</span>
+  <span class="no">UI</span><span class="p">.</span><span class="nf">success</span><span class="p">(</span><span class="s2">"App Version Updated: v"</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s2">" (build "</span> <span class="o">+</span> <span class="n">build_number</span> <span class="o">+</span> <span class="s2">")"</span><span class="p">)</span>
+
+  <span class="c1"># If there is no git remote to push to, then exit the lane</span>
+  <span class="k">if</span> <span class="o">!</span><span class="n">options</span><span class="p">[</span><span class="ss">:push_to</span><span class="p">]</span> <span class="o">||</span> <span class="n">options</span><span class="p">[</span><span class="ss">:push_to</span><span class="p">].</span><span class="nf">strip</span> <span class="o">==</span> <span class="s2">""</span>
+    <span class="no">UI</span><span class="p">.</span><span class="nf">success</span><span class="p">(</span><span class="s2">"Skipping git"</span><span class="p">)</span>
+    <span class="k">next</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Commit the version change</span>
+  <span class="n">commit_version_bump</span><span class="p">(</span><span class="ss">message: </span><span class="s2">"v"</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s2">" (build "</span> <span class="o">+</span> <span class="n">build_number</span> <span class="o">+</span> <span class="s2">")"</span><span class="p">,</span> <span class="ss">force: </span><span class="kp">true</span><span class="p">)</span>
+
+  <span class="c1"># Add a git tag in the format "builds/v1.1-b3"</span>
+  <span class="n">add_git_tag</span><span class="p">(</span><span class="ss">includes_lane: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">prefix: </span><span class="s2">"v"</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s2">"-b"</span><span class="p">,</span> <span class="ss">build_number: </span><span class="n">build_number</span><span class="p">)</span>
+
+  <span class="c1"># Push to specified remote</span>
+  <span class="n">git_remote</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="ss">:push_to</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">remote</span> <span class="o">=</span> <span class="n">git_remote</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">branch</span> <span class="o">=</span> <span class="n">git_remote</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="n">push_to_git_remote</span><span class="p">(</span><span class="ss">remote: </span><span class="n">remote</span><span class="p">,</span> <span class="ss">remote_branch: </span><span class="n">branch</span><span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>I won’t go through this line by line but the basic idea is that it will prompt me to ask whether this is a new version of the app or a new build; if the former, the version is updated to the one specified and the build number set to 1 across all targets; if the latter, then I just bump the build number. Once that is done, a version string is created that looks something like <em>v1.2.3-b2</em> which I will use later in the workflow; this string is saved to a temporary file so the original Fastfile can reference it.</p>
+
+<p>With the version and build number updated, the script then commits the changes to Git, tags them, and pushes them to the remote branch if one was specified.</p>
+
+<p>The code resumes in the Fastfile with an Xcode build command (which stores the build and it’s dSYMs in a local directory), an upload to TestFlight, and the uploading of the dSYMs to the Crashlytics service.</p>
+
+<p>With this system in place, I can press one button to have the entire build process execute in the background. This is hugely important to me as I can start work on another project whilst this process plays out; on the Mac Studio I don’t even notice anything is happening as the build process doesn’t come close to maxing out the CPU.</p>
+
+<p>The nice thing about this Fastlane system is that I can make it bespoke for projects that need something a little different. Here, for example, is the file for a Catalyst project I work on:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Config</span>
+<span class="n">xcode_version</span> <span class="o">=</span> <span class="s2">"14.1.0"</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ATPDigital7"</span><span class="p">]</span>
+<span class="n">git_remote</span> <span class="o">=</span> <span class="s2">"origin/master"</span>
+
+<span class="c1"># Import shared Fastfile</span>
+<span class="n">import</span> <span class="s2">"~/Files/Scripts/SharedFastfile.rb"</span>
+
+<span class="c1">##</span>
+<span class="c1"># LANES</span>
+<span class="c1">##</span>
+
+<span class="n">lane</span> <span class="ss">:distribute</span> <span class="k">do</span>
+
+  <span class="n">xcode_select</span><span class="p">(</span><span class="s2">"/Applications/Xcode-"</span> <span class="o">+</span> <span class="n">xcode_version</span> <span class="o">+</span> <span class="s2">".app"</span><span class="p">)</span>
+
+  <span class="n">ensure_git_status_clean</span><span class="p">()</span>
+
+  <span class="n">shared_increase_version</span><span class="p">(</span>
+    <span class="ss">targets: </span><span class="n">targets</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">","</span><span class="p">),</span>
+    <span class="ss">push_to: </span><span class="n">git_remote</span><span class="p">,</span>
+    <span class="ss">alwaysIncrementBuildNumber: </span><span class="kp">true</span>
+  <span class="p">)</span>
+
+  <span class="nb">system</span><span class="p">(</span><span class="s2">"git push helastel HEAD:develop"</span><span class="p">)</span>
+
+  <span class="n">version</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"shared-tmp.txt"</span><span class="p">)</span>
+  <span class="no">UI</span><span class="p">.</span><span class="nf">important</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+
+  <span class="n">ios_export</span> <span class="o">=</span> <span class="s2">"ios-"</span> <span class="o">+</span> <span class="n">version</span>
+  <span class="n">mac_export</span> <span class="o">=</span> <span class="s2">"mac-"</span> <span class="o">+</span> <span class="n">version</span>
+
+  <span class="c1"># Build the macOS app</span>
+  <span class="n">build_app</span><span class="p">(</span>
+    <span class="ss">catalyst_platform: </span><span class="s2">"macos"</span><span class="p">,</span>
+    <span class="ss">output_directory: </span><span class="s2">"builds"</span><span class="p">,</span>
+    <span class="ss">output_name: </span><span class="n">mac_export</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Rename the macOS app export to mac-v1.0-b1.app</span>
+  <span class="no">FileUtils</span><span class="p">.</span><span class="nf">mv</span><span class="p">(</span><span class="s2">"../builds/ATPdigital 8.app"</span><span class="p">,</span> <span class="s2">"../builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".app"</span><span class="p">)</span>
+
+  <span class="c1"># Zip the macOS app and then upload it to S3</span>
+  <span class="n">zip</span><span class="p">(</span>
+    <span class="ss">path: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".app"</span><span class="p">,</span>
+    <span class="ss">output_path: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".zip"</span>
+  <span class="p">)</span>
+  <span class="n">s3_upload</span><span class="p">(</span>
+    <span class="ss">access_key_id: </span><span class="s2">"IMNOTTHATSILLY"</span><span class="p">,</span>
+    <span class="ss">secret_access_key: </span><span class="s2">"Uhuhuhyoudidntsaythemagicword"</span><span class="p">,</span>
+    <span class="ss">bucket: </span><span class="s2">"bucketname"</span><span class="p">,</span>
+    <span class="ss">content_path: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".zip"</span><span class="p">,</span>
+    <span class="ss">name: </span><span class="s2">"clients/bgs/builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".zip"</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Build the iOS app</span>
+  <span class="n">build_app</span><span class="p">(</span>
+    <span class="ss">catalyst_platform: </span><span class="s2">"ios"</span><span class="p">,</span>
+    <span class="ss">output_directory: </span><span class="s2">"builds"</span><span class="p">,</span>
+    <span class="ss">output_name: </span><span class="n">ios_export</span>
+  <span class="p">)</span>
+
+  <span class="n">upload_symbols_to_crashlytics</span><span class="p">(</span><span class="ss">dsym_path: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".app.dSYM.zip"</span><span class="p">,</span> <span class="ss">binary_path: </span><span class="s1">'scripts/upload-symbols'</span><span class="p">)</span>
+  <span class="n">upload_symbols_to_crashlytics</span><span class="p">(</span><span class="ss">dsym_path: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">ios_export</span> <span class="o">+</span> <span class="s2">".app.dSYM.zip"</span><span class="p">,</span> <span class="ss">binary_path: </span><span class="s1">'scripts/upload-symbols'</span><span class="p">)</span>
+
+  <span class="c1"># Upload macOS app to TestFlight</span>
+  <span class="n">upload_to_testflight</span><span class="p">(</span>
+    <span class="ss">pkg: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">mac_export</span> <span class="o">+</span> <span class="s2">".pkg"</span><span class="p">,</span>
+    <span class="ss">skip_submission: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">skip_waiting_for_build_processing: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">app_platform: </span><span class="s2">"osx"</span>
+  <span class="p">)</span>
+
+  <span class="c1"># Upload iOS app to TestFlight</span>
+  <span class="n">upload_to_testflight</span><span class="p">(</span>
+    <span class="ss">ipa: </span><span class="s2">"builds/"</span> <span class="o">+</span> <span class="n">ios_export</span> <span class="o">+</span> <span class="s2">".ipa"</span><span class="p">,</span>
+    <span class="ss">skip_submission: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">skip_waiting_for_build_processing: </span><span class="kp">true</span><span class="p">,</span>
+  <span class="p">)</span>
+
+<span class="k">end</span></code></pre></figure>
+
+<p>This one is a lot more involved but the basic steps are very similar:</p>
+
+<ol>
+  <li>Set up the configuration that is needed</li>
+  <li>Select Xcode, check the repo is clean, and bump the version number</li>
+  <li>Do another Git push to a different repo</li>
+  <li>Build the macOS version of the app, zip it, and upload it to an Amazon S3 instance</li>
+  <li>Build the iOS version of the app</li>
+  <li>Upload the dSYMs to Crashlytics for both versions</li>
+  <li>Upload each version to TestFlight</li>
+</ol>
+
+<p>The process typically takes about 20 minutes to run but would take longer if I were doing it manually as there are multiple points that would require user interaction. That I can press one button and have this run seamlessly in the background is of huge benefit to me, especially if I’m doing multiple builds in a single day.</p>
+
+<p>I also have a client that has 6 apps that all come from the same codebase. Again, I can press one button and have all 6 of those apps compiled and uploaded; it also automatically submits each app to the App Store once the builds have finished processing!</p>
+
+<p>I’m planning on extending this further in the future as I create a HTML page for some clients which gives a changelog for each build based on the commit messages. At the moment I do this manually but I could easily automate that with AppleScript and hook it into this process.</p>
+
+<div class="gofigure">
+	<img src="https://bendodson.s3.amazonaws.com/weblog/2022/stream-deck-stop.jpg" width="400" height="250" />
+    <figure>My Stream Deck homescreen</figure>
+</div>
+
+<p>The final thing to mention is the Stream Deck homescreen itself. I have a folder for each project denoted by their app icon which then goes into the start / build commands detailed above. There is also a STOP button will stop any Toggl timer that is currently running and a sleep button that will turn off the Stream Deck display.</p>
+
+<p>I have been incredibly impressed with the Stream Deck as an input device and think it can be an incredibly valuable tool for any app developer that works on multiple projects. All of the above can be achieved by just running an AppleScript file (as that is what the Stream Deck is doing) but I find the tactile nature of the device to be incredibly rewarding and I know there is a ton more I’m going to do with it over time.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:flightsim" role="doc-endnote">
+      <p>The <a href="https://flyhoneycomb.com/products/bravo-throttle-quadrant">Bravo Throttle Quadrant</a> has physical buttons on it for dealing with auto pilot settings and flaps which were my main use cases with FlightDeck. <a href="#fnref:flightsim" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:fastfile" role="doc-endnote">
+      <p>All of the magic works in the Fastfile but the Stream Deck still needs to be able to start the command so I use an AppleScript to open Terminal and kick off <code class="language-plaintext highlighter-rouge">fastlane distribute</code> in the correct directory. <a href="#fnref:fastfile" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:xcode" role="doc-endnote">
+      <p>I have 3-4 versions of Xcode installed at any one time as different clients will be on different release schedules so I may still need to build something with an older version. I’ll likely change this portion of the script to always use the latest version unless I manually specify one as it’s a pain to edit my script files whenever a new Xcode update comes out. <a href="#fnref:xcode" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2022/11/21/the-dodo-developer/" title="Previous Article" class="pagination-previous">&laquo; The Dodo Developer</a>
+    
+</section>
+
+<section id="newsletter-section">
+	<div id="newsletter">
+		<p>Want to keep up to date? Sign up to <a href="https://www.thedododeveloper.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
+		<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="320" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
+	</div>
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

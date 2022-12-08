@@ -43,6 +43,319 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2020/02/01/sealed/">Side Project: Sealed</a></h1>
+			
+			<time datetime="2020-02-01" pubdate=""><a href="/weblog/2020/02/01/sealed/">February 01, 2020</a></time>
+    	</header>
+    	<div>
+			<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
+
+<p>I am a huge advocate of side projects, small apps that let you test an idea in isolation usually for your own personal use. Over the course of my 14 year career as a software developer I’ve always tried to encourage new developers to work on side projects as a way of honing their craft. There are three reasons for this: firstly, building something for yourself is far more rewarding than building something for a client; secondly, it gives you an excuse to try out new technologies or methodologies that can then improve future client work without running the risk of derailing a major project<sup id="fnref:clientguineapig" role="doc-noteref"><a href="#fn:clientguineapig" class="footnote" rel="footnote">1</a></sup>; and thirdly, it’s a great way of building up a portfolio if you’re starting out. I’ve always built bizarre little side projects and apps ranging from an iPad app to manage my wine collection to various PHP scripts that extract my time playing video games on Steam. Sometimes these side projects turn into full apps such as <a href="https://dodoapps.io/music-tracker/">Music Library Tracker</a> and <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a> but usually they are highly bespoke utilities for me that nobody else gets to see. Until now…</p>
+
+<p>This year I’ve decided to start a new series of articles where I’ll show a side project I’ve built over the past month. Today’s article is all about “Sealed”, an iPad app I build in January 2020 to simulate the opening of Magic the Gathering booster packs.</p>
+
+<p>I’m assuming that most people reading this article have little to no interest in Magic The Gathering and so I’m not going to explain that side of it in much detail. Suffice to say that the game consists of you opening blind packs containing 15 cards that you can play with. In sealed play, you open 6 of these blind packs (named “boosters”) and then build a 40 card deck out of the cards you opened. The idea for this app is that it will simulate this process allowing me and my good friend John (who lives in Sweden) to open 6 packs each and build a deck with the random contents within. We can then export them to the game <a href="https://store.steampowered.com/app/286160/Tabletop_Simulator/">Tabletop Simulator</a> so we can play with them in a realistic 3D physics-based environment…</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/tts-sealed.jpg" width="800" height="450" /></p>
+
+<p>Tabletop Simulator even supports VR so we can simulate playing a few rounds in the same room even though we’re around 870 miles apart.</p>
+
+<p>As with all of the side projects I’m going to be working on I’m not focused on perfect code or UI; it just needs to work. That said, I did spend a bit more time prettying this one up as I wasn’t the sole user.</p>
+
+<h3 id="a-brief-tour">A brief tour</h3>
+
+<p>The iPad app first does a brief download of data before opening on a selection screen that allows you to pick which expansion you want to play<sup id="fnref:mtgexpansions" role="doc-noteref"><a href="#fn:mtgexpansions" class="footnote" rel="footnote">2</a></sup>. You can also choose to load one of your previously created decks.</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/sealed-home.jpg" width="800" height="600" /></p>
+
+<p>Each physical booster pack has a specific breakdown of cards based on rarity usually comprising of 10 commons, 3 uncommons, 1 rare or mythic rare, and 1 basic land. The mythic rare is the tricky piece as there is a 1:8 chance it will replace the rare card. As I wanted things to be more “fair” in this app, I’ve fudged the numbers such that you’ll always get 5 rare cards and 1 mythic rare card; this avoids the issue (which could happen in a completely random system) of somebody ending up with far more mythic rares.</p>
+
+<p>As these rare cards are usually the best of the bunch, these are shown immediately after the contents of the packs have been decided by the app:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/sealed-picks.jpg" width="800" height="600" /></p>
+
+<p>Once you press continue, you are taken into the deck building interface with those 6 cards automatically added to your deck:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/sealed-drafter.jpg" width="800" height="600" /></p>
+
+<p>The bulk of the interface is dedicated to showing the cards you’ve opened with a number of diamonds above to show how many copies you have available; these fill in when the cards are added to the deck on the right hand side and will fade to 50% opacity if you’ve used every copy available. The top right hand section shows a “mana curve” (which is just a graph for showing the various costs of the cards in the game) along with a break down of the various types of card you’ve selected (as typically you want more creatures than anything else). Underneath is your deck in a scrollable list with a design mimicking the top of each card showing both the name and mana cost.</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/sealed-haktos.jpg" width="800" height="600" /></p>
+
+<p>If you tap on an item in the deck list or long press on a card in the card picker then you’ll get a blown up version of the card which is easier to read. You’ll also be able to use the plus and minus buttons to add or remove the card from your deck (although if you only have one copy you can just tap to add them and remove them directly from the card picker as this is nearly always quicker).</p>
+
+<p>The final two items are the sample hand and export; the former shows you a random draw of 7 cards from your deck to simulate the first action you take in the game<sup id="fnref:mtgdraw" role="doc-noteref"><a href="#fn:mtgdraw" class="footnote" rel="footnote">3</a></sup> whilst the latter generates the <a href="http://bendodson.s3.amazonaws.com/weblog/2020/tts-deck.jpg">tiled image</a> you’ll use to import the deck into Tabletop Simulator.</p>
+
+<h3 id="reusing-code">Reusing code</h3>
+
+<p>In total this app took around 6 hours to build mostly thanks to a huge amount of reusable code I could make use of from previous side projects.</p>
+
+<p>I’m a big fan of Magic The Gathering and so last year I built myself a private app called “<a href="http://bendodson.s3.amazonaws.com/weblog/2020/gatherer-flaxen-intruder.jpg">Gatherer</a>” that gives me access to lots of information about each card thanks to the <a href="https://scryfall.com">Scryfall API</a>. For that app I wanted everything to work offline so I duplicated the data into my own hosted database and then made a single request when online to download all of the data and store it on the device in a <a href="https://realm.io">Realm database</a>. I used the exact same system here with the only new functionality being a new database table to list which expansions I wanted to be available within the app<sup id="fnref:availablexpansions" role="doc-noteref"><a href="#fn:availablexpansions" class="footnote" rel="footnote">4</a></sup>. Within a few minutes of starting I had a local database and access to all of the card information I needed.</p>
+
+<p>The next major piece of reused code was the design of the card cells in the deck creator. I wanted to mimic the headings of the cards in a similar way to Magic The Gathering Arena, an online version of the card game. The heading should show the title of the card (which will shrink as necessary to avoid word wrapping), the mana cost, and the border should be the colour of the card using a gradient if necessary:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/uro-header.jpg" width="350" height="50" /></p>
+
+<p>Fortunately I had already built this exact design for another side project of mine, an iPad app to control the overlay for <a href="https://twitch.tv/the_plainswalker">my Twitch stream</a>:</p>
+
+<p><img src="http://bendodson.s3.amazonaws.com/weblog/2020/arena-twitch.jpg" width="800" height="450" /></p>
+
+<p>Nearly everything in the above screenshot aside from the game and webcam is powered by an iPad app plugged into my PC capture card via HDMI. It was a fun experience to play with the external window APIs but it also allowed me to do animations to show off the deck list I’m currently playing with on MTG Arena; the sidebar scrolls every minute or so to reveal the full list and I can trigger certain animations from my iPad to show off a particular card in more detail. In any case, you’ll notice the deck list table cells on the right hand side are identical to the ones in this Sealed app. They are fairly straightforward with the most complex piece being some string replacement to convert a mana cost such as {1}{U}{U} into the icons you see.</p>
+
+<p>The lesson here is that huge chunks of UI or functionality can be reused from side projects into your client projects saving you development time and speeding up your learning. As a practical example, I’m currently working on an app which requires a Tinder-style card swiping system; whilst I could embed an unknown 3rd party component which may have bugs and not be updated in future, I can instead use a card swiping system I built for a music-based side project a year ago. This saved me a significant amount of time and resulted in me being able to give a better price to my client than I might otherwise have been able to.</p>
+
+<h3 id="random-aside">Random Aside</h3>
+
+<p>One of the areas I had a lot of fun with in this project was putting together the randomisation for opening packs. There are very specific rules when it comes to Magic packs with a set number of cards in specific rarity slots, no duplication unless there is a foil card<sup id="fnref:foils" role="doc-noteref"><a href="#fn:foils" class="footnote" rel="footnote">5</a></sup>, and some weird edge cases for certain expansions. Here is the full code for this particular feature:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">sealTheDeal</span><span class="p">(</span><span class="nv">set</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Deck</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">expansion</span> <span class="o">=</span> <span class="n">realm</span><span class="o">.</span><span class="nf">object</span><span class="p">(</span><span class="nv">ofType</span><span class="p">:</span> <span class="kt">Expansion</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">forPrimaryKey</span><span class="p">:</span> <span class="k">set</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="nf">abort</span><span class="p">()</span> <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">locations</span> <span class="o">=</span> <span class="n">expansion</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="nf">sorted</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="p">{</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="p">??</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="kt">Int</span><span class="p">(</span><span class="nv">$1</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="p">??</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="k">let</span> <span class="nv">max</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">locations</span><span class="o">.</span><span class="n">first</span><span class="p">?</span><span class="o">.</span><span class="n">key</span> <span class="p">??</span> <span class="s">"0"</span><span class="p">)</span> <span class="p">??</span> <span class="mi">0</span>
+    <span class="k">let</span> <span class="nv">cardsInSet</span> <span class="o">=</span> <span class="n">realm</span><span class="o">.</span><span class="nf">objects</span><span class="p">(</span><span class="kt">Card</span><span class="o">.</span><span class="k">self</span><span class="p">)</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"set = %@ and number &lt;= %d"</span><span class="p">,</span> <span class="k">set</span><span class="p">,</span> <span class="n">max</span><span class="p">)</span>
+
+    <span class="k">var</span> <span class="nv">mythics</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@"</span><span class="p">,</span> <span class="s">"mythic"</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">rares</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@"</span><span class="p">,</span> <span class="s">"rare"</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">uncommons</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@"</span><span class="p">,</span> <span class="s">"uncommon"</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">commons</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@ AND NOT (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"common"</span><span class="p">,</span> <span class="s">"basic land"</span><span class="p">)</span>
+    
+    <span class="k">switch</span> <span class="k">set</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s">"dom"</span><span class="p">:</span>
+        <span class="n">uncommons</span> <span class="o">=</span> <span class="n">uncommons</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"NOT (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"legendary"</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s">"grn"</span><span class="p">,</span> <span class="s">"rna"</span><span class="p">:</span>
+        <span class="n">commons</span> <span class="o">=</span> <span class="n">commons</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"NOT (name CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"guildgate"</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s">"war"</span><span class="p">:</span>
+        <span class="n">mythics</span> <span class="o">=</span> <span class="n">mythics</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"NOT (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"planeswalker"</span><span class="p">)</span>
+        <span class="n">rares</span> <span class="o">=</span> <span class="n">rares</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"NOT (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"planeswalker"</span><span class="p">)</span>
+        <span class="n">uncommons</span> <span class="o">=</span> <span class="n">uncommons</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"NOT (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"planeswalker"</span><span class="p">)</span>
+    <span class="k">default</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="p">}</span>
+    
+    
+    <span class="k">let</span> <span class="nv">mythicIndex</span> <span class="o">=</span> <span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="mi">6</span><span class="p">)</span>
+    
+    <span class="k">var</span> <span class="nv">boosters</span> <span class="o">=</span> <span class="p">[[</span><span class="kt">Card</span><span class="p">]]()</span>
+    <span class="k">for</span> <span class="n">boosterIndex</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="mi">6</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">cards</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Card</span><span class="p">]()</span>
+        <span class="k">var</span> <span class="nv">commonPool</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">(</span><span class="n">commons</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">$0</span> <span class="p">})</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="mi">10</span> <span class="p">{</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">commonPool</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">(),</span> <span class="k">let</span> <span class="nv">index</span> <span class="o">=</span> <span class="n">commonPool</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">card</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">continue</span> <span class="p">}</span>
+            <span class="n">cards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="n">commonPool</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+        <span class="p">}</span>
+        
+        <span class="k">var</span> <span class="nv">uncommonPool</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">(</span><span class="n">uncommons</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">$0</span> <span class="p">})</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="mi">3</span> <span class="p">{</span>
+            <span class="k">guard</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">uncommonPool</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">(),</span> <span class="k">let</span> <span class="nv">index</span> <span class="o">=</span> <span class="n">uncommonPool</span><span class="o">.</span><span class="nf">firstIndex</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="n">card</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">continue</span> <span class="p">}</span>
+            <span class="n">cards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="n">uncommonPool</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+        <span class="p">}</span>
+        
+        <span class="k">let</span> <span class="nv">rareAndMythicRarePool</span> <span class="o">=</span> <span class="n">boosterIndex</span> <span class="o">==</span> <span class="n">mythicIndex</span> <span class="p">?</span> <span class="nv">mythics</span> <span class="p">:</span> <span class="n">rares</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">rareAndMythicRarePool</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">cards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="p">}</span>
+        
+        <span class="k">switch</span> <span class="k">set</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="s">"dom"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@ AND (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"uncommon"</span><span class="p">,</span> <span class="s">"legendary"</span><span class="p">)</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">()</span> <span class="p">{</span>
+                <span class="n">cards</span><span class="p">[</span><span class="n">cards</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">card</span>
+            <span class="p">}</span>
+        <span class="k">case</span> <span class="s">"grn"</span><span class="p">,</span> <span class="s">"rna"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"name CONTAINS[c] %@"</span><span class="p">,</span> <span class="s">"guildgate"</span><span class="p">)</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">()</span> <span class="p">{</span>
+                <span class="n">cards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="k">case</span> <span class="s">"war"</span><span class="p">:</span>
+            <span class="k">let</span> <span class="nv">uncommonChance</span> <span class="o">=</span> <span class="n">boosterIndex</span> <span class="o">==</span> <span class="n">mythicIndex</span> <span class="p">?</span> <span class="mi">92</span> <span class="p">:</span> <span class="mi">78</span>
+            <span class="k">if</span> <span class="kt">Int</span><span class="o">.</span><span class="nf">random</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="mi">1</span><span class="o">...</span><span class="mi">100</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">uncommonChance</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@ AND (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="s">"uncommon"</span><span class="p">,</span> <span class="s">"planeswalker"</span><span class="p">)</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="n">cards</span><span class="p">[</span><span class="n">cards</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">card</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">cardsInSet</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="s">"rarity = %@ AND (typeLine CONTAINS[c] %@)"</span><span class="p">,</span> <span class="n">boosterIndex</span> <span class="o">==</span> <span class="n">mythicIndex</span> <span class="p">?</span> <span class="s">"mythic"</span> <span class="p">:</span> <span class="s">"rare"</span><span class="p">,</span> <span class="s">"planeswalker"</span><span class="p">)</span><span class="o">.</span><span class="nf">randomElement</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="n">cards</span><span class="p">[</span><span class="n">cards</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">card</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">default</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
+        
+        <span class="n">boosters</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">boosterCards</span> <span class="o">=</span> <span class="n">boosters</span><span class="o">.</span><span class="nf">flatMap</span><span class="p">({</span><span class="nv">$0</span><span class="p">})</span>
+    <span class="k">let</span> <span class="nv">topCards</span> <span class="o">=</span> <span class="n">boosterCards</span><span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$0</span><span class="o">.</span><span class="n">rarity</span> <span class="o">==</span> <span class="s">"rare"</span> <span class="o">||</span> <span class="nv">$0</span><span class="o">.</span><span class="n">rarity</span> <span class="o">==</span> <span class="s">"mythic"</span> <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">deck</span> <span class="o">=</span> <span class="kt">Deck</span><span class="p">()</span>
+    <span class="n">deck</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="kt">NSUUID</span><span class="p">()</span><span class="o">.</span><span class="n">uuidString</span>
+    <span class="n">deck</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="n">expansion</span>
+    <span class="n">deck</span><span class="o">.</span><span class="n">topCards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nv">objectsIn</span><span class="p">:</span> <span class="n">topCards</span><span class="p">)</span>
+    
+    <span class="k">let</span> <span class="nv">cards</span> <span class="o">=</span> <span class="n">boosterCards</span><span class="o">.</span><span class="nf">sorted</span><span class="p">(</span><span class="nv">by</span><span class="p">:{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">number</span> <span class="o">&lt;</span> <span class="nv">$1</span><span class="o">.</span><span class="n">number</span> <span class="p">})</span>
+    <span class="k">var</span> <span class="nv">currentCard</span><span class="p">:</span> <span class="kt">Card</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">quantity</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">card</span> <span class="k">in</span> <span class="n">cards</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">card</span> <span class="o">!=</span> <span class="n">currentCard</span> <span class="o">&amp;&amp;</span> <span class="n">currentCard</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">deckCard</span> <span class="o">=</span> <span class="kt">DeckCard</span><span class="p">()</span>
+            <span class="n">deckCard</span><span class="o">.</span><span class="n">card</span> <span class="o">=</span> <span class="n">currentCard</span>
+            <span class="n">deckCard</span><span class="o">.</span><span class="n">quantityAvailable</span> <span class="o">=</span> <span class="n">quantity</span>
+            <span class="n">deck</span><span class="o">.</span><span class="n">allCards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">deckCard</span><span class="p">)</span>
+            <span class="n">quantity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="p">}</span>
+        
+        <span class="n">currentCard</span> <span class="o">=</span> <span class="n">card</span>
+        <span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    
+    <span class="k">let</span> <span class="nv">deckCard</span> <span class="o">=</span> <span class="kt">DeckCard</span><span class="p">()</span>
+    <span class="n">deckCard</span><span class="o">.</span><span class="n">card</span> <span class="o">=</span> <span class="n">currentCard</span>
+    <span class="n">deckCard</span><span class="o">.</span><span class="n">quantityAvailable</span> <span class="o">=</span> <span class="n">quantity</span>
+    <span class="n">deck</span><span class="o">.</span><span class="n">allCards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">deckCard</span><span class="p">)</span>
+    
+    <span class="n">deck</span><span class="o">.</span><span class="n">allCards</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nv">objectsIn</span><span class="p">:</span> <span class="n">expansion</span><span class="o">.</span><span class="nf">lands</span><span class="p">())</span>
+    
+    <span class="k">let</span> <span class="nv">topIdentifiers</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">(</span><span class="n">deck</span><span class="o">.</span><span class="n">topCards</span><span class="o">.</span><span class="nf">map</span><span class="p">({</span><span class="nv">$0</span><span class="o">.</span><span class="n">id</span><span class="p">}))</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="n">deck</span><span class="o">.</span><span class="n">allCards</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">deck</span><span class="o">.</span><span class="n">allCards</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">topIdentifiers</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">card</span><span class="p">?</span><span class="o">.</span><span class="n">id</span> <span class="p">??</span> <span class="s">""</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="n">card</span><span class="o">.</span><span class="n">quantityAvailable</span> <span class="p">{</span>
+                <span class="n">deck</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">deck</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Essentially I take the following steps:</p>
+
+<ul>
+  <li>Build an array containing the cards at each rarity level</li>
+  <li>Remove any edge cases for specific expansions (i.e. removing Guildgates from Guilds of Ravnica)</li>
+  <li>For each booster pack, loop through each array randomly selecting a card and removing it from the pool to avoid duplication</li>
+  <li>For Dominaria (“dom”), change one of the uncommon cards to be a Legendary card</li>
+  <li>For Guilds of Ravnica (“grn”) and Ravnica Allegiance (“rna”) add a random Guildgate card.</li>
+  <li>For War of the Spark (“war”), replace one of the uncommon, rare, or mythic rare cards with a random Planeswalker card of the same rarity</li>
+  <li>Once the cards for each booster are known, group the 6 rare / mythic rare cards into their own array for UI simplicity and then bundle everything together in a nice object that groups any duplicates found across the packs</li>
+</ul>
+
+<p>There is nothing particularly difficult about the above but it was still fun the first time I got it working to see my console filling up with cards as if I’d opened a physical pack!</p>
+
+<h3 id="exporting">Exporting</h3>
+
+<p>The “killer feature” of the app is the ability to export cards to Tabletop Simulator, a task that is surprisingly easy. To import custom cards, all you need to do is supply a 4096x3994px image that comprises of 10 columns and 7 rows. Here’s <a href="http://bendodson.s3.amazonaws.com/weblog/2020/tts-deck.jpg">an example image of a 40 card deck</a> that was exported from Sealed which uses the top 4 rows and leaves the remaining 3 blank (although it will use them if you build a deck larger than 40 cards although this isn’t usually recommended for sealed play).</p>
+
+<p>In order to generate the large image I simply render <code class="language-plaintext highlighter-rouge">UIImageViews</code> onto a <code class="language-plaintext highlighter-rouge">UIView</code> that is the correct size, loop through each image and download it, and then use the snapshotting APIs to capture the view as a <code class="language-plaintext highlighter-rouge">UIImage</code> ready for exporting as a JPEG that usually weighs in at around 3MB. Here’s the full code:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">SDWebImage</span>
+
+<span class="kd">class</span> <span class="kt">TabletopSimulatorDeck</span><span class="p">:</span> <span class="kt">UIView</span> <span class="p">{</span>
+    
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">cardWidth</span> <span class="o">=</span> <span class="mi">410</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">cardHeight</span> <span class="o">=</span> <span class="mi">571</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">maxColumns</span> <span class="o">=</span> <span class="mi">10</span>
+    
+    <span class="k">var</span> <span class="nv">cards</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Card</span><span class="p">]()</span>
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">imageViews</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UIImageView</span><span class="p">]()</span>
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">downloadedImageCount</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="kd">class</span> <span class="kd">func</span> <span class="nf">instanceFromNib</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">TabletopSimulatorDeck</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">loadNibNamed</span><span class="p">(</span><span class="s">"TabletopSimulatorDeck"</span><span class="p">,</span> <span class="nv">owner</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)?</span><span class="o">.</span><span class="n">first</span> <span class="k">as!</span> <span class="kt">TabletopSimulatorDeck</span>
+    <span class="p">}</span>
+    
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">fileURL</span><span class="p">:</span> <span class="kt">URL</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">FileManager</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">urls</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="nv">in</span><span class="p">:</span> <span class="o">.</span><span class="n">userDomainMask</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">!.</span><span class="nf">appendingPathComponent</span><span class="p">(</span><span class="s">"deck.jpg"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">export</span><span class="p">(</span><span class="n">onCompletion</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Data</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">downloadedImageCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">var</span> <span class="nv">row</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">var</span> <span class="nv">column</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="n">cards</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">column</span> <span class="o">*</span> <span class="kt">TabletopSimulatorDeck</span><span class="o">.</span><span class="n">cardWidth</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">row</span> <span class="o">*</span> <span class="kt">TabletopSimulatorDeck</span><span class="o">.</span><span class="n">cardHeight</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="kt">TabletopSimulatorDeck</span><span class="o">.</span><span class="n">cardWidth</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="kt">TabletopSimulatorDeck</span><span class="o">.</span><span class="n">cardHeight</span><span class="p">)</span>
+            <span class="k">let</span> <span class="nv">imageView</span> <span class="o">=</span> <span class="kt">UIImageView</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="n">rect</span><span class="p">)</span>
+            <span class="n">imageViews</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">imageView</span><span class="p">)</span>
+            <span class="nf">addSubview</span><span class="p">(</span><span class="n">imageView</span><span class="p">)</span>
+            
+            <span class="n">column</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="kt">TabletopSimulatorDeck</span><span class="o">.</span><span class="n">maxColumns</span> <span class="p">{</span>
+                <span class="n">column</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..&lt;</span><span class="n">cards</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">card</span> <span class="o">=</span> <span class="n">cards</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">let</span> <span class="nv">imageView</span> <span class="o">=</span> <span class="n">imageViews</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">imageView</span><span class="o">.</span><span class="nf">sd_setImage</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">card</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">card</span><span class="p">),</span> <span class="nv">placeholderImage</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">retryFailed</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="k">in</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">downloadedImageCount</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">self</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="nv">onCompletion</span><span class="p">:</span> <span class="n">completionHandler</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">render</span><span class="p">(</span><span class="n">onCompletion</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Data</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">downloadedImageCount</span> <span class="o">!=</span> <span class="n">cards</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        
+        <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+            <span class="kt">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">UIGraphicsGetCurrentContext</span><span class="p">()</span><span class="o">!</span><span class="p">)</span>
+            <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="kt">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">()</span>
+            <span class="kt">UIGraphicsEndImageContext</span><span class="p">()</span>
+            
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">,</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="nf">jpegData</span><span class="p">(</span><span class="nv">compressionQuality</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">try</span><span class="p">?</span> <span class="n">data</span><span class="o">.</span><span class="nf">write</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">TabletopSimulatorDeck</span><span class="o">.</span><span class="n">fileURL</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">atomicWrite</span><span class="p">)</span>
+                <span class="nf">completionHandler</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="p">}</span>
+            
+            <span class="nf">completionHandler</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>It’s a dirty solution and it could possibly cause some memory issues on a really old iPad, but I don’t need to worry about that for this project where both devices that will use the app are more than capable of rendering all of this in milliseconds.</p>
+
+<p>Once the image is generated, I use a standard <code class="language-plaintext highlighter-rouge">UIActivityViewController</code> to allow for simple sharing. One annoying gotcha that catches me every time is that the controller will provide a “save image” button that you can use to save to your photo library but the app will crash when this is pressed unless you’ve added a <code class="language-plaintext highlighter-rouge">NSPhotoLibraryAddUsageDescription</code> key to your info.plist. I’m not sure why Xcode can’t flag this in advance or why this requirement can’t be removed bearing in mind the user is making an informed action.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>John and I have played three games of sealed using this app so far and I’m really pleased with how it’s turned out. I can build a deck in around 10 minutes whereas usually it would take 30-45 minutes using real packs. The exports work great in Tabletop Simulator and I can see us using this for a long time to come. I’ll likely add some extra functionality over time such as the ability to duplicate decks or updating the artwork to use the new showcase variants that are super rare but for now this app is definitely a success.</p>
+
+<p>Whilst on the face of it this would be easy to publish to the App Store, the legal and moral implications prevent me from doing so. I’ve spent literally thousands of pounds on this game both in physical cards and digital ones on MTG Arena so I don’t have any qualms about using the artwork to play with a friend I otherwise wouldn’t be able to play with. That said, it’s very different doing something like this for your own private use than it is to publish it and enable it for others who may not have made the same investment in the real world product. For that reason it’s unlikely this will ever be available for wider consumption.</p>
+
+<p>For February’s side project I’m working on something a bit different that will work as a form of learning for me; a standalone watchOS app built with SwiftUI! Be sure to check back next month to learn more about that project and to see how it ended up…</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:clientguineapig" role="doc-endnote">
+      <p>“Oh that new framework looks good, I’ll try that in my next project” - Nope! I’ve learned the hard way that you do not want to use your clients as a guinea pig for the latest thing. By way of example, look at SwiftUI announced at WWDC 2019. You should not be using that in a client project, but it would be perfect in a side project. <a href="#fnref:clientguineapig" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:mtgexpansions" role="doc-endnote">
+      <p>There are around 3 expansions each year and you typically play sealed within one expansion i.e. you’ll get 6 packs of Guilds of Ravnica or 6 packs of Throne of Eldraine but you wouldn’t build a deck with 3 packs from each. This is all due to the careful balancing the games creators do to ensure that things stay relatively fair within these sealed games. <a href="#fnref:mtgexpansions" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:mtgdraw" role="doc-endnote">
+      <p>This is an important tool as it allows you to very quickly perform a few draws to see if the cards you are getting are balanced, especially when it comes to mana costs, lands, and colours. <a href="#fnref:mtgdraw" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:availablexpansions" role="doc-endnote">
+      <p>My database is updated every morning in order to get the latest pricing information but that means I often get partial expansions if a new one is in the middle of being unveiled. This can last a few weeks so I needed the ability to hide certain expansions until they were ready for playing. <a href="#fnref:availablexpansions" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:foils" role="doc-endnote">
+      <p>Although I made things easier by ignoring foil cards. Usually they replace a common card to give you a random card from the set with a shiny foil treatment but again this can lead to an imbalance as my opponent might end up with 3 mythic rare cards if they get lucky with the randomiser. <a href="#fnref:foils" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2019/10/25/revival/">Revival</a></h1>
 			
 			<time datetime="2019-10-25" pubdate=""><a href="/weblog/2019/10/25/revival/">October 25, 2019</a></time>
@@ -530,37 +843,6 @@ TN &amp; 0 2017 Wizards of the Coast
 <p>Whether you want the artwork for your <a href="https://developer.apple.com/documentation/applemusicapi">New Music Mix Playlist</a>, the latest <a href="https://itunes.apple.com/gb/album/pray-for-the-wicked/1361152002">Panic! At the Disco album</a>, or for the <a href="https://itunes.apple.com/gb/station/beats-1/ra.978194965">Beats1 banner</a>, the artwork finder should be able to get you the highest quality artwork. Oh, and it’s totally free as well!</p>
 
 <p>Try out the <a href="/projects/apple-music-artwork-finder/">Apple Music Artwork Finder »</a></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/02/27/hawkker/">Hawkker</a></h1>
-			
-			<time datetime="2019-02-27" pubdate=""><a href="/weblog/2019/02/27/hawkker/">February 27, 2019</a></time>
-    	</header>
-    	<div>
-			<p>If you’re an entrepreneur that is looking to get an app built by a large digital agency, how do you ensure you are staying on top of the project if you don’t have any knowledge of how app development works? That was the predicament that Zeid Bsaibes had when he came to me in September 2017 with his project Hawkker, an app to find the best independent food from street markets. He had ruled out working with a sole freelancer as the project was too large comprising of two apps, a website, and a complex server infrastructure, but he didn’t feel comfortable outsourcing to a large agency without some form of oversight. To that end, he hired me in a consultancy role to act as a sounding board for functionality whilst also being able to act as a middle-man between himself and the agency he chose, <a href="https://www.hedgehoglab.com">Hedgehog Lab</a>.</p>
-
-<p>The result is two apps, Hawkker and Hawkker Vendor, both now available on the App Store.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/hawkker.jpg" width="800" height="600" /></p>
-
-<p>To begin with, Zeid and I looked through his copious wireframes and documents to pinpoint any issues, especially with the QR code redemption system he was proposing for Hawkker Points, a rewards scheme that benefits both eaters and vendors. I had extensive experience with QR codes from my work on <a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a> and was therefore able to alter the designs so that everything would work smoothly in an environment where network connectivity may not be perfect.</p>
-
-<p>From October 2017 until September 2018, I acted as a liason and mediator between Hawkker and Hedgehog Lab as the app was developed. I performed code reviews, inspected contracts, acted as a constant point of contact to discuss functionality and ideas, and helped mediate where necessary. I was able to assist the agency by explaining to Zeid in depth why something may take x amount of time to develop but I was able to assist Zeid by pushing back at the agency when they were providing unrealistic timelines and also use my technical knowledge to speak with their developers directly rather than going through a non-technical account manager. My role can basically be boiled down to being someone able to translate between entrepreneur and technical staff whilst also providing my own suggestions based on my vast experience of app development.</p>
-
-<p>Towards the end of the project, I acted as a QA performing extensive testing and was able to provide code-level bug reports for Hedgehog Lab to work on.</p>
-
-<p>Once the app was completed, I was asked to take over the development of the iOS app and was tasked with cleaning up some of the remaining bugs that had been left unresolved due to lack of time. I rebuilt the vendor detail pages within the eater app to include a fluid animation system and improved the photo gallery to ensure that eaters were getting the very best experience. Now that the app has launched, I am periodically called on to work with the rest of the Hawkker team to resolve issues and improve the apps.</p>
-
-<p>Whilst this is not the sort of work I usually do, it has opened my eyes to the need for some clients to have a consultant alongside them when engaging with large agencies. Had I not been a part of this process, I have no doubt that the apps would have been far poorer and that Zeid would not have had the wide knowledge he now has of how the apps actually function behind the scenes.</p>
-
-<p>It has been a real pleasure working with Zeid and the rest of Hawkker over the past few years. I’d encourage you to check out the <a href="https://itunes.apple.com/gb/app/hawkker/id1370881088?mt=8">free eater app on the App Store</a> or recommend the <a href="https://hawkker.com/vendors/">vendor website</a> to your favourite street food sellers. You can also learn more about the entire platform at <a href="https://hawkker.com/">hawkker.com</a>.</p>
-
-<p>If you are considering hiring a large agency to deliver your product, I would strongly advise hiring a consultant to sit in on meetings and keep track of the development process. I’d obviously like you to choose me (you can <a href="/contact/">contact me</a> to find out more) but having any technical consultant along with you is going to make the process far easier and help you navigate the sometimes awkward world of agency development.</p>
 
 		</div>
 	</article>
