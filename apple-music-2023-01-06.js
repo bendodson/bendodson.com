@@ -23,7 +23,11 @@ function performSearch() {
             html += '<img src="'+data.thumb+'" alt="" width="600" height="600"></a>';
             html += '<ul>';
             html += '<li><a href="'+data.thumb+'" target="_blank">Standard Resolution (1000x1000px)</a></li>';
-            html += '<li><a href="'+data.large+'" target="_blank">Highest Resolution (uncompressed)</a></li>';
+            html += '<li><a href="'+data.large+'" target="_blank">Highest Resolution (uncompressed jpg)</a></li>';
+            if (data.png) {
+                html += '<li><a href="'+data.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';
+            }
+            
             if (data.type == 'albums' || data.type == 'playlists') {
                 html += '<li id="animated-artwork">Searching for animated artwork...</li>';
             }
@@ -36,8 +40,8 @@ function performSearch() {
                         var disc = data.discs[i];
                         html += '<img src="'+disc.thumb+'" alt="" width="600" height="600"></a>';
                         html += '<ul>';
-                        html += '<li><a href="'+disc.thumb+'" target="_blank">Standard Resolution (1000x1000px)</a></li>';
-                        html += '<li><a href="'+disc.large+'" target="_blank">Highest Resolution (uncompressed)</a></li>';
+                        html += '<li><a href="'+disc.large+'" target="_blank">Highest Resolution (uncompressed jpg)</a></li>';
+                        html += '<li><a href="'+disc.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';
                         html += '</ul>';
                     }
                 }
