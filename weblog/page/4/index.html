@@ -43,6 +43,43 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">Forcing left-to-right text in iOS localizations</a></h1>
+			
+			<time datetime="2017-10-04" pubdate=""><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">October 04, 2017</a></time>
+    	</header>
+    	<div>
+			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
+
+<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard" role="doc-noteref"><a href="#fn:manualstoryboard" class="footnote" rel="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
+
+<p>Instead, I came across a property added to UIView in iOS 9 named <code class="language-plaintext highlighter-rouge">semanticContentAttribute</code>. This allows you to choose <code class="language-plaintext highlighter-rouge">unspecified</code> (the default which flips based on localization), <code class="language-plaintext highlighter-rouge">playback</code> and <code class="language-plaintext highlighter-rouge">spatial</code> which are special cases for media controls or directional controls, and <code class="language-plaintext highlighter-rouge">forceLeftToRight</code> and <code class="language-plaintext highlighter-rouge">forceRightToLeft</code> which work as their names would suggest. Thanks to the <code class="language-plaintext highlighter-rouge">UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">UIView</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="o">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
+
+<p>This not only flips all content back to left-to-right but also ensures that your <code class="language-plaintext highlighter-rouge">UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code class="language-plaintext highlighter-rouge">appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
+
+<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code class="language-plaintext highlighter-rouge">NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code class="language-plaintext highlighter-rouge">alignment</code> which is always left on my devices due to my English language but the default is actually <code class="language-plaintext highlighter-rouge">natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">paragraph</span> <span class="o">=</span> <span class="kt">NSMutableParagraphStyle</span><span class="p">()</span>
+<span class="n">paragraph</span><span class="o">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="n">paragraph</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="o">.</span><span class="n">left</span></code></pre></figure>
+
+<p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:manualstoryboard" role="doc-endnote">
+      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">MPMediaItem+CanAddToLibrary.swift</a></h1>
 			
 			<time datetime="2017-07-19" pubdate=""><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">July 19, 2017</a></time>
@@ -577,31 +614,6 @@ _Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing 
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/18/apples-new-app-prices/">Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</a></h1>
-			
-			<time datetime="2017-01-18" pubdate=""><a href="/weblog/2017/01/18/apples-new-app-prices/">January 18, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p price point or drop it down to 49p. I was <a href="http://www.bbc.co.uk/news/technology-38650296">asked about this by BBC News</a> and gave this quote:</p>
-
-<blockquote>
-  <p>I don’t think many publishers will respond to that change. It’s just throwing money away and there’s no reason to give people in the UK a discount. I certainly won’t be discounting my own apps.</p>
-</blockquote>
-
-<p>I stick by that today as I don’t see why developers should be penalised for Apple adjusting to economic conditions; it is a change in price that UK users will get used to in the same way they did when the lowest tier changed from 59p to 69p and then again to 79p. This is especially true bearing in mind that the US App Store doesn’t have sales tax included whereas the UK does have VAT (so at current exchange rates a $0.99 app would work out around £0.96).</p>
-
-<p>The key thing though, and something I didn’t clock onto fully until looking again at the charts today, is that Alternative Price Tier A and B doesn’t apply just to the UK; they change prices in many places such as China, Australia, and Canada but maintain them in other places such as Japan and Denmark. If you went for Tier A you’d be reducing the price of your app by 50% in the UK but reducing it by a whopping 83% in China! There are also a few odd choices such as Canada’s pricing being $1.39 at Tier 1 (which is $0.99 in the USA) but it drops to $0.99 for both the A and B Alternate Tiers.</p>
-
-<p>If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.</p>
-
-<p>If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?</p>
 
 		</div>
 	</article>

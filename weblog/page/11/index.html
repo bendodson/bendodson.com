@@ -43,6 +43,48 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles Apple Watch app</a></h1>
+			
+			<time datetime="2015-12-17" pubdate=""><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">December 17, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I’m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">Natural Cycles</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-app.jpg" width="800" height="450" /></p>
+
+<p><a href="https://www.naturalcycles.com/en/">Natural Cycles</a> is a popular iPhone and Android app that allows you to track your fertility or plan a pregnancy. It can tell you when you are fertile, when you are ovulating, when your next period is due, when you are pregnant, and the progress of your pregnancy. I was hired as a freelance Swift developer to build an Apple Watch app that would be bundled in with their big v2.0 update and would allow viewing and logging of this critical information. The app allows you to see your current fertility level, body temperature, and progress of your period as well as viewing messages from Natural Cycles. In addition, you can quickly update your current body temperature and menstrual flow within the app:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-log.jpg" width="800" height="450" /></p>
+
+<p>As well as the core Apple Watch app, I also added support for Notifications and Glances making for an even quicker way to view your information:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-glance.jpg" width="800" height="450" /></p>
+
+<p>My favourite feature, however, is the addition of full text Complications so you can see your current body temperature and fertility status on your watch face:<sup id="fnref:fertility" role="doc-noteref"><a href="#fn:fertility" class="footnote" rel="footnote">1</a></sup></p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-complication.jpg" width="800" height="450" /></p>
+
+<p>The project was quite difficult (but rewarding!) for a few reasons. Firstly, the design was very ambitious when watchOS severely limits the amount of customisation that can be performed. Secondly, the iOS app was a Cordova app<sup id="fnref:cordova" role="doc-noteref"><a href="#fn:cordova" class="footnote" rel="footnote">2</a></sup> rather than a native app which meant I had to write a JavaScript plugin and set up some build scripts in order for the native Swift watchOS code to be able to speak with the iPhone. There was also a requirement to make the app as easy as possible to update (i.e. updating the iOS app shouldn’t break the watchOS app) and so I built everything such that the phone takes care of all logic and a lot of the UI so the watch app can be altered without going through the App Store review process.</p>
+
+<p>This was a really exciting project to work on and I’m very happy with the end results. You can <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">download Natural Cycles from the App Store</a> or <a href="https://www.naturalcycles.com/en/">learn more on their website</a>.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:fertility" role="doc-endnote">
+      <p>This did lead to an awkward situation when I’d left the complication enabled on my Mickey Mouse face that I use at weekends; the weekend after testing was complete, I switched to my Mickey Mouse face to be greeted with the words “Not Fertile” underneath his tapping foot! <a href="#fnref:fertility" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:cordova" role="doc-endnote">
+      <p>I don’t usually work on non-native apps but I was willing to make an exception as the bulk of code I’d write would be fully native (as there is no way to write non-native apps on the Apple Watch due to the lack of a UIWebView) <a href="#fnref:cordova" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/12/16/the-divide-4-getting-into-code/">The Divide #4 - Getting into code</a></h1>
 			
 			<time datetime="2015-12-16" pubdate=""><a href="/weblog/2015/12/16/the-divide-4-getting-into-code/">December 16, 2015</a></time>
@@ -418,55 +460,6 @@ homebridge</code></pre></figure>
 <span class="p">})</span></code></pre></figure>
 
 <p>As a reminder, you can file a duplicate of (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) if you’d like to see the original bug fixed but in the meantime the above should allow you to carry on with your HealthKit app without worrying about deleting other data.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a></h1>
-			
-			<time datetime="2015-10-05" pubdate=""><a href="/weblog/2015/10/05/healthkit-radar-22977320/">October 05, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Working with any code, it is inevitable that you’ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a “radar” so that they can track and hopefully fix any issues that arise. The issue is that the <a href="http://bugreport.apple.com/">Apple Bug Reporter</a> is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it’s fix. This has led to sites like <a href="https://openradar.appspot.com/">Open Radar</a> that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.</p>
-
-<p>In any case, today I found an interesting bug in HealthKit. iOS 9 added a new method named <code class="language-plaintext highlighter-rouge">deleteObjectsOfType:predicate:withCompletion</code> which is supposed to let you delete any objects you have written to HealthKit nice and easily. For example, I might have an app which constantly checks your step count and flights climbed throughout the day and so it will want to delete any steps and flights from 00.00 to 23.59 before it adds the updated count. Unfortunately, the method doesn’t seem to respect the <code class="language-plaintext highlighter-rouge">type</code> parameter and so it will delete everything that matches your query regardless of what <code class="language-plaintext highlighter-rouge">HKObjectType</code> it is.</p>
-
-<p>For example, consider the following code:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">NSDate</span><span class="p">()</span>
-
-<span class="k">let</span> <span class="nv">predicate</span> <span class="o">=</span> <span class="kt">HKQuery</span><span class="o">.</span><span class="nf">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="nf">beginningOfDay</span><span class="p">(),</span> <span class="nv">endDate</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">()</span><span class="o">.</span><span class="nf">endOfDay</span><span class="p">(),</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="kt">None</span><span class="p">)</span>
-
-<span class="k">let</span> <span class="nv">stepType</span> <span class="o">=</span> <span class="kt">HKQuantityType</span><span class="o">.</span><span class="nf">quantityTypeForIdentifier</span><span class="p">(</span><span class="kt">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">deleteObjectsOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"deleted </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> step objects: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="p">})</span>
-<span class="k">let</span> <span class="nv">stepQuantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">countUnit</span><span class="p">(),</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">stepSample</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-<span class="p">}</span>
-
-<span class="k">let</span> <span class="nv">flightsType</span> <span class="o">=</span> <span class="kt">HKQuantityType</span><span class="o">.</span><span class="nf">quantityTypeForIdentifier</span><span class="p">(</span><span class="kt">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">deleteObjectsOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"deleted </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> flight objects: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="p">})</span>
-<span class="k">let</span> <span class="nv">flightsQuantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">countUnit</span><span class="p">(),</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">flightsSample</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>The expected result is that you’ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you’ll only get the Flights Climbed entry as the line <code class="language-plaintext highlighter-rouge">healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code class="language-plaintext highlighter-rouge">HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don’t add up with what is expected:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
-
-<p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I’ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you’ll need to do a manual search for objects with <code class="language-plaintext highlighter-rouge">HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
-
-<p><strong>Update:</strong> I’ve put together a fix for this issue with a new <code class="language-plaintext highlighter-rouge">HKHealthStore</code> method, <a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/"><code class="language-plaintext highlighter-rouge">deleteSamplesOfType:predicate:withCompletion:</code></a></p>
-
-<p><strong>Update:</strong> Whilst iOS 9.1 hasn’t fixed this issue, my bug report has today (23rd Oct 2015) been marked as a duplicate of issue 23097982 so looks like they may be getting around to fixing it. iOS 9.2 perhaps?</p>
 
 		</div>
 	</article>

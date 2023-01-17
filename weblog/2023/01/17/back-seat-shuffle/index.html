@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Side Project: Back Seat Shuffle">
+		<meta property="og:description" content="An iPad app to play shuffled videos from a USB stick.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2023/01/17/back-seat-shuffle/">
+		
+		<meta name="twitter:title" content="Side Project: Back Seat Shuffle">
+		<meta name="twitter:description" content="An iPad app to play shuffled videos from a USB stick.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle.jpg">			
+		
+	
+
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2022-12-05.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Side Project: Back Seat Shuffle</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2023/01/17/back-seat-shuffle/">Side Project: Back Seat Shuffle</a></h1>
+			
+			<time datetime="2023-01-17" pubdate=""><a href="/weblog/2023/01/17/back-seat-shuffle/">January 17, 2023</a></time>
+    	</header>
+    	
+	    	<div id="newsletter">
+				<p>Want to keep up to date? Sign up to <a href="https://www.thedododeveloper.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
+				<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="120" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
+			</div>
+    	
+    	<div>
+			<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
+
+<p>If I’m going on a long drive with my two young children, I’ll load up an iPad with some videos and stick it in a pouch on the back of a seat to keep them entertained. Initially this started as a few films and a couple of their TV series on a USB-C stick but I’ve gradually started putting a few shows directly onto the iPad so they can be played via VLC. Why? Well, when using an external drive you’re limited to using the Files app which uses Quick View for video playback; this is fine for a film but for TV you have to go and start a new episode after the previous one finishes (and that involves my wife precariously leaning into the back without a seatbelt which isn’t ideal). I moved to using VLC for TV shows as they then play sequentially avoiding that problem but it can’t play from an external drive so I have to put things directly onto the limited storage of the device.</p>
+
+<p>For a couple of weeks I’ve been toying with the idea of whether I could build a better app, one that would let me:</p>
+
+<ul>
+  <li>Plug in an external drive</li>
+  <li>Show each series with a nice image</li>
+  <li>Play episodes randomly without needing to copy the video to the device</li>
+</ul>
+
+<p>After a 3 hour drive to visit my mother, the priority for this has now increased exponentially 😂</p>
+
+<p>To begin with, I needed to know if it is even possible to view external files within an app on iOS. It is, and has been since the introduction of <code class="language-plaintext highlighter-rouge">UIDocumentPickerViewController</code> in iOS 13 however the documentation left me a little confused:</p>
+
+<blockquote>
+  <p>Both the open and export operations grant access to documents outside your app’s sandbox. This access gives users an unprecedented amount of flexibility when working with their documents. However, it also adds a layer of complexity to your file handling. External documents have the following additional requirements:</p>
+
+  <ul>
+    <li>The open and move operations provide security-scoped URLs for all external documents. Call the startAccessingSecurityScopedResource() method to access or bookmark these documents, and the stopAccessingSecurityScopedResource() method to release them. If you’re using a UIDocumentsubclass to manage your document, it automatically manages the security-scoped URL for you.</li>
+    <li>Always use file coordinators (see NSFileCoordinator) to read and write to external documents.</li>
+    <li>Always use a file presenter (see NSFilePresenter) when displaying the contents of an external document.</li>
+    <li>Don’t save URLs that the open and move operations provide. You can, however, save a bookmark to these URLs after calling startAccessingSecurityScopedResource() to ensure you have access. Call the bookmarkData(options:includingResourceValuesForKeys:relativeTo:) method and pass in the withSecurityScope option, creating a bookmark that contains a security-scoped URL.</li>
+  </ul>
+</blockquote>
+
+<p>External files can only be accessed via a security-scoped URL and all of the tutorials I’d seen online relating to this were demonstrating how you could access a file and then copy it locally before removing that scope. I was therefore unsure how it would work in terms of streaming video (as it would go out of scope and lose security clearance) nor if I’d be able to retain access after displaying a directory and then wanting to start playback.</p>
+
+<p>It turns out that it is all possible using a system known as “bookmarks”. In practice, a user will be shown their external drive in an OS controlled modal view and can select a folder, the URL of which is returned to my app. I then call the “start accessing security scoped resource” and convert that URL to a bookmark which is stored locally on my device and then close the security scoped resource. That bookmark can be used at any point to gain access to the drive (so long as it hasn’t been disconnected in which case the bookmark tells the app it is “stale” and therefore no longer working) and you can then interact with the URL the bookmark provides in the same way as you would with a local file.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">documentPicker</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt">UIDocumentPickerViewController</span><span class="p">,</span> <span class="n">didPickDocumentsAt</span> <span class="nv">urls</span><span class="p">:</span> <span class="p">[</span><span class="kt">URL</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="n">first</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+    <span class="c1">// make sure we stop accessing the resource once we exit scope (which will be as soon as the video starts playing)</span>
+    <span class="k">defer</span> <span class="p">{</span> <span class="n">url</span><span class="o">.</span><span class="nf">stopAccessingSecurityScopedResource</span><span class="p">()</span> <span class="p">}</span>
+
+    <span class="c1">// we don't care about the return value for this as we'll try to create a bookmark anyway</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="nf">startAccessingSecurityScopedResource</span><span class="p">()</span>
+
+    <span class="c1">// store the bookmark data locally or silently fail</span>
+    <span class="n">bookmark</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">url</span><span class="o">.</span><span class="nf">bookmarkData</span><span class="p">()</span>
+
+    <span class="c1">// try to play the video; if there is an error, display an alert</span>
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="nf">playVideos</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"Error"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+        <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">))</span>
+        <span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kd">func</span> <span class="nf">playVideos</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">bookmark</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+    <span class="c1">// get the local url from our bookmark; if the bookmark is stale (i.e. access has expired), then return</span>
+    <span class="k">var</span> <span class="nv">stale</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">let</span> <span class="nv">directoryUrl</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">resolvingBookmarkData</span><span class="p">:</span> <span class="n">bookmark</span><span class="p">,</span> <span class="nv">bookmarkDataIsStale</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">stale</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">path</span> <span class="o">=</span> <span class="n">directoryUrl</span><span class="o">.</span><span class="n">path</span>
+    <span class="k">guard</span> <span class="o">!</span><span class="n">stale</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="kt">BSSError</span><span class="o">.</span><span class="n">staleBookmark</span>
+    <span class="p">}</span>
+
+    <span class="c1">// get the contents of the folder; only return mp4 and mkv files; if no files, throw an error</span>
+    <span class="k">let</span> <span class="nv">contents</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">FileManager</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">contentsOfDirectory</span><span class="p">(</span><span class="nv">atPath</span><span class="p">:</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">urls</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="nf">filter</span><span class="p">({</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">hasSuffix</span><span class="p">(</span><span class="s">"mp4"</span><span class="p">)</span> <span class="o">||</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">hasSuffix</span><span class="p">(</span><span class="s">"mkv"</span><span class="p">)</span> <span class="p">})</span><span class="o">.</span><span class="nf">map</span><span class="p">({</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="n">path</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">})</span>
+    <span class="k">guard</span> <span class="n">urls</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="kt">BSSError</span><span class="o">.</span><span class="n">noFiles</span>
+    <span class="p">}</span>
+
+    <span class="c1">// present the video player with the videos in a random order</span>
+    <span class="nf">presentPlayer</span><span class="p">(</span><span class="n">urls</span><span class="o">.</span><span class="nf">shuffled</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kd">func</span> <span class="nf">presentPlayer</span><span class="p">(</span><span class="n">_</span> <span class="nv">urls</span><span class="p">:</span> <span class="p">[</span><span class="kt">URL</span><span class="p">])</span> <span class="p">{</span>
+    <span class="c1">// set the audio session so video audio is heard even if device is muted</span>
+    <span class="k">try</span><span class="p">?</span> <span class="kt">AVAudioSession</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">setCategory</span><span class="p">(</span><span class="o">.</span><span class="n">playback</span><span class="p">)</span>
+
+    <span class="c1">// create a queue of player items from the provided urls</span>
+    <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">AVPlayerItem</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="kt">AVQueuePlayer</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="n">items</span><span class="p">)</span>
+
+    <span class="c1">// present the player</span>
+    <span class="k">let</span> <span class="nv">playerController</span> <span class="o">=</span> <span class="kt">AVPlayerViewController</span><span class="p">()</span>
+    <span class="n">playerController</span><span class="o">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+    <span class="nf">present</span><span class="p">(</span><span class="n">playerController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">player</span><span class="p">?</span><span class="o">.</span><span class="nf">play</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This would also work in other contexts such as local files or even cloud-based services that work with the Files app such as iCloud or Dropbox.</p>
+
+<p>I had originally planned on reading the contents of the USB stick and using a single .jpg file in each directory to render a nice thumbnail. In the end I abandoned that as it would have meant building the whole interface when in fact it works perfectly well just using <code class="language-plaintext highlighter-rouge">UIDocumentPickerViewController</code> to pick the show I’m interested in:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle-sandd.gif" width="800" height="559" />
+    <figure>Selecting a directory of videos in Back Seat Shuffle</figure>
+</div>
+
+<p>In the end the only extra code I added was to strip out any files that were not in the .mp4 or .mkv format and to have it automatically return to the file selection screen once the full queue of randomised videos had finished.</p>
+
+<p>Whilst I could potentially put it on the App Store, this is one of those weird edge cases that likely wouldn’t get through App Review as they’ll look at it and say “this is just the Files app” and completely miss the point. As this would be a free app, it’s not worth the hassle of doing screenshots, App Store description, etc, only to have it be rejected by App Review.</p>
+
+<p>The full app code is available on <a href="https://github.com/bendodson/back-seat-shuffle">GitHub</a>.</p>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2022/12/08/stream-deck-ios-development/" title="Previous Article" class="pagination-previous">&laquo; Using a Stream Deck for iOS development</a>
+    
+</section>
+
+<section id="newsletter-section">
+	<div id="newsletter">
+		<p>Want to keep up to date? Sign up to <a href="https://www.thedododeveloper.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
+		<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="320" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
+	</div>
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

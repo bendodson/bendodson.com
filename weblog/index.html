@@ -43,6 +43,123 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2023/01/17/back-seat-shuffle/">Side Project: Back Seat Shuffle</a></h1>
+			
+			<time datetime="2023-01-17" pubdate=""><a href="/weblog/2023/01/17/back-seat-shuffle/">January 17, 2023</a></time>
+    	</header>
+    	<div>
+			<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
+
+<p>If I’m going on a long drive with my two young children, I’ll load up an iPad with some videos and stick it in a pouch on the back of a seat to keep them entertained. Initially this started as a few films and a couple of their TV series on a USB-C stick but I’ve gradually started putting a few shows directly onto the iPad so they can be played via VLC. Why? Well, when using an external drive you’re limited to using the Files app which uses Quick View for video playback; this is fine for a film but for TV you have to go and start a new episode after the previous one finishes (and that involves my wife precariously leaning into the back without a seatbelt which isn’t ideal). I moved to using VLC for TV shows as they then play sequentially avoiding that problem but it can’t play from an external drive so I have to put things directly onto the limited storage of the device.</p>
+
+<p>For a couple of weeks I’ve been toying with the idea of whether I could build a better app, one that would let me:</p>
+
+<ul>
+  <li>Plug in an external drive</li>
+  <li>Show each series with a nice image</li>
+  <li>Play episodes randomly without needing to copy the video to the device</li>
+</ul>
+
+<p>After a 3 hour drive to visit my mother, the priority for this has now increased exponentially 😂</p>
+
+<p>To begin with, I needed to know if it is even possible to view external files within an app on iOS. It is, and has been since the introduction of <code class="language-plaintext highlighter-rouge">UIDocumentPickerViewController</code> in iOS 13 however the documentation left me a little confused:</p>
+
+<blockquote>
+  <p>Both the open and export operations grant access to documents outside your app’s sandbox. This access gives users an unprecedented amount of flexibility when working with their documents. However, it also adds a layer of complexity to your file handling. External documents have the following additional requirements:</p>
+
+  <ul>
+    <li>The open and move operations provide security-scoped URLs for all external documents. Call the startAccessingSecurityScopedResource() method to access or bookmark these documents, and the stopAccessingSecurityScopedResource() method to release them. If you’re using a UIDocumentsubclass to manage your document, it automatically manages the security-scoped URL for you.</li>
+    <li>Always use file coordinators (see NSFileCoordinator) to read and write to external documents.</li>
+    <li>Always use a file presenter (see NSFilePresenter) when displaying the contents of an external document.</li>
+    <li>Don’t save URLs that the open and move operations provide. You can, however, save a bookmark to these URLs after calling startAccessingSecurityScopedResource() to ensure you have access. Call the bookmarkData(options:includingResourceValuesForKeys:relativeTo:) method and pass in the withSecurityScope option, creating a bookmark that contains a security-scoped URL.</li>
+  </ul>
+</blockquote>
+
+<p>External files can only be accessed via a security-scoped URL and all of the tutorials I’d seen online relating to this were demonstrating how you could access a file and then copy it locally before removing that scope. I was therefore unsure how it would work in terms of streaming video (as it would go out of scope and lose security clearance) nor if I’d be able to retain access after displaying a directory and then wanting to start playback.</p>
+
+<p>It turns out that it is all possible using a system known as “bookmarks”. In practice, a user will be shown their external drive in an OS controlled modal view and can select a folder, the URL of which is returned to my app. I then call the “start accessing security scoped resource” and convert that URL to a bookmark which is stored locally on my device and then close the security scoped resource. That bookmark can be used at any point to gain access to the drive (so long as it hasn’t been disconnected in which case the bookmark tells the app it is “stale” and therefore no longer working) and you can then interact with the URL the bookmark provides in the same way as you would with a local file.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">documentPicker</span><span class="p">(</span><span class="n">_</span> <span class="nv">controller</span><span class="p">:</span> <span class="kt">UIDocumentPickerViewController</span><span class="p">,</span> <span class="n">didPickDocumentsAt</span> <span class="nv">urls</span><span class="p">:</span> <span class="p">[</span><span class="kt">URL</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="n">first</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+    <span class="c1">// make sure we stop accessing the resource once we exit scope (which will be as soon as the video starts playing)</span>
+    <span class="k">defer</span> <span class="p">{</span> <span class="n">url</span><span class="o">.</span><span class="nf">stopAccessingSecurityScopedResource</span><span class="p">()</span> <span class="p">}</span>
+
+    <span class="c1">// we don't care about the return value for this as we'll try to create a bookmark anyway</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="nf">startAccessingSecurityScopedResource</span><span class="p">()</span>
+
+    <span class="c1">// store the bookmark data locally or silently fail</span>
+    <span class="n">bookmark</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">url</span><span class="o">.</span><span class="nf">bookmarkData</span><span class="p">()</span>
+
+    <span class="c1">// try to play the video; if there is an error, display an alert</span>
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="nf">playVideos</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"Error"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
+        <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">))</span>
+        <span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kd">func</span> <span class="nf">playVideos</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">bookmark</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+    <span class="c1">// get the local url from our bookmark; if the bookmark is stale (i.e. access has expired), then return</span>
+    <span class="k">var</span> <span class="nv">stale</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">let</span> <span class="nv">directoryUrl</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">resolvingBookmarkData</span><span class="p">:</span> <span class="n">bookmark</span><span class="p">,</span> <span class="nv">bookmarkDataIsStale</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">stale</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">path</span> <span class="o">=</span> <span class="n">directoryUrl</span><span class="o">.</span><span class="n">path</span>
+    <span class="k">guard</span> <span class="o">!</span><span class="n">stale</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="kt">BSSError</span><span class="o">.</span><span class="n">staleBookmark</span>
+    <span class="p">}</span>
+
+    <span class="c1">// get the contents of the folder; only return mp4 and mkv files; if no files, throw an error</span>
+    <span class="k">let</span> <span class="nv">contents</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">FileManager</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">contentsOfDirectory</span><span class="p">(</span><span class="nv">atPath</span><span class="p">:</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">urls</span> <span class="o">=</span> <span class="n">contents</span><span class="o">.</span><span class="nf">filter</span><span class="p">({</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">hasSuffix</span><span class="p">(</span><span class="s">"mp4"</span><span class="p">)</span> <span class="o">||</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">hasSuffix</span><span class="p">(</span><span class="s">"mkv"</span><span class="p">)</span> <span class="p">})</span><span class="o">.</span><span class="nf">map</span><span class="p">({</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="n">path</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">})</span>
+    <span class="k">guard</span> <span class="n">urls</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="kt">BSSError</span><span class="o">.</span><span class="n">noFiles</span>
+    <span class="p">}</span>
+
+    <span class="c1">// present the video player with the videos in a random order</span>
+    <span class="nf">presentPlayer</span><span class="p">(</span><span class="n">urls</span><span class="o">.</span><span class="nf">shuffled</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kd">func</span> <span class="nf">presentPlayer</span><span class="p">(</span><span class="n">_</span> <span class="nv">urls</span><span class="p">:</span> <span class="p">[</span><span class="kt">URL</span><span class="p">])</span> <span class="p">{</span>
+    <span class="c1">// set the audio session so video audio is heard even if device is muted</span>
+    <span class="k">try</span><span class="p">?</span> <span class="kt">AVAudioSession</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">setCategory</span><span class="p">(</span><span class="o">.</span><span class="n">playback</span><span class="p">)</span>
+
+    <span class="c1">// create a queue of player items from the provided urls</span>
+    <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">AVPlayerItem</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="kt">AVQueuePlayer</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="n">items</span><span class="p">)</span>
+
+    <span class="c1">// present the player</span>
+    <span class="k">let</span> <span class="nv">playerController</span> <span class="o">=</span> <span class="kt">AVPlayerViewController</span><span class="p">()</span>
+    <span class="n">playerController</span><span class="o">.</span><span class="n">player</span> <span class="o">=</span> <span class="n">player</span>
+    <span class="nf">present</span><span class="p">(</span><span class="n">playerController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">player</span><span class="p">?</span><span class="o">.</span><span class="nf">play</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This would also work in other contexts such as local files or even cloud-based services that work with the Files app such as iCloud or Dropbox.</p>
+
+<p>I had originally planned on reading the contents of the USB stick and using a single .jpg file in each directory to render a nice thumbnail. In the end I abandoned that as it would have meant building the whole interface when in fact it works perfectly well just using <code class="language-plaintext highlighter-rouge">UIDocumentPickerViewController</code> to pick the show I’m interested in:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle-sandd.gif" width="800" height="559" />
+    <figure>Selecting a directory of videos in Back Seat Shuffle</figure>
+</div>
+
+<p>In the end the only extra code I added was to strip out any files that were not in the .mp4 or .mkv format and to have it automatically return to the file selection screen once the full queue of randomised videos had finished.</p>
+
+<p>Whilst I could potentially put it on the App Store, this is one of those weird edge cases that likely wouldn’t get through App Review as they’ll look at it and say “this is just the Files app” and completely miss the point. As this would be a free app, it’s not worth the hassle of doing screenshots, App Store description, etc, only to have it be rejected by App Review.</p>
+
+<p>The full app code is available on <a href="https://github.com/bendodson/back-seat-shuffle">GitHub</a>.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2022/12/08/stream-deck-ios-development/">Using a Stream Deck for iOS development</a></h1>
 			
 			<time datetime="2022-12-08" pubdate=""><a href="/weblog/2022/12/08/stream-deck-ios-development/">December 08, 2022</a></time>
@@ -1522,176 +1639,6 @@
     </li>
     <li id="fn:appstorebusiness" role="doc-endnote">
       <p>Whilst the App Store is small fry compared to the money Apple rakes in from hardware it is still a significant business. It’s very well to say “they’ve got so much money, they can reduce their fees” but, again, why should they? Part of being a successful business is not giving your money away! <a href="#fnref:appstorebusiness" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2020/02/28/seymour/">Side Project: (Feed Me) Seymour</a></h1>
-			
-			<time datetime="2020-02-28" pubdate=""><a href="/weblog/2020/02/28/seymour/">February 28, 2020</a></time>
-    	</header>
-    	<div>
-			<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
-
-<p>I’ve cheated slightly this month by working on two side projects; a simple iOS app and a SwiftUI watchOS app. The Apple Watch app isn’t quite ready yet so instead I’m going to show you “Seymour”, an app that sends me push notifications when relevant articles are posted online.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour.jpg" width="800" height="600" /></p>
-
-<h3 id="the-problem">The Problem</h3>
-
-<p>I’m travelling to The Happiest Place On Earth™ next week and as I’m staying in a Disney hotel I was able to book fastpasses for rides 60 days in advance. The issue is that a new ride, <a href="https://www.disneyworld.eu/attractions/hollywood-studios/mickey-minnies-runaway-railway/">Mickey &amp; Minnie’s Runaway Railway</a>, is due to open whilst I’m there but fastpasses were not yet available to be booked as the opening date hadn’t been formally announced. When the announcement finally came, I didn’t see it for 5 hours as I was busy and hadn’t been checking my numerous theme park RSS feeds<sup id="fnref:rssfeeds" role="doc-noteref"><a href="#fn:rssfeeds" class="footnote" rel="footnote">1</a></sup>. Fortunately I was still able to grab one of the remaining fastpasses for later in my holiday but I was determined that this shouldn’t happen again…</p>
-
-<p>I use the excellent <a href="https://feedbin.com">Feedbin service</a><sup id="fnref:reeder" role="doc-noteref"><a href="#fn:reeder" class="footnote" rel="footnote">2</a></sup> to keep up with my feeds and it turns out they have an app called <a href="https://feedbin.com/notifier">Feedbin Notifier</a>, but it doesn’t seem to work. It only supports one search term and the examples all use single words which didn’t give me total faith that the phrase “rise of the resistence OR space 220 OR fastpass” would parse correctly. There was also no detail on how regularly the checking was done and whilst I managed to get a notification for the term “apple” I couldn’t get it to work for much else. As I couldn’t trust it would do what I needed it to, I decided it was quicker and easier to just build it myself.</p>
-
-<p>“Couldn’t you just use <a href="https://support.google.com/googlenews/answer/9005590?co=GENIE.Platform%3DiOS&amp;hl=en&amp;oco=0">Google News notifications</a>?”. I already do for some things<sup id="fnref:juryduty" role="doc-noteref"><a href="#fn:juryduty" class="footnote" rel="footnote">3</a></sup> but it’s far too slow for my use case. The types of articles I’m interested in require me to act within around 15 minutes so too slow for Google News which typically takes 12-24 hours to send a notification.</p>
-
-<h3 id="the-name">The Name</h3>
-
-<p>Like most other developers, I start a side project with the most important decision; choosing a name. Sometimes this can be a days long process but for this app it was relatively quick. I wanted to do some kind of play on words with Feedbin and was looking at things like “Feed Trash Can” or “Feed Trough” but I didn’t really like any of them. I was saying them out loud in bed whilst working on the app and my wife instinctively said “<a href="https://www.youtube.com/watch?v=L7SkrYF8lCU">Feed Me Seymour</a>”. I shortened it down to just “Seymour” and decided this was a perfect name as it was letting me “See More” of the things I wanted to see.</p>
-
-<p>As the app isn’t going to be released publicly I did a Google Image Search for “Feed Me Seymour” in the hope of finding some sort of silhouetted version of the singing plant. Instead I found this Mario crossover at <a href="https://www.snorgtees.com/t-shirts/feed-me-seymour">Snorgtees</a> which was perfect.</p>
-
-<h3 id="feed-me">Feed Me</h3>
-
-<p>The iOS app is ridiculous simple so I’m not going to spend too much time describing that. It consists of a table view listing my search terms and each row can be swiped to delete the term. The + button in the top right presents a <code class="language-plaintext highlighter-rouge">UIAlertController</code> with a text field for adding a search term. The fetch, add, and delete commands are all sent to an incredibly basic PHP API I wrote which syncs to my MySQL database.</p>
-
-<p>The real work is to fetch the latest feeds from my Feedbin account and then search each article for any matching text strings:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="nv">$pdo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PDO</span><span class="p">(</span><span class="s2">"mysql:charset=utf8mb4;host="</span> <span class="mf">.</span> <span class="nv">$db_host</span> <span class="mf">.</span> <span class="s2">";dbname="</span> <span class="mf">.</span> <span class="nv">$db_name</span><span class="p">,</span> <span class="nv">$db_user</span><span class="p">,</span> <span class="nv">$db_pass</span><span class="p">);</span>
-<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">setAttribute</span><span class="p">(</span><span class="no">PDO</span><span class="o">::</span><span class="no">ATTR_ERRMODE</span><span class="p">,</span> <span class="no">PDO</span><span class="o">::</span><span class="no">ERRMODE_EXCEPTION</span><span class="p">);</span>
-<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">setAttribute</span><span class="p">(</span><span class="no">PDO</span><span class="o">::</span><span class="no">ATTR_DEFAULT_FETCH_MODE</span><span class="p">,</span> <span class="no">PDO</span><span class="o">::</span><span class="no">FETCH_ASSOC</span><span class="p">);</span>
-
-<span class="nv">$headers</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'https://api.feedbin.com/v2/entries.json'</span><span class="p">;</span>
-<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERPWD</span><span class="p">,</span> <span class="s1">'ben@bendodson.com:keepitsecretkeepitsafe'</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'If-None-Match: \''</span><span class="mf">.</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'etag.txt'</span><span class="p">)</span><span class="mf">.</span><span class="s1">'\''</span><span class="p">]);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HEADERFUNCTION</span><span class="p">,</span>
-  <span class="k">function</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nv">$header</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="o">&amp;</span><span class="nv">$headers</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="nv">$len</span> <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
-    <span class="nv">$header</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">':'</span><span class="p">,</span> <span class="nv">$header</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$header</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// ignore invalid headers</span>
-      <span class="k">return</span> <span class="nv">$len</span><span class="p">;</span>
-
-    <span class="nv">$headers</span><span class="p">[</span><span class="nb">strtolower</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">[</span><span class="mi">0</span><span class="p">]))][]</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-
-    <span class="k">return</span> <span class="nv">$len</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">);</span>
-<span class="nv">$json</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-<span class="nv">$info</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-
-<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'etag.txt'</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">[</span><span class="s1">'etag'</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
-
-<span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'select * from keywords'</span><span class="p">);</span>
-<span class="nv">$stmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">();</span>
-<span class="nv">$keywords</span> <span class="o">=</span> <span class="nb">array_column</span><span class="p">(</span><span class="nv">$stmt</span><span class="o">-&gt;</span><span class="nf">fetchAll</span><span class="p">(),</span> <span class="s1">'phrase'</span><span class="p">);</span>
-
-<span class="nv">$ids</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="nv">$entries</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="nv">$array</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
-<span class="nv">$countStmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'select count(id) as total from entries where id = :id'</span><span class="p">);</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$entry</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$countStmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">([</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">]);</span>
-    <span class="nv">$count</span> <span class="o">=</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span><span class="nv">$countStmt</span><span class="o">-&gt;</span><span class="nf">fetch</span><span class="p">()[</span><span class="s1">'total'</span><span class="p">];</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$keywords</span> <span class="k">as</span> <span class="nv">$keyword</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">stripos</span><span class="p">(</span><span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="nv">$keyword</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span> <span class="o">||</span> <span class="nb">stripos</span><span class="p">(</span><span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">,</span> <span class="nv">$keyword</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$entries</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$entry</span><span class="p">;</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="nv">$ids</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nv">$notificationStmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'insert into notifications (title, message, url, created_at) values (:title, :message, :url, :created)'</span><span class="p">);</span>
-<span class="nv">$idStmt</span> <span class="o">=</span> <span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'insert into entries (id) values (:id)'</span><span class="p">);</span>
-
-<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">beginTransaction</span><span class="p">();</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$ids</span> <span class="k">as</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$idStmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">([</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$id</span><span class="p">]);</span>
-<span class="p">}</span>
-<span class="nv">$pdo</span><span class="o">-&gt;</span><span class="nf">commit</span><span class="p">();</span>
-
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$entries</span> <span class="k">as</span> <span class="nv">$entry</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$notificationStmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">([</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span> <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">summary</span><span class="p">,</span> <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">url</span><span class="p">,</span> <span class="s1">'created'</span> <span class="o">=&gt;</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">)]);</span>
-    
-    <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"app_id"</span> <span class="o">=&gt;</span> <span class="s2">"my-onesignal-app-id"</span><span class="p">,</span> <span class="s2">"contents"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"en"</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">summary</span><span class="p">],</span> <span class="s2">"headings"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"en"</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">],</span> <span class="s2">"included_segments"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"All"</span><span class="p">],</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"url"</span> <span class="o">=&gt;</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="n">url</span><span class="p">]];</span>
-    <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="s1">'https://onesignal.com/api/v1/notifications'</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">));</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/json'</span><span class="p">,</span> <span class="s1">'Authorization: Basic [OBFUSCATED]'</span><span class="p">]);</span>
-    <span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-    <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>Feedbin provide an <a href="https://github.com/feedbin/feedbin-api">API</a> for fetching the latest articles from all of your feeds. It has support for <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag">ETag caching</a> so I store the latest tag to avoid unnecessary loading on their end as this script will run every 60 seconds.</p>
-
-<p>Once the articles are fetched, I ignore any that I’ve already seen before (worked out by storing the ids in my database after each run) and then proceed to do a case insensitive check for my keywords against both the title and content of the article. If there are any matches, these get added to an array which is later looped over in order to send a push notification via <a href="https://onesignal.com">OneSignal</a> containing the title, article summary, and the URL.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-watch.jpg" width="800" height="600" /></p>
-
-<p>This runs on a 1 minute CRON job so in theory I should get alerted of any matching articles within 60 seconds of them being published. I don’t know how often Feedbin polls the various RSS feeds I track but in practice I have found that I’m getting notified almost immediately so evidently they’re doing some form of dark magic.</p>
-
-<h3 id="viewing-the-content">Viewing the content</h3>
-
-<p>Once the notification is delivered, I thought it would be a nice bonus to be able to tap to open up the article in a browser. It turns out that the OneSignal SDK can do this automatically if you send a “url” parameter as part of your Push Notification request but it has a few issues; there’s a short lag between the app opening and the browser being shown, the controller is within a modal dialogue that can only be dismissed by swiping at the top of the page (tricky on a big phone), and it’s using either a <code class="language-plaintext highlighter-rouge">UIWebView</code> or a <code class="language-plaintext highlighter-rouge">WKWebView</code> which means there is no support for content blockers, no Reader View, and no easy way to open the page in Safari or other apps. The solution is to send the URL as part of the data payload and parse it myself within the app to open an <code class="language-plaintext highlighter-rouge">SFSafariViewController</code>:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-webviews.jpg" width="800" height="600" /></p>
-
-<p>Can you see the difference in the image above? With the webview provided by OneSignal we can just see the start of the title of the article<sup id="fnref:disneyfoodblog" role="doc-noteref"><a href="#fn:disneyfoodblog" class="footnote" rel="footnote">4</a></sup> obscured by the home indicator, and this is on the Max-sized iPhone! The SFSafariViewController in Reader View is far superior showing the full title, the first paragraph, and an image. It also loaded faster thanks to the support for content blockers and I have easy access to open this in Safari or share it along with controls for changing fonts, etc.</p>
-
-<h3 id="conclusion">Conclusion</h3>
-
-<p>This whole thing took about 2 hours of which the majority was fiddling around with ETags. At the moment I have only two search terms set up:</p>
-
-<ul>
-  <li>
-    <p><strong><a href="https://www.disneyworld.co.uk/attractions/hollywood-studios/star-wars-rise-of-the-resistance/">Rise of the Resistance</a></strong>: Quite possibly the best theme park attraction ever made, Rise of the Resistance opened in December 2019 and since then has been using a virtual queueing system which typically gets booked out for the day within an hour. Whilst I don’t expect this is going to be moved to FastPass any time soon, I keep this notification just in case!</p>
-  </li>
-  <li>
-    <p><strong><a href="https://www.disneyworld.co.uk/dining/epcot/space-220/">Space 220</a></strong>: This is a new restaurant in Epcot that was supposed to be open last year and was then rumoured to be opening in February. That still hasn’t happened but it’s feasible the opening will happen whilst I’m there and I definitely want to be one of the first to book a reservation.</p>
-  </li>
-</ul>
-
-<p>Whilst I could have set up a screen scraper of some sort to monitor these pages for changes<sup id="fnref:airpods" role="doc-noteref"><a href="#fn:airpods" class="footnote" rel="footnote">5</a></sup>, I much prefer operating on top of RSS as it tends to be that the feeds I follow will post updates ridiculously quickly and are likely more reliable than tracking HTML changes. It’s also more flexible as I’m sure there will be things in future that I’ll want to monitor in this way. For example, I tested the app a few weeks ago to get notified when <a href="https://home.pokemon.com/en-us/">Pokémon HOME</a> was released on the App Store.</p>
-
-<p>As ever, I hope this will inspire you to work on your own side projects! Next month I’ll be talking about the watch app that has ended up taking a lot longer than I’d originally anticipated…</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:rssfeeds" role="doc-endnote">
-      <p>I’ve blogged about this before but RSS is how I consume nearly everything I read online. Twitter doesn’t even come close. With RSS you can subscribe to nearly any website that publishes articles and get them all in a nice app with no ads, no Javascript, and no other superfluous crap. At the time of writing, I subscribe to around 500 different feeds encompassing everything from theme park news and video game updates to Swift developer blogs and philosophy articles. <a href="#fnref:rssfeeds" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:reeder" role="doc-endnote">
-      <p>In conjunction with the <a href="https://reederapp.com">Reeder apps</a> on iOS and macOS. <a href="#fnref:reeder" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:juryduty" role="doc-endnote">
-      <p>I use Google News Notifier to see if <a href="https://www.youtube.com/watch?v=j13oJajXx0M">my name</a> comes up anywhere and also to keep tabs on a court case I sat on as part of Jury Duty. <a href="#fnref:juryduty" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:disneyfoodblog" role="doc-endnote">
-      <p><a href="https://www.disneyfoodblog.com">Disney Food Blog</a> is one of the best theme park sites I follow but their website is very hard to view on mobile hence the need for Reader View. Whilst it’s more of a necessity for that page, I find myself using Reader View for most websites as it is nearly always far better. <a href="#fnref:disneyfoodblog" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:airpods" role="doc-endnote">
-      <p>I did do this when the AirPods were first announced; fetch the HTML of the store page every five minutes and then send a notification when it changed so I could jump in and buy a pair. <a href="#fnref:airpods" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

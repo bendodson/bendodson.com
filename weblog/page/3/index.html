@@ -43,6 +43,25 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2019/03/05/apple-music-artwork-finder/">Announcing the Apple Music Artwork Finder</a></h1>
+			
+			<time datetime="2019-03-05" pubdate=""><a href="/weblog/2019/03/05/apple-music-artwork-finder/">March 05, 2019</a></time>
+    	</header>
+    	<div>
+			<p>When I launched my <a href="/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> a few years ago, I had no idea how popular it would become. It is currently used thousands of times per day to help people find high resolution artwork for their albums, apps, books, TV shows, and movies. Since the launch of Apple Music, I’ve had regular emails from users that wanted to access the artwork used for playlists across the service; I’ve finally done something about it!</p>
+
+<p>Today I’m happy to announce the <a href="/projects/apple-music-artwork-finder">Apple Music Artwork Finder</a> which grabs ultra high resolution artwork of albums, playlists, and radio stations from Apple Music. It’s ridiculously easy to use and just requires you to paste in an Apple Music URL. With that, it can make some requests to the <a href="https://developer.apple.com/documentation/applemusicapi">Apple Music API</a> to retrieve the artwork.</p>
+
+<p>Whether you want the artwork for your <a href="https://developer.apple.com/documentation/applemusicapi">New Music Mix Playlist</a>, the latest <a href="https://itunes.apple.com/gb/album/pray-for-the-wicked/1361152002">Panic! At the Disco album</a>, or for the <a href="https://itunes.apple.com/gb/station/beats-1/ra.978194965">Beats1 banner</a>, the artwork finder should be able to get you the highest quality artwork. Oh, and it’s totally free as well!</p>
+
+<p>Try out the <a href="/projects/apple-music-artwork-finder/">Apple Music Artwork Finder »</a></p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2019/02/27/hawkker/">Hawkker</a></h1>
 			
 			<time datetime="2019-02-27" pubdate=""><a href="/weblog/2019/02/27/hawkker/">February 27, 2019</a></time>
@@ -510,43 +529,6 @@
 </ul>
 
 <p>It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ on the App Store</a> for free and learn more about it at <a href="http://www.drinkcoach.org.uk">drinkcoach.org.uk</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">Forcing left-to-right text in iOS localizations</a></h1>
-			
-			<time datetime="2017-10-04" pubdate=""><a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/">October 04, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Since iOS 6 it has been the case that any localization that utilises a right-to-left language (such as Arabic) will automatically flip your views so that everything scans from right-to-left. Usually this is desireable but there are certain instances where you may want to disable this functionality (such as with a media player that should scrub from left-to-right). I was recently asked by a client to completely disable the right-to-left functionality for all languages as it was causing too many display issues within the app and customers were specifically saying they’d prefer it to scan that way.</p>
-
-<p>After a bit of searching, the <a href="https://stackoverflow.com/questions/14724767/ios-disable-ui-mirroring-in-xib">general consensus</a> was that I’d need to manually alter<sup id="fnref:manualstoryboard" role="doc-noteref"><a href="#fn:manualstoryboard" class="footnote" rel="footnote">1</a></sup> all of my horizontal constraints in order to force them to be left to right rather than leading to trailing which will flip based on localization. In a project with 1000s of these constraints this did not seem a suitable course of action and would require any future developers on the project to keep this in mind when creating new constraints.</p>
-
-<p>Instead, I came across a property added to UIView in iOS 9 named <code class="language-plaintext highlighter-rouge">semanticContentAttribute</code>. This allows you to choose <code class="language-plaintext highlighter-rouge">unspecified</code> (the default which flips based on localization), <code class="language-plaintext highlighter-rouge">playback</code> and <code class="language-plaintext highlighter-rouge">spatial</code> which are special cases for media controls or directional controls, and <code class="language-plaintext highlighter-rouge">forceLeftToRight</code> and <code class="language-plaintext highlighter-rouge">forceRightToLeft</code> which work as their names would suggest. Thanks to the <code class="language-plaintext highlighter-rouge">UIAppearance</code> protocol, disabling the flipping globally is a simple one-liner:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">UIView</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">semanticContentAttribute</span> <span class="o">=</span> <span class="o">.</span><span class="n">forceLeftToRight</span></code></pre></figure>
-
-<p>This not only flips all content back to left-to-right but also ensures that your <code class="language-plaintext highlighter-rouge">UINavigationController</code> will animate from left-to-right as well. Of course, you can also use the <code class="language-plaintext highlighter-rouge">appearanceWhenContainedIn:</code> method to limit this global change to specific view controllers of your app should you wish to or to set certain controls to other directions.</p>
-
-<p>The only other thing I needed to change in my project to get this all working was some paragraph styles for attributed strings. I frequently use <code class="language-plaintext highlighter-rouge">NSMutableParagraphStyle</code> to set custom line heights and I leave the other properties to their defaults. One of these is <code class="language-plaintext highlighter-rouge">alignment</code> which is always left on my devices due to my English language but the default is actually <code class="language-plaintext highlighter-rouge">natural</code> which means it renders depending on the language. Searching through my project and finding the few places I’d left out a default and setting it was fairly trivial:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">paragraph</span> <span class="o">=</span> <span class="kt">NSMutableParagraphStyle</span><span class="p">()</span>
-<span class="n">paragraph</span><span class="o">.</span><span class="n">lineSpacing</span> <span class="o">=</span> <span class="mf">4.0</span>
-<span class="n">paragraph</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="o">.</span><span class="n">left</span></code></pre></figure>
-
-<p>In total, I only needed to make 8 edits to my project; much easier than trying to edit every horizontal constraint in your storyboard!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:manualstoryboard" role="doc-endnote">
-      <p>If I had gone down that route I likely would have written a build script that would go through every xib and storyboard file and do this for me but I have been burned by manually editing xib files in the past. That’s a young man’s game! <a href="#fnref:manualstoryboard" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

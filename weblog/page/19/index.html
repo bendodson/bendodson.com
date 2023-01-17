@@ -43,6 +43,28 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2012/03/14/ios-5-1-location-services-bug/">iOS 5.1 Location Services Bug</a></h1>
+			
+			<time datetime="2012-03-14" pubdate=""><a href="/weblog/2012/03/14/ios-5-1-location-services-bug/">March 14, 2012</a></time>
+    	</header>
+    	<div>
+			<p>Whilst using the public version of iOS 5.1 I’ve noticed an interesting bug with one of my apps. <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> uses Location Services but as all good apps should it makes a point of stopping location monitoring after a certain amount of inactivity (to save battery) and also when the app goes into the background. Location monitoring starts up again as soon as you go back to the foreground or navigate to a page that will require more precise location monitoring.</p>
+
+<p>On iOS 5.0.*, closing the app would lead to the Location Services indicator disappearing immediately. On iOS 5.1, Location Services stays active for ~10 seconds after it’s been told explicitly to stop monitoring. Initially I thought this might be a problem with the code I’d written but, after some testing on multiple devices and with multiple apps, it turns out this is an issue that affects all location based apps on iOS 5.1.</p>
+
+<p>It isn’t really a big issue but it is fairly annoying, particularly as some apps do keep monitoring your location in the background so you end up trying to work out what is still running only to realise it’s the OS not giving up when it should do. It’s particularly annoying as an app developer - v1.0.3 of WallaBee came out on the day iOS 5.1 was released and I’ve now had 3 enquries as to why Location Services is less efficient in the new version (whereas it’s actually much more efficient in the app).</p>
+
+<p>In terms of why iOS 5.1 is doing this, I can only assume that Location Services is told to turn off after the full amount of background task allowance has been used. If an app doesn’t ask to run in the background, it has around 10 seconds after being closed to do any tidying up (i.e. saving documents, closing network connections) before the OS forcably terminates it. This seems to be the case with Location Services as if you close the app and then force quit, the service is stopped (suggesting ownership is with the app, not the OS).</p>
+
+<p>It’s probably an oversight on Apple’s part (as I can’t think of a good reason why this would be built-in) but I thought I’d put up a post on the issue for any other developers who run into the problem and for anyone using my apps and wondering why Location Services is still active once the app is closed.</p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2012/03/13/the-curious-case-of-the-new-ipad/">The curious case of "the new iPad"</a></h1>
 			
 			<time datetime="2012-03-13" pubdate=""><a href="/weblog/2012/03/13/the-curious-case-of-the-new-ipad/">March 13, 2012</a></time>
@@ -413,35 +435,6 @@
 <p>Anyway, I hope you enjoy the new site. If you find any problems please <a href="https://bendodson.com/contact/">let me know</a>.</p>
 
 <p><strong>One More Thing</strong> - I almost forgot! <a href="https://github.com/bendodson">All of my code samples and snippets are now available on GitHub</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="http://lew.io/headers.php" class="external">UK Carrier O2 sends your phone number to every website you visit</a></h1>
-			
-			<time datetime="2012-01-25" pubdate=""><a href="/weblog/2012/01/25/uk-carrier-o2-sends-your-phone-number-to-every-website-you-visit/">January 25, 2012</a></time>
-    	</header>
-    	<div>
-			<p>Lewis Peckover:</p>
-
-<blockquote>
-  <p>If you’re on O2’s UK mobile network (not ADSL), you’ll (probably) see a line beginning with <code class="language-plaintext highlighter-rouge">x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
-</blockquote>
-
-<p>Looks like O2 is sending users mobile phone numbers in plain text over HTTP headers to every site they visit whilst using their network. At the moment the issue appears to be limited to certain APNS on the UK O2 network.</p>
-
-<p>When asked about it, <a href="https://twitter.com/o2/status/161872584634408960">O2 responded with</a>:</p>
-
-<blockquote>
-  <p>The mobile number in the HTML is linked to how the site determines that your browsing from a mobile device</p>
-</blockquote>
-
-<p>As Lewis points out, a “<a href="https://twitter.com/lewispeckover/status/161879864159383552">User-agent header ID’s the device</a>” so this seems a slightly odd stance (particularly as it isn’t happening on all mobile devices).</p>
-
-<p><strong>Update:</strong> O2 say that it’s a technical error and that this header should only be sent to whitelisted servers. It does beg the question, which servers are whitelisted? Presumably just O2’s own websites but it’s still not good to be sending information like this in plaintext.</p>
 
 		</div>
 	</article>

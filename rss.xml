@@ -6,9 +6,123 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, freelance developer on all Apple platforms</description>
     <language>en-gb</language>
-    <pubDate>Thu, 08 Dec 2022 11:41:00 +0000</pubDate>
-    <lastBuildDate>Thu, 08 Dec 2022 11:41:00 +0000</lastBuildDate>
+    <pubDate>Tue, 17 Jan 2023 17:15:12 +0000</pubDate>
+    <lastBuildDate>Tue, 17 Jan 2023 17:15:12 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Side Project: Back Seat Shuffle</title>
+      <link>https://bendodson.com/weblog/2023/01/17/back-seat-shuffle/</link>
+      <pubDate>Tue, 17 Jan 2023 16:45:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2023/01/17/back-seat-shuffle/</guid>
+      <description>&lt;p&gt;&lt;span class=&quot;prelude&quot;&gt;This is part of a &lt;a href=&quot;/sideprojects/&quot;&gt;series of blog posts&lt;/a&gt; in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; &lt;a href=&quot;https://bendodson.s3.amazonaws.com/butitdoesrun.jpg&quot;&gt;it just needs to run&lt;/a&gt;!&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;If I’m going on a long drive with my two young children, I’ll load up an iPad with some videos and stick it in a pouch on the back of a seat to keep them entertained. Initially this started as a few films and a couple of their TV series on a USB-C stick but I’ve gradually started putting a few shows directly onto the iPad so they can be played via VLC. Why? Well, when using an external drive you’re limited to using the Files app which uses Quick View for video playback; this is fine for a film but for TV you have to go and start a new episode after the previous one finishes (and that involves my wife precariously leaning into the back without a seatbelt which isn’t ideal). I moved to using VLC for TV shows as they then play sequentially avoiding that problem but it can’t play from an external drive so I have to put things directly onto the limited storage of the device.&lt;/p&gt;
+
+&lt;p&gt;For a couple of weeks I’ve been toying with the idea of whether I could build a better app, one that would let me:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Plug in an external drive&lt;/li&gt;
+  &lt;li&gt;Show each series with a nice image&lt;/li&gt;
+  &lt;li&gt;Play episodes randomly without needing to copy the video to the device&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After a 3 hour drive to visit my mother, the priority for this has now increased exponentially 😂&lt;/p&gt;
+
+&lt;p&gt;To begin with, I needed to know if it is even possible to view external files within an app on iOS. It is, and has been since the introduction of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UIDocumentPickerViewController&lt;/code&gt; in iOS 13 however the documentation left me a little confused:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Both the open and export operations grant access to documents outside your app’s sandbox. This access gives users an unprecedented amount of flexibility when working with their documents. However, it also adds a layer of complexity to your file handling. External documents have the following additional requirements:&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;The open and move operations provide security-scoped URLs for all external documents. Call the startAccessingSecurityScopedResource() method to access or bookmark these documents, and the stopAccessingSecurityScopedResource() method to release them. If you’re using a UIDocumentsubclass to manage your document, it automatically manages the security-scoped URL for you.&lt;/li&gt;
+    &lt;li&gt;Always use file coordinators (see NSFileCoordinator) to read and write to external documents.&lt;/li&gt;
+    &lt;li&gt;Always use a file presenter (see NSFilePresenter) when displaying the contents of an external document.&lt;/li&gt;
+    &lt;li&gt;Don’t save URLs that the open and move operations provide. You can, however, save a bookmark to these URLs after calling startAccessingSecurityScopedResource() to ensure you have access. Call the bookmarkData(options:includingResourceValuesForKeys:relativeTo:) method and pass in the withSecurityScope option, creating a bookmark that contains a security-scoped URL.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;External files can only be accessed via a security-scoped URL and all of the tutorials I’d seen online relating to this were demonstrating how you could access a file and then copy it locally before removing that scope. I was therefore unsure how it would work in terms of streaming video (as it would go out of scope and lose security clearance) nor if I’d be able to retain access after displaying a directory and then wanting to start playback.&lt;/p&gt;
+
+&lt;p&gt;It turns out that it is all possible using a system known as “bookmarks”. In practice, a user will be shown their external drive in an OS controlled modal view and can select a folder, the URL of which is returned to my app. I then call the “start accessing security scoped resource” and convert that URL to a bookmark which is stored locally on my device and then close the security scoped resource. That bookmark can be used at any point to gain access to the drive (so long as it hasn’t been disconnected in which case the bookmark tells the app it is “stale” and therefore no longer working) and you can then interact with the URL the bookmark provides in the same way as you would with a local file.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;documentPicker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIDocumentPickerViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didPickDocumentsAt&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// make sure we stop accessing the resource once we exit scope (which will be as soon as the video starts playing)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;stopAccessingSecurityScopedResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// we don't care about the return value for this as we'll try to create a bookmark anyway&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;startAccessingSecurityScopedResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// store the bookmark data locally or silently fail&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;bookmark&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bookmarkData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// try to play the video; if there is an error, display an alert&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;playVideos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIAlertController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Error&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;localizedDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;preferredStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;OK&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;playVideos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bookmark&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// get the local url from our bookmark; if the bookmark is stale (i.e. access has expired), then return&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;stale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;directoryUrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;resolvingBookmarkData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bookmark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bookmarkDataIsStale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;directoryUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stale&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BSSError&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;staleBookmark&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// get the contents of the folder; only return mp4 and mkv files; if no files, throw an error&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FileManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;contentsOfDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;atPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;urls&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;hasSuffix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mp4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;hasSuffix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mkv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;filePath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BSSError&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;noFiles&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// present the video player with the videos in a random order&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;presentPlayer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;presentPlayer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// set the audio session so video audio is heard even if device is muted&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVAudioSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setCategory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;playback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// create a queue of player items from the provided urls&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVPlayerItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVQueuePlayer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// present the player&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;playerController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVPlayerViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;playerController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;playerController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;play&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This would also work in other contexts such as local files or even cloud-based services that work with the Files app such as iCloud or Dropbox.&lt;/p&gt;
+
+&lt;p&gt;I had originally planned on reading the contents of the USB stick and using a single .jpg file in each directory to render a nice thumbnail. In the end I abandoned that as it would have meant building the whole interface when in fact it works perfectly well just using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UIDocumentPickerViewController&lt;/code&gt; to pick the show I’m interested in:&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle-sandd.gif&quot; width=&quot;800&quot; height=&quot;559&quot; /&gt;
+    &lt;figure&gt;Selecting a directory of videos in Back Seat Shuffle&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In the end the only extra code I added was to strip out any files that were not in the .mp4 or .mkv format and to have it automatically return to the file selection screen once the full queue of randomised videos had finished.&lt;/p&gt;
+
+&lt;p&gt;Whilst I could potentially put it on the App Store, this is one of those weird edge cases that likely wouldn’t get through App Review as they’ll look at it and say “this is just the Files app” and completely miss the point. As this would be a free app, it’s not worth the hassle of doing screenshots, App Store description, etc, only to have it be rejected by App Review.&lt;/p&gt;
+
+&lt;p&gt;The full app code is available on &lt;a href=&quot;https://github.com/bendodson/back-seat-shuffle&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Using a Stream Deck for iOS development</title>
@@ -2605,40 +2719,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
     &lt;/li&gt;
     &lt;li id=&quot;fn:automaticallyadjusts&quot; role=&quot;doc-endnote&quot;&gt;
       &lt;p&gt;Alternatively you can use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;adjustsFontForContentSizeCategory&lt;/code&gt; boolean on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UILabel&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UITextView&lt;/code&gt;. &lt;a href=&quot;#fnref:automaticallyadjusts&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Solcaster</title>
-      <link>https://bendodson.com/weblog/2018/07/02/solcaster/</link>
-      <pubDate>Mon, 02 Jul 2018 12:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2018/07/02/solcaster/</guid>
-      <description>&lt;p&gt;I’m pleased to announce the release of a new client app I’ve been working on for the last few weeks: &lt;a href=&quot;https://itunes.apple.com/us/app/solcaster/id1387772375?ls=1&amp;amp;mt=8&quot;&gt;Solcaster&lt;/a&gt;, the reverse weather app.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2018/solcaster.jpg&quot; width=&quot;800&quot; height=&quot;468&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I worked as the only iOS developer on Solcaster for Reidefine LLC working remotely from the UK. The app is an interesting concept in that it helps you find weather you might be looking for rather than telling you what the weather is like right now. When you open the app, you can choose the type of weather you are looking for, the area you are searching from, and the maximum amount of travelling you are willing to do. It then runs this through a sophisticated algorithm of my own design to show you where you can find that weather. This is useful for a wide range of people be they searching for sun, snow, storms, wind, or even rain&lt;sup id=&quot;fnref:rain&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:rain&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;!&lt;/p&gt;
-
-&lt;p&gt;Once you’ve found an area you are interested in, Solcaster provides even more information including the previous and future weather&lt;sup id=&quot;fnref:previousfuture&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:previousfuture&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, interesting hikes and climbs, and any events that may be in the local area. This is all powered by a number of APIs with an intelligent caching layer that makes requests as fast and responsive as possible. In addition, there are deeply customisable settings including temperature thresholds, wind speeds, snow accumulation, and of course the option to choose between Celsius and Fahrenheit.&lt;/p&gt;
-
-&lt;p&gt;The app is written entirely in Swift 4.1 and is optimised for all iPhone sizes including the relatively new iPhone X. There are a number of interesting Apple technologies being used including iCloud sync which helps keep the settings the same across all of your devices as well as syncing your favourited trips and recent searches. Whilst the app is free to download, it is limited to searching within a 1 hour radius and does contain ads from Admob. For a single in-app purchase of $1.99, the ads are removed and the radius can be extended up to 8 hours. This unlock is also synced automatically through iCloud sync so that you don’t ever need to hit the “restore purchases” button that is ubiquitious with in-app purchases&lt;sup id=&quot;fnref:restore&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:restore&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;I really enjoyed working with Reidefine LLC on this project and building something a little bit different to other weather apps on the market. You can download &lt;a href=&quot;https://itunes.apple.com/us/app/solcaster/id1387772375?ls=1&amp;amp;mt=8&quot;&gt;Solcaster on the App Store&lt;/a&gt; for free and learn more about it at &lt;a href=&quot;https://www.solcaster.com&quot;&gt;solcaster.com&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:rain&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;I’m currently in the middle of a heatwave in Leicester. Unfortunately my nearest rain is in 300 miles away in France… tempting! &lt;a href=&quot;#fnref:rain&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:previousfuture&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;Why the previous weather? If you’re a snowboarder the amount of snow that fell yesterday is probably more important to you than the weather today. &lt;a href=&quot;#fnref:previousfuture&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:restore&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;It is mandatory for iOS apps to provide a “restore purchases” button when using in-app purchases so that functionality can be restored should you delete and reinstall the app, restore from a backup, or update to a new device. My thinking was that it was far better to sync this information through the secure iCloud sync such that this unlocking is seamless. You can try it by downloading and upgrading Solcaster on one device then opening it on another; within a second or two of opening the app you’ll notice the ads pop away without the need to tap a button and sign in to your Apple account. Wonderful! &lt;a href=&quot;#fnref:restore&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
