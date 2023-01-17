@@ -19,10 +19,11 @@ function performSearch() {
         if (data.error) {
             $('#results').append('<h3>'+data.error+'</h3>');
         } else {
+            var video = (data.type == 'music-videos') ? "<br><em>Width may be listed incorrectly due to a bug on Apple's servers but the image will not be distorted.</em>" : "";
             var html = '<div>';
-            html += '<img src="'+data.thumb+'" alt="" width="600" height="600"></a>';
+            html += '<img src="'+data.thumb+'" alt="" width="600"></a>';
             html += '<ul>';
-            html += '<li><a href="'+data.thumb+'" target="_blank">Standard Resolution (1000x1000px)</a></li>';
+            html += '<li><a href="'+data.thumb+'" target="_blank">Standard Resolution ('+data.thumbWidth+'x'+data.thumbHeight+'px)</a>'+video+'</li>';
             html += '<li><a href="'+data.large+'" target="_blank">Highest Resolution (uncompressed jpg)</a></li>';
             if (data.png) {
                 html += '<li><a href="'+data.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';
