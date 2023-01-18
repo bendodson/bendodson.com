@@ -10,7 +10,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2022-12-05.css" />
+	<link rel="stylesheet" href="/styles-2023-01-18.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -40,6 +40,33 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2017/10/26/drinkcoach/">DrinkCoach+</a></h1>
+			
+			<time datetime="2017-10-26" pubdate=""><a href="/weblog/2017/10/26/drinkcoach/">October 26, 2017</a></time>
+    	</header>
+    	<div>
+			<p>I’m pleased to announce the release of a new client app, <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+</a>, that I worked on over the summer:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/drink-coach.jpg" width="800" height="600" /></p>
+
+<p>I worked on DrinkCoach+ for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed for the Haringey Advisory Group on Alcohol (HAGA) and is designed to help people keep a track of their alcohol intake with measurable goals and monitor any events caused by drinking such as moodswings, cravings, or accidents. This is actually version 3.0 of the app with the previous versions having been created by a different developer. The old code was neither available or desireable and so I rebuilt the app from scratch using Swift 4.0 and the latest iOS SDKs to ensure it was future proofed for any future developer to work on.</p>
+
+<p>The app is optimised for all iPhone and iPad devices (including the iPhone X) and makes use of AutoLayout to scale perfectly across the growing number of screen resolutions and aspect ratios. In terms of functionality, there are a number of interesting technologies used in the app including:</p>
+
+<ul>
+  <li><strong>Local notifications:</strong> the app can notify you at certain times and even locations to help keep you on track with your goals. This was all done locally on the device so that notifications could be triggered without an internet connection or unreliable push notifications.</li>
+  <li><strong>Infographic generation:</strong> an infographic detailing how many calories and units you’ve consumed along with your total alcohol expenditure can be displayed in the app and shared as an image.</li>
+  <li><strong>Full customisation:</strong> the drinks in the app can be customised with specific units, calories, and pricing information so that they accurately reflect your usual tipple. Drinks can also be dragged and dropped so that your regular drinks are easier to access.</li>
+</ul>
+
+<p>It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ on the App Store</a> for free and learn more about it at <a href="http://www.drinkcoach.org.uk">drinkcoach.org.uk</a>.</p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -528,92 +555,6 @@ _Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing 
 </ul>
 
 <p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/thecheckedshirt">@thecheckedshirt</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">Syncing Apple Music with Spotify</a></h1>
-			
-			<time datetime="2017-01-25" pubdate=""><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">January 25, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called <em><a href="https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS">Ben Dodson’s Definitive Hits Collection</a></em> which contained nearly 45 hours of songs I thought were particularly good<sup id="fnref:criteria" role="doc-noteref"><a href="#fn:criteria" class="footnote" rel="footnote">1</a></sup>. On most Tuesday nights, my friend and <a href="http://connectingtohost.co.uk/">podcast</a> co-host <a href="http://johnwordsworth.com/">John Wordsworth</a> and I play a few rounds of <a href="https://kyloben.co.uk/games/rocket-league">Rocket League</a> and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:</p>
-
-<ol>
-  <li>As I use Apple Music now, I don’t pay for a Spotify premium account and so I have to put up with adverts (which are utterly terrible).</li>
-  <li>They aren’t in sync so we might be humming (or badly singing) along to a song that the other person isn’t listening to.</li>
-</ol>
-
-<p>Now I could just recreate the playlist in Apple Music to solve the Spotify ads issue but we still wouldn’t be in sync. As we’re both developers, we decided to remedy this problem with a fairly convoluted solution…</p>
-
-<p>The basic idea is that John acts as the host with the playlist on Spotify (on macOS) playing into his headphones. He has written an app that checks if the track has changed and, if it has, sends the track information to my server. I then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to look up the song and find the correct identifier which is then sent to an app on my iPhone via push notification to start the song playing on Apple Music.</p>
-
-<p>I’ll run through each piece and go over the challenges that were encountered.</p>
-
-<h3 id="retrieving-track-details-from-spotify">Retrieving track details from Spotify</h3>
-
-<p>I hadn’t heard of it before but Apple has provided a tool called <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html">Scripting Bridge</a> since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly<sup id="fnref:polling" role="doc-noteref"><a href="#fn:polling" class="footnote" rel="footnote">2</a></sup> to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.</p>
-
-<h3 id="finding-a-track-on-apple-music">Finding a track on Apple Music</h3>
-
-<p>The next step is for the server to take the information that has been sent and use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to try and find a match. This is fairly straightforward and a first draft would send a request like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://itunes.apple.com/search?entity=song&amp;term=never+gonna+give+you+up+rick+astley&amp;country=gb
-</code></pre></div></div>
-
-<p>Unfortunately the iTunes API does not allow you to search multiple terms (i.e. <code class="language-plaintext highlighter-rouge">artist=rick+astley title=never+gonna+give+you+up</code>) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song <em>She Looks So Perfect</em> by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.</p>
-
-<p>The next issue I encountered involves the <a href="https://en.wikipedia.org/wiki/Romanization_of_Belarusian">Romanization of Belarusian</a>; the track <a href="https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013"><em>Solayoh</em></a> is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search <code class="language-plaintext highlighter-rouge">term=solayoh+alyona+lanskaya</code> then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.</p>
-
-<p>The final issue on the API side revolves around remastered tracks. The song <em>A Horse with No Name</em> is listed as <em>A Horse with No Name - 2006 Remastered Version</em> on Spotify but Apple Music doesn’t include that suffix even though they have the exact same version of the album. To fix this, if there are no results returned (again)  then I split the string by non-alphanumeric characters and just try the first part in the lookup. Again, this seems to work in 99% of cases.</p>
-
-<p>Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the <code class="language-plaintext highlighter-rouge">content_available</code> flag as I want to wake the app up and run some code but not actually display anything to the end user.</p>
-
-<h3 id="the-ios-app">The iOS App</h3>
-
-<p>The final piece of the puzzle is an iOS app with a fairly minimal interface<sup id="fnref:switch" role="doc-noteref"><a href="#fn:switch" class="footnote" rel="footnote">3</a></sup>…</p>
-
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2017/music-sync.jpg" width="800" height="500" /></p>
-
-<p>The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.</p>
-
-<p>That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “<a href="https://itun.es/gb/6K_2v"><em>Silent Tracks of Various Useful Lengths</em></a>” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music<sup id="fnref:silent" role="doc-noteref"><a href="#fn:silent" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<p>Once a silent push is received, it starts to play the track but it also adds the 5 minute silent track to the queue. This is important as it prevents the background audio from terminating should I have a different length of music to Spotify or if a push is delayed due to network reasons. In essence, a normal track will be played followed by a track of silence whilst it waits for the next notification.</p>
-
-<p>The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time<sup id="fnref:clock" role="doc-noteref"><a href="#fn:clock" class="footnote" rel="footnote">5</a></sup>. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.</p>
-
-<p>For example, lets suppose John starts listening to <em>C’est La Vie</em> by B*Witched<sup id="fnref:classic" role="doc-noteref"><a href="#fn:classic" class="footnote" rel="footnote">6</a></sup> and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.</p>
-
-<p>Amazingly, this crazy system actually works and we are able to have our playlist synced and ad free on two completely separate streaming services. I built my portion of the project as an iOS app as Windows does not have access to Apple Music yet I play Rocket League on the PC; in order to actually hear the audio, I wear a single AirPod in my right ear underneath my Turtle Beach X10 Headset so I can hear the music but still get the audio from the game and Skype.</p>
-
-<p>It was only after we’d got it working that we realised we could have just set up some form of streaming radio server but that likely wouldn’t have been as much fun…</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:criteria" role="doc-endnote">
-      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:polling" role="doc-endnote">
-      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:switch" role="doc-endnote">
-      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:silent" role="doc-endnote">
-      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:clock" role="doc-endnote">
-      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:classic" role="doc-endnote">
-      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

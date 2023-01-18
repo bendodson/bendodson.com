@@ -10,7 +10,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2022-12-05.css" />
+	<link rel="stylesheet" href="/styles-2023-01-18.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -40,6 +40,91 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">Exorbitantcy and the fight against the App Store</a></h1>
+			
+			<time datetime="2020-08-13" pubdate=""><a href="/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">August 13, 2020</a></time>
+    	</header>
+    	<div>
+			<p>Last month, outspoken CEO of Epic Games Tim Sweeney ranted about the App Store in an <a href="https://www.cnbc.com/2020/07/24/epic-games-ceo-tim-sweeney-apple-crippled-app-store-with-30percent-cut.html">interview with CNBC</a>:</p>
+
+<blockquote>
+  <p>Apple has locked down and crippled the ecosystem by inventing an absolute monopoly on the distribution of software, on the monetization of software. They are preventing an entire category of businesses and applications from being engulfed in their ecosystem by virtue of excluding competitors from each aspect of their business that they’re protecting.</p>
+
+  <p>If every developer could accept their own payments and avoid the 30% tax by Apple and Google we could pass the savings along to all our consumers and players would get a better deal on items. And you’d have economic competition.</p>
+</blockquote>
+
+<p>Today, the rhetoric turned into action as Epic announced “<a href="https://www.epicgames.com/fortnite/en-US/news/the-fortnite-mega-drop-permanent-discounts-up-to-20-percent">direct payment on mobile</a>”:</p>
+
+<blockquote>
+  <p>Today, we’re also introducing a new way to pay on iOS and Android: Epic direct payment. When you choose to use Epic direct payments, you save up to 20% as Epic passes along payment processing savings to you.</p>
+
+  <p>Currently, when using Apple and Google payment options, Apple and Google collect a 30% fee, and the up to 20% price drop does not apply. If Apple or Google lower their fees on payments in the future, Epic will pass along the savings to you.</p>
+</blockquote>
+
+<p>Here’s how it looks in the UK version of the game<sup id="fnref:abtesting" role="doc-noteref"><a href="#fn:abtesting" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/fortnite-payment.jpg" width="800" height="370" /></p>
+
+<p>This is obviously in clear contravention of the App Store Review Guidelines<sup id="fnref:guidelines" role="doc-noteref"><a href="#fn:guidelines" class="footnote" rel="footnote">2</a></sup>, specifically <strong><a href="https://developer.apple.com/app-store/review/guidelines/#in-app-purchase">3.1.1 In-App Purchase</a></strong>:</p>
+
+<blockquote>
+  <p>If you want to unlock features or functionality within your app, (by way of example: subscriptions, in-game currencies, game levels, access to premium content, or unlocking a full version), you must use in-app purchase. Apps may not use their own mechanisms to unlock content or functionality, such as license keys, augmented reality markers, QR codes, etc. Apps and their metadata may not include buttons, external links, or other calls to action that direct customers to purchasing mechanisms other than in-app purchase.</p>
+</blockquote>
+
+<p>There isn’t a scenario where Epic doesn’t know this and it’s also highly unlikely that Apple accidentally approved an app update which made these changes. It’s probably the case that the code for this was included in the app binary but was disabled via a server switch until today. This means that Apple reviewed the app update, approved it, and then Epic changed the functionality which is also against the rules. This is more likely when you consider that the “what’s new” text for the update which is meant to outline what changed in the version doesn’t mention anything about these new payment options.</p>
+
+<p>Regardless of where you stand on the issue of Apple’s payment cut, the action taken by Epic here is in clear violation of the platform guidelines leaving Apple with a difficult choice; remove Fortnite from the App Store or try and resolve this directly with Epic which will likely lead to every other aggrieved developer trying something similar.</p>
+
+<p>Of course, within a few hours Apple had removed Fortnite from the App Store. This isn’t that much of a big deal as it is likely installed on millions of devices already and I doubt there are many more users flocking to the game at this stage. The app isn’t being forcibly removed from user’s devices and if you’ve ever downloaded it in the past you can still redownload it right now and get the current version. That said, it’s quite a striking image to see Apple remove what is undoubtedly one of the biggest, if not <em>the</em> biggest, games from their store especially when they were likely making millions of dollars from it thanks to their 30% cut of in-app purchases.</p>
+
+<p>Now clearly Epic knew this was going to happen as minutes after the app was removed they were advertising a short film called “<a href="https://www.youtube.com/watch?v=euiSHuaw6Q4">Nineteen Eighty-Fortnite</a><sup id="fnref:nineteendate" role="doc-noteref"><a href="#fn:nineteendate" class="footnote" rel="footnote">3</a></sup>” (a clear callback to Apple’s famous Ridley Scott directed <a href="https://www.youtube.com/watch?v=VtvjbmoDx-I">1984 advert</a>) and had filed a <a href="https://cdn2.unrealengine.com/apple-complaint-734589783.pdf">complaint for injunctive relief</a>. In short, this is a well executed publicity stunt in which Epic knew they could goad Apple into removing them from the App Store.</p>
+
+<p>From here on out it’s likely to be an escalating war between the two companies as Apple tries to explain that their rules have been broken and Epic tries to get them to completely change their rules. I don’t see a situation in which either company comes out looking particularly good nor do I see Apple suddenly doing an about turn on a business practice they’ve maintained since the App Store was launched back in 2008. And why should they? It’s their platform and the rules are clear and unambiguous; you can’t circumvent App Store review and you can’t offer your own payment system for these types of transactions. If Epic doesn’t like that, then they don’t have to sell their products on Apple devices. Nobody is entitled to run on any platform they want at the price that they want.</p>
+
+<p>The thing that irks me most about this is that Epic are choosing to call Apple’s take an “<a href="https://www.epicgames.com/site/en-US/fortnite-mega-drop-faq">exhorbitant <em>[sic]</em> 30% fee on all payments</a>”. It can’t really be described as exorbitant when it’s been the industry standard for over a decade on multiple platforms including Google Play on Android and Steam on PC.</p>
+
+<p>What I find exorbitant is the selling of costumes in a game for upwards of £20. I find it exorbitant that to purchase anything within Fortnite you first have to purchase an intermediary currency whereby you can’t ever get the exact amount you need. For example, here are the current prices on Fortnite today including the new 20% price drop they’ve added if you purchase direct from Epic:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/fortnite-vbucks.jpg" width="800" height="370" /></p>
+
+<p>And here are some of the items available for purchase:</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/fortnite-item-shop.jpg" width="800" height="370" /></p>
+
+<p>Note that there is no equality between the two. If you want to buy a 1200 V-Buck “The Brat” outfit you’ll need to either pay £12.98 to buy two packs of 1000 V-Bucks (leaving you 800 spare) or pay £3.01 more to buy 2800 V-Bucks (leaving you 1600 spare). This is nothing new of course<sup id="fnref:guilty" role="doc-noteref"><a href="#fn:guilty" class="footnote" rel="footnote">4</a></sup> and is a well trodden psychological trick designed to give you a form of credit so purchases have less friction; I can thoroughly recommend Jamie Madigan’s excellent website “<a href="https://www.psychologyofgames.com/">The psychology of video games</a>” and his article on “<a href="https://www.psychologyofgames.com/2020/01/the-perils-of-in-game-currency/">The perils of in-game currency</a>” if you want to find out more.</p>
+
+<p>These kind of spending tricks are the worst aspects of the App Store along with the £99 gem bundles that are frequently seen in Match-3 timer games. Worse yet are the loot boxes that are there merely to get children hooked on gambling and which governments around the world are now starting to investigate. Fortnite isn’t as bad as these, but the fact that Epic was able to reduce it’s 30% cut to 12% on it’s PC storefront due to the huge profit they’d made on selling kids overpriced cosmetics in Fortnite isn’t exactly laudable.</p>
+
+<p>Apple are by no means blameless in any of this either. They’ve created the store that allowed these high-price consumables to be commonplace and whilst they could easily improve developers lives by reducing the 30% fee they’ve chosen not to. I’ve long thought a good compromise would be some form of sliding scale along the lines of £0-10k is free, £10k-100k is 30%, then £100k+ is 15%. Of course, doing that means taking a huge financial hit to a multi-billion dollar business<sup id="fnref:appstorebusiness" role="doc-noteref"><a href="#fn:appstorebusiness" class="footnote" rel="footnote">5</a></sup>.</p>
+
+<p>For my part, I’d be glad to see a reduction in the 30% fee but I don’t want to see multiple store fronts being allowed on iOS; that there is only once place to get apps is a huge benefit to most users and developers. Whilst I doubt it will happen, I would dearly love for Apple to fight back by banning the selling of intermediary currencies in apps and instead only allowing direct purchases (i.e. that “The Brat” outfit would be clearly labelled as a £7.99 purchase). That sort of change would make genuine shock-waves through the industry and actually let something good come of this entire situation. It’s far more likely however that this is just going to end in endless courtroom battles and some form of App Store regulation.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:abtesting" role="doc-endnote">
+      <p>I don’t know whether it’s A/B testing or a change since the update was released but in all of the promo shots of this on Epic’s blog the Apple payment system <a href="https://cdn2.unrealengine.com/epic-direct-pay-apple-app-store-2045x979-730312642.png?resize=1&amp;w=1000&amp;quality=high">comes first</a> but in the app Epic’s payment system is on top. <a href="#fnref:abtesting" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:guidelines" role="doc-endnote">
+      <p>They’re called guidelines but they’re rules. They really should be named as such. <a href="#fnref:guidelines" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:nineteendate" role="doc-endnote">
+      <p>It even has <a href="https://bendodson.s3.amazonaws.com/weblog/2020/nineteen-eighty-fortnite.jpg">today’s date on the screen</a> within the video so this was clearly very well planned. <a href="#fnref:nineteendate" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:guilty" role="doc-endnote">
+      <p>And it’s something I’m guilty of myself. I ran a popular freemium game called WallaBee back in 2011 which had it’s own intermediate currency known as honeycombs. Of course, we provided plenty of ways for players to get these for free (usually by doing more exercise by travelling outside long before Pokémon Go came along) and the cheapest pack at £0.99 would be more than enough to buy any of the items in the game. If somebody spent over a certain amount within a certain time period, we’d reach out to them to make sure there weren’t any issues (in one case somebody was frequently gifted App Store cards from their work so they spent them all on our game). I had a blueprint for a more ethical in-app purchasing system for the long worked on v2 of the game but I ended up selling the company before I could put that in action. <a href="#fnref:guilty" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:appstorebusiness" role="doc-endnote">
+      <p>Whilst the App Store is small fry compared to the money Apple rakes in from hardware it is still a significant business. It’s very well to say “they’ve got so much money, they can reduce their fees” but, again, why should they? Part of being a successful business is not giving your money away! <a href="#fnref:appstorebusiness" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -955,45 +1040,6 @@ TN &amp; 0 2017 Wizards of the Coast
 <p>I’m really pleased with the update and it looks like the large userbase is too with nearly 500 reviews rating it at 4 stars.</p>
 
 <p>If you haven’t checked it out, go and <a href="https://itunes.apple.com/us/app/reaction-cam/id1225289579?mt=8">download the free Reaction Cam app</a> from the App Store. You can remove the ads and unlock extra functionality such as the video reaction pausing by upgrading to the premium version for just £0.99/$0.99 - it’s a one-off charge, not a subscription.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/04/08/foodim/">Foodim</a></h1>
-			
-			<time datetime="2019-04-08" pubdate=""><a href="/weblog/2019/04/08/foodim/">April 08, 2019</a></time>
-    	</header>
-    	<div>
-			<p>Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/foodim.jpg" width="800" height="600" /></p>
-
-<p>It is probably best to let <a href="https://www.nigella.com/latest/foodim">Nigella explain</a> what the app is all about:</p>
-
-<blockquote>
-  <p>It has always been vexing to me that there is no dedicated food photography app, and so many of the filters and so on that are meant to applied on general photography apps do food no favours. So, based on the principle that if something you want doesn’t exist, just go ahead and make it, I’ve been working for some time with my longtime cameraman to develop a food photography app with a built-in filter designed to optimise food and a back-of-shot blur dependent on the angle of the phone (as well as a draw-to-blur feature) to give depth of field.</p>
-</blockquote>
-
-<p>When I first joined the team, there was a basic app that had been built but it wasn’t anywhere near polished enough for launch. The custom made blur filter was working but the app would crash from memory constraints after you took a few photos. I started by rebuilding the photo memory subsystem and working on the fundamental basics of the networking. For example, I worked with the API developer to develop a patch system that pushed short bursts of data to the app when changes were made ensuring that the local cached copy was always up to date and that there was no loading time when answering push notifications<sup id="fnref:pushexplanation" role="doc-noteref"><a href="#fn:pushexplanation" class="footnote" rel="footnote">1</a></sup>. I also created a system for the background uploading of images; the image would appear in your feed instantly but the image would update in the background before silently reloading in the feed to use the online copy.</p>
-
-<p>Over time I helped work out UX issues, redesigned various aspects, and helped move some of the camera code over to a newer image processing system including working on the draw-to-blur functionality and improving the gyroscopic tilt mechanic to adapt depth of field. I also used my contacts with Apple Developer Relations to setup a meeting between Apple and Foodim to showcase the app and get their opinion on improvements that could be made.</p>
-
-<p>My work on the app was complete in 2015 but I’ve had the odd bit of correspondence in the mean time as minor issues were resolved. Since then, I believe a new team has been working on some camera improvements and further changes to the app to accommodate newer devices and the changing landscape of iOS development that has occurred since iOS 7 was released. I’ve no idea why it has taken quite so long to launch the app but I’m extremely happy to see it available now in the UK, Australia, and New Zealand.</p>
-
-<p>The app is totally free and can be <a href="https://itunes.apple.com/gb/app/foodim/id1242868470?mt=8&amp;_branch_match_id=659394708476906175">downloaded from the App Store</a>. You can find out more details about the app over at <a href="https://foodim.com/">foodim.com</a>.</p>
-
-<p>And, in case you were wondering, I never did get to meet Nigella in person. I was meant to meet her in London but a printing error at the train station meant I missed my train and had to join the meeting via Skype instead. From that day onward, I never travelled by train without having printed my ticket days in advance…</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:pushexplanation" role="doc-endnote">
-      <p>In most apps of this nature, you’ll get a push notification when a new photo is uploaded; when you tap on the notification, the app is opened but you then need to wait for the post and image to load as they haven’t been prefetched. With this project, a silent push notification was sent that would wake up the app in the background; it would then fetch all of the relevant information and cache it locally before sending a local notification to the user. When that notification was tapped, the post was opened and was ready and waiting for them with no additional downloading required. This is far more common in apps today but was something of a rarity back in the days of iOS 7 when I originally built it! <a href="#fnref:pushexplanation" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

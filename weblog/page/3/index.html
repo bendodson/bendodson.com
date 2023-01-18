@@ -10,7 +10,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2022-12-05.css" />
+	<link rel="stylesheet" href="/styles-2023-01-18.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -40,6 +40,45 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2019/04/08/foodim/">Foodim</a></h1>
+			
+			<time datetime="2019-04-08" pubdate=""><a href="/weblog/2019/04/08/foodim/">April 08, 2019</a></time>
+    	</header>
+    	<div>
+			<p>Back in 2014, I was approached by a team representing Nigella Lawson to work on an app centered around food photography. As a big fan of Nigella, I jumped at the chance and spent several months working on the Foodim app. Nearly five years have passed since then but the app is now finally live in the App Store!</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/foodim.jpg" width="800" height="600" /></p>
+
+<p>It is probably best to let <a href="https://www.nigella.com/latest/foodim">Nigella explain</a> what the app is all about:</p>
+
+<blockquote>
+  <p>It has always been vexing to me that there is no dedicated food photography app, and so many of the filters and so on that are meant to applied on general photography apps do food no favours. So, based on the principle that if something you want doesn’t exist, just go ahead and make it, I’ve been working for some time with my longtime cameraman to develop a food photography app with a built-in filter designed to optimise food and a back-of-shot blur dependent on the angle of the phone (as well as a draw-to-blur feature) to give depth of field.</p>
+</blockquote>
+
+<p>When I first joined the team, there was a basic app that had been built but it wasn’t anywhere near polished enough for launch. The custom made blur filter was working but the app would crash from memory constraints after you took a few photos. I started by rebuilding the photo memory subsystem and working on the fundamental basics of the networking. For example, I worked with the API developer to develop a patch system that pushed short bursts of data to the app when changes were made ensuring that the local cached copy was always up to date and that there was no loading time when answering push notifications<sup id="fnref:pushexplanation" role="doc-noteref"><a href="#fn:pushexplanation" class="footnote" rel="footnote">1</a></sup>. I also created a system for the background uploading of images; the image would appear in your feed instantly but the image would update in the background before silently reloading in the feed to use the online copy.</p>
+
+<p>Over time I helped work out UX issues, redesigned various aspects, and helped move some of the camera code over to a newer image processing system including working on the draw-to-blur functionality and improving the gyroscopic tilt mechanic to adapt depth of field. I also used my contacts with Apple Developer Relations to setup a meeting between Apple and Foodim to showcase the app and get their opinion on improvements that could be made.</p>
+
+<p>My work on the app was complete in 2015 but I’ve had the odd bit of correspondence in the mean time as minor issues were resolved. Since then, I believe a new team has been working on some camera improvements and further changes to the app to accommodate newer devices and the changing landscape of iOS development that has occurred since iOS 7 was released. I’ve no idea why it has taken quite so long to launch the app but I’m extremely happy to see it available now in the UK, Australia, and New Zealand.</p>
+
+<p>The app is totally free and can be <a href="https://itunes.apple.com/gb/app/foodim/id1242868470?mt=8&amp;_branch_match_id=659394708476906175">downloaded from the App Store</a>. You can find out more details about the app over at <a href="https://foodim.com/">foodim.com</a>.</p>
+
+<p>And, in case you were wondering, I never did get to meet Nigella in person. I was meant to meet her in London but a printing error at the train station meant I missed my train and had to join the meeting via Skype instead. From that day onward, I never travelled by train without having printed my ticket days in advance…</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:pushexplanation" role="doc-endnote">
+      <p>In most apps of this nature, you’ll get a push notification when a new photo is uploaded; when you tap on the notification, the app is opened but you then need to wait for the post and image to load as they haven’t been prefetched. With this project, a silent push notification was sent that would wake up the app in the background; it would then fetch all of the relevant information and cache it locally before sending a local notification to the user. When that notification was tapped, the post was opened and was ready and waiting for them with no additional downloading required. This is far more common in apps today but was something of a rarity back in the days of iOS 7 when I originally built it! <a href="#fnref:pushexplanation" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -502,33 +541,6 @@
   <p>The biggest problems are distractions and motivation. It is very easy, especially in the first few months, to kick back and do very little work as you don’t feel the need to rush. Then, when you run out of money you panic and work ridiculously long hours to try and get some invoices sent out. Freelancers typically have periods they call “feast and famine” or “rollercoaster dips” but they are generally referring to having enough advance work; my problem was always that I introduced those periods myself by putting things off as sometimes I’d wake up and just want to play on the Xbox rather than writing an algorithm for a social feed. Thankfully I have now gotten myself into a comfortable routine (especially now that I don’t live on my own) and so things tend to be smooth sailing but at the start it was very difficult to stay motivated when surrounded by nice distractions!</p>
 </blockquote>
 
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/10/26/drinkcoach/">DrinkCoach+</a></h1>
-			
-			<time datetime="2017-10-26" pubdate=""><a href="/weblog/2017/10/26/drinkcoach/">October 26, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app, <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+</a>, that I worked on over the summer:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/drink-coach.jpg" width="800" height="600" /></p>
-
-<p>I worked on DrinkCoach+ for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed for the Haringey Advisory Group on Alcohol (HAGA) and is designed to help people keep a track of their alcohol intake with measurable goals and monitor any events caused by drinking such as moodswings, cravings, or accidents. This is actually version 3.0 of the app with the previous versions having been created by a different developer. The old code was neither available or desireable and so I rebuilt the app from scratch using Swift 4.0 and the latest iOS SDKs to ensure it was future proofed for any future developer to work on.</p>
-
-<p>The app is optimised for all iPhone and iPad devices (including the iPhone X) and makes use of AutoLayout to scale perfectly across the growing number of screen resolutions and aspect ratios. In terms of functionality, there are a number of interesting technologies used in the app including:</p>
-
-<ul>
-  <li><strong>Local notifications:</strong> the app can notify you at certain times and even locations to help keep you on track with your goals. This was all done locally on the device so that notifications could be triggered without an internet connection or unreliable push notifications.</li>
-  <li><strong>Infographic generation:</strong> an infographic detailing how many calories and units you’ve consumed along with your total alcohol expenditure can be displayed in the app and shared as an image.</li>
-  <li><strong>Full customisation:</strong> the drinks in the app can be customised with specific units, calories, and pricing information so that they accurately reflect your usual tipple. Drinks can also be dragged and dropped so that your regular drinks are easier to access.</li>
-</ul>
-
-<p>It was really great to work with Orbis Media again and I’m confident that people will love the improvements to this version of the app. You can download <a href="https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8">DrinkCoach+ on the App Store</a> for free and learn more about it at <a href="http://www.drinkcoach.org.uk">drinkcoach.org.uk</a>.</p>
 
 		</div>
 	</article>
