@@ -5,6 +5,8 @@ RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
 RewriteCond %{HTTP_HOST} ^www.bendodson.com [NC]
 RewriteRule ^(.*)$ https://bendodson.com/$1 [L,R=301]
 
+RewriteRule ^.well-known/host-meta(.*)$ https://mastodon.bendodson.com/.well-known/host-meta$1 [L,R=301]
+
 Header always set Strict-Transport-Security "max-age=31536000"
 
 <ifModule mod_headers.c>
