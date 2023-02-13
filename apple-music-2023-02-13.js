@@ -29,6 +29,10 @@ function performSearch() {
                 html += '<li><a href="'+data.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';
             }
             
+            if (data.banner) {
+                html += '<li><a href="'+data.banner+'" target="_blank">Banner Image (uncompressed jpg)</a></li>';   
+            }
+
             if (data.type == 'albums' || data.type == 'playlists') {
                 html += '<li id="animated-artwork">Searching for animated artwork...</li>';
             }
