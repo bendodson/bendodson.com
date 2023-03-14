@@ -6,9 +6,208 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, freelance developer on all Apple platforms</description>
     <language>en-gb</language>
-    <pubDate>Mon, 13 Feb 2023 17:17:49 +0000</pubDate>
-    <lastBuildDate>Mon, 13 Feb 2023 17:17:49 +0000</lastBuildDate>
+    <pubDate>Tue, 14 Mar 2023 15:06:48 +0000</pubDate>
+    <lastBuildDate>Tue, 14 Mar 2023 15:06:48 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>28 Days Later: Postmortem of a Top 10 Paid iOS App</title>
+      <link>https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/</link>
+      <pubDate>Tue, 14 Mar 2023 15:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/</guid>
+      <description>&lt;p&gt;It’s been 4 weeks since the v2.0 update for &lt;a href=&quot;https://dodoapps.io/music-library-tracker/&quot;&gt;Music Library Tracker&lt;/a&gt; launched so I thought now was a good time for a retrospective to detail how I promoted the app and how well it performed.&lt;/p&gt;
+
+&lt;p&gt;By way of a bit of background, the app originally launched back in January 2016 at a $0.99 price point making $1368 in it’s first month before dropping off significantly to roughly $20 a month. In January 2021, I was accepted into the &lt;a href=&quot;https://developer.apple.com/app-store/small-business-program/&quot;&gt;App Store Small Business Program&lt;/a&gt; which meant the amount Apple took from sales fell from 30% to 15%; I had also increased the price and released a few more updates so the average profit for the half year prior to the v2.0 update in February was sitting at around $80 a month&lt;sup id=&quot;fnref:historic&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:historic&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. This is by no means an income (especially as I have to pay corporation tax on it in the UK and then if I want to actually take the money for myself rather than my business I’ll have to pay some more tax) but it was fine for an app that didn’t have any running costs nor require much maintenance.&lt;/p&gt;
+
+&lt;p&gt;And then v2.0 happened.&lt;/p&gt;
+
+&lt;p&gt;With a new feature set built around Spatial Audio, v2.0 was released on 13th February 2023 after a 9 month development period, 3 months of which was open development via &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;my newsletter&lt;/a&gt;. It was reported on by a couple of tech sites (I’ll detail how shortly) and ended up being the #8 Paid app in the US!&lt;/p&gt;
+
+&lt;p&gt;So how much money does an app need to make to be in the Top 10 of all paid apps on the App Store?&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-sales-chart.png&quot; width=&quot;800&quot; height=&quot;361&quot; /&gt;
+    &lt;figure&gt;Daily profit in USD over the past 28 days peaking at $1534 on February 15th&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Not as much as you might think! You can &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-v2-sales.csv&quot;&gt;download a full breakdown&lt;/a&gt; but the key figures are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Profit of $82 on 13th Feb (launch day), $1449 on 14th Feb, $1534 on 15th Feb, and $414 on 16th Feb&lt;/li&gt;
+  &lt;li&gt;Total profit of $5351 over 28 days&lt;/li&gt;
+  &lt;li&gt;An average daily profit of $191&lt;/li&gt;
+  &lt;li&gt;Only a single sale on March 6th 😭&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I use &lt;a href=&quot;https://www.dailysalesemail.com&quot;&gt;Daily Sales Email&lt;/a&gt; to find out how much I’ve made each day but the figures typically arrive around lunchtime on the following day. That meant I could see the app in the Top 10 of all paid apps but had no idea what that would translate into&lt;sup id=&quot;fnref:analytics&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:analytics&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. I’ll confess that whilst I was pleased with the numbers, I was a little disappointed that I’d made less than what I charge for 2 days as a freelance iOS developer.&lt;/p&gt;
+
+&lt;p&gt;That said, the app has settled down into making roughly $40 per day which works out at around $1200 per month, not bad for something that will hopefully only need minor maintenance.&lt;/p&gt;
+
+&lt;p&gt;With the financial breakdown out of the way, I thought it might be interesting to detail exactly how I promoted the app. I will be completely honest and say it is not my strong suit at all. I hate doing app promotion work; it is abhorrent to me. I’m not sure if it’s the Englishman in me or something else but I absolutely hate having to email people saying “please look at my app” followed by the waiting and hoping that somebody will feature it. However, that’s what I had to do as an app of this nature likely isn’t going to generate enough revenue to make hiring a marketing person cost effective.&lt;/p&gt;
+
+&lt;h2 id=&quot;reviews&quot;&gt;Reviews&lt;/h2&gt;
+
+&lt;p&gt;The key thing for an app like this is for it to be written about by a tech site. I’ve had a couple articles in the past from sites like &lt;a href=&quot;https://9to5mac.com/2016/03/15/music-tracker-large-libraries/&quot;&gt;9to5mac&lt;/a&gt; and &lt;a href=&quot;https://www.macrumors.com/2016/01/20/music-tracker-apple-music-library-monitoring/&quot;&gt;MacRumors&lt;/a&gt; so my first port of call was to send them an email. As previously mentioned, I hate doing this stuff but I felt on slightly firmer ground with these sites as they’d written about the app before so that seemed like a good “in”:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Hello,&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Back in 2016 you were kind enough to review an app of mine, Music Library Tracker (https://9to5mac.com/2016/03/15/music-tracker-large-libraries/).&lt;/p&gt;
+
+  &lt;p&gt;I’m getting in touch as I’ve just released a large v2.0 update to the app which includes some features around Spatial Audio. In short, the app can quickly scan your library and show you exactly which songs have been upgraded to Spatial Audio and generate a playlist containing just those tracks; it will then run in the background periodically and notify you as and when tracks are upgraded and keep that playlist up to date.&lt;/p&gt;
+
+  &lt;p&gt;This is all possible due to a database of Dolby Atmos and Dolby Audio tracks I’ve created over the past 9 months to run my Spatial Audio Finder website (https://bendodson.com/projects/spatial-audio-finder/) and the @NewSpatialAudio Twitter account (https://twitter.com/NewSpatialAudio) which tweets whenever a new track is upgraded. This database is sourced from a minor update to the Apple Music API at WWDC 22 - you can see how this all works in a blog post I wrote last year (https://bendodson.com/weblog/2022/06/27/spatial-audio-finder/) but suffice to say I do not believe there is anyone outside of Apple with a dataset such as this.&lt;/p&gt;
+
+  &lt;p&gt;Apple Music does not yet have a clear strategy for displaying Spatial Audio tracks. Whilst they have some playlists and collections that get updated weekly, the only way to tell which tracks in your own library are upgraded is to play them and see. This is obviously not ideal and not a great way to showcase what is a genuine leap in musical quality and the hundreds of thousands of tracks that have been upgraded. I created this feature as I was determined to find a way to see which tracks had been updated. From the response I’ve received via @NewSpatialAudio it seems I’m not alone!&lt;/p&gt;
+
+  &lt;p&gt;The app is still a single cost download (25% off for the next week) with no in-app purchases, subscriptions, or adverts so anybody who downloaded the app in the past 7 years will get this new feature for free. I’ve provided a few promo codes below in case you or anyone at the MacRumors team are interested in taking a look:&lt;/p&gt;
+
+  &lt;p&gt;CODE1&lt;br /&gt;
+CODE2&lt;br /&gt;
+CODE3&lt;/p&gt;
+
+  &lt;p&gt;You can see some more information about the app at https://dodoapps.io/music-library-tracker/ and there is a full media kit with screenshots, etc, at https://dodoapps.io/music-library-tracker/media-kit/&lt;/p&gt;
+
+  &lt;p&gt;The update is available now on the App Store at https://apple.co/3XtdAga&lt;/p&gt;
+
+  &lt;p&gt;If you have any questions at all about the app, my Spatial Audio database, or anything else relating to Spatial Audio then just let me know.&lt;/p&gt;
+
+  &lt;p&gt;All the best,&lt;/p&gt;
+
+  &lt;p&gt;Ben&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I sent this email on the 13th February to the reviews@9to5mac.com address (as my previous contact had since moved elsewhere) and a very similar version with a different link directly to the Senior Editor at MacRumors who wrote a previous article. I got a &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/9to5mac-bounceback.png&quot;&gt;very strange bounceback email&lt;/a&gt; from 9to5mac and I didn’t get a reply at all from MacRumors. As the bounceback was so odd, I waited a day and then sent a follow up email to tips@9to5mac.com; it was a good thing I did as Chance Miller got in touch within 30 minutes and shortly afterwards there was an &lt;a href=&quot;https://9to5mac.com/2023/02/14/apple-music-spatial-audio-songs/&quot;&gt;article published&lt;/a&gt;. This is undoubtedly what led to the spike in sales on the 14th and afterwards.&lt;/p&gt;
+
+&lt;p&gt;In addition to those two outlets, I sent similar emails to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;TechRadar (via news@techradar.com): their Entertainment Editor replied after a couple of hours and we had a few emails back and forth discussing various aspects of Spatial Audio such as how Apple bans AI upscaling. They &lt;a href=&quot;https://www.techradar.com/opinion/finding-dolby-atmos-tracks-on-apple-music-is-hell-this-app-fixes-that&quot;&gt;published an article&lt;/a&gt; the next day but it didn’t show up in their RSS feed and is not visible on their website unless you follow the direct link (which was tweeted but had practically zero engagement)&lt;/li&gt;
+  &lt;li&gt;AppleInsider (direct to one of their writers who had written a recent article about Spatial Audio): I didn’t get a reply and there hasn’t been an article&lt;/li&gt;
+  &lt;li&gt;MacStories (direct email to John and Federico): I didn’t get a reply but it was listed in the “App Debuts” section of the Club MacStories newsletter for paid subscribers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following week I sent an email to iMore as I’d noticed an &lt;a href=&quot;https://www.imore.com/music-movies-tv/apple-music/apple-is-showcasing-non-spatial-audio-albums-in-the-spatial-audio-page&quot;&gt;interesting article&lt;/a&gt; relating to Spatial Audio. I couldn’t find an email address for the author, Tammy Rogers, so instead sent an email direct to the Features Editor, Daryl Baxter, who was listed as a contributor:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Hi Daryl,&lt;/p&gt;
+
+  &lt;p&gt;I came across a recent article you contributed to, “Apple Music is showcasing non-Spatial Audio albums in it’s Spatial Audio page”, and had two things that may be of interest to you and Tammy (I couldn’t find an email address for her so my apologies for not including her as well).&lt;/p&gt;
+
+  &lt;p&gt;First of all, the reason that those albums are being listed within Apple Music’s Spatial Audio playlists is because they have some tracks on them that are available in Spatial Audio. The referenced No Pressure by Logic has two tracks that have been upgraded (GP4 and Perfect) whilst McCartney (2011) remaster has the first 13 tracks available in Spatial Audio. I know this because I created something called the Spatial Audio Finder which lets you find which tracks have been updated for a particular artist (I’ve got a blog post at https://bendodson.com/weblog/2022/06/27/spatial-audio-finder/ which explains how that all works). I also publish when tracks are upgraded to the @NewSpatialAudio Twitter feed.&lt;/p&gt;
+
+  &lt;p&gt;You also mentioned in the article that it’s quite hard to find Spatial Audio tracks within Apple Music. This is a huge bugbear of mine and so I recently updated an app of mine, Music Library Tracker, with some new features around Spatial Audio. The app was originally designed to help notify you when Apple changes your music (i.e. if a song is deleted due to licensing changes, etc) but it can now scan your library and show you which tracks you have that are available in Spatial Audio along with creating a playlist in Apple Music containing only those tracks. It can then keep monitoring your library and send you notifications as and when new tracks are updated.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;The rest of the email is similar to the initial one above&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I received a reply a few days later and then after 2 weeks &lt;a href=&quot;https://www.imore.com/music-movies-tv/apple-music/this-app-makes-finding-your-apple-music-spatial-audio-tracks-easier-than-ever&quot;&gt;an article appeared&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In addition to the sites I reached out to, a few sites published articles organically including:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://appadvice.com/post/music-library-tracker-is-perfect-for-fans-of-spatial-audio-tracks-on-apple-music/776748&quot;&gt;AppAdvice&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.whathifi.com/news/you-can-now-find-out-when-apple-music-songs-get-spatial-audio-fied&quot;&gt;What Hi-Fi&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.tomsguide.com/news/how-to-discover-spatial-audio-tracks-in-your-apple-music-library&quot;&gt;Tom’s Guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’d like to give a big thank you to all of the people who did get back to me or wrote about the app - I’m very grateful! However, the experience of doing this is easily the worst part of being an independent app developer. I absolutely hate having to hawk the app around and then have the long period of waiting and hoping for an article to appear. I always try and craft my emails to be very specific to something the site has covered before or to provide some kind of story so it’s a bit easier to form a narrative other than “please talk about my app”. It’s incredibly disappointing when you don’t even get an email back. As I hated doing it, I’d typically send an email and then think “that’ll do” and by the time I realised a site wasn’t going to pick it up then the launch window had passed and it felt even more awkward to email in (especially as it had already been covered by 9to5mac so other sites could have potentially already seen that article and not wanted to cover something which is now old news).&lt;/p&gt;
+
+&lt;p&gt;A few things I should have done differently:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;I should have contacted people before the launch of the app rather than afterward. I don’t like contacting anyone before Apple have approved an app as that can lead to all sorts of problems. I’d already public committed to a date and didn’t give myself much room between approval and release so just sent the messages out post-launch. In an ideal world, I should have had a week or even two with the app approved within which I could have sent out promo codes or TestFlight invites so the app could be reviewed and embargoed. That would lead to a much bigger “splash” and also avoids the issue of sites potentially not wanting to promote an app that has already been promoted elsewhere.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I should have written to more sites rather than just the ones I typically read. I did do some research to find sites that had talked about Spatial Audio (as I wanted some kind of an “in” when writing to someone who’d never heard of me before) but I probably should have just gone with a scattergun approach to anybody that is even vaguely app adjacent.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I had no idea if the promo codes I was sending out were being used so couldn’t really tell if my emails were getting through. Once you’ve generated a promo code within App Store Connect, the only way to see if it has been redeemed or not is to try and redeem it (which is obviously not a good idea). I could easily just provide a link to my site which, when accessed, gives out a promo code and can then tell me that has happened but it just doesn’t sit right with me and I’d be afraid it would be something that would put people off.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I should have followed up with the sites that didn’t reply to me. I did that with 9to5mac which definitely paid off but I felt more comfortable doing that as it seemed clear there was a technical error; sending a “sorry but did you get my email?” shouldn’t really be anxiety inducing but I couldn’t bring myself to do it.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you are a writer for a tech site with any insight or a developer that has had any success stories with this then I’d absolutely love to hear from you!&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-featured-on-the-app-store-form&quot;&gt;Getting Featured on the App Store Form&lt;/h2&gt;
+
+&lt;p&gt;When you’re looking at ways to promote an app, getting featured by Apple on the App Store is obviously a high priority goal. There have been &lt;a href=&quot;https://nemecek.be/blog/169/how-to-get-featured-on-the-app-store&quot;&gt;several articles recently&lt;/a&gt; about using the &lt;a href=&quot;https://developer.apple.com/contact/app-store/promote/&quot;&gt;dedicated form&lt;/a&gt; on the Apple Developer website with the key takeaway being to submit the form for every app update.&lt;/p&gt;
+
+&lt;p&gt;I have never used this form before, mostly because my apps tend to either be very niche or are something like this app which I’m always somewhat surprised makes it through App Review in one piece 😆. However I did it use it and something unexpected happened… I got an email from the Apple Services Performance Partnership Team&lt;sup id=&quot;fnref:appleservicesteam&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:appleservicesteam&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We are currently recruiting new partners to promote the latest of Apple’s products to join the programme: Apple MusicKit.&lt;/p&gt;
+
+  &lt;p&gt;MusicKit lets users play Apple Music and their local music library from your app or website. So, when your users provide permission to access their Apple Music account, they can use your app or website to create playlists, add songs to their library, and play any of the millions of songs in the Apple Music catalog! If your app detects that the user is not yet an Apple Music member, you can offer a trial membership from within your app. The Apple Music Affiliate Program allows you to earn a commission on eligible referred Music memberships (new sign-ups only)! You can find more detailed information here as well as in the document attached.&lt;/p&gt;
+
+  &lt;p&gt;We have noticed that you already use the Apple Music API and we believe adding in MusicKit would be an easy process for you and a great benefit! We offer generous compensation models and would like to talk you through this opportunity in more detail.&lt;/p&gt;
+
+  &lt;p&gt;Please let us know your avails, so we can go ahead and schedule a call with you. 😊&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I did take the call&lt;sup id=&quot;fnref:teams&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:teams&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; and it is effectively outreach to try and get developers to promote Apple Music within their apps in exchange for a commission on any new subscriptions. You can already &lt;a href=&quot;https://partners.applemediaservices.com/other-partners&quot;&gt;apply for this directly&lt;/a&gt; but I guess Apple saw that I was using MusicKit on the form I filled out and so set this up. Unfortunately it’s not really a good fit for this app (you’re likely not using it if you don’t have Apple Music) but it may be useful for another app I have in the pipeline in which I’d already added the &lt;a href=&quot;https://developer.apple.com/documentation/storekit/skcloudservicesetupviewcontroller/offering_apple_music_subscription_in_your_app&quot;&gt;“Subscribe to Apple Music” interstitial&lt;/a&gt; that this hooks into.&lt;/p&gt;
+
+&lt;p&gt;Going back to the form, the app has not been featured anywhere on the App Store but I had very little expectation of that happening.&lt;/p&gt;
+
+&lt;h2 id=&quot;app-store-ads&quot;&gt;App Store Ads&lt;/h2&gt;
+
+&lt;p&gt;I took a look at promoting the app using Apple Search Ads and found that it was recommending a suggested “Cost-per-Install” of £5.61. This is not ideal bearing in mind the app cost £2.49 at the time 🤣&lt;/p&gt;
+
+&lt;p&gt;After I posted that on Twitter the developer of the excellent &lt;a href=&quot;https://apps.apple.com/us/app/marvis-pro/id1447768809&quot;&gt;Marvis Pro&lt;/a&gt; music app, Aditya Rajveer, &lt;a href=&quot;https://twitter.com/AdityaRajveer/status/1625523289321005057&quot;&gt;reached out&lt;/a&gt; and said “It almost never reached the suggested amount per install for my app, not even close”. That pushed me to give it a try and they were right! I’ve had it running for a few weeks now and have had 22 installs on an average Cost-Per-Install of £0.89. That’s not exactly setting my sales alight but it’s better than nothing. On a more positive note, I’m not actually being charged for these installs as I have a promotional balance apparently. I seem to remember I claimed a free $100 of advertising years and years ago so evidently that is still in use 🤷🏻‍♂&lt;/p&gt;
+
+&lt;h2 id=&quot;app-store-in-app-events&quot;&gt;App Store In-App Events&lt;/h2&gt;
+
+&lt;p&gt;I created an In-App Event on the App Store to coincide with the release of the update which ran for 1 week:&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-in-app-event.jpg&quot; width=&quot;645&quot; height=&quot;548&quot; /&gt;
+    &lt;figure&gt;The irony is that you can't listen to Spatial Audio on those headphones but it was the only decent royalty-free image I could find...&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This had 4700 impressions leading to 9 downloads and 24 app opens. Again, not terribly exciting but extra sales are extra sales.&lt;/p&gt;
+
+&lt;h2 id=&quot;other-promotions&quot;&gt;Other Promotions&lt;/h2&gt;
+
+&lt;p&gt;I obviously promoted the app on my own &lt;a href=&quot;https://mastodon.bendodson.com/@ben&quot;&gt;Mastodon&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/bendodson/&quot;&gt;Twitter accounts&lt;/a&gt; but I also tweeted about it on the &lt;a href=&quot;https://twitter.com/newspatialaudio&quot;&gt;@NewSpatialAudio&lt;/a&gt; account which I believe led to the article on Tom’s Guide. There’s also &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;my newsletter&lt;/a&gt; and &lt;a href=&quot;https://bendodson.com/&quot;&gt;my website&lt;/a&gt; which mentioned the app. Finally, it was mentioned in both the &lt;a href=&quot;https://indiedevmonday.com/issue-134&quot;&gt;Indie Dev Monday&lt;/a&gt; and &lt;a href=&quot;https://swiftlyrush.curated.co/issues/62&quot;&gt;SwiftlyRush&lt;/a&gt; newsletters.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-what-actually-worked&quot;&gt;So what actually worked?&lt;/h2&gt;
+
+&lt;p&gt;App Store Connect provides a metrics panel which roughly details where your downloads have come from. Rather astonishingly, it turns out that 43.4% of all my downloads in the past month came from “App Store Browse”. This is followed by “Web Referer” at 28.3%, “App Store Search” at 13.4%, and “App Referer” at 12.8%.&lt;/p&gt;
+
+&lt;p&gt;If I dig into that a little more I can see that most of the app referer traffic was either Facebook, Google, or Google Chrome (so likely clicking on links from one of the published articles). With web referer, the vast majority is 9to5mac.com followed by my own &lt;a href=&quot;https://dodoapps.io/music-library-tracker/&quot;&gt;Dodo Apps website&lt;/a&gt;. Everything else is single digits.&lt;/p&gt;
+
+&lt;p&gt;My assumption is that the 9to5mac article created enough downloads to catapult the app up the Paid App charts and it was there that it was discovered by those just browsing the App Store who then made up the majority of my sales. This seems incredibly backwards to me as I’d assume the technical readership for whom this app is more likely aimed at would be the majority of downloaders but I suspect that with the billions of iOS devices in the world even a fractional percentage of users browsing the App Store is going to be magnitudes larger than the number of followers that the tech sites have.&lt;/p&gt;
+
+&lt;p&gt;In terms of next steps, I’m at a slight loss as to what to do as I don’t have any big splashy features that would merit the coverage that is clearly key to increasing the number of downloads. Having looked at what other developers are doing, it looks like I should try finding an influencer on TikTok but I know absolutely nothing about that world. I could also look at direct advertising on some of the tech sites or podcasts that would be relevant but doing so is likely going to be thousands of pounds worth of investment and feels like a bit of a gamble given this is a low-cost paid app rather than a subscription based service that can recoup large advertising costs over months of later usage.&lt;/p&gt;
+
+&lt;p&gt;If you’ve got any thoughts or insights then I’d &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;love to hear from you&lt;/a&gt;. I’d also love it if you &lt;a href=&quot;https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;amp;mt=8&quot;&gt;downloaded the app&lt;/a&gt; 😉&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:historic&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;You can &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-v1-sales.csv&quot;&gt;download&lt;/a&gt; my historic monthly breakdown if you’re interested. With the change from a 70/30 split to an 85/15 split for the last 2 years, the actual amount I’ve given to Apple over the past 7 years has been around 26% leaving an average monthly profit of $59.83. &lt;a href=&quot;#fnref:historic&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:analytics&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I don’t use any analytics in my apps so I couldn’t see any realtime usage information. &lt;a href=&quot;#fnref:analytics&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:appleservicesteam&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;It definitely came as a result of submitting that form as the email was sent to my personal address which I’d used on the form, not my Apple Developer account email address. &lt;a href=&quot;#fnref:appleservicesteam&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:teams&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I nearly didn’t as they inexplicably used Microsoft Teams 🤣 &lt;a href=&quot;#fnref:teams&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Side Project: Back Seat Shuffle</title>
@@ -2599,61 +2798,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
 &lt;p&gt;In show business, it is often said that you should never work with children or animals. In software development, the equivalent is that you should never work with date formatting. I certainly found building this calendar system from the ground up a challenge and keeping it performant when the local Realm database is full of data was definitely not easy. That said, I’m incredibly pleased with how the update has turned out and it seems the users of the app are too; to date, the app has received over 1200 reviews on the App Store averaging a 4.8 rating whilst also being featured by publications such as The Observer, The Guardian, and The Huffington Post.&lt;/p&gt;
 
 &lt;p&gt;It was really great to work with Orbis Media again and I look forward to working with them again in the future. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8&quot;&gt;DrinkCoach+ on the App Store&lt;/a&gt; for free and learn more about it at &lt;a href=&quot;http://www.drinkcoach.org.uk&quot;&gt;drinkcoach.org.uk&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Building a Twitch Panel Extension</title>
-      <link>https://bendodson.com/weblog/2018/09/10/building-a-twitch-panel-extension/</link>
-      <pubDate>Mon, 10 Sep 2018 12:20:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2018/09/10/building-a-twitch-panel-extension/</guid>
-      <description>&lt;p&gt;A couple of months ago I started streaming some of the many video games I play on &lt;a href=&quot;https://twitch.tv/The_Plainswalker&quot;&gt;Twitch&lt;/a&gt;. For those that aren’t aware, your Twitch profile can be customised with a number of text or image based panels along with a relatively new “extension” panel which is essentially an iframe. I was spending some time adding the type of wine I was drinking on each stream in a text-based panel and decided it would be more efficient to build a simple panel extension to display this information in a more customised format.&lt;/p&gt;
-
-&lt;p&gt;Thus the “&lt;a href=&quot;https://www.twitch.tv/ext/a8m0uw4htvsmaaukkcasay84awv8p0-1.0.1&quot;&gt;Currently Drinking&lt;/a&gt;” extension was born which allows users to add a name, type, location, price, ABV%, description, notes, and an image about the drink they are currently enjoying. I also added the ability to provide a URL for a website such as &lt;a href=&quot;https://www.vivino.com/wineries/el-bombero/wines/el-bombero-seleccion-especial-2017&quot;&gt;vivino.com&lt;/a&gt;, &lt;a href=&quot;https://distiller.com/spirits/glenfiddich-18&quot;&gt;distiller.com&lt;/a&gt;, or &lt;a href=&quot;https://untappd.com/b/anheuser-busch-budweiser/3783&quot;&gt;untappd.com&lt;/a&gt; which is then screen-scraped to provide the information automatically.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2018/twitch-page.jpg&quot; width=&quot;800&quot; height=&quot;480&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This post isn’t going to be a complete tutorial on how to build an extension as I didn’t expect it would be that complex and so didn’t write down the instructions on how to get everything working as I was going along. Suffice to say, the process was a lot more difficult than I initially anticipated! That said, if you have any specific queries, do feel free to &lt;a href=&quot;https://bendodson.com/contact/&quot;&gt;get in touch&lt;/a&gt; and I’ll try and help as best I can.&lt;/p&gt;
-
-&lt;p&gt;To start with, a panel extension is basically a website comprising of HTML, CSS, and JavaScript. This is all loaded into an iframe with some restrictions and you can choose to make use of the Extension Backend Service (EBS) which is essentially a NodeJS instance that sends notifications via PubSub. It is recommended that you download the developer rig that Twitch provides which allows you to run and test your extension on a localhost such that when you load your profile page from Twitch.tv you can see your extension loaded in. The setup process for the developer rig is fairly arduous, especially on macOS, and I found myself having to run a fair few more &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm install&lt;/code&gt; commands than I would like that weren’t documented. I also found that there were a number of differences between the locally hosted version of the extension compared to when it was run on a server, most noticably in that the local version allows the external loading of assets which the hosted version does not&lt;sup id=&quot;fnref:hosted&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:hosted&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;In terms of coding, as you are essentially just writing HTML there isn’t much to be aware of when writing an extension. A panel is always 300px high and you can set a global height for the panel within the Twitch settings&lt;sup id=&quot;fnref:height&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:height&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; and make use of vertical scrolling if you need to show more content. To configure your extension, you supply another HTML file which is loaded whenever the configure button is pressed but again this is just loaded within an iframe.&lt;/p&gt;
-
-&lt;p&gt;As I haven’t really used JavaScript since 2009, I decided to forego the EBS in favour of a PHP backend that I could control. Thankfully this is fairly easy as you can get a unique identifier for the channel that is being viewed via the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;window.Twitch.ext.onAuthorized(auth)&lt;/code&gt; callback. With this, I was able to use a simple AJAX POST request to send the data in my config page to my PHP backend along with the ID of the currently authorized channel. When a panel is loaded, an AJAX GET request with the same channel ID is used to load a JSON response of the data stored in my database. Using this PHP system was also more useful as I was able to add my screen-scraping library to rip out details of the drinks I was enjoying from Vivino, Distiller, and Untappd. Whilst my initial version provided a link back to these pages, I found that each URL needed to be whitelisted on the Twitch extension otherwise they wouldn’t work. As I would have liked to let people link to other websites I ultimately decided to drop the ability as it wouldn’t be feasible to maintain a whitelist that would please everyone.&lt;/p&gt;
-
-&lt;p&gt;Once the basic panel was built, I was able to test it on Twitch’s own servers by performing an asset upload. With this, you basically zip up your directory containing your HTML, JS, and CSS code and upload it to their servers at which point it will let you use that code as your panel on your live Twitch page. Crucially, this is only seen by you and accounts you whitelist. As I’d set up the developer rig on my laptop and didn’t want to get it all set up again on my Mac Pro, I ended up tweaking some of my extensions by editing the files locally and just uploading them directly in this way to test them - it took slightly longer but that way I knew what I was looking at is how the extension would look to others.&lt;/p&gt;
-
-&lt;p&gt;With the extension looking good, it was then time to submit it to Twitch for approval. I’ve been through this sort of process with Apple before hundreds of times so I’m no stranger to a review process but this one was slightly more arduous. To start with, there are &lt;a href=&quot;https://dev.twitch.tv/docs/extensions/guidelines-and-policies/&quot;&gt;a lot of restrictions&lt;/a&gt; on what you can and cannot do such as not being allowed to have any JavaScript console logging, you aren’t allowed to load into the DOM directly from AJAX (i.e. loading HTML from a remote location), you can’t obfuscate your code nor use a double-click as an input. Your code is inspected by Twitch as part of the review and so everything has to be provided locally except for the &lt;a href=&quot;https://dev.twitch.tv/docs/extensions/building/#extension-helper-library&quot;&gt;Twitch Extension Helper&lt;/a&gt; which must be loaded from a specific location. At first I found the idea of an actual code review to be slightly strange as even Apple doesn’t do this&lt;sup id=&quot;fnref:automated&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:automated&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; but it makes sense given the nature of JavaScript embedded in an iframe.&lt;/p&gt;
-
-&lt;p&gt;After a couple of days, the extension was approved and I was then given the option to release it publicly at which point it shows up in the extension directory with screenshots you provide. As this first extension was relatively easy, I decided to produce a number of “wishlist” panel extensions which would initially be for Steam, Humble, and GOG. These worked in much the same way using a PHP backend to send the URL of the users wishlist; my server would then screen-scrape these pages and store the games in my database where the panel extension could request them in order to load the list. As each extension was for a specific store, I used the URL whitelisting feature to whitelist each domain so you could click on the game to go to the relevant store page.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/twitch-extensions/twitch-wishlist-steam.jpg&quot; width=&quot;800&quot; height=&quot;480&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Whilst the extensions were relatively quick and easy to write, the approval process took several weeks as a bug in the process meant they got stuck in limbo for violating one of the rules, namely that “extensions may not transact or encourage the transacting of monetary exchange in relation to any non-Twitch/Amazon commerce instruments”. In essence, an extension could not link to a Steam store page as it is a competitor to Twitch/Amazon. I find this to be slightly silly, especially as a user can happily just write up a list of links in a text-based panel without issue, but those are the rules and the team at Twitch Dev were incredibly helpful at resolving the issue reaching out to me via Twitter DM. I was able to re-submit the three extensions provided that they didn’t link to the external storefronts; this seemed like a reasonable compromise and so I re-submitted and they were approved within several minutes.&lt;/p&gt;
-
-&lt;p&gt;The only other thing to mention is the process of updating an extension. I foolishly didn’t test my original “Currently Drinking” extension with the Twitch “dark theme”&lt;sup id=&quot;fnref:dark&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:dark&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; and received a complaint from a user. Updating an extension is thankfully very easy requiring only that you bump up the version number and upload a new zip file. This goes through the review process again but was approved in under an hour for me. As far as I can tell, there is no forward facing “What’s New” notes or a way for a user to see an extension has been updated; it just happens automatically. It would be nicer if there were a way for users to see when an update has occurred and what has changed but I guess that will be something for the future.&lt;/p&gt;
-
-&lt;p&gt;Overall the process of creating a Twitch extension was slightly longer than I would have liked but now that everything is set up and I’ve been through it a few times I think it’ll be very easy to add new ones in future. I’m tempted to try my hand at a video overlay extension but haven’t yet found a compelling enough reason to do so. For now though it has been a pleasant diversion from building iOS apps and so far the extensions have been installed by far more users than I expected.&lt;/p&gt;
-
-&lt;p&gt;If you’d like to give them a try, you can find some direct links on my &lt;a href=&quot;https://bendodson.com/projects/twitch-extensions/&quot;&gt;Twitch Extensions&lt;/a&gt; page. You can also &lt;a href=&quot;https://twitch.tv/The_Plainswalker&quot;&gt;follow me on Twitch&lt;/a&gt; if you’d like to see some of my extensions in action!&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:hosted&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;To be fair, the &lt;a href=&quot;https://dev.twitch.tv/docs/extensions/guidelines-and-policies/&quot;&gt;guidelines&lt;/a&gt; do state that you should “include all JavaScript and CSS files in the extension’s uploaded assets” but this is not enforced by the developer rig so I spent a lot of time wondering why jQuery worked locally but not on the Twitch site. &lt;a href=&quot;#fnref:hosted&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:height&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;The default is 300px but you can choose anything from 300px to 500px. Unfortunately it isn’t possible for an extension to say at runtime how high it wants to be - it is something that is set globally in advance. &lt;a href=&quot;#fnref:height&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:automated&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;Aside from the automated checks when compiling in Xcode to ensure you aren’t using private frameworks. &lt;a href=&quot;#fnref:automated&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:dark&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;It’s a bit of a pain to check if you are in dark mode or not. You need to run the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;window.Twitch.ext.onContext(context)&lt;/code&gt; callback and then check that for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;context.theme&lt;/code&gt;. I do this and then append or remove a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.dark&lt;/code&gt; class to my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\&amp;lt;body\&amp;gt;&lt;/code&gt; to make it a bit simpler to work with. &lt;a href=&quot;#fnref:dark&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
 &lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     

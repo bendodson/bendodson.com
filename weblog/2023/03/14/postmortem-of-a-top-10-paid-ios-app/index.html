@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="28 Days Later: Postmortem of a Top 10 Paid iOS App">
+		<meta property="og:description" content="How much does an app in the Top 10 Paid charts actually make?">
+		<meta property="og:url" content="https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
+		
+		<meta name="twitter:title" content="28 Days Later: Postmortem of a Top 10 Paid iOS App">
+		<meta name="twitter:description" content="How much does an app in the Top 10 Paid charts actually make?">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/back-seat-shuffle.jpg">			
+		
+	
+
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2023-01-18.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>28 Days Later: Postmortem of a Top 10 Paid iOS App</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">28 Days Later: Postmortem of a Top 10 Paid iOS App</a></h1>
+			
+			<time datetime="2023-03-14" pubdate=""><a href="/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">March 14, 2023</a></time>
+    	</header>
+    	
+		
+    	<div>
+			<p>It’s been 4 weeks since the v2.0 update for <a href="https://dodoapps.io/music-library-tracker/">Music Library Tracker</a> launched so I thought now was a good time for a retrospective to detail how I promoted the app and how well it performed.</p>
+
+<p>By way of a bit of background, the app originally launched back in January 2016 at a $0.99 price point making $1368 in it’s first month before dropping off significantly to roughly $20 a month. In January 2021, I was accepted into the <a href="https://developer.apple.com/app-store/small-business-program/">App Store Small Business Program</a> which meant the amount Apple took from sales fell from 30% to 15%; I had also increased the price and released a few more updates so the average profit for the half year prior to the v2.0 update in February was sitting at around $80 a month<sup id="fnref:historic" role="doc-noteref"><a href="#fn:historic" class="footnote" rel="footnote">1</a></sup>. This is by no means an income (especially as I have to pay corporation tax on it in the UK and then if I want to actually take the money for myself rather than my business I’ll have to pay some more tax) but it was fine for an app that didn’t have any running costs nor require much maintenance.</p>
+
+<p>And then v2.0 happened.</p>
+
+<p>With a new feature set built around Spatial Audio, v2.0 was released on 13th February 2023 after a 9 month development period, 3 months of which was open development via <a href="https://www.thedododeveloper.com/">my newsletter</a>. It was reported on by a couple of tech sites (I’ll detail how shortly) and ended up being the #8 Paid app in the US!</p>
+
+<p>So how much money does an app need to make to be in the Top 10 of all paid apps on the App Store?</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-sales-chart.png" width="800" height="361" />
+    <figure>Daily profit in USD over the past 28 days peaking at $1534 on February 15th</figure>
+</div>
+
+<p>Not as much as you might think! You can <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-v2-sales.csv">download a full breakdown</a> but the key figures are:</p>
+
+<ul>
+  <li>Profit of $82 on 13th Feb (launch day), $1449 on 14th Feb, $1534 on 15th Feb, and $414 on 16th Feb</li>
+  <li>Total profit of $5351 over 28 days</li>
+  <li>An average daily profit of $191</li>
+  <li>Only a single sale on March 6th 😭</li>
+</ul>
+
+<p>I use <a href="https://www.dailysalesemail.com">Daily Sales Email</a> to find out how much I’ve made each day but the figures typically arrive around lunchtime on the following day. That meant I could see the app in the Top 10 of all paid apps but had no idea what that would translate into<sup id="fnref:analytics" role="doc-noteref"><a href="#fn:analytics" class="footnote" rel="footnote">2</a></sup>. I’ll confess that whilst I was pleased with the numbers, I was a little disappointed that I’d made less than what I charge for 2 days as a freelance iOS developer.</p>
+
+<p>That said, the app has settled down into making roughly $40 per day which works out at around $1200 per month, not bad for something that will hopefully only need minor maintenance.</p>
+
+<p>With the financial breakdown out of the way, I thought it might be interesting to detail exactly how I promoted the app. I will be completely honest and say it is not my strong suit at all. I hate doing app promotion work; it is abhorrent to me. I’m not sure if it’s the Englishman in me or something else but I absolutely hate having to email people saying “please look at my app” followed by the waiting and hoping that somebody will feature it. However, that’s what I had to do as an app of this nature likely isn’t going to generate enough revenue to make hiring a marketing person cost effective.</p>
+
+<h2 id="reviews">Reviews</h2>
+
+<p>The key thing for an app like this is for it to be written about by a tech site. I’ve had a couple articles in the past from sites like <a href="https://9to5mac.com/2016/03/15/music-tracker-large-libraries/">9to5mac</a> and <a href="https://www.macrumors.com/2016/01/20/music-tracker-apple-music-library-monitoring/">MacRumors</a> so my first port of call was to send them an email. As previously mentioned, I hate doing this stuff but I felt on slightly firmer ground with these sites as they’d written about the app before so that seemed like a good “in”:</p>
+
+<blockquote>
+  <p>Hello,</p>
+</blockquote>
+
+<blockquote>
+  <p>Back in 2016 you were kind enough to review an app of mine, Music Library Tracker (https://9to5mac.com/2016/03/15/music-tracker-large-libraries/).</p>
+
+  <p>I’m getting in touch as I’ve just released a large v2.0 update to the app which includes some features around Spatial Audio. In short, the app can quickly scan your library and show you exactly which songs have been upgraded to Spatial Audio and generate a playlist containing just those tracks; it will then run in the background periodically and notify you as and when tracks are upgraded and keep that playlist up to date.</p>
+
+  <p>This is all possible due to a database of Dolby Atmos and Dolby Audio tracks I’ve created over the past 9 months to run my Spatial Audio Finder website (https://bendodson.com/projects/spatial-audio-finder/) and the @NewSpatialAudio Twitter account (https://twitter.com/NewSpatialAudio) which tweets whenever a new track is upgraded. This database is sourced from a minor update to the Apple Music API at WWDC 22 - you can see how this all works in a blog post I wrote last year (https://bendodson.com/weblog/2022/06/27/spatial-audio-finder/) but suffice to say I do not believe there is anyone outside of Apple with a dataset such as this.</p>
+
+  <p>Apple Music does not yet have a clear strategy for displaying Spatial Audio tracks. Whilst they have some playlists and collections that get updated weekly, the only way to tell which tracks in your own library are upgraded is to play them and see. This is obviously not ideal and not a great way to showcase what is a genuine leap in musical quality and the hundreds of thousands of tracks that have been upgraded. I created this feature as I was determined to find a way to see which tracks had been updated. From the response I’ve received via @NewSpatialAudio it seems I’m not alone!</p>
+
+  <p>The app is still a single cost download (25% off for the next week) with no in-app purchases, subscriptions, or adverts so anybody who downloaded the app in the past 7 years will get this new feature for free. I’ve provided a few promo codes below in case you or anyone at the MacRumors team are interested in taking a look:</p>
+
+  <p>CODE1<br />
+CODE2<br />
+CODE3</p>
+
+  <p>You can see some more information about the app at https://dodoapps.io/music-library-tracker/ and there is a full media kit with screenshots, etc, at https://dodoapps.io/music-library-tracker/media-kit/</p>
+
+  <p>The update is available now on the App Store at https://apple.co/3XtdAga</p>
+
+  <p>If you have any questions at all about the app, my Spatial Audio database, or anything else relating to Spatial Audio then just let me know.</p>
+
+  <p>All the best,</p>
+
+  <p>Ben</p>
+</blockquote>
+
+<p>I sent this email on the 13th February to the reviews@9to5mac.com address (as my previous contact had since moved elsewhere) and a very similar version with a different link directly to the Senior Editor at MacRumors who wrote a previous article. I got a <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/9to5mac-bounceback.png">very strange bounceback email</a> from 9to5mac and I didn’t get a reply at all from MacRumors. As the bounceback was so odd, I waited a day and then sent a follow up email to tips@9to5mac.com; it was a good thing I did as Chance Miller got in touch within 30 minutes and shortly afterwards there was an <a href="https://9to5mac.com/2023/02/14/apple-music-spatial-audio-songs/">article published</a>. This is undoubtedly what led to the spike in sales on the 14th and afterwards.</p>
+
+<p>In addition to those two outlets, I sent similar emails to:</p>
+
+<ul>
+  <li>TechRadar (via news@techradar.com): their Entertainment Editor replied after a couple of hours and we had a few emails back and forth discussing various aspects of Spatial Audio such as how Apple bans AI upscaling. They <a href="https://www.techradar.com/opinion/finding-dolby-atmos-tracks-on-apple-music-is-hell-this-app-fixes-that">published an article</a> the next day but it didn’t show up in their RSS feed and is not visible on their website unless you follow the direct link (which was tweeted but had practically zero engagement)</li>
+  <li>AppleInsider (direct to one of their writers who had written a recent article about Spatial Audio): I didn’t get a reply and there hasn’t been an article</li>
+  <li>MacStories (direct email to John and Federico): I didn’t get a reply but it was listed in the “App Debuts” section of the Club MacStories newsletter for paid subscribers</li>
+</ul>
+
+<p>The following week I sent an email to iMore as I’d noticed an <a href="https://www.imore.com/music-movies-tv/apple-music/apple-is-showcasing-non-spatial-audio-albums-in-the-spatial-audio-page">interesting article</a> relating to Spatial Audio. I couldn’t find an email address for the author, Tammy Rogers, so instead sent an email direct to the Features Editor, Daryl Baxter, who was listed as a contributor:</p>
+
+<blockquote>
+  <p>Hi Daryl,</p>
+
+  <p>I came across a recent article you contributed to, “Apple Music is showcasing non-Spatial Audio albums in it’s Spatial Audio page”, and had two things that may be of interest to you and Tammy (I couldn’t find an email address for her so my apologies for not including her as well).</p>
+
+  <p>First of all, the reason that those albums are being listed within Apple Music’s Spatial Audio playlists is because they have some tracks on them that are available in Spatial Audio. The referenced No Pressure by Logic has two tracks that have been upgraded (GP4 and Perfect) whilst McCartney (2011) remaster has the first 13 tracks available in Spatial Audio. I know this because I created something called the Spatial Audio Finder which lets you find which tracks have been updated for a particular artist (I’ve got a blog post at https://bendodson.com/weblog/2022/06/27/spatial-audio-finder/ which explains how that all works). I also publish when tracks are upgraded to the @NewSpatialAudio Twitter feed.</p>
+
+  <p>You also mentioned in the article that it’s quite hard to find Spatial Audio tracks within Apple Music. This is a huge bugbear of mine and so I recently updated an app of mine, Music Library Tracker, with some new features around Spatial Audio. The app was originally designed to help notify you when Apple changes your music (i.e. if a song is deleted due to licensing changes, etc) but it can now scan your library and show you which tracks you have that are available in Spatial Audio along with creating a playlist in Apple Music containing only those tracks. It can then keep monitoring your library and send you notifications as and when new tracks are updated.</p>
+</blockquote>
+
+<blockquote>
+  <p><em>The rest of the email is similar to the initial one above</em></p>
+</blockquote>
+
+<p>I received a reply a few days later and then after 2 weeks <a href="https://www.imore.com/music-movies-tv/apple-music/this-app-makes-finding-your-apple-music-spatial-audio-tracks-easier-than-ever">an article appeared</a>.</p>
+
+<p>In addition to the sites I reached out to, a few sites published articles organically including:</p>
+
+<ul>
+  <li><a href="https://appadvice.com/post/music-library-tracker-is-perfect-for-fans-of-spatial-audio-tracks-on-apple-music/776748">AppAdvice</a></li>
+  <li><a href="https://www.whathifi.com/news/you-can-now-find-out-when-apple-music-songs-get-spatial-audio-fied">What Hi-Fi</a></li>
+  <li><a href="https://www.tomsguide.com/news/how-to-discover-spatial-audio-tracks-in-your-apple-music-library">Tom’s Guide</a></li>
+</ul>
+
+<p>I’d like to give a big thank you to all of the people who did get back to me or wrote about the app - I’m very grateful! However, the experience of doing this is easily the worst part of being an independent app developer. I absolutely hate having to hawk the app around and then have the long period of waiting and hoping for an article to appear. I always try and craft my emails to be very specific to something the site has covered before or to provide some kind of story so it’s a bit easier to form a narrative other than “please talk about my app”. It’s incredibly disappointing when you don’t even get an email back. As I hated doing it, I’d typically send an email and then think “that’ll do” and by the time I realised a site wasn’t going to pick it up then the launch window had passed and it felt even more awkward to email in (especially as it had already been covered by 9to5mac so other sites could have potentially already seen that article and not wanted to cover something which is now old news).</p>
+
+<p>A few things I should have done differently:</p>
+
+<ol>
+  <li>
+    <p>I should have contacted people before the launch of the app rather than afterward. I don’t like contacting anyone before Apple have approved an app as that can lead to all sorts of problems. I’d already public committed to a date and didn’t give myself much room between approval and release so just sent the messages out post-launch. In an ideal world, I should have had a week or even two with the app approved within which I could have sent out promo codes or TestFlight invites so the app could be reviewed and embargoed. That would lead to a much bigger “splash” and also avoids the issue of sites potentially not wanting to promote an app that has already been promoted elsewhere.</p>
+  </li>
+  <li>
+    <p>I should have written to more sites rather than just the ones I typically read. I did do some research to find sites that had talked about Spatial Audio (as I wanted some kind of an “in” when writing to someone who’d never heard of me before) but I probably should have just gone with a scattergun approach to anybody that is even vaguely app adjacent.</p>
+  </li>
+  <li>
+    <p>I had no idea if the promo codes I was sending out were being used so couldn’t really tell if my emails were getting through. Once you’ve generated a promo code within App Store Connect, the only way to see if it has been redeemed or not is to try and redeem it (which is obviously not a good idea). I could easily just provide a link to my site which, when accessed, gives out a promo code and can then tell me that has happened but it just doesn’t sit right with me and I’d be afraid it would be something that would put people off.</p>
+  </li>
+  <li>
+    <p>I should have followed up with the sites that didn’t reply to me. I did that with 9to5mac which definitely paid off but I felt more comfortable doing that as it seemed clear there was a technical error; sending a “sorry but did you get my email?” shouldn’t really be anxiety inducing but I couldn’t bring myself to do it.</p>
+  </li>
+</ol>
+
+<p>If you are a writer for a tech site with any insight or a developer that has had any success stories with this then I’d absolutely love to hear from you!</p>
+
+<h2 id="getting-featured-on-the-app-store-form">Getting Featured on the App Store Form</h2>
+
+<p>When you’re looking at ways to promote an app, getting featured by Apple on the App Store is obviously a high priority goal. There have been <a href="https://nemecek.be/blog/169/how-to-get-featured-on-the-app-store">several articles recently</a> about using the <a href="https://developer.apple.com/contact/app-store/promote/">dedicated form</a> on the Apple Developer website with the key takeaway being to submit the form for every app update.</p>
+
+<p>I have never used this form before, mostly because my apps tend to either be very niche or are something like this app which I’m always somewhat surprised makes it through App Review in one piece 😆. However I did it use it and something unexpected happened… I got an email from the Apple Services Performance Partnership Team<sup id="fnref:appleservicesteam" role="doc-noteref"><a href="#fn:appleservicesteam" class="footnote" rel="footnote">3</a></sup>:</p>
+
+<blockquote>
+  <p>We are currently recruiting new partners to promote the latest of Apple’s products to join the programme: Apple MusicKit.</p>
+
+  <p>MusicKit lets users play Apple Music and their local music library from your app or website. So, when your users provide permission to access their Apple Music account, they can use your app or website to create playlists, add songs to their library, and play any of the millions of songs in the Apple Music catalog! If your app detects that the user is not yet an Apple Music member, you can offer a trial membership from within your app. The Apple Music Affiliate Program allows you to earn a commission on eligible referred Music memberships (new sign-ups only)! You can find more detailed information here as well as in the document attached.</p>
+
+  <p>We have noticed that you already use the Apple Music API and we believe adding in MusicKit would be an easy process for you and a great benefit! We offer generous compensation models and would like to talk you through this opportunity in more detail.</p>
+
+  <p>Please let us know your avails, so we can go ahead and schedule a call with you. 😊</p>
+</blockquote>
+
+<p>I did take the call<sup id="fnref:teams" role="doc-noteref"><a href="#fn:teams" class="footnote" rel="footnote">4</a></sup> and it is effectively outreach to try and get developers to promote Apple Music within their apps in exchange for a commission on any new subscriptions. You can already <a href="https://partners.applemediaservices.com/other-partners">apply for this directly</a> but I guess Apple saw that I was using MusicKit on the form I filled out and so set this up. Unfortunately it’s not really a good fit for this app (you’re likely not using it if you don’t have Apple Music) but it may be useful for another app I have in the pipeline in which I’d already added the <a href="https://developer.apple.com/documentation/storekit/skcloudservicesetupviewcontroller/offering_apple_music_subscription_in_your_app">“Subscribe to Apple Music” interstitial</a> that this hooks into.</p>
+
+<p>Going back to the form, the app has not been featured anywhere on the App Store but I had very little expectation of that happening.</p>
+
+<h2 id="app-store-ads">App Store Ads</h2>
+
+<p>I took a look at promoting the app using Apple Search Ads and found that it was recommending a suggested “Cost-per-Install” of £5.61. This is not ideal bearing in mind the app cost £2.49 at the time 🤣</p>
+
+<p>After I posted that on Twitter the developer of the excellent <a href="https://apps.apple.com/us/app/marvis-pro/id1447768809">Marvis Pro</a> music app, Aditya Rajveer, <a href="https://twitter.com/AdityaRajveer/status/1625523289321005057">reached out</a> and said “It almost never reached the suggested amount per install for my app, not even close”. That pushed me to give it a try and they were right! I’ve had it running for a few weeks now and have had 22 installs on an average Cost-Per-Install of £0.89. That’s not exactly setting my sales alight but it’s better than nothing. On a more positive note, I’m not actually being charged for these installs as I have a promotional balance apparently. I seem to remember I claimed a free $100 of advertising years and years ago so evidently that is still in use 🤷🏻‍♂</p>
+
+<h2 id="app-store-in-app-events">App Store In-App Events</h2>
+
+<p>I created an In-App Event on the App Store to coincide with the release of the update which ran for 1 week:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-in-app-event.jpg" width="645" height="548" />
+    <figure>The irony is that you can't listen to Spatial Audio on those headphones but it was the only decent royalty-free image I could find...</figure>
+</div>
+
+<p>This had 4700 impressions leading to 9 downloads and 24 app opens. Again, not terribly exciting but extra sales are extra sales.</p>
+
+<h2 id="other-promotions">Other Promotions</h2>
+
+<p>I obviously promoted the app on my own <a href="https://mastodon.bendodson.com/@ben">Mastodon</a> and <a href="https://twitter.com/bendodson/">Twitter accounts</a> but I also tweeted about it on the <a href="https://twitter.com/newspatialaudio">@NewSpatialAudio</a> account which I believe led to the article on Tom’s Guide. There’s also <a href="https://www.thedododeveloper.com/">my newsletter</a> and <a href="https://bendodson.com/">my website</a> which mentioned the app. Finally, it was mentioned in both the <a href="https://indiedevmonday.com/issue-134">Indie Dev Monday</a> and <a href="https://swiftlyrush.curated.co/issues/62">SwiftlyRush</a> newsletters.</p>
+
+<h2 id="so-what-actually-worked">So what actually worked?</h2>
+
+<p>App Store Connect provides a metrics panel which roughly details where your downloads have come from. Rather astonishingly, it turns out that 43.4% of all my downloads in the past month came from “App Store Browse”. This is followed by “Web Referer” at 28.3%, “App Store Search” at 13.4%, and “App Referer” at 12.8%.</p>
+
+<p>If I dig into that a little more I can see that most of the app referer traffic was either Facebook, Google, or Google Chrome (so likely clicking on links from one of the published articles). With web referer, the vast majority is 9to5mac.com followed by my own <a href="https://dodoapps.io/music-library-tracker/">Dodo Apps website</a>. Everything else is single digits.</p>
+
+<p>My assumption is that the 9to5mac article created enough downloads to catapult the app up the Paid App charts and it was there that it was discovered by those just browsing the App Store who then made up the majority of my sales. This seems incredibly backwards to me as I’d assume the technical readership for whom this app is more likely aimed at would be the majority of downloaders but I suspect that with the billions of iOS devices in the world even a fractional percentage of users browsing the App Store is going to be magnitudes larger than the number of followers that the tech sites have.</p>
+
+<p>In terms of next steps, I’m at a slight loss as to what to do as I don’t have any big splashy features that would merit the coverage that is clearly key to increasing the number of downloads. Having looked at what other developers are doing, it looks like I should try finding an influencer on TikTok but I know absolutely nothing about that world. I could also look at direct advertising on some of the tech sites or podcasts that would be relevant but doing so is likely going to be thousands of pounds worth of investment and feels like a bit of a gamble given this is a low-cost paid app rather than a subscription based service that can recoup large advertising costs over months of later usage.</p>
+
+<p>If you’ve got any thoughts or insights then I’d <a href="https://bendodson.com/contact/">love to hear from you</a>. I’d also love it if you <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">downloaded the app</a> 😉</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:historic" role="doc-endnote">
+      <p>You can <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-v1-sales.csv">download</a> my historic monthly breakdown if you’re interested. With the change from a 70/30 split to an 85/15 split for the last 2 years, the actual amount I’ve given to Apple over the past 7 years has been around 26% leaving an average monthly profit of $59.83. <a href="#fnref:historic" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:analytics" role="doc-endnote">
+      <p>I don’t use any analytics in my apps so I couldn’t see any realtime usage information. <a href="#fnref:analytics" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:appleservicesteam" role="doc-endnote">
+      <p>It definitely came as a result of submitting that form as the email was sent to my personal address which I’d used on the form, not my Apple Developer account email address. <a href="#fnref:appleservicesteam" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:teams" role="doc-endnote">
+      <p>I nearly didn’t as they inexplicably used Microsoft Teams 🤣 <a href="#fnref:teams" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2023/01/17/back-seat-shuffle/" title="Previous Article" class="pagination-previous">&laquo; Side Project: Back Seat Shuffle</a>
+    
+</section>
+
+<section id="newsletter-section">
+	<div id="newsletter">
+		<p>Want to keep up to date? Sign up to <a href="https://www.thedododeveloper.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
+		<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="320" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
+	</div>
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

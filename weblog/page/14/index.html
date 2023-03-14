@@ -43,6 +43,29 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/05/20/itunes-artwork-finder-source-code/">iTunes Artwork Finder Source Code</a></h1>
+			
+			<time datetime="2015-05-20" pubdate=""><a href="/weblog/2015/05/20/itunes-artwork-finder-source-code/">May 20, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I had an email this morning from a developer who wanted to connect directly to my <a href="https://bendodson.com/code/itunes-artwork-finder/">iTunes Artwork Finder</a> in order to power their own artwork finding app. This seemed like a good time to point out that there is no need to do this<sup id="fnref:servers" role="doc-noteref"><a href="#fn:servers" class="footnote" rel="footnote">1</a></sup> as I have the source code freely available for everyone on <a href="https://github.com/bendodson/itunes-artwork-finder">GitHub</a>.</p>
+
+<p>If you’re a developer and you want to use my API for iTunes Artwork, please instead get the source code and host it on your own server. You can get the code from <a href="https://github.com/bendodson/itunes-artwork-finder">https://github.com/bendodson/itunes-artwork-finder</a></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:servers" role="doc-endnote">
+      <p>And I’d prefer that people didn’t for two reasons; it costs me money in bandwidth to hit the iTunes Search API on your behalf and it is more likely to result in my IP addresses being banned by Apple which would take the service down for everyone. <a href="#fnref:servers" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/05/19/monthyearpickerview-swift/">A Month-Year UIPickerView Written In Swift</a></h1>
 			
 			<time datetime="2015-05-19" pubdate=""><a href="/weblog/2015/05/19/monthyearpickerview-swift/">May 19, 2015</a></time>
@@ -378,63 +401,6 @@
 <p><a href="https://bendodson.s3.amazonaws.com/weblog/2015/high-res-album.jpg"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/high-res-album.jpg" alt="High Res Album Artwork from iTunes Artwork Finder" width="800" /></a></p>
 
 <p>You can try it out now by <a href="https://bendodson.com/code/itunes-artwork-finder/">searching for an album</a> and then clicking the <strong>High Resolution</strong> link.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/02/23/introducing-blind-bags/">Introducing "Blind Bags"</a></h1>
-			
-			<time datetime="2015-02-23" pubdate=""><a href="/weblog/2015/02/23/introducing-blind-bags/">February 23, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Ever since I was little, I’ve loved collecting. As far as I can remember, the first thing I collected seriously was <a href="http://en.wikipedia.org/wiki/Gogo's_Crazy_Bones">Gogo’s Crazy Bones</a> when I was at school in the 90s<sup id="fnref:although" role="doc-noteref"><a href="#fn:although" class="footnote" rel="footnote">1</a></sup>. They came in blind bags so the first couple of times you bought them you’d get all new stuff but then, as your collection got more complete, the chances of getting something you already owned increased. This mode of selling seems to have really caught on over the past few years and I find myself collecting a number of things that work this way, primarily <a href="https://infinity.disney.com/en-gb/power-discs">Disney Infinity Power Discs</a> and <a href="http://www.lego.com/en-gb/minifigures/">LEGO Minifigures</a>.</p>
-
-<p>Whilst trying to sort through my Disney Infinity collection last week, I did a quick search on the App Store and found only one app that hadn’t been updated for a while and was a bit basic. After having several weeks away from coding whilst being on jury duty, I thought it might be fun to get back into the swing of things over the weekend by building a basic prototype app to solve my collecting need but also pick up a few new skills along the way. Thus, “Blind Bags” was born:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-promo.jpg" width="800" /></p>
-
-<p>The app is fairly basic in that it lists all of the series of power discs available and then lets you tap through to see a list view showing which ones you own and which ones you don’t (as denoted by whether they are slightly-transparent or not). You can hold your finger down on a disc to change its state making for a quick way of logging new additions to the collection. If you tap on an item, you go through to a bigger detail view which gives you a bit of description text and allows you to enter a number of spares if applicable:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-detail.jpg" width="400" /></p>
-
-<p>The spares piece is particularly important as you can then build up a list of which items you have spares of and how many:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-spares.jpg" width="400" /></p>
-
-<p>Finally, everything is synced online which allows me to generate a basic page showing which discs I’m missing and which discs I have available to trade:</p>
-
-<p><a href="http://blindba.gs/users/bendodson"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-site.jpg" width="800" /></a></p>
-
-<p>The best bit of all of this is that the entire project took just 4 hours<sup id="fnref:timewasting" role="doc-noteref"><a href="#fn:timewasting" class="footnote" rel="footnote">2</a></sup> thanks to using <a href="https://parse.com">Parse</a>. I was able to get their SDK integrated quickly into a new app (using Swift 1.2) and begin prototyping within 20 minutes which is pretty cool as I’ve never used it before. From there, it was a simple case of building some basic UICollectionViews and some CRUD functionality. Parse also has a PHP SDK so within a few minutes I had <a href="http://blindba.gs/users/bendodson/">a basic page</a> which allowed me to output the data that the app was saving. Whilst there is no fallback for loss of connection, etc, at the moment (this is just a prototype after all) these are all things that could be added fairly easily.</p>
-
-<p>The final step was to get a domain name<sup id="fnref:obviously" role="doc-noteref"><a href="#fn:obviously" class="footnote" rel="footnote">3</a></sup> and purchase a <a href="http://themeforest.net/item/hype-app-landing-page/6671565">site template</a><sup id="fnref:template" role="doc-noteref"><a href="#fn:template" class="footnote" rel="footnote">4</a></sup> to build a basic landing page showing off a few screenshots of the app and giving anybody interested the chance to register their email address.</p>
-
-<p>At the moment the app is solely geared towards one thing for one user but it could easily be expanded outwards into a full service for other collectors to use. Using Parse and a cheap site template, I’ve been able to get a prototype app up and running and a decent landing page in just 4 hours. If there is enough interest, I think 2 days of work is all that is needed to migrate the database to a different hosting solution<sup id="fnref:parse" role="doc-noteref"><a href="#fn:parse" class="footnote" rel="footnote">5</a></sup> and release it as a full app most likely using a subscription model.</p>
-
-<p>If you’re interested, check out <a href="http://blindba.gs">the Blind Bags site</a> and add your email address to get notified as more details become available.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:although" role="doc-endnote">
-      <p>Although, now I think of it, I also collected <a href="http://en.wikipedia.org/wiki/Pogs">Pogs</a> and (believe it or not) Panini Football Stickers! <a href="#fnref:although" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:timewasting" role="doc-endnote">
-      <p>Of which at least 1 hour was choosing a font. <a href="#fnref:timewasting" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:obviously" role="doc-endnote">
-      <p>Obviously I had to go for one in a similar pattern to <a href="http://wallabeegame.com">wallabeegame.com</a> and <a href="http://pouchcreatur.es">pouchcreatur.es</a> and settled for <a href="http://blindba.gs">blindba.gs</a> <a href="#fnref:obviously" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:template" role="doc-endnote">
-      <p>Seriously, templates make this so much easier. I’ve not done any serious HTML work in years and I can’t be bothered getting things working on mobile let alone Internet Explorer. For just $13, I was able to get a fully responsive template full of animations along with the original PSDs so I could quickly integrate promo shots. The site was up and running in under an hour with the majority of that time being me writing copy and choosing the right screenshots. <a href="#fnref:template" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:parse" role="doc-endnote">
-      <p>I think Parse is great for prototyping but I wouldn’t use it for a live app - for one thing the relational database just isn’t powerful enough for the kind of queries I’d like to do. <a href="#fnref:parse" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>

@@ -43,6 +43,556 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2021/03/10/stoutness/">Side Project: Stoutness</a></h1>
+			
+			<time datetime="2021-03-10" pubdate=""><a href="/weblog/2021/03/10/stoutness/">March 10, 2021</a></time>
+    	</header>
+    	<div>
+			<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
+
+<p>Over the years I’ve been slowly tinkering with an idea I liked to call “The Morning Briefing”, a simple way to give me the information I want in the mornings such as the news, weather, and a list of my upcoming tasks. Originally this would have been read to me by Siri<sup id="fnref:whatsmyupdate" role="doc-noteref"><a href="#fn:whatsmyupdate" class="footnote" rel="footnote">1</a></sup> but in mid-2020 I decided instead it would be more fun to have it as a printed page; a personalised newspaper just for me<sup id="fnref:navigator" role="doc-noteref"><a href="#fn:navigator" class="footnote" rel="footnote">2</a></sup>. It would have consisted of weather icons for the next 7 days, a list of my tasks I could physically check off, and then maybe some personal data from Health such as Apple Watch rings, heart rate data, and sleep averages.</p>
+
+<p>I did make a start on this idea but then late last year my chiropractor told me that I desperately needed to improve my activity level. I also needed to perform the stretches I’d been assigned back in 2017 every day as I’d fallen out of the habit. The video I use for my stretches is by <a href="https://www.youtube.com/watch?v=RXxsVvc9mGc">Straighten Up UK</a> and whilst it’s very good there are several bits that can be fast forwarded through once you know the routine. It was also affecting my recommended videos on YouTube as I’d watch it every morning which meant YouTube kept assuming I wanted more and more stretch videos. Eventually I decided that I’d just download the video, remove the extraneous bits, and put it in a basic tvOS app. I then realised that my Morning Briefing idea might work better if it was paired along with the stretching video and thus <strong>Stoutness</strong> was born.</p>
+
+<div class="tangent">
+    <h4>Tangent: Name and App Icon</h4>
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-icon.gif" width="300" height="200" style="position: relative; float: right; padding: 0 0 10px 20px" />
+    <p>As any good developer knows, half the battle is what to name your side project. Originally this was "Morning Briefing" and then became "Hummingbird" after one of the sillier stretches which you'll see shortly. The final name was eventually hit on when my wife remarked (rather cruelly) that I looked like Winnie-the-Pooh doing his <a href="https://www.youtube.com/watch?v=Fz_MxmGP6Aw&amp;t=48s">stoutness exercise</a>.</p>
+    <p>One of my favourite things about working on tvOS is the way in which parallax is used to convey focus. Naturally I wanted to have a nice icon if I was going to use it every day and so I decided to take Pooh Bear and let him move around a little. The icon is made of three layers; Pooh on top, the room (with a hole where the mirror is) in the middle, and then the reflection at the back. The result is that both of the Pooh's move opposingly as the icon is highlighted. The whole thing was taken from a very low-res screenshot and then I made judicious use of the "content aware fill" tool in Photoshop to fill in the extra bits of image I'd need such as the space behind Pooh and extending the reflection cut out. You can <a href="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-icon-layers.zip">download a zip</a> of the three individual layers if you're curious to see exactly how it works.</p>
+</div>
+
+<p>As with all of my side projects, I generally like to use them as an excuse to learn some new code technique. In this case, I mainly focused on how to mix-and-match SwiftUI with UIKit (as that seems like it may prove useful in the coming years) but I also dabbled in some Combine and with using Swift Package Manager over CocoaPods for the limited number of dependencies I use. In the end, I also needed to dabble with AppleScript, Shortcuts, and writing a couple of iOS and macOS apps to help power everything…</p>
+
+<h3 id="weather">Weather</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-weather.jpg" width="800" height="450" />
+</div>
+
+<p>On opening the app the current date is shown along with a loading spinner whilst the five different data sources are called and cached; two of my own APIs, YouTube, Pocket, and OpenWeather. Only once they are all loaded does the “Get Started” button appear.</p>
+
+<p>The weather icons are displayed as soon as the OpenWeather API response is received and show the weather for the next 7 days along with the high and low temperatures. This entire row is powered by SwiftUI with each day rendered like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">DailyWeatherView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    
+    <span class="k">var</span> <span class="nv">weather</span><span class="p">:</span> <span class="kt">DailyWeather</span>
+    
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">VStack</span><span class="p">(</span><span class="nv">spacing</span><span class="p">:</span> <span class="mi">30</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="n">weather</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">subheadline</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">fontWeight</span><span class="p">(</span><span class="o">.</span><span class="n">bold</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+            
+            <span class="kt">VStack</span> <span class="p">{</span>
+                <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="n">weather</span><span class="o">.</span><span class="n">icon</span><span class="p">)</span>
+                    <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">80</span><span class="p">))</span>
+                <span class="kt">Spacer</span><span class="p">()</span>
+            <span class="p">}</span><span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">maxHeight</span><span class="p">:</span> <span class="mi">120</span><span class="p">)</span>
+            
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">weather</span><span class="o">.</span><span class="n">low</span><span class="se">)</span><span class="s">↓ </span><span class="se">\(</span><span class="n">weather</span><span class="o">.</span><span class="n">high</span><span class="se">)</span><span class="s">↑"</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">subheadline</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">fontWeight</span><span class="p">(</span><span class="o">.</span><span class="n">bold</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">opacity</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">220</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>I love how quick and easy it is to prototype something with SwiftUI and with the new Apple Silicon Macs it’s actually feasible to use the realtime preview in Xcode. The icons for each weather type are pulled from <a href="https://developer.apple.com/design/human-interface-guidelines/sf-symbols/">SF Symbols</a> and you may notice I had to lock the <code class="language-plaintext highlighter-rouge">VStack</code> they appear in to 120pt high with a <code class="language-plaintext highlighter-rouge">Spacer</code> underneath; this is because the icons are all different sizes and so <code class="language-plaintext highlighter-rouge">cloud</code> would be misaligned when placed next to <code class="language-plaintext highlighter-rouge">cloud.rain</code>.</p>
+
+<h3 id="newspapers">Newspapers</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-newspapers.jpg" width="800" height="450" />
+    <figure><strong>Stand Tall:</strong> To start with we're going to adopt the ideal posture. Try and retain this posture as often as you can. Stand straight and tall with your head high. Make sure your ears, shoulders, hips, knees, and ankles are in a straight line and pull your tummy button in.</figure>
+</div>
+
+<p>In my original idea for “Morning Briefing” I had wanted to get the news headlines along with an excerpt. This is relatively easy to do via something like BBC News with screenscraping but the recent pandemic meant that nearly all of the “top read” stories were pandemic related which I didn’t really care to read about. I have a subscription to The Times so thought about scraping that site somehow but there was no easy way to get the same content as the newspaper so it ended up being whatever was breaking right now which I also didn’t want<sup id="fnref:newsphilosophy" role="doc-noteref"><a href="#fn:newsphilosophy" class="footnote" rel="footnote">3</a></sup>. Perhaps I could hook into Apple News now that I’ve got a subscription with Apple One? Nope, Apple News has no APIs or SDK and one look at the network requests with Charles Proxy made me think I didn’t want to go down that rabbit hole. In the end, I opted for a much simpler solution of having a carousel of the front pages of today’s newspapers. This lets me see the main topics of the day without getting bogged down in article excerpts which are often a bit click-baity to get you to the actual article.</p>
+
+<p>I tried a few ways to get front pages (originally from the BBC and Sky News websites) but in the end I wrote a very simple PHP script to scrape <a href="https://tomorrowspapers.co.uk">tomorrowspapers.co.uk</a> every few hours:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="k">require_once</span><span class="p">(</span><span class="s1">'simplehtmldom/HtmlWeb.php'</span><span class="p">);</span>
+<span class="kn">use</span> <span class="nc">simplehtmldom\HtmlWeb</span><span class="p">;</span>
+<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HtmlWeb</span><span class="p">();</span>
+<span class="nv">$html</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="s1">'https://www.tomorrowspapers.co.uk'</span><span class="p">);</span>
+
+<span class="nv">$images</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$html</span><span class="o">-&gt;</span><span class="nf">find</span><span class="p">(</span><span class="s1">'img.size-full'</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$imgTag</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$imgTag</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">,</span> <span class="s1">'DESIGNFORM-Logo'</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nv">$images</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$imgTag</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">shuffle</span><span class="p">(</span><span class="nv">$images</span><span class="p">);</span>
+
+<span class="nv">$json</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$images</span><span class="p">);</span>
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'newspapers.txt'</span><span class="p">,</span> <span class="nv">$json</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$json</span><span class="p">;</span></code></pre></figure>
+
+<p>The front pages themselves are image views within a <code class="language-plaintext highlighter-rouge">UIPageViewController</code>. This has the nice side benefit that they are automatically placed into an endless carousel that can be swiped through with the Siri Remote. I randomise the pages each day so that I see each newspaper in a different order.</p>
+
+<div class="tangent">
+    <h4>Tangent: Page Layout</h4>
+    <p>There are 12 stretches in my chiropractic video which I've trimmed from the original downloaded video and saved as individual files. I then typed up the narration for each exercise and placed it in a <a href="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness.json">JSON file</a>.</p>
+    <p>The newspaper page and all the subsequent pages are all the same <code>UIViewController</code> which use the data in the JSON file to display the appropriate video, stretch name, and instructions. They then load a child view controller on the right hand side of the page; this was a <code>UIPageViewController</code> for the newspapers but is a <code>UIHostingController</code> with a SwiftUI view in it for all of the following stretches.</p>
+</div>
+
+<h3 id="tasks">Tasks</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-tasks.jpg" width="800" height="450" />
+    <figure><strong>Tilting Star:</strong> From the stand tall position, spread your arms and legs into a star. Facing forwards, place one hand in the air and the other at your side. Breathe in as you slowly stretch one arm overhead while slowly bending to the opposite side and sliding the hand down the thigh. Relax at the end of the stretch and don't forget to breathe. Perform slowly twice each side.</figure>
+</div>
+
+<p>I’ve been a long time user of <a href="https://culturedcode.com/things/">Things</a>, the task manager based on the <a href="https://gettingthingsdone.com">Getting Things Done methodology</a>. I have several repeating tasks in intervals along with ad hoc tasks I create throughout the day, all sorted into areas and projects prefixed with an emoji so they don’t look quite so dull. Unfortunately, there is no online component with Things<sup id="fnref:thingsapi" role="doc-noteref"><a href="#fn:thingsapi" class="footnote" rel="footnote">4</a></sup> and thus no public API as there is with something like <a href="https://developer.todoist.com/sync/v8/#overview">Todoist</a>. Whilst there is some support for <a href="https://culturedcode.com/things/support/articles/2955145/">Siri Shortcuts</a> they are for opening the app rather than extracting data out of it. However, the macOS app does have comprehensive support for AppleScript and so that offered me a way to get at the data:</p>
+
+<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">on</span> <span class="nv">zero_pad</span><span class="p">(</span><span class="nv">value</span><span class="p">,</span><span class="w"> </span><span class="nv">string_length</span><span class="p">)</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">string_zeroes</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">digits_to_pad</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">string_length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nv">length</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="p">(</span><span class="nv">value</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="p">))</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="nv">digits_to_pad</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w">
+        </span><span class="k">repeat</span><span class="w"> </span><span class="nv">digits_to_pad</span><span class="w"> </span><span class="k">times</span><span class="w">
+            </span><span class="k">set</span><span class="w"> </span><span class="nv">string_zeroes</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">string_zeroes</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s2">"0"</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w">
+        </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">padded_value</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">string_zeroes</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w">
+    </span><span class="nb">return</span><span class="w"> </span><span class="nv">padded_value</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="nv">zero_pad</span><span class="w">
+
+</span><span class="k">set</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">current date</span><span class="p">)</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">today</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">year</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nv">integer</span><span class="p">)</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">today</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">result</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s2">"-"</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">today</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">result</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nv">zero_pad</span><span class="p">(</span><span class="nb">month</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nv">integer</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">today</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">result</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s2">"-"</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nv">today</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">result</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nv">zero_pad</span><span class="p">(</span><span class="nb">day</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">now</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nv">integer</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"Things3"</span><span class="w">
+    
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">todayIdentifiers</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
+    </span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">task</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">dos</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="s2">"Today"</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">task</span><span class="w">
+        </span><span class="nb">copy</span><span class="w"> </span><span class="na">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">todayIdentifiers</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">taggedTasks</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
+    </span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">toDo</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">dos</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="s2">"Anytime"</span><span class="w">
+        </span><span class="k">if</span><span class="w"> </span><span class="na">tag</span><span class="w"> </span><span class="nv">names</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">toDo</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="s2">"One A Day"</span><span class="w"> </span><span class="k">then</span><span class="w">
+            </span><span class="k">set</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">toDo</span><span class="w">
+            </span><span class="k">if</span><span class="w"> </span><span class="nv">todayIdentifiers</span><span class="w"> </span><span class="ow">does not contain</span><span class="w"> </span><span class="na">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">then</span><span class="w">
+                </span><span class="nb">copy</span><span class="w"> </span><span class="nv">toDo</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">taggedTasks</span><span class="w">
+            </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">listSize</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">taggedTasks</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="nv">listSize</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">randomNumber</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">random number</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">listSize</span><span class="p">)</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">toDo</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">randomNumber</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">taggedTasks</span><span class="w">
+        </span><span class="nv">move</span><span class="w"> </span><span class="nv">toDo</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="s2">"Today"</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+    
+    
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">listOfProjects</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
+    </span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">proj</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">projects</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">proj</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">projectId</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">projectName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{</span><span class="nv">projectName</span><span class="p">:</span><span class="nv">projectName</span><span class="p">,</span><span class="w"> </span><span class="nv">projectId</span><span class="p">:</span><span class="nv">projectId</span><span class="p">}</span><span class="w">
+        </span><span class="nb">copy</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">listOfProjects</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+    
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">listOfTasks</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
+    
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">tasks</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">dos</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="s2">"Inbox"</span><span class="w">
+    </span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">task</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">tasks</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">task</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">projectName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Inbox"</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">taskName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{</span><span class="err">|</span><span class="na">name</span><span class="err">|</span><span class="p">:</span><span class="nv">taskName</span><span class="p">,</span><span class="w"> </span><span class="err">|</span><span class="nv">project</span><span class="err">|</span><span class="p">:</span><span class="nv">projectName</span><span class="p">}</span><span class="w">
+        </span><span class="nb">copy</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">listOfTasks</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+    
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">tasks</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">dos</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="s2">"Today"</span><span class="w">
+    </span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">task</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">tasks</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">task</span><span class="w">
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">projectName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">""</span><span class="w">
+        </span><span class="k">if</span><span class="w"> </span><span class="nb">exists</span><span class="w"> </span><span class="nv">project</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w"> </span><span class="k">then</span><span class="w">
+            </span><span class="k">set</span><span class="w"> </span><span class="nv">projectId</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">project</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w">
+            </span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">proj</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">listOfProjects</span><span class="w">
+                </span><span class="k">if</span><span class="w"> </span><span class="nv">projectId</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">proj</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="nv">projectId</span><span class="w"> </span><span class="k">then</span><span class="w">
+                    </span><span class="k">set</span><span class="w"> </span><span class="nv">projectName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">projectName</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">proj</span><span class="w">
+                </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+            </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+        </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+        
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">taskName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="na">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">props</span><span class="w">
+        
+        </span><span class="k">set</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{</span><span class="err">|</span><span class="na">name</span><span class="err">|</span><span class="p">:</span><span class="nv">taskName</span><span class="p">,</span><span class="w"> </span><span class="err">|</span><span class="nv">project</span><span class="err">|</span><span class="p">:</span><span class="nv">projectName</span><span class="p">}</span><span class="w">
+        
+        </span><span class="nb">copy</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">listOfTasks</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
+
+
+</span><span class="k">set</span><span class="w"> </span><span class="nv">exportPath</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"~/Dropbox/Apps/Morning Briefing/things.plist"</span><span class="w">
+</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">plistData</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{</span><span class="err">|</span><span class="nv">date</span><span class="err">|</span><span class="p">:</span><span class="nv">today</span><span class="p">,</span><span class="w"> </span><span class="nv">tasks</span><span class="p">:</span><span class="nv">listOfTasks</span><span class="p">}</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">rootDictionary</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">make</span><span class="w"> </span><span class="nb">new</span><span class="w"> </span><span class="k">property</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="p">{</span><span class="nv">kind</span><span class="p">:</span><span class="nv">record</span><span class="p">,</span><span class="w"> </span><span class="nv">value</span><span class="p">:</span><span class="nv">plistData</span><span class="p">}</span><span class="w">
+    </span><span class="k">set</span><span class="w"> </span><span class="nv">export</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">make</span><span class="w"> </span><span class="nb">new</span><span class="w"> </span><span class="k">property</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="nv">file</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="na">properties</span><span class="w"> </span><span class="p">{</span><span class="na">contents</span><span class="p">:</span><span class="nv">rootDictionary</span><span class="p">,</span><span class="w"> </span><span class="na">name</span><span class="p">:</span><span class="nv">exportPath</span><span class="p">}</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
+
+<p>There’s quite a lot there but essentially it boils down to going through my Today list and sorting each task by its project. These all then get added to a plist (as easier to deal with in AppleScript than JSON) as an array of dictionaries containing the task name and project name which is then saved to my Dropbox where a PHP script on my server can access it and return it through my own API.</p>
+
+<p>One habit I’ve gotten into over the years is to create a number of short tasks that need to be done at some point and then tagging them “One A Day” with the aim being to do one of them every day. In this way, small jobs around the house or minor tweaks to projects slowly get done over time rather than lingering around. To help with that, the script above will find all of my tasks tagged in such a way, pick one at random, and then move it to Today before the list is exported.</p>
+
+<p>On the app side, this plist is fetched and then parsed in order to make it more palatable to the app by grouping the tasks into their projects and fixing a few minor issues i.e. tasks in Things marked as “This Evening” still show up in the AppleScript as their project name so I rename their project to “🌘 This Evening” mimicking the waning crescent moon icon Things uses in its apps. I could likely do this within the AppleScript file but it’s just easier to do it in Swift!</p>
+
+<p>In an ideal world this script would run automatically first thing in the morning so everything is synced up when I open the Apple TV app. Unfortunately this isn’t possible for me at the moment as I’m exclusively using an Apple Silicon MacBook Pro and I don’t leave it running continuously as I used to with my Mac Pro. For now, I need to run the script manually each morning (which is as simple as double clicking an exported app from Script Editor) but this will change once the Apple Silicon desktop machines launch!</p>
+
+<h3 id="schedule">Schedule</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-schedule.jpg" width="800" height="450" />
+    <figure><strong>Twirling Star:</strong> In the star position with your tummy button drawn inward, gently turn your head to look at one hand. Slowly turn to watch your hand as it goes behind you, relaxing in this position. Breathe normally. Perform slowly twice each side.</figure>
+</div>
+
+<p>Another habit I’ve gotten into recently is scheduling my week in advance. I do this for my client work but also for things like what exercises I’m going to do or what meals I’m going to eat<sup id="fnref:schedulingfood" role="doc-noteref"><a href="#fn:schedulingfood" class="footnote" rel="footnote">5</a></sup>. Whilst I could have just typed it into a database to get it out of the API easily, it isn’t much fun manually entering data into an SQL client. Instead, I decided to use the calendar app on my mac and sync the data using Shortcuts on iOS. This is far easier as I can quickly type up my schedule on a Sunday and then sync it each day prior to starting the app.</p>
+
+<div class="tangent">
+    <h4>Tangent: Shortcuts</h4>
+    <p>Shortcuts née <a href="https://workflow.is">Workflow</a> is a powerful system app that allows you to join data from various apps together. I use it extensively for this app, mostly to get otherwise inaccessible data out of my iPhone and into my database so my API can send it to the app. For example:</p>
+    <ul>
+        <li><a href="https://www.icloud.com/shortcuts/091388091476450ab123fc223944e47d">Fetching my calendar entries for the day</a> and formatting them into a JSON array</li>
+        <li>Retrieving my exercise minutes and step count from a custom HealthKit app I wrote</li>
+        <li>Getting the amount of water I drank yesterday from Health</li>
+        <li>Fetching my sleep stats from the AutoSleep app</li>
+    </ul>
+    <p>All of this data can then be packaged up in JSON and posted to my server using the poorly named "Get contents of" network action.</p>
+    <p>The only downside is that I do have to trigger this manually as no app, not even Shortcuts, can access your Health database when your iPhone is locked so a shortcut set to run at a specific time won't work unless I'm using my phone. This hasn't proved too annoying though as I'm now in the habit of running the shortcut directly from a widget on my home screen before I launch the Apple TV app.</p>
+</div>
+
+<p>I divide the day up into five sections; Anytime (all-day tasks), Morning (before midday), Lunchtime (midday - 2pm), Afternoon (2pm - 5pm), and Evening (after 5pm). If there are items at a specific time then that time is displayed but mostly items will be from my Schedule calendar which is comprised of tasks tagged in a specific way. For example, for dinner I will create an all-day task named “[food:dinner] Penne Bolognese” and the app will know to use the correct prefix and colour. Once again, SwiftUI becomes a joy to use for short interfaces like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">ScheduleView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    
+    <span class="k">var</span> <span class="nv">schedule</span><span class="p">:</span> <span class="kt">MorningBriefingResponse</span><span class="o">.</span><span class="kt">Schedule</span>
+    
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+
+        <span class="kt">VStack</span><span class="p">()</span> <span class="p">{</span>
+        
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"Schedule"</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">)</span>
+                        
+            <span class="kt">VStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                
+                <span class="kt">ForEach</span><span class="p">(</span><span class="n">schedule</span><span class="o">.</span><span class="n">formatted</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">section</span> <span class="k">in</span>
+                    
+                    <span class="kt">VStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="kt">Text</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">heading</span><span class="p">)</span>
+                            <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">headline</span><span class="p">)</span>
+                        <span class="kt">Divider</span><span class="p">()</span>
+                            <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">primary</span><span class="p">)</span>
+                    <span class="p">}</span>
+                        <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                        <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">leading</span><span class="p">,</span> <span class="mi">210</span><span class="p">)</span>
+                    
+                    <span class="kt">ForEach</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">entries</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">entry</span> <span class="k">in</span>
+                        <span class="kt">HStack</span><span class="p">(</span><span class="nv">spacing</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="kt">Text</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="nf">uppercased</span><span class="p">())</span>
+                                <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">caption2</span><span class="p">)</span>
+                                <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
+                                <span class="o">.</span><span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">leading</span><span class="p">)</span>
+                                <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="kt">Color</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">color</span> <span class="p">??</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+                                <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">trailing</span><span class="p">)</span>
+                            
+                            <span class="kt">Text</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+                                <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+                                <span class="o">.</span><span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">leading</span><span class="p">)</span>
+                            <span class="kt">Spacer</span><span class="p">()</span>
+                        <span class="p">}</span><span class="o">.</span><span class="nf">opacity</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
+                    <span class="p">}</span>
+                    <span class="kt">Spacer</span><span class="p">()</span>
+                        <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">height</span><span class="p">:</span> <span class="mi">40</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="kt">Spacer</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The entire interface took less than 5 minutes to create and avoided the usual need to create either a reusable cell in a table view or a custom view to be added to a stack view dynamically.</p>
+
+<h3 id="sleep">Sleep</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-sleep.jpg" width="800" height="450" />
+    <figure><strong>Twisting Star:</strong> From the star position, raise your arms and put your hands up. Bring your left elbow across your body to your raised right knee. Repeat the movement using your right elbow and left knee. Remain upright as you continue to alternate sides for 15 seconds. Breathe freely and enjoy.</figure>
+</div>
+
+<p>Getting more sleep is usually the simplest way you can improve your life. If you’re getting less than 8 hours a day then sleeping more will improve your mood, cognition, memory, and help with weight loss and food cravings. I used to be terrible for sleep, typically getting 5 hours or less a day, but a concerted effort this year had me at an 8 hour average for most of January and February.</p>
+
+<p>I use the excellent <a href="https://apps.apple.com/gb/app/autosleep-track-sleep-on-watch/id1164801111">AutoSleep</a> app on Apple Watch to track my sleep. The counterpart iOS app can reply to a Siri Shortcut by pasting a dictionary of your sleep data to the clipboard making it trivial to export and use as part of a workflow (although it also saves to HealthKit so you could just export it from there as well depending on what stats you are after).</p>
+
+<p>The interface above is about to become fairly familiar as I use it for a number of metrics within the app. It comprises of 3 rings in an Apple Activity style giving me the sleep duration for last night, the nightly average over the last week, and the nightly average for the current year. Each ring is aiming to hit the 8 hour target and I write the duration as both time and percentage within each ring.</p>
+
+<div class="tangent">
+    <h4>Tangent: Rings</h4>
+    <p>The rings themselves are provided by <a href="https://github.com/maxkonovalov/MKRingProgressView">MKRingProgressView</a> which are Swift views for use within UIKit apps. To get them to work in SwiftUI was relatively straightforward requiring only that I write a small class conform to <code>UIViewRepresentable</code>:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">SwiftUI</span>
+<span class="kd">import</span> <span class="kt">MKRingProgressView</span>
+
+<span class="kd">struct</span> <span class="kt">ProgressRingView</span><span class="p">:</span> <span class="kt">UIViewRepresentable</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">progress</span><span class="p">:</span> <span class="kt">Double</span>
+    <span class="k">var</span> <span class="nv">ringWidth</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="k">var</span> <span class="nv">startColor</span><span class="p">:</span> <span class="kt">UIColor</span>
+    <span class="k">var</span> <span class="nv">endColor</span><span class="p">:</span> <span class="kt">UIColor</span>
+
+    <span class="kd">func</span> <span class="nf">makeUIView</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="kt">Context</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">RingProgressView</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">RingProgressView</span><span class="p">()</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">ringWidth</span> <span class="o">=</span> <span class="n">ringWidth</span>
+        <span class="k">return</span> <span class="n">view</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">updateUIView</span><span class="p">(</span><span class="n">_</span> <span class="nv">uiView</span><span class="p">:</span> <span class="kt">RingProgressView</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">Context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">uiView</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">progress</span>
+        <span class="n">uiView</span><span class="o">.</span><span class="n">startColor</span> <span class="o">=</span> <span class="n">startColor</span>
+        <span class="n">uiView</span><span class="o">.</span><span class="n">endColor</span> <span class="o">=</span> <span class="n">endColor</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+    <p>Each ring can then be created in SwiftUI as simply as:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">ProgressRingView</span><span class="p">(</span><span class="nv">progress</span><span class="p">:</span> <span class="n">progress</span><span class="p">,</span> <span class="nv">ringWidth</span><span class="p">:</span> <span class="n">size</span><span class="o">.</span><span class="n">ringWidth</span><span class="p">,</span> <span class="nv">startColor</span><span class="p">:</span> <span class="n">startColor</span><span class="p">,</span> <span class="nv">endColor</span><span class="p">:</span> <span class="n">endColor</span><span class="p">)</span></code></pre></figure>
+
+    <p>The only issue with this is that it's slow, especially on the Apple TV hardware which is several chip cycles behind modern iPhones. It may be the <code>MKRingProgressView</code> class itself is quite heavy going but I get the feeling translating it to work with SwiftUI and then pushing the whole SwiftUI view back to UIKit via <code>UIHostingController</code> might also be adding some lag. Overall it isn't a problem but it does mean that the view takes a half second to load.</p>
+</div>
+
+<h3 id="alcohol">Alcohol</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-alcohol.jpg" width="800" height="450" />
+    <figure><strong>Trap Openers:</strong> Breathe deeply, calmly, and relax your tummy. Let your head hang slightly forward and gently turn your head from one side to the other. Then, using your fingers, gently massage the area just below the back of your head. Move down to the base of your neck, then relax your shoulders and slowly roll them backwards and forwards. Repeat for 15 seconds.</figure>
+</div>
+
+<p>As part of a concerted effort to improve my health, the amount of alcohol I was drinking had to come down fairly significantly. I’ve tried many habit tracking apps in the past mostly in the form of maintaining a chain; the problem I have with them is that once the chain is broken I tend to go all out (i.e. if I’m going to get a black mark to say “drank alcohol” for having a glass of wine I may as well have a bottle of wine). To remedy that I take the idea of chaining but also pair it with the government guidelines for alcohol consumption which is 14 units a week for men.</p>
+
+<p>The data for this is manually input into my SQL database for now but I have other apps I’m working on that interact with those tables. For now, I add what I’ve drank and how many units along with a date and the API then returns the data you see above; how many units I drank yesterday, how many days since I last had something alcoholic (if yesterday was 0 units), the number of units I’ve drank in the last 7 days, and a weekly average for the past 3 months. This differs slightly from the other ring-based metrics in the app as rather than a daily average over 7 days I needed to fetch a cumulative sum to ensure I wasn’t going over 14 units in a 7 day period. The weekly average is also interesting as I needed to go through each Monday-Sunday period of the past 3 months and get a cumulative total before averaging that.</p>
+
+<p>This system has worked very well for me with the result being an average of 1 glass of wine and 1 beer a week which is down significantly from what was likely around 4 bottles of wine and several beers a week. I also had a dry spell of over 2 weeks which is likely the longest duration in around 10 years. I have a lot more thoughts around alcohol tracking and logging which I’ll come back to in a future side project.</p>
+
+<p>The one update I might make to this page is to show how much water I’m drinking a day. I track my water intake via <a href="https://apps.apple.com/gb/app/waterminder/id653031147">WaterMinder</a> and already sync the data to my server using the Shortcut I’ve mentioned previously. Originally I had a whole page for showing this data but I dropped it in favour of some more important metrics as I found my water levels were pretty consistent once I’d gotten into the habit of drinking more. It looks like it’s not something I need to keep an eye on quite so much but if I do bring it back I think it will be on this page.</p>
+
+<h3 id="steps">Steps</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-steps.jpg" width="800" height="450" />
+    <figure><strong>The Eagle:</strong> Take your arms out to the side and slowly raise them above your head breathing in and keeping your shoulder blades together. Touch your hands together above your head. Slowly lower your hands to your sides while breathing out. Perform 3 times. This will help the movement of air in and out of your lungs.</figure>
+</div>
+
+<p>Along with doing my morning stretches, my chiropractor was also very adamant that I needed to increase my physical exercise as my step count was a rather woeful average of 6000 steps per day in 2020<sup id="fnref:stepcount" role="doc-noteref"><a href="#fn:stepcount" class="footnote" rel="footnote">6</a></sup>. To that end I’ve started running again on my treadmill and going for multiple walks each day.</p>
+
+<p>Whilst the data above is rendered in much the same way as the sleep data, getting it is far tricker than you might think due to the complication of having an Apple Watch and an iPhone. If you use Shortcuts to fetch your data from Health, then it isn’t possible to deduplicate properly and so you’ll end up with a total number of steps from both your Apple Watch and iPhone which is bad if you ever walk around with both devices at the same time which I obviously do. You can limit the fetch to a single device but then you run into problems as you won’t be recording any steps whilst your watch is charging for instance. I don’t know how this error has been allowed to continue for so long in Shortcuts but the solution is rather simple for iOS apps: you use a <code class="language-plaintext highlighter-rouge">HKStatisticsQuery</code> along with the <code class="language-plaintext highlighter-rouge">.cumulativeSum</code> and <code class="language-plaintext highlighter-rouge">.separateBySource</code> options. Unfortunately this meant I needed to write an iOS app to fetch my steps data along with an Intent Extension to allow that to then be exported via Siri Shortcuts.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">StepsService</span><span class="p">:</span> <span class="kt">NSObject</span> <span class="p">{</span>
+    
+    <span class="k">let</span> <span class="nv">store</span> <span class="o">=</span> <span class="kt">HKHealthStore</span><span class="p">()</span>
+    
+    <span class="kd">func</span> <span class="nf">authorize</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">quantityType</span> <span class="o">=</span> <span class="kt">HKObjectType</span><span class="o">.</span><span class="nf">quantityType</span><span class="p">(</span><span class="nv">forIdentifier</span><span class="p">:</span> <span class="kt">HKQuantityTypeIdentifier</span><span class="o">.</span><span class="n">stepCount</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+
+        <span class="n">store</span><span class="o">.</span><span class="nf">requestAuthorization</span><span class="p">(</span><span class="nv">toShare</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">read</span><span class="p">:</span> <span class="p">[</span><span class="n">quantityType</span><span class="p">])</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Authorized"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="k">for</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="n">onCompletion</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">quantityType</span> <span class="o">=</span> <span class="kt">HKObjectType</span><span class="o">.</span><span class="nf">quantityType</span><span class="p">(</span><span class="nv">forIdentifier</span><span class="p">:</span> <span class="kt">HKQuantityTypeIdentifier</span><span class="o">.</span><span class="n">stepCount</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">fatalError</span><span class="p">(</span><span class="s">"StepCount quantity doesn't exist"</span><span class="p">)</span>
+        <span class="p">}</span>
+        
+        <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">startOfDay</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
+        
+        <span class="k">var</span> <span class="nv">dayComponent</span> <span class="o">=</span> <span class="kt">DateComponents</span><span class="p">()</span>
+        <span class="n">dayComponent</span><span class="o">.</span><span class="n">day</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">tomorrow</span> <span class="o">=</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">date</span><span class="p">(</span><span class="nv">byAdding</span><span class="p">:</span> <span class="n">dayComponent</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="kt">Date</span><span class="p">(</span><span class="nv">timeIntervalSince1970</span><span class="p">:</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">startOfDay</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">tomorrow</span><span class="p">)</span><span class="o">.</span><span class="n">timeIntervalSince1970</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">let</span> <span class="nv">predicate</span> <span class="o">=</span> <span class="kt">HKQuery</span><span class="o">.</span><span class="nf">predicateForSamples</span><span class="p">(</span><span class="nv">withStart</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span> <span class="nv">end</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">strictStartDate</span><span class="p">,</span> <span class="o">.</span><span class="n">strictEndDate</span><span class="p">])</span>
+        <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">HKStatisticsQuery</span><span class="p">(</span><span class="nv">quantityType</span><span class="p">:</span> <span class="n">quantityType</span><span class="p">,</span> <span class="nv">quantitySamplePredicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">cumulativeSum</span><span class="p">,</span> <span class="o">.</span><span class="n">separateBySource</span><span class="p">])</span> <span class="p">{</span> <span class="n">_</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">_</span> <span class="k">in</span>
+            <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">,</span> <span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="nf">sumQuantity</span><span class="p">()</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nf">completionHandler</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="k">return</span>
+                <span class="p">}</span>
+                
+                <span class="k">let</span> <span class="nv">count</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">sum</span><span class="o">.</span><span class="nf">doubleValue</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">count</span><span class="p">()))</span>
+                <span class="nf">completionHandler</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">store</span><span class="o">.</span><span class="nf">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">StepsIntentHandler</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">StepsIntentHandling</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">handle</span><span class="p">(</span><span class="nv">intent</span><span class="p">:</span> <span class="kt">StepsIntent</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">StepsIntentResponse</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">components</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">date</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">components</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="kt">StepsIntentResponse</span><span class="p">(</span><span class="nv">code</span><span class="p">:</span> <span class="o">.</span><span class="n">failure</span><span class="p">,</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+            <span class="nf">completion</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        
+        <span class="k">let</span> <span class="nv">stepsService</span> <span class="o">=</span> <span class="kt">StepsService</span><span class="p">()</span>
+        <span class="k">let</span> <span class="nv">exerciseService</span> <span class="o">=</span> <span class="kt">ExerciseService</span><span class="p">()</span>
+        <span class="n">stepsService</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">steps</span><span class="p">)</span> <span class="k">in</span>
+            <span class="n">exerciseService</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">minutes</span><span class="p">)</span> <span class="k">in</span>
+                <span class="k">let</span> <span class="nv">response</span> <span class="o">=</span> <span class="kt">StepsIntentResponse</span><span class="p">(</span><span class="nv">code</span><span class="p">:</span> <span class="o">.</span><span class="n">success</span><span class="p">,</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+                
+                <span class="k">var</span> <span class="nv">activity</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Int</span><span class="p">]()</span>
+                <span class="n">activity</span><span class="p">[</span><span class="s">"steps"</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+                <span class="n">activity</span><span class="p">[</span><span class="s">"exercise"</span><span class="p">]</span> <span class="o">=</span> <span class="n">minutes</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">JSONEncoder</span><span class="p">()</span><span class="o">.</span><span class="nf">encode</span><span class="p">(</span><span class="n">activity</span><span class="p">),</span> <span class="k">let</span> <span class="nv">output</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nf">completion</span><span class="p">(</span><span class="kt">StepsIntentResponse</span><span class="p">(</span><span class="nv">code</span><span class="p">:</span> <span class="o">.</span><span class="n">failure</span><span class="p">,</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span>
+                    <span class="k">return</span>
+                <span class="p">}</span>
+                
+                <span class="n">response</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>
+                <span class="nf">completion</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>After opening the app and authorising it for read access on my HealthKit store, it now sits hidden in the App Library and is woken each morning as my sync shortcut requests the data and sends it to my server. It’s a long winded solution but it works!</p>
+
+<h3 id="exercise">Exercise</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-exercise.jpg" width="800" height="450" />
+    <figure><strong>The Hummingbird:</strong> Put your arms to the side with your hands up. Pull your shoulders together. Next, make small backward circles with your hands and arms drawing your shoulder blades together. Sway gently from side to side in The Hummingbird. Keep it going while you count to 10.</figure>
+</div>
+
+<p>The exercise view is pretty much identical to the steps view previously only with different data input, colour, and a goal of 30 minutes. Originally I used the native Health actions within Shortcuts to extract the exercise minutes but then I ran into similar duplication issues if I wore my Apple Watch whilst doing a work out on my Peleton bike as that too would add an exercise. To make things simple I added exercise minutes to the same exporter app I mentioned above.</p>
+
+<h3 id="youtube">YouTube</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-youtube.jpg" width="800" height="450" />
+    <figure><strong>The Butterfly:</strong> Place your hands behind your head and gently draw your elbows backwards. Slowly and gently press your head backwards against your hands for a count of two. Release, again slowly and gently. Keeping your hands in this position, perform 3 times. This will make you more relaxed and improve your sense of wellbeing.</figure>
+</div>
+
+<p>Whilst I’m on my treadmill I’ll typically watch a variety of videos I’ve saved on YouTube. This screen shows me the number of videos left in my “To Watch” playlist along with the total runtime<sup id="fnref:youtuberuntime" role="doc-noteref"><a href="#fn:youtuberuntime" class="footnote" rel="footnote">7</a></sup>. I then show the details of five videos; the most recently added, the two oldest, and then two random ones from those that are left. In this way I get to know which videos have been sat a while and that I should really watch whilst also seeing something that is likely more exciting to me right now as I added it most recently. I’m not forced to watch these particular videos but I find I usually do choose them as it’s one less thing to think about when I get onto the treadmill.</p>
+
+<p>Fetching the videos is relatively easy using the YouTube API as a single request can give you all the video details for a single playlist. Unfortunately, and for reasons I don’t understand, YouTube doesn’t provide access to the default “Watch Later” playlist even with an authenticated request so I had to create a public playlist named “To Watch” and then remember to add all of my videos to that. It’s a bit of a pain as I nearly always want to just click the “Watch Later” button on YouTube but I’m slowly getting used to adding to the playlist instead.</p>
+
+<h3 id="pocket">Pocket</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-articles.jpg" width="800" height="450" />
+    <figure><strong>Tight Rope:</strong> In the stand tall position pull your tummy in. Take a step forward as if on a tightrope. Make sure your knee is over your ankle and not over your toes. Allow the heel of your back foot to lift. Balance in this position for 20 seconds. Don't worry if you wobble a bit, it's normal. Repeat on the opposite side.</figure>
+</div>
+
+<p>In a similar vein to the YouTube page, I do something very similar to show me the articles I currently have to read in Pocket<sup id="fnref:pocketrocket" role="doc-noteref"><a href="#fn:pocketrocket" class="footnote" rel="footnote">8</a></sup>. I connect directly to the Pocket API and return the number of articles remaining, the estimated reading time of them all, and then 5 articles as a mixture of newest, oldest, and random entries.</p>
+
+<h3 id="coding">Coding</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-projects.jpg" width="800" height="450" />
+    <figure><strong>The Rocker:</strong> Stand tall with your feet wider than shoulders. Gently rotate your upper body from side to side. Let your arms flop loosely as you shift your weight from knee to knee. Breathe calmly and deeply. Continue for 15 seconds.</figure>
+</div>
+
+<p>I mentioned previously that I like to have a couple of “One A Day” tasks so I can make slow and steady progress on items over time. This is also true of my own personal projects such as this app which will often remain nothing but ideas unless time is carved out to work on them. To help with that, I maintain a list of the projects I’m working on and then have the API pick one at random each day to show me; the idea then is that I will work on that app for at least 18 minutes<sup id="fnref:eighteenminutes" role="doc-noteref"><a href="#fn:eighteenminutes" class="footnote" rel="footnote">9</a></sup> during the day. It’s a system that has worked well for me and gets around the issue of the current favourite project getting all of my attention.</p>
+
+<div class="tangent">
+    <h4>Tangent: Choices Choices</h4>
+    <p>There is a theory that "<a href="https://www.behavioraleconomics.com/resources/mini-encyclopedia-of-be/choice-overload/">Overchoice</a>" or "Choice Overload" occurs when we are presented with too many options and that it causes us stress and slows down our process of choosing whilst also sapping our energy reserves. The original studies of this from the '70s have since been called into question but I personally find that oftentimes if I'm given the freedom to do anything I'll end up doing nothing as I can't choose between the numerous options available to me. This is true of what I should watch, read, play, and work on in my spare time. My solution, as briefly alluded to above with YouTube videos and Pocket articles, is to take a subsection and return them randomly so that I don't have to pick.</p>
+    <p>This is something I also use with my personal projects, books, and games; rather than have all the options available to me, I take the items that are currently active and then the app will return a single result each day. This avoids any decision making on my part as if I want to do some coding I already know what project it will be on or if I'm going to read I know which of my current books it will be. The only rules I set myself are that if I really want to do something else, I must meet the minimum requirement for the day on the original choice first (i.e. lets say I want to work on my Lord of the Rings LCG app but I've been assigned Pocket Rocket, then I work on Pocket Rocket for the 18 minutes to fulfill my daily goal and then I'm free to work on whatever I like).</p>
+    <p>The one thing I'm particularly mindful of with this approach is that I may need to tweak how random it actually is. With true randomness, I could get the same result every day for a week and generally I'll want to mix things up a bit. It's also the case that I don't necessarily have time for my hobbies every day so I might have 2 days reading the same book and then go 3 days without reading anything; when I get to the 6th day the same book is randomly returned and I've missed out on the other books on the previous days. The only way around this is likely to remove results if my database sees I've spent concurrent days on the same item. I've also started restricting these choices to just 3 active items at a time as otherwise there are a few too many for the randomness to work nicely.</p>
+</div>
+
+<p>For logging time on projects, I have written a small app named “Time Well Spent” which I’ll be covering in a future side projects article. This data is then stored in my database where my API returns it for rendering the three activity rings in a similar way to the steps or exercise rings covered earlier.</p>
+
+<h3 id="reading">Reading</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-reading.jpg" width="800" height="450" />
+    <figure><strong>The Triangle:</strong> Stand tall with your feet wider than your shoulders and your tummy in. Turn your foot outwards as you lean to that side. Feel the gentle stretch on the inside of your leg. Your knee should be above your ankle. Lean over so your elbow can rest on your bent knee as you stretch your arm over your upper body. Do this slowly so you have more control. Stretch for 10 seconds on each side.</figure>
+</div>
+
+<p>I’m a big believer in the power of <a href="https://nesslabs.com/inspiration-to-idea-sex">Idea Sex</a>, the notion that by juggling several different thoughts together you’ll trigger more creative thinking. One way to do this is to read multiple books at the same time rather than reading in a linear fashion. As you may be able to guess from the tangent box above, I do this with books by having the app tell me what book I’m going to read today from the pool of books I’m currently reading. Beneath that I render the familiar three activity rings based on data I’ve logged via my “Time Well Spent” app and a 30 minute daily goal. I might also add a tally of how many books I’ve completed this year at some point but for now this is working well.</p>
+
+<p>I listen to an audiobook on most of my evening walks and have recently begun tracking that data as well. It’s likely that I may try juggling multiple audiobooks and use a similar system to the above to pick one for me each day.</p>
+
+<h3 id="games">Games</h3>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2021/stoutness-games.jpg" width="800" height="450" />
+    <figure><strong>Shaking Loose:</strong> Now it's time to let go. Shake your limbs loosely for 15 seconds.</figure>
+</div>
+
+<p>The final screen was originally intended to be a bit of a sweetener to force me to do my stoutness routine every day; it tells me what video game I can play today. However, the amount of time I’m spending on video games has dropped fairly dramatically this year taken up by an increase in exercise and board games and (soon) a newborn baby. It’s no longer quite the pull it once was but I’ve managed to go through this routine every day so far this year so I’m not too concerned!</p>
+
+<p>I’ve long tracked my gaming hobby as I used to run a website where I’d output my currently logged time and write reviews. I have a dedicated app for this purpose which I’m currently migrating into “Time Well Spent” but I also have some automated scripts to fetch my play time from services such as Steam and Xbox Live. In addition, I have a number of game collections which I can query such as “Currently Playing” and “To Play”. Using these, it was very easy to render the above page showing which game I’m allowed to play today but also giving me a secondary choice should I complete that game<sup id="fnref:completegame" role="doc-noteref"><a href="#fn:completegame" class="footnote" rel="footnote">10</a></sup>.</p>
+
+<p>I don’t use the activity rings to render the average data as I don’t have a goal for how much time I want to play for whereas steps, exercise, projects, and reading are all things I want to do a certain minimum of (or maximum in the case of alcohol).</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>As of the time of writing, I’ve spent 24.4 hours working on the Stoutness app from its origins as a printed daily report to the Apple TV app it is now complete with its suite of data providers from AppleScript apps to Shortcut workflows. Since using it daily from the start of the year I’ve had huge improvements in nearly all of the metrics I track; I’m sleeping longer, drinking less, exercising more, and reading more. I’ve also noticed big improvements in my health with my daily stretching leading to more flexibility<sup id="fnref:flexing" role="doc-noteref"><a href="#fn:flexing" class="footnote" rel="footnote">11</a></sup> and less aches and my average resting heart rate falling from ~70bpm to ~50bpm. Finally, I’ve lost over 22lbs since using the app which is just over 10% of my starting weight; that isn’t all attributable to this app but it has definitely helped by encouraging me to keep working on the various rings that I see every morning.</p>
+
+<p>With a lot of side project apps I often think about how they can be adapted so others can make use of them but in this case what I have is a highly specialised app bespoke to me… and that’s OK! One of the great joys of being a developer is that you can take seemingly disparate data and merge it together into something just for you. Hopefully this article will inspire you to do likewise and learn some new coding skills whilst building something to help you in your own life.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:whatsmyupdate" role="doc-endnote">
+      <p>Originally I would have done this using text-to-voice within an app but obviously it’s far easier to do it with Siri Shortcuts nowadays such as this <a href="https://www.icloud.com/shortcuts/e9889b4b8f74461d933e838acae9bd58">Morning Routine</a> by <a href="https://www.macstories.net/shortcuts/">MacStories</a>. Also, with HomePod update 14.2 it is now possible to say “What’s my update” and get something similar. <a href="#fnref:whatsmyupdate" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:navigator" role="doc-endnote">
+      <p>I’d envisioned it being a little like the <a href="https://www.wdwinfo.com/wdwinfo/cruise-new/cr-stateroom-navigator.htm">Personal Navigator</a> that used to get printed on Disney Cruises showing you the schedule for the next day along with weather and other pertinent information. <a href="#fnref:navigator" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:newsphilosophy" role="doc-endnote">
+      <p>I despise rolling news and the culture of “information now” which is why I subscribe to a newspaper. I like to get a clear picture of the days news after the dust has settled rather than the incessant guessing at what is happening, about to happen, and the reaction of what just happened. Don’t get me started on “[public figure] is expected to say” with announcement previews. <a href="#fnref:newsphilosophy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:thingsapi" role="doc-endnote">
+      <p>Well that’s not strictly true. There is a private API as data is synced to Things Cloud but I don’t fancy reverse engineering that! <a href="#fnref:thingsapi" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:schedulingfood" role="doc-endnote">
+      <p>I used a meal planning app for a while but it was too much hassle to peck everything in on an iPad; now I just create an all-day event in a dedicated calendar. Why plan meals? Mostly because I’m terrible with letting food expire especially at the moment where recent food shortages at supermarkets have led to shorter shelf lives on several products. <a href="#fnref:schedulingfood" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:stepcount" role="doc-endnote">
+      <p>The real average was likely lower as there were 2 weeks in Walt Disney World where I was over 20k steps every day which would skew the averages. <a href="#fnref:stepcount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:youtuberuntime" role="doc-endnote">
+      <p>Rather than returning something normal like seconds, YouTube returns video durations in a format like PT24M49S which required an extra bit of working around. <a href="#fnref:youtuberuntime" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:pocketrocket" role="doc-endnote">
+      <p>Obligatory “<a href="https://apps.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1">go check out my Pocket app</a>” comment. <a href="#fnref:pocketrocket" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:eighteenminutes" role="doc-endnote">
+      <p>18 minutes is a bit specific you might very well think but there’s a (sort of) good reason. My database first started logging games and these were done in a decimal format of hours to one decimal place as that’s how they came from Steam thus all of my gaming time is broken down into 6 minute chunks. When I added other items to the tracking system I kept the same format and this persisted when I started tracking how much time I was spending on personal projects; whilst I’d probably prefer it to be a goal of 15 or 20 minutes a day, it’s 18 so it can be represented cleanly as 0.3 hours in the database. I could make the ring show 20 minutes but then it would always be not quite full or over full and that seems messy. <a href="#fnref:eighteenminutes" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:completegame" role="doc-endnote">
+      <p>This is something I’ve also thought about adding for books but it’s slightly different as I know how long it will take me to finish a book — you can see how many pages are left — but it isn’t always obvious how much you have left of a game hence the need for a backup if I sit down and finish the current one in short order. <a href="#fnref:completegame" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:flexing" role="doc-endnote">
+      <p>At the start of the year I used to struggle to touch my knees with my elbows for the “Twisting Star” exercise as I just couldn’t bend that well; now I can do it with no problems. Hooray for basic levels of fitness! <a href="#fnref:flexing" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">Exorbitantcy and the fight against the App Store</a></h1>
 			
 			<time datetime="2020-08-13" pubdate=""><a href="/weblog/2020/08/13/exorbitantcy-epic-vs-apple/">August 13, 2020</a></time>
@@ -1012,34 +1562,6 @@ TN &amp; 0 2017 Wizards of the Coast
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/05/12/reaction-cam-1-4/">Reaction Cam v1.4</a></h1>
-			
-			<time datetime="2019-05-12" pubdate=""><a href="/weblog/2019/05/12/reaction-cam-1-4/">May 12, 2019</a></time>
-    	</header>
-    	<div>
-			<p>Over the past few weeks I’ve been working on a big update for the Reaction Cam app I built for a client <a href="/weblog/2017/05/10/reaction-cam/">a few years ago</a>. The v1.4 update includes a premium upgrade which unlocks extra features such as pausing video whilst you are reacting, headphone sound balancing, resizing the picture-in-picture reaction, and a whole lot more.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/reaction-cam-updates.jpg" width="800" height="600" /></p>
-
-<p>The most interesting problem to solve was the ability to pause videos you are reacting to. Originally, when you reacted to a video the front-facing camera would record your reaction whilst the video played on your screen; it was then a fairly easy task of mixing the videos together (the one you were watching and your reaction) as they both started at the same time and would never be longer than the overall video length. With pausing, this changes for two reasons:</p>
-
-<ol>
-  <li>You need to keep track of every pause so you can stop the video and resume it at specific timepoints matched to your reaction recording</li>
-  <li>As cutting timed sections of a video and putting them into a <code class="language-plaintext highlighter-rouge">AVMutableComposition</code> leads to blank spaces where the video is paused, it was necessary to capture freeze frames at the point of pausing that could be displayed</li>
-</ol>
-
-<p>This was certainly a difficult task especially as the freeze frames needed to be pixel perfect with the paused video otherwise you’d get a weird jump. I was able to get it working whilst also building in a number of improvements and integrating in app purchases to make this the biggest update yet.</p>
-
-<p>I’m really pleased with the update and it looks like the large userbase is too with nearly 500 reviews rating it at 4 stars.</p>
-
-<p>If you haven’t checked it out, go and <a href="https://itunes.apple.com/us/app/reaction-cam/id1225289579?mt=8">download the free Reaction Cam app</a> from the App Store. You can remove the ads and unlock extra functionality such as the video reaction pausing by upgrading to the premium version for just £0.99/$0.99 - it’s a one-off charge, not a subscription.</p>
 
 		</div>
 	</article>
