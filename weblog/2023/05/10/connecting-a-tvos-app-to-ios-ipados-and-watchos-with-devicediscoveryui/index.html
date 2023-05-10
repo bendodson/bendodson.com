@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	
+	
+		<meta property="og:title" content="Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI">
+		<meta property="og:description" content="Using the DeviceDiscoveryUI framework to send data between Apple TV and an iPhone, iPad, or Apple Watch.">
+		<meta property="og:url" content="https://bendodson.com/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/">
+		
+		<meta name="twitter:title" content="Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI">
+		<meta name="twitter:description" content="Using the DeviceDiscoveryUI framework to send data between Apple TV and an iPhone, iPad, or Apple Watch.">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@bendodson">
+		<meta name="twitter:creator" content="@bendodson">
+
+		
+			<meta property="og:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DeviceDiscoveryUI-tvOS.jpg">
+			<meta name="twitter:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DeviceDiscoveryUI-tvOS.jpg">			
+		
+	
+
+	
+
+
+	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2023-01-18.css" />
+	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
+	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
+	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+	<title>Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI</title>
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<header>
+			<hgroup>
+				<h1><a href="/">Ben Dodson</a></h1>
+				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
+			</hgroup>
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+				</ul>
+				<div class="divider"></div>
+			</nav>
+		</header>
+
+		<section id="posts">
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/">Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI</a></h1>
+			
+			<time datetime="2023-05-10" pubdate=""><a href="/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/">May 10, 2023</a></time>
+    	</header>
+    	
+		
+    	<div>
+			<p>As we get to the final month before WWDC 2023, I’m reminded of all the new APIs that were released at WWDC 2022 that I haven’t made use of yet. One of those new APIs was the <a href="https://developer.apple.com/documentation/devicediscoveryui">DeviceDiscoveryUI framework</a> which allows an Apple TV app to connect and communicate with an iPhone, iPad, or Apple Watch.</p>
+
+<p>A good example of this would be how the Apple Watch communicates with the Apple Fitness app:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/Apple-Fitness-Plus-HIIT-workout-lifestyle-220907.jpg" width="800" height="450" />
+    <figure><a href="https://www.apple.com/uk/newsroom/2022/09/apple-fitness-plus-available-to-all-iphone-users-in-21-countries-later-this-fall/">Image &copy; 2022 Apple</a></figure>
+</div>
+
+<p>It’s not necessarily a fair comparison as whilst you might expect them to be the same, the DeviceDiscoveryUI framework has a number of restrictions:</p>
+
+<ul>
+  <li>It only works on tvOS (so you can’t communicate between an Apple Watch and an iPad like Apple Fitness can)</li>
+  <li>It only works on Apple TV 4K (Apple Fitness can work with Apple TV HD)</li>
+  <li>The tvOS app can only connect to one device at a time (i.e. you couldn’t make a game with this that used two iPhones as controllers)</li>
+  <li>The tvOS app can only connect to other versions of your app that share the same bundle identifier (and are thus sold with Universal Purchase)</li>
+  <li>This will not work on either the tvOS or iOS simulators. You must use physical devices.</li>
+</ul>
+
+<p>The UI for the connection setup is also different to Apple Fitness as we will see shortly.</p>
+
+<p>My use case for this technology is a bit convoluted as I was really looking for an excuse to use it rather than the best fit. I have a personal app named <em><a href="https://bendodson.com/weblog/2021/03/10/stoutness/">Stoutness</a></em> that I use on my Apple TV every morning to give me a briefing on my day whilst I do my chiropractic stretches. Using shortcuts and various apps on my iPhone, I send a ton of data to my server which the Apple TV app then fetches and uses. The app also communicates directly with some 3rd party APIs such as YouTube and Pocket.</p>
+
+<p>One of the main reasons for the app is to get me to work through my backlogs of games, books, videos, and articles by having the app randomly pick from my various lists and presenting them to me; I then know “out of the 4 books I’m currently reading, I should read <em>x</em> today”. The problem is that later in the day I often forget what the app had decided I should use, a particular problem when it suggests 5 articles for me to read from a backlog of about 200 😬. Whilst I cache this information daily in the Apple TV app, it’s a bit of a pain to fire it up just to skip through a few screens and remember what I should be reading. Surely this information would be better on my phone?</p>
+
+<p>The obvious way to do this would be for the server to make the calls to Pocket and YouTube and then store the daily cache in my database along with the random choices of games and books. An iOS app could then download that in the same way the tvOS app does. This is true, but it’s not as fun as learning a new framework and having my phone connect to the Apple TV to a) send all the data that my shortcuts used to do directly and b) have the cache be sent back in response ready to be used on iOS.</p>
+
+<p>After a brief look at the docs, I naively assumed this would be done in an hour as it looked vaguely similar to the way in which an iPhone app can talk to an embedded Apple Watch app or a Safari extension via two way messaging. After 4 hours, I finally got something working but it does not feel as solid as I would like…</p>
+
+<p>Apple provide a developer article titled “<a href="https://developer.apple.com/documentation/devicediscoveryui/connecting_a_tvos_app_to_other_devices_over_the_local_network?changes=late__6__8">Connecting a tvOS app to other devices over the local network</a>” that sounds like it should be exactly what we need. It details how we present the connection UI (in both SwiftUI and UIKit), how to listen for the connection on iOS / iPadOS / watchOS, and how to initiate the connection. However, there are two issues with this article.</p>
+
+<p>First of all, most of the code in it doesn’t actually compile or is being used incorrectly. The SwiftUI code references a “device name” variable which isn’t present<sup id="fnref:devicename" role="doc-noteref"><a href="#fn:devicename" class="footnote" rel="footnote">1</a></sup>, fails to include the required “fallback” view block (for displaying on unsupported devices like the Apple TV HD), and presents the device picker behind a connect button failing to notice that the picker itself has it’s own connect button which sits transparently above the one you just pressed.</p>
+
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DevicePicker-SwiftUI-Overlay.gif" width="800" height="450" /></p>
+
+<p>For the UIKit code, it references an <code class="language-plaintext highlighter-rouge">NWEndpointPickerViewController</code> which doesn’t exist. The correct name is <a href="https://developer.apple.com/documentation/devicediscoveryui/dddevicepickerviewcontroller"><code class="language-plaintext highlighter-rouge">DDDevicePickerViewController</code></a>.</p>
+
+<p>Once the actual picker is presented, things start to look very promising. You get a fullscreen view that shows your app icon with a privacy string that you define within Info.plist on the left hand side whilst any applicable devices are listed on the right hand side:</p>
+
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DeviceDiscoveryUI-tvOS.jpg" width="800" height="450" /></p>
+
+<p>An important thing to note here is that the devices do not necessarily have your app installed, they are merely devices <em>potentially capable</em> of running your app.</p>
+
+<p>When we initiate a connection to an iPhone, a notification is displayed. The wording can’t be controlled and will be different depending on whether the corresponding app is installed or not:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DevicePicker-Notifications-iOS.jpg" width="800" height="200" />
+    <figure>Connection notification request for iOS from tvOS both with and without the app installed. If the app is installed, the notification uses the Apple TV name for the title (“Office” in this case).</figure>
+</div>
+
+<p>You seem to have around 30 seconds to accept the connection otherwise the tvOS interface goes back a step and you need to send a new request. If you do not have the app installed, tapping the notification will take you to the App Store page.</p>
+
+<p>We now come to the second problem in Apple’s documentation:</p>
+
+<blockquote>
+  <p>As soon as the user selects a device, the system passes you an <code class="language-plaintext highlighter-rouge">NWEndpoint</code>. Use this endpoint to connect to the selected device. Create an <code class="language-plaintext highlighter-rouge">NWConnection</code>, passing it both the endpoint and the parameters that you used to create the device picker view. <strong>You can then use this connection to send or receive messages to the connected device.</strong></p>
+</blockquote>
+
+<p>The emphasis above is mine. This is the extent of the documentation on how to actually use the connection to send and receive messages. It turns out that the connection uses classes from the <a href="https://developer.apple.com/documentation/networkextension/hotspot_helper/in-provider_networking?changes=late__6__8">In-Provider Networking</a> that was introduced in iOS 9 specifically for network extensions. In fact, this is still the case according to the documentation:</p>
+
+<blockquote>
+  <p>These APIs have the following key characteristics:</p>
+
+  <ul>
+    <li>They aren’t general-purpose APIs; they can only be used in the context of a NetworkExtension provider or hotspot helper.</li>
+  </ul>
+</blockquote>
+
+<p>There is zero documentation on how to use these APIs in the context of Apple TV to iOS / iPadOS / WatchOS communication 🤦🏻‍♂.</p>
+
+<p>In terms of sending messages, there is only one method aptly named <code class="language-plaintext highlighter-rouge">send(content:contentContext:isComplete:completion:)</code>. This allows us to send any arbitrary Data such as a JSON-encoded string.</p>
+
+<p>The real problem is how to receive those messages. There is a method named <code class="language-plaintext highlighter-rouge">receiveMessage(completion:)</code> which, based on my work with watchOS and iOS extensions, sounds promising. Apple describes it as “<em>schedules a single receive completion handler for a complete message, as opposed to a range of bytes</em>”. Perfect!</p>
+
+<p>Except it isn’t called, at least not when a message is sent. In a somewhat frustrating act, the messages only appear once the connection is terminated either because the tvOS app stops or because I cancel the connection. I tried for multiple hours but could not get that endpoint to fire unless the entire connection was dropped (at which point any messages that were sent during that time would come through as one single piece of data). I can only assume the messages are being cached locally without being delivered yet when the connection drops it suddenly decides to unload them 🤷🏻‍♂.</p>
+
+<p>It turns out you need to use the more complex <code class="language-plaintext highlighter-rouge">receive(minimumIncompleteLength:maximumLength:completion:)</code> which requires you to say how big you want batches of data to be. You also need to resubscribe to this handler every time data appears on it. The problem here is that whilst there is a “completion” flag to tell you if the whole message has arrived this is never true when sending from tvOS, even if you use the corresponding flag on the send method. In the end, I limited the app to 1MB of data at a time as everything I send is well below that. I’ve never run into a problem with only partial data being sent but it is a potential risk to be aware of.</p>
+
+<p>If you were using this for critical data, I’d probably suggest only sending encoded text and providing your own delimiter to look for i.e. for each string that comes in batch them together until one ends in a “|||” at which point you will know that was the end of a message from tvOS.</p>
+
+<p>On the positive side, the connection setup and data sending are near instantaneous and the user facing UI works well. However, as there were already low-level network solutions to send data between devices (including non-Apple devices) it’s incredibly odd to me that Apple went to the effort of creating a beautiful device pairing API and UI for both SwiftUI and UIKit but didn’t extend that to the basics of sending data. Local networking is hard. I have no interest in diving into the minutia of handling UDP packets; I just want to send some basic strings between devices!</p>
+
+<p>In order to get this all working for my own app, I created a class named <a href="https://github.com/bendodson/LocalDeviceManager/blob/main/LocalDeviceManager.swift"><code class="language-plaintext highlighter-rouge">LocalDeviceManager</code></a> that handles this all for you along with a <a href="https://github.com/bendodson/LocalDeviceManager/">SwiftUI demo project</a> for both tvOS and iOS that demonstrates how it works. The call site on tvOS is very simple:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@ObservedObject</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">deviceManager</span> <span class="o">=</span> <span class="kt">LocalDeviceManager</span><span class="p">(</span><span class="nv">applicationService</span><span class="p">:</span> <span class="s">"remote"</span><span class="p">,</span> <span class="nv">didReceiveMessage</span><span class="p">:</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Message: </span><span class="se">\(</span><span class="n">string</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">},</span> <span class="nv">errorHandler</span><span class="p">:</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"ERROR: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="kd">@State</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">showDevicePicker</span> <span class="o">=</span> <span class="kc">false</span>
+
+<span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kt">VStack</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">deviceManager</span><span class="o">.</span><span class="n">isConnected</span> <span class="p">{</span>
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Send"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">deviceManager</span><span class="o">.</span><span class="nf">send</span><span class="p">(</span><span class="s">"Hello from tvOS!"</span><span class="p">)</span>
+            <span class="p">}</span>
+            
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Disconnect"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">deviceManager</span><span class="o">.</span><span class="nf">disconnect</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kt">DevicePicker</span><span class="p">(</span><span class="o">.</span><span class="nf">applicationService</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"remote"</span><span class="p">))</span> <span class="p">{</span> <span class="n">endpoint</span> <span class="k">in</span>
+                <span class="n">deviceManager</span><span class="o">.</span><span class="nf">connect</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">endpoint</span><span class="p">)</span>
+            <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Connect to a local device."</span><span class="p">)</span>
+            <span class="p">}</span> <span class="nv">fallback</span><span class="p">:</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Device browsing is not supported on this device"</span><span class="p">)</span>
+            <span class="p">}</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">{</span>
+                <span class="o">.</span><span class="n">applicationService</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+    
+<span class="p">}</span></code></pre></figure>
+
+<p>Similarly, it’s trivial to set up an iOS app to communicate with the tvOS app:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@ObservedObject</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">deviceManager</span> <span class="o">=</span> <span class="kt">LocalDeviceManager</span><span class="p">(</span><span class="nv">applicationService</span><span class="p">:</span> <span class="s">"remote"</span><span class="p">,</span> <span class="nv">didReceiveMessage</span><span class="p">:</span> <span class="p">{</span> <span class="n">data</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Message: </span><span class="se">\(</span><span class="n">string</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">},</span> <span class="nv">errorHandler</span><span class="p">:</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"ERROR: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kt">VStack</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">deviceManager</span><span class="o">.</span><span class="n">isConnected</span> <span class="p">{</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"Connected!"</span><span class="p">)</span>
+            <span class="kt">Button</span> <span class="p">{</span>
+                <span class="n">deviceManager</span><span class="o">.</span><span class="nf">send</span><span class="p">(</span><span class="s">"Hello from iOS!"</span><span class="p">)</span>
+            <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Send"</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="kt">Button</span> <span class="p">{</span>
+                <span class="n">deviceManager</span><span class="o">.</span><span class="nf">disconnect</span><span class="p">()</span>
+            <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Disconnect"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"Not Connected"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">onAppear</span> <span class="p">{</span>
+        <span class="k">try</span><span class="p">?</span> <span class="n">deviceManager</span><span class="o">.</span><span class="nf">createListener</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>There are more details on how this works on <a href="https://github.com/bendodson/LocalDeviceManager/">GitHub</a>.</p>
+
+<p>Judging by the complete lack of 3rd party apps using this feature or articles detailing how to use this API I’m going to go out on a limb and say it’s unlikely we’ll see any improvements to this system in tvOS 17. Regardless, I’ve filed a few bug reports in the hopes that the documentation can be tidied up a bit. Just be aware that this is not the robust solution I was hoping it would be!</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:devicename" role="doc-endnote">
+      <p>I have been unable to divine a way to get the name of the device you are connected to. <a href="#fnref:devicename" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+</section>
+
+<section id="pagination">
+	
+	 
+		<a href="/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/" title="Previous Article" class="pagination-previous">&laquo; Postmortem of the launch of a Top 10 Paid iOS App</a>
+    
+</section>
+
+<section id="newsletter-section">
+	<div id="newsletter">
+		<p>Want to keep up to date? Sign up to <a href="https://www.thedododeveloper.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
+		<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="320" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
+	</div>
+</section>
+		
+		<footer>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+		</footer>
+
+	</div>
+
+
+</body>
+</html>

@@ -43,6 +43,162 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2022/03/11/browser-note/">Browser Note and the process of building an iOS 15 Safari Extension</a></h1>
+			
+			<time datetime="2022-03-11" pubdate=""><a href="/weblog/2022/03/11/browser-note/">March 11, 2022</a></time>
+    	</header>
+    	<div>
+			<p>I order a Chinese takeaway most weeks and my regular order is half a crispy aromatic duck. This is a bit excessive and so I’ve been aiming to reduce this to a quarter. The problem is that it’s too easy to hit reorder at the end of a long day and whilst I could add a reminder in Things or an alert in my calendar these are very easy to ignore. My solution was to use the new support for browser extensions in iOS 15 to throw up a fullscreen prompt when I go to the takeaway website:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/quack.jpg" width="800" height="450" />
+    <figure>Problem solved.</figure>
+</div>
+
+<p>After using this solution for a week or two, I quickly found myself wanting to use it in on other sites such as BBC News and Twitter to prevent me from habitually visiting them. I developed the extension further so I could add notes directly within Safari and instantly saw my phone usage drop by several hours a week. It turns out that adding a short “are you sure” dialogue before visiting a website is a great way to break the habit<sup id="fnref:screentime" role="doc-noteref"><a href="#fn:screentime" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<p>Whilst I make a lot of apps for my own <a href="/sideprojects">personal use</a>, this seemed like something that could be beneficial for everybody, particularly as I could not find any apps that already do this. Therefore, I’m very happy to release my first self-published app in over 5 years: <a href="https://apps.apple.com/us/app/browser-note/id1613527249">Browser Note</a>.</p>
+
+<div class="gofigure">
+    <a href="https://apps.apple.com/us/app/browser-note/id1613527249">
+        <img src="https://bendodson.s3.amazonaws.com/dodo/browser-note.jpg" width="800" height="450" />
+    </a>
+</div>
+
+<p>Browser Note is an app that does one thing incredibly well; it adds fullscreen notes to webpages. It does this by making use of an iOS 15 Safari Extension that you can activate within Safari to add your note and later update or delete it. When a note is displayed on a page, a “View Website” button is available to let you continue into the site; when tapped, the note is snoozed for a period of time at which point it will appear again on any subsequent reloads (the snooze period is 15 minutes but you can change this within the app).</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/dodo/browser-note-ipad.jpg" width="800" height="450" />
+    <figure>All of your notes are visible within the app (shown left). You can add, update, and delete your notes by tapping the Browser Note icon within Safari (shown right).</figure>
+</div>
+
+<p>There is no App Store just for Safari Extensions so instead they have to come bundled within an app. From a development perspective, Safari Extensions are very similar to those made for Chrome and Firefox; Apple even provide <a href="https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari">a converter</a> to migrate any extensions you’ve built for other browsers. Xcode has a template for Safari Extension based-apps which I used to get started but after that you’re on your own; whilst there is <a href="https://developer.apple.com/documentation/safariservices/safari_app_extensions">documentation from Apple</a>, it’s predominantly for Safari Extensions on macOS which are very different. The most frustrating aspect is that the documentation does not say which platforms it supports and as many of the APIs are the same it was easy to spend a couple of hours wondering why something doesn’t work only to find it doesn’t apply to iOS<sup id="fnref:sfsafariextensionmanager" role="doc-noteref"><a href="#fn:sfsafariextensionmanager" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>My initial thought was to use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">Web Storage API</a> to store notes as then everything would be wrapped up in a tidy extension. However, there isn’t a way for the app to access that data so if I wanted to add syncing in future (i.e. between iPad and iPhone) then this was not going to be a viable solution. Most apps that have extensions just give you a tutorial on how to enable them but I wanted to go a bit further and add some functionality within there as well, so again I wanted the app to be able to access the notes that were created.</p>
+
+<p>In the end, I came up with a model whereby the app is in control of all of the notes data within a <a href="https://docs.mongodb.com/realm/sdk/swift/">local Realm database</a> situated in an App Group so both the app and extension can communicate with it. When you load a website, the extension wakes up the app which checks whether there is a note matching the current URL; if there is, it responds with the data and the extension removes all of the HTML from the page and replaces it with it’s own note UI. Similarly, when you invoke the popup sheet to add a note or edit one, the commands are sent through to the app to perform those actions on the database. Within the iOS simulator this is quite slow – it would take a few seconds after visiting a page before the note would appear – but on a device it’s practically instantaneous.</p>
+
+<p>In order to communicate between the extension and the app, there are a number of hoops to jump through. First of all we have the <code class="language-plaintext highlighter-rouge">content.js</code> file which is loaded on each page request:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">browser</span><span class="p">.</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="dl">"</span><span class="s2">request</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">check</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">url</span><span class="dl">"</span><span class="p">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">})).</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">switch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="dl">"</span><span class="s2">message</span><span class="dl">"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">response</span><span class="p">.</span><span class="nx">isSnoozed</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">createContentView</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">emoji</span><span class="p">,</span> <span class="nx">response</span><span class="p">.</span><span class="nx">displayText</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="dl">"</span><span class="s2">ignore</span><span class="dl">"</span><span class="p">:</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>This sends a message to the <code class="language-plaintext highlighter-rouge">background.js</code> file with the current url and also the request type (there is <em>check</em>, <em>add</em>, <em>update</em>, <em>delete</em>, and <em>snooze</em> - in this case we’re just checking to see if there is a note). If a response comes back with a type of <em>message</em> then we’ll make sure the note isn’t currently snoozed and then throw up the note UI. But how does the response get generated?</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">browser</span><span class="p">.</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">onMessage</span><span class="p">.</span><span class="nx">addListener</span><span class="p">((</span><span class="nx">request</span><span class="p">,</span> <span class="nx">sender</span><span class="p">,</span> <span class="nx">sendResponse</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">browser</span><span class="p">.</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">sendNativeMessage</span><span class="p">(</span><span class="dl">"</span><span class="s2">application.id</span><span class="dl">"</span><span class="p">,</span> <span class="nx">request</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">sendResponse</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>This is the <code class="language-plaintext highlighter-rouge">background.js</code> file in its entirety. Not much there 🤣. In order to communicate with the native app, we have to use a <code class="language-plaintext highlighter-rouge">sendNativeMessage</code> API but this cannot be used from <code class="language-plaintext highlighter-rouge">content.js</code>, it has to be invoked by <code class="language-plaintext highlighter-rouge">background.js</code>, hence this background file just acts as a middleman taking any messages from the content and sending them to the native app before shuttling back the response. One important item to note here is that you must <code class="language-plaintext highlighter-rouge">return true</code> when you are responding to a message from the content otherwise the connection is closed instantly (i.e. it will not wait for the native app to respond).</p>
+
+<p>Now that we’ve sent a message to the app, it’s time to look at the Swift code that is responding to these events. This is all handled by a <code class="language-plaintext highlighter-rouge">SafariWebExtensionHandler</code>:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">SafariServices</span>
+
+<span class="kd">class</span> <span class="kt">SafariWebExtensionHandler</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSExtensionRequestHandling</span> <span class="p">{</span>
+    
+    <span class="kd">func</span> <span class="nf">beginRequest</span><span class="p">(</span><span class="n">with</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">NSExtensionContext</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">inputItems</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSExtensionItem</span><span class="p">,</span> <span class="k">let</span> <span class="nv">userInfo</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">userInfo</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">arg</span> <span class="o">=</span> <span class="n">userInfo</span><span class="p">[</span><span class="kt">SFExtensionMessageKey</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">CVarArg</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="k">let</span> <span class="nv">message</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"%@"</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">),</span> <span class="k">let</span> <span class="nv">request</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">JSONDecoder</span><span class="p">()</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">ExtensionRequest</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">requestType</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">requestType</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        
+        <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+            <span class="k">var</span> <span class="nv">response</span><span class="p">:</span> <span class="kt">Any</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"ignore"</span><span class="p">]</span>
+            <span class="k">switch</span> <span class="n">requestType</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">check</span><span class="p">:</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+                <span class="k">let</span> <span class="nv">device</span> <span class="o">=</span> <span class="kt">UIDevice</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">userInterfaceIdiom</span> <span class="o">==</span> <span class="o">.</span><span class="n">pad</span> <span class="p">?</span> <span class="s">"ipad"</span> <span class="p">:</span> <span class="s">"iphone"</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">reminder</span> <span class="o">=</span> <span class="kt">DataStore</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"message"</span><span class="p">,</span> <span class="s">"id"</span><span class="p">:</span> <span class="n">reminder</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s">"displayText"</span><span class="p">:</span> <span class="n">reminder</span><span class="o">.</span><span class="n">displayText</span><span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"&lt;br&gt;"</span><span class="p">),</span> <span class="s">"emoji"</span><span class="p">:</span> <span class="n">reminder</span><span class="o">.</span><span class="n">emoji</span><span class="p">,</span> <span class="s">"text"</span><span class="p">:</span> <span class="n">reminder</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s">"isSnoozed"</span><span class="p">:</span> <span class="n">reminder</span><span class="o">.</span><span class="n">isSnoozed</span><span class="p">,</span> <span class="s">"device"</span><span class="p">:</span> <span class="n">device</span><span class="p">]</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"ignore"</span><span class="p">,</span> <span class="s">"host"</span><span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">host</span> <span class="p">??</span> <span class="s">""</span><span class="p">,</span> <span class="s">"device"</span><span class="p">:</span> <span class="n">device</span><span class="p">]</span>
+                <span class="p">}</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">add</span><span class="p">:</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="k">let</span> <span class="nv">text</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">text</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+                <span class="k">let</span> <span class="nv">blockHost</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">blockHost</span> <span class="p">??</span> <span class="kc">true</span>
+                <span class="k">let</span> <span class="nv">reminder</span> <span class="o">=</span> <span class="kt">Reminder</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">matchExactPath</span><span class="p">:</span> <span class="o">!</span><span class="n">blockHost</span><span class="p">)</span>
+                <span class="kt">DataStore</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">reminder</span><span class="p">)</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"reload"</span><span class="p">]</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">update</span><span class="p">:</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="k">let</span> <span class="nv">text</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">text</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+                <span class="kt">DataStore</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">updateText</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">)</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"reload"</span><span class="p">]</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">delete</span><span class="p">:</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">id</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+                <span class="kt">DataStore</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">delete</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"reload"</span><span class="p">]</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">snooze</span><span class="p">:</span>
+                <span class="k">guard</span> <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="k">let</span> <span class="nv">reminder</span> <span class="o">=</span> <span class="kt">DataStore</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+                <span class="n">reminder</span><span class="o">.</span><span class="nf">snooze</span><span class="p">()</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">[</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"reload"</span><span class="p">]</span>
+            <span class="p">}</span>
+            <span class="k">let</span> <span class="nv">responseItem</span> <span class="o">=</span> <span class="kt">NSExtensionItem</span><span class="p">()</span>
+            <span class="n">responseItem</span><span class="o">.</span><span class="n">userInfo</span> <span class="o">=</span> <span class="p">[</span><span class="kt">SFExtensionMessageKey</span><span class="p">:</span> <span class="n">response</span><span class="p">]</span>
+            <span class="n">context</span><span class="o">.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[</span><span class="n">responseItem</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></figure>
+
+<p>The data comes through as a string within the user info dictionary of an <code class="language-plaintext highlighter-rouge">NSExtensionItem</code>. I send JSON from the extension via this mechanism as then I can use the <code class="language-plaintext highlighter-rouge">Codable</code> protocol in Swift to unpack it into a native struct. I then look at the request type and perform what actions are needed on the database before responding with a dictionary of my own; if there is a note then that data is sent back, otherwise the response will tell the extension to either do nothing or reload the page. In the end, we have an extension that can talk with the native app and store all the data in the Swift world allowing me to display the notes and allow them to be deleted from within the app:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/browser-note-edit.jpg" width="800" height="450" />
+    <figure>Notes are stored within the app so can be deleted natively. I could also add the option to add and edit notes within the native app but I cut that functionality from the initial release so I could get it shipped.</figure>
+</div>
+
+<p>As I mentioned, I would like to add note syncing in a future version that would allow the iPhone and iPad apps to remain in sync. I’m also intrigued as to whether a Catalyst version of the app would get this working on macOS but after over 30 hours of development I decided it was best to get an initial version launched before adding additional features.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This project started as a simple alert for a single webpage but has quickly become a labor of love for me as the benefits of a pause in web browsing became apparent. I’ve spent far too much time tweaking aspects of the app and haven’t bought up a number of tiny details I’m very proud of:</p>
+
+<ul>
+  <li>I used SwiftUI via a UIHostingController to create the <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/browser-note-tutorial.jpg">tutorial panels</a> shown on app launch. These were able to be reused really easily within the settings page.</li>
+  <li>There are videos to show how to install the extension and use the app. I used data within an Asset Catalogue for the first time so I could have a different video depending on whether the app is installed on iPhone or iPad (and due to App Thinning it means the app doesn’t even include the other device video thus reducing download and install size).</li>
+  <li>I’m really pleased with the <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/browser-note-icon.png">app icon</a> I designed and am slightly surprised it got through App Review; it’s the Safari logo in green but using a pen for the compass arrow.</li>
+  <li>Speaking of App Review, I’m amazed <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/browser-note-mac-studio.png">this screenshot</a> was allowed 🤣</li>
+  <li>The app resizes beautifully on iPad and all of it’s various multitasking window sizes. This also goes for the HTML within the extension which is in a modal popup on compact sizes but a floating panel on regular sizes.</li>
+  <li>Dark mode is fully supported so your note will reflect the system theme.</li>
+</ul>
+
+<p>I’d love it if you would give <a href="https://apps.apple.com/us/app/browser-note/id1613527249">Browser Note</a> a try. It’s available on all devices running iOS 15 and above and is available worldwide<sup id="fnref:worldwide" role="doc-noteref"><a href="#fn:worldwide" class="footnote" rel="footnote">3</a></sup> now.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:screentime" role="doc-endnote">
+      <p>I have attempted to do this in the past using Screen Time but it’s a blunt instrument. It can only apply to an entire domain and you can’t personalise the text that appears so it’s only really useful as a block; you don’t get the positive reinforcement from a message you’ve written. <a href="#fnref:screentime" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:sfsafariextensionmanager" role="doc-endnote">
+      <p>I’m looking at you <a href="https://developer.apple.com/documentation/safariservices/sfsafariextensionmanager">SFSafariExtensionManager</a>; there is no way for your app to know if the extension is installed correctly on iOS. <a href="#fnref:sfsafariextensionmanager" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:worldwide" role="doc-endnote">
+      <p>Well, almost worldwide. <strike>🇷🇺🇧🇾</strike> <a href="#fnref:worldwide" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2021/03/10/stoutness/">Side Project: Stoutness</a></h1>
 			
 			<time datetime="2021-03-10" pubdate=""><a href="/weblog/2021/03/10/stoutness/">March 10, 2021</a></time>
@@ -1507,58 +1663,6 @@ TN &amp; 0 2017 Wizards of the Coast
     </li>
     <li id="fn:scryfall" role="doc-endnote">
       <p>In reality I only need the set number and set code; these can then be used with an API call to <a href="https://scryfall.com/">Scryfall</a> to fetch all of the other possible information about this card including game rulings and monetary value. <a href="#fnref:scryfall" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/06/06/uktvplay-for-tvos/">UKTV Play for Apple TV</a></h1>
-			
-			<time datetime="2019-06-06" pubdate=""><a href="/weblog/2019/06/06/uktvplay-for-tvos/">June 06, 2019</a></time>
-    	</header>
-    	<div>
-			<p>In January 2019 I started working with a large brand on an exciting new project; bringing UKTV to the Apple TV.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/uktv-app.jpg" width="800" height="400" /></p>
-
-<p>UKTV is a large media company that is most well known for the Dave channel along with Really, Yesterday, Drama, and Home. Whilst they have had apps on iOS, the web, and other TV set top boxes for some time, they were missing a presence on the Apple TV and contracted me as the sole developer to create their  tvOS app.</p>
-
-<p>Whilst several apps of this nature have been built with TVML templates, I built the app natively in Swift 5 in order that I could match the provided designs as close as possible and have full control over the trackpad on the Siri Remote. This necessitated building a custom navigation bar<sup id="fnref:navbarfocus" role="doc-noteref"><a href="#fn:navbarfocus" class="footnote" rel="footnote">1</a></sup> and several complex focus guides to ensure that logical items are selected as the user scrolls around<sup id="fnref:tvosfocus" role="doc-noteref"><a href="#fn:tvosfocus" class="footnote" rel="footnote">2</a></sup>. There are also custom components to ensure text can be scrolled perfectly within the settings pages, a code-based login system for easy user authentication, and realtime background blurring of the highlighted series as you scroll around the app.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/uktv-categories.jpg" width="800" height="400" /></p>
-
-<p>Aside from the design, there were also complex integrations required in order to get video playback up and running due to the requirements for traditional TV style adverts and the use of FairPlay DRM on all videos as well as a wide-ranging and technical analytics setup. A comprehensive API was provided for fetching data but several calls are required to render each page due to the rich personalisation of recommended shows; this meant I needed to build a robust caching layer and also an intricate network library to ensure that items were loaded in such a way that duplicate recommendations could be cleanly removed. I also added all of the quality of life touches you expect for an Apple TV app such as Top Shelf integration to display personalised content recommendations on the home screen.</p>
-
-<p>The most exciting aspect for me though was the ability to work on the holy grail of app development; an invitation-only Apple technology. I had always been intrigued as to how some apps (such as BBC iPlayer or ITV Hub) were able to integrate into the TV app and it turns out it is done on an invitation basis much like the first wave of CarPlay compatible apps<sup id="fnref:carplay" role="doc-noteref"><a href="#fn:carplay" class="footnote" rel="footnote">3</a></sup>. I’m not permitted to go into the details of how it works, but I can say that a lot of effort was required from UKTV to provide their content in a way that could be used by Apple and that the integration I build had to be tested rigorously by Apple prior to submission to the App Store. One of the best moments in the project was when our contact at Apple said “please share my congrats to your tvOS developer; I don’t remember the last time a dev completed TV App integration in just 2 passes”.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/uktv-taskmaster.jpg" width="800" height="449" alt="UKTV on the TV app" /></p>
-
-<p>All of this hard work seems to have paid off as the app has reached #1 in the App Store in just over 12 hours<sup id="fnref:numberone" role="doc-noteref"><a href="#fn:numberone" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<p>I’ve really enjoyed working on this project and I’m looking forward to working with UKTV again in the future. You can download <a href="https://itunes.apple.com/gb/app/uktv-play-tv-on-demand/id596009592#?platform=appleTV">UKTV Play for Apple TV via the App Store</a> and read the <a href="https://corporate.uktv.co.uk/news/article/uktv-play-arrives-apple-tv/">official launch press release</a>.</p>
-
-<p><em><del>Please note: I did not work on the iOS version of UKTV Play. Whilst iTunes links both apps together, they are entirely separate codebases built by different teams. I was the sole developer on the tvOS version for Apple TV.</del></em></p>
-
-<p><em>I was later asked to rebuild the iPhone and iPad apps as the sole iOS developer and the new modern version of these apps launched in September 2021. I maintain both the iOS and tvOS apps which have both received regular updates throughout 2022.</em></p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:navbarfocus" role="doc-endnote">
-      <p>Replete with a gentle glimmer as each option is focussed on. <a href="#fnref:navbarfocus" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:tvosfocus" role="doc-endnote">
-      <p>For example, the default behaviour you get with tvOS is that it will focus on the next item in the direction you are scrolling. If you scroll up and there is nothing above (as maybe the row above has less content) then it may skip a row, or worse, not scroll at all. This means there is a need for invisible guidelines throughout the app which refocus the remote to the destination that is needed. It seems a small thing, but it is the area in which tvOS most differs from other Apple platforms and is a particular pain point for iOS developers not familiar with the remote interaction of the Apple TV platform. <a href="#fnref:tvosfocus" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:carplay" role="doc-endnote">
-      <p>CarPlay is now open to all developers building a specific subsection of apps as of iOS 13. <a href="#fnref:carplay" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:numberone" role="doc-endnote">
-      <p>Which I believe makes it my fourth app to reach #1. <a href="#fnref:numberone" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

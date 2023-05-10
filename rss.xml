@@ -6,9 +6,181 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, freelance developer on all Apple platforms</description>
     <language>en-gb</language>
-    <pubDate>Fri, 17 Mar 2023 15:09:07 +0000</pubDate>
-    <lastBuildDate>Fri, 17 Mar 2023 15:09:07 +0000</lastBuildDate>
+    <pubDate>Wed, 10 May 2023 14:04:40 +0100</pubDate>
+    <lastBuildDate>Wed, 10 May 2023 14:04:40 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI</title>
+      <link>https://bendodson.com/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/</link>
+      <pubDate>Wed, 10 May 2023 14:00:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/</guid>
+      <description>&lt;p&gt;As we get to the final month before WWDC 2023, I’m reminded of all the new APIs that were released at WWDC 2022 that I haven’t made use of yet. One of those new APIs was the &lt;a href=&quot;https://developer.apple.com/documentation/devicediscoveryui&quot;&gt;DeviceDiscoveryUI framework&lt;/a&gt; which allows an Apple TV app to connect and communicate with an iPhone, iPad, or Apple Watch.&lt;/p&gt;
+
+&lt;p&gt;A good example of this would be how the Apple Watch communicates with the Apple Fitness app:&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/Apple-Fitness-Plus-HIIT-workout-lifestyle-220907.jpg&quot; width=&quot;800&quot; height=&quot;450&quot; /&gt;
+    &lt;figure&gt;&lt;a href=&quot;https://www.apple.com/uk/newsroom/2022/09/apple-fitness-plus-available-to-all-iphone-users-in-21-countries-later-this-fall/&quot;&gt;Image &amp;copy; 2022 Apple&lt;/a&gt;&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It’s not necessarily a fair comparison as whilst you might expect them to be the same, the DeviceDiscoveryUI framework has a number of restrictions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It only works on tvOS (so you can’t communicate between an Apple Watch and an iPad like Apple Fitness can)&lt;/li&gt;
+  &lt;li&gt;It only works on Apple TV 4K (Apple Fitness can work with Apple TV HD)&lt;/li&gt;
+  &lt;li&gt;The tvOS app can only connect to one device at a time (i.e. you couldn’t make a game with this that used two iPhones as controllers)&lt;/li&gt;
+  &lt;li&gt;The tvOS app can only connect to other versions of your app that share the same bundle identifier (and are thus sold with Universal Purchase)&lt;/li&gt;
+  &lt;li&gt;This will not work on either the tvOS or iOS simulators. You must use physical devices.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The UI for the connection setup is also different to Apple Fitness as we will see shortly.&lt;/p&gt;
+
+&lt;p&gt;My use case for this technology is a bit convoluted as I was really looking for an excuse to use it rather than the best fit. I have a personal app named &lt;em&gt;&lt;a href=&quot;https://bendodson.com/weblog/2021/03/10/stoutness/&quot;&gt;Stoutness&lt;/a&gt;&lt;/em&gt; that I use on my Apple TV every morning to give me a briefing on my day whilst I do my chiropractic stretches. Using shortcuts and various apps on my iPhone, I send a ton of data to my server which the Apple TV app then fetches and uses. The app also communicates directly with some 3rd party APIs such as YouTube and Pocket.&lt;/p&gt;
+
+&lt;p&gt;One of the main reasons for the app is to get me to work through my backlogs of games, books, videos, and articles by having the app randomly pick from my various lists and presenting them to me; I then know “out of the 4 books I’m currently reading, I should read &lt;em&gt;x&lt;/em&gt; today”. The problem is that later in the day I often forget what the app had decided I should use, a particular problem when it suggests 5 articles for me to read from a backlog of about 200 😬. Whilst I cache this information daily in the Apple TV app, it’s a bit of a pain to fire it up just to skip through a few screens and remember what I should be reading. Surely this information would be better on my phone?&lt;/p&gt;
+
+&lt;p&gt;The obvious way to do this would be for the server to make the calls to Pocket and YouTube and then store the daily cache in my database along with the random choices of games and books. An iOS app could then download that in the same way the tvOS app does. This is true, but it’s not as fun as learning a new framework and having my phone connect to the Apple TV to a) send all the data that my shortcuts used to do directly and b) have the cache be sent back in response ready to be used on iOS.&lt;/p&gt;
+
+&lt;p&gt;After a brief look at the docs, I naively assumed this would be done in an hour as it looked vaguely similar to the way in which an iPhone app can talk to an embedded Apple Watch app or a Safari extension via two way messaging. After 4 hours, I finally got something working but it does not feel as solid as I would like…&lt;/p&gt;
+
+&lt;p&gt;Apple provide a developer article titled “&lt;a href=&quot;https://developer.apple.com/documentation/devicediscoveryui/connecting_a_tvos_app_to_other_devices_over_the_local_network?changes=late__6__8&quot;&gt;Connecting a tvOS app to other devices over the local network&lt;/a&gt;” that sounds like it should be exactly what we need. It details how we present the connection UI (in both SwiftUI and UIKit), how to listen for the connection on iOS / iPadOS / watchOS, and how to initiate the connection. However, there are two issues with this article.&lt;/p&gt;
+
+&lt;p&gt;First of all, most of the code in it doesn’t actually compile or is being used incorrectly. The SwiftUI code references a “device name” variable which isn’t present&lt;sup id=&quot;fnref:devicename&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:devicename&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, fails to include the required “fallback” view block (for displaying on unsupported devices like the Apple TV HD), and presents the device picker behind a connect button failing to notice that the picker itself has it’s own connect button which sits transparently above the one you just pressed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DevicePicker-SwiftUI-Overlay.gif&quot; width=&quot;800&quot; height=&quot;450&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For the UIKit code, it references an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NWEndpointPickerViewController&lt;/code&gt; which doesn’t exist. The correct name is &lt;a href=&quot;https://developer.apple.com/documentation/devicediscoveryui/dddevicepickerviewcontroller&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DDDevicePickerViewController&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once the actual picker is presented, things start to look very promising. You get a fullscreen view that shows your app icon with a privacy string that you define within Info.plist on the left hand side whilst any applicable devices are listed on the right hand side:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DeviceDiscoveryUI-tvOS.jpg&quot; width=&quot;800&quot; height=&quot;450&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;An important thing to note here is that the devices do not necessarily have your app installed, they are merely devices &lt;em&gt;potentially capable&lt;/em&gt; of running your app.&lt;/p&gt;
+
+&lt;p&gt;When we initiate a connection to an iPhone, a notification is displayed. The wording can’t be controlled and will be different depending on whether the corresponding app is installed or not:&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/DevicePicker-Notifications-iOS.jpg&quot; width=&quot;800&quot; height=&quot;200&quot; /&gt;
+    &lt;figure&gt;Connection notification request for iOS from tvOS both with and without the app installed. If the app is installed, the notification uses the Apple TV name for the title (“Office” in this case).&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You seem to have around 30 seconds to accept the connection otherwise the tvOS interface goes back a step and you need to send a new request. If you do not have the app installed, tapping the notification will take you to the App Store page.&lt;/p&gt;
+
+&lt;p&gt;We now come to the second problem in Apple’s documentation:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;As soon as the user selects a device, the system passes you an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NWEndpoint&lt;/code&gt;. Use this endpoint to connect to the selected device. Create an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NWConnection&lt;/code&gt;, passing it both the endpoint and the parameters that you used to create the device picker view. &lt;strong&gt;You can then use this connection to send or receive messages to the connected device.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The emphasis above is mine. This is the extent of the documentation on how to actually use the connection to send and receive messages. It turns out that the connection uses classes from the &lt;a href=&quot;https://developer.apple.com/documentation/networkextension/hotspot_helper/in-provider_networking?changes=late__6__8&quot;&gt;In-Provider Networking&lt;/a&gt; that was introduced in iOS 9 specifically for network extensions. In fact, this is still the case according to the documentation:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;These APIs have the following key characteristics:&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;They aren’t general-purpose APIs; they can only be used in the context of a NetworkExtension provider or hotspot helper.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There is zero documentation on how to use these APIs in the context of Apple TV to iOS / iPadOS / WatchOS communication 🤦🏻‍♂.&lt;/p&gt;
+
+&lt;p&gt;In terms of sending messages, there is only one method aptly named &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;send(content:contentContext:isComplete:completion:)&lt;/code&gt;. This allows us to send any arbitrary Data such as a JSON-encoded string.&lt;/p&gt;
+
+&lt;p&gt;The real problem is how to receive those messages. There is a method named &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;receiveMessage(completion:)&lt;/code&gt; which, based on my work with watchOS and iOS extensions, sounds promising. Apple describes it as “&lt;em&gt;schedules a single receive completion handler for a complete message, as opposed to a range of bytes&lt;/em&gt;”. Perfect!&lt;/p&gt;
+
+&lt;p&gt;Except it isn’t called, at least not when a message is sent. In a somewhat frustrating act, the messages only appear once the connection is terminated either because the tvOS app stops or because I cancel the connection. I tried for multiple hours but could not get that endpoint to fire unless the entire connection was dropped (at which point any messages that were sent during that time would come through as one single piece of data). I can only assume the messages are being cached locally without being delivered yet when the connection drops it suddenly decides to unload them 🤷🏻‍♂.&lt;/p&gt;
+
+&lt;p&gt;It turns out you need to use the more complex &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;receive(minimumIncompleteLength:maximumLength:completion:)&lt;/code&gt; which requires you to say how big you want batches of data to be. You also need to resubscribe to this handler every time data appears on it. The problem here is that whilst there is a “completion” flag to tell you if the whole message has arrived this is never true when sending from tvOS, even if you use the corresponding flag on the send method. In the end, I limited the app to 1MB of data at a time as everything I send is well below that. I’ve never run into a problem with only partial data being sent but it is a potential risk to be aware of.&lt;/p&gt;
+
+&lt;p&gt;If you were using this for critical data, I’d probably suggest only sending encoded text and providing your own delimiter to look for i.e. for each string that comes in batch them together until one ends in a “|||” at which point you will know that was the end of a message from tvOS.&lt;/p&gt;
+
+&lt;p&gt;On the positive side, the connection setup and data sending are near instantaneous and the user facing UI works well. However, as there were already low-level network solutions to send data between devices (including non-Apple devices) it’s incredibly odd to me that Apple went to the effort of creating a beautiful device pairing API and UI for both SwiftUI and UIKit but didn’t extend that to the basics of sending data. Local networking is hard. I have no interest in diving into the minutia of handling UDP packets; I just want to send some basic strings between devices!&lt;/p&gt;
+
+&lt;p&gt;In order to get this all working for my own app, I created a class named &lt;a href=&quot;https://github.com/bendodson/LocalDeviceManager/blob/main/LocalDeviceManager.swift&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LocalDeviceManager&lt;/code&gt;&lt;/a&gt; that handles this all for you along with a &lt;a href=&quot;https://github.com/bendodson/LocalDeviceManager/&quot;&gt;SwiftUI demo project&lt;/a&gt; for both tvOS and iOS that demonstrates how it works. The call site on tvOS is very simple:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;@ObservedObject&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;deviceManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LocalDeviceManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;applicationService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;remote&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;didReceiveMessage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Message: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errorHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;showDevicePicker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;VStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isConnected&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Send&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello from tvOS!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            
+            &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Disconnect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;disconnect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;DevicePicker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;applicationService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;remote&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endpoint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endpoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Connect to a local device.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;fallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Device browsing is not supported on this device&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;applicationService&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Similarly, it’s trivial to set up an iOS app to communicate with the tvOS app:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;@ObservedObject&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;deviceManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LocalDeviceManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;applicationService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;remote&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;didReceiveMessage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Message: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;errorHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;VStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isConnected&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Connected!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello from iOS!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Send&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;disconnect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Disconnect&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Not Connected&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onAppear&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deviceManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;createListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;There are more details on how this works on &lt;a href=&quot;https://github.com/bendodson/LocalDeviceManager/&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Judging by the complete lack of 3rd party apps using this feature or articles detailing how to use this API I’m going to go out on a limb and say it’s unlikely we’ll see any improvements to this system in tvOS 17. Regardless, I’ve filed a few bug reports in the hopes that the documentation can be tidied up a bit. Just be aware that this is not the robust solution I was hoping it would be!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:devicename&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I have been unable to divine a way to get the name of the device you are connected to. &lt;a href=&quot;#fnref:devicename&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Postmortem of the launch of a Top 10 Paid iOS App</title>
@@ -2780,24 +2952,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
 &lt;p&gt;It has been a real pleasure working with Zeid and the rest of Hawkker over the past few years. I’d encourage you to check out the &lt;a href=&quot;https://itunes.apple.com/gb/app/hawkker/id1370881088?mt=8&quot;&gt;free eater app on the App Store&lt;/a&gt; or recommend the &lt;a href=&quot;https://hawkker.com/vendors/&quot;&gt;vendor website&lt;/a&gt; to your favourite street food sellers. You can also learn more about the entire platform at &lt;a href=&quot;https://hawkker.com/&quot;&gt;hawkker.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;If you are considering hiring a large agency to deliver your product, I would strongly advise hiring a consultant to sit in on meetings and keep track of the development process. I’d obviously like you to choose me (you can &lt;a href=&quot;/contact/&quot;&gt;contact me&lt;/a&gt; to find out more) but having any technical consultant along with you is going to make the process far easier and help you navigate the sometimes awkward world of agency development.&lt;/p&gt;
-&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>DrinkCoach Updates</title>
-      <link>https://bendodson.com/weblog/2018/11/12/drinkcoach-updates/</link>
-      <pubDate>Mon, 12 Nov 2018 16:00:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2018/11/12/drinkcoach-updates/</guid>
-      <description>&lt;p&gt;Over the past few weeks I’ve been working on some big updates to the &lt;a href=&quot;https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8&quot;&gt;DrinkCoach+ app&lt;/a&gt; that I developed for Orbis Media and the HAGA &lt;a href=&quot;/weblog/2017/10/26/drinkcoach/&quot;&gt;last year&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/weblog/2018/drinkcoach-updates.jpg&quot; width=&quot;800&quot; height=&quot;600&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The big change is a new ‘month-at-a-glance’ screen with a scrollable calendar giving you a great overview of your alcohol intake over time. This is enhanced with a ‘Zero-Alcohol Days’ badge that increases each day to show your current streak. In addition to this, a new summary PDF is available which can be generated from a range of dates (i.e. everything from past week and past month to specific from and to dates); this PDF will show you the total number of units, calories, and cost along with an average units per day count and total number of zero-alcohol days. The PDF can be easily downloaded or shared with your healthcare professional. Finally, a number of UX changes were made to improve the layout of the app, support was added for the most recent Apple devices, and the code was updated to Swift 4.2.&lt;/p&gt;
-
-&lt;p&gt;In show business, it is often said that you should never work with children or animals. In software development, the equivalent is that you should never work with date formatting. I certainly found building this calendar system from the ground up a challenge and keeping it performant when the local Realm database is full of data was definitely not easy. That said, I’m incredibly pleased with how the update has turned out and it seems the users of the app are too; to date, the app has received over 1200 reviews on the App Store averaging a 4.8 rating whilst also being featured by publications such as The Observer, The Guardian, and The Huffington Post.&lt;/p&gt;
-
-&lt;p&gt;It was really great to work with Orbis Media again and I look forward to working with them again in the future. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/drinkcoach+/id849022698?mt=8&quot;&gt;DrinkCoach+ on the App Store&lt;/a&gt; for free and learn more about it at &lt;a href=&quot;http://www.drinkcoach.org.uk&quot;&gt;drinkcoach.org.uk&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     
