@@ -46,7 +46,10 @@ function performSearch() {
                         html += '<img src="'+disc.thumb+'" alt="" width="600" height="600"></a>';
                         html += '<ul>';
                         html += '<li><a href="'+disc.large+'" target="_blank">Highest Resolution (uncompressed jpg)</a></li>';
-                        html += '<li><a href="'+disc.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';
+                        if (disc.png) {
+                            html += '<li><a href="'+disc.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';    
+                        }
+                        
                         html += '</ul>';
                     }
                 }
