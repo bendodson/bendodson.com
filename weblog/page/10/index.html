@@ -43,6 +43,37 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/">Deleting all NSUserDefaults with Swift</a></h1>
+			
+			<time datetime="2016-02-05" pubdate=""><a href="/weblog/2016/02/05/deleting-all-nsuserdefaults-with-swift/">February 05, 2016</a></time>
+    	</header>
+    	<div>
+			<p>NSUserDefaults is likely one of the most used APIs on iOS providing a quick and easy way to store basic configuration and settings. However, these can quickly mount up and you’ll typically end up with something like this in your project within a logout method:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">defaults</span> <span class="o">=</span> <span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span>
+<span class="n">defaults</span><span class="o">.</span><span class="nf">removeObjectForKey</span><span class="p">(</span><span class="s">"Username"</span><span class="p">)</span>
+<span class="n">defaults</span><span class="o">.</span><span class="nf">removeObjectForKey</span><span class="p">(</span><span class="s">"Token"</span><span class="p">)</span>
+<span class="n">defaults</span><span class="o">.</span><span class="nf">removeObjectForKey</span><span class="p">(</span><span class="s">"SomeSetting"</span><span class="p">)</span>
+<span class="n">defaults</span><span class="o">.</span><span class="nf">removeObjectForKey</span><span class="p">(</span><span class="s">"FavouriteArtist"</span><span class="p">)</span>
+<span class="n">defaults</span><span class="o">.</span><span class="nf">synchronize</span><span class="p">()</span></code></pre></figure>
+
+<p><strong>(Note: you should never store secure information like a password or API token in NSUserDefaults; that’s what the Keychain is for. You should probably also use static constants in a config file for your keys but this will do for a demonstration)</strong></p>
+
+<p>The problem with something like this is that you have to remember to go and add an extra <code class="language-plaintext highlighter-rouge">removeObjectForKey</code> whenever you add a new setting and this can be easily forgotten and lead to settings being shared between different user accounts. I’ve definitely been guilty of doing this in the past and, whilst working on an update to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a>, I found that this can be much simpler:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span><span class="o">.</span><span class="nf">removePersistentDomainForName</span><span class="p">(</span><span class="kt">NSBundle</span><span class="o">.</span><span class="nf">mainBundle</span><span class="p">()</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="o">!</span><span class="p">)</span>
+<span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span><span class="o">.</span><span class="nf">synchronize</span><span class="p">()</span></code></pre></figure>
+
+<p>This will clear all of the NSUserDefaults that have been set by your code leaving you with a fresh slate just as if the app had been deleted and reinstalled. You don’t need to update your logout method whenever a new setting gets added and you can be sure that everything is being reset in full.</p>
+
+<p><strong>Update:</strong> a few people have asked why I perform <code class="language-plaintext highlighter-rouge">NSUserDefaults.standardUserDefaults().synchronize()</code> as this should happen automatically. The key word here is <em>should</em>; since iOS 7, NSUserDefaults do not get written to disk as frequently as previously (i.e. when going into the background). With the addition of things like watch extensions, widgets, and keyboards that can all access a shared NSUserDefaults, I find it is always best to perform a sync (which ensures the data is written to disk immediately) as then none of the other aspects of your app or extensions will access invalid data. It doesn’t add any significant performance overhead in my experience but can save you from embarrassing bugs.</p>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/02/02/calm-radio-for-ios/">Calm Radio for iOS</a></h1>
 			
 			<time datetime="2016-02-02" pubdate=""><a href="/weblog/2016/02/02/calm-radio-for-ios/">February 02, 2016</a></time>
@@ -402,35 +433,6 @@
     </li>
     <li id="fn:musictracker" role="doc-endnote">
       <p>Including a sneak peek of my upcoming “Music Tracker” app… <a href="#fnref:musictracker" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</a></h1>
-			
-			<time datetime="2016-01-06" pubdate=""><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">January 06, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes<sup id="fnref:udra" role="doc-noteref"><a href="#fn:udra" class="footnote" rel="footnote">1</a></sup>. However, this doesn’t work for the CALayer properties <code class="language-plaintext highlighter-rouge">shadowColor</code> and <code class="language-plaintext highlighter-rouge">borderColor</code> as they expect a CGColor rather than a UIColor.</p>
-
-<p>To fix this in a recent project, <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">I created a very basic CALayer extension</a> (in Swift) that adds UIColor accessors so you can set them via the User Defined Runtime Attributes as so:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib.png" width="750" height="300" /></p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib-example.png" width="600" height="140" /></p>
-
-<p>You can <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">get the extension on GitHub</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:udra" role="doc-endnote">
-      <p>You basically just set <code class="language-plaintext highlighter-rouge">layer.cornerRadius</code> as the key path and use an NSNumber within the User Defined Runtime attributes and then Interface Builder will handle the rest - no more filling your code with <code class="language-plaintext highlighter-rouge">button.layer.cornerRadius = 8</code>, etc. <a href="#fnref:udra" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

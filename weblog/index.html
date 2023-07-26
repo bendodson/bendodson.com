@@ -43,6 +43,458 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2023/07/26/tipkit-tutorial/">Adding teachable moments to your apps with TipKit</a></h1>
+			
+			<time datetime="2023-07-26" pubdate=""><a href="/weblog/2023/07/26/tipkit-tutorial/">July 26, 2023</a></time>
+    	</header>
+    	<div>
+			<p>When TipKit was first mentioned during the WWDC 2023 State of the Union, I assumed it was going to be a way for apps to appear within the Tips app and maybe appear within Spotlight. Instead, it’s a built-in component for adding small tutorial views to your own app across all platforms complete with a rules system for condition-based display and syncing across multiple devices via iCloud! Even better, it’s something Apple are using themselves throughout iOS 17 such as in the Messages and Photos apps.</p>
+
+<p>Having built a fair few popover onboarding systems in the past, this was quickly my most anticipated feature from WWDC 2023. I was slightly disappointed then when Xcode beta after Xcode beta was missing the TipKit framework. Fortunately, Xcode 15 beta 5 (released last night) now includes the relevant framework and <a href="https://developer.apple.com/documentation/tipkit">documentation</a> allowing me to integrate tips into my own apps.</p>
+
+<p>Before I demonstrate how TipKit works and how you can incorporate it into your own apps, here is a really key piece of advice from Ellie Gattozzi in the “<a href="https://developer.apple.com/wwdc23/10229">Make features discoverable with TipKit</a>” talk from WWDC 2023:</p>
+
+<blockquote>
+  <p><em>Useful tips have direct action phrases as titles that say what the feature is and messages with easy to remember benefit info or instructions so users know why they’d want to use the feature and are later able to accomplish the task on their own.</em></p>
+</blockquote>
+
+<p>With that said, let’s create our first tip!</p>
+
+<p><em>Note: I’ve included code for both SwiftUI and UIKit below but Apple also provided a way to display tips in AppKit. It should be noted that the UIKit versions are not available on watchOS or tvOS. It’s also worth noting that there are a few bugs in the TipKit framework in beta 5, particularly around actions which I’ve documented below.</em></p>
+
+<h2 id="1-creating-a-tip">1. Creating a Tip</h2>
+
+<p>First we need to initiate the Tips system when our app launches using <code class="language-plaintext highlighter-rouge">Tips.configure()</code><sup id="fnref:tipsconfigure" role="doc-noteref"><a href="#fn:tipsconfigure" class="footnote" rel="footnote">1</a></sup>:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">Scene</span> <span class="p">{</span>
+    <span class="kt">WindowGroup</span> <span class="p">{</span>
+        <span class="kt">ContentView</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">task</span> <span class="p">{</span>
+            <span class="k">try</span><span class="p">?</span> <span class="n">await</span> <span class="kt">Tips</span><span class="o">.</span><span class="nf">configure</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// UIKit</span>
+<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplication</span><span class="o">.</span><span class="kt">LaunchOptionsKey</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="kt">Task</span> <span class="p">{</span>
+        <span class="k">try</span><span class="p">?</span> <span class="n">await</span> <span class="kt">Tips</span><span class="o">.</span><span class="nf">configure</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Next, we create the struct that defines our tip:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">SearchTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">Text</span> <span class="p">{</span>
+        <span class="kt">Text</span><span class="p">(</span><span class="s">"Add a new game"</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">var</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">Text</span><span class="p">?</span> <span class="p">{</span>
+        <span class="kt">Text</span><span class="p">(</span><span class="s">"Search for new games to play via IGDB."</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">var</span> <span class="nv">asset</span><span class="p">:</span> <span class="kt">Image</span><span class="p">?</span> <span class="p">{</span>
+        <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"magnifyingglass"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Finally, we display our tip:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kt">ExampleView</span><span class="p">()</span>
+    <span class="o">.</span><span class="nf">toolbar</span><span class="p">(</span><span class="nv">content</span><span class="p">:</span> <span class="p">{</span>
+        <span class="kt">ToolbarItem</span><span class="p">(</span><span class="nv">placement</span><span class="p">:</span> <span class="o">.</span><span class="n">primaryAction</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">Button</span> <span class="p">{</span>
+                <span class="n">displayingSearch</span> <span class="o">=</span> <span class="kc">true</span>
+            <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+                <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"magnifyingglass"</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="o">.</span><span class="nf">popoverTip</span><span class="p">(</span><span class="kt">SearchTip</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+
+
+<span class="c1">// UIKit</span>
+<span class="kd">class</span> <span class="kt">ExampleViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">searchButton</span><span class="p">:</span> <span class="kt">UIButton</span>
+    <span class="k">var</span> <span class="nv">searchTip</span> <span class="o">=</span> <span class="kt">SearchTip</span><span class="p">()</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+        <span class="kt">Task</span> <span class="p">{</span> <span class="kd">@MainActor</span> <span class="k">in</span>
+            <span class="k">for</span> <span class="n">await</span> <span class="n">shouldDisplay</span> <span class="k">in</span> <span class="n">searchTip</span><span class="o">.</span><span class="n">shouldDisplayUpdates</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="n">shouldDisplay</span> <span class="p">{</span>
+                    <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">TipUIPopoverViewController</span><span class="p">(</span><span class="n">searchTip</span><span class="p">,</span> <span class="nv">sourceItem</span><span class="p">:</span> <span class="n">searchButton</span><span class="p">)</span>
+                    <span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">presentedViewController</span> <span class="k">is</span> <span class="kt">TipUIPopoverViewController</span> <span class="p">{</span>
+                    <span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This code is all that is required to display our provided tip the first time the view appears:</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/popover-tip-tipkit.jpg" width="800" height="450" alt="A popover tip using TipKit" />
+    <figure>A popover tip using TipKit</figure>
+</div>
+
+<p>There are two kinds of tip views:</p>
+
+<ul>
+  <li>Popover: appears as an overlay on the app’s UI which lets you direct users without changing the view</li>
+  <li>In-line: temporarily adjusts the app’s UI around it so nothing is covered (this is not available on tvOS)</li>
+</ul>
+
+<p>If we wanted to display an in-line tip instead, our code would look like this:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kt">VStack</span> <span class="p">{</span>
+    <span class="kt">TipView</span><span class="p">(</span><span class="kt">LongPressTip</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="c1">// UIKit</span>
+<span class="kd">class</span> <span class="kt">ExampleViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">longPressGameTip</span> <span class="o">=</span> <span class="kt">LongPressGameTip</span><span class="p">()</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+        <span class="kt">Task</span> <span class="p">{</span> <span class="kd">@MainActor</span> <span class="k">in</span>
+            <span class="k">for</span> <span class="n">await</span> <span class="n">shouldDisplay</span> <span class="k">in</span> <span class="n">longPressGameTip</span><span class="o">.</span><span class="n">shouldDisplayUpdates</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="n">shouldDisplay</span> <span class="p">{</span>
+                    <span class="k">let</span> <span class="nv">tipView</span> <span class="o">=</span> <span class="kt">TipUIView</span><span class="p">(</span><span class="n">longPressGameTip</span><span class="p">)</span>
+                    <span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">tipView</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">let</span> <span class="nv">tipView</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">subviews</span><span class="o">.</span><span class="nf">first</span><span class="p">(</span><span class="nv">where</span><span class="p">:</span> <span class="p">{</span> <span class="nv">$0</span> <span class="k">is</span> <span class="kt">TipUIView</span> <span class="p">})</span> <span class="p">{</span>
+                    <span class="n">tipView</span><span class="o">.</span><span class="nf">removeFromSuperview</span><span class="p">()</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/inline-tip-tipkit.jpg" width="800" height="450" alt="An in-line tip using TipKit" />
+    <figure>An in-line tip using TipKit</figure>
+</div>
+
+<p>UIKit also has a <a href="https://developer.apple.com/documentation/tipkit/tipuicollectionviewcell"><code class="language-plaintext highlighter-rouge">TipUICollectionViewCell</code></a> for displaying tips within a collection view which should be the route used for table-based interfaces as well. The SwiftUI code is definitely less verbose 🤣</p>
+
+<h2 id="2-making-your-tips-look-tip-top-">2. Making your tips look tip-top 🎩</h2>
+
+<p>You can customise your tips with changes to text colour and fonts along with background colour, corner radius, and icons. The tip views are also fully compatible with dark mode.</p>
+
+<h3 id="fonts-and-text-colour">Fonts and text colour</h3>
+
+<p>These are customised within the Tip structs themselves as you are returning instances of <code class="language-plaintext highlighter-rouge">SwiftUI.Text</code> even if you are ultimately rendering your tip in UIKit or AppKit.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">LongPressTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">Text</span> <span class="p">{</span>
+        <span class="kt">Text</span><span class="p">(</span><span class="s">"Add to list"</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">foregroundStyle</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">fontDesign</span><span class="p">(</span><span class="o">.</span><span class="n">serif</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    <span class="k">var</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">Text</span><span class="p">?</span> <span class="p">{</span>
+        <span class="kt">Text</span><span class="p">(</span><span class="s">"Long press on a game to add it to a list."</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">foregroundStyle</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">fontDesign</span><span class="p">(</span><span class="o">.</span><span class="n">monospaced</span><span class="p">)</span>
+    <span class="p">}</span>
+    
+    <span class="k">var</span> <span class="nv">asset</span><span class="p">:</span> <span class="kt">Image</span><span class="p">?</span> <span class="p">{</span>
+        <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"hand.point.up.left"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>As the title and message both use <code class="language-plaintext highlighter-rouge">Text</code>, you can use any modifiers that return a Text instance such as <code class="language-plaintext highlighter-rouge">foregroundStyle</code>, <code class="language-plaintext highlighter-rouge">font</code>, and convenience methods like <code class="language-plaintext highlighter-rouge">bold()</code>. The icon is returned as an <code class="language-plaintext highlighter-rouge">Image</code> so if we want to change anything like the icon colour we have to do this from the Tip view itself:</p>
+
+<h3 id="icon-colour-background-colour-and-dismiss-button-colour">Icon colour, background colour, and dismiss button colour</h3>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kt">TipView</span><span class="p">(</span><span class="kt">LongPressGameTip</span><span class="p">())</span>
+    <span class="o">.</span><span class="nf">tipBackground</span><span class="p">(</span><span class="o">.</span><span class="n">black</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">tint</span><span class="p">(</span><span class="o">.</span><span class="n">yellow</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">foregroundStyle</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+
+<span class="c1">// UIKit</span>
+<span class="k">let</span> <span class="nv">tipView</span> <span class="o">=</span> <span class="kt">TipUIView</span><span class="p">(</span><span class="kt">LongPressGameTip</span><span class="p">())</span>
+<span class="n">tipView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">black</span>
+<span class="n">tipView</span><span class="o">.</span><span class="n">tintColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">yellow</span></code></pre></figure>
+
+<p>A method is provided to change the colour of the tip background itself but to change the icon colour we need to use a global tint whilst the dismiss button colour is affected by the <code class="language-plaintext highlighter-rouge">foregroundStyle</code>; note that this button appears to be 50% opaque so if you are using a dark background you’ll struggle to see anything other than white. There does not appear to be a way to alter this button with UIKit.</p>
+
+<p>Whilst there are no Human Interface Guidelines for tips yet, looking through the iOS 17 beta and the <a href="https://developer.apple.com/wwdc23/10229">WWDC 2023 talk</a> shows that Apple uses un-filled SF Symbols for all of their tips. For this reason, I’d suggest doing the same!</p>
+
+<h3 id="corner-radius">Corner Radius</h3>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kt">TipView</span><span class="p">(</span><span class="kt">LongPressGameTip</span><span class="p">())</span>
+    <span class="o">.</span><span class="nf">tipCornerRadius</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span></code></pre></figure>
+
+<p>The default corner radius for tips on iOS is 13. If you want to change this to match other curved elements within your app, you can do this with <code class="language-plaintext highlighter-rouge">tipCornerRadius()</code> in SwiftUI. UIKit does not have a way to change the corner radius of tip views.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/customised-tip-tipkit.jpg" width="600" height="190" alt="A customised tip view with new colours and fonts" />
+    <figure>A customised tip view with new colours and fonts. I know it's not pretty!</figure>
+</div>
+
+<p>I was pleasantly surprised by how flexible the design was for this first version of TipKit. However, I’d urge caution in customising tips too far as having them match the default system tips is surely a boon in terms of user experience.</p>
+
+<h2 id="3-lights-cameras-actions">3. Lights, Cameras, Actions!</h2>
+
+<p>Tips allow you to add multiple buttons known as actions which can be used to take users to a relevant setting or a more in-depth tutorial. This feature is not available on tvOS.</p>
+
+<p>To add an action, you first need to adjust your Tip struct with some identifying details:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kd">struct</span> <span class="kt">LongPressGameTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    
+    <span class="c1">// [...] title, message, asset</span>
+    
+    <span class="k">var</span> <span class="nv">actions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Action</span><span class="p">]</span> <span class="p">{</span>
+        <span class="p">[</span><span class="kt">Action</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="s">"learn-more"</span><span class="p">,</span> <span class="nv">title</span><span class="p">:</span> <span class="s">"Learn More"</span><span class="p">)]</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note that the <code class="language-plaintext highlighter-rouge">Action</code> initialiser also has an option to use a <code class="language-plaintext highlighter-rouge">Text</code> block rather than a <code class="language-plaintext highlighter-rouge">String</code> which allows for all of the colour and font customisations mentioned earlier.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/action-tip-tipkit.jpg" width="800" height="450" alt="An action button within a Tip View" />
+    <figure>An action button within a Tip View</figure>
+</div>
+
+<p>With this in place, we can alter our tip view to perform an action once the button has been pressed:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kt">Button</span> <span class="p">{</span>
+    <span class="n">displayingSearch</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+    <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"magnifyingglass"</span><span class="p">)</span>
+<span class="p">}</span>
+    <span class="o">.</span><span class="nf">popoverTip</span><span class="p">(</span><span class="kt">LongPressGameTip</span><span class="p">())</span> <span class="p">{</span> <span class="n">action</span> <span class="k">in</span>
+        <span class="k">guard</span> <span class="n">action</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s">"learn-more"</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+        <span class="n">displayingLearnMore</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span>
+
+<span class="c1">// UIKit</span>
+<span class="k">let</span> <span class="nv">tipView</span> <span class="o">=</span> <span class="kt">TipUIView</span><span class="p">(</span><span class="kt">LongPressGameTip</span><span class="p">())</span> <span class="p">{</span> <span class="n">action</span> <span class="k">in</span>
+    <span class="k">guard</span> <span class="n">action</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s">"learn-more"</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">TutorialViewController</span><span class="p">()</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Alternatively, we can add action handlers directly to the Tip struct:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nv">actions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Action</span><span class="p">]</span> <span class="p">{</span>
+    <span class="p">[</span><span class="kt">Action</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="s">"learn-more"</span><span class="p">,</span> <span class="nv">title</span><span class="p">:</span> <span class="s">"Learn More"</span><span class="p">,</span> <span class="nv">perform</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"'Learn More' pressed"</span><span class="p">)</span>
+    <span class="p">})]</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><strong>Important:</strong> Whilst you can add actions in Xcode 15 beta 5, the handlers do not currently trigger when pressing the button regardless of whether you use the struct or view method to attach them.</p>
+
+<p>One final thing to note on actions is that they can be disabled if you wish to grey them out for some reason (i.e. if a user isn’t signed in or subscribed to a premium feature):</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nv">actions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Action</span><span class="p">]</span> <span class="p">{</span>
+    <span class="p">[</span><span class="kt">Action</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="s">"pro-feature"</span><span class="p">,</span> <span class="nv">title</span><span class="p">:</span> <span class="s">"Add a new list"</span><span class="p">,</span> <span class="nv">disabled</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="4-laying-down-the-rules">4. Laying down the rules</h2>
+
+<p>By default, tips appear as soon as the view they are attached to appears on screen. However, you may not want to show a tip in a certain view until some condition has been met (i.e. the user is logged in) or you may want a user to have to interact with a feature a certain number of times before the tip is displayed. Luckily Apple has thought of this and added a concept known as “rules” to let you limit when tips will appear.</p>
+
+<p>There are two types of rules:</p>
+
+<ul>
+  <li>Parameter-based: These are persistent and are matched to Swift value types such as booleans</li>
+  <li>Event-based: Defines an action that must be performed before a tip is eligible for display</li>
+</ul>
+
+<p><strong>Important</strong>: In Xcode 15 beta 5 there is a bug which will prevent the <code class="language-plaintext highlighter-rouge">@Parameter</code> macro from compiling for simulators or for macOS apps. The workaround is to add the following to the “Other Swift Flags” build setting:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nt">-external-plugin-path</span> <span class="si">$(</span>SYSTEM_DEVELOPER_DIR<span class="si">)</span>/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins#<span class="si">$(</span>SYSTEM_DEVELOPER_DIR<span class="si">)</span>/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server</code></pre></figure>
+
+<h3 id="parameter-based-rules">Parameter-based Rules</h3>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">LongPressGameTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    
+    <span class="kd">@Parameter</span>
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">isLoggedIn</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
+    
+    <span class="k">var</span> <span class="nv">rules</span><span class="p">:</span> <span class="p">[</span><span class="kt">Rule</span><span class="p">]</span> <span class="p">{</span>
+        <span class="cp">#Rule(Self.$isLoggedIn) { $0 == true }</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// [...] title, message, asset, actions, etc.</span>
+    
+<span class="p">}</span></code></pre></figure>
+
+<p>The syntax is relativelty straightforward thanks to the new Macro support in Xcode 15. We first define a static variable for the condition, in this case a boolean detailing if the user is logged in or not. Next we provide a rule based on that condition being true.</p>
+
+<p>If we ran our app now, the tip would no longer be displayed on launch. However, once we mark the static property as true the tip will show up the next time the relevant view is displayed:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">LongPressGameTip</span><span class="o">.</span><span class="n">isLoggedIn</span> <span class="o">=</span> <span class="kc">true</span></code></pre></figure>
+
+<h3 id="event-based-rules">Event-based Rules</h3>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">LongPressGameTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">appOpenedCount</span> <span class="o">=</span> <span class="kt">Event</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="s">"appOpenedCount"</span><span class="p">)</span>
+        
+    <span class="k">var</span> <span class="nv">rules</span><span class="p">:</span> <span class="p">[</span><span class="kt">Rule</span><span class="p">]</span> <span class="p">{</span>
+        <span class="cp">#Rule(Self.appOpenedCount) { $0.donations.count &gt;= 3 }</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// [...] title, message, asset, actions, etc.</span>
+    
+<span class="p">}</span></code></pre></figure>
+
+<p>The event-based rules are slightly different in that instead of a parameter we use an <code class="language-plaintext highlighter-rouge">Event</code> object with an identifier of our choosing. The rule then checks the <code class="language-plaintext highlighter-rouge">donations</code> property of this event to determine if the app has been opened three or more times. In order for this to work, we need to be able to “donate” when this event has occured. We do this by using the <code class="language-plaintext highlighter-rouge">donate</code> method on the event itself:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">SomeView</span><span class="p">()</span>
+    <span class="o">.</span><span class="nf">onAppear</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kt">LongPressTip</span><span class="o">.</span><span class="n">appOpenedCount</span><span class="o">.</span><span class="nf">donate</span><span class="p">()</span>
+    <span class="p">}</span></code></pre></figure>
+
+<p>The donation on an event contains a date property that is set to the time at which the event was donated. This means you can add rules to check if somebody has opened the app three times or more today:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">LongPressGameTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">appOpenedCount</span><span class="p">:</span> <span class="kt">Event</span> <span class="o">=</span> <span class="kt">Event</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="s">"appOpenedCount"</span><span class="p">)</span>
+        
+    <span class="k">var</span> <span class="nv">rules</span><span class="p">:</span> <span class="p">[</span><span class="kt">Rule</span><span class="p">]</span> <span class="p">{</span>
+        <span class="cp">#Rule(Self.appOpenedCount) {</span>
+            <span class="nv">$0</span><span class="o">.</span><span class="n">donations</span><span class="o">.</span><span class="n">filter</span> <span class="p">{</span>
+                <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">isDateInToday</span><span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="o">.</span><span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// [...] title, message, asset, actions, etc.</span>
+    
+<span class="p">}</span></code></pre></figure>
+
+<p><strong>Important</strong>: Whilst this code should be possible according to the WWDC 2023 talk, it gives a “the filter function is not supported in this rule” when run on Xcode 15 beta 5.</p>
+
+<h2 id="5-to-display-or-not-to-display">5. To display, or not to display?</h2>
+
+<p>Whilst rules can limit our tips to displaying at the optimal time, there is always the possibility that multiple tips might try to display at the <em>same</em> time. It may also be that we no longer want to display a tip if the user interacts with our feature before our tip was displayed. To get around this, Apple provides us with ways to manage frequency, display count, and to invalidate tips. They also provide a mechanism for syncing the display status of your tips across multiple devices.</p>
+
+<h3 id="frequency">Frequency</h3>
+
+<p>By default, tips appear as soon as they are allowed to. We can change this by setting a <code class="language-plaintext highlighter-rouge">DisplayFrequency</code> when initiating our Tips store on app launch:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">try</span><span class="p">?</span> <span class="n">await</span> <span class="kt">Tips</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="p">{</span>
+    <span class="kt">DisplayFrequency</span><span class="p">(</span><span class="o">.</span><span class="n">daily</span><span class="p">)</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>With this in place, only one tip will be able to appear each day.</p>
+
+<p>There are several predefined values for <code class="language-plaintext highlighter-rouge">DisplayFrequency</code> such as <code class="language-plaintext highlighter-rouge">.daily</code> and <code class="language-plaintext highlighter-rouge">.hourly</code> but you can also provide a <code class="language-plaintext highlighter-rouge">TimeInterval</code> if you need something custom. Alternatively, you can restore the default behaviour by using <code class="language-plaintext highlighter-rouge">.immediate</code>.</p>
+
+<p>If you have set a non-immediate display frequency but have a tip that you want to display immediately, you can do so by using the <code class="language-plaintext highlighter-rouge">IgnoresDisplayFrequency()</code> option on the Tip struct:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">LongPressGameTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    
+    <span class="k">var</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">TipOption</span><span class="p">]</span> <span class="p">{</span>
+        <span class="p">[</span><span class="kt">Tip</span><span class="o">.</span><span class="kt">IgnoresDisplayFrequency</span><span class="p">(</span><span class="kc">true</span><span class="p">)]</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// [...] title, message, asset, actions, etc.</span>
+    
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="display-count">Display Count</h3>
+
+<p>If a tip is not manually dismissed by the user then it will be reshown the next time the relevant view appears even after app launches. To avoid a tip being shown repeatedly to a user, you can set a <code class="language-plaintext highlighter-rouge">MaxDisplayCount</code> which will limit the number of appearances until the tip is no longer displayed:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">struct</span> <span class="kt">LongPressGameTip</span><span class="p">:</span> <span class="kt">Tip</span> <span class="p">{</span>
+    
+    <span class="k">var</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">TipOption</span><span class="p">]</span> <span class="p">{</span>
+        <span class="p">[</span><span class="kt">Tip</span><span class="o">.</span><span class="kt">MaxDisplayCount</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// [...] title, message, asset, actions, etc.</span>
+    
+<span class="p">}</span></code></pre></figure>
+
+<h3 id="invalidation">Invalidation</h3>
+
+<p>Depending on our rules and display frequency, it may be that a user interacts with a feature before our tip has been displayed. In this case, we would want to invalidate our tip so that it is not displayed at a later date:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">longPressGameTip</span><span class="o">.</span><span class="nf">invalidate</span><span class="p">(</span><span class="nv">reason</span><span class="p">:</span> <span class="o">.</span><span class="n">userPerformedAction</span><span class="p">)</span></code></pre></figure>
+
+<p>There are three possible reasons for a tip to be invalidated:</p>
+
+<ul>
+  <li>maxDisplayCountExceeded</li>
+  <li>userClosedTip</li>
+  <li>userPerformedAction</li>
+</ul>
+
+<p>The first two are performed by the system depending on whether the display count or the user caused the tip to be dismissed. This means you will always want to use <code class="language-plaintext highlighter-rouge">.userPerformedAction</code> when invalidating your tips.</p>
+
+<h3 id="icloud-sync">iCloud Sync</h3>
+
+<p>During the “<a href="https://developer.apple.com/wwdc23/10229">Make features discoverable with TipKit</a>”, Charlie Parks mentions:</p>
+
+<blockquote>
+  <p>TipKit can also sync tip status via iCloud to ensure that tips seen on one device won’t be seen on the other. For instance, if someone using the app has it installed on both an iPad and an iPhone, and the features are identical on both of those devices, it’s probably best to not educate them on both devices about the feature.</p>
+</blockquote>
+
+<p>This feature appears to be enabled by default with no options for disabling it meaning you’ll need to provide custom identiers for each tip on the platforms you support if you want to make sure tips are re-displayed on every device for some reason (i.e. if the UI is significantly different between devices).</p>
+
+<h2 id="6-debugging">6. Debugging</h2>
+
+<p>TipKit provides convenient APIs for testing, allowing you to show or hide tips as needed, inspect all the tips without satisfying their rules, or purge all info in the TipKit data store for a pristine app build state.</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// Show all defined tips in the app</span>
+<span class="kt">Tips</span><span class="o">.</span><span class="nf">showAllTips</span><span class="p">()</span>
+
+<span class="c1">// Show the specified tips</span>
+<span class="kt">Tips</span><span class="o">.</span><span class="nf">showTips</span><span class="p">([</span><span class="n">searchTip</span><span class="p">,</span> <span class="n">longPressGameTip</span><span class="p">])</span>
+
+<span class="c1">// Hide the specified tips</span>
+<span class="kt">Tips</span><span class="o">.</span><span class="nf">hideTips</span><span class="p">([</span><span class="n">searchTip</span><span class="p">,</span> <span class="n">longPressGameTip</span><span class="p">])</span>
+
+<span class="c1">// Hide all tips defined in the app</span>
+<span class="kt">Tips</span><span class="o">.</span><span class="nf">hideAllTips</span><span class="p">()</span></code></pre></figure>
+
+<p>If we want to purge all TipKit related data, we need to use the <code class="language-plaintext highlighter-rouge">DatastoreLocation</code> modifier when initialising the Tips framework on app launch:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">try</span><span class="p">?</span> <span class="n">await</span> <span class="kt">Tips</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="p">{</span>
+    <span class="kt">DatastoreLocation</span><span class="p">(</span><span class="o">.</span><span class="n">applicationDefault</span><span class="p">,</span> <span class="nv">shouldReset</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+<span class="p">})</span></code></pre></figure>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/tvos-tip-tipkit.jpg" width="800" height="450" alt="A tip displayed on tvOS" />
+    <figure>A tip displayed in my "Chaise Longue to 5K" tvOS app</figure>
+</div>
+
+<p>Tips are instrumental in helping users discover features in your app be it on iOS, iPadOS, macOS, watchOS, or tvOS. Remember to keep your tips short, instructional, and actionable, and make use of the rules system, display frequency, and invalidation to ensure tips are only shown when they need to be.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:tipsconfigure" role="doc-endnote">
+      <p>Note that this differs from the <code class="language-plaintext highlighter-rouge">TipsCenter.shared.configure()</code> that was previewed in the WWDC 2023 talk “<a href="https://developer.apple.com/wwdc23/10229">Make features discoverable with TipKit</a>”. <a href="#fnref:tipsconfigure" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/">Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI</a></h1>
 			
 			<time datetime="2023-05-10" pubdate=""><a href="/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/">May 10, 2023</a></time>
@@ -1207,53 +1659,6 @@ CODE3</p>
     </li>
     <li id="fn:lucky" role="doc-endnote">
       <p>Or we got lucky 😂 <a href="#fnref:lucky" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">Web Inspector on iOS devices and Simulators</a></h1>
-			
-			<time datetime="2022-04-13" pubdate=""><a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">April 13, 2022</a></time>
-    	</header>
-    	<div>
-			<p>Over the past few weeks I’ve worked on a number of projects that have necessitated me working with HTML and JavaScript be that via Safari on iOS, an SFSafariViewController, or in an embedded WKWebView. In all of these cases, I’ve needed to dive into the DOM to see what styles are being applied to certain elements or dig into a JavaScript Console to work out why some code isn’t working. On desktop, this is trivial as Safari has a Web Inspector panel built in similar to other browsers. It turns out it is also trivial on mobile as the exact same tool can be used with both iOS simulators and physical devices.</p>
-
-<div class="gofigure">
-    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/ios-simulator-web-inspector.jpg" width="800" height="536" />
-    <figure>Activating the Web Inspector for Safari in an iOS Simulator. Note that it is also possible to look at the "Extension Background Page" for the Browser Note Safari Extension that is also installed and running.</figure>
-</div>
-
-<p>If you select the ‘Develop’ tab from the menu bar of Safari on macOS, you’ll see a list of all of your connected devices and actively running simulators<sup id="fnref:naming" role="doc-noteref"><a href="#fn:naming" class="footnote" rel="footnote">1</a></sup>. Drilling into this will then show all of the active web instances you can interact with; notice how the content within Safari has highlighted blue within the Simulator as I’ve moused over the twitter.com web instance above. When you click, a web inspector panel is then produced which allows you to make all the usual interrogations and changes you can within desktop Safari such as interacting with the console or changing CSS values of elements to see how they would look in realtime.</p>
-
-<p>Here’s an example using a WKWebView within one of my client projects, <a href="https://spanish.yabla.com">Yabla Spanish</a>:</p>
-
-<div class="gofigure">
-    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/ios-device-web-inspector.jpg" width="800" height="400" />
-    <figure>As I hover over the DOM in the web inspector, the same highlighting that appears in desktop Safari appears within the WKWebView on my physical device (note the green box showing the 24px padding within that div).</figure>
-</div>
-
-<p>Discovering that simulators and devices could be interacted with in this way has been a huge timesaver for me. Whilst <a href="/weblog/2022/03/11/browser-note/">developing Browser Note</a>, I was constantly needing to tweak CSS values and investigate the current state of the DOM as websites have various tricks to try and make ads or cookie notices appear on top of all content (and the note needed to be on top at all times - you should totally take a look at <a href="https://apps.apple.com/us/app/browser-note/id1613527249">Browser Note</a> whilst you’re here). In doing this, I was then able to put this knowledge to use on no less than 3 client projects in the past month; this validates my theory that by working on your own <a href="/sideprojects/">side projects</a> you can improve your efficiency when it comes to work projects.</p>
-
-<p>There are a few caveats to be aware of when using the Web Inspector with an iOS device or simulator:</p>
-
-<ul>
-  <li>If you want to use this on an actual device you’ll first need to enable the Web Inspector on iOS. To do this, go to the Settings app and then Safari &gt; Advanced and toggle the Web Inspector on.</li>
-  <li>Whilst the Web Inspector can interrogate WKWebView, it can only do this for apps you are running via Xcode. You cannot look at the WKWebView of apps you did not create nor of your own apps from TestFlight / the App Store. However, you can inspect debug builds installed via Xcode even if the debugger is not active (i.e. you build to the device then quit Xcode).</li>
-  <li>Conversely, you can use the Web Inspector with any SFSafariViewController even if it is not in your own app.</li>
-  <li>Whilst it is still possible to submit apps that use UIWebView, the web inspector will not work with them; <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/wkwebview.jpg">it needs to be WKWebView</a>.</li>
-  <li>This also works for AppKit, SwiftUI, and Catalyst apps on macOS.</li>
-</ul>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:naming" role="doc-endnote">
-      <p>I use an “iDod” naming prefix for all of my devices; a throwback pun to my first Apple product, the iPod. <a href="#fnref:naming" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

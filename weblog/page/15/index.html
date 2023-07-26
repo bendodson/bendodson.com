@@ -43,6 +43,36 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/03/25/loly-v2/">LOLy 2.0</a></h1>
+			
+			<time datetime="2015-03-25" pubdate=""><a href="/weblog/2015/03/25/loly-v2/">March 25, 2015</a></time>
+    	</header>
+    	<div>
+			<p>I’m happy to announce that an app I worked on late last year has finally gone live on the App Store; <a href="https://itunes.apple.com/us/app/loly/id893477100?ls=1&amp;mt=8">LOLy</a>.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/loly-v2.jpg" width="800" /></p>
+
+<p>LOLy is an app that allows you to send stylish and beautifully designed large emoji, many of which are animated.</p>
+
+<p>I was asked to work on the v2 app update as the previous app suffered from a few performance issues and there were requirements for new functionality. I completely rebuilt the app from the ground up using Swift along with <a href="http://realm.io">Realm</a> as a super-fast local database. The app is now super-smooth and images, even animated ones, appear instantly. I also used AutoLayout to ensure that the app looked great on all 4 sizes of iPhone from the tiny iPhone 4S to the massive iPhone 6 Plus. I came up with a lot of the UX changes and integrated iCloud to enable syncing of favourites. Remember that blog post I did about <a href="https://bendodson.com/weblog/2014/12/10/skproduct-localized-price-in-swift/">localising prices in Swift</a>? That was also for this project.</p>
+
+<p>However, the big thing with this update isn’t just the speed and performance boosts but the headline new feature: an iOS 8 keyboard.</p>
+
+<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/loly-keyboard.jpg" width="800" /></p>
+
+<p>This was a real challenge and I came across design issues, the technical constraints of the iOS 8 keyboards, and various requirements from the App Store review team. With design, it was important to make the keyboard match the app as much as possible and to try and show as many of these stickers as possible whilst also syncing “recently used” and “favourites” with the parent app. The technical constraints were far harder. There is only a limited amount of memory available to these extensions so trying to show animated images along with the fairly complex design was tricky. Add in the general problem of image-based keyboards requiring full keyboard access (<a href="https://bendodson.com/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">which I’ve discussed before</a>) and being limited to copy/paste for inserting images into apps and it became trickier than expected! Finally, the App Store insisted that the keyboard also contain a full text keyboard and numeric keyboard which had to be added fairly late on. Despite all this, he keyboard looks and works great. I’ve been using it a lot over the past few months and it really is a great way for sending a message with more playfulness than the stock emoji.</p>
+
+<p>In addition to the above, I also built an online admin system so that the packs can be updated, added to, or re-ordered remotely without going through the App Store review process. This is all pushed via an innovative patch system I designed which allows for delta updates to keep bandwidth costs to a minimum both for users and the clients servers.</p>
+
+<p>I had great fun working on this app and I’m really proud of the result. You can check out <a href="https://itunes.apple.com/us/app/loly/id893477100?ls=1&amp;mt=8">LOLy on the App Store</a> - it’s a free app with lots of stickers but, at the time of writing, you can download additional packs for $0.99/£0.79.</p>
+
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">Albums on iTunes Artwork Finder now at higher resolution</a></h1>
 			
 			<time datetime="2015-02-26" pubdate=""><a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">February 26, 2015</a></time>
@@ -346,25 +376,6 @@
 <p>A little while ago, I found a great little app called <a href="https://code.google.com/p/namebench/">namebench</a> which searches through all kinds of DNS providers to find you the best speed. It was created by some Google engineers during their 20% time and works on OS X, Windows, and Linux. I usually use it as soon as I get a new machine but I’d forgotten to run it following my update to Yosemite which involved a fresh install. As it turns out, my home BT DNS is terrible and namebench managed to find some BT DNS servers that were 245% faster! Now my browser is flying along and it feels like I have a totally new connection.</p>
 
 <p>I’d thoroughly recommend giving <a href="https://code.google.com/p/namebench/">namebench</a> a try - it’s totally free and takes around 15 minutes but you may end up with a much faster connection at the end of it.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/10/17/issues-with-airport-express-airport-extreme-and-yosemite/">Issues with Airport Express, Airport Extreme, and OS X Yosemite</a></h1>
-			
-			<time datetime="2014-10-17" pubdate=""><a href="/weblog/2014/10/17/issues-with-airport-express-airport-extreme-and-yosemite/">October 17, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I finally fixed a problem today that has been plaguing me for the past couple of weeks. For some reason, my MacBook Pro was getting a pitiful internet speed (around 1Mbps on an 80Mbps connection). Sometimes restarting my Airport Extreme router would fix the problem but it would slow down to a crawl a few minutes later. If I moved downstairs (near the router), then suddenly the speed would be much more acceptable.</p>
-
-<p>After spending some time looking at my wireless network settings, I realised I was connecting to an 802.11n network. This is odd as I have a new 802.11ac Airport Extreme. It turns out the culprit was an Airport Express I put in my bedroom which I use purely for Airplay to a set of speakers. It is one of the newer models that supports 802.11n and it was joined to, but not extending, my wireless network from the Airport Extreme. For some reason, and I’m fairly sure it is a change in Yosemite, my MacBook was connecting to that Airport Express via the 802.11n despite the fact it wasn’t an extended network and it was obviously slower than the 802.11ac router which is only slightly further away. This slashed my connection speed by roughly 90% as everything was routed through the bridged connection.</p>
-
-<p>The solution I’ve put in place was to give the 5GHz network a different name on my Airport Extreme. I’ve configured all of my Airport Express cards and Apple TVs to connect to the 2.4GHz network and all my regular devices connect to the 5GHz. There is now no danger of my MacBook accidentally connecting to an extended network but AirPlay still works like a dream.</p>
-
-<p>If you notice you’ve got a slower connection since upgrading to Yosemite, it might be worth taking a look if any AirPlay devices are to blame!</p>
 
 		</div>
 	</article>
