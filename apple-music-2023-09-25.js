@@ -33,7 +33,7 @@ function performSearch() {
                 html += '<li><a href="'+data.banner+'" target="_blank">Banner Image (uncompressed jpg)</a></li>';   
             }
 
-            if (data.type == 'albums' || data.type == 'playlists') {
+            if (data.type == 'albums' || data.type == 'playlists' || data.type == 'artists') {
                 html += '<li id="animated-artwork">Searching for animated artwork...</li>';
             }
             html += '</ul>';
@@ -80,7 +80,7 @@ function performSearch() {
 
             $('#results').append(html);
 
-            if (data.type == 'albums' || data.type == 'playlists') {
+            if (data.type == 'albums' || data.type == 'playlists' || data.type == 'artists') {
                 performAnimationSearch();      
             }
         }
