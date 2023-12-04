@@ -12,7 +12,7 @@ function performSearch() {
         type: "POST",
         crossDomain: true,
         url: 'https://clients.dodoapps.io/playlist-precis/playlist-artwork.php',
-        data: {url: query},
+        data: {url: encodeURI(query)},
         dataType: 'json'
     }).done(function(data) {
         $('#results').html('');
