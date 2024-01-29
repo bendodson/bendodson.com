@@ -8,9 +8,18 @@ $(document).ready(function() {
         $('#query').val(params.query.replace("+", " "));
         $('#storefront').val(params.storefront);
         performSearch();
-    } else if (localStorage.getItem('apple-tv-movies-storefront')) {
-        var storefront = localStorage.getItem('apple-tv-movies-storefront');
-        $('#storefront').val(storefront);
+    } else {
+
+        if (localStorage.getItem('apple-tv-movies-storefront')) {
+            var storefront = localStorage.getItem('apple-tv-movies-storefront');
+            $('#storefront').val(storefront);
+        }
+
+        if (localStorage.getItem('apple-tv-movies-type')) {
+            var type = localStorage.getItem('apple-tv-movies-type');
+            $('#type').val(type);
+        }
+
     }
 
     $('#query').focus();
@@ -46,8 +55,10 @@ function performSearch() {
 
     locale = window.navigator.userLanguage || window.navigator.language;
     storefront = $('#storefront').val();
+    type = $('#type').val();
 
     localStorage.setItem('apple-tv-movies-storefront', storefront);
+    localStorage.setItem('apple-tv-movies-type', type);
     
     $.ajax({
         type: "POST",
@@ -92,12 +103,17 @@ function performSearch() {
                     return;
                 }
                 */
-            
-                $('#results').append('<h2>TV Shows</h2>');
-                renderResults(data.shows);
-                addShowLinks();
-                $('#results').append('<h2>Movies</h2>');
-                renderResults(data.movies);
+
+                if (type == "" || type == "tv") {
+                    $('#results').append('<h2>TV Shows</h2>');
+                    renderResults(data.shows);
+                    addShowLinks();    
+                }
+
+                if (type == "" || type == "movies") {
+                    $('#results').append('<h2>Movies</h2>');
+                    renderResults(data.movies);    
+                }
             });
             
         });
