@@ -43,6 +43,34 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2016/01/08/dodo-apps/">Dodo Apps</a></h1>
+			
+			<time datetime="2016-01-08" pubdate=""><a href="/weblog/2016/01/08/dodo-apps/">January 08, 2016</a></time>
+    	</header>
+    	<div>
+			<p>After <a href="https://bendodson.com/weblog/2015/09/25/the-times-they-are-a-changin/">selling WallaBee last year</a>, I changed my company name to <strong>Dodo Apps Ltd</strong>. Now that I’m publishing my own apps again (in addition to my freelance work), it seemed time for me to make a few changes to my website.</p>
+
+<p>Today I’ve updated bendodson.com so that my <a href="https://bendodson.com/clients/">client work</a> and my <a href="https://bendodson.com/apps/">self-published apps</a> are now in separate sections<sup id="fnref:photos" role="doc-noteref"><a href="#fn:photos" class="footnote" rel="footnote">1</a></sup>. I have also created a new site at <a href="https://dodoapps.io">dodoapps.io</a> to advertise my own apps that are currently available in the App Store<sup id="fnref:musictracker" role="doc-noteref"><a href="#fn:musictracker" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>I am currently available for freelance work from February 2016. For more details, please <a href="/contact/">contact me</a>.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:photos" role="doc-endnote">
+      <p>My more recent apps also have some nice photos or screenshots to show them off a bit better. <a href="#fnref:photos" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:musictracker" role="doc-endnote">
+      <p>Including a sneak peek of my upcoming “Music Tracker” app… <a href="#fnref:musictracker" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</a></h1>
 			
 			<time datetime="2016-01-06" pubdate=""><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">January 06, 2016</a></time>
@@ -377,73 +405,6 @@ There is a huge amount of paid work available to freelance developers and it pay
     </li>
     <li id="fn:perfect" role="doc-endnote">
       <p>There are a few minor mic issues which we’ve fixed now and our second episode has an unscheduled drop-in from a hungry toddler. <a href="#fnref:perfect" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">HomeKit enabled Christmas tree lights with Siri control</a></h1>
-			
-			<time datetime="2015-12-01" pubdate=""><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">December 01, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Every year we seem to buy a bigger Christmas tree. This year is no exception and it is now proving difficult to maneuver around it to turn the lights on and off. To fix this, I’ve connected my lights up to a <a href="http://www.belkin.com/uk/F7C027/p/P-F7C027/">Belkin WeMo</a> and I’m running the excellent <a href="https://github.com/nfarina/homebridge">Homebridge</a><sup id="fnref:luke" role="doc-noteref"><a href="#fn:luke" class="footnote" rel="footnote">1</a></sup> server so that I can control it all via Siri:</p>
-
-<iframe width="800" height="450" src="https://www.youtube.com/embed/xBuMQ-PMyeY?rel=0" frameborder="0" allowfullscreen=""></iframe>
-
-<p>To get this up and running on your own machine, you’ll need to do the following in the Mac Terminal:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-brew <span class="nb">install </span>node
-<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> homebridge
-<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> homebridge-wemo
-homebridge</code></pre></figure>
-
-<p>This will install brew, install node, install Homebridge, install the WeMo plugin for Homebridge, and then attempt to run Homebridge (which will fail as you have no config file). Next, you’ll want to go to <code class="language-plaintext highlighter-rouge">~/.homebridge</code> and create a config.json file that looks like this:</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-    </span><span class="nl">"bridge"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebridge"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC:22:3D:E3:CE:30"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">51826</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"pin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"031-45-154"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    
-    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an example configuration file with all supported devices. You can use this as a template for creating your own configuration file containing devices you actually own."</span><span class="p">,</span><span class="w">
-
-    </span><span class="nl">"accessories"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WeMo"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Christmas Tree"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This shim supports Belkin WeMo devices on the same network as this server. You can create duplicate entries for this device and change the 'name' attribute to reflect what device is plugged into the WeMo, for instance 'Air Conditioner' or 'Coffee Maker'. This name will be used by Siri. Make sure to update the 'wemo_name' attribute with the EXACT name of the device in the WeMo app itself. This can be the same value as 'name' but it doesn't have to be."</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"wemo_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Christmas Tree"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span></code></pre></figure>
-
-<p>The important part is to make sure that the <code class="language-plaintext highlighter-rouge">wemo_name</code> matches the name of your device within the WeMo app; the <code class="language-plaintext highlighter-rouge">name</code> attribute is what you want your device to be called on HomeKit. Run the <code class="language-plaintext highlighter-rouge">homebridge</code> command again and you should see that your device is found and Homebridge is running.</p>
-
-<p>Next, you’ll need to get a HomeKit enabled app to run all of this. My recommendation is to use the one that Apple provides to developers, <a href="https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html">HomeKit Catalog</a>, although that will require you to know how to sideload apps from Xcode. Alternatively you can download the <a href="https://itunes.apple.com/app/elgato-eve/id917695792">Elgato Eve app</a>. Once you have an app, you’ll need to add the Homebridge using the pin that is in your config file. You can play around with the app and create rooms, scenes, zones, etc, but for now the basic commands should work. If you can turn your device on and off via the HomeKit enabled app, you will be able to activate Siri and say “<em>turn on the Christmas tree</em>”, “<em>turn off the Christmas tree</em>”, and “<em>is the Christmas tree on?</em>”.</p>
-
-<p>Added bonus: if you have an Apple TV, you are signed into iCloud, and you use iCloud keychain, then you’ll be able to use all of these voice commands when you’re outside of your house! It’s a pretty useful way to activate these devices and I have several of them dotted around my home<sup id="fnref:straighteners" role="doc-noteref"><a href="#fn:straighteners" class="footnote" rel="footnote">2</a></sup>. Homebridge also supports many other services such as Philips Hue (without the need for their HomeKit bridge) and you can write your own plugins very easily<sup id="fnref:prismatik" role="doc-noteref"><a href="#fn:prismatik" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p>My next task is to dig out some code I wrote last year to turn the tree lights on and off automatically depending on if I’m in the house using an iBeacon…</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:luke" role="doc-endnote">
-      <p>Hat tip to <a href="http://lukeredpath.co.uk/">Luke Redpath</a> for introducing me to Homebridge. <a href="#fnref:luke" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:straighteners" role="doc-endnote">
-      <p>After my wife asked me for the 62nd time if she’d left her straighteners plugged in whilst we were driving in the car, I set up the plug near her dresser with a WeMo so she can use Siri to ask “<em>are my straighteners turned on?</em>” and “<em>turn off the straighteners</em>” if need be! <a href="#fnref:straighteners" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:prismatik" role="doc-endnote">
-      <p>I’ve written a <a href="https://github.com/bendodson/homebridge-prismatik">very basic plugin</a> for the <a href="http://lightpack.tv/">Prismatik Light Pack</a>. <a href="#fnref:prismatik" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

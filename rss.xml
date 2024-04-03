@@ -6,9 +6,175 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, freelance developer on all Apple platforms</description>
     <language>en-gb</language>
-    <pubDate>Tue, 27 Feb 2024 09:37:04 +0000</pubDate>
-    <lastBuildDate>Tue, 27 Feb 2024 09:37:04 +0000</lastBuildDate>
+    <pubDate>Wed, 03 Apr 2024 13:34:16 +0100</pubDate>
+    <lastBuildDate>Wed, 03 Apr 2024 13:34:16 +0100</lastBuildDate>
 
+    
+    <item>
+      <title>Using your Personal Voice (along with system and novelty voices) in an iOS app</title>
+      <link>https://bendodson.com/weblog/2024/04/03/using-your-personal-voice-in-an-ios-app/</link>
+      <pubDate>Wed, 03 Apr 2024 13:34:00 +0100</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2024/04/03/using-your-personal-voice-in-an-ios-app/</guid>
+      <description>&lt;p&gt;Text to speech has been around on iOS for over a decade, but Apple added a few new features in iOS 17 that could make interesting additions to your app. In this tutorial I’ll show you how to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesizer&lt;/code&gt; to speak with the default system voices, the new “novelty” voices, and to even speak with the users own AI generated “Personal Voice”!&lt;/p&gt;
+
+&lt;p&gt;The motivation for this came about when a user of my &lt;a href=&quot;https://dodoapps.io/chaise-longue-to-5k/&quot;&gt;Chaise Longue to 5K app&lt;/a&gt; asked me to add some sounds so they knew when to alternate between running and walking&lt;sup id=&quot;fnref:chaise&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:chaise&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Whilst browsing some royalty free sfx libraries it occurred to me that there isn’t really a good way to signal “start walking” or “start running”; A single blast of a whistle for walk and a double blast for run? Instead, I decided that it might be better to use the text to speech features as then I could literally say “walk for 1 minute and 30 seconds” or “run for 3 minutes”.&lt;/p&gt;
+
+&lt;p&gt;To do this is relatively straightforward:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Speaker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;shared&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Speaker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;synthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;synthesizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;synthesizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;synthesizer&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}()&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;speak&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;utterance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechUtterance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;synthesizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speak&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utterance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Speaker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesizerDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;speechSynthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;synthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;willSpeakRangeOfSpeechString&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;characterRange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSRange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;utterance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechUtterance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVAudioSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setActive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVAudioSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setCategory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;playback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interruptSpokenAudioAndMixWithOthers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;speechSynthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;synthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinish&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;utterance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechUtterance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVAudioSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setActive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;notifyOthersOnDeactivation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The key components of this &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Speaker&lt;/code&gt; class I’ve created are the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesizer&lt;/code&gt; which we need to retain a reference to along with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesizerDelegate&lt;/code&gt; which will allow us to change the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVAudioSession&lt;/code&gt; when speaking starts and finishes. In this case I’m using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.interruptSpokenAudioAndMixWithOthers&lt;/code&gt; category which will ensure our audio plays alongside music but will temporarily pause any spoken audio content such as podcasts or audio books.&lt;/p&gt;
+
+&lt;p&gt;To do the actual speaking, we just need to create an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechUtterance&lt;/code&gt; with our string and then pass that to the synthesizer using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;speak()&lt;/code&gt;. With that, we have a working text to audio system using the default system voice.&lt;/p&gt;
+
+&lt;p&gt;At our call site, it takes just a single line of code to get our device to speak:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Singleton approach&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Speaker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speak&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Using the object only within a specific controller&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speaker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Speaker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// make sure this is retained&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;speaker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speak&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;using-system-voices&quot;&gt;Using System Voices&lt;/h2&gt;
+
+&lt;p&gt;Where things get more interesting is that we can allow the user to choose a specific voice to be used. You can fetch an array of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesisVoice&lt;/code&gt; by calling &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesisVoice.speechVoices()&lt;/code&gt; and then use them directly with an utterance or by looking them up by their identifier:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// if you have a reference to your AVSpeechSynthesisVoice&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;utterance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;voice&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// if you have only stored the identifier&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;utterance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;identifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;identifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Within Chaise Longue to 5K, I list all of the English voices in a UIMenu and &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2024/chaise-longue-voices.jpg&quot;&gt;let the user pick one&lt;/a&gt;. The identifier is then stored in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt; and I use this identifier whenever I want the app to speak. Should a voice ever be unavailable (more on that shortly) then using an unknown identifier will cause the system to simply use the default voice. You can also use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesisVoice.AVSpeechSynthesisVoiceIdentifierAlex&lt;/code&gt; to get the identifier for the default “Alex” voice.&lt;/p&gt;
+
+&lt;h2 id=&quot;locales&quot;&gt;Locales&lt;/h2&gt;
+
+&lt;p&gt;When you fetch voices you’ll discover that there are a &lt;em&gt;lot&lt;/em&gt; of them. In fact, there are over 150 preinstalled on iOS 17. This is because there are several default voices for most major languages. Due to this, you’ll likely want to filter out any that aren’t tuned to the language you are planning to speak or to the user’s own language. Apple provide a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesisVoice.currentLanguageCode()&lt;/code&gt; method to get the current BCP 47 code of the user’s locale as this differs to the identifier you may usually fetch via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Locale.current.identifier&lt;/code&gt;&lt;sup id=&quot;fnref:bcp47&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:bcp47&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// getting only the voices available in the user's current locale&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;voices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speechVoices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;currentLanguageCode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;enhanced-and-premium-voices&quot;&gt;Enhanced and Premium Voices&lt;/h2&gt;
+
+&lt;p&gt;With our voices filtered by locale, the next item of interest is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;quality&lt;/code&gt; parameter which tells us whether our voice is default, enhanced, or premium. All of the preinstalled voices are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default&lt;/code&gt; and it shows 😂. iOS 16 added the enhanced and premium voices but you have to manually download them as they are each over 100MB. To do this, you need to go to Accessibility &amp;gt; Live Speech &amp;gt; Voices&lt;sup id=&quot;fnref:settings&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:settings&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; within the Settings app. Here you can browse all of the voices and &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2024/additional-voices.jpg&quot;&gt;download any additional ones&lt;/a&gt; you may want. Once they are downloaded, you’ll be able to use them within your own app.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// only enhanced voices&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;voices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speechVoices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;quality&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enhanced&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// only premium voices&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;voices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speechVoices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;quality&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;premium&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;As these downloaded voices can be deleted by the user, it’s worth checking that the voice still exists if you’re letting a user choose a specific voice in your app (although, as mentioned earlier, it will fall back to the default voice if you provide a now invalid identifier).&lt;/p&gt;
+
+&lt;h2 id=&quot;novelty-voices&quot;&gt;Novelty Voices&lt;/h2&gt;
+
+&lt;p&gt;In iOS 17, Apple added a number of novelty voices to the system. These range from cellos that speak to the cadence of Edvard Grieg’s “In the Hall of the Mountain King”&lt;sup id=&quot;fnref:seriously&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:seriously&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt; or alien voices in the form of Trinoids. There’s also a really creepy clown that just laughs as it talks. I don’t know why anybody would actually want to use these but if you do it’s as simple as filtering by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;isNoveltyVoice&lt;/code&gt; trait:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// only novelty voices&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;voices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speechVoices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voiceTraits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isNoveltyVoice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// only non-novelty voices&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;voices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speechVoices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voiceTraits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isNoveltyVoice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;These are only available in en-US but it may be worth specifying this in case they get ported to other languages in a future update. Depending on your app, you may also want to filter &lt;em&gt;out&lt;/em&gt; these voices from your UI.&lt;/p&gt;
+
+&lt;h2 id=&quot;personal-voice&quot;&gt;Personal Voice&lt;/h2&gt;
+
+&lt;p&gt;Personal Voice was announced in May 2023 in advance of it’s debut in iOS 17:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;For users at risk of losing their ability to speak — such as those with a recent diagnosis of ALS (amyotrophic lateral sclerosis) or other conditions that can progressively impact speaking ability — Personal Voice is a simple and secure way to create a voice that sounds like them.&lt;/p&gt;
+
+  &lt;p&gt;Users can create a Personal Voice by reading along with a randomized set of text prompts to record 15 minutes of audio on iPhone or iPad. This speech accessibility feature uses on-device machine learning to keep users’ information private and secure, and integrates seamlessly with Live Speech so users can speak with their Personal Voice when connecting with loved ones.&lt;/p&gt;
+
+  &lt;p&gt;– &lt;a href=&quot;https://www.apple.com/uk/newsroom/2023/05/apple-previews-live-speech-personal-voice-and-more-new-accessibility-features/&quot;&gt;Apple Newsroom&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Essentially, Personal Voice is using on-device AI to create a private recreation of your voice. What I hadn’t realised at the time is that apps are able to use these user-created voices if the user allows it. What better motivation for my running app than having you speak to yourself!&lt;/p&gt;
+
+&lt;p&gt;To create a Personal Voice, you need to go to Settings &amp;gt; Accessibility &amp;gt; Personal Voice and then choose “Create a Personal Voice”. You’ll read out 150 text prompts (which takes around 15 minutes) at which point you’ll need to leave your device connected to power and in standby mode so it can do the necessary algorithm crunching to generate your soundalike. In my experience, this took around 3 hours on an iPhone 15 Pro Max.&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2024/personal-voice-setup.jpg&quot; width=&quot;800&quot; height=&quot;417&quot; alt=&quot;Setting up Personal Voice on iOS 17&quot; /&gt;
+    &lt;figure&gt;Setting up Personal Voice on iOS 17&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Once completed, there is a crucial button you’ll need to enable if you want your voice to be available to other apps; the aptly named “Allow Apps to Request to Use”. This does not magically make your voice available to be used in other apps but allows apps to request the permission, otherwise any request is automatically denied. You can also choose for your voices to be synced across your devices although this currently only extends to iPhone, iPad, and Mac and as yet I’ve not managed to get it working correctly.&lt;/p&gt;
+
+&lt;p&gt;Now we have our voice, let’s look at how we can access it within an app:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// request permission&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;requestPersonalVoiceAuthorization&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// check `status` to see if you're authorized and then refetch your voices&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;As soon as the authorization is granted, personal voices will appear within &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesisVoice.speechVoices()&lt;/code&gt; with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;isPersonalVoice&lt;/code&gt; trait. This means you can filter voices to just Personal Voices very easily:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// fetch only personal voices&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;voices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVSpeechSynthesisVoice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;speechVoices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voiceTraits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isPersonalVoice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The user can choose to remove authorization for your app at any point in the Personal Voice settings panel either by turning off the toggle for your app or by disabling the “Allow Apps to Request to Use” toggle. This is slightly confusing as if you disable requests your app may still be toggled on &lt;a href=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2024/this-will-not-work.jpg&quot;&gt;making it seem like it would work&lt;/a&gt;. Your app settings also do not contain any mention of Personal Voice, even when enabled, so you can’t link to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UIApplication.openSettingsURLString&lt;/code&gt; to get the user to view these settings.&lt;/p&gt;
+
+&lt;p&gt;To further confuse things, Personal Voice only works on iPhone, iPad, and Mac and only on newer models. There is an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.unsupported&lt;/code&gt; value for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PersonalVoiceAuthorizationStatus&lt;/code&gt; but this is only used when running on the Simulator or using an unsupported platform such as tvOS, watchOS, or visionOS; it is not called when trying to run on an older device in a supported platform (i.e. a 2nd Gen 11” iPad Pro) with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.denied&lt;/code&gt; being sent back instead. Do bear this in mind when crafting any alert text you may display to users when they are trying to authorize your app!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hope you enjoyed this tutorial. I’ll leave it to my Personal Voice&lt;sup id=&quot;fnref:transcript&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:transcript&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; to sign off…&lt;/p&gt;
+
+&lt;audio controls=&quot;&quot;&gt;
+    &lt;source src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2024/voice.mp3&quot; type=&quot;audio/mpeg&quot; /&gt;
+&lt;/audio&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:chaise&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;The app was designed for Picture-in-Picture mode on an Apple TV so you could see when to run / walk whilst using other apps. I ported it to iPhone, iPad, and Mac with the same feature set but hadn’t added any sounds for those that want to run with their device in standby mode. &lt;a href=&quot;#fnref:chaise&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:bcp47&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Locale&lt;/code&gt; will give you something like en_GB whereas the BCP 47 code is en-GB. iOS 17 did add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Locale.IndentifierType&lt;/code&gt; so you can call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Locale.current.identifier(.bcp47)&lt;/code&gt; but this will match &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AVSpeechSynthesisVoice.currentLanguageCode()&lt;/code&gt; which has been around since iOS 7. &lt;a href=&quot;#fnref:bcp47&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:settings&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;This is the same on macOS but on tvOS the only way to download extra voices is in Accessibility &amp;gt; VoiceOver &amp;gt; Voice &lt;a href=&quot;#fnref:settings&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:seriously&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Seriously. &lt;a href=&quot;#fnref:seriously&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:transcript&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Here’s a transcript in case you can’t listen to audio right now: “Hi, I’m Ben’s personal Voice. I hope you enjoyed this tutorial and have seen how easy it is to incorporate system voices, novelty voices, and even personal voices like this one into your apps. Personal voice will be available in an update for Chaise Longue to 5K very soon and I’m looking forward to seeing how you use them in your own apps in the future!” &lt;a href=&quot;#fnref:transcript&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Adding teachable moments to your apps with TipKit</title>
@@ -3357,22 +3523,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
-&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Announcing the Apple Music Artwork Finder</title>
-      <link>https://bendodson.com/weblog/2019/03/05/apple-music-artwork-finder/</link>
-      <pubDate>Tue, 05 Mar 2019 14:20:00 +0000</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2019/03/05/apple-music-artwork-finder/</guid>
-      <description>&lt;p&gt;When I launched my &lt;a href=&quot;/projects/itunes-artwork-finder/&quot;&gt;iTunes Artwork Finder&lt;/a&gt; a few years ago, I had no idea how popular it would become. It is currently used thousands of times per day to help people find high resolution artwork for their albums, apps, books, TV shows, and movies. Since the launch of Apple Music, I’ve had regular emails from users that wanted to access the artwork used for playlists across the service; I’ve finally done something about it!&lt;/p&gt;
-
-&lt;p&gt;Today I’m happy to announce the &lt;a href=&quot;/projects/apple-music-artwork-finder&quot;&gt;Apple Music Artwork Finder&lt;/a&gt; which grabs ultra high resolution artwork of albums, playlists, and radio stations from Apple Music. It’s ridiculously easy to use and just requires you to paste in an Apple Music URL. With that, it can make some requests to the &lt;a href=&quot;https://developer.apple.com/documentation/applemusicapi&quot;&gt;Apple Music API&lt;/a&gt; to retrieve the artwork.&lt;/p&gt;
-
-&lt;p&gt;Whether you want the artwork for your &lt;a href=&quot;https://developer.apple.com/documentation/applemusicapi&quot;&gt;New Music Mix Playlist&lt;/a&gt;, the latest &lt;a href=&quot;https://itunes.apple.com/gb/album/pray-for-the-wicked/1361152002&quot;&gt;Panic! At the Disco album&lt;/a&gt;, or for the &lt;a href=&quot;https://itunes.apple.com/gb/station/beats-1/ra.978194965&quot;&gt;Beats1 banner&lt;/a&gt;, the artwork finder should be able to get you the highest quality artwork. Oh, and it’s totally free as well!&lt;/p&gt;
-
-&lt;p&gt;Try out the &lt;a href=&quot;/projects/apple-music-artwork-finder/&quot;&gt;Apple Music Artwork Finder »&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     

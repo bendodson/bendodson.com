@@ -43,6 +43,73 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">HomeKit enabled Christmas tree lights with Siri control</a></h1>
+			
+			<time datetime="2015-12-01" pubdate=""><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">December 01, 2015</a></time>
+    	</header>
+    	<div>
+			<p>Every year we seem to buy a bigger Christmas tree. This year is no exception and it is now proving difficult to maneuver around it to turn the lights on and off. To fix this, I’ve connected my lights up to a <a href="http://www.belkin.com/uk/F7C027/p/P-F7C027/">Belkin WeMo</a> and I’m running the excellent <a href="https://github.com/nfarina/homebridge">Homebridge</a><sup id="fnref:luke" role="doc-noteref"><a href="#fn:luke" class="footnote" rel="footnote">1</a></sup> server so that I can control it all via Siri:</p>
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/xBuMQ-PMyeY?rel=0" frameborder="0" allowfullscreen=""></iframe>
+
+<p>To get this up and running on your own machine, you’ll need to do the following in the Mac Terminal:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+brew <span class="nb">install </span>node
+<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> homebridge
+<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> homebridge-wemo
+homebridge</code></pre></figure>
+
+<p>This will install brew, install node, install Homebridge, install the WeMo plugin for Homebridge, and then attempt to run Homebridge (which will fail as you have no config file). Next, you’ll want to go to <code class="language-plaintext highlighter-rouge">~/.homebridge</code> and create a config.json file that looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"bridge"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebridge"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC:22:3D:E3:CE:30"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">51826</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"031-45-154"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an example configuration file with all supported devices. You can use this as a template for creating your own configuration file containing devices you actually own."</span><span class="p">,</span><span class="w">
+
+    </span><span class="nl">"accessories"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WeMo"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Christmas Tree"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This shim supports Belkin WeMo devices on the same network as this server. You can create duplicate entries for this device and change the 'name' attribute to reflect what device is plugged into the WeMo, for instance 'Air Conditioner' or 'Coffee Maker'. This name will be used by Siri. Make sure to update the 'wemo_name' attribute with the EXACT name of the device in the WeMo app itself. This can be the same value as 'name' but it doesn't have to be."</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"wemo_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Christmas Tree"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>The important part is to make sure that the <code class="language-plaintext highlighter-rouge">wemo_name</code> matches the name of your device within the WeMo app; the <code class="language-plaintext highlighter-rouge">name</code> attribute is what you want your device to be called on HomeKit. Run the <code class="language-plaintext highlighter-rouge">homebridge</code> command again and you should see that your device is found and Homebridge is running.</p>
+
+<p>Next, you’ll need to get a HomeKit enabled app to run all of this. My recommendation is to use the one that Apple provides to developers, <a href="https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html">HomeKit Catalog</a>, although that will require you to know how to sideload apps from Xcode. Alternatively you can download the <a href="https://itunes.apple.com/app/elgato-eve/id917695792">Elgato Eve app</a>. Once you have an app, you’ll need to add the Homebridge using the pin that is in your config file. You can play around with the app and create rooms, scenes, zones, etc, but for now the basic commands should work. If you can turn your device on and off via the HomeKit enabled app, you will be able to activate Siri and say “<em>turn on the Christmas tree</em>”, “<em>turn off the Christmas tree</em>”, and “<em>is the Christmas tree on?</em>”.</p>
+
+<p>Added bonus: if you have an Apple TV, you are signed into iCloud, and you use iCloud keychain, then you’ll be able to use all of these voice commands when you’re outside of your house! It’s a pretty useful way to activate these devices and I have several of them dotted around my home<sup id="fnref:straighteners" role="doc-noteref"><a href="#fn:straighteners" class="footnote" rel="footnote">2</a></sup>. Homebridge also supports many other services such as Philips Hue (without the need for their HomeKit bridge) and you can write your own plugins very easily<sup id="fnref:prismatik" role="doc-noteref"><a href="#fn:prismatik" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p>My next task is to dig out some code I wrote last year to turn the tree lights on and off automatically depending on if I’m in the house using an iBeacon…</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:luke" role="doc-endnote">
+      <p>Hat tip to <a href="http://lukeredpath.co.uk/">Luke Redpath</a> for introducing me to Homebridge. <a href="#fnref:luke" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:straighteners" role="doc-endnote">
+      <p>After my wife asked me for the 62nd time if she’d left her straighteners plugged in whilst we were driving in the car, I set up the plug near her dresser with a WeMo so she can use Siri to ask “<em>are my straighteners turned on?</em>” and “<em>turn off the straighteners</em>” if need be! <a href="#fnref:straighteners" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:prismatik" role="doc-endnote">
+      <p>I’ve written a <a href="https://github.com/bendodson/homebridge-prismatik">very basic plugin</a> for the <a href="http://lightpack.tv/">Prismatik Light Pack</a>. <a href="#fnref:prismatik" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2015/11/27/brapp-v1.1/">Brapp v1.1</a></h1>
 			
 			<time datetime="2015-11-27" pubdate=""><a href="/weblog/2015/11/27/brapp-v1.1/">November 27, 2015</a></time>
@@ -457,71 +524,6 @@
 <blockquote>
   <p>To be honest, I don’t think there is much Microsoft can do at this point. Consumers are simply not buying Windows Phones and that is the real problem. Whilst their initiatives such as building one app that can run on Windows 10, Xbox One, and Windows Phone are interesting, there simply isn’t enough consumer interest nor money to get iOS and Android developers to create apps on those platforms. Ultimately, Microsoft would probably be better chasing the gaming market over the app market - produce a Windows Phone that is more akin to a Playstation Vita and is able to run games that can also run on Xbox One and Windows 10. These wouldn’t be massively powerful games but would fit in with the “write once, run everywhere” better than apps do (typically games are used to having to scale at different resolutions and have custom UIs whereas regular apps tend to be designed to the UI of the platform making “write once, run everywhere” unfeasible).</p>
 </blockquote>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/31/lego-scooby-doo/">LEGO Scooby-Doo</a></h1>
-			
-			<time datetime="2015-07-31" pubdate=""><a href="/weblog/2015/07/31/lego-scooby-doo/">July 31, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m a huge fan of the Hanna-Barbera cartoons but Scooby-Doo has always been my favourite so I’ve been looking forward to the <a href="http://www.lego.com/en-gb/scoobydoo">LEGO Scooby-Doo sets</a> which officially launch tomorrow. Luckily, due to an error on the part of Argos<sup id="fnref:argos" role="doc-noteref"><a href="#fn:argos" class="footnote" rel="footnote">1</a></sup>, I was able to get all five sets a week early so I’ve put together a very brief review. Make sure you scroll to the bottom to see the coolest feature which appears in every set!</p>
-
-<h3 id="mummy-museum-mystery">Mummy Museum Mystery</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mummy-mystery.jpg" width="600" height="600" />
-This is the cheapest of the sets but it has a lot of detail for such a small set. Scooby and Shaggy come in every set but are joined by a mummy complete with headpiece. The museum itself has a hidden compartment with jewels and a liftable sarcophagus in which to hide the mummy.</p>
-
-<h3 id="mystery-plane-adventures">Mystery Plane Adventures</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-plane.jpg" width="600" height="600" />
-This is my least favourite set but you do get a fair amount for the low price. Scooby, Shaggy, and a headless horseman complete with a bi-plane with revolving propellor and (for some reason) burger bombs<sup id="fnref:sandwiches" role="doc-noteref"><a href="#fn:sandwiches" class="footnote" rel="footnote">2</a></sup> that you can detach. The Scooby model in this one is slightly different to the others in that he is wearing flying goggles.</p>
-
-<h3 id="the-mystery-machine">The Mystery Machine</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-machine.jpg" width="600" height="600" />
-Now we’re getting to the good stuff. The Mystery Machine is iconic and I’ve no doubt that, at the low price, this will be the most purchased set in this series. For under £30, you get Scooby, Shaggy, Fred, a zombie, a scary tree, and the Mystery Machine itself. The model is much smaller than I’d originally anticipated but it is very detailed and opens up allowing access to the inside which contains a kitchen and some props like a camera and torch. Overall, this is a fantastic set although it does use a huge amount of stickers which are prominently visible.</p>
-
-<h3 id="haunted-lighthouse">Haunted Lighthouse</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/haunted-lighthouse.jpg" width="600" height="600" />
-This may be my favourite set as it captures everything great about Scooby-Doo. You get a lighthouse keeper (it must have been him), swamp creature, Scooby, Shaggy, Daphne, a speedboat (with skis), and an awesome rock formation with lighthouse and secret pirate cave. There are nice little touches such as scratches inside the prison cell to show that somebody had been counting days, a wonky “keep out” sign, and a face on the hidden cave complete with gold tooth.</p>
-
-<h3 id="mystery-mansion">Mystery Mansion</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-mansion.jpg" width="600" height="600" />
-The biggest and most expensive of the sets, the Mystery Mansion shares a lot in common with the retired “<a href="http://lego.wikia.com/wiki/Monster_Fighters">Monster Fighters</a>” sets that LEGO released in 2012 (of which I have the <a href="http://shop.lego.com/en-GB/Haunted-House-10228">Haunted House</a>, my all time favourite LEGO set). The mansion is broken into 3 core areas; a greenhouse (with man eating plant), kitchen, and the tower. I personally think the greenhouse is the most interesting as there is good use of transparent panes and wedges to give the impression of smashed glass. The tower also has a nice feature in that when you turn a knob at the back, the clock hand advances and a column in the middle rotates to switch from a bat to a place where you can stand the vampire minifigure. There are a lot of stickers although the majority are on transparent panes which I find transfer better than on bricks where a slight misplacement can look terrible. In terms of minifigures, you get Scooby, Shaggy, Daphne, Velma<sup id="fnref:velma" role="doc-noteref"><a href="#fn:velma" class="footnote" rel="footnote">3</a></sup>, a suit of armour, a ghost, and a vampire. Both the vampire and ghost glow in the dark if you shine light on them first. Overall, this is a great set for both adult collectors and for kids to play with.</p>
-
-<h3 id="minifigures">Minifigures</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg" width="600" height="600" />
-The main draw for most adult collectors will be the minifigures. Whilst Scooby<sup id="fnref:scooby" role="doc-noteref"><a href="#fn:scooby" class="footnote" rel="footnote">4</a></sup> and Shaggy come in every set, Daphne appears in two, and Fred and Velma only appear in one each so you’ll need practically every set if you want all 5 of them. In terms of the figures themselves, the designs are perfect and I believe this is the first time that LEGO have done custom arms on licensed models (note how Shaggy’s arms show a t-shirt style rather than extending to the hand). However, the best thing of all in these sets are the villains…</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-villains-1.jpg" width="600" height="600" /><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-villains-2.jpg" width="600" height="600" />
-Every villain<sup id="fnref:almost" role="doc-noteref"><a href="#fn:almost" class="footnote" rel="footnote">5</a></sup> has a double-printed head so you can unmask them and mimic the whole “I would have gotten away with it too if it weren’t for you meddling kids” speech! This for me shows how much thought LEGO have put into these sets and makes every minifigure one worth having (whereas on face value<sup id="fnref:ha" role="doc-noteref"><a href="#fn:ha" class="footnote" rel="footnote">6</a></sup> they seem a little bland being mainly reprints from other sets).</p>
-
-<p>Overall I highly recommend the Scooby-Doo LEGO sets. They offer great value for money, especially for licensed sets, and will look good as display models for adult collectors whilst also being high in playability for kids. Don’t forget that the <a href="https://ideas.lego.com/blogs/1-blog/post/33">LEGO Big Bang Theory set</a> also launches tomorrow though!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:argos" role="doc-endnote">
-      <p>They accidentally broke the embargoe and were selling them instore - I managed to rush to my local branch and get all 5 sets about an hour before the mistake was fixed and they were pulled. <a href="#fnref:argos" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:sandwiches" role="doc-endnote">
-      <p>Every set has Scooby and Shaggy but they also always have either a sandwich or a burger. On the cheaper sets they’re a bit oddly placed (i.e. in the Mummy Museum they are used as the lever for the sarcophagus) but they are quite nice as mini models. <a href="#fnref:sandwiches" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:velma" role="doc-endnote">
-      <p>“<a href="https://www.youtube.com/watch?v=mugwhe_nGL0&amp;t=2m3s">Nice read, Velma</a>” <a href="#fnref:velma" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:scooby" role="doc-endnote">
-      <p>It’s worth noting that there are <a href="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg">4 Scooby variants</a>; one paw up, one paw up and scared, sat down and scared, and sat down with flying goggles. <a href="#fnref:scooby" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:almost" role="doc-endnote">
-      <p>OK, almost every villain. The zombie doesn’t have anything to cover the back so instead they have put a crease and some buttons to show it’s a mask. Genius. <a href="#fnref:almost" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:ha" role="doc-endnote">
-      <p><em>*chortle*</em> <a href="#fnref:ha" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
 
 		</div>
 	</article>
