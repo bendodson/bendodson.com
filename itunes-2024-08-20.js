@@ -257,6 +257,8 @@ function performSearch() {
 
 $(document).ready(function() {	
 
+    $('#shortcuts').hide();
+
     $('#query').focus();
 
 	var sortable = [];
@@ -303,6 +305,18 @@ $(document).ready(function() {
 		performSearch();
 		return false;
 	});
+
+    $('#entity').change(function() {
+        if ($('#entity').val() == 'album') {
+            $('#shortcuts').show();
+        } else {
+            $('#shortcuts').hide();
+        }
+    });
+
+    if ($('#entity').val() == 'album') {
+        $('#shortcuts').show();
+    }
 
 
 });

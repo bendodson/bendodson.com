@@ -10,7 +10,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2023-01-18.css" />
+	<link rel="stylesheet" href="/styles-2024-08-20.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -40,6 +40,36 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2024/08/20/hi-res-album-artwork-in-apple-shortcuts/">Getting Hi-Res Album Artwork in Apple Shortcuts</a></h1>
+			
+			<time datetime="2024-08-20" pubdate=""><a href="/weblog/2024/08/20/hi-res-album-artwork-in-apple-shortcuts/">August 20, 2024</a></time>
+    	</header>
+    	<div>
+			<p>For over a decade, I’ve been providing a way to easily access high-resolution album artwork through my <a href="/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> and <a href="/projects/apple-music-artwork-finder/">Apple Music Artwork Finder</a>. These tools allow you to uncover the original, uncompressed artwork files exactly as they were delivered to Apple by the artist or their label — no compression, no quality loss, just high quality imagery.</p>
+
+<p>Over the years, I’ve received countless messages from users who loved these tools but wished for more; specifically, the ability to fetch multiple pieces of artwork at once or automate the process…</p>
+
+<p>Today, I’m thrilled to announce an Apple Shortcut that lets you do just that, now available exclusively on <a href="https://bendodson.gumroad.com/l/apple-music-artwork-shortcut">Gumroad</a>.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2024/fetching-artwork-with-apple-shortcuts.jpg" width="800" height="550" alt="Fetching album artwork with Apple Shortcuts" />
+    <figure>Fetching album artwork with Apple Shortcuts</figure>
+</div>
+
+<p>With this new shortcut, all you need is an Apple Music URL. Feed it in, and you’ll get back a direct link to the highest resolution, uncompressed artwork available. I’ve also created a demo shortcut that shows you how to use this tool as part of a larger automation. Imagine easily inputting a URL and having the artwork automatically downloaded to your device. It’s that simple.</p>
+
+<p>This shortcut isn’t just limited to album artwork. It works with playlists, stations, artists, music videos, and curators too. Essentially, if it’s on Apple Music, you can get the artwork.</p>
+
+<p>I’m genuinely excited to see how people will use this shortcut. If there’s enough interest, I might expand this functionality to include my other artwork finders. If that’s something you’d like to see, <a href="/contact/">let me know</a>!</p>
+
+<p><strong><a href="https://bendodson.gumroad.com/l/apple-music-artwork-shortcut">View now on Gumroad</a></strong></p>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -1644,75 +1674,6 @@ CODE3</p>
     </li>
     <li id="fn:applewatchchaise" role="doc-endnote">
       <p>I did not bother porting the app to Apple Watch as there are loads of Couch to 5K apps that will serve you better on that platform; this app is predominantly about the Picture in Picture experience. <a href="#fnref:applewatchchaise" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2022/06/27/spatial-audio-finder/">Introducing the Spatial Audio Finder</a></h1>
-			
-			<time datetime="2022-06-27" pubdate=""><a href="/weblog/2022/06/27/spatial-audio-finder/">June 27, 2022</a></time>
-    	</header>
-    	<div>
-			<p>I love Spatial Audio. The sound quality and the balance of the individual audio elements is truly extraordinary and a huge advantage for Apple Music over other streaming services. But the process of <em>finding</em> supported tracks is… well, a bit rubbish.</p>
-
-<p>At the moment, there are 3 ways to discover Spatial Audio tracks:</p>
-
-<ol>
-  <li>
-    <p>Using Apple’s own <a href="https://music.apple.com/gb/curator/apple-music-spatial-audio/1564180390">curated category</a> which features a number of playlists and a rotating list of songs that have been added to the service. This is only a very small subset of all of the tracks though and requires a lot of scrolling and trying to work out what is new and what isn’t.</p>
-  </li>
-  <li>
-    <p>Going to an <a href="https://music.apple.com/gb/album/songs-about-jane/1440851650">album page</a> on Apple Music and seeing if it shows the Dolby Atmos logo. This only works if the entire album is available in Spatial Audio; it can’t tell you if individual tracks are available (something which my <a href="https://bendodson.com/projects/apple-music-artwork-finder/">Apple Music Artwork Finder</a> can do!)</p>
-  </li>
-  <li>
-    <p>Playing songs in your library; if they have Spatial Audio, it’ll kick in and show a Dolby Atmos logo. This obviously only works on a song-by-song basis and is therefore very slow.</p>
-  </li>
-</ol>
-
-<p>Now there is a better way. Introducing the <a href="https://bendodson.com/projects/spatial-audio-finder/">Spatial Audio Finder</a>, the quickest way to see which tracks by your favourite artists are available in Spatial Audio:</p>
-
-<div class="gofigure">
-    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/spatial-audio-finder.gif" width="800" height="657" />
-</div>
-
-<p>So how does this work? At WWDC 2022, Apple made a small change to the <a href="https://developer.apple.com/documentation/applemusicapi/">Apple Music API</a> such that it is now possible to request <a href="https://developer.apple.com/documentation/applemusicapi/songs/attributes">audioVariants</a> as an extended attribute on songs and albums. Within this are such things as Lossless Audio, Dolby Audio, and Dolby Atmos (which denotes Spatial Audio). Whilst I would like to be able to just see Dolby Atmos as a flag on songs within my library, this new API method at least can get me the information via a fairly laborious process. Essentially, I scrape these data points and build up my own database which I can then query very quickly.</p>
-
-<p>To begin with, I built a system which would accept an Apple Music identifier for a song; it would then fetch the album that song belongs to in order to get a full list of all the tracks along with whether they support Spatial Audio or not<sup id="fnref:examplesong" role="doc-noteref"><a href="#fn:examplesong" class="footnote" rel="footnote">1</a></sup>. I then store this information in my database along with a “last checked” flag. My script runs continuously and will check to see if there are any songs present that have not been checked in the past 2 weeks and do not have Spatial Audio. If a song or album gains Spatial Audio status, then I tweet it via a new account; <a href="https://twitter.com/NewSpatialAudio">@NewSpatialAudio</a><sup id="fnref:newspatialaudio" role="doc-noteref"><a href="#fn:newspatialaudio" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>With this in place, it becomes trivial to build up the database as I just need to throw in a load of song identifiers and the script will churn away fetching all of the information and actually expanding it to more songs as it will gather the entire album. I began by importing my entire music library which is relatively simple thanks to my <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">Music Library Tracker</a> app which allowed me to collect all of my song identifiers in a matter of milliseconds. I have 7508 songs in my library but as many of them are single tracks from albums, my script expanded this out to over 16000 tracks (of which around 1000 had support for Spatial Audio).</p>
-
-<p>This is obviously skewed to my musical preferences so the next step was to add the various Spatial Audio playlists that Apple curates. I’ve stored the identifiers of all of their playlists from “<a href="https://music.apple.com/gb/playlist/made-for-spatial/pl.154af9931b214278a64274c410046e69">Made for Spatial Audio</a>” and “<a href="https://music.apple.com/gb/playlist/hits-in-spatial-audio/pl.ba2404fbc4464b8ba2d60399189cf24e">Hits in Spatial Audio</a>” to “<a href="https://music.apple.com/gb/playlist/jazz-in-spatial-audio/pl.efbd24628ff04ff3b5e416a6e237d753">Jazz in Spatial Audio</a>” and “<a href="https://music.apple.com/gb/playlist/bollywood-in-spatial-audio/pl.74a13ae85e1f48dbb4a2804bd7660cbb">Bollywood in Spatial Audio</a>”. These playlists helpfully have a “last updated” flag on them so I check them frequently but only fetch all of their track identifiers if they have changed. This added another 20000 tracks of which most were compatible with Spatial Audio<sup id="fnref:outliers" role="doc-noteref"><a href="#fn:outliers" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p>At this point I was able to see which songs in my library were updated to Spatial Audio and also see new releases and when my tracks got upgraded thanks to the <a href="https://twitter.com/NewSpatialAudio">@NewSpatialAudio</a> account. As every change thus far had been tweeted, it was possible to search Twitter for specific artists to see what songs or albums were compatible doing something like <code class="language-plaintext highlighter-rouge">from:newspatialaudio "avril lavigne"</code><sup id="fnref:sk8erboi" role="doc-noteref"><a href="#fn:sk8erboi" class="footnote" rel="footnote">4</a></sup>. Unfortunately, it turned out this was only working when I was logged in as @NewSpatialAudio and results were mixed if searching from different accounts. I don’t know if this is due to spam protection or some form of caching but it meant there was a need for a new tool; <a href="https://bendodson.com/projects/spatial-audio-finder/">Spatial Audio Finder</a>.</p>
-
-<p>Creating the Spatial Audio Finder was relatively easy as I had all the building blocks in place. You enter an artist name and hit search, then I look up all the tracks in my database and list the songs that have been updated. In the end it took a bit longer as I realised I’d want to have the album artwork and track numbers on the page, and I wasn’t currently collecting that information; this would need to be added to my data necessitating a full re-fetch of the nearly 40000 tracks. I also decided that it was likely people might search for an artist that was not in my database. To remedy that, if a search is made and there are zero results, I go and fetch the top 25 songs for that artist on Apple Music and add their identifiers to the database which will typically expand out to their most popular albums which are the likeliest candidates for upgraded audio<sup id="fnref:michael" role="doc-noteref"><a href="#fn:michael" class="footnote" rel="footnote">5</a></sup>. In this way, the more that people use this tool, the more Spatial Audio tracks will be discovered.</p>
-
-<p>I hope that the <a href="https://bendodson.com/projects/spatial-audio-finder/">Spatial Audio Finder</a> will be useful to many people, but this is just a stop gap solution. My ultimate goal is to be able to scan your music library and then show you the tracks that have been updated to Spatial Audio then go a step further and generate a Spatial Audio playlist for you that gets updated automatically as new songs get upgraded on the service. The first step of this will be happening very soon as I release a new version of my <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">Music Library Tracker</a> app that will allow you to opt-in to upload your library to the Spatial Audio database; the next step after that will be showing you what tracks in your library have been updated! This will in turn expand the musical variety being placed into the database and showcase more Spatial Audio tracks. Eventually, I should have the most complete record of Spatial Audio tracks outside of Apple and also the fastest and most useful ways of accessing that data.</p>
-
-<p>If you run into any issues, please do <a href="https://bendodson.com/contact/">contact me</a> so I can improve the service as much as I can.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:examplesong" role="doc-endnote">
-      <p>For example, if I fetch the song “<a href="https://music.apple.com/gb/album/this-love/1440851650?i=1440851719">This Love</a>” by Maroon 5 (which has the identifier <code class="language-plaintext highlighter-rouge">1440851719</code>), then that will give me the full album (identifier <code class="language-plaintext highlighter-rouge">1440851650</code>) along with all the tracks so I don’t need to check each track individually. <a href="#fnref:examplesong" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:newspatialaudio" role="doc-endnote">
-      <p>The account will differentiate between individual tracks on an album and full albums that support Spatial Audio. I also distinguish between old tracks being upgraded to Spatial Audio versus new releases by checking if the release date was in the past 2 weeks or not. <a href="#fnref:newspatialaudio" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:outliers" role="doc-endnote">
-      <p>They aren’t <em>all</em> compatible as there might be a single song in a playlist which is the only Spatial Audio song on an album; I fetch the entire album so I can monitor if other tracks get added over time. <a href="#fnref:outliers" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:sk8erboi" role="doc-endnote">
-      <p>Yes, “Sk8er Boi” is available in Spatial Audio. <a href="#fnref:sk8erboi" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:michael" role="doc-endnote">
-      <p>I can’t believe there isn’t a single Michael Jackson song rendered in Spatial Audio yet (although you can get <a href="https://music.apple.com/us/album/i-want-you-back/1440912101?i=1440912105">I Want You Back</a> and <a href="https://music.apple.com/us/album/abc/1440912101?i=1440912109">ABC</a> by the Jackson 5). <a href="#fnref:michael" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>

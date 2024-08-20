@@ -10,7 +10,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2023-01-18.css" />
+	<link rel="stylesheet" href="/styles-2024-08-20.css" />
 	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
 	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
 	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
@@ -40,6 +40,50 @@
 		<section id="posts">
 
 	
+	<article>
+		<header>
+     		
+				<h1><a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">Updates to iTunes Artwork Finder</a></h1>
+			
+			<time datetime="2016-11-08" pubdate=""><a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">November 08, 2016</a></time>
+    	</header>
+    	<div>
+			<p>Last week, my <a href="https://bendodson.com/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> script stopped working due to some <a href="https://forums.developer.apple.com/message/192916">changes by Apple</a> with regards to rate limiting. In the past, searching for something on my site would cause my server to send a request to Apple and get the data back but with so many people using it my server would get blocked within a few seconds.</p>
+
+<p>After a brief shutdown<sup id="fnref:thanks" role="doc-noteref"><a href="#fn:thanks" class="footnote" rel="footnote">1</a></sup>, I’m happy to say that my iTunes Artwork Finder is now back up and running again thanks to a few tweaks. Now, instead of sending all requests from my server, it works like this:</p>
+
+<ol>
+  <li>When you enter a search term (i.e. “Fall out boy” albums in United Kingdom), that is sent to my server where I’ll generate the correct URL that is needed for Apple’s servers</li>
+  <li>Your browser then takes that URL to make the request directly to Apple</li>
+  <li>When the data is returned from Apple, the browser then sends it to my server for processing</li>
+  <li>Results are then displayed!</li>
+</ol>
+
+<p>This means that there are now 3 network requests instead of 1 but the crucial part is that all requests to Apple’s servers are now made from your own browser so the rate limiting shouldn’t be a problem<sup id="fnref:ratelimit" role="doc-noteref"><a href="#fn:ratelimit" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>Whilst not an ideal solution, it does work and means I can keep everything running for a bit longer. I’m hopeful that Apple will alter how their rate limiting works as at the moment it seems a bit broken, especially with it being required for several apps with the new <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Apple Music APIs</a>.</p>
+
+<p>The code for the artwork finder is <a href="https://github.com/bendodson/itunes-artwork-finder">available on GitHub</a> although this uses the old PHP request system rather than my new version as that should be more than good enough for personal usage<sup id="fnref:personalusage" role="doc-noteref"><a href="#fn:personalusage" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p>If you run into any problems, <a href="https://bendodson.com/contact/">please get in touch</a>.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:thanks" role="doc-endnote">
+      <p>During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. <a href="#fnref:thanks" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:ratelimit" role="doc-endnote">
+      <p>Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. <a href="#fnref:ratelimit" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:personalusage" role="doc-endnote">
+      <p>And if you want to do more than just personal usage you should <a href="https://bendodson.com/contact/">speak to me</a> first as I don’t really want people to create entire duplicates of my own project. <a href="#fnref:personalusage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
 	<article>
 		<header>
      		
@@ -472,30 +516,6 @@
     </li>
   </ol>
 </div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/05/divide-15-virtually-reality/">The Divide #15 - Virtually Reality</a></h1>
-			
-			<time datetime="2016-08-05" pubdate=""><a href="/weblog/2016/08/05/divide-15-virtually-reality/">August 05, 2016</a></time>
-    	</header>
-    	<div>
-			<p>After a short summer break we’re back with <a href="http://thedivide.co.uk/episodes/15">episode 15 of The Divide podcast</a> which is all about virtual reality. John has a fancy new HTC Vive, I’m trying to convince myself I don’t need one, and Chris just wants to be on the bridge with Captain Janeway…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
 
 		</div>
 	</article>
