@@ -54,6 +54,14 @@ function performSearch() {
                     }
                 }
 
+                html += '<h3>'+data.artist+' – '+data.title;
+                /*
+                if (data.year) {
+                    html += ', '+data.year;
+                }
+                */
+                html += '</h3>';
+
                 if (data.tracks.length > 0) {
                     html += '<table id="tracks-table">';
                     html += '<tr><th></th><th>Title</th><th></th><th>Duration<th></tr>';
