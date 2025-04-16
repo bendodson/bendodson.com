@@ -106,9 +106,18 @@ function performAnimationSearch() {
         dataType: 'json'
     }).done(function(data) {
         if (data.animatedUrl != '') {
-            $('#animated-artwork').html('<a href="'+data.animatedUrl+'" target="_blank">Animated Artwork</a>');
+            if (data.animatedUrl.includes('2160x2160')) {
+                $('#animated-artwork').html('<a href="'+data.animatedUrl+'" target="_blank">Animated Artwork (2160p h.265)</a>');
+            } else {
+                $('#animated-artwork').html('<a href="'+data.animatedUrl+'" target="_blank">Animated Artwork (highest quality)</a>');
+            }
+            
         } else {
             $('#animated-artwork').html('No animated artwork could be found');    
+        }
+
+        if (data.animatedUrl1080 != '') {
+            $('#animated-artwork').after('<li id="animated-artwork-1080"><a href="'+data.animatedUrl1080+'" target="_blank">Animated Artwork (1080p h.264)</a></li>');
         }
     });
 }
