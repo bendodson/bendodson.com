@@ -43,6 +43,117 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2022/07/12/chaise-longue-to-5k/">'Chaise Longue to 5K' and porting a tvOS app built with UIKit to iOS, iPadOS, and macOS</a></h1>
+			
+			<time datetime="2022-07-12" pubdate=""><a href="/weblog/2022/07/12/chaise-longue-to-5k/">July 12, 2022</a></time>
+    	</header>
+    	<div>
+			<p>A little while ago, my chiropractor recommended that I take up the “<a href="https://www.nhs.uk/live-well/exercise/running-and-aerobic-exercises/get-running-with-couch-to-5k/">Couch to 5K</a>” program in order to improve my fitness in a way that wouldn’t see me literally running before I could walk. It was a huge success and I was able to lose a significant amount of weight and improve my overall health. Unfortunately, the 2020 lockdowns and the birth of a new child meant most of that effort was undone and I found myself once again needing to embark on a gradual increase in exercise.</p>
+
+<p>One of the key features of Couch to 5K is that you do intermittent bursts of running and walking; for example, in the first week you’ll do three runs consisting of alternating 60 seconds of running (x8) and 90 seconds of walking (x7) sandwiched between a 5 minute warm up and cool down. To keep track of this, I used the <a href="https://apps.apple.com/gb/app/one-you-couch-to-5k/id1082307672">free NHS Couch to 5K app</a> which tells you what to do at each stage via an audio voiceover which also offers encouragement throughout your run. This worked well for me as I listened to music whilst doing my runs, but nowadays I prefer to run whilst watching TV shows or YouTube videos on an Apple TV in front of my treadmill. For this use case, audio interruption wasn’t necessarily what I wanted, especially as I was already vaguely familiar with the different run timings. Instead, I wanted an app on my Apple TV that could show me my run progress in a Picture in Picture window.</p>
+
+<p>Introducing “<a href="https://apps.apple.com/us/app/chaise-longue-to-5k/id1633434180">Chaise Longue to 5K</a>” (after all, couches are <em>so</em> common):</p>
+
+<div class="gofigure">
+    <a href="https://apps.apple.com/us/app/chaise-longue-to-5k/id1633434180">
+        <img src="https://bendodson.s3.amazonaws.com/weblog/2022/chaise-longue-to-5k-niles.jpg" width="800" height="450" />
+    </a>
+    <figure>Frasier, the discerning runner's choice.</figure>
+</div>
+
+<p>The idea is straightforward enough; you open the app to a grid showing all of the available runs<sup id="fnref:wireframe" role="doc-noteref"><a href="#fn:wireframe" class="footnote" rel="footnote">1</a></sup> and then navigate to a fullscreen running page with a timer and coloured blocks that show what you should be doing. This can then be shrunk down into a Picture in Picture window so you can see the critical information whilst you watch something else.</p>
+
+<p>Originally I’d planned to use the new <code class="language-plaintext highlighter-rouge">AVPictureInPictureController.init(contentSource:)</code> API that was introduced with tvOS 15.0 as that would allow me to fairly easily render the <code class="language-plaintext highlighter-rouge">UIView</code> of the run screen into the PiP window; unfortunately, there is a <a href="https://github.com/jazzychad/PiPBugDemo">bug with tvOS</a> which prevents that from working and is still present in the tvOS 16 betas.</p>
+
+<p>My next plan was to have the app render a video of the run on the fly. Essentially I would display the running UI, snapshot it with <code class="language-plaintext highlighter-rouge">UIView.drawHierarchy(in rect: CGRect, afterScreenUpdates afterUpdates: Bool)</code>, and then pipe the <code class="language-plaintext highlighter-rouge">UIImage</code> into an <code class="language-plaintext highlighter-rouge">AVAssetWriter</code> at 1 second intervals to generate a video. Unfortunately that proved too intensive for the Apple TV hardware (especially the non-4K model) with the render taking a couple of minutes for each video. However, as I’d already built the render pipeline, I instead updated the system to generate all of the videos sequentially and store them; I then ran that in the tvOS Simulator to generate the 12 videos<sup id="fnref:chaisevideos" role="doc-noteref"><a href="#fn:chaisevideos" class="footnote" rel="footnote">2</a></sup> and then bundled them in the app. Much easier 🤣</p>
+
+<p>The final part was to add a button to the top of the run selector page that would show you your next run. To do this, I store the week and number of the last run that was completed<sup id="fnref:cooldown" role="doc-noteref"><a href="#fn:cooldown" class="footnote" rel="footnote">3</a></sup> within <code class="language-plaintext highlighter-rouge">NSUbiquitousKeyValueStore</code>; this is a similar API to <code class="language-plaintext highlighter-rouge">UserDefaults</code> with the advantage that it is synced through the user’s iCloud account meaning it’ll survive reinstallations or switching to a new Apple TV without restoring from backup.</p>
+
+<p>However, that led to an interesting idea. Could I port this to other platforms? And if I could, would I be able to <a href="https://twitter.com/bendodson/status/1544599673943609345">do it in a single day</a>?</p>
+
+<p>Yes.</p>
+
+<div class="gofigure">  
+    <a href="https://apps.apple.com/us/app/chaise-longue-to-5k/id1633434180">
+        <img src="https://bendodson.s3.amazonaws.com/dodo/chaise-longue-to-5k-sync.jpg" width="800" height="450" />
+    </a>
+</div>
+
+<p>Despite using UIKit rather than SwiftUI, I was able to port everything over to iPhone, iPad, and Mac within 5 hours or so. I started by rejigging the project files so shared code would be separate from the xib files I use for the interface. I then added a new target for iOS and went through the laborious process of recreating the xib files; unfortunately tvOS and iOS xibs are incompatible even so far as you can’t copy and paste standard elements like <code class="language-plaintext highlighter-rouge">UILabel</code> between them.</p>
+
+<p>The design was such that it was quite easy to make it work for iPhone. The run page itself just needed some font size adjustments whilst the grid view showing all of the runs had some stack views tweaked so they were shown vertically rather than horizontally.</p>
+
+<p>The next step was to optimise the design for iPad. Again, this mostly worked out of the box as I use AutoLayout for everything. I just needed to monitor trait changes and update the code to render slightly differently depending on whether we were in compact or regular width mode. This had the nice side effect of enabling the three column layout on an iPhone 13 Pro Max in landscape and also working across the various split screen views that are available on iPad.</p>
+
+<p>Finally, I checked the box for Catalyst support for macOS and was surprised to find that everything pretty much worked out of the box. I only needed to add the following code to get the app looking just fine on the Mac:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="cp">#if targetEnvironment(macCatalyst)</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">titlebar</span> <span class="o">=</span> <span class="n">window</span><span class="p">?</span><span class="o">.</span><span class="n">windowScene</span><span class="p">?</span><span class="o">.</span><span class="n">titlebar</span> <span class="p">{</span>
+        <span class="n">titlebar</span><span class="o">.</span><span class="n">titleVisibility</span> <span class="o">=</span> <span class="o">.</span><span class="n">hidden</span>
+        <span class="n">titlebar</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+    <span class="n">window</span><span class="p">?</span><span class="o">.</span><span class="n">windowScene</span><span class="p">?</span><span class="o">.</span><span class="n">sizeRestrictions</span><span class="p">?</span><span class="o">.</span><span class="n">minimumSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">768</span><span class="p">)</span>
+<span class="cp">#endif</span></code></pre></figure>
+
+<p>That code effectively hides the toolbar so the traffic light window management buttons blend into the app view and then restricting the minimum view size to that of a regular iPad so you can’t break the layout<sup id="fnref:catalyst" role="doc-noteref"><a href="#fn:catalyst" class="footnote" rel="footnote">4</a></sup>.</p>
+
+<p>With that done, I then went through the app and added a few quality of life improvements such as a native menu bar on the Mac, keyboard shortcuts for Mac and iPad, and adding the ability for PiP to automatically engage when you leave the app during a run on iPhone and iPad.</p>
+
+<p>SwiftUI would undoubtedly have made the UI faster to port, but I still think the platform is too immature for full app development. As <a href="https://twitter.com/richturton/status/1469320087844933638">Richard Turton put it</a>:</p>
+
+<blockquote>
+  <p>SwiftUI allows you to move so incredibly fast that by the time you realise what you want isn’t yet possible, you’re already off the edge of the cliff, like Wile E Coyote</p>
+</blockquote>
+
+<p>That certainly matches my experience 🤣. Whilst it can be a phenomenally quick tool for building UI, it can’t quite match the smooth experience that users expect when it comes to the small but crucial details.</p>
+
+<div class="gofigure">  
+    <a href="https://apps.apple.com/us/app/chaise-longue-to-5k/id1633434180">
+        <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/chaise-longue-to-5k-iphone.jpg" width="800" height="450" />
+    </a>
+</div>
+
+<h3 id="in-conclusion">In Conclusion</h3>
+
+<p>As I’ve said many times before, one of the great joys of being a software developer is that you can build apps bespoke for your own needs and interests. I’ve massively enjoyed having Chaise Longue to 5K on my Apple TV whilst doing my runs, but I also really enjoyed the challenge of porting the app across to all the other Apple platforms that support Picture in Picture<sup id="fnref:applewatchchaise" role="doc-noteref"><a href="#fn:applewatchchaise" class="footnote" rel="footnote">5</a></sup>. As ever, there are a number of small details that I’d like to highlight:</p>
+
+<ul>
+  <li>Whilst adding extra platforms didn’t take that long from a development point of view, it massively increased the amount of time preparing for App Store submission as I had to create a lot more screenshots, text, etc. Trying to work out the best way to show PiP on macOS was an <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/chaise-longue-macos-pip.png">interesting challenge</a>! It was also difficult to work out a way to <a href="https://bendodson.s3.amazonaws.com/dodo/chaise-longue-to-5k-pip.jpg">show it on tvOS</a> without using copyrighted video content.</li>
+  <li>A nice side effect of using the same bundle identifier for all three versions of the app (Apple TV, iOS/iPadOS, Mac) is that if you buy it on one platform you get it on all of them! As I’m selling it for £1.79 currently, that makes it a pretty sweet deal…</li>
+  <li>I spent quite a lot of time on a little animation effect that happens when you first complete a 5K run. Confetti in front of and behind a real time blur that animates seamlessly. <a href="https://twitter.com/bendodson/status/1543969870810857477">Beautiful</a>.</li>
+  <li>I’m really pleased with how the Apple TV app icon <a href="https://twitter.com/bendodson/status/1542450900622626819">came out</a> as I’m always a big fan of the parallax effects you can create. I found a very cheap designer on Fiverr who created a <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2022/chaise-longue-fiverr.png">first pass</a> and then I tweaked it to match my needs; I can’t draw to save my life but I can recompose and recolor objects pretty well!</li>
+  <li>I was amazed that all of the Picture in Picture stuff just worked across all the platforms; I didn’t have to change any code whatsoever and whilst the videos were rendered from the tvOS app UI they look good on all platforms.</li>
+  <li>Thanks to using <code class="language-plaintext highlighter-rouge">NSUbiquitousKeyValueStore</code> coupled with <code class="language-plaintext highlighter-rouge">.didChangeExternallyNotification</code>, completing a run on one device will see the UI automatically update on all other devices within seconds. No 3rd party frameworks or private data collection required!</li>
+</ul>
+
+<p>I’d love it if you would give <a href="https://apps.apple.com/us/app/chaise-longue-to-5k/id1633434180">Chaise Longue to 5K</a> a try. It’s available now on tvOS 14 and above, iOS / iPadOS 14 and above, and macOS Big Sur (11.0) and above. One low price unlocks it across all platforms.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:wireframe" role="doc-endnote">
+      <p>Here’s a <a href="https://twitter.com/bendodson/status/1542528144241856513/photo/1">rough drawing I did in Notes</a> compared with the <a href="https://twitter.com/bendodson/status/1542528144241856513/photo/2">final product</a>. <a href="#fnref:wireframe" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:chaisevideos" role="doc-endnote">
+      <p>Even though there are 27 runs, that only equates to 12 videos as most weeks the three runs are identical so they can use the same video. Generating those on my M1 Ultra Mac Studio took less than 3 minutes and means I can easily update them should I want to update the UI in future. Each video is rendered at 720p and weighs in at around 3mb leaving the overall app size at under 40mb. <a href="#fnref:chaisevideos" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:cooldown" role="doc-endnote">
+      <p>Which is defined as getting to the cool down section. <a href="#fnref:cooldown" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:catalyst" role="doc-endnote">
+      <p>Views in Catalyst always seem to be of the “Regular / Regular” size regardless of what tiny windows you create so it isn’t possible to have the view seamlessly change between iPad and iPhone style sizes when resizing hence the need for a sensible minimum size. <a href="#fnref:catalyst" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:applewatchchaise" role="doc-endnote">
+      <p>I did not bother porting the app to Apple Watch as there are loads of Couch to 5K apps that will serve you better on that platform; this app is predominantly about the Picture in Picture experience. <a href="#fnref:applewatchchaise" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2022/06/27/spatial-audio-finder/">Introducing the Spatial Audio Finder</a></h1>
 			
 			<time datetime="2022-06-27" pubdate=""><a href="/weblog/2022/06/27/spatial-audio-finder/">June 27, 2022</a></time>
@@ -1584,37 +1695,6 @@
     </li>
     <li id="fn:addedcomplications" role="doc-endnote">
       <p>Auto renewable subscriptions and supporting promoted in-app purchases, getting around the 64-notification limits of the UNUserNotificationCentre when you have 300 notifications to load in, how to efficiently deal with syncing contact information when it could be different on each device, etc. Don’t even talk to me about recreating the entirety of the custom repeat options from the iOS Reminders app! <a href="#fnref:addedcomplications" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/09/15/gyfted/">Gyfted</a></h1>
-			
-			<time datetime="2019-09-15" pubdate=""><a href="/weblog/2019/09/15/gyfted/">September 15, 2019</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app I’ve been working on recently: <a href="https://apps.apple.com/us/app/gyfted-the-universal-wishlist/id1475349910">Gyfted</a>, the free universal wishlist.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/gyfted.jpg" width="800" height="600" /></p>
-
-<p>I worked as the only iOS developer on the project working remotely from the UK. The app provides a free and easy way for users to create their own wishlists and populate them with items from a data driven explore page or by manually entering details. It is also possible to add an item via a web link (including via a system wide share sheet) which is then used to automatically add metadata including images, descriptions, and more.</p>
-
-<p>Whilst I originally started building the app using Cloud Firestore from Firebase, this quickly proved to be insufficient for the ways in which we wanted to generate the various social feeds and explore pages. To remedy this, I built a custom server backend and API including such features as feed generation, friend requests, likes, shares, and profile data collection.</p>
-
-<p>The beautiful design was provided by Gyfted but I did need to make a number of adjustments to ensure it would scale correctly on all devices from the iPhone 4 up to the iPhone 11 Pro Max. The app is written entirely in Swift 5 and there are several pieces of swiping interactivity and subtle animated bounces to make the app feel right at home in the modern iOS ecosystem. Other Apple technologies used include push notifications, accessing the address book<sup id="fnref:addressprivacy" role="doc-noteref"><a href="#fn:addressprivacy" class="footnote" rel="footnote">1</a></sup>, and a full sharing suite powered by Universal Links allowing the app to be opened directly to specific sections of the app or redirecting a user to the App Store if they don’t have the app installed.</p>
-
-<p>I really enjoyed working with Gyfted on this project and having a chance to build both an interesting wishlist app and the server infrastructure to support it. You can download <a href="https://apps.apple.com/us/app/gyfted-the-universal-wishlist/id1475349910">Gyfted on the App Store</a> for free and learn more about it at <a href="https://gyfted.it">gyfted.it</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:addressprivacy" role="doc-endnote">
-      <p>Done in a secure and privacy-focussed way. The user doesn’t need to give full access to their contacts or provide access permissions. <a href="#fnref:addressprivacy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
