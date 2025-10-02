@@ -194,6 +194,11 @@ function performSearch() {
         return;
     }
 
+    if (entity == 'movie') {
+        fetchMovieArtwork(query, country);
+        return;
+    }
+
 
 
     
@@ -287,6 +292,38 @@ function fetchAlbumArtwork(query, storefront) {
                     var html = '<div><h3>'+title+'</h3>';
                     html += '<p><a href="'+result.thumb+'" target="_blank">Standard Resolution</a> | <a href="' + result.large + '" target="_blank">Uncompressed High Resolution</a></p>';
                     html += '<a href="'+result.thumb+'" target="_blank" title="iTunes Artwork for \''+title+'\'" download="'+title+'"><img src="'+result.thumb+'" alt="iTunes Artwork for \''+title+'\'" width="600" height="600"></a>';
+                    html += '</div>';
+
+                    $('#results').append(html);
+                };
+            }            
+        }
+    });
+}
+
+function fetchMovieArtwork(query, storefront) {
+    $.ajax({
+        type: "POST",
+        crossDomain: true,
+        url: 'https://artwork.dodoapps.io/',
+        data: JSON.stringify({search: query, storefront: storefront, type: 'movie'}),
+        dataType: 'json'
+
+    }).done(function(data) {
+
+        $('#results').html('');
+        if (data.error) {
+            $('#results').append('<h3>'+data.error+'</h3>');
+        } else {
+            if (!data.images.length) {
+                $('#results').append('<h3>No results found.</h3>');
+            } else {
+                for (var i = 0; i < data.images.length; i++) {
+                    var result = data.images[i];
+                    var title = result.name;
+                    var html = '<div><h3>'+title+'</h3>';
+                    html += '<p><a href="'+result.thumb+'" target="_blank">Standard Resolution</a> | <a href="' + result.large + '" target="_blank">Uncompressed High Resolution</a></p>';
+                    html += '<a href="'+result.thumb+'" target="_blank" title="iTunes Artwork for \''+title+'\'" download="'+title+'"><img src="'+result.thumb+'" alt="iTunes Artwork for \''+title+'\'" width="400" height="600"></a>';
                     html += '</div>';
 
                     $('#results').append(html);
