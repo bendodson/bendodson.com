@@ -24,7 +24,7 @@ function performSearch() {
             html += '<img src="'+data.thumb+'" alt="" width="600"></a>';
             html += '<ul>';
             html += '<li><a href="'+data.thumb+'" target="_blank">Standard Resolution ('+data.thumbWidth+'x'+data.thumbHeight+'px)</a>'+video+'</li>';
-            html += '<li><a href="'+data.large+'" target="_blank">Highest Resolution (uncompressed jpg)</a></li>';
+            html += '<li><a href="'+data.large+'" target="_blank">Highest Resolution (uncompressed jpg • '+data.width+'x'+data.height+'px)</a></li>';
             if (data.png) {
                 html += '<li><a href="'+data.png+'" target="_blank">Highest Resolution (uncompressed png)</a></li>';
             }
