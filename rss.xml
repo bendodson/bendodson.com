@@ -6,9 +6,103 @@
     <atom:link href="https://bendodson.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>The weblog of Ben Dodson, freelance developer on all Apple platforms</description>
     <language>en-gb</language>
-    <pubDate>Wed, 19 Nov 2025 11:17:09 +0000</pubDate>
-    <lastBuildDate>Wed, 19 Nov 2025 11:17:09 +0000</lastBuildDate>
+    <pubDate>Thu, 22 Jan 2026 15:12:12 +0000</pubDate>
+    <lastBuildDate>Thu, 22 Jan 2026 15:12:12 +0000</lastBuildDate>
 
+    
+    <item>
+      <title>Restoring the traditional icon-based tab bar on iPad with Liquid Glass</title>
+      <link>https://bendodson.com/weblog/2026/01/22/traditional-tab-bar-on-ipados-26/</link>
+      <pubDate>Thu, 22 Jan 2026 15:00:00 +0000</pubDate>
+      <author>ben@bendodson.com (Ben Dodson)</author>
+      <guid>https://bendodson.com/weblog/2026/01/22/traditional-tab-bar-on-ipados-26/</guid>
+      <description>&lt;p&gt;iPadOS 18 forced a UI change to tab bars that was arguably worse for users and added extra work for developers who had no choice but to support it. No longer would it render along the bottom of the screen with icons and text side-by-side, but instead would be more akin to a segmented control at the top of the screen with no icons at all. This change happened as soon as you recompiled with Xcode 15 and could not be opted out of.&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/tab-bar-ui-change-ipados-18.jpg&quot; width=&quot;700&quot; height=&quot;400&quot; alt=&quot;Tab bar differences between iPadOS 17 and 18&quot; /&gt;
+    &lt;figure&gt;Tab bar differences between iPadOS 17 and 18 (screenshot from &lt;a href=&quot;https://mastodon.social/@nicoreese/112611380104970216&quot;&gt;Nico Reese&lt;/a&gt;)&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Apple’s goal with this redesign was to “&lt;a href=&quot;https://developer.apple.com/br/videos/play/wwdc2024/10147/&quot;&gt;provide more space for content and other functionality&lt;/a&gt;”. I’m not sure why the iPad with its massive screens would benefit from this more than the iPhone which did not get this change, but there are improvements when you consider the integrated search and the ability to animate from the segmented tab bar to a side bar navigation.&lt;/p&gt;
+
+&lt;p&gt;That said, I feel the overall change was negative as there were less visual affordances with the removal of icons&lt;sup id=&quot;fnref:tahoeicons&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:tahoeicons&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and long text is frequently truncated (i.e. from localisations). There are further reductions in the user experience when you consider that the tab bar position changes from the bottom of the screen&lt;sup id=&quot;fnref:bottombar&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:bottombar&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to the top of the screen as you switch between compact and regular size classes.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, the design language of iOS 18 meant it was fairly easy for developers to create custom tab bars that looked like those on iOS 17.&lt;/p&gt;
+
+&lt;p&gt;Then, in the summer of 2025, Liquid Glass&lt;sup id=&quot;fnref:liquidglass&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:liquidglass&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; appeared…&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/liquid-glass-tab-bar.jpg&quot; width=&quot;600&quot; height=&quot;221&quot; alt=&quot;A tab bar with Liquid Glass&quot; /&gt;
+    &lt;figure&gt;A tab bar with Liquid Glass&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Chromatic aberration! Real-time distortion! Bendy bubbles that react in real time to your swipes! These are all huge flexes for the Apple Silicon team but they suddenly make the idea of recreating the bottom iOS tab bar in iPadOS unrealistic as many of these design features are not available to developers.&lt;/p&gt;
+
+&lt;p&gt;The one “fix” I see regularly for this is to trick the tab bar into believing it is permanently running in compact mode (the size class that is used when you shrink iPad windows down to iPhone sizes):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// SwiftUI&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;TabView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;horizontalSizeClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// UIKit&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tabBarController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;traitOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;horizontalSizeClass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compact&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This works, to a point, but can lead to visual glitches in your navigation hierarchy. It also falls flat on iPadOS 26 as the tab bar is no longer full width but instead only as large as it needs to be; as the icon appears above the text in compact mode, this can lead to a very small tab bar on a 13” iPad Pro. This can be remedied by setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UIDesignRequiresCompatibility&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YES&lt;/code&gt; in your Info.plist but this will disable Liquid Glass throughout your app and is only a stop-gap solution that is scheduled to be removed in iPadOS 27&lt;sup id=&quot;fnref:ironictabbar&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:ironictabbar&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Fortunately there is another way. With just a single line of code, you can get the traditional tab bar back on iPadOS 18 and an updated Liquid Glass version of it on iPadOS 26:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-swift&quot; data-lang=&quot;swift&quot;&gt;&lt;span class=&quot;kt&quot;&gt;UserDefaults&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;standard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;defaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UseFloatingTabBar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This works for both UIKit and SwiftUI apps, you just need to call it at the start of your application lifecycle.&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/traditional-ipad-tab-bar-with-liquid-glass.jpg&quot; width=&quot;800&quot; height=&quot;110&quot; alt=&quot;The traditional iPad tab bar in Liquid Glass&quot; /&gt;
+    &lt;figure&gt;The traditional iPad tab bar in Liquid Glass&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;All of the iOS 26 additions are supported such as the new search API seamlessly splitting the tab bar in half and allowing the search text field to appear at the bottom of the screen. This extends to other modern tab bar features such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tabBarMinimizeBehavior&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tabViewBottomAccessory&lt;/code&gt;. This is not a hacky solution, but something Apple engineers have clearly put a lot of consideration into.&lt;/p&gt;
+
+&lt;div class=&quot;gofigure&quot;&gt;
+    &lt;img src=&quot;https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/liquid-glass-tab-bar-trait-change.gif&quot; width=&quot;800&quot; height=&quot;104&quot; alt=&quot;Animation between compact and regular size classes with iPadOS 26 search tab&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There are two caveats to this approach:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;This is an internal flag within the system similar to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;defaults write&lt;/code&gt; on macOS. That means it is officially unsupported and could be removed in a future version of iPadOS but the risks are manageable. I have used it in several production apps since the launch of iPadOS 18 in 2024 and have never had any issues with App Review. The fact that they redesigned this component for Liquid Glass makes me fairly confident it won’t be removed anytime soon.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If your app is using UIKit storyboards and your initial view controller is a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UITabBarController&lt;/code&gt; then simply registering the defaults in your App Delegate will not work because the storyboard will already be loaded. Instead, you’ll need to remove the automated way of having your storyboard load from Xcode and instead manually load it in the App Delegate by creating a UIWindow and assigning the initial view controller from your storyboard to it’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rootViewController&lt;/code&gt; property.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you do go down this route, just be prepared that a future iPadOS update may remove the setting&lt;sup id=&quot;fnref:emulation&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:emulation&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; so it is best to make sure your app would still function without it enabled.&lt;/p&gt;
+
+&lt;p&gt;I think this tab bar looks and works a lot better than the segmented control approach we currently have and I wish Apple would support it fully by providing an explicit opt-in on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UITabBarController&lt;/code&gt; / &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TabView&lt;/code&gt;. The Liquid Glass version of the traditional tab bar arguably does a better job of meeting Apple’s stated goal of providing more space for content while retaining the visual affordances that have been present in the tab bar for nearly two decades.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:tahoeicons&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;It is ironic that the icons have been removed from tab bars when in macOS 26 (Tahoe) icons have been added &lt;a href=&quot;https://mjtsai.com/blog/2025/12/10/icons-in-menus-everywhere/&quot;&gt;throughout the menuing system&lt;/a&gt; to much dismay. &lt;a href=&quot;#fnref:tahoeicons&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:bottombar&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;The tab bar is at the bottom of the iPhone because it is easier for our thumbs to stretch that far; I would suggest that keeping it at the bottom of the iPad is also more beneficial as you don’t need to cover the display with your arm as you switch between tabs. &lt;a href=&quot;#fnref:bottombar&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:liquidglass&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I’m not going to delve into the rights and wrongs of Liquid Glass in this post but I am planning on talking about it in my newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;, in the next issue coming later this month. Join over 4000 discerning subscribers - it’s free! &lt;a href=&quot;#fnref:liquidglass&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:ironictabbar&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I applaud Apple for having the ability for developers to opt out of potentially breaking UI changes. This should have been the approach in iOS 18 for the tab bar in my opinion; letting developers have more time to adjust an iPad app to newer UI paradigms rather than forcing them immediately. &lt;a href=&quot;#fnref:ironictabbar&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:emulation&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Usually UI changes require the developer to recompile the app with the version of Xcode that released alongside it so an Xcode 15 compiled app running on iPadOS 18 will show the full tab bar - it is only when building with Xcode 16 that you get forced into the new UI. However, if a theoretical future iPadOS version removed support for the UserDefault, then the tab bar would revert to the segmented control version immediately upon the user updating their iPad. Make sure your app can still run if this default is not set even if it may not look visually how you would prefer. &lt;a href=&quot;#fnref:emulation&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Getting the new portrait artwork from the iOS 26 Apple TV app</title>
@@ -3478,55 +3572,6 @@ TN &amp;amp; 0 2017 Wizards of the Coast
     &lt;/li&gt;
     &lt;li id=&quot;fn:scryfall&quot; role=&quot;doc-endnote&quot;&gt;
       &lt;p&gt;In reality I only need the set number and set code; these can then be used with an API call to &lt;a href=&quot;https://scryfall.com/&quot;&gt;Scryfall&lt;/a&gt; to fetch all of the other possible information about this card including game rulings and monetary value. &lt;a href=&quot;#fnref:scryfall&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-&lt;p&gt;You can get exclusive updates on my projects and early access to my apps by joining my free newsletter, &lt;a href=&quot;https://www.thedododeveloper.com/&quot;&gt;The Dodo Developer&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>UKTV Play for Apple TV</title>
-      <link>https://bendodson.com/weblog/2019/06/06/uktvplay-for-tvos/</link>
-      <pubDate>Thu, 06 Jun 2019 17:00:00 +0100</pubDate>
-      <author>ben@bendodson.com (Ben Dodson)</author>
-      <guid>https://bendodson.com/weblog/2019/06/06/uktvplay-for-tvos/</guid>
-      <description>&lt;p&gt;In January 2019 I started working with a large brand on an exciting new project; bringing UKTV to the Apple TV.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/uktv-app.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;UKTV is a large media company that is most well known for the Dave channel along with Really, Yesterday, Drama, and Home. Whilst they have had apps on iOS, the web, and other TV set top boxes for some time, they were missing a presence on the Apple TV and contracted me as the sole developer to create their  tvOS app.&lt;/p&gt;
-
-&lt;p&gt;Whilst several apps of this nature have been built with TVML templates, I built the app natively in Swift 5 in order that I could match the provided designs as close as possible and have full control over the trackpad on the Siri Remote. This necessitated building a custom navigation bar&lt;sup id=&quot;fnref:navbarfocus&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:navbarfocus&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and several complex focus guides to ensure that logical items are selected as the user scrolls around&lt;sup id=&quot;fnref:tvosfocus&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:tvosfocus&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. There are also custom components to ensure text can be scrolled perfectly within the settings pages, a code-based login system for easy user authentication, and realtime background blurring of the highlighted series as you scroll around the app.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/uktv-categories.jpg&quot; width=&quot;800&quot; height=&quot;400&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Aside from the design, there were also complex integrations required in order to get video playback up and running due to the requirements for traditional TV style adverts and the use of FairPlay DRM on all videos as well as a wide-ranging and technical analytics setup. A comprehensive API was provided for fetching data but several calls are required to render each page due to the rich personalisation of recommended shows; this meant I needed to build a robust caching layer and also an intricate network library to ensure that items were loaded in such a way that duplicate recommendations could be cleanly removed. I also added all of the quality of life touches you expect for an Apple TV app such as Top Shelf integration to display personalised content recommendations on the home screen.&lt;/p&gt;
-
-&lt;p&gt;The most exciting aspect for me though was the ability to work on the holy grail of app development; an invitation-only Apple technology. I had always been intrigued as to how some apps (such as BBC iPlayer or ITV Hub) were able to integrate into the TV app and it turns out it is done on an invitation basis much like the first wave of CarPlay compatible apps&lt;sup id=&quot;fnref:carplay&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:carplay&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. I’m not permitted to go into the details of how it works, but I can say that a lot of effort was required from UKTV to provide their content in a way that could be used by Apple and that the integration I build had to be tested rigorously by Apple prior to submission to the App Store. One of the best moments in the project was when our contact at Apple said “please share my congrats to your tvOS developer; I don’t remember the last time a dev completed TV App integration in just 2 passes”.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bendodson.s3.amazonaws.com/apps/uktv-taskmaster.jpg&quot; width=&quot;800&quot; height=&quot;449&quot; alt=&quot;UKTV on the TV app&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;All of this hard work seems to have paid off as the app has reached #1 in the App Store in just over 12 hours&lt;sup id=&quot;fnref:numberone&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:numberone&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;I’ve really enjoyed working on this project and I’m looking forward to working with UKTV again in the future. You can download &lt;a href=&quot;https://itunes.apple.com/gb/app/uktv-play-tv-on-demand/id596009592#?platform=appleTV&quot;&gt;UKTV Play for Apple TV via the App Store&lt;/a&gt; and read the &lt;a href=&quot;https://corporate.uktv.co.uk/news/article/uktv-play-arrives-apple-tv/&quot;&gt;official launch press release&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;del&gt;Please note: I did not work on the iOS version of UKTV Play. Whilst iTunes links both apps together, they are entirely separate codebases built by different teams. I was the sole developer on the tvOS version for Apple TV.&lt;/del&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;I was later asked to rebuild the iPhone and iPad apps as the sole iOS developer and the new modern version of these apps launched in September 2021. I maintain both the iOS and tvOS apps which have both received regular updates throughout 2022.&lt;/em&gt;&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:navbarfocus&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;Replete with a gentle glimmer as each option is focussed on. &lt;a href=&quot;#fnref:navbarfocus&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:tvosfocus&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;For example, the default behaviour you get with tvOS is that it will focus on the next item in the direction you are scrolling. If you scroll up and there is nothing above (as maybe the row above has less content) then it may skip a row, or worse, not scroll at all. This means there is a need for invisible guidelines throughout the app which refocus the remote to the destination that is needed. It seems a small thing, but it is the area in which tvOS most differs from other Apple platforms and is a particular pain point for iOS developers not familiar with the remote interaction of the Apple TV platform. &lt;a href=&quot;#fnref:tvosfocus&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:carplay&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;CarPlay is now open to all developers building a specific subsection of apps as of iOS 13. &lt;a href=&quot;#fnref:carplay&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:numberone&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;Which I believe makes it my fourth app to reach #1. &lt;a href=&quot;#fnref:numberone&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;

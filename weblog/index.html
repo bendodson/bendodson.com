@@ -43,6 +43,103 @@
 	<article>
 		<header>
      		
+				<h1><a href="/weblog/2026/01/22/traditional-tab-bar-on-ipados-26/">Restoring the traditional icon-based tab bar on iPad with Liquid Glass</a></h1>
+			
+			<time datetime="2026-01-22" pubdate=""><a href="/weblog/2026/01/22/traditional-tab-bar-on-ipados-26/">January 22, 2026</a></time>
+    	</header>
+    	<div>
+			<p>iPadOS 18 forced a UI change to tab bars that was arguably worse for users and added extra work for developers who had no choice but to support it. No longer would it render along the bottom of the screen with icons and text side-by-side, but instead would be more akin to a segmented control at the top of the screen with no icons at all. This change happened as soon as you recompiled with Xcode 15 and could not be opted out of.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/tab-bar-ui-change-ipados-18.jpg" width="700" height="400" alt="Tab bar differences between iPadOS 17 and 18" />
+    <figure>Tab bar differences between iPadOS 17 and 18 (screenshot from <a href="https://mastodon.social/@nicoreese/112611380104970216">Nico Reese</a>)</figure>
+</div>
+
+<p>Apple’s goal with this redesign was to “<a href="https://developer.apple.com/br/videos/play/wwdc2024/10147/">provide more space for content and other functionality</a>”. I’m not sure why the iPad with its massive screens would benefit from this more than the iPhone which did not get this change, but there are improvements when you consider the integrated search and the ability to animate from the segmented tab bar to a side bar navigation.</p>
+
+<p>That said, I feel the overall change was negative as there were less visual affordances with the removal of icons<sup id="fnref:tahoeicons" role="doc-noteref"><a href="#fn:tahoeicons" class="footnote" rel="footnote">1</a></sup> and long text is frequently truncated (i.e. from localisations). There are further reductions in the user experience when you consider that the tab bar position changes from the bottom of the screen<sup id="fnref:bottombar" role="doc-noteref"><a href="#fn:bottombar" class="footnote" rel="footnote">2</a></sup> to the top of the screen as you switch between compact and regular size classes.</p>
+
+<p>Fortunately, the design language of iOS 18 meant it was fairly easy for developers to create custom tab bars that looked like those on iOS 17.</p>
+
+<p>Then, in the summer of 2025, Liquid Glass<sup id="fnref:liquidglass" role="doc-noteref"><a href="#fn:liquidglass" class="footnote" rel="footnote">3</a></sup> appeared…</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/liquid-glass-tab-bar.jpg" width="600" height="221" alt="A tab bar with Liquid Glass" />
+    <figure>A tab bar with Liquid Glass</figure>
+</div>
+
+<p>Chromatic aberration! Real-time distortion! Bendy bubbles that react in real time to your swipes! These are all huge flexes for the Apple Silicon team but they suddenly make the idea of recreating the bottom iOS tab bar in iPadOS unrealistic as many of these design features are not available to developers.</p>
+
+<p>The one “fix” I see regularly for this is to trick the tab bar into believing it is permanently running in compact mode (the size class that is used when you shrink iPad windows down to iPhone sizes):</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="c1">// SwiftUI</span>
+<span class="kt">TabView</span> <span class="p">{</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="nf">environment</span><span class="p">(\</span><span class="o">.</span><span class="n">horizontalSizeClass</span><span class="p">,</span> <span class="o">.</span><span class="n">compact</span><span class="p">)</span>
+
+<span class="c1">// UIKit</span>
+<span class="n">tabBarController</span><span class="o">.</span><span class="n">traitOverrides</span><span class="o">.</span><span class="n">horizontalSizeClass</span> <span class="o">=</span> <span class="o">.</span><span class="n">compact</span></code></pre></figure>
+
+<p>This works, to a point, but can lead to visual glitches in your navigation hierarchy. It also falls flat on iPadOS 26 as the tab bar is no longer full width but instead only as large as it needs to be; as the icon appears above the text in compact mode, this can lead to a very small tab bar on a 13” iPad Pro. This can be remedied by setting <code class="language-plaintext highlighter-rouge">UIDesignRequiresCompatibility</code> to <code class="language-plaintext highlighter-rouge">YES</code> in your Info.plist but this will disable Liquid Glass throughout your app and is only a stop-gap solution that is scheduled to be removed in iPadOS 27<sup id="fnref:ironictabbar" role="doc-noteref"><a href="#fn:ironictabbar" class="footnote" rel="footnote">4</a></sup>.</p>
+
+<p>Fortunately there is another way. With just a single line of code, you can get the traditional tab bar back on iPadOS 18 and an updated Liquid Glass version of it on iPadOS 26:</p>
+
+<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">UserDefaults</span><span class="o">.</span><span class="n">standard</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">defaults</span><span class="p">:</span> <span class="p">[</span><span class="s">"UseFloatingTabBar"</span><span class="p">:</span> <span class="kc">false</span><span class="p">])</span></code></pre></figure>
+
+<p>This works for both UIKit and SwiftUI apps, you just need to call it at the start of your application lifecycle.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/traditional-ipad-tab-bar-with-liquid-glass.jpg" width="800" height="110" alt="The traditional iPad tab bar in Liquid Glass" />
+    <figure>The traditional iPad tab bar in Liquid Glass</figure>
+</div>
+
+<p>All of the iOS 26 additions are supported such as the new search API seamlessly splitting the tab bar in half and allowing the search text field to appear at the bottom of the screen. This extends to other modern tab bar features such as <code class="language-plaintext highlighter-rouge">tabBarMinimizeBehavior</code> and <code class="language-plaintext highlighter-rouge">tabViewBottomAccessory</code>. This is not a hacky solution, but something Apple engineers have clearly put a lot of consideration into.</p>
+
+<div class="gofigure">
+    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2026/liquid-glass-tab-bar-trait-change.gif" width="800" height="104" alt="Animation between compact and regular size classes with iPadOS 26 search tab" />
+</div>
+
+<p>There are two caveats to this approach:</p>
+
+<ol>
+  <li>
+    <p>This is an internal flag within the system similar to <code class="language-plaintext highlighter-rouge">defaults write</code> on macOS. That means it is officially unsupported and could be removed in a future version of iPadOS but the risks are manageable. I have used it in several production apps since the launch of iPadOS 18 in 2024 and have never had any issues with App Review. The fact that they redesigned this component for Liquid Glass makes me fairly confident it won’t be removed anytime soon.</p>
+  </li>
+  <li>
+    <p>If your app is using UIKit storyboards and your initial view controller is a <code class="language-plaintext highlighter-rouge">UITabBarController</code> then simply registering the defaults in your App Delegate will not work because the storyboard will already be loaded. Instead, you’ll need to remove the automated way of having your storyboard load from Xcode and instead manually load it in the App Delegate by creating a UIWindow and assigning the initial view controller from your storyboard to it’s <code class="language-plaintext highlighter-rouge">rootViewController</code> property.</p>
+  </li>
+</ol>
+
+<p>If you do go down this route, just be prepared that a future iPadOS update may remove the setting<sup id="fnref:emulation" role="doc-noteref"><a href="#fn:emulation" class="footnote" rel="footnote">5</a></sup> so it is best to make sure your app would still function without it enabled.</p>
+
+<p>I think this tab bar looks and works a lot better than the segmented control approach we currently have and I wish Apple would support it fully by providing an explicit opt-in on <code class="language-plaintext highlighter-rouge">UITabBarController</code> / <code class="language-plaintext highlighter-rouge">TabView</code>. The Liquid Glass version of the traditional tab bar arguably does a better job of meeting Apple’s stated goal of providing more space for content while retaining the visual affordances that have been present in the tab bar for nearly two decades.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:tahoeicons" role="doc-endnote">
+      <p>It is ironic that the icons have been removed from tab bars when in macOS 26 (Tahoe) icons have been added <a href="https://mjtsai.com/blog/2025/12/10/icons-in-menus-everywhere/">throughout the menuing system</a> to much dismay. <a href="#fnref:tahoeicons" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:bottombar" role="doc-endnote">
+      <p>The tab bar is at the bottom of the iPhone because it is easier for our thumbs to stretch that far; I would suggest that keeping it at the bottom of the iPad is also more beneficial as you don’t need to cover the display with your arm as you switch between tabs. <a href="#fnref:bottombar" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:liquidglass" role="doc-endnote">
+      <p>I’m not going to delve into the rights and wrongs of Liquid Glass in this post but I am planning on talking about it in my newsletter, <a href="https://www.thedododeveloper.com/">The Dodo Developer</a>, in the next issue coming later this month. Join over 4000 discerning subscribers - it’s free! <a href="#fnref:liquidglass" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:ironictabbar" role="doc-endnote">
+      <p>I applaud Apple for having the ability for developers to opt out of potentially breaking UI changes. This should have been the approach in iOS 18 for the tab bar in my opinion; letting developers have more time to adjust an iPad app to newer UI paradigms rather than forcing them immediately. <a href="#fnref:ironictabbar" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+    <li id="fn:emulation" role="doc-endnote">
+      <p>Usually UI changes require the developer to recompile the app with the version of Xcode that released alongside it so an Xcode 15 compiled app running on iPadOS 18 will show the full tab bar - it is only when building with Xcode 16 that you get forced into the new UI. However, if a theoretical future iPadOS version removed support for the UserDefault, then the tab bar would revert to the segmented control version immediately upon the user updating their iPad. Make sure your app can still run if this default is not set even if it may not look visually how you would prefer. <a href="#fnref:emulation" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</div>
+	</article>
+    
+	<article>
+		<header>
+     		
 				<h1><a href="/weblog/2025/09/22/portrait-artwork-ios-26-apple-tv-app/">Getting the new portrait artwork from the iOS 26 Apple TV app</a></h1>
 			
 			<time datetime="2025-09-22" pubdate=""><a href="/weblog/2025/09/22/portrait-artwork-ios-26-apple-tv-app/">September 22, 2025</a></time>
@@ -1571,42 +1668,6 @@ CODE3</p>
     </li>
     <li id="fn:xcode" role="doc-endnote">
       <p>I have 3-4 versions of Xcode installed at any one time as different clients will be on different release schedules so I may still need to build something with an older version. I’ll likely change this portion of the script to always use the latest version unless I manually specify one as it’s a pain to edit my script files whenever a new Xcode update comes out. <a href="#fnref:xcode" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2022/11/21/the-dodo-developer/">The Dodo Developer</a></h1>
-			
-			<time datetime="2022-11-21" pubdate=""><a href="/weblog/2022/11/21/the-dodo-developer/">November 21, 2022</a></time>
-    	</header>
-    	<div>
-			<p>For the past few months I’ve been meaning to start a newsletter; partially as a way of motivating me to finish some of my many projects, partially as a way of building up a mailing list so I can market my own apps better. The priority for this has only increased as the long-term future for Twitter (my main source of referrals to my various apps and websites) has moved to shakier ground<sup id="fnref:twitterpessimism" role="doc-noteref"><a href="#fn:twitterpessimism" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<p>Today I finally took that step by creating <em><a href="https://www.thedododeveloper.com/">The Dodo Developer</a></em><sup id="fnref:dododeveloper" role="doc-noteref"><a href="#fn:dododeveloper" class="footnote" rel="footnote">2</a></sup> on Substack.</p>
-
-<iframe src="https://www.thedododeveloper.com/embed" width="100%" height="320" style="border:1px solid #EEE; background: white; margin: 0 auto; display: block; border-radius: 16px;" frameborder="0" scrolling="no"></iframe>
-
-<p>I’ve created an <a href="https://www.thedododeveloper.com/p/1-the-setup">initial introductory post</a> going through some of the motivations for this move and listing some of the items on my “To do” list but the aim is to produce a new issue every 2 weeks.</p>
-
-<p>I like to use my main website for either announcing new releases or providing code-level tutorials; the newsletter will be slightly different in that it will be showcasing things <em>way</em> before they are necessarily ready for prime time. This has two main benefits in that working akin to a 2-week sprint cycle will hopefully motivate me to proceed with the numerous app ideas that are half-finished on my hard drive; on the flip side, it will also hopefully generate some much needed feedback during the development process as I’m planning to invite subscribers to early access betas of new apps and major updates to existing apps. This all begins next week when I’ll be going into detail with the <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">Music Library Tracker</a> upgrade that introduces Spatial Audio matching as well as showing off a new dice-based game mechanic I’ve created for a “Choose your own Adventure” style game.</p>
-
-<p>As we head into 2023 I’m determined to try and spend more of my time on my independent projects. By subscribing to the newsletter, you’ll be directly boosting my motivation towards that aim and hopefully getting an insight into how a developer forms an idea into a digital reality.</p>
-
-<p>I’ll be landing in your inbox for the first issue next week!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:twitterpessimism" role="doc-endnote">
-      <p>I don’t necessarily share the pessimism of others with regards to Twitter’s future but there is a non-zero chance that it shuts down without warning one night in the near future so best to be prepared. I won’t be moving to any other social media network. <a href="#fnref:twitterpessimism" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:dododeveloper" role="doc-endnote">
-      <p>I can’t remember if I’ve mentioned my affinity for dodos on this blog before but the reason for the name comes from two things: my surname contains the same letters as “dodo” and when I was at school I loved the dodo character in Disney’s <em>Alice in Wonderland</em> (“you there, stop kicking that mackeral”). When I developed my first piece of software, a database system for the management of choral robes (honestly), I used “Dodo Apps” as the name and it’s kind of stuck! <a href="#fnref:dododeveloper" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
