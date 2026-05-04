@@ -1027,3 +1027,295 @@ article div.gofigure {
 	border-bottom: 0;
 	padding-bottom: 0;	
 }
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+img,
+iframe,
+video {
+	max-width: 100%;
+}
+
+img {
+	height: auto;
+}
+
+input,
+select,
+textarea,
+button {
+	max-width: 100%;
+	font: inherit;
+}
+
+#wrapper {
+	width: min(940px, calc(100% - 40px));
+	padding-left: 0;
+	padding-right: 0;
+}
+
+article div,
+#pagination,
+#newsletter,
+#thanks,
+#appletvprompt,
+#musictracker,
+#shortcuts,
+#newspatialaudio,
+#browsernote {
+	max-width: 100%;
+}
+
+article div,
+#pagination {
+	width: min(800px, 100%);
+}
+
+#newsletter {
+	width: min(880px, 100%);
+}
+
+#thanks,
+#appletvprompt,
+#musictracker,
+#shortcuts,
+#newspatialaudio,
+#browsernote {
+	width: min(740px, 100%);
+}
+
+#home-latest {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 80px;
+}
+
+#home-latest div,
+#home-latest div:first-child {
+	float: none;
+	width: auto;
+	padding-right: 0;
+}
+
+#apple-tv-movies-artwork-finder #results .tvresult {
+	gap: 30px;
+}
+
+#apple-tv-movies-artwork-finder #results .tvresult a.imglink,
+#apple-tv-movies-artwork-finder #results .tvresult ul {
+	float: none;
+	margin-left: 0;
+}
+
+#apple-tv-movies-artwork-finder #results .tvresult a.imglink,
+#apple-tv-movies-artwork-finder #results img {
+	max-width: 100%;
+}
+
+#apple-tv-movies-artwork-finder #results .tvresult ul {
+	width: min(350px, 100%);
+}
+
+#newResults {
+	max-width: 100%;
+}
+
+@media (max-width: 820px) {
+	body {
+		padding-top: 24px;
+		padding-bottom: 24px;
+		font-size: 18px;
+		line-height: 1.65em;
+	}
+
+	#wrapper {
+		width: min(100% - 28px, 680px);
+	}
+
+	header h1 {
+		font-size: 1.8em;
+		padding-top: 110px;
+		background-size: 100px 100px;
+	}
+
+	header h2 {
+		line-height: 1.35em;
+	}
+
+	nav {
+		height: auto;
+		margin-top: 18px;
+	}
+
+	nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 4px 18px;
+		height: auto;
+		padding: 10px 0;
+		line-height: 1.2em;
+		white-space: normal;
+	}
+
+	nav ul li {
+		padding: 0;
+		line-height: 1.8em;
+		background: transparent;
+		letter-spacing: 1px;
+	}
+
+	.divider {
+		display: none;
+	}
+
+	article {
+		padding-top: 42px;
+	}
+
+	article:first-child,
+	#home article:first-child {
+		padding-top: 24px;
+	}
+
+	article div {
+		padding-bottom: 36px;
+	}
+
+	#home p {
+		text-align: left;
+	}
+
+	#home-latest {
+		grid-template-columns: 1fr;
+		gap: 36px;
+		padding-top: 30px;
+	}
+
+	#home-latest h2 {
+		text-align: left;
+		padding-left: 0;
+	}
+
+	#home-latest .appicon {
+		margin: 0;
+	}
+
+	#archive time {
+		display: block;
+		padding-left: 0;
+	}
+
+	#about-image {
+		float: none;
+		width: min(240px, 100%);
+		height: auto;
+		margin: 0 auto 24px auto;
+	}
+
+	#contact article span.details {
+		line-height: 1.2em;
+	}
+
+	#contact article span.details a {
+		font-size: clamp(1.4em, 9vw, 2.2em);
+		overflow-wrap: anywhere;
+	}
+
+	#musictracker,
+	#shortcuts,
+	#newspatialaudio,
+	#browsernote {
+		padding: 90px 24px 24px 24px;
+		background-position: 24px 24px;
+	}
+
+	#newsletter,
+	#thanks,
+	#appletvprompt {
+		padding: 20px;
+		border-radius: 1.2em;
+	}
+
+	#apple-music-playlist-artwork input[type="text"],
+	#spatial-audio-finder input[type="text"],
+	#apple-tv-movies-artwork-finder input[type="text"] {
+		width: 100%;
+	}
+
+	#apple-tv-movies-artwork-finder #results .tvresult {
+		display: block;
+	}
+
+	#apple-tv-movies-artwork-finder #results .tvresult a.imglink {
+		width: 100%;
+	}
+
+	#apple-tv-movies-artwork-finder #results img {
+		width: 100%;
+		height: auto;
+	}
+
+	#apple-tv-movies-artwork-finder #results .tvresult ul {
+		width: 100%;
+		margin-top: 20px;
+	}
+
+	#apple-tv-movies-artwork-finder #newResults {
+		padding: 20px 0;
+	}
+
+	#apple-tv-movies-artwork-finder #results a.newImgLink {
+		width: min(200px, 50%);
+		padding: 10px;
+	}
+
+	#tracks-table {
+		display: block;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+}
+
+@media (max-width: 480px) {
+	body {
+		font-size: 17px;
+	}
+
+	#wrapper {
+		width: min(100% - 22px, 460px);
+	}
+
+	header h1 {
+		font-size: 1.65em;
+	}
+
+	nav ul {
+		gap: 2px 12px;
+	}
+
+	nav ul li {
+		font-size: 0.72em;
+	}
+
+	blockquote {
+		margin-left: 1em;
+		margin-right: 1em;
+	}
+
+	#pagination a {
+		float: none;
+		display: block;
+		width: 100%;
+		margin: 0 0 1em 0;
+		text-align: left;
+	}
+}
