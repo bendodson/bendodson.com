@@ -824,6 +824,40 @@ hr {
 	line-height: 1.5em;
 }
 
+.newsletter-form {
+	display: flex;
+	gap: 10px;
+	margin-top: 18px;
+}
+
+.newsletter-form .newsletter-email {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 10px 12px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background: white;
+	color: #111;
+	font: inherit;
+}
+
+.newsletter-form .newsletter-submit {
+	flex: 0 0 auto;
+	padding: 10px 16px;
+	border: 0;
+	border-radius: 8px;
+	background: #111;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	font: inherit;
+}
+
+.newsletter-form .newsletter-submit:hover,
+.newsletter-form .newsletter-submit:focus {
+	background: #0070c9;
+}
+
 #appletvprompt {
 	background: #f0f0f0;
 	padding: 20px 30px;
@@ -1053,7 +1087,6 @@ select,
 textarea,
 button {
 	max-width: 100%;
-	font: inherit;
 }
 
 #wrapper {
@@ -1243,6 +1276,19 @@ article div,
 	#appletvprompt {
 		padding: 20px;
 		border-radius: 1.2em;
+	}
+
+	.newsletter-form {
+		display: block;
+	}
+
+	.newsletter-form .newsletter-email,
+	.newsletter-form .newsletter-submit {
+		width: 100%;
+	}
+
+	.newsletter-form .newsletter-submit {
+		margin-top: 10px;
 	}
 
 	#apple-music-playlist-artwork input[type="text"],
