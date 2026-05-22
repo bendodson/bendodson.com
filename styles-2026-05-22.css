@@ -1776,12 +1776,14 @@ footer p {
 	display: block;
 	margin: clamp(22px, 4vw, 36px) 0;
 	font-family: var(--serif);
-	font-size: clamp(1.6em, 6vw, 4.2em);
+	font-size: clamp(1.6em, 6vw, 3.6em);
 	font-weight: 700;
 	line-height: 0.95;
 	letter-spacing: 0;
+	overflow-wrap: normal;
 	text-align: center;
 	white-space: nowrap;
+	word-break: normal;
 }
 
 .app-info-copy .contact-email a,
@@ -1789,6 +1791,8 @@ footer p {
 .app-info-copy #contact-email {
 	color: var(--callout);
 	border-bottom: 0;
+	overflow-wrap: normal;
+	word-break: normal;
 }
 
 .projects-header {
@@ -3125,17 +3129,21 @@ footer p {
 .contact-email {
 	margin: clamp(24px, 4vw, 38px) 0;
 	font-family: var(--serif);
-	font-size: clamp(2.1em, 6.6vw, 5.5em);
+	font-size: clamp(2.1em, 6.6vw, 4.6em);
 	font-weight: 700;
 	line-height: 0.95;
 	letter-spacing: 0;
+	overflow-wrap: normal;
 	text-align: center;
 	white-space: nowrap;
+	word-break: normal;
 }
 
 .contact-email a {
 	color: var(--callout);
 	border-bottom: 0;
+	overflow-wrap: normal;
+	word-break: normal;
 }
 
 .contact-copy {
@@ -3733,12 +3741,30 @@ a.marker-pill:focus {
 
 	.contact-email {
 		font-size: clamp(1.18em, 8vw, 2.1em);
+		overflow-wrap: anywhere;
+		white-space: normal;
+		word-break: break-word;
+	}
+
+	.contact-email a {
+		overflow-wrap: anywhere;
+		word-break: break-word;
 	}
 
 	.app-info-copy .contact-email,
 	.app-info-copy .policy-email,
 	.app-info-copy #contact-email {
 		font-size: clamp(1.05em, 7.4vw, 2.1em);
+		overflow-wrap: anywhere;
+		white-space: normal;
+		word-break: break-word;
+	}
+
+	.app-info-copy .contact-email a,
+	.app-info-copy .policy-email a,
+	.app-info-copy #contact-email {
+		overflow-wrap: anywhere;
+		word-break: break-word;
 	}
 
 	#newsletter form {
