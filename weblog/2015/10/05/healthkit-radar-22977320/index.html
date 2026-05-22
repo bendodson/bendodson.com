@@ -184,7 +184,7 @@
 
 <p>The expected result is that you’ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you’ll only get the Flights Climbed entry as the line <code class="language-plaintext highlighter-rouge">healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code class="language-plaintext highlighter-rouge">HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don’t add up with what is expected:</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
 
 <p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I’ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you’ll need to do a manual search for objects with <code class="language-plaintext highlighter-rouge">HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
 

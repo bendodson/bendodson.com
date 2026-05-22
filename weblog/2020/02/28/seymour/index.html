@@ -161,11 +161,11 @@
 	</header>
 
 	<div class="post-content">
-		<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
+		<p><span class="prelude">This is part of a <a href="/sideprojects/">series of blog posts</a> in which I showcase some of the side projects I work on for my own use. As with all of my side projects, I’m not focused on perfect code or UI; <a href="https://bendodson.s3-eu-west-1.amazonaws.com/butitdoesrun.jpg">it just needs to run</a>!</span></p>
 
 <p>I’ve cheated slightly this month by working on two side projects; a simple iOS app and a SwiftUI watchOS app. The Apple Watch app isn’t quite ready yet so instead I’m going to show you “Seymour”, an app that sends me push notifications when relevant articles are posted online.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour.jpg" width="800" height="600" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2020/seymour.jpg" width="800" height="600" /></p>
 
 <h3 id="the-problem">The Problem</h3>
 
@@ -271,7 +271,7 @@
 
 <p>Once the articles are fetched, I ignore any that I’ve already seen before (worked out by storing the ids in my database after each run) and then proceed to do a case insensitive check for my keywords against both the title and content of the article. If there are any matches, these get added to an array which is later looped over in order to send a push notification via <a href="https://onesignal.com">OneSignal</a> containing the title, article summary, and the URL.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-watch.jpg" width="800" height="600" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2020/seymour-watch.jpg" width="800" height="600" /></p>
 
 <p>This runs on a 1 minute CRON job so in theory I should get alerted of any matching articles within 60 seconds of them being published. I don’t know how often Feedbin polls the various RSS feeds I track but in practice I have found that I’m getting notified almost immediately so evidently they’re doing some form of dark magic.</p>
 
@@ -279,7 +279,7 @@
 
 <p>Once the notification is delivered, I thought it would be a nice bonus to be able to tap to open up the article in a browser. It turns out that the OneSignal SDK can do this automatically if you send a “url” parameter as part of your Push Notification request but it has a few issues; there’s a short lag between the app opening and the browser being shown, the controller is within a modal dialogue that can only be dismissed by swiping at the top of the page (tricky on a big phone), and it’s using either a <code class="language-plaintext highlighter-rouge">UIWebView</code> or a <code class="language-plaintext highlighter-rouge">WKWebView</code> which means there is no support for content blockers, no Reader View, and no easy way to open the page in Safari or other apps. The solution is to send the URL as part of the data payload and parse it myself within the app to open an <code class="language-plaintext highlighter-rouge">SFSafariViewController</code>:</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2020/seymour-webviews.jpg" width="800" height="600" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2020/seymour-webviews.jpg" width="800" height="600" /></p>
 
 <p>Can you see the difference in the image above? With the webview provided by OneSignal we can just see the start of the title of the article<sup id="fnref:disneyfoodblog"><a href="#fn:disneyfoodblog" class="footnote" rel="footnote" role="doc-noteref">4</a></sup> obscured by the home indicator, and this is on the Max-sized iPhone! The SFSafariViewController in Reader View is far superior showing the full title, the first paragraph, and an image. It also loaded faster thanks to the support for content blockers and I have easy access to open this in Safari or share it along with controls for changing fonts, etc.</p>
 

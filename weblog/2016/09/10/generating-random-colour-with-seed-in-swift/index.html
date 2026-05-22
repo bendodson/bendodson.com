@@ -156,7 +156,7 @@
 	<div class="post-content">
 		<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp"><a href="#fn:imessageapp" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
 
 <p>As each article is <code class="language-plaintext highlighter-rouge">UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
 
@@ -183,7 +183,7 @@
 
 <p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code class="language-plaintext highlighter-rouge">drand48</code> function by using <code class="language-plaintext highlighter-rouge">srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
 
-<p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
+<p>I’ve put together a <a href="https://bendodson.s3-eu-west-1.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
 
 <p><img src="http://bendodson.s3.amazonaws.com/weblog/2016/random-color-with-seed.jpg" width="800" height="500" /></p>
 

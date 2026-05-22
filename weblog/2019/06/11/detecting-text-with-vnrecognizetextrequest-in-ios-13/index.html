@@ -165,7 +165,7 @@
 
 <p>To test this out, I’ve built a very basic app that can recognise a Magic The Gathering card and retrieve some pertinent information from it, namely the title, set code, and collector number. Here’s an example card and the highlighted text I would like to retrieve.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/mtg-components.jpg" alt="The components of a Magic card to extract with Vision" width="800" height="400" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2019/mtg-components.jpg" alt="The components of a Magic card to extract with Vision" width="800" height="400" /></p>
 
 <p>You may be looking at this and thinking “that text is pretty small” or that there is a lot of other text around that could get in the way. This is not a problem for Vision.</p>
 
@@ -224,7 +224,7 @@
 
 <p>Our handler is given back our request which now has a results property. Each result is a <code class="language-plaintext highlighter-rouge">VNRecognizedTextObservation</code> which itself has a number of candidates for us to investigate. You can choose to receive up to 10 candidates for each piece of recognized text and they are sorted in decreasing confidence order. This can be useful if you have some specific terminology that maybe the parser is getting incorrect on the first try but determines correctly later even if it is less confident. For this example, we only want the first result so we loop through <code class="language-plaintext highlighter-rouge">observation.topCandidates(1)</code> and extract both the text and a confidence value. Whilst the candidate itself has different text and confidence, the bounding box is the same regardless and is provided by the observation. The bounding box uses a normalized coordinate system with the origin in the bottom-left so you’ll need to convert it if you want it to play nicely with UIKit.</p>
 
-<p>That’s pretty much all there is to it. If I run a <a href="https://bendodson.s3.amazonaws.com/weblog/2019/carnage-tyrant.jpeg">photo of a card</a> through this, I’ll get the following result in just under 0.5s on an iPhone XS Max:</p>
+<p>That’s pretty much all there is to it. If I run a <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2019/carnage-tyrant.jpeg">photo of a card</a> through this, I’ll get the following result in just under 0.5s on an iPhone XS Max:</p>
 
 <figure class="highlight"><pre><code class="language-text" data-lang="text">Carnage Tyrant
 1.0
@@ -294,7 +294,7 @@ TN &amp; 0 2017 Wizards of the Coast
 
 <p>With the text recognized, the last thing to do is to pull out the pieces of information I want. I won’t put all the code here but the key logic is to iterate through each bounding box and determine the location so I can pick out the text in the lower left hand corner and that in the top left hand corner whilst ignoring anything further along to the right. The end result is a scanning app that can pull out exactly the information I need in under a second<sup id="fnref:scryfall"><a href="#fn:scryfall" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/mtg-recognized.jpg" alt="iOS app to detect Magic The Gathering cards with iOS 13 Vision Framework" width="800" height="500" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2019/mtg-recognized.jpg" alt="iOS app to detect Magic The Gathering cards with iOS 13 Vision Framework" width="800" height="500" /></p>
 
 <p>This example app is <a href="https://github.com/bendodson/MTG-VNRecognizeTextRequest">available on GitHub</a>.</p>
 

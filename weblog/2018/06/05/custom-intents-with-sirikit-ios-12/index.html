@@ -163,7 +163,7 @@
 	<div class="post-content">
 		<p>Yesterday was the start of WWDC 2018 and one new feature in iOS 12 caught my attention amongst the many that were demonstrated:</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/heysiritile.jpg" alt="Hey Siri, I lost my keys" width="800" height="450" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2018/heysiritile.jpg" alt="Hey Siri, I lost my keys" width="800" height="450" /></p>
 
 <p>The demo was part of the new Shortcuts system and showed that apps could reveal some functionality to Siri, in this case the Tile app being able to search for your keys. Once the keynote was over and the documentation went live, I had a dig through and was intrigued to find a new “custom intent” within SiriKit exposed as <a href="https://developer.apple.com/documentation/sirikit/inobject?changes=latest_minor">INObject</a>. This is paired with a full demo app in the form of <a href="https://developer.apple.com/documentation/sirikit/accelerating_app_interactions_with_shortcuts?changes=latest_minor">Soup Chef</a> that shows how you can create these custom intents and use them as shortcuts for Siri. The most interesting thing about this is the following concept from the Soup Chef overview:</p>
 
@@ -173,7 +173,7 @@
 
 <p>When I dug into the code, I found this new <code class="language-plaintext highlighter-rouge">Intents.intentdefinition</code> file with which you can create custom intents complete with paramater binding.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-custom-intent.jpg" alt="Custom Intent creation with SiriKit" width="800" height="640" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2018/sirikit-custom-intent.jpg" alt="Custom Intent creation with SiriKit" width="800" height="640" /></p>
 
 <p>This sure looks like the much anticipated ability to write your own Siri code!</p>
 
@@ -193,7 +193,7 @@
 
 <p>The piece that makes this slightly more confusing is that you can add a custom Siri voice command to a Shortcut. When Craig demonstrated saying <em>“Hey Siri, I lost my keys”</em>, that is really just a voice command on the “Find Keys” custom intent and is highly specific to that particular Tile; you’d have to record a new one if you wanted to find your TV Remote Tile. These <em>Shortcut Phrases</em> can be created either from within the Settings app or an app can present a view controller<sup id="fnref:inuiaddvoiceshortcutviewcontroller"><a href="#fn:inuiaddvoiceshortcutviewcontroller" class="footnote" rel="footnote" role="doc-noteref">3</a></sup> (complete with a suggested command text) that lets the user record their custom snippet.</p>
 
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/sirikit-shortcut-phrases.jpg" width="800" height="600" /></p>
+<p><img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2018/sirikit-shortcut-phrases.jpg" width="800" height="600" /></p>
 
 <p>When a Shortcut is invoked (either by a Shortcut Phrase or by tapping on a Shortcut) it can either launch your app in the foreground or fire up your <code class="language-plaintext highlighter-rouge">INExtension</code> that will allow you to then return a custom UI directly within Siri. Both have their uses although again they are fairly specific.</p>
 
