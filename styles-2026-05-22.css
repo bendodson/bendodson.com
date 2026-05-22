@@ -1310,6 +1310,7 @@ footer p {
 	align-items: center;
 	min-width: 0;
 	color: var(--text);
+	text-align: left;
 }
 
 .app-microsite-brand img {
@@ -1326,24 +1327,18 @@ footer p {
 }
 
 .app-microsite-brand strong {
-	overflow: hidden;
 	font-family: var(--serif);
 	font-size: 1.02em;
 	font-weight: 700;
 	line-height: 1.1;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 .app-microsite-brand em {
-	overflow: hidden;
 	color: var(--muted);
 	font-size: 0.72em;
 	font-style: normal;
 	font-weight: 700;
 	line-height: 1.2;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 .app-microsite-brand:hover strong,
@@ -3611,12 +3606,18 @@ a.marker-pill:focus {
 	}
 
 	.app-microsite-nav {
-		justify-content: center;
-		text-align: center;
+		justify-content: flex-start;
+		text-align: left;
+	}
+
+	.app-microsite-brand {
+		width: 100%;
 	}
 
 	.app-microsite-nav ul {
-		justify-content: center;
+		justify-content: flex-start;
+		margin-top: 6px;
+		width: 100%;
 	}
 
 	.site-header ul {
