@@ -10,15 +10,16 @@
 	
 	
 	
+	
 
 	<title>Postmortem of the launch of a Top 10 Paid iOS App</title>
 	<meta name="description" content="How much does an app in the Top 10 Paid charts actually make?">
 	
-	<link rel="canonical" href="http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
+	<link rel="canonical" href="https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Postmortem of the launch of a Top 10 Paid iOS App">
 	<meta property="og:description" content="How much does an app in the Top 10 Paid charts actually make?">
-	<meta property="og:url" content="http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
+	<meta property="og:url" content="https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
 	<meta property="og:type" content="article">
 	
 		<meta property="og:image" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9ob3ctbXVjaC10b3AtMTAtcGFpZC1hcHAtbWFrZS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
@@ -34,63 +35,64 @@
 
 
 
+
 <script type="application/ld+json">
 {
 	"@context": "https://schema.org",
 	"@graph": [
 		{
 			"@type": "Person",
-			"@id": "http://localhost:4000/#person",
+			"@id": "https://bendodson.com/#person",
 			"name": "Ben Dodson",
-			"url": "http://localhost:4000/",
+			"url": "https://bendodson.com/",
 			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
 			"email": "ben@bendodson.com",
 			"jobTitle": "Freelance Apple Platforms Developer",
 			"worksFor": {
-				"@id": "http://localhost:4000/#organization"
+				"@id": "https://bendodson.com/#organization"
 			},
 			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
 		},
 		{
 			"@type": "Organization",
-			"@id": "http://localhost:4000/#organization",
+			"@id": "https://bendodson.com/#organization",
 			"name": "Dodo Apps Ltd",
-			"url": "http://localhost:4000/",
+			"url": "https://bendodson.com/",
 			"identifier": "07856552"
 		},
 		{
 			"@type": "WebSite",
-			"@id": "http://localhost:4000/#website",
-			"url": "http://localhost:4000/",
+			"@id": "https://bendodson.com/#website",
+			"url": "https://bendodson.com/",
 			"name": "Ben Dodson",
 			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
 			"inLanguage": "en-GB",
 			"publisher": {
-				"@id": "http://localhost:4000/#person"
+				"@id": "https://bendodson.com/#person"
 			}
 		},
 		
 		{
 			"@type": "BlogPosting",
-			"@id": "http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/#article",
+			"@id": "https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/#article",
 			"mainEntityOfPage": {
 				"@type": "WebPage",
-				"@id": "http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/"
+				"@id": "https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/"
 			},
 			"isPartOf": {
-				"@id": "http://localhost:4000/#website"
+				"@id": "https://bendodson.com/#website"
 			},
 			"headline": "Postmortem of the launch of a Top 10 Paid iOS App",
 			"description": "How much does an app in the Top 10 Paid charts actually make?",
-			"url": "http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/",
+			"url": "https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/",
 			"datePublished": "2023-03-14T15:00:00+00:00",
 			"dateModified": "2023-03-14T15:00:00+00:00",
 			"inLanguage": "en-GB",
 			"author": {
-				"@id": "http://localhost:4000/#person"
+				"@id": "https://bendodson.com/#person"
 			},
 			"publisher": {
-				"@id": "http://localhost:4000/#organization"
+				"@id": "https://bendodson.com/#organization"
 			},
 			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9ob3ctbXVjaC10b3AtMTAtcGFpZC1hcHAtbWFrZS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ=="
 		}
