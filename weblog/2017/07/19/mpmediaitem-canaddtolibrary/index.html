@@ -9,71 +9,150 @@
 	
 	
 	
+	
 
 	<title>MPMediaItem+CanAddToLibrary.swift</title>
 	<meta name="description" content="Since iOS 9.3 it has been possible to add Apple Music tracks to the media library as such:">
-	<link rel="canonical" href="https://bendodson.com/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="MPMediaItem+CanAddToLibrary.swift">
 	<meta property="og:description" content="Since iOS 9.3 it has been possible to add Apple Music tracks to the media library as such:">
-	<meta property="og:url" content="https://bendodson.com/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">
 	<meta property="og:type" content="article">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2017/07/19/mpmediaitem-canaddtolibrary/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2017/07/19/mpmediaitem-canaddtolibrary/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "MPMediaItem+CanAddToLibrary.swift",
+			"description": "Since iOS 9.3 it has been possible to add Apple Music tracks to the media library as such:",
+			"url": "http://localhost:4000/weblog/2017/07/19/mpmediaitem-canaddtolibrary/",
+			"datePublished": "2017-07-19T08:00:00+01:00",
+			"dateModified": "2017-07-19T08:00:00+01:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">MPMediaItem+CanAddToLibrary.swift</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2017-07-19" pubdate=""><a href="/weblog/2017/07/19/mpmediaitem-canaddtolibrary/">July 19, 2017</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p>Since iOS 9.3 it has been possible to <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">add Apple Music tracks to the media library</a> as such:</p>
+<article class="post-page content-page">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2017-07-19">July 19, 2017</time></p>
+		<h1>MPMediaItem+CanAddToLibrary.swift</h1>
+		
+		
+	</header>
+
+	<div class="post-content">
+		<p>Since iOS 9.3 it has been possible to <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">add Apple Music tracks to the media library</a> as such:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">library</span> <span class="o">=</span> <span class="kt">MPMediaLibrary</span><span class="p">()</span>
 <span class="n">library</span><span class="o">.</span><span class="nf">addItem</span><span class="p">(</span><span class="nv">withProductID</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
@@ -82,7 +161,7 @@
 	<span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift" role="doc-noteref"><a href="#fn:mpmediaitemswift" class="footnote" rel="footnote">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
+<p>This is powerful as you can use a simple identifier to both play a song and add it to the library but it is likely that your UI will want to show an add to library button similar to the Music app on iOS. To remedy this, I’ve created a <a href="https://github.com/bendodson/MPMediaItem-CanAddToLibrary">simple Swift extension</a><sup id="fnref:mpmediaitemswift"><a href="#fn:mpmediaitemswift" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> for MPMediaItem that tells you if a currently playing track is available in your library:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">UIKit</span>
 <span class="kd">import</span> <span class="kt">MediaPlayer</span>
@@ -98,7 +177,7 @@
     
 <span class="p">}</span></code></pre></figure>
 
-<p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code class="language-plaintext highlighter-rouge">MPMediaQuery</code>. Unfortunately you can’t search on  the <code class="language-plaintext highlighter-rouge">MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist" role="doc-noteref"><a href="#fn:playlist" class="footnote" rel="footnote">2</a></sup> by listening to the <code class="language-plaintext highlighter-rouge">MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code class="language-plaintext highlighter-rouge">nowPlayingItem</code> on my <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
+<p>Why an extension on MPMediaItem? The only way to know if a track is in your library is to search the user library with an <code class="language-plaintext highlighter-rouge">MPMediaQuery</code>. Unfortunately you can’t search on  the <code class="language-plaintext highlighter-rouge">MPMediaItemPropertyPlaybackStoreID</code> (as some tracks may not be on Apple Music) so instead you need to use the persistent ID property. If you try and play an Apple Music track using an identifier, then you can retrieve an MPMediaItem and use that to get the persistent ID for searching the media library. I use this in my own apps<sup id="fnref:playlist"><a href="#fn:playlist" class="footnote" rel="footnote" role="doc-noteref">2</a></sup> by listening to the <code class="language-plaintext highlighter-rouge">MPMusicPlayerControllerNowPlayingItemDidChange</code> notification and then checking if there is a <code class="language-plaintext highlighter-rouge">nowPlayingItem</code> on my <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> instance; if there is then check it to find the current status:</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">var</span> <span class="nv">player</span> <span class="o">=</span> <span class="kt">MPMusicPlayerController</span><span class="p">()</span>
 
@@ -133,44 +212,32 @@
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:mpmediaitemswift" role="doc-endnote">
+    <li id="fn:mpmediaitemswift">
       <p>I wrote the extension using Swift 4 with Xcode 9 / iOS 11 SDK but it should work just fine in Swift 3 as it isn’t using any new language stuff. <a href="#fnref:mpmediaitemswift" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:playlist" role="doc-endnote">
+    <li id="fn:playlist">
       <p>Including an exciting iOS 11 only Apple Music app I’m working on. If you’re an Apple Music subscriber with the iOS 11 beta installed (developer or public), <a href="https://bendodson.com/contact/">contact me</a> for a test version before it launches in September… <a href="#fnref:playlist" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/" title="Next Article" class="pagination-next">Forcing left-to-right text in iOS localizations &raquo;</a>
-    
-	 
-		<a href="/weblog/2017/06/16/flawless/" title="Previous Article" class="pagination-previous">&laquo; Flawless</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2017/06/16/flawless/" class="post-pagination-previous">&lt; Flawless</a>
+	
+
+	
+		<a href="/weblog/2017/10/04/forcing-left-to-right-text-ios-localization/" class="post-pagination-next">Forcing left-to-right text in iOS localizations &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

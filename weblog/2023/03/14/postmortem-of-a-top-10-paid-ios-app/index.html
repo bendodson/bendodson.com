@@ -9,75 +9,159 @@
 	
 	
 	
+	
 
 	<title>Postmortem of the launch of a Top 10 Paid iOS App</title>
 	<meta name="description" content="How much does an app in the Top 10 Paid charts actually make?">
-	<link rel="canonical" href="https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Postmortem of the launch of a Top 10 Paid iOS App">
 	<meta property="og:description" content="How much does an app in the Top 10 Paid charts actually make?">
-	<meta property="og:url" content="https://bendodson.com/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">
 	<meta property="og:type" content="article">
 	
-		<meta property="og:image" content="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/how-much-top-10-paid-app-make.jpg">
+		<meta property="og:image" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9ob3ctbXVjaC10b3AtMTAtcGFpZC1hcHAtbWFrZS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+		<meta property="og:image:secure_url" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9ob3ctbXVjaC10b3AtMTAtcGFpZC1hcHAtbWFrZS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+		<meta property="og:image:alt" content="Postmortem of the launch of a Top 10 Paid iOS App">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "Postmortem of the launch of a Top 10 Paid iOS App",
+			"description": "How much does an app in the Top 10 Paid charts actually make?",
+			"url": "http://localhost:4000/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/",
+			"datePublished": "2023-03-14T15:00:00+00:00",
+			"dateModified": "2023-03-14T15:00:00+00:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9ob3ctbXVjaC10b3AtMTAtcGFpZC1hcHAtbWFrZS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ=="
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">Postmortem of the launch of a Top 10 Paid iOS App</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2023-03-14" pubdate=""><a href="/weblog/2023/03/14/postmortem-of-a-top-10-paid-ios-app/">March 14, 2023</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p>It’s been 4 weeks since the v2.0 update for <a href="https://dodoapps.io/music-library-tracker/">Music Library Tracker</a> launched so I thought now was a good time for a retrospective to detail how I promoted the app and how well it performed.</p>
+<article class="post-page content-page has-post-dek">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2023-03-14">March 14, 2023</time></p>
+		<h1>Postmortem of the launch of a Top 10 Paid iOS App</h1>
+		
+			<p class="post-dek">How much does an app in the Top 10 Paid charts actually make?</p>
+		
+		
+	</header>
 
-<p>By way of a bit of background, the app originally launched back in January 2016 at a $0.99 price point making $1368 in it’s first month before dropping off significantly to roughly $20 a month. In January 2021, I was accepted into the <a href="https://developer.apple.com/app-store/small-business-program/">App Store Small Business Program</a> which meant the amount Apple took from sales fell from 30% to 15%; I had also increased the price and released a few more updates so the average profit for the half year prior to the v2.0 update in February was sitting at around $80 a month<sup id="fnref:historic" role="doc-noteref"><a href="#fn:historic" class="footnote" rel="footnote">1</a></sup>. This is by no means an income (especially as I have to pay corporation tax on it in the UK and then if I want to actually take the money for myself rather than my business I’ll have to pay some more tax) but it was fine for an app that didn’t have any running costs nor require much maintenance.</p>
+	<div class="post-content">
+		<p>It’s been 4 weeks since the v2.0 update for <a href="https://dodoapps.io/music-library-tracker/">Music Library Tracker</a> launched so I thought now was a good time for a retrospective to detail how I promoted the app and how well it performed.</p>
+
+<p>By way of a bit of background, the app originally launched back in January 2016 at a $0.99 price point making $1368 in it’s first month before dropping off significantly to roughly $20 a month. In January 2021, I was accepted into the <a href="https://developer.apple.com/app-store/small-business-program/">App Store Small Business Program</a> which meant the amount Apple took from sales fell from 30% to 15%; I had also increased the price and released a few more updates so the average profit for the half year prior to the v2.0 update in February was sitting at around $80 a month<sup id="fnref:historic"><a href="#fn:historic" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. This is by no means an income (especially as I have to pay corporation tax on it in the UK and then if I want to actually take the money for myself rather than my business I’ll have to pay some more tax) but it was fine for an app that didn’t have any running costs nor require much maintenance.</p>
 
 <p>And then v2.0 happened.</p>
 
@@ -86,7 +170,17 @@
 <p>So how much money does an app need to make to be in the Top 10 of all paid apps on the App Store?</p>
 
 <div class="gofigure">
-    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-sales-chart.png" width="800" height="361" />
+    
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItc2FsZXMtY2hhcnQucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItc2FsZXMtY2hhcnQucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0ODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 480w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItc2FsZXMtY2hhcnQucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MjAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 720w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItc2FsZXMtY2hhcnQucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo5NjAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 960w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItc2FsZXMtY2hhcnQucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNDQwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 1440w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItc2FsZXMtY2hhcnQucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxOTIwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 1920w" sizes="(max-width: 760px) calc(100vw - 48px), 800px" alt="" width="800" height="361" loading="lazy" decoding="async" />
+
     <figure>Daily profit in USD over the past 28 days peaking at $1534 on February 15th</figure>
 </div>
 
@@ -99,11 +193,36 @@
   <li>Only a single sale on March 6th 😭</li>
 </ul>
 
-<p>I use <a href="https://www.dailysalesemail.com">Daily Sales Email</a> to find out how much I’ve made each day but the figures typically arrive around lunchtime on the following day. That meant I could see the app in the Top 10 of all paid apps but had no idea what that would translate into<sup id="fnref:analytics" role="doc-noteref"><a href="#fn:analytics" class="footnote" rel="footnote">2</a></sup>. I’ll confess that whilst I was pleased with the numbers, I was a little disappointed that I’d made less than what I charge for 2 days as a freelance iOS developer.</p>
+<p>I use <a href="https://www.dailysalesemail.com">Daily Sales Email</a> to find out how much I’ve made each day but the figures typically arrive around lunchtime on the following day. That meant I could see the app in the Top 10 of all paid apps but had no idea what that would translate into<sup id="fnref:analytics"><a href="#fn:analytics" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. I’ll confess that whilst I was pleased with the numbers, I was a little disappointed that I’d made less than what I charge for 2 days as a freelance iOS developer.</p>
 
 <p>That said, the app has settled down into making roughly $40 per day which works out at around $1200 per month, not bad for something that will hopefully only need minor maintenance.</p>
 
 <p>With the financial breakdown out of the way, I thought it might be interesting to detail exactly how I promoted the app. I will be completely honest and say it is not my strong suit at all. I hate doing app promotion work; it is abhorrent to me. I’m not sure if it’s the Englishman in me or something else but I absolutely hate having to email people saying “please look at my app” followed by the waiting and hoping that somebody will feature it. However, that’s what I had to do as an app of this nature likely isn’t going to generate enough revenue to make hiring a marketing person cost effective.</p>
+
+<!-- newsletter-upsell:start -->
+<aside class="post-newsletter" aria-label="The Dodo Developer newsletter">
+	<div class="post-newsletter-copy">
+		<p class="post-newsletter-kicker">Newsletter</p>
+		<h2>The Dodo Developer</h2>
+		<p>Enjoying this article? Sign up to my free newsletter to get notified about future posts.</p>
+	</div>
+	<div class="post-newsletter-signup">
+		<form action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
+			<input type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required="" />
+			<input type="hidden" name="embed" value="1" />
+			<input type="hidden" name="tag" value="The Dodo Developer Newsletter" />
+			<input type="hidden" name="tag" value="New Products and Offers" />
+			<button type="submit">Subscribe</button>
+		</form>
+		<p class="post-newsletter-proof">✦ Join <strong>over 4,500</strong> free subscribers.</p>
+	</div>
+</aside>
+<template data-newsletter-feed="">
+<!-- newsletter-upsell:feed-start -->
+<p><strong>The Dodo Developer</strong>: Enjoying this article? Sign up to my free newsletter to get notified about future posts. <a href="https://newsletter.bendodson.com/">Subscribe now</a>.</p>
+<!-- newsletter-upsell:feed-end -->
+</template>
+<!-- newsletter-upsell:end -->
 
 <h2 id="reviews">Reviews</h2>
 
@@ -200,7 +319,7 @@ CODE3</p>
 
 <p>When you’re looking at ways to promote an app, getting featured by Apple on the App Store is obviously a high priority goal. There have been <a href="https://nemecek.be/blog/169/how-to-get-featured-on-the-app-store">several articles recently</a> about using the <a href="https://developer.apple.com/contact/app-store/promote/">dedicated form</a> on the Apple Developer website with the key takeaway being to submit the form for every app update.</p>
 
-<p>I have never used this form before, mostly because my apps tend to either be very niche or are something like this app which I’m always somewhat surprised makes it through App Review in one piece 😆. However I did it use it and something unexpected happened… I got an email from the Apple Services Performance Partnership Team<sup id="fnref:appleservicesteam" role="doc-noteref"><a href="#fn:appleservicesteam" class="footnote" rel="footnote">3</a></sup>:</p>
+<p>I have never used this form before, mostly because my apps tend to either be very niche or are something like this app which I’m always somewhat surprised makes it through App Review in one piece 😆. However I did it use it and something unexpected happened… I got an email from the Apple Services Performance Partnership Team<sup id="fnref:appleservicesteam"><a href="#fn:appleservicesteam" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>:</p>
 
 <blockquote>
   <p>We are currently recruiting new partners to promote the latest of Apple’s products to join the programme: Apple MusicKit.</p>
@@ -212,7 +331,7 @@ CODE3</p>
   <p>Please let us know your avails, so we can go ahead and schedule a call with you. 😊</p>
 </blockquote>
 
-<p>I did take the call<sup id="fnref:teams" role="doc-noteref"><a href="#fn:teams" class="footnote" rel="footnote">4</a></sup> and it is effectively outreach to try and get developers to promote Apple Music within their apps in exchange for a commission on any new subscriptions. You can already <a href="https://partners.applemediaservices.com/other-partners">apply for this directly</a> but I guess Apple saw that I was using MusicKit on the form I filled out and so set this up. Unfortunately it’s not really a good fit for this app (you’re likely not using it if you don’t have Apple Music) but it may be useful for another app I have in the pipeline in which I’d already added the <a href="https://developer.apple.com/documentation/storekit/skcloudservicesetupviewcontroller/offering_apple_music_subscription_in_your_app">“Subscribe to Apple Music” interstitial</a> that this hooks into.</p>
+<p>I did take the call<sup id="fnref:teams"><a href="#fn:teams" class="footnote" rel="footnote" role="doc-noteref">4</a></sup> and it is effectively outreach to try and get developers to promote Apple Music within their apps in exchange for a commission on any new subscriptions. You can already <a href="https://partners.applemediaservices.com/other-partners">apply for this directly</a> but I guess Apple saw that I was using MusicKit on the form I filled out and so set this up. Unfortunately it’s not really a good fit for this app (you’re likely not using it if you don’t have Apple Music) but it may be useful for another app I have in the pipeline in which I’d already added the <a href="https://developer.apple.com/documentation/storekit/skcloudservicesetupviewcontroller/offering_apple_music_subscription_in_your_app">“Subscribe to Apple Music” interstitial</a> that this hooks into.</p>
 
 <p>Going back to the form, the app has not been featured anywhere on the App Store but I had very little expectation of that happening.</p>
 
@@ -227,7 +346,17 @@ CODE3</p>
 <p>I created an In-App Event on the App Store to coincide with the release of the update which ran for 1 week:</p>
 
 <div class="gofigure">
-    <img src="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-in-app-event.jpg" width="645" height="548" />
+    
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItaW4tYXBwLWV2ZW50LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NjQ1LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItaW4tYXBwLWV2ZW50LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NDgwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 480w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItaW4tYXBwLWV2ZW50LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzIwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 720w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItaW4tYXBwLWV2ZW50LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6OTYwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 960w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItaW4tYXBwLWV2ZW50LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTQ0MCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19 1440w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMy9tdXNpYy1saWJyYXJ5LXRyYWNrZXItaW4tYXBwLWV2ZW50LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTkyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19 1920w" sizes="(max-width: 760px) calc(100vw - 48px), 645px" alt="" width="645" height="548" loading="lazy" decoding="async" />
+
     <figure>The irony is that you can't listen to Spatial Audio on those headphones but it was the only decent royalty-free image I could find...</figure>
 </div>
 
@@ -251,50 +380,38 @@ CODE3</p>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:historic" role="doc-endnote">
+    <li id="fn:historic">
       <p>You can <a href="https://bendodson.s3-eu-west-1.amazonaws.com/weblog/2023/music-library-tracker-v1-sales.csv">download</a> my historic monthly breakdown if you’re interested. With the change from a 70/30 split to an 85/15 split for the last 2 years, the actual amount I’ve given to Apple over the past 7 years has been around 26% leaving an average monthly profit of $59.83. <a href="#fnref:historic" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:analytics" role="doc-endnote">
+    <li id="fn:analytics">
       <p>I don’t use any analytics in my apps so I couldn’t see any realtime usage information. <a href="#fnref:analytics" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:appleservicesteam" role="doc-endnote">
+    <li id="fn:appleservicesteam">
       <p>It definitely came as a result of submitting that form as the email was sent to my personal address which I’d used on the form, not my Apple Developer account email address. <a href="#fnref:appleservicesteam" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:teams" role="doc-endnote">
+    <li id="fn:teams">
       <p>I nearly didn’t as they inexplicably used Microsoft Teams 🤣 <a href="#fnref:teams" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/" title="Next Article" class="pagination-next">Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI &raquo;</a>
-    
-	 
-		<a href="/weblog/2023/01/17/back-seat-shuffle/" title="Previous Article" class="pagination-previous">&laquo; Side Project: Back Seat Shuffle</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2023/01/17/back-seat-shuffle/" class="post-pagination-previous">&lt; Side Project: Back Seat Shuffle</a>
+	
+
+	
+		<a href="/weblog/2023/05/10/connecting-a-tvos-app-to-ios-ipados-and-watchos-with-devicediscoveryui/" class="post-pagination-next">Attempting to connect a tvOS app to an iOS app with DeviceDiscoveryUI &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

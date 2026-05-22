@@ -9,454 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/15/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/15/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/15/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/15/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/01/great-british-bee-count-app/">Great British Bee Count iPhone App</a></h1>
-			
-			<time datetime="2015-05-01" pubdate=""><a href="/weblog/2015/05/01/great-british-bee-count-app/">May 01, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that another app I worked on earlier this year has gone live in the App Store; <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/gbbc.jpg" width="800" /></p>
-
-<p>The Great British Bee Count is a cause started by <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">Friends of the Earth</a> which invites the public to help monitor the British bee population. To do this, you can download the free app and then choose to log individual types of bee that you see or, new for this year, perform a timed count which invites you to count as many bees as you can (regardless of type) within 2 minutes.</p>
-
-<p>I was asked to update the existing app by <a href="http://twothirdswater.co.uk">Two Thirds Water</a> - I decided it would be quicker to rebuild the app from scratch in Swift rather than try and update what existed previously. This allowed me to easily use several new technologies such as AutoLayout which let me render the pixel-perfect design on all four sizes of iPhone. In addition, I built an offline caching mechanism so you can perform your counts without an internet connection - once a connection is re-established, the counts will be uploaded.</p>
-
-<p>This was a fun project to work on and I think the end result works really well. You can check out <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/04/25/initial-thoughts-on-apple-watch/">Initial thoughts on Apple Watch</a></h1>
-			
-			<time datetime="2015-04-25" pubdate=""><a href="/weblog/2015/04/25/initial-thoughts-on-apple-watch/">April 25, 2015</a></time>
-    	</header>
-    	<div>
-			<p>After a bit of hassle with the delivery company<sup id="fnref:delivery" role="doc-noteref"><a href="#fn:delivery" class="footnote" rel="footnote">1</a></sup>, I was lucky enough to get my Apple Watch yesterday. A few people have asked for my opinions so I’ve jotted down a few rough observations:</p>
-
-<ul>
-  <li>
-    <p>It’s small. Surprisingly so (especially when compared to other smart watches). I went for the 42mm Apple Watch (Stainless Steel<sup id="fnref:steel" role="doc-noteref"><a href="#fn:steel" class="footnote" rel="footnote">2</a></sup>) and it feels incredibly comfortable. It probably could have been 44mm or more and still feel comfortable. It isn’t bulky, heavy, or thick. Of course this is just my own aesthetic opinion and your mileage may vary - the “try on” appointments are a great way to see them up close before ordering. I also like the detail that has gone into it. For example, my watch came with a white sport band but what I hadn’t realised is that the band has the same stainless steel for the pin as the watch body. If you buy the band separately, it is aluminium like the sport watch. One other thing: the box that it came in was incredible and really made it feel like this was a special product. I won’t post pictures as I’m sure there are thousands of unboxing videos online but the steel watches come in a big cube - the sport watches, in contrast, come in a flat oblong box which is probably the reason for the awesome <a href="https://instagram.com/p/123_NeE-ad/">spring-loaded UK plug</a>.</p>
-  </li>
-  <li>
-    <p>My main use case is notifications. I’ve already had several instances where a small nudge has allowed me to see and dismiss a notification in 2 seconds or so.  I typically have my phone on silent with no vibration<sup id="fnref:vibration" role="doc-noteref"><a href="#fn:vibration" class="footnote" rel="footnote">3</a></sup> which means I frequently have to get my phone out of my pocket to check the screen and see if I’ve missed anything. This has become even more important now my wife is doing shift work in the evenings as she texts me when she needs me to come collect her from work - I frequently miss these texts! With the watch, I get a subtle nudge<sup id="fnref:sounds" role="doc-noteref"><a href="#fn:sounds" class="footnote" rel="footnote">4</a></sup> and when I raise my wrist it shows me what type of notification it is: iMessage, Facebook, Mail, etc. At that point, if I’m not bothered I can lower my wrist and it’ll go but if I keep it raised a half second longer then it shows me more detail (generally the content of the message). Today whilst I was washing up I got a breaking news notification from the BBC, an “it’s about to rain” notification from Dark Sky, an email from my mum, and a few likes on Instagram. The only time I had to stop what I was doing was when I tapped on my wrist to read the email in full as that was the only thing I wanted to read right then. Had that been my phone buzzing on the table, I probably would have stopped and started several times.</p>
-  </li>
-  <li>
-    <p>Apps are a bit pants. I didn’t have high expectations for 3rd party apps as they are really just glorified extensions. They are better than I thought but can be quite slow to load sometimes and generally I could have done whatever I needed to do quicker on my phone by that point. For example, Philips has a Hue app which lets me turn my lights on / off around the house and change the colors. However, it’s an app rather than a glance so you have to go to the home screen, tap on the icon, wait (a while) for it to load, and then finally choose from the options. The issue is that is is slower than using the “today widget” they have for notification center on my iPhone which I can access from the lock screen (and the iOS widget is more useful as one tap turns a scene on and another turns it off - the Watch app only does “on”). These are things that will improve and some of the glances are pretty good for an overview but this isn’t a native app experience. It’s very much iOS 1.0 with the HTML “apps” than the App Store we have now<sup id="fnref:unfair" role="doc-noteref"><a href="#fn:unfair" class="footnote" rel="footnote">5</a></sup>.</p>
-  </li>
-  <li>
-    <p>Some 3rd party apps aren’t there. The thing I’ve found most surprising is that there are many big name apps which simply aren’t there at launch, most notably (for me) are Facebook and WhatsApp. This means when you get a notification from these services, you can read the text (same as an iOS push notification) but you can’t reply from the watch or do anything at all. Bearing in mind there are over 3000 apps at launch, I’m very surprised that these two aren’t there. As above, this is something that will improve over time but it is frustrating getting a “someone commented on your photo” notification and not being able to read it. This is a tad hypocritical as I’ve publicly said we’re not doing an app extension for <a href="http://wallabeegame.com/">WallaBee</a><sup id="fnref:wallabee" role="doc-noteref"><a href="#fn:wallabee" class="footnote" rel="footnote">6</a></sup> but then Facebook has a lot more money and developers than me…</p>
-  </li>
-  <li>
-    <p>Some 1st party<sup id="fnref:secondparty" role="doc-noteref"><a href="#fn:secondparty" class="footnote" rel="footnote">7</a></sup> apps aren’t there. Much has been made of the lack of a web browser<sup id="fnref:luke" role="doc-noteref"><a href="#fn:luke" class="footnote" rel="footnote">8</a></sup> but the thing that really surprises me is the lack of the reminders app. One of the use cases I had for the watch was grocery shopping lists. When my wife goes to the gym I typically drop her off and go and do the weekly grocery shop - we have family sharing enabled so recently we’ve been using reminders so she can add things to the list and I can see it whilst shopping. However, holding an iPhone 6 Plus in one hand and pushing a full trolley is actually quite hard whilst you’re looking for a specific type of quinoa seed<sup id="fnref:problems" role="doc-noteref"><a href="#fn:problems" class="footnote" rel="footnote">9</a></sup>. Hence I thought that the watch would be great as I’d be able to see our list and cross things off as I grab them. It isn’t to be though as there is no reminders app - you can set reminders via Siri and you get the notifications but you can’t just view your reminders and tick them off in a list. There are 3rd party apps available (such as the wonderful “<a href="http://culturedcode.com/things/watch/">Things</a>”) but then you start having to do jiggery pokery with certain reminder lists being imported and I don’t really want to see 60 items in my to-do list on my desktop. It seems a very odd omission so I’m hopeful that a WatchOS update will see that app added.</p>
-  </li>
-  <li>
-    <p>Exercise. I haven’t done anything other than walking the dogs but from what I’ve seen it works well. I started up the exercise app and chose “outside walk” and it logged my distance, calories burned, heart rate, etc. I’m looking forward to taking it out for a run at some point soon.</p>
-  </li>
-  <li>
-    <p>Notifications again. I just had to mention “<a href="http://www.knocktounlock.com">Knock</a>”. It’s an app that allows you to unlock your Mac by knocking on your iPhone (by some sort of dark magic as far as I can tell) but it is now updated for Apple Watch. Basically, when I sit at my desk and move my mouse, the computer comes out of standby and shows the lock screen and I get a notification on my wrist - tapping it unlocks the Mac. I have a pretty long password so it is a nice feature but it shows some of the potential of location-aware apps. I’ve always said that the Apple Watch will be like Disney’s MagicBands and this seems to be true when you consider you can use it to unlock doors (and computers) and pay for things (in the US… grrrr). Knock is just one of those “this is cool” moments about the watch.</p>
-  </li>
-  <li>
-    <p>Apple Pay. Seriously, this needs to come to the UK. We already have all of the NFC hardware so I can’t see what the hold up is. I firmly believe that Apple Pay will become my #1 use case for the watch.</p>
-  </li>
-  <li>
-    <p>Digital Touch. I had a chance to play with the digital touch stuff this morning and it works pretty well. The only thing I dislike about it is that you don’t get the taps in real time unless you have the requisite app open; you get a standard notification to say “someone sent you a digital touch message” which when you open then plays it back. I really wanted this to happen without the notification step so my wife could send me some taps and I’d receive them on my wrist without doing anything (so, for instance, she could send 2 taps to say she is ready for me to pick her up). Might as well just send a txt if it is going to require me to look at the watch to open the message.</p>
-  </li>
-  <li>
-    <p>Ordering process. I’ve seen a lot of complaints about the ordering process and how Apple has screwed everyone over with a 2-week release period and no ability to queue and get one. My assessment is that the watch has been much more popular than they imagined and that gauging which models people would choose is a lot tricker than many give credit for. With the iPhone and iPad, it is fairly easy as you have a choice of storage tiers and, in the case of the iPad, Wi-Fi or Cellular. You can do market research (based on what they’ve sold previously) to work out which ones you need the most of and where. However, with the watch the majority of it is purely aesthetics. How do you get the right split between the different coloured bands or know if people will be willing to pay extra for Stainless Steel, a leather loop band, or a link bracelet? It seems there could be some manufacturing issues as well in that there hasn’t been a single pink band seen in the wild yet (not even in the demo units at Apple Stores) and none of them have shipped. Several of the other bands aren’t shipping yet either - I wanted my watch to come with the black leather loop but that would have meant waiting 4-6 weeks so I went for a white sport band (I ordered the leather loop separately and it could be here next week).</p>
-  </li>
-</ul>
-
-<p>I think that is pretty much all of my first impressions for the time being. In short, I’m finding it to be a great device for small interactions and for being able to triage incoming notifications when your hands are full. It’s the first step to an incredible wave of products (from all manufacturers) and I think most people will be pleased with it. Just don’t go in expecting the 3rd party apps to be at the level that they are on iOS devices currently.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:delivery" role="doc-endnote">
-      <p>It’s the first time Apple have shipped anything by UK Mail and I hope the last. Whilst it was in the UK well in advance of the dispatch notice, it went out for delivery at 5.40am and then an hour later was listed as “delayed” with a date of 27th April for delivery. I phoned UK Mail and had to wait 2 hours for them to call me back to say that I could come and pick it up from the depot on the Saturday - however, during that time, the status had changed back to delivery for that day. When the driver turned up, he was quite rude and complained about all the people buying Apple products as meant he had to deliver more! <a href="#fnref:delivery" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:steel" role="doc-endnote">
-      <p>I wish there was a better way of saying “the watch that isn’t the sport one or the gold one” - peculiar to name a specific model the same as the whole line. Reminds me of when they went for “the new iPad” rather than “iPad 3” (but at least then you could call it that). <a href="#fnref:steel" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:vibration" role="doc-endnote">
-      <p>The reason being is that when I’m working on my computer, I frequently get notifications on both (i.e. from Tweetbot) - I don’t like having my phone vibrating across the desk all the time so I have that switched off. <a href="#fnref:vibration" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:sounds" role="doc-endnote">
-      <p>I have the sounds on at the moment but I’ll turn them off soon - it’s just for the novelty of being able to say “oh, is that my APPLE WATCH” to people nearby. I’m a bit of a dick like that. <a href="#fnref:sounds" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:unfair" role="doc-endnote">
-      <p>That might a bit unfair. Some of the apps work well but it is very hit and miss. <a href="#fnref:unfair" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:wallabee" role="doc-endnote">
-      <p>The main reason being that adding more interactivity to the notifications (like the ability to reply to a message) would mean adding an app to the watch. Once you do that, you’re getting into a lot of work. I wish there was a way you could add a custom design to notifications without doing an app (so I could show an image when we release a new item) but again, the only way to do that is to go for a full watch app. The experience of that would be slower than the iPhone so for now it isn’t very compelling for me with my business hat on. <a href="#fnref:wallabee" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:secondparty" role="doc-endnote">
-      <p>Whilst typing this I realise we have a concept of “1st party / 3rd party” and “1st person / 3rd person”. Does “2nd party” or “2nd person” exist? After a bit of googling, the “2nd party” would be “you” (i.e. 1st party is Apple, 2nd party is consumer, 3rd party is developer). There’s a few times a day where little questions like these pop up - Siri on the watch is pretty good for getting quick answers to them. <a href="#fnref:secondparty" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:luke" role="doc-endnote">
-      <p>It reminds me of when iBooks launched and it was iPad only. Lots of people asked why it wasn’t on iPhone to which the general consensus was “<a href="https://twitter.com/lukeredpath/status/11477537496">It would be shit</a>”. Of course, it then did appear on iPhone but I don’t think it’ll happen with Safari on the watch. There is a <a href="https://itunes.apple.com/us/app/cufflink-browser/id918254991?mt=8">3rd party browser</a> available already though. It looks shit. <a href="#fnref:luke" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:problems" role="doc-endnote">
-      <p>First world problems, right? <a href="#fnref:problems" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/04/24/developer-preorders/">Developer pre-orders</a></h1>
-			
-			<time datetime="2015-04-24" pubdate=""><a href="/weblog/2015/04/24/developer-preorders/">April 24, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m often asked if Apple let me pre-order devices earlier than consumers or if they give me a discount. The answer is always “no”; to Apple, developers are just normal consumers. We may get access to SDKs and beta OS releases in advance<sup id="fnref:advance" role="doc-noteref"><a href="#fn:advance" class="footnote" rel="footnote">1</a></sup> but with hardware we have to pre-order with everyone else.</p>
-
-<p>However, a slight exception has recently been made for the Apple Watch. On a random basis, Apple have allowed developers to register their interest to get an Apple Watch Sport (with blue band) and then out of those that applied they’ve randomly selected a few to actually purchase them (with guaranteed dispatch by the 28th April). Whilst I think this is a great idea, there are several problems:</p>
-
-<p>1) This was only offered a few days before the release of the Apple Watch and over a week after pre-orders had gone live (and sold out spectacularly). If you are going to offer hardware to developers, it would be better to do it in advance of the pre-order or at the same time so that they don’t try and purchase their own if they are only buying for development purposes.</p>
-
-<p>2) This offer was completely random. I didn’t receive an email and neither did several other developers I know who would have liked to. At first I thought this might be because I’d already made a purchase but that was actually with a different Apple ID<sup id="fnref:multiple" role="doc-noteref"><a href="#fn:multiple" class="footnote" rel="footnote">2</a></sup>. In addition, other developers I know that had already ordered devices were given the chance to register for this lottery. This brings me to…</p>
-
-<p>3) There seems to be nothing in place to stop developers who already had pre-ordered from getting in on this deal and then selling the watch at a high-rate on eBay. A quick search on Twitter will show plenty of developers doing this.</p>
-
-<p>It seems to me that this could have been done in a much better way:</p>
-
-<p>1) Email developers a week prior to pre-orders to let them know that they have the opportunity to skip the queue. Take their payments upfront (to make sure they are serious and to avoid issues later) and then randomly choose those that were successful before pre-orders go live in a similar way to how WWDC tickets were allocated this year. By doing this, those that aren’t successful can still get in the regular queue with everybody else and nobody misses out.</p>
-
-<p>2) Lock the hardware to the developer account so that it can’t be resold (perhaps limited to 1 year). This would prevent developers taking advantage of the deal to enrich themselves in the grey market. The technology for this already exists bearing in mind that hardware can be locked to an Apple ID (so it can’t be resold if stolen) so it shouldn’t be too tricky for Apple to do this.</p>
-
-<p>I think offering these pre-order deals for developers is a great way to help them write apps for the platform (and ensure compatability in an ever growing ecosystem) but the ability for people to make a quick buck and the total randomness of who gets invited to the lottery leaves a sour taste. I was lucky enough to be able to get the watch I wanted delivered on launch day but there are several developers who have weeks of waiting whilst others with several placed orders are able to get a special offer that’ll go on eBay. Its a first step, but hopefully Apple can do better for future hardware releases.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:advance" role="doc-endnote">
-      <p>Although not always enough - for instance, there was 9 days to get apps compatible with iPhone 6 and iPhone 6 Plus and realistically you’re going to be in the review queue for 80-90% of that time… <a href="#fnref:advance" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:multiple" role="doc-endnote">
-      <p>I have my personal Apple ID along with two development account Apple IDs, neither of which were contacted about this offer. <a href="#fnref:multiple" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/04/23/itunes-artwork-finder-updated-with-app-screenshots-and-videos-including-apple-watch/">iTunes Artwork Finder updated with app screenshots and videos (including Apple Watch)</a></h1>
-			
-			<time datetime="2015-04-23" pubdate=""><a href="/weblog/2015/04/23/itunes-artwork-finder-updated-with-app-screenshots-and-videos-including-apple-watch/">April 23, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve just pushed out a big update to my <a href="https://bendodson.com/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> today that allows you to view the following information about apps:</p>
-
-<ul>
-  <li>Screenshots for Apple Watch, iPad, and iPhone (in all 4 sizes: 3.5”, 4”, 4.7”, and 5.5”)</li>
-  <li>Video previews, where applicable, for iPad and iPhone (again, in all 4 sizes)</li>
-</ul>
-
-<p>To check it out, simply search for an app in the <a href="https://bendodson.com/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> and then click on the “view screenshots / videos” link that will appear above the app icon. This will take you to a new page I’ve created which outputs all of the screenshots and videos available for that app.</p>
-
-<p>Here’s a quick look at a few more of the interesting ones as we reach the Apple Watch launch:</p>
-
-<ul>
-  <li><a href="/projects/itunes-artwork-finder/app/?url=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fthings%2Fid284971781%3Fmt%3D8%26uo%3D4">Things</a></li>
-  <li><a href="/projects/itunes-artwork-finder/app/?url=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Frules!%2Fid840811083%3Fmt%3D8%26uo%3D4">Rules!</a></li>
-  <li><a href="/projects/itunes-artwork-finder/app/?url=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fdark-sky-weather-radar-hyperlocal%2Fid517329357%3Fmt%3D8%26uo%3D4">Dark Sky</a></li>
-  <li><a href="/projects/itunes-artwork-finder/app/?url=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fcitymapper-ultimate-real-time%2Fid469463298%3Fmt%3D8%26uo%3D4">Citymapper</a></li>
-  <li><a href="/projects/itunes-artwork-finder/app/?url=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Ftwitter%2Fid333903271%3Fmt%3D8%26uo%3D4">Twitter</a></li>
-</ul>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/03/25/loly-v2/">LOLy 2.0</a></h1>
-			
-			<time datetime="2015-03-25" pubdate=""><a href="/weblog/2015/03/25/loly-v2/">March 25, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that an app I worked on late last year has finally gone live on the App Store; <a href="https://itunes.apple.com/us/app/loly/id893477100?ls=1&amp;mt=8">LOLy</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/loly-v2.jpg" width="800" /></p>
-
-<p>LOLy is an app that allows you to send stylish and beautifully designed large emoji, many of which are animated.</p>
-
-<p>I was asked to work on the v2 app update as the previous app suffered from a few performance issues and there were requirements for new functionality. I completely rebuilt the app from the ground up using Swift along with <a href="http://realm.io">Realm</a> as a super-fast local database. The app is now super-smooth and images, even animated ones, appear instantly. I also used AutoLayout to ensure that the app looked great on all 4 sizes of iPhone from the tiny iPhone 4S to the massive iPhone 6 Plus. I came up with a lot of the UX changes and integrated iCloud to enable syncing of favourites. Remember that blog post I did about <a href="https://bendodson.com/weblog/2014/12/10/skproduct-localized-price-in-swift/">localising prices in Swift</a>? That was also for this project.</p>
-
-<p>However, the big thing with this update isn’t just the speed and performance boosts but the headline new feature: an iOS 8 keyboard.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/loly-keyboard.jpg" width="800" /></p>
-
-<p>This was a real challenge and I came across design issues, the technical constraints of the iOS 8 keyboards, and various requirements from the App Store review team. With design, it was important to make the keyboard match the app as much as possible and to try and show as many of these stickers as possible whilst also syncing “recently used” and “favourites” with the parent app. The technical constraints were far harder. There is only a limited amount of memory available to these extensions so trying to show animated images along with the fairly complex design was tricky. Add in the general problem of image-based keyboards requiring full keyboard access (<a href="https://bendodson.com/weblog/2014/10/07/the-problem-with-allow-full-access-on-ios8-keyboards/">which I’ve discussed before</a>) and being limited to copy/paste for inserting images into apps and it became trickier than expected! Finally, the App Store insisted that the keyboard also contain a full text keyboard and numeric keyboard which had to be added fairly late on. Despite all this, he keyboard looks and works great. I’ve been using it a lot over the past few months and it really is a great way for sending a message with more playfulness than the stock emoji.</p>
-
-<p>In addition to the above, I also built an online admin system so that the packs can be updated, added to, or re-ordered remotely without going through the App Store review process. This is all pushed via an innovative patch system I designed which allows for delta updates to keep bandwidth costs to a minimum both for users and the clients servers.</p>
-
-<p>I had great fun working on this app and I’m really proud of the result. You can check out <a href="https://itunes.apple.com/us/app/loly/id893477100?ls=1&amp;mt=8">LOLy on the App Store</a> - it’s a free app with lots of stickers but, at the time of writing, you can download additional packs for $0.99/£0.79.</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">Albums on iTunes Artwork Finder now at higher resolution</a></h1>
-			
-			<time datetime="2015-02-26" pubdate=""><a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">February 26, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve made a quick update to the <a href="https://bendodson.com/code/itunes-artwork-finder/">iTunes Artwork Finder</a> today in that album artwork is now available at a resolution of 1500x1500px.</p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2015/high-res-album.jpg"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/high-res-album.jpg" alt="High Res Album Artwork from iTunes Artwork Finder" width="800" /></a></p>
-
-<p>You can try it out now by <a href="https://bendodson.com/code/itunes-artwork-finder/">searching for an album</a> and then clicking the <strong>High Resolution</strong> link.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/02/23/introducing-blind-bags/">Introducing "Blind Bags"</a></h1>
-			
-			<time datetime="2015-02-23" pubdate=""><a href="/weblog/2015/02/23/introducing-blind-bags/">February 23, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Ever since I was little, I’ve loved collecting. As far as I can remember, the first thing I collected seriously was <a href="http://en.wikipedia.org/wiki/Gogo's_Crazy_Bones">Gogo’s Crazy Bones</a> when I was at school in the 90s<sup id="fnref:although" role="doc-noteref"><a href="#fn:although" class="footnote" rel="footnote">1</a></sup>. They came in blind bags so the first couple of times you bought them you’d get all new stuff but then, as your collection got more complete, the chances of getting something you already owned increased. This mode of selling seems to have really caught on over the past few years and I find myself collecting a number of things that work this way, primarily <a href="https://infinity.disney.com/en-gb/power-discs">Disney Infinity Power Discs</a> and <a href="http://www.lego.com/en-gb/minifigures/">LEGO Minifigures</a>.</p>
-
-<p>Whilst trying to sort through my Disney Infinity collection last week, I did a quick search on the App Store and found only one app that hadn’t been updated for a while and was a bit basic. After having several weeks away from coding whilst being on jury duty, I thought it might be fun to get back into the swing of things over the weekend by building a basic prototype app to solve my collecting need but also pick up a few new skills along the way. Thus, “Blind Bags” was born:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-promo.jpg" width="800" /></p>
-
-<p>The app is fairly basic in that it lists all of the series of power discs available and then lets you tap through to see a list view showing which ones you own and which ones you don’t (as denoted by whether they are slightly-transparent or not). You can hold your finger down on a disc to change its state making for a quick way of logging new additions to the collection. If you tap on an item, you go through to a bigger detail view which gives you a bit of description text and allows you to enter a number of spares if applicable:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-detail.jpg" width="400" /></p>
-
-<p>The spares piece is particularly important as you can then build up a list of which items you have spares of and how many:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-spares.jpg" width="400" /></p>
-
-<p>Finally, everything is synced online which allows me to generate a basic page showing which discs I’m missing and which discs I have available to trade:</p>
-
-<p><a href="http://blindba.gs/users/bendodson"><img src="https://bendodson.s3.amazonaws.com/weblog/2015/blindbags-site.jpg" width="800" /></a></p>
-
-<p>The best bit of all of this is that the entire project took just 4 hours<sup id="fnref:timewasting" role="doc-noteref"><a href="#fn:timewasting" class="footnote" rel="footnote">2</a></sup> thanks to using <a href="https://parse.com">Parse</a>. I was able to get their SDK integrated quickly into a new app (using Swift 1.2) and begin prototyping within 20 minutes which is pretty cool as I’ve never used it before. From there, it was a simple case of building some basic UICollectionViews and some CRUD functionality. Parse also has a PHP SDK so within a few minutes I had <a href="http://blindba.gs/users/bendodson/">a basic page</a> which allowed me to output the data that the app was saving. Whilst there is no fallback for loss of connection, etc, at the moment (this is just a prototype after all) these are all things that could be added fairly easily.</p>
-
-<p>The final step was to get a domain name<sup id="fnref:obviously" role="doc-noteref"><a href="#fn:obviously" class="footnote" rel="footnote">3</a></sup> and purchase a <a href="http://themeforest.net/item/hype-app-landing-page/6671565">site template</a><sup id="fnref:template" role="doc-noteref"><a href="#fn:template" class="footnote" rel="footnote">4</a></sup> to build a basic landing page showing off a few screenshots of the app and giving anybody interested the chance to register their email address.</p>
-
-<p>At the moment the app is solely geared towards one thing for one user but it could easily be expanded outwards into a full service for other collectors to use. Using Parse and a cheap site template, I’ve been able to get a prototype app up and running and a decent landing page in just 4 hours. If there is enough interest, I think 2 days of work is all that is needed to migrate the database to a different hosting solution<sup id="fnref:parse" role="doc-noteref"><a href="#fn:parse" class="footnote" rel="footnote">5</a></sup> and release it as a full app most likely using a subscription model.</p>
-
-<p>If you’re interested, check out <a href="http://blindba.gs">the Blind Bags site</a> and add your email address to get notified as more details become available.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:although" role="doc-endnote">
-      <p>Although, now I think of it, I also collected <a href="http://en.wikipedia.org/wiki/Pogs">Pogs</a> and (believe it or not) Panini Football Stickers! <a href="#fnref:although" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:timewasting" role="doc-endnote">
-      <p>Of which at least 1 hour was choosing a font. <a href="#fnref:timewasting" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:obviously" role="doc-endnote">
-      <p>Obviously I had to go for one in a similar pattern to <a href="http://wallabeegame.com">wallabeegame.com</a> and <a href="http://pouchcreatur.es">pouchcreatur.es</a> and settled for <a href="http://blindba.gs">blindba.gs</a> <a href="#fnref:obviously" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:template" role="doc-endnote">
-      <p>Seriously, templates make this so much easier. I’ve not done any serious HTML work in years and I can’t be bothered getting things working on mobile let alone Internet Explorer. For just $13, I was able to get a fully responsive template full of animations along with the original PSDs so I could quickly integrate promo shots. The site was up and running in under an hour with the majority of that time being me writing copy and choosing the right screenshots. <a href="#fnref:template" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:parse" role="doc-endnote">
-      <p>I think Parse is great for prototyping but I wouldn’t use it for a live app - for one thing the relational database just isn’t powerful enough for the kind of queries I’d like to do. <a href="#fnref:parse" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/02/16/3-years-of-wallabee/">Three years of WallaBee</a></h1>
-			
-			<time datetime="2015-02-16" pubdate=""><a href="/weblog/2015/02/16/3-years-of-wallabee/">February 16, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Today I’m celebrating three years since <a href="http://wallabeegame.com">WallaBee</a> was released into the world. Originally conceived as an extension to the item collecting side of Gowalla, it launched in February 2012 as a completely standalone game with beautiful artwork and a very dedicated group of players. Since then it has won awards and grown far beyond what I originally anticipated.</p>
-
-<p>It hasn’t been an easy (or cheap<sup id="fnref:cheap" role="doc-noteref"><a href="#fn:cheap" class="footnote" rel="footnote">1</a></sup>) journey, but today we have a large player base and we’ve stuck to the <a href="https://bendodson.com/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">principles I laid out</a> when I first launched the game:</p>
-
-<blockquote>
-  <p><em>We are focussed on a single thing; items. We have a location database and we allow players and developers to add to this database but it’s not our key focus. We are fundamentally not a check-in service.</em></p>
-</blockquote>
-
-<blockquote>
-  <p><em>We don’t just want to build a community of players, we also want to build a community of developers. If you build something on our platform, we’ll promote it.</em></p>
-</blockquote>
-
-<blockquote>
-  <p><em>The most important thing, the item that is at the core of who we are, is that we are dedicated to the player. We promise to listen, adapt, and make changes that the community wants rather than just blazing our own trail. We will never fundamentally change our product on a whim when we know that it’s not what our community wants. We built this app because it’s the app we wanted to use. We will never deviate from that course or that core belief.</em></p>
-</blockquote>
-
-<p>If there is just one thing I could choose about WallaBee that I’m proud of, it would be that we stuck to those initial promises. We haven’t taken any external funding nor done things simply to boost user numbers or revenue. Every decision we make is based on a simple philosophy: <em>do we like it?</em></p>
-
-<p>Over the coming months, we’re going to be launching a lot of new things which will grow WallaBee from one game to a global brand. Even so, we won’t change from those core beliefs.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:cheap" role="doc-endnote">
-      <p>For anybody wondering about the financials of such a game, you need at least $30000 to get started and you will lose a lot of money for the first 18 months (great artists and servers are both expensive and necessary). I started WallaBee on the basis that if it wasn’t break even by year 2 then we’d shut it down. Happily, we’ve been turning a profit since September 2013. <a href="#fnref:cheap" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/02/12/iap-icons-featured-app-store/">IAP and icons in the 'Featured' section of the App Store</a></h1>
-			
-			<time datetime="2015-02-12" pubdate=""><a href="/weblog/2015/02/12/iap-icons-featured-app-store/">February 12, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Apple did something slightly different with their weekly update of the <em>Featured</em> section of the App Store today that is bound to get people talking: they singled out Apps without In-App Purchases:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-pay-once.jpg" alt="Pay Once and Play on the App Store" /></p>
-
-<p>This section contains a number of great games that have no IAP within them. Unfortunately this section is hidden by the first few slides in the top banner the most prominent of which is for King of Thieves, a new freemium game by ZeptoLab (of Cut The Rope fame):</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-king.jpg" alt="King of Thieves on the App Store" /></p>
-
-<p>What I find particularly distasteful about this is that it is a timer-filled game in which the top IAP costs £40<sup id="fnref:topiap" role="doc-noteref"><a href="#fn:topiap" class="footnote" rel="footnote">1</a></sup> and is obviously the complete opposite of what Apple are trying to achieve with the above campaign.</p>
-
-<p>In any case, I noticed some other interesting editorial decisions this week all based in the <em>What’s New</em> section.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-abc.jpg" alt="ABC App Icons" /></p>
-
-<p>Is it just me or does that say A B C?</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-7.jpg" alt="7 App Icons" /></p>
-
-<p>Two apps placed next to each other using a number 7 for their icon.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-m.jpg" alt="M App Icons" /></p>
-
-<p>Two apps placed next to each other using an M in a circle for their icon.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/featured-app-store-tick.jpg" alt="Tick App Icons" /></p>
-
-<p>Two apps placed next to each other using a tick for their icon.</p>
-
-<p>It seems strange that with so much choice in the App Store, Apple chose to feature so many apps with similar icons and then place them directly next to each other. I can’t remember the last time I found a truly good app on the front page of the App Store (that wasn’t featured elsewhere beforehand) but I really hope they find a way to improve App Store discovery soon<sup id="fnref:discovery" role="doc-noteref"><a href="#fn:discovery" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:topiap" role="doc-endnote">
-      <p><del>What is worse is that if you view the King of Thieves app in the App Store, the section called “In-App Purchases” isn’t listed so you can’t see these IAPs until you download the game. With WallaBee, we keep our prices intentionally low and you can see that reflected in that list. I’m not sure why King of Thieves is exempt from this.</del> It looks like this was just a timing issue - as of now, there are two IAPs listed (the cheapest) so I’m assuming that this is simply a “most popular” list that gets slowly populated over time. <a href="#fnref:topiap" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:discovery" role="doc-endnote">
-      <p>On which note, <a href="http://www.macrumors.com/2015/02/12/pinterest-app-pins/">the App Store joined Pinterest today and added a feature called App Pins</a> that allows users to install apps without leaving the app - I’m not sure why this is being pitched as a new thing as this kind of modal App Store pane has been available to developers since iOS 7… <a href="#fnref:discovery" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/02/08/xcode-6-essentials/">Xcode 6 Essentials</a></h1>
-			
-			<time datetime="2015-02-08" pubdate=""><a href="/weblog/2015/02/08/xcode-6-essentials/">February 08, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that a book I worked on as a technical reviewer is now available; <a href="https://www.packtpub.com/application-development/xcode-6-essentials">Xcode 6 Essentials</a> by Jayant Varma. The book works as a good overview of Xcode 6 and the Swift language and is suitable for both OS X and iOS developers. My role was to ensure technical accuracy and to make sure that all of the code samples work as expected.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/xcode-6-essentials.jpg" alt="Xcode 6 Essentials" /></p>
-
-<p>You can get it now in both print and eBook formats from <a href="https://www.packtpub.com/application-development/xcode-6-essentials">Packt Publishing</a>.</p>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/16/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/14/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 15 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/01/great-british-bee-count-app/">Great British Bee Count iPhone App</a>
+						
+					</h2>
+					<time datetime="2015-05-01"><a href="/weblog/2015/05/01/">May 1, 2015</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that another app I worked on earlier this year has gone live in the App Store; Great British Bee Count.</p>
+
+				
+					<a href="/weblog/2015/05/01/great-british-bee-count-app/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/04/25/initial-thoughts-on-apple-watch/">Initial thoughts on Apple Watch</a>
+						
+					</h2>
+					<time datetime="2015-04-25"><a href="/weblog/2015/04/25/">April 25, 2015</a></time>
+				</header>
+
+				
+				<p>After a bit of hassle with the delivery company1, I was lucky enough to get my Apple Watch yesterday. A few people have asked for my opinions so I’ve jotted down a few rough observations: It’s the first time Apple have shipped anything by UK Mail and I hope...</p>
+
+				
+					<a href="/weblog/2015/04/25/initial-thoughts-on-apple-watch/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/04/24/developer-preorders/">Developer pre-orders</a>
+						
+					</h2>
+					<time datetime="2015-04-24"><a href="/weblog/2015/04/24/">April 24, 2015</a></time>
+				</header>
+
+				
+				<p>I’m often asked if Apple let me pre-order devices earlier than consumers or if they give me a discount. The answer is always “no”; to Apple, developers are just normal consumers. We may get access to SDKs and beta OS releases in advance1 but with hardware w...</p>
+
+				
+					<a href="/weblog/2015/04/24/developer-preorders/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/04/23/itunes-artwork-finder-updated-with-app-screenshots-and-videos-including-apple-watch/">iTunes Artwork Finder updated with app screenshots and videos (including Apple Watch)</a>
+						
+					</h2>
+					<time datetime="2015-04-23"><a href="/weblog/2015/04/23/">April 23, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve just pushed out a big update to my iTunes Artwork Finder today that allows you to view the following information about apps:</p>
+
+				
+					<a href="/weblog/2015/04/23/itunes-artwork-finder-updated-with-app-screenshots-and-videos-including-apple-watch/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/03/25/loly-v2/">LOLy 2.0</a>
+						
+					</h2>
+					<time datetime="2015-03-25"><a href="/weblog/2015/03/25/">March 25, 2015</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that an app I worked on late last year has finally gone live on the App Store; LOLy.</p>
+
+				
+					<a href="/weblog/2015/03/25/loly-v2/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/">Albums on iTunes Artwork Finder now at higher resolution</a>
+						
+					</h2>
+					<time datetime="2015-02-26"><a href="/weblog/2015/02/26/">February 26, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve made a quick update to the iTunes Artwork Finder today in that album artwork is now available at a resolution of 1500x1500px.</p>
+
+				
+					<a href="/weblog/2015/02/26/itunes-artwork-finder-album-update/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/02/23/introducing-blind-bags/">Introducing "Blind Bags"</a>
+						
+					</h2>
+					<time datetime="2015-02-23"><a href="/weblog/2015/02/23/">February 23, 2015</a></time>
+				</header>
+
+				
+				<p>Ever since I was little, I’ve loved collecting. As far as I can remember, the first thing I collected seriously was Gogo’s Crazy Bones when I was at school in the 90s1. They came in blind bags so the first couple of times you bought them you’d get all new s...</p>
+
+				
+					<a href="/weblog/2015/02/23/introducing-blind-bags/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/02/16/3-years-of-wallabee/">Three years of WallaBee</a>
+						
+					</h2>
+					<time datetime="2015-02-16"><a href="/weblog/2015/02/16/">February 16, 2015</a></time>
+				</header>
+
+				
+				<p>Today I’m celebrating three years since WallaBee was released into the world. Originally conceived as an extension to the item collecting side of Gowalla, it launched in February 2012 as a completely standalone game with beautiful artwork and a very dedicat...</p>
+
+				
+					<a href="/weblog/2015/02/16/3-years-of-wallabee/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/02/12/iap-icons-featured-app-store/">IAP and icons in the 'Featured' section of the App Store</a>
+						
+					</h2>
+					<time datetime="2015-02-12"><a href="/weblog/2015/02/12/">February 12, 2015</a></time>
+				</header>
+
+				
+				<p>Apple did something slightly different with their weekly update of the Featured section of the App Store today that is bound to get people talking: they singled out Apps without In-App Purchases:</p>
+
+				
+					<a href="/weblog/2015/02/12/iap-icons-featured-app-store/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/02/08/xcode-6-essentials/">Xcode 6 Essentials</a>
+						
+					</h2>
+					<time datetime="2015-02-08"><a href="/weblog/2015/02/08/">February 8, 2015</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that a book I worked on as a technical reviewer is now available; Xcode 6 Essentials by Jayant Varma. The book works as a good overview of Xcode 6 and the Swift language and is suitable for both OS X and iOS developers. My role was to ...</p>
+
+				
+					<a href="/weblog/2015/02/08/xcode-6-essentials/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/16/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/14/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

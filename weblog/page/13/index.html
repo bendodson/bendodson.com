@@ -9,497 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/13/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/13/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/13/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/13/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/09/25/brapp-the-rap-app/">Brapp, the rap app</a></h1>
-			
-			<time datetime="2015-09-25" pubdate=""><a href="/weblog/2015/09/25/brapp-the-rap-app/">September 25, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that an iPhone app I’ve been working on since March this year has gone live in the App Store; <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">Brapp</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/brapp.jpg" width="800" /></p>
-
-<p>Brapp is a free and easy way to create and discover exciting musical collaborations all over the world. Producers can share their beats allowing anyone to make mini music videos right on their phone. When you choose a beat and hit record, the camera starts rolling and the custom studio technology balances your audio (be it singing, rapping, or playing an instrument) onto the beat ready for you to add video filters and share with the world.</p>
-
-<p>I was the sole iOS developer on the project and worked closely with the app creator<sup id="fnref:greatguys" role="doc-noteref"><a href="#fn:greatguys" class="footnote" rel="footnote">1</a></sup> and his API developer to bring it all to life. I was able to write the app in Swift and use AutoLayout to make sure everything scales beautifully on all 4 sizes of iPhone from the 3.5” iPhone 4S upto the 5.5” iPhone 6S Plus. In addition, I made use of GPUImage for the custom video filters and a whole load of low-level audio APIs to get the audio balance just right as well as real time waveforms and switching between external microphones. The design went through a number of iterations, each better than the last, and I was able to use my extensive UX knowledge to help shape the end result.</p>
-
-<p>This was a great project to work on with a load of interesting technologies plus I got to lay down some sick beats<sup id="fnref:sickbeats" role="doc-noteref"><a href="#fn:sickbeats" class="footnote" rel="footnote">2</a></sup>. You can check out <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">Brapp on the App Store</a> (it’s free) or <a href="http://www.brapp.tv">learn more on the official website</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:greatguys" role="doc-endnote">
-      <p>These were great guys to work with. During a Slack conversation, they made the mistake of saying “Yes @bendodson, that is right” to which I said “I want that on a t-shirt”. A couple weeks later, <a href="https://bendodson.s3.amazonaws.com/weblog/2015/thatisright.jpg">this</a> arrived in the post… <a href="#fnref:greatguys" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:sickbeats" role="doc-endnote">
-      <p>Thankfully all now removed. <a href="#fnref:sickbeats" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/09/23/appindex-interview/">AppIndex Interview</a></h1>
-			
-			<time datetime="2015-09-23" pubdate=""><a href="/weblog/2015/09/23/appindex-interview/">September 23, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Earlier this month I was interviewed by <a href="http://appindex.com/">AppIndex</a> about my work as a freelance app developer. You can <a href="http://appindex.com/blog/ben-dodson-ios-dev-talks-app-development/">read the full article on their website</a> but I’ve also put their questions and my answers below:</p>
-
-<h3 id="how-long-have-you-been-involved-in-developing-apps-for">How long have you been involved in developing apps for?</h3>
-
-<blockquote>
-  <p>I started developing apps professionally in August 2009, shortly after iOS 3.0 was released, but I tinkered around with the iOS SDK when it was first announced the year before.</p>
-</blockquote>
-
-<h3 id="what-types-of-apps-do-you-work-on">What types of apps do you work on?</h3>
-
-<blockquote>
-  <p>I have quite a varied portfolio but for a long time the apps I worked on were location based (i.e. travel guides, restaurant finders, interesting places nearby, etc). Nowadays I tend to work on a lot of social network type apps but that’s probably more indicative of what clients are looking for at the moment.</p>
-</blockquote>
-
-<h3 id="what-platforms-tools-and-languages-do-you-work-with">What platforms, tools and languages do you work with?</h3>
-
-<blockquote>
-  <p>On the mobile side I only deal with iOS and all my new projects are written in Xcode using Swift 2.0 (with only a couple of legacy apps written in Objective-C). However, I also do backend development for APIs which I write exclusively in PHP. All my work is done on OS X.</p>
-</blockquote>
-
-<h3 id="what-apps-have-you-worked-on-that-you-are-most-proud-of">What apps have you worked on that you are most proud of?</h3>
-
-<blockquote>
-  <p>I think the app I was most proud of with was the “Horse Tracker” for the Grand National horse race. I worked with a company that attached trackers to the horses so we could see in realtime where they were on the field and display that to the user. It was really nice to use, especially on the iPad which had a full map view of the racecourse (which was never released in the end) and used lots of really cool technology such as audio indexing to perfectly match the time of the race on your TV screen to the data coming from the trackers, even if you were watching on a delayed stream or via a catch-up service hours later. Of course, nothing makes me more proud than the apps I write and publish myself so they will always beat client projects but that one was special.</p>
-</blockquote>
-
-<h3 id="what-are-the-big-trends-you-see-in-app-development-right-now">What are the big trends you see in app development right now?</h3>
-<blockquote>
-  <p>I’m starting to see a lot more thoughtful design coming through at the moment. Previously everybody was still trying to work out how to get data onto a small screen and most designers I worked with via clients had experience in print or web which didn’t always translate across; nowadays the level of design work seems to be much improved and everybody wants a slicker experience with more animation. The transition to the iOS 7 style of design (flat and minimal) seems to have helped as well.</p>
-</blockquote>
-
-<h3 id="what-is-the-best-thing-about-working-in-apps-and-mobile">What is the best thing about working in apps and mobile?</h3>
-<blockquote>
-  <p>I really enjoy the varied work. It can be difficult sometimes with deadlines and quite a big responsibility if your app is in millions of peoples hands but there is a huge amount of variety. I never really know what I’m going to be working on next which I find exciting.</p>
-</blockquote>
-
-<h3 id="what-is-the-one-thing-youd-like-to-change-about-app-development">What is the one thing you’d like to change about app development?</h3>
-<blockquote>
-  <p>I have two big gripes which are more to do with people than app development itself; being told I should port my apps to Android (“you’d make so much more money”) and being pitched an idea which isn’t so much an app as a service that requires servers, infrastructure, and has large operating costs (“I want an app that can let people upload photos and videos – I’ll give you 25% of the profit if you build it for free”).</p>
-</blockquote>
-
-<h3 id="what-mobile-devices-do-you-use">What mobile devices do you use?</h3>
-<blockquote>
-  <p>I use an iPhone 6 Plus and an iPad Air at the moment. I’m particularly interested in the rumoured 12” iPad Pro although I have something similar in the form of the 12” Macbook which I take to client meetings.</p>
-</blockquote>
-
-<h3 id="what-are-your-favourite-apps--games">What are your favourite apps / games?</h3>
-<blockquote>
-  <p>Ironically I don’t actually use that many apps beyond the stock things like mail. I’d say my most used 3rd party apps are Dark Sky for their weather alerts and Philips Hue for turning the lights on and off in my house. With games, I tend to play something solidly for a week and then get bored of it; I’m currently playing Alto’s Adventure, Rollercoaster Tycoon 3, and Kindo.</p>
-</blockquote>
-
-<h3 id="what-do-you-think-of-the-apple-watch">What do you think of the Apple Watch?</h3>
-<blockquote>
-  <p>I love my Apple Watch. It’s definitely a luxury rather than a necessity but I love getting notifications on my wrist, the fitness features, and Apple Pay. I’m looking forward to watchOS 2 especially as then I’ll be able to log a swim and have it count towards my exercise totals. It’ll be interesting to see how much better the 3rd party app experience is when the update arrives – I’ve dabbled with developing a few apps but the lag talking to the iPhone always limited the amount I could do.</p>
-</blockquote>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/08/19/microsoft-bridge-and-the-app-gap/">Microsoft Bridge and the "App Gap"</a></h1>
-			
-			<time datetime="2015-08-19" pubdate=""><a href="/weblog/2015/08/19/microsoft-bridge-and-the-app-gap/">August 19, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I was recently asked my opinion on <a href="https://github.com/Microsoft/WinObjC/">Windows Bridge</a> and the “App Gap” between iOS, Android, and Windows Phone by <a href="http://www.fiercedeveloper.com/story/will-windows-bridge-be-enough-get-ios-developers-cross-over-microsoft-terri/2015-08-18">FierceDeveloper</a>. You can read <a href="http://www.fiercedeveloper.com/story/will-windows-bridge-be-enough-get-ios-developers-cross-over-microsoft-terri/2015-08-18">the article on their website</a> but I’ve also put the full questions that were put to me along with my answers below:</p>
-
-<h3 id="would-something-like-windows-bridge-make-you-any-more-likely-to-bring-your-apps-to-windows-phone-why-or-why-not">Would something like Windows Bridge make you any more likely to bring your apps to Windows Phone? Why or why not?</h3>
-
-<blockquote>
-  <p>It wouldn’t convince me as there are two big problems: firstly, it only works with Objective-C whilst I have already made the switch over to Swift so I wouldn’t be able to make use of this (and the benefits of Swift massively outnumber the benefits of being on Windows Phone for me); secondly, whilst it may be easy to port an Objective-C app over, I would still need to build a custom Windows UI which would take a long time. In addition, this custom UI would need to be supported as and when new devices and screen sizes come out and I’d need to maintain feature parity between iOS and Windows making every release take significantly longer to bring to market.</p>
-</blockquote>
-
-<h3 id="what-do-you-think-are-the-biggest-reasons-for-the-app-gap-between-apples-app-store-and-whats-available-in-microsofts-app-store">What do you think are the biggest reasons for the “app gap” between Apple’s App Store and what’s available in Microsoft’s app store?</h3>
-
-<blockquote>
-  <p>There are lots of reasons for this but I think the two bigs ones are developer usage and money. When the iPhone came out, it was revolutionary and most developers who work in mobile began due to using an iPhone and wanting to write apps on it (that is certainly true in my case). That meant the iPhone got a lot of exciting apps developed on it first as the people that made those apps used iPhones. Over time, this has compounded into giving an Apple a massive advantage and whilst Android has caught up in many regards they haven’t got anywhere close when it comes to money. Simply put, iOS users spend more than Android users. I don’t know if that is due to the security and convenience of iTunes and TouchID or whether it is a more social thing (you’ve spent $700 on a phone so what is $100 a year on apps) but in all of the research I’ve done it has been the case that iOS users are willing to pay where Android users are not. It is for that reason I don’t port any of my apps to Android. Back to Microsoft though, the reason there is an app gap is that all of the developers started on iOS (and now Android) leading to a shortage of apps - this led to less customers and thus less money so they are now in the situation where it is very hard to attract developers as there are neither usage numbers nor financial figures to entice us.</p>
-</blockquote>
-
-<h3 id="is-there-more-microsoft-couldshould-do-to-make-developers-more-interested-in-creating-apps-and-games-for-their-platform">Is there more Microsoft could/should do to make developers more interested in creating apps and games for their platform?</h3>
-
-<blockquote>
-  <p>To be honest, I don’t think there is much Microsoft can do at this point. Consumers are simply not buying Windows Phones and that is the real problem. Whilst their initiatives such as building one app that can run on Windows 10, Xbox One, and Windows Phone are interesting, there simply isn’t enough consumer interest nor money to get iOS and Android developers to create apps on those platforms. Ultimately, Microsoft would probably be better chasing the gaming market over the app market - produce a Windows Phone that is more akin to a Playstation Vita and is able to run games that can also run on Xbox One and Windows 10. These wouldn’t be massively powerful games but would fit in with the “write once, run everywhere” better than apps do (typically games are used to having to scale at different resolutions and have custom UIs whereas regular apps tend to be designed to the UI of the platform making “write once, run everywhere” unfeasible).</p>
-</blockquote>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/31/lego-scooby-doo/">LEGO Scooby-Doo</a></h1>
-			
-			<time datetime="2015-07-31" pubdate=""><a href="/weblog/2015/07/31/lego-scooby-doo/">July 31, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m a huge fan of the Hanna-Barbera cartoons but Scooby-Doo has always been my favourite so I’ve been looking forward to the <a href="http://www.lego.com/en-gb/scoobydoo">LEGO Scooby-Doo sets</a> which officially launch tomorrow. Luckily, due to an error on the part of Argos<sup id="fnref:argos" role="doc-noteref"><a href="#fn:argos" class="footnote" rel="footnote">1</a></sup>, I was able to get all five sets a week early so I’ve put together a very brief review. Make sure you scroll to the bottom to see the coolest feature which appears in every set!</p>
-
-<h3 id="mummy-museum-mystery">Mummy Museum Mystery</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mummy-mystery.jpg" width="600" height="600" />
-This is the cheapest of the sets but it has a lot of detail for such a small set. Scooby and Shaggy come in every set but are joined by a mummy complete with headpiece. The museum itself has a hidden compartment with jewels and a liftable sarcophagus in which to hide the mummy.</p>
-
-<h3 id="mystery-plane-adventures">Mystery Plane Adventures</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-plane.jpg" width="600" height="600" />
-This is my least favourite set but you do get a fair amount for the low price. Scooby, Shaggy, and a headless horseman complete with a bi-plane with revolving propellor and (for some reason) burger bombs<sup id="fnref:sandwiches" role="doc-noteref"><a href="#fn:sandwiches" class="footnote" rel="footnote">2</a></sup> that you can detach. The Scooby model in this one is slightly different to the others in that he is wearing flying goggles.</p>
-
-<h3 id="the-mystery-machine">The Mystery Machine</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-machine.jpg" width="600" height="600" />
-Now we’re getting to the good stuff. The Mystery Machine is iconic and I’ve no doubt that, at the low price, this will be the most purchased set in this series. For under £30, you get Scooby, Shaggy, Fred, a zombie, a scary tree, and the Mystery Machine itself. The model is much smaller than I’d originally anticipated but it is very detailed and opens up allowing access to the inside which contains a kitchen and some props like a camera and torch. Overall, this is a fantastic set although it does use a huge amount of stickers which are prominently visible.</p>
-
-<h3 id="haunted-lighthouse">Haunted Lighthouse</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/haunted-lighthouse.jpg" width="600" height="600" />
-This may be my favourite set as it captures everything great about Scooby-Doo. You get a lighthouse keeper (it must have been him), swamp creature, Scooby, Shaggy, Daphne, a speedboat (with skis), and an awesome rock formation with lighthouse and secret pirate cave. There are nice little touches such as scratches inside the prison cell to show that somebody had been counting days, a wonky “keep out” sign, and a face on the hidden cave complete with gold tooth.</p>
-
-<h3 id="mystery-mansion">Mystery Mansion</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/mystery-mansion.jpg" width="600" height="600" />
-The biggest and most expensive of the sets, the Mystery Mansion shares a lot in common with the retired “<a href="http://lego.wikia.com/wiki/Monster_Fighters">Monster Fighters</a>” sets that LEGO released in 2012 (of which I have the <a href="http://shop.lego.com/en-GB/Haunted-House-10228">Haunted House</a>, my all time favourite LEGO set). The mansion is broken into 3 core areas; a greenhouse (with man eating plant), kitchen, and the tower. I personally think the greenhouse is the most interesting as there is good use of transparent panes and wedges to give the impression of smashed glass. The tower also has a nice feature in that when you turn a knob at the back, the clock hand advances and a column in the middle rotates to switch from a bat to a place where you can stand the vampire minifigure. There are a lot of stickers although the majority are on transparent panes which I find transfer better than on bricks where a slight misplacement can look terrible. In terms of minifigures, you get Scooby, Shaggy, Daphne, Velma<sup id="fnref:velma" role="doc-noteref"><a href="#fn:velma" class="footnote" rel="footnote">3</a></sup>, a suit of armour, a ghost, and a vampire. Both the vampire and ghost glow in the dark if you shine light on them first. Overall, this is a great set for both adult collectors and for kids to play with.</p>
-
-<h3 id="minifigures">Minifigures</h3>
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg" width="600" height="600" />
-The main draw for most adult collectors will be the minifigures. Whilst Scooby<sup id="fnref:scooby" role="doc-noteref"><a href="#fn:scooby" class="footnote" rel="footnote">4</a></sup> and Shaggy come in every set, Daphne appears in two, and Fred and Velma only appear in one each so you’ll need practically every set if you want all 5 of them. In terms of the figures themselves, the designs are perfect and I believe this is the first time that LEGO have done custom arms on licensed models (note how Shaggy’s arms show a t-shirt style rather than extending to the hand). However, the best thing of all in these sets are the villains…</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-villains-1.jpg" width="600" height="600" /><img src="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-villains-2.jpg" width="600" height="600" />
-Every villain<sup id="fnref:almost" role="doc-noteref"><a href="#fn:almost" class="footnote" rel="footnote">5</a></sup> has a double-printed head so you can unmask them and mimic the whole “I would have gotten away with it too if it weren’t for you meddling kids” speech! This for me shows how much thought LEGO have put into these sets and makes every minifigure one worth having (whereas on face value<sup id="fnref:ha" role="doc-noteref"><a href="#fn:ha" class="footnote" rel="footnote">6</a></sup> they seem a little bland being mainly reprints from other sets).</p>
-
-<p>Overall I highly recommend the Scooby-Doo LEGO sets. They offer great value for money, especially for licensed sets, and will look good as display models for adult collectors whilst also being high in playability for kids. Don’t forget that the <a href="https://ideas.lego.com/blogs/1-blog/post/33">LEGO Big Bang Theory set</a> also launches tomorrow though!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:argos" role="doc-endnote">
-      <p>They accidentally broke the embargoe and were selling them instore - I managed to rush to my local branch and get all 5 sets about an hour before the mistake was fixed and they were pulled. <a href="#fnref:argos" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:sandwiches" role="doc-endnote">
-      <p>Every set has Scooby and Shaggy but they also always have either a sandwich or a burger. On the cheaper sets they’re a bit oddly placed (i.e. in the Mummy Museum they are used as the lever for the sarcophagus) but they are quite nice as mini models. <a href="#fnref:sandwiches" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:velma" role="doc-endnote">
-      <p>“<a href="https://www.youtube.com/watch?v=mugwhe_nGL0&amp;t=2m3s">Nice read, Velma</a>” <a href="#fnref:velma" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:scooby" role="doc-endnote">
-      <p>It’s worth noting that there are <a href="https://bendodson.s3.amazonaws.com/weblog/2015/scooby-gang.jpg">4 Scooby variants</a>; one paw up, one paw up and scared, sat down and scared, and sat down with flying goggles. <a href="#fnref:scooby" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:almost" role="doc-endnote">
-      <p>OK, almost every villain. The zombie doesn’t have anything to cover the back so instead they have put a crease and some buttons to show it’s a mask. Genius. <a href="#fnref:almost" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:ha" role="doc-endnote">
-      <p><em>*chortle*</em> <a href="#fnref:ha" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/28/the-mobile-web/">The mobile web</a></h1>
-			
-			<time datetime="2015-07-28" pubdate=""><a href="/weblog/2015/07/28/the-mobile-web/">July 28, 2015</a></time>
-    	</header>
-    	<div>
-			<p>There has been a huge amount of talk over the past couple of weeks about mobile browsers mainly due to two announcements at WWDC; <a href="https://www.webkit.org/blog/3476/content-blockers-first-look/">Content Blockers in Safari</a> and <a href="https://www.apple.com/news/">Apple News</a>. This has led to discussion of mobile ads as it has been discovered there are huge speed boosts to be made when certain elements are blocked (for example, the <a href="http://murphyapps.co/blog/2015/6/24/an-hour-with-safari-content-blocker-in-ios-9">iMore site weighs 14MB</a> for something that is essentially plaintext). The thing that got me was when Niley Patel of The Verge created an article called “<a href="http://www.theverge.com/2015/7/20/9002721/the-mobile-web-sucks">The mobile web sucks</a>” whilst failing to notice the irony that the article he created <a href="http://blog.lmorchard.com/2015/07/22/the-verge-web-sucks/">takes 30s to load, and fetches 9.5MB across 263 HTTP requests</a>. The bit that irritated me though was this passage:</p>
-
-<blockquote>
-  <p>Similarly, Apple News lets you publish directly onto iPhones, bypassing Apple’s own Safari browser, which feels mildly crazy. Yet there’s some excitement over this: I just read Ben Thompson’s excellent piece explaining how the ad market for smaller publishers leads inexorably to bloated web pages that load poorly. That piece was itself a response to John Gruber saying that Apple’s new Safari Content Blocker system would cause a “reckoning” for publishers by letting users block performance-degrading Javascript. And yes, most commercial web pages are overstuffed with extremely complex ad tech, but it’s a two-sided argument: we should expect browser vendors to look at the state of the web and push their browsers to perform better, just as we should expect web developers to look at browser performance and trim the fat. But right now, the conversation appears to be going in just one direction.</p>
-</blockquote>
-
-<blockquote>
-  <p>And that’s troubling. Taken together, Apple News and Facebook Instant Articles are the saddest refutation of the open web revolution possible: they are incompatible proprietary publishing systems entirely under the control of huge corporations, neither of which particularly understands publishing or media. Earlier this year, I called Facebook the new AOL; Instant Articles comes from the same instinct as AOL trying to bring Time Warner’s media content into its app just before the web totally kicked its ass. Apple and Facebook are turning their back on the web to build replacements for the web, and with them replacements for HTML and CSS and every bit of web innovation it’s taken 20 years of competitive development to achieve.</p>
-</blockquote>
-
-<p>I’m not 100% sure on Facebook Instant Articles but Apple News is basically just an RSS reader. Sure you can use some <a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/News_Publishing_Guide/RSSBestPractices.html#//apple_ref/doc/uid/TP40015407-CH13-SW1">custom syntax to make things look slightly nicer</a> but they have “over a million topics” because they’ve basically scraped all the big RSS feeds and packaged it nicely. This brings me to the one thing I probably agree with Niley on<sup id="fnref:bracelet" role="doc-noteref"><a href="#fn:bracelet" class="footnote" rel="footnote">1</a></sup>, the mobile web does suck. The difference is that I don’t ever use it…</p>
-
-<p>On mobile, apps have completely replaced the web for me. Safari isn’t on my first home screen, let alone my dock; it’s buried in a folder with Stocks, Tips, and other undeletable<sup id="fnref:undeletable" role="doc-noteref"><a href="#fn:undeletable" class="footnote" rel="footnote">2</a></sup> Apple apps. The majority of browsing I do on my phone is either my RSS feeds or Twitter; if I want to read a link, they usually open in their own browser and I usually regret it. Mobile web sites are generally horrible things that are slow to load and have ridiculous interfaces. There are some sites that take longer to load on 4G than the equivelant WAP<sup id="fnref:wap" role="doc-noteref"><a href="#fn:wap" class="footnote" rel="footnote">3</a></sup> website used to on GPRS! Even the option to choose to render the desktop version often doesn’t work due to the horrible way in which most companies detect you are using a mobile browser. Due to this, I typically save websites I want to read to my Pinboard and read them later on my iMac or use the “readability” feature in Safari.</p>
-
-<p>I love RSS feeds. I subscribe to around 130 websites<sup id="fnref:subscribe" role="doc-noteref"><a href="#fn:subscribe" class="footnote" rel="footnote">4</a></sup> and I get every article fast, cached for offline usage, rendered in the same font, and without any JavaScript crap. I simply don’t understand people that don’t use RSS. Twitter is no match; you have to scroll through a ton of stuff you aren’t interested in to find links which you then have to click and wait for your browser to render. RSS keeps everything uniform and consistent and ensures I don’t miss anything. That is essentially what Apple News is trying to do (albeit with a discovery angle and a bit more design) and it seems like a perfectly good idea to me but I doubt it’ll make me switch from <a href="http://reederapp.com">Reeder</a> and <a href="http://feedbin.com/">FeedBin</a>, my current setup.</p>
-
-<p>The only minor problem I have with RSS is sites (<s>like The Verge</s><sup id="fnref:theverge" role="doc-noteref"><a href="#fn:theverge" class="footnote" rel="footnote">5</a></sup>) who only give you a paragraph of the text before making you click through to the site so they get your eyeballs on their ads and which always leads to clickbait headlines and paragraphs ending in a manufactured cliffhanger<sup id="fnref:remove" role="doc-noteref"><a href="#fn:remove" class="footnote" rel="footnote">6</a></sup>. Fortunately there aren’t many sites that do that but Apple News is not going to fix it; they have provision for this with a “<a href="https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/News_Publishing_Guide/RSSBestPractices.html#//apple_ref/doc/uid/TP40015407-CH13-SW1">Read Full Story” link</a> they embed that opens up the rest of the page within an internal browser. There are also sites which have ads as content (i.e. Daring Fireball) but those work well as they can be skimmed over quickly if they are of no interest and they don’t track you, take over your screen, or do any of the other things that browser ads do.</p>
-
-<p>So whilst everybody is up in arms about mobile browsers using up their battery and CPU, tracking their usage across the web, and having the unwinnable argument over whether to block ads or not<sup id="fnref:blockads" role="doc-noteref"><a href="#fn:blockads" class="footnote" rel="footnote">7</a></sup>, I’ll be sat reading that debate in my JavaScript-free, fast, RSS reader. I’ll likely end up installing some form of content blocker when iOS 9 is released for the few times that I do end up using the browser, but those times are thankfully becoming fewer and fewer on mobile.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:bracelet" role="doc-endnote">
-      <p>I have an instant dislike to him after his <a href="http://www.theverge.com/a/apple-watch-review">Apple Watch review</a> (which has a horrible, horrible website) in which he said the notifications made him ruder in conversation (as he constantly looked at his watch rather than ignoring it - that just makes him a jerk, not the watch) and claimed he felt “ridiculous wearing the Milanese Loop” yet is happy to wear a <a href="http://www.neogaf.com/forum/showthread.php?t=1031596">massive chunky punk bracelet</a>. <a href="#fnref:bracelet" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:undeletable" role="doc-endnote">
-      <p>I’m still surprised this hasn’t been remedied. In iOS 3 you could enable the Nike Running app by a toggle in settings (as the 3GS had the Bluetooth chip to talk to the shoe tracker) so I don’t see an issue why the built-in apps couldn’t be turned off in a similar way from settings. <a href="#fnref:undeletable" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:wap" role="doc-endnote">
-      <p>Who remembers WAP? Fun times. <a href="#fnref:wap" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:subscribe" role="doc-endnote">
-      <p>A mixture of tech, politics, development, LEGO, video game, and Disney blogs. Everything published in the areas I care about all in one place. <a href="#fnref:subscribe" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:theverge" role="doc-endnote">
-      <p>Turns out that The Verge does offer a <a href="http://www.theverge.com/rss/full.xml">full RSS feed</a> after all! A shame that <a href="http://9to5mac.com">9to5mac.com</a> have started truncating theirs… <a href="#fnref:theverge" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:remove" role="doc-endnote">
-      <p>After clicking a few of them, you realise the site is terrible and unsubscribe from it. Problem solved. <a href="#fnref:remove" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:blockads" role="doc-endnote">
-      <p>The argument is either “if you block ads you are getting something for free and going to put the publisher out of business” or “you shouldn’t be using up my battery and CPU with this privacy invading advertising”. You can’t win either way. I block ads personally but I’ll do a post soon about how I do it on my iMac. <a href="#fnref:blockads" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">Finding the next available driving test with Goutte PHP Scraper</a></h1>
-			
-			<time datetime="2015-07-24" pubdate=""><a href="/weblog/2015/07/24/next-driving-test-with-goutte/">July 24, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Over the past week I’ve had a lot of fun working on some small scripts to aid my general day-to-day living. My wife is currently waiting to take her driving test but our local area only has one test instructor with a waiting list of over 6 months! Occassionally slots open up due to cancellations and so she has been logging into the <a href="https://driverpracticaltest.direct.gov.uk/login">Government website</a> multiple times a day to check for a nearer date. Time for some automation!</p>
-
-<p>To stop her having to constantly go to a website, I decided to knock up a quick PHP script that would basically pretend to be a browser, log in, go to the correct page, and rip out the next available appointment. It’s been a while since I wrote a script like this so I had a look around for something better than <code class="language-plaintext highlighter-rouge">SimpleXML</code> and found <a href="https://github.com/FriendsOfPHP/Goutte">Goutte, a simple PHP Web Scraper</a>. Within 10 minutes, my script was working. It looks something like this:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-
-<span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
-
-<span class="kn">use</span> <span class="nc">Goutte\Client</span><span class="p">;</span>
-
-<span class="nv">$licenseNumber</span> <span class="o">=</span> <span class="s1">'xxx'</span><span class="p">;</span> <span class="c1">// Driving License Number</span>
-<span class="nv">$referenceNumber</span> <span class="o">=</span> <span class="s1">'xxx'</span><span class="p">;</span> <span class="c1">// Reference number for current test date as looking to rebook</span>
-
-<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Client</span><span class="p">();</span>
-
-<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://driverpracticaltest.direct.gov.uk/login'</span><span class="p">);</span>
-<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">filter</span><span class="p">(</span><span class="s1">'h2'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">each</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$node</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$node</span><span class="o">-&gt;</span><span class="nf">text</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"Sorry, you can’t use this service right now"</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">echo</span> <span class="s1">'Site is down.'</span><span class="p">;</span><span class="k">exit</span><span class="p">;</span> <span class="c1">// Inexplicably, the site goes offline from 9pm-6am. It thinks it's an office!</span>
-	<span class="p">}</span>
-<span class="p">});</span>
-
-<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">selectButton</span><span class="p">(</span><span class="s1">'Continue'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">form</span><span class="p">();</span>
-<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'username'</span> <span class="o">=&gt;</span> <span class="nv">$licenseNumber</span><span class="p">,</span> <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nv">$referenceNumber</span><span class="p">));</span>
-<span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">selectLink</span><span class="p">(</span><span class="s1">'Change Date and time of test'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">link</span><span class="p">();</span>
-<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">click</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
-<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">selectButton</span><span class="p">(</span><span class="s1">'Find available dates'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">form</span><span class="p">();</span>
-<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'testChoice'</span> <span class="o">=&gt;</span> <span class="s1">'ASAP'</span><span class="p">));</span>
-
-<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">filter</span><span class="p">(</span><span class="s1">'.slotDateTime'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">each</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$node</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nv">$date</span> <span class="o">=</span> <span class="nv">$node</span><span class="o">-&gt;</span><span class="nf">text</span><span class="p">();</span>
-	<span class="k">echo</span> <span class="nv">$date</span><span class="mf">.</span><span class="s1">' is the next available test slot.'</span><span class="p">;</span>
-	<span class="c1">// Here I check if it has changed since last time and send an email if it has and nearer than currently booked test. Left out for brevity.</span>
-    <span class="k">exit</span><span class="p">;</span>
-<span class="p">});</span>
-
-<span class="cp">?&gt;</span></code></pre></figure>
-
-<p>As you can see, the code is pretty simple, readable, and powerful. Within minutes, I was able to jump through 3 pages without worrying about sessions, cookies, or any of the other nonsense that often occurred when dealing with this kind of scraping. I run this every 5 minutes on a <a href="http://fortrabbit.com/">FortRabbit server</a> and we both get emailed if a closer test date appears. For just a few minutes work, this means better peace of mind as we don’t have to check manually and this checks far more frequently than we ever could. Now to wait and hope for a nearer test date…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/17/transferwise/">TransferWise</a></h1>
-			
-			<time datetime="2015-07-17" pubdate=""><a href="/weblog/2015/07/17/transferwise/">July 17, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been meaning to write about <a href="https://transferwise.com/u/135bb">TransferWise</a> for a little while but there new support for Apple Pay put it back in the front of my mind. TransferWise is a service that transfers money for you into multiple currencies at a fraction of the cost that your bank would usually charge. I’d seen it advertised a few times on Facebook but didn’t take too much notice as I didn’t really make any international transfers; that stopped when we <a href="http://wallabeegame.com/blog/apr-2014/design-team-update">hired Robbie at WallaBee last year</a>. I quickly found that my bank was not only charging me with exhorbitant conversion rates and transfer charges but that the recipient was also being charged by their bank for accepting an international transfer!</p>
-
-<p>The way TransferWise works is that it lets you choose a specific amount of money to transfer (either in the original or converted currency<sup id="fnref:transfers" role="doc-noteref"><a href="#fn:transfers" class="footnote" rel="footnote">1</a></sup>) and then it tells you how much it thinks it will cost. You then pay that amount (plus a small buffer to account for fluctuating bank transfers) direct to TransferWise by card or bank transfer. They then do the conversion and pay the recipient from a local account in their own currency so they don’t get hit with international charges. Once it is all done, you get a refund for any of the amount that wasn’t used for the conversion. The first few times the transfer took around 5 working days but now my transfers are done within 24 hours.</p>
-
-<p>I’ve saved over £500 in fees over the past 6 months and couldn’t be happier with the service. I tend to use the website but they have a great iOS app which has recently been updated to accept Apple Pay. If you are making any sort of payments overseas, I’d strongly recommend using TransferWise rather than your standard banking transfers. If you <a href="https://transferwise.com/u/135bb">sign up with this link</a>, you’ll get a fee-free transfer of up to £3000.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:transfers" role="doc-endnote">
-      <p>This is an important distinction as when paying an invoice I need to pay in a specific amount of USD so the amount of GBP will change. There may be situations where you always want send a specific amount of GBP and the USD will then be the thing that varies based on currency conversion. Obviously they support more than just USD / GBP but that’s all I use currently. <a href="#fnref:transfers" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/14/uk-apple-pay/">UK Apple Pay</a></h1>
-			
-			<time datetime="2015-07-14" pubdate=""><a href="/weblog/2015/07/14/uk-apple-pay/">July 14, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been excited about Apple Pay ever since it was first announced for the US last year. It <em>finally</em> arrived in the UK today and so I’ve made a few purchases in a selfless act of testing! There has been quite a bit of confusion and misinformation about how it would work in the UK so hopefully I’ll clear up some issues there as well as giving my opinion on how Apple Pay works.</p>
-
-<p>First of all, it is insanely easy to setup. You just open up the Passbook app on your iPhone<sup id="fnref:applepayphone" role="doc-noteref"><a href="#fn:applepayphone" class="footnote" rel="footnote">1</a></sup> and a new “Pay” option will appear above your passes. When you add a card, Apple will automatically default to the card you have on file for iTunes purchases or you can add a new one via the camera. Some banks have a security step and I was offered the choice of calling RBS or having them text me a security code; the code came through instantly and everything activated within seconds. Unfortunately neither my credit card company nor my business bank are using Apple Pay yet so I could only add my personal account card.</p>
-
-<p>If you have an Apple Watch, you need to repeat this step in the “Passbook &amp; Apple Pay” section of the Apple Watch app. The reason for this is that your card information is stored securely within the hardware of the device, not in software (so there is no iCloud syncing or anything like that).</p>
-
-<p>When it comes to paying, you can use Apple Pay at every single shop in the UK that has a contactless card reader. When paying, you simply say you are paying by card and if the amount is under £20<sup id="fnref:contactlesslimit" role="doc-noteref"><a href="#fn:contactlesslimit" class="footnote" rel="footnote">2</a></sup> the contactless section will light up and you can then place your iPhone near the reader. Your iPhone will automatically come out of standby mode, show your card, and ask you to hold the fingerprint scanner on the home button; within a second it’ll buzz and the payment is done. If paying with the Apple Watch you have to double-tap the side button to bring up your cards and then hold it against the scanner (for the simple reason that the NFC chip isn’t always on as it’d kill the battery). Once the payment is done, an unexpected nice touch is that you get a push notification telling you how much you paid and where - useful for making sure that you paid the correct amount. I tried this in W H Smiths, which is not an official “Apple Pay” partner, and it all went through fine. Your iPhone (or Apple Watch) is simply pretending to be a contactless card so if your card works, then Apple Pay will work.</p>
-
-<p>The main piece of misinformation about Apple Pay in the UK has been this £20 limit; “Apple Pay limited to £20” is a frequent headline but it isn’t actually true. If a launch partner (like Marks &amp; Spencer) supports full Apple Pay, then you can make a purchase of over £20 using the same system as above. The difference is that they have upgraded their hardware so that the contactless part will work specifically with Apple Pay rather than just being the standard contactless payment system. I tested this by buying £35 of stuff at M&amp;S and it all worked flawlessly. The real issue is that “Apple Pay” encompasses both the “pretending to be regular contactless” and “being an upgraded contactless system” and it isn’t easy to tell which a retailer supports. I think if you see an Apple Pay logo on the reader (like I did at McDonalds), then they support the full no transaction limit Apple Pay.</p>
-
-<p>After successfully paying with both my iPhone and Apple Watch at multiple stores, I decided to give the in app payment system a try. This is live for several apps (highlighted in the App Store currently) and basically allows you to make payments in app using Apple Pay. This is limited to physical goods and services<sup id="fnref:iap" role="doc-noteref"><a href="#fn:iap" class="footnote" rel="footnote">3</a></sup> so I bought some stuff from Etsy, supported a project on Kickstarter, and bought a new Apple Watch strap from the Apple Store app. In all cases, the process was insanely simple; during the checkout process, I was never asked for my address or card details but a simple “Apple Pay” button bought up a sheet which showed the address my card is issued to and let me pay by holding my fingerprint on the home button.</p>
-
-<p>Overall, the whole process has been simple and fast. A lot of people wonder why bother using this when you can already use a contactless card? For me, it boils down to two reasons: simplicity and security. With my Apple Watch on, I didn’t have to take my wallet out of my pocket; whilst this isn’t a mindblowing change (only takes a second), it is an added level of convenience and means I can make purchases if I leave my wallet at home (or if I’m somewhere sketchy and don’t want to take it out). The real benefit though is in security. When you make a payment, the retailer never gets your card number; Apple Pay gives a randomly generated number every time you buy something which means retailers can’t track you across stores or link you to payments. I was able to check this by looking at my receipts and each time the last 4 digits they displayed of my card number were different. This may be a minor thing to a lot of people but this increase in privacy and the convenience of making payments (some of them over £20) from my wrist mean that this is a big deal to me.</p>
-
-<p>The real test will be when I’m in London next and can try it out in place of an Oyster card<sup id="fnref:twist" role="doc-noteref"><a href="#fn:twist" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:applepayphone" role="doc-endnote">
-      <p>Only iPhone 6 and 6 Plus are supported for Apple Pay via contactless payment. You can use iPad Air 2 and iPad mini 3 for in-app payments. <a href="#fnref:applepayphone" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:contactlesslimit" role="doc-endnote">
-      <p>This is increasing to £30 for all contactless payments in September. <a href="#fnref:contactlesslimit" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:iap" role="doc-endnote">
-      <p>Obviously you can already pay for in-app purchases like extra game levels or subscriptions using TouchID which works essentially the same way but charges your card on your iTunes account. <a href="#fnref:iap" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:twist" role="doc-endnote">
-      <p>I’ve seen a lot of comments about “the readers are on the right so how will I use it if I wear my watch on my left hand like 90% of the population”. I’ve got this clever trick called “moving your arm across your body”… worked like a charm at the McDonalds payment terminal. <a href="#fnref:twist" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">Forcing UIStatusBarStyle for UIImagePickerController</a></h1>
-			
-			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">July 10, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I stumbled upon an interesting problem today which I’ve experienced a couple of times before; if you are using white text for the status bar in your application (<code class="language-plaintext highlighter-rouge">UIStatusBarStyle.LightContent</code>) then it will be turned black once you present a UIImagePickerController. This can not only look ugly but will remain when you dismiss the controller. Usually I just change the appearance of the navigation bar within the picker to get around this (and set it back to the correct colour upon dismissing the controller) but on this particular app I wanted to force the UIImagePickerController to use the light style status bar. Fortunately it is quite easy.</p>
-
-<p>When you use the UIImagePickerControllerDelegate, you are also required to adopt the UINavigationControllerDelegate. This has a method named <code class="language-plaintext highlighter-rouge">navigationController:willShowViewController:animated:</code> which will be called both when you present the controller and when you navigate between albums. Using this, it is trivial to force the status bar to remain the same<sup id="fnref:assumption" role="doc-noteref"><a href="#fn:assumption" class="footnote" rel="footnote">1</a></sup>:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">navigationController</span><span class="p">(</span><span class="nv">navigationController</span><span class="p">:</span> <span class="kt">UINavigationController</span><span class="p">,</span> <span class="n">willShowViewController</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
-	<span class="kt">UIApplication</span><span class="o">.</span><span class="nf">sharedApplication</span><span class="p">()</span><span class="o">.</span><span class="n">statusBarStyle</span> <span class="o">=</span> <span class="o">.</span><span class="kt">LightContent</span>
-<span class="p">}</span></code></pre></figure>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:assumption" role="doc-endnote">
-      <p>This is of course assuming you have <em>View controller-based status bar appearance</em> set to NO in your Info.plist file so that you can use UIApplication to change the status bar. <a href="#fnref:assumption" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/">Optical media and the pain of Remote Disc</a></h1>
-			
-			<time datetime="2015-07-10" pubdate=""><a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/">July 10, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I hate optical media. I avoid it as much as possible with streaming or digital versions of music and films but sometimes it is unavoidable. An album I wanted<sup id="fnref:lacage" role="doc-noteref"><a href="#fn:lacage" class="footnote" rel="footnote">1</a></sup> recently wasn’t available on iTunes or any of the other online stores so I had to give in and buy a physical version on Amazon. Unfortunately this didn’t give me a free MP3 version as it often does<sup id="fnref:amazonmp3" role="doc-noteref"><a href="#fn:amazonmp3" class="footnote" rel="footnote">2</a></sup> which left me with a slight issue as neither my iMac nor MacBook have a CD drive.</p>
-
-<p>I didn’t think this would be a big problem as my wife has an older MacBook with an optical drive so I’d be able to use Remote Disc to access the drive. Remote Disc is a useful feature that lets you access the optical drive on another computer via your network and has been useful for me in the past if I’ve had some data lying around on an old disc. Unfortunately, it didn’t work at all for this as <a href="https://support.apple.com/en-gb/HT203973">Remote Disc is locked to prevent the streaming of audio discs (or movie DVDs)</a>. To make matters worse, Remote Disc doesn’t straight up tell you this but instead gives you a cryptic message about the drive being unavailable. I can see no logical reason for this but that is still the state of play in 2015.</p>
-
-<p>In the end, I had to rip the CD on my wife’s MacBook, then copy the files back to my computer. Crazy.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:lacage" role="doc-endnote">
-      <p>The album, in case you were wondering, was the original Broadway version of “<a href="http://www.amazon.co.uk/gp/product/B007IJKHIQ?keywords=la%20cage%20aux%20folles&amp;qid=1436518617&amp;ref_=sr_1_1&amp;s=music&amp;sr=1-1">La Cage Aux Folles</a>” <a href="#fnref:lacage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:amazonmp3" role="doc-endnote">
-      <p>In ridiculous circumstances, it is often cheaper to buy a physical CD from Amazon than it is to buy the MP3 version! They sometimes give you the digital version free with the physical so I bought “Bright Idea” by Orson and just recycled the Amazon package that arrived without opening. <a href="#fnref:amazonmp3" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/14/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/12/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 13 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/09/25/brapp-the-rap-app/">Brapp, the rap app</a>
+						
+					</h2>
+					<time datetime="2015-09-25"><a href="/weblog/2015/09/25/">September 25, 2015</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that an iPhone app I’ve been working on since March this year has gone live in the App Store; Brapp.</p>
+
+				
+					<a href="/weblog/2015/09/25/brapp-the-rap-app/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/09/23/appindex-interview/">AppIndex Interview</a>
+						
+					</h2>
+					<time datetime="2015-09-23"><a href="/weblog/2015/09/23/">September 23, 2015</a></time>
+				</header>
+
+				
+				<p>Earlier this month I was interviewed by AppIndex about my work as a freelance app developer. You can read the full article on their website but I’ve also put their questions and my answers below:</p>
+
+				
+					<a href="/weblog/2015/09/23/appindex-interview/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/08/19/microsoft-bridge-and-the-app-gap/">Microsoft Bridge and the "App Gap"</a>
+						
+					</h2>
+					<time datetime="2015-08-19"><a href="/weblog/2015/08/19/">August 19, 2015</a></time>
+				</header>
+
+				
+				<p>I was recently asked my opinion on Windows Bridge and the “App Gap” between iOS, Android, and Windows Phone by FierceDeveloper. You can read the article on their website but I’ve also put the full questions that were put to me along with my answers below:</p>
+
+				
+					<a href="/weblog/2015/08/19/microsoft-bridge-and-the-app-gap/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/31/lego-scooby-doo/">LEGO Scooby-Doo</a>
+						
+					</h2>
+					<time datetime="2015-07-31"><a href="/weblog/2015/07/31/">July 31, 2015</a></time>
+				</header>
+
+				
+				<p>I’m a huge fan of the Hanna-Barbera cartoons but Scooby-Doo has always been my favourite so I’ve been looking forward to the LEGO Scooby-Doo sets which officially launch tomorrow. Luckily, due to an error on the part of Argos1, I was able to get all five se...</p>
+
+				
+					<a href="/weblog/2015/07/31/lego-scooby-doo/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/28/the-mobile-web/">The mobile web</a>
+						
+					</h2>
+					<time datetime="2015-07-28"><a href="/weblog/2015/07/28/">July 28, 2015</a></time>
+				</header>
+
+				
+				<p>There has been a huge amount of talk over the past couple of weeks about mobile browsers mainly due to two announcements at WWDC; Content Blockers in Safari and Apple News. This has led to discussion of mobile ads as it has been discovered there are huge sp...</p>
+
+				
+					<a href="/weblog/2015/07/28/the-mobile-web/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/24/next-driving-test-with-goutte/">Finding the next available driving test with Goutte PHP Scraper</a>
+						
+					</h2>
+					<time datetime="2015-07-24"><a href="/weblog/2015/07/24/">July 24, 2015</a></time>
+				</header>
+
+				
+				<p>Over the past week I’ve had a lot of fun working on some small scripts to aid my general day-to-day living. My wife is currently waiting to take her driving test but our local area only has one test instructor with a waiting list of over 6 months! Occassion...</p>
+
+				
+					<a href="/weblog/2015/07/24/next-driving-test-with-goutte/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/17/transferwise/">TransferWise</a>
+						
+					</h2>
+					<time datetime="2015-07-17"><a href="/weblog/2015/07/17/">July 17, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve been meaning to write about TransferWise for a little while but there new support for Apple Pay put it back in the front of my mind. TransferWise is a service that transfers money for you into multiple currencies at a fraction of the cost that your ban...</p>
+
+				
+					<a href="/weblog/2015/07/17/transferwise/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/14/uk-apple-pay/">UK Apple Pay</a>
+						
+					</h2>
+					<time datetime="2015-07-14"><a href="/weblog/2015/07/14/">July 14, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve been excited about Apple Pay ever since it was first announced for the US last year. It finally arrived in the UK today and so I’ve made a few purchases in a selfless act of testing! There has been quite a bit of confusion and misinformation about how ...</p>
+
+				
+					<a href="/weblog/2015/07/14/uk-apple-pay/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/">Forcing UIStatusBarStyle for UIImagePickerController</a>
+						
+					</h2>
+					<time datetime="2015-07-10"><a href="/weblog/2015/07/10/">July 10, 2015</a></time>
+				</header>
+
+				
+				<p>I stumbled upon an interesting problem today which I’ve experienced a couple of times before; if you are using white text for the status bar in your application (UIStatusBarStyle.LightContent) then it will be turned black once you present a UIImagePickerCon...</p>
+
+				
+					<a href="/weblog/2015/07/10/forcing-uistatusbarstyle-for-uiimagepickercontroller/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/">Optical media and the pain of Remote Disc</a>
+						
+					</h2>
+					<time datetime="2015-07-10"><a href="/weblog/2015/07/10/">July 10, 2015</a></time>
+				</header>
+
+				
+				<p>I hate optical media. I avoid it as much as possible with streaming or digital versions of music and films but sometimes it is unavoidable. An album I wanted1 recently wasn’t available on iTunes or any of the other online stores so I had to give in and buy ...</p>
+
+				
+					<a href="/weblog/2015/07/10/optical-media-and-the-pain-of-remote-disc/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/14/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/12/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

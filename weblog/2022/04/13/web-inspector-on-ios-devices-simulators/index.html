@@ -9,85 +9,189 @@
 	
 	
 	
+	
 
 	<title>Web Inspector on iOS devices and Simulators</title>
 	<meta name="description" content="How to debug HTML and JS in Safari iOS, SFSafariViewController, and WKWebView using Web Inspector on macOS.">
-	<link rel="canonical" href="https://bendodson.com/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Web Inspector on iOS devices and Simulators">
 	<meta property="og:description" content="How to debug HTML and JS in Safari iOS, SFSafariViewController, and WKWebView using Web Inspector on macOS.">
-	<meta property="og:url" content="https://bendodson.com/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">
 	<meta property="og:type" content="article">
 	
-		<meta property="og:image" content="https://bendodson.s3.amazonaws.com/weblog/2022/web-inspector-open-graph.jpg">
+		<meta property="og:image" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi93ZWItaW5zcGVjdG9yLW9wZW4tZ3JhcGguanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+		<meta property="og:image:secure_url" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi93ZWItaW5zcGVjdG9yLW9wZW4tZ3JhcGguanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+		<meta property="og:image:alt" content="Web Inspector on iOS devices and Simulators">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "Web Inspector on iOS devices and Simulators",
+			"description": "How to debug HTML and JS in Safari iOS, SFSafariViewController, and WKWebView using Web Inspector on macOS.",
+			"url": "http://localhost:4000/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/",
+			"datePublished": "2022-04-13T09:00:00+01:00",
+			"dateModified": "2022-04-13T09:00:00+01:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi93ZWItaW5zcGVjdG9yLW9wZW4tZ3JhcGguanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0="
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">Web Inspector on iOS devices and Simulators</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2022-04-13" pubdate=""><a href="/weblog/2022/04/13/web-inspector-on-ios-devices-simulators/">April 13, 2022</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p>Over the past few weeks I’ve worked on a number of projects that have necessitated me working with HTML and JavaScript be that via Safari on iOS, an SFSafariViewController, or in an embedded WKWebView. In all of these cases, I’ve needed to dive into the DOM to see what styles are being applied to certain elements or dig into a JavaScript Console to work out why some code isn’t working. On desktop, this is trivial as Safari has a Web Inspector panel built in similar to other browsers. It turns out it is also trivial on mobile as the exact same tool can be used with both iOS simulators and physical devices.</p>
+<article class="post-page content-page has-post-dek">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2022-04-13">April 13, 2022</time></p>
+		<h1>Web Inspector on iOS devices and Simulators</h1>
+		
+			<p class="post-dek">How to debug HTML and JS in Safari iOS, SFSafariViewController, and WKWebView using Web Inspector on macOS.</p>
+		
+		
+	</header>
+
+	<div class="post-content">
+		<p>Over the past few weeks I’ve worked on a number of projects that have necessitated me working with HTML and JavaScript be that via Safari on iOS, an SFSafariViewController, or in an embedded WKWebView. In all of these cases, I’ve needed to dive into the DOM to see what styles are being applied to certain elements or dig into a JavaScript Console to work out why some code isn’t working. On desktop, this is trivial as Safari has a Web Inspector panel built in similar to other browsers. It turns out it is also trivial on mobile as the exact same tool can be used with both iOS simulators and physical devices.</p>
 
 <div class="gofigure">
-    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/ios-simulator-web-inspector.jpg" width="800" height="536" />
+    
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3Mtc2ltdWxhdG9yLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3Mtc2ltdWxhdG9yLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0ODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 480w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3Mtc2ltdWxhdG9yLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MjAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 720w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3Mtc2ltdWxhdG9yLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo5NjAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 960w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3Mtc2ltdWxhdG9yLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNDQwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 1440w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3Mtc2ltdWxhdG9yLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxOTIwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 1920w" sizes="(max-width: 760px) calc(100vw - 48px), 800px" alt="" width="800" height="536" loading="lazy" decoding="async" />
+
     <figure>Activating the Web Inspector for Safari in an iOS Simulator. Note that it is also possible to look at the "Extension Background Page" for the Browser Note Safari Extension that is also installed and running.</figure>
 </div>
 
-<p>If you select the ‘Develop’ tab from the menu bar of Safari on macOS, you’ll see a list of all of your connected devices and actively running simulators<sup id="fnref:naming" role="doc-noteref"><a href="#fn:naming" class="footnote" rel="footnote">1</a></sup>. Drilling into this will then show all of the active web instances you can interact with; notice how the content within Safari has highlighted blue within the Simulator as I’ve moused over the twitter.com web instance above. When you click, a web inspector panel is then produced which allows you to make all the usual interrogations and changes you can within desktop Safari such as interacting with the console or changing CSS values of elements to see how they would look in realtime.</p>
+<p>If you select the ‘Develop’ tab from the menu bar of Safari on macOS, you’ll see a list of all of your connected devices and actively running simulators<sup id="fnref:naming"><a href="#fn:naming" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. Drilling into this will then show all of the active web instances you can interact with; notice how the content within Safari has highlighted blue within the Simulator as I’ve moused over the twitter.com web instance above. When you click, a web inspector panel is then produced which allows you to make all the usual interrogations and changes you can within desktop Safari such as interacting with the console or changing CSS values of elements to see how they would look in realtime.</p>
 
 <p>Here’s an example using a WKWebView within one of my client projects, <a href="https://spanish.yabla.com">Yabla Spanish</a>:</p>
 
 <div class="gofigure">
-    <img src="https://bendodson.s3.amazonaws.com/weblog/2022/ios-device-web-inspector.jpg" width="800" height="400" />
+    
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3MtZGV2aWNlLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3MtZGV2aWNlLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo0ODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 480w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3MtZGV2aWNlLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MjAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 720w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3MtZGV2aWNlLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo5NjAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ== 960w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3MtZGV2aWNlLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNDQwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 1440w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAyMi9pb3MtZGV2aWNlLXdlYi1pbnNwZWN0b3IuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxOTIwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 1920w" sizes="(max-width: 760px) calc(100vw - 48px), 800px" alt="" width="800" height="400" loading="lazy" decoding="async" />
+
     <figure>As I hover over the DOM in the web inspector, the same highlighting that appears in desktop Safari appears within the WKWebView on my physical device (note the green box showing the 24px padding within that div).</figure>
 </div>
 
@@ -105,41 +209,29 @@
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:naming" role="doc-endnote">
+    <li id="fn:naming">
       <p>I use an “iDod” naming prefix for all of my devices; a throwback pun to my first Apple product, the iPod. <a href="#fnref:naming" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/" title="Next Article" class="pagination-next">Unlisted App Distribution on the App Store &raquo;</a>
-    
-	 
-		<a href="/weblog/2022/03/11/browser-note/" title="Previous Article" class="pagination-previous">&laquo; Browser Note and the process of building an iOS 15 Safari Extension</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2022/03/11/browser-note/" class="post-pagination-previous">&lt; Browser Note and the process of building an iOS 15 Safari Extension</a>
+	
+
+	
+		<a href="/weblog/2022/05/17/unlisted-app-distribution-on-the-app-store/" class="post-pagination-next">Unlisted App Distribution on the App Store &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

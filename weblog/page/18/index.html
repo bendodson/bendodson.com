@@ -9,382 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/18/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/18/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/18/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/18/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/12/blocks-magazine/">Blocks Magazine</a></h1>
-			
-			<time datetime="2014-07-12" pubdate=""><a href="/weblog/2014/07/12/blocks-magazine/">July 12, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I’m very excited to see that <a href="http://www.blocksmag.com">Blocks Magazine</a> sold enough copies to prove it as a concept and is now going to be a monthly publication starting in October:</p>
-
-<blockquote>
-  <p>“Blocks magazine is going monthly from autumn 2014. The first issue of this exciting new magazine written by LEGO enthusiasts, for LEGO enthusiasts, is due to hit the shops on Thurs 23rd Oct.”</p>
-</blockquote>
-
-<p>They’ve started offering <a href="http://www.blocksmag.com/#!subcribe/c7dd">yearly and 2-yearly subscriptions on their website</a> - an instant purchase for me!</p>
-
-<p>If you are a fan of LEGO and you haven’t picked up the first issue yet, it is well worth getting. It has a lot more content than I was expecting for a pilot magazine (including an excellent review of the <a href="http://shop.lego.com/en-US/Sandcrawler-75059">Star Wars Sandcrawler</a>) but the proof reading leaves a lot to be desired. Loads of great stuff though so highly recommended.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/11/the-joys-of-running-your-own-business/">The joys of running your own business</a></h1>
-			
-			<time datetime="2014-07-11" pubdate=""><a href="/weblog/2014/07/11/the-joys-of-running-your-own-business/">July 11, 2014</a></time>
-    	</header>
-    	<div>
-			<p>When you run your own company, you get to do silly things like this:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/20140710-e096b42dfa8291b2eadec6ff1bdf43a86d46d7204815e0eac979c4e-512.png" alt="Thatcher the Wonder Pug from 'Introducing... The Forager' on WallaBee" /></p>
-
-<p>Within a couple of minutes, hundreds of copies of this item had been mixed in <a href="http://wallabeegame.com/">WallaBee</a> and hopefully bought a smile to our players faces.</p>
-
-<p>Running WallaBee is much like the spirit of this item; joyful randomness without a care in the world. I hope we never lose that as we continue to grow.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/11/apple-tv-gains-itunes-extras/">Apple TV gains iTunes Extras</a></h1>
-			
-			<time datetime="2014-07-11" pubdate=""><a href="/weblog/2014/07/11/apple-tv-gains-itunes-extras/">July 11, 2014</a></time>
-    	</header>
-    	<div>
-			<p>One of my pet hates is purchasing DVDs and Blu-Rays. It seems so clunky and out-dated in an age where nearly everything I consume is stored on my hard drives. I also have a real problem with paying for a physical product and then having to wait an average of 70 seconds to start playing the movie due to sitting through either adverts bundled on the disc or anti-piracy messages that can’t be skipped (or elaborate menus that take 20 seconds of animation before you can select “<em>play film</em>”).</p>
-
-<p>The only time I ever buy them these days is when there is a film I really loved and has extras that I want to watch. Most recently, this has been <a href="https://itunes.apple.com/gb/movie/the-lego-movie/id805917617">The LEGO Movie</a> and <a href="https://itunes.apple.com/gb/movie/the-grand-budapest-hotel/id828782657">The Grand Budapest Hotel</a>.</p>
-
-<p>Today I was able to cancel my pre-orders of both from Amazon thanks to <a href="http://www.macrumors.com/2014/07/10/itunes-11-3-itunes-extras-apple-tv-ios-8/">iTunes Extras now being re-enabled on the Apple TV</a>. iTunes Extras are essentially small HTML5 apps bundled with movies you buy from iTunes and act as the “extras” piece you usually get with a DVD or Blu-Ray. Until recently, they’ve only worked on Mac (and for a while on the original Apple TV) so I haven’t really spent much time with them - I don’t watch films on my computer.</p>
-
-<p>I’ve only had a quick play with them but I’m liking what I see already. Both films were cheaper on iTunes (HD) than buying on a physical disc and came with the same extras as far as I can tell. In addition, The LEGO Movie was available today whereas the Blu-Ray isn’t available for another 2 weeks here in the UK. Best of all, when you start the film, it starts immediately with no anti-piracy notices and nothing that can’t be fast-forwarded; you get exactly what you paid for.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2014/grand-budapest-itunes-extras.png" alt="The Grand Budapest Hotel iTunes Extras on Apple TV" /></p>
-
-<p>So how does it work? Simply press “<em>play</em>” on a movie with iTunes Extras and you’ll be shown a splash screen where you can then choose to watch the movie as usual, view the extras that are available, view a cast list (along with other films they are featured in), or view similar films. One strange thing I found was that the extras for The LEGO Movie didn’t show up on the Apple TV and looking at the listing within iTunes it says “Available on your Mac or PC”. The movie is featured prominently in the marketing material for the new extras so I have to imagine that it just hasn’t rolled out fully yet.</p>
-
-<p>For those that don’t have an Apple TV yet, this is another feature which might persuade them. However, I’m still anticipating an updated model later in the year with some form of game support; the combination of an A8 chip, the new Metal framework, and the controllers introduced with iOS 7 seems to point to what could be a very nice, if simple, gaming machine.</p>
-
-<p>To get iTunes Extras, simply apply the update that has appeared on Apple TV today. Lots of films have iTunes Extras with them and many previous films have had extras added which you get automatically if you already own the film. iTunes Extras are also coming to iOS 8 when it launches later this year.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2014/07/03/awesome-client/">Awesome Client</a></h1>
-			
-			<time datetime="2014-07-03" pubdate=""><a href="/weblog/2014/07/03/awesome-client/">July 03, 2014</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been working on an app for a client for the past few months that is due to launch very shortly. To thank me for my work, they bought me this. I love my clients!</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/photos/10514038_800218873345445_1427415910_n.jpg" alt="LEGO R2D2 from awesome client" /></p>
-
-<p>I’ll post a review once I get around to building it - I’ve already promised them they’ve delayed any bug fixes until it’s built…</p>
-
-<p><strong>Update:</strong> the app is now live and I can now reveal that my awesome client is <a href="http://kontentapp.com">kontent</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/">Dropping non-retina support in iOS 7</a></h1>
-			
-			<time datetime="2013-10-16" pubdate=""><a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/">October 16, 2013</a></time>
-    	</header>
-    	<div>
-			<p>Back in June 2011, <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad</a> and instead just use the retina versions at fullscreen. I’ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I noticed that this change had been made and non-retina iPads (namely the iPad 2 and iPad Mini) now just use retina assets. The 1x/2x toggle is dead!</p>
-
-<p>The previous behaviour for iPads was that they would run a 320x480px boxed version of your app in the center of the display. If you pressed the 2x button, the app would be enlarged to 640x960px but would still use the same assets leading to a fuzzy mess. The retina iPads had it slightly better as they would use the larger assets and retina font smoothing leading to a better experience. In iOS 7, retina iPads (currently the 3rd and 4th generation) still allow this same toggle but the non-retina iPads (only the iPad 2 and iPad Mini on iOS 7) are now locked at 2x using your retina assets and font smoothing.</p>
-
-<p>This is fantastic news as it signals the end of non-retina device support. If you are making an iPhone app that is iOS 7 only (sensible if it’s a new app), you no longer have to worry about supporting non-retina devices as the iPads will use your retina assets. For developers, this has 3 key benefits:</p>
-
-<ul>
-  <li>
-    <p><strong>You only need @2x files in your app bundle:</strong> This leads to smaller sizes for your app bundle and less hassle in creating all of your 1x assets in the first place.</p>
-  </li>
-  <li>
-    <p><strong>Less complex code for images fetched over network as you only need one size:</strong> For example, in <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> I have a UIImageView subclass that fetches images for me based on the scale of the UIScreen. If the UIImageView is 100 points square, it would download a 200x200px image on retina devices and 100x100px image on non-retina devices. This is no longer necessary saving some complexity.</p>
-  </li>
-  <li>
-    <p><strong>You can use finer design elements:</strong> for example, using 1px (rather than 1pt) dividing lines. You can also use images that have an odd number of pixels (previously a 99px image was generally forbidden as you’d need a 49.5px image for non-retina displays which wouldn’t work). Nearly every designer I’ve worked with has designed at retina resolution with odd numbered sizes for key elements so this is very welcome!</p>
-  </li>
-</ul>
-
-<p>I’m really excited that we can now drop support for non-retina displays; it’ll definitely speed up some of my workflows. You will obviously still need to support non-retina devices if you are building a Universal or iPad only app though.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/05/10/dr-frasier-crane/">Dr. Frasier Crane</a></h1>
-			
-			<time datetime="2013-05-10" pubdate=""><a href="/weblog/2013/05/10/dr-frasier-crane/">May 10, 2013</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been rewatching Frasier recently (just finished the 7th season) and it is still an absolutely fantastic show. Witty writing, great characters, and very few bad episodes (rare in most comedy series - there are usually a lot of duds as they age).</p>
-
-<p>In any case, one of the episodes I’ve just watched, <a href="http://www.imdb.com/title/tt0582564/">They’re Playing Our Song</a>, has Frasier composing his own theme tune for his radio show. Rather than being a 10 second jingle, it turns into a 2-minute orchestral track with a voiceover from Niles.</p>
-
-<p>Watch and enjoy:</p>
-
-<iframe width="800" height="600" src="https://www.youtube-nocookie.com/embed/lSK1UeD9nvE?rel=0" frameborder="0" allowfullscreen="allowfullscreen"> </iframe>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/05/09/lego-super-star-destroyer/">LEGO Super Star Destroyer</a></h1>
-			
-			<time datetime="2013-05-09" pubdate=""><a href="/weblog/2013/05/09/lego-super-star-destroyer/">May 09, 2013</a></time>
-    	</header>
-    	<div>
-			<p>I finally fulfilled one of my longterm dreams and bought the <a href="http://shop.lego.com/en-GB/Super-Star-Destroyer-10221">LEGO Super Star Destroyer</a> whilst it was on offer for Star Wars Day (May 4th). The Super Star Destroyer (also known as <a href="http://starwars.wikia.com/wiki/Executor">‘The Executor’</a>) is a complete beast; it measures in at around 4.2 feet long and 8 pounds in weight. It’s the most expensive set LEGO currently sell but is 3rd in terms of number of pieces (it has 3152 pieces compared to the <a href="http://shop.lego.com/en-GB/Death-Star-10188">Death Star</a> with 3803 and <a href="http://shop.lego.com/en-GB/Tower-Bridge-10214">Tower Bridge</a> with 4295 - I don’t really like either of those sets).</p>
-
-<p><a href="http://www.flickr.com/photos/bendodson/8722376957/in/set-72157633440335423/"><img src="http://farm8.staticflickr.com/7329/8722376957_887287b307_c.jpg" alt="LEGO Super Star Destroyer" /></a></p>
-
-<p>You can see some photos of the build process and completed model in <a href="http://www.flickr.com/photos/bendodson/sets/72157633440335423/">my Flickr set</a> but I will include a few shots here to highlight some of the best (and worst) bits of the build:</p>
-
-<h2 id="the-emperor">The Emperor</h2>
-
-<p><a href="http://www.flickr.com/photos/bendodson/8722351965/"><img src="http://farm8.staticflickr.com/7308/8722351965_2ab9599424_c.jpg" alt="LEGO Darth Vader and Emperor" /></a></p>
-
-<p>It wasn’t until I started building the set that I realised this is, amazingly, the first LEGO Star Wars set I’ve built (not counting the LEGO Star Wars Advent calendars in 2011 and 2012). This was, therefore, the first Darth Vader minifig I’ve collected but even better than that was the Emperor hologram that I didn’t know existed, let alone was in this set. A really nice touch.</p>
-
-<h2 id="manual-and-boxes">Manual and boxes</h2>
-
-<p><a href="http://www.flickr.com/photos/bendodson/8723468992/"><img src="http://farm8.staticflickr.com/7438/8723468992_f63f90af07_c.jpg" alt="LEGO Super Star Destroyer - boxes and manual" /></a></p>
-
-<p>Most modern LEGO sets come in numbered bags so that you can build the model in stages. This is useful for all sets but especially important for the models with thousands of pieces as you don’t want to open them all and spend days foraging around for the bit you need. This is the first set I’ve seen that comes not just with bags, but numbered boxes! The manual is also worth mentioning as it is spiral bound and weighs a ton. It also came in its own box.</p>
-
-<h2 id="star-destroyer">Star Destroyer</h2>
-
-<p><a href="http://www.flickr.com/photos/bendodson/8723500448/"><img src="http://farm8.staticflickr.com/7447/8723500448_25a6666d4d_c.jpg" alt="LEGO Star Destroyer" /></a></p>
-
-<p>This is another nice touch, a Star Destroyer in scale with the rest of the model so you can understand just how huge the Executor is supposed to be. Even when watching the films I hadn’t really noticed how huge this ship is supposed to be but the detail placard points out that it would have a crew of 280,735. This is a nice way of showing the scale and the miniature model is quite clever with hinges to form the shape and clear plastic arms to hold it to the side of the Super Star Destroyer.</p>
-
-<h2 id="control-room">Control Room</h2>
-
-<p><a href="http://www.flickr.com/photos/bendodson/8723485422/"><img src="http://farm8.staticflickr.com/7387/8723485422_3a673d60ea_c.jpg" alt="LEGO Star Destroyer - Control room" /></a></p>
-
-<p>This is the only negative in the set in my opinion. It’s the control room of the ship where a lot of the action in ‘The Empire Strikes Back’ takes place (particularly the scene where Vader briefs the bounty hunters, several of whom are minifigs in this set). The nice part is that it replicates this room perfectly with the walkway, sub-level computers, and sliding doors. The problem is that it uses a lot of stickers (which I hate) and that it is completely off scale with the rest of the model. In proper scale, this should be about 2x3 studs (or smaller) but it has been designed so minifigs can fit inside. Fortunately the whole thing is hidden under a beautifully designed lifting piece but I just dislike that this has been added to give it a ‘play’ element when it is clearly a collectors build rather than a toy.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p><a href="http://www.flickr.com/photos/bendodson/8723494562/"><img src="http://farm8.staticflickr.com/7400/8723494562_80cf52bc4e_c.jpg" alt="LEGO Super Star Destroyer" /></a></p>
-
-<p>This is an absolutely fantastic set. It took me around 3 days to build (due to being slightly ill and having other things to do) but is probably 6-8 hours worth of solid building. There are so many cleverly designed elements that it is bound to be unique for many LEGO builders. I particularly liked the use of coloured bricks in the interior sections in order to break up the grey making it easier to see where you were in the instructions.</p>
-
-<p>The set is an absolute beast and I’d encourage you to take a look at the <a href="http://www.flickr.com/photos/bendodson/sets/72157633440335423/">full photo set</a> which shows it being built from start to finish. Now it’s time to wait until July for my next projects; the Lone Ranger sets and the new Lord of the Rings sets (including the <a href="http://shop.lego.com/en-GB/The-Tower-of-Orthanc-10237">Tower of Orthanc</a>… can’t wait!)</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/02/19/itunes-artwork-finder/">iTunes Artwork Finder</a></h1>
-			
-			<time datetime="2013-02-19" pubdate=""><a href="/weblog/2013/02/19/itunes-artwork-finder/">February 19, 2013</a></time>
-    	</header>
-    	<div>
-			<p>When I first got my Apple TV, the main issue I had was that my artwork looked crappy for some of the TV shows I’d downloaded from places other than iTunes. I’d been using a combination of Google Image Search and screenshotting and cropping the iTunes Store to get artwork and it looked awful on a big TV. To solve that, I wrote a small script to fetch TV Show artwork from the <a href="http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html#searching">iTunes Search API</a>. They only display 100px artwork but with some URL fudgery I was able to get 600x600px artwork.</p>
-
-<p>The project became a lot more popular than I imagined and I was soon inundated with requests to add new features such as searching across international iTunes stores and adding movie artwork. More recently, I’ve been asked to add iBooks artwork.</p>
-
-<p>I had a bit of spare time this morning so I’ve updated <a href="https://bendodson.com/projects/itunes-artwork-finder/">the project page</a> and added a fair few new features.</p>
-
-<ul>
-  <li>
-    <p><strong>Media Types</strong> - I’ve extended the iTunes Artwork Finder to now work with not only TV Shows and Movies, but also iBooks, Apps, and Music Albums.</p>
-  </li>
-  <li>
-    <p><strong>Resolution</strong> - I discovered that I was able to get higher than 600x600px artwork in some instances. Movies can be upto 1800x2400px and I’ve seen some TV shows at 2400x2400px. Apps will always be at 512px square or 1024px square depending on when the app was released or last updated. iBooks, Movies, and Music Albums are a bit problematic as licensing issues often prevent the high resolution artwork being made visible. I’ve left the link there as it does work with some (seems to depend on the studio) but there is a caveat listeed as I don’t expect you’ll get good results.</p>
-  </li>
-  <li>
-    <p><strong>Countries</strong> - There are now 5 iTunes Stores that can be searched across; UK, US, Germany, Sweden, and the Netherlands. If you want your country added, just <a href="https://bendodson.com/contact/">get in touch</a>.</p>
-  </li>
-</ul>
-
-<p>I’m pretty pleased with the update, particularly now that I’ve managed to get album covers and iBooks worked out (and I think the app icon search could be useful). <a href="https://bendodson.com/projects/itunes-artwork-finder/">Give it a try</a> and let me know how you get on!</p>
-
-<p><a href="https://bendodson.com/projects/itunes-artwork-finder/">Try out the iTunes Artwork Finder</a></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/02/18/harry-potter-at-the-warner-bros-studio-tour/">Harry Potter at the Warner Bros Studio Tour</a></h1>
-			
-			<time datetime="2013-02-18" pubdate=""><a href="/weblog/2013/02/18/harry-potter-at-the-warner-bros-studio-tour/">February 18, 2013</a></time>
-    	</header>
-    	<div>
-			<p>I took my girlfriend to the <a href="http://www.wbstudiotour.co.uk">Warner Bros Studio Tour</a> (which is entirely Harry Potter based) on Valentine’s Day and had a few observations I wanted to write about.</p>
-
-<ul>
-  <li>
-    <p><strong>The Tour</strong> - If you’re a Harry Potter fan or interested in how movies are made, then it is a great tour. You get to see a large number of sets, props, and artwork along with a few interactive elements such as flying on a broomstick to see how ‘green screening’ works. The things that really stood out to me were how small some of the sets were and also how much effort they go to with some things (i.e. the Dursley’s house is on the backlot.. they found it easier to build a fake house than film on location). The highlight of the tour is a huge model replica of Hogwarts which took 72 man years to build. It really is stunning.</p>
-  </li>
-  <li>
-    <p><strong>Queues</strong> - This is the first attraction I’ve ever seen which only lets you buy tickets in advance (you can’t just turn up on the day). On arriving, it was evident why; the place was packed! When you order your tickets, you choose a half hour window from which you are allowed to enter the attraction. We got there 45 minutes early so milled around the gift shop and the coffee bar but there were lots of other people doing the same (I’d estimate around 400-500 people). We spent a further 45 minutes queueing to get into the attraction which is slow going as there is a 10 minute cinema piece before hand. Whilst it was irritating to wait a while, it definitely paid off as this drip feeding into the studios means you enter the Great Hall (the first stop) with around 100 other people. This is the only ‘guided’ bit of the tour with someone pointing out various aspects of the set but then you are free to walk around the next bits at your own pace. It never really felt overcrowded despite appearances from the outside and I can understand why they chose this ticketing system.</p>
-  </li>
-  <li>
-    <p><strong>Digital Guide</strong> - When I bought the tickets, there was an option to pay a bit more and get a digital guide and a printed guide. I did this expecting the digital guide to be something on a website or an interactive PDF but it was actually one of those things you walk around the tour with along with a headset. I didn’t use it, but I had a good look at it after I noticed one of the videos had iOS controls. It turns out there was an iPod Touch inside just wrapped in grey plastic which most likely had a battery booster and theft detection thing in it. I don’t know how they did it, but I saw one couple who had managed to get to the iOS home screen which confirmed it (along with the giveaway 30 pin connector on the base and the slight curved shine of a metal back inside). The guide itself is simply an iOS app that you press buttons on to get audio and information about (there is a <a href="http://visitour.com/warner-brothers-studio-tour-the-making-of-harry-potter-app-review/">full review on the Visitour website</a>) but it seemed pretty good. Having said that, we didn’t bother using it. I think it would have been nice if the app could have been downloaded on to our own devices to be used later on (i.e. looking through the physical guide and having some audio to listen to along with it) but I was more intrigued by the use of iPod Touches as guides rather than a bespoke device.</p>
-  </li>
-  <li>
-    <p><strong>WiFi</strong> - I didn’t use it, but I was impressed that there was free WiFi throughout the tour. Nice if you’re the sort of person that wants to upload photos as soon as you take them.</p>
-  </li>
-  <li>
-    <p><strong>iPads</strong> - Not really an observation of the tour so much, but I saw a lot of people taking photos on their iPads (both the 10” and 7.85” models). This strikes me as very odd as I saw most of them had iPhones or other smartphones.</p>
-  </li>
-  <li>
-    <p><strong>Commercialisation</strong> - If you’ve got kids, get ready to spend a lot of cash in the gift shop. They have nearly everything you can imagine with Harry Potter plastered on it and at a steep price as well (i.e. a small bag of Bertie Bott’s jelly beans is £9). My girlfriend pointed out that there wasn’t a single item for under £2 aside from postcards at 90p each. You kind of expect it these days but I’d find it genuinely fascinating to know how much money they make each day. In terms of stock, it’s the same stuff they sell at the <a href="http://www.universalorlando.com/harrypotter/">Wizarding World of Harry Potter at Universal Studios</a> (although it’s more expensive then buying in dollars - a Chocolate frog is $10 in the US but £8 in the UK).</p>
-  </li>
-</ul>
-
-<p>Overall, it was an awesome day out and I’d highly recommend it. There was plenty to see and do and a lot of the sets and props are incredibly impressive. Just be ready to queue at the beginning, and empty your wallet at the end.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/29/ca-current-media-time/">‘CACurrentMediaTime()’</a></h1>
-			
-			<time datetime="2013-01-29" pubdate=""><a href="/weblog/2013/01/29/ca-current-media-time/">January 29, 2013</a></time>
-    	</header>
-    	<div>
-			<p>You may remember me <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">extolling the virtues of CACurrentMediaTime()</a> a few days ago in relation to keeping track of time on iOS (specifically in allowing me to sync up the WallaBee Store to the nearest second around the world).</p>
-
-<p>This is a retraction of that.</p>
-
-<p>The problem is that CACurrentMediaTime() has a fatal flaw. Whilst it’s designed to be a counter, it only actually works whilst the iPhone (or iPad) is active. Here is how it’s described by Apple in <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">their documentation</a>:</p>
-
-<blockquote>
-  <p>Returns the current absolute time, in seconds. A <em>CFTimeInterval</em> derived by calling <em>mach_absolute_time()</em> and converting the result to seconds.</p>
-</blockquote>
-
-<p>Further inspection of mach_absolute_time() gives us very little (documentation is very sparse). On Mac OS X, mach_absolute_time() is based on the last time the device booted (it gives you the number of seconds since you turned your computer on) so it seems prudent that this would be similar on iOS. Apple give some <a href="http://developer.apple.com/library/mac/#qa/qa1398/_index.html">cursory examples</a> of how to convert mach_absolute_time() from nanoseconds into seconds and in doing so point out that “the function is CPU dependent” and needs to be converted by the system rather than by constants. There is no mention of how it all works but the general consensus seems to be that it’s uptime.</p>
-
-<p>Apart from it’s not. Unfortunately for me, it took an App Store release for this bug to be noticed.</p>
-
-<p>See, the interesting thing about mach_absolute_time() is that it appears to be the ‘active’ time of the device, that is to say it’s the number of seconds that you iPhone has been active. However, it’s more sneaky than that as putting your device in standby mode will actually leave the device ‘active’ for a few minutes whilst core components are turned off. In effect, if you are relying on mach_absolute_time() and, by extension, CACurrentMediaTime(), you’ll find that the ticks suddenly pause when your iDevice has been in standby for a few minutes.</p>
-
-<p>So how did this come to light? My game, <a href="http://wallabeegame.com/">WallaBee</a>, required a way to count time accurately independent of the system clock (which can be changed by the user). <a href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">I built a system</a> which allowed me to get the time from my server, account for some lag, and then render elements from CoreData at specific times based on what I believed was a steady ticking in seconds. When the app was sent out to my testers, it seemed to work but occassionally putting the device to sleep and then resuming would lead to some odd behaviour; the clock was running slightly behind. I tried replicating this several times to no avail and eventually left it ‘as is’ since it seemed to be occurring very infrequently and there was no way to work out exactly was happening.</p>
-
-<p>After the code made it into the App Store, there were a few more people commenting that the Store seemed to be running a few seconds behind (or in some cases, minutes behind). I again ran some builds and couldn’t find any errors and it was only after considering that my Xcode build and Testflight build (read “Ad Hoc”) could be different that I discovered the error; any build that wasn’t tethered to my laptop suffered from a slowing down of time. As the Store automatically corrects itself at ~8 minute intervals, and the bug only presented itself after a few minutes of standby, it was quite tricky to replicate exactly.</p>
-
-<p>To test it, I built a very crude mockup app that would present a UIAlertView when you came back from standby mode with the number of seconds perceived by CACurrentMediaTime() and the number of seconds derived from deducting two NSDates (which we couldn’t do in the production app as changing the system clock alters that - it’s good for testing though). Sure enough, after leaving the app in the background whilst the device was on standby for a few minutes, it was apparent that CACurrentMediaTime() was pausing. I did another mockup including mach_absolute_time() and that returned the same result; a pausing of the clock when the device was in standby for a while.</p>
-
-<p>After a lot of googling, <a href="http://www.opensource.apple.com/source/shell_cmds/shell_cmds-56/w/w.c">I found a solution</a> that was based on the device uptime rather than an arbitrary ‘absolute’ time:</p>
-
-<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">-</span> <span class="p">(</span><span class="kt">time_t</span><span class="p">)</span><span class="n">uptime</span>
-<span class="p">{</span>
-    <span class="k">struct</span> <span class="n">timeval</span> <span class="n">boottime</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">mib</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">CTL_KERN</span><span class="p">,</span> <span class="n">KERN_BOOTTIME</span><span class="p">};</span>
-    <span class="kt">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">boottime</span><span class="p">);</span>
-    <span class="kt">time_t</span> <span class="n">now</span><span class="p">;</span>
-    <span class="kt">time_t</span> <span class="n">uptime</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    
-    <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">time</span><span class="p">(</span><span class="o">&amp;</span><span class="n">now</span><span class="p">);</span>
-    
-    <span class="k">if</span> <span class="p">(</span><span class="n">sysctl</span><span class="p">(</span><span class="n">mib</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">boottime</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">boottime</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">uptime</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">boottime</span><span class="p">.</span><span class="n">tv_sec</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">uptime</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>This returns a <em>t_time</em> (read <em>int</em>) of the number of seconds since the device was last powered up and so I was able to slot this into my old code in place of CACurrentMediaTime().</p>
-
-<p>The moral of the story? Always test on an Ad Hoc build that isn’t tethered to Xcode. It’s a pain but the crucial thing in this was that the Xcode debugger was keeping the iPhone alive and that meant I was never able to see that CACurrentMediaTime() was pausing itself. The other thing to do is to read Apple documentation carefully. At no point do they specifically say that mach_absolute_time is based on uptime or that it counts up sequentially, but forum posts and other developers blogs had created that perception based on their own findings and those of the method on OS X. It always pays to be careful and understand fully the methods you are calling.</p>
-
-<p>Fortunately (or not), there was a bug with iOS 5 in the version of WallaBee that was submitted to the App Store and so this fix was bundled in with an expedited review. Of course, that update has now been ‘In Review’ for over 24 hours so we’re not out of the woods yet but at least I’m now using a timer that actually counts up…</p>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/19/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/17/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 18 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2014/07/12/blocks-magazine/">Blocks Magazine</a>
+						
+					</h2>
+					<time datetime="2014-07-12"><a href="/weblog/2014/07/12/">July 12, 2014</a></time>
+				</header>
+
+				
+				<p>I’m very excited to see that Blocks Magazine sold enough copies to prove it as a concept and is now going to be a monthly publication starting in October:</p>
+
+				
+					<a href="/weblog/2014/07/12/blocks-magazine/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2014/07/11/the-joys-of-running-your-own-business/">The joys of running your own business</a>
+						
+					</h2>
+					<time datetime="2014-07-11"><a href="/weblog/2014/07/11/">July 11, 2014</a></time>
+				</header>
+
+				
+				<p>When you run your own company, you get to do silly things like this:</p>
+
+				
+					<a href="/weblog/2014/07/11/the-joys-of-running-your-own-business/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2014/07/11/apple-tv-gains-itunes-extras/">Apple TV gains iTunes Extras</a>
+						
+					</h2>
+					<time datetime="2014-07-11"><a href="/weblog/2014/07/11/">July 11, 2014</a></time>
+				</header>
+
+				
+				<p>One of my pet hates is purchasing DVDs and Blu-Rays. It seems so clunky and out-dated in an age where nearly everything I consume is stored on my hard drives. I also have a real problem with paying for a physical product and then having to wait an average o...</p>
+
+				
+					<a href="/weblog/2014/07/11/apple-tv-gains-itunes-extras/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2014/07/03/awesome-client/">Awesome Client</a>
+						
+					</h2>
+					<time datetime="2014-07-03"><a href="/weblog/2014/07/03/">July 3, 2014</a></time>
+				</header>
+
+				
+				<p>I’ve been working on an app for a client for the past few months that is due to launch very shortly. To thank me for my work, they bought me this. I love my clients!</p>
+
+				
+					<a href="/weblog/2014/07/03/awesome-client/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/">Dropping non-retina support in iOS 7</a>
+						
+					</h2>
+					<time datetime="2013-10-16"><a href="/weblog/2013/10/16/">October 16, 2013</a></time>
+				</header>
+
+				
+				<p>Back in June 2011, I posited that Apple should remove the 1x/2x toggle on iPhone apps running on the iPad and instead just use the retina versions at fullscreen. I’ve mainly been working on updating apps to be compatible with iOS 7 over the past month and I...</p>
+
+				
+					<a href="/weblog/2013/10/16/dropping-non-retina-support-in-ios7/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/05/10/dr-frasier-crane/">Dr. Frasier Crane</a>
+						
+					</h2>
+					<time datetime="2013-05-10"><a href="/weblog/2013/05/10/">May 10, 2013</a></time>
+				</header>
+
+				
+				<p>I’ve been rewatching Frasier recently (just finished the 7th season) and it is still an absolutely fantastic show. Witty writing, great characters, and very few bad episodes (rare in most comedy series - there are usually a lot of duds as they age).</p>
+
+				
+					<a href="/weblog/2013/05/10/dr-frasier-crane/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/05/09/lego-super-star-destroyer/">LEGO Super Star Destroyer</a>
+						
+					</h2>
+					<time datetime="2013-05-09"><a href="/weblog/2013/05/09/">May 9, 2013</a></time>
+				</header>
+
+				
+				<p>I finally fulfilled one of my longterm dreams and bought the LEGO Super Star Destroyer whilst it was on offer for Star Wars Day (May 4th). The Super Star Destroyer (also known as ‘The Executor’) is a complete beast; it measures in at around 4.2 feet long an...</p>
+
+				
+					<a href="/weblog/2013/05/09/lego-super-star-destroyer/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/02/19/itunes-artwork-finder/">iTunes Artwork Finder</a>
+						
+					</h2>
+					<time datetime="2013-02-19"><a href="/weblog/2013/02/19/">February 19, 2013</a></time>
+				</header>
+
+				
+				<p>When I first got my Apple TV, the main issue I had was that my artwork looked crappy for some of the TV shows I’d downloaded from places other than iTunes. I’d been using a combination of Google Image Search and screenshotting and cropping the iTunes Store ...</p>
+
+				
+					<a href="/weblog/2013/02/19/itunes-artwork-finder/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/02/18/harry-potter-at-the-warner-bros-studio-tour/">Harry Potter at the Warner Bros Studio Tour</a>
+						
+					</h2>
+					<time datetime="2013-02-18"><a href="/weblog/2013/02/18/">February 18, 2013</a></time>
+				</header>
+
+				
+				<p>I took my girlfriend to the Warner Bros Studio Tour (which is entirely Harry Potter based) on Valentine’s Day and had a few observations I wanted to write about.</p>
+
+				
+					<a href="/weblog/2013/02/18/harry-potter-at-the-warner-bros-studio-tour/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/01/29/ca-current-media-time/">‘CACurrentMediaTime()’</a>
+						
+					</h2>
+					<time datetime="2013-01-29"><a href="/weblog/2013/01/29/">January 29, 2013</a></time>
+				</header>
+
+				
+				<p>You may remember me extolling the virtues of CACurrentMediaTime() a few days ago in relation to keeping track of time on iOS (specifically in allowing me to sync up the WallaBee Store to the nearest second around the world).</p>
+
+				
+					<a href="/weblog/2013/01/29/ca-current-media-time/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/19/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/17/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

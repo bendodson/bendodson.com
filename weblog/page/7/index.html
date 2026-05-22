@@ -9,562 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/7/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/7/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/7/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/7/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/18/brapp-ui-and-location-updates/">Brapp: Summer Updates</a></h1>
-			
-			<time datetime="2016-08-18" pubdate=""><a href="/weblog/2016/08/18/brapp-ui-and-location-updates/">August 18, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Over the summer, I’ve continued working with <a href="https://www.brapp.tv">Brapp</a> on <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">3 big releases</a> which added several new features and UI updates.</p>
-
-<h3 id="v21">v2.1</h3>
-
-<p>Released in July, Brapp 2.1 added the ability to trim recorded videos and change vibrancy of video filters along with adding a load of speed and stability improvements. However, the big new feature allowed users to export their beats as a video complete with an animating waveform:</p>
-
-<iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/96MIV-HcByI?list=PLbTRLLbwMtevdMea2cVjGPEopDu7atfl2" frameborder="0" allowfullscreen=""></iframe>
-
-<p>This was a really interesting feature for me to build as I wasn’t sure initially how it would work. It turns out that it is actually fairly easy by adding your animations directly to the various <code class="language-plaintext highlighter-rouge">CALayers</code> and then using an <code class="language-plaintext highlighter-rouge">AVVideoCompositionCoreAnimationTool</code> as your <code class="language-plaintext highlighter-rouge">AVMutableVideoComposition</code> animation tool. Fun stuff!</p>
-
-<h3 id="v211">v2.1.1</h3>
-
-<p>Released just a few days later, Brapp 2.1.1 included the ability to pin your favourite beat or post to the top of your profile feed<sup id="fnref:featureby" role="doc-noteref"><a href="#fn:featureby" class="footnote" rel="footnote">1</a></sup> and added a “Now Playing” bar along the bottom of the app with a similar style to Apple Music. It also introduced synchornicity between the website and app for notifications which is an interesting problem to solve; basically, if someone reads the notifications on the website, a silent push needs to be sent to the app in order to remove the badge icon so you don’t think you have new notifications. There were also some pretty meaty performance upgrades behind the scenes.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-now-playing.jpg" width="375" height="90" /></p>
-
-<h3 id="v22">v2.2</h3>
-
-<p>Brapp 2.2 was released today with the headline feature of location support. One of my main interests with iOS apps has always been in geo-location so it was really fun for me to add these new features including the ability to tag specific locations to beats and videos, add a city or town to your profile, view beats and videos on a profile map, and search for beats and videos either near you or at a specific location.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-map.jpg" width="800" height="450" /></p>
-
-<p>Once again, Brapp has been a really fun project to work on. I can’t say enough good things about the people behind it and am looking forward to working with them again in the future. If you haven’t checked it out yet, you can <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">get Brapp for free on the App Store</a>. You can also read about the <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">initial build and release</a>, the <a href="https://bendodson.com/weblog/2015/11/27/brapp-v1.1/">v1.1 update last November</a>, and the <a href="https://bendodson.com/weblog/2016/03/11/brapp-v2/">v2 update earlier this year</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:featureby" role="doc-endnote">
-      <p>This feature was added by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>. <a href="#fnref:featureby" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/11/moonlight-tvos/">Moonlight tvOS for Apple TV 4</a></h1>
-			
-			<time datetime="2016-08-11" pubdate=""><a href="/weblog/2016/08/11/moonlight-tvos/">August 11, 2016</a></time>
-    	</header>
-    	<div>
-			<p>A few nights ago I was attempting to finish playing Day of the Tentacle on my PC via a Steam Link in my bedroom. For some reason, whilst it all loaded correctly, it was really jerky to play with a severe delay between controller input and response on the screen. As I’d been playing it successfully using GameStream on my Nvidia Shield, I assumed correctly that the issue was with the Steam Link.</p>
-
-<p>Not content to have to either a) go downstairs and use the Nvidia Shield or b) go to my office and play in front of my PC, I instead turned to my Apple TV as I knew there was an open source project called <a href="https://github.com/moonlight-stream/moonlight-ios">Moonlight</a> that basically lets you run the GameStream technology on non-Nvidia devices like iPhone or iPad. I assumed there would be a version for Apple TV but unfortunately it turns out that the AVFoundation frameworks have a <code class="language-plaintext highlighter-rouge">__TVOS_PROHIBITED</code> flag on some key components that prevent it from working. That’s when I found a fork by <a href="https://github.com/kevsmithpublic/moonlight-ios">kevsmithpublic</a> that enabled tvOS support with some code changes and requiring you to remove the <code class="language-plaintext highlighter-rouge">__TVOS_PROHIBITED</code> flags from the AVFoundation framework<sup id="fnref:frameworks" role="doc-noteref"><a href="#fn:frameworks" class="footnote" rel="footnote">1</a></sup>. Unfortunately, I wasn’t able to get it to pair to my PC and after a lot of searching it turns out that the fork was fairly old and hadn’t been updated to the latest specifications for GeForce Experience 3.0 and above.</p>
-
-<p>Determined not to be beaten, I forked the project and then set about updating the code to support the latest Moonlight connections. This ended up being similar to the point and click adventure I was trying to play as I needed to constantly fetch the Apple TV from my bedroom, connect it to my mac, build the project, unplug the Apple TV, reconnect it in my bedroom, and then test if it actually worked (all because I didn’t have a spare monitor in my office as I use an iMac). After several hours (and a few beers) I had the project working and can now stream my games at 1080p from my PC to my Apple TV 4 and play them using an MFI controller.</p>
-
-<p>You can <a href="https://github.com/bendodson/moonlight-tvos">download the project from my GitHub account</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:frameworks" role="doc-endnote">
-      <p>This means it can’t ever be used in an App Store version but it’s pretty cool nonetheless. I had no idea you could alter framework headers to enable things like this. It does beg the question why this framework is prohibited as it all clearly works. <a href="#fnref:frameworks" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/05/divide-15-virtually-reality/">The Divide #15 - Virtually Reality</a></h1>
-			
-			<time datetime="2016-08-05" pubdate=""><a href="/weblog/2016/08/05/divide-15-virtually-reality/">August 05, 2016</a></time>
-    	</header>
-    	<div>
-			<p>After a short summer break we’re back with <a href="http://thedivide.co.uk/episodes/15">episode 15 of The Divide podcast</a> which is all about virtual reality. John has a fancy new HTC Vive, I’m trying to convince myself I don’t need one, and Chris just wants to be on the bridge with Captain Janeway…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Media Library privacy flaw fixed in iOS 10</a></h1>
-			
-			<time datetime="2016-08-02" pubdate=""><a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">August 02, 2016</a></time>
-    	</header>
-    	<div>
-			<p>As I’ve mentioned <a href="https://bendodson.com/weblog/2016/01/13/your-music-library-is-a-security-and-privacy-risk-on-ios/">many times before</a>, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps<sup id="fnref:proof" role="doc-noteref"><a href="#fn:proof" class="footnote" rel="footnote">1</a></sup>. Thankfully, this has now been fixed in iOS 10<sup id="fnref:fixed" role="doc-noteref"><a href="#fn:fixed" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>In this article, I’ll explain how to update your apps to support this new privacy requirement. Before I do that, I’m going to show you what happens if you run an app built against the iOS 9.3 SDK (or earlier) on iOS 10:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/access-apple-music.jpg" width="800" height="450" alt="[app name] would like to access Apple Music" /></p>
-
-<p>You’ll be prompted<sup id="fnref:permissiontext" role="doc-noteref"><a href="#fn:permissiontext" class="footnote" rel="footnote">3</a></sup> to allow permissions as soon as any media library code is encountered be that on app startup or in a background process such as that used by <a href="https://dodoapps.io/music-tracker/">Music Tracker</a>. If you decline to give permission then the app will quit to the home screen and you will not be able to use it. This is a big change from previous permission switches whereby apps built against the old SDK would be exempt from new permissions (i.e. if your iOS 7 SDK compiled app ran on iOS 8, it wouldn’t crash because it wasn’t using the new location privacy options). Personally I like this change as it allows you to see clearly which apps were abusing these APIs such as <a href="https://twitter.com/rosyna/status/743427770760364034">Canary</a> and <a href="https://twitter.com/chinanderm/status/743091483595546624">Google Calendar</a>.</p>
-
-<p><strong>Bottom line</strong>: If you are using <code class="language-plaintext highlighter-rouge">MPMediaQuery</code> or similar in your app, you’d better update it with the iOS 10 SDK as soon as possible as otherwise you are going to get a lot of crashes if your users don’t allow the permission (or a lot of awkward questions if you shouldn’t be using this API).</p>
-
-<p>How do you update your app to request permission for these APIs? First of all, lets whip up a basic example with Swift 3 that will pull the title of the first track in your music library:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">MPMediaQuery</span><span class="o">.</span><span class="nf">songs</span><span class="p">()</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">first</span> <span class="p">{</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Title: </span><span class="se">\(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>In keeping with other permissions based APIs such as photos, contacts, and calendars, iOS 10 requires that you add a new key to your Info.plist file to explain why you want to use this permission; for music library access, this key is <code class="language-plaintext highlighter-rouge">NSAppleMusicUsageDescription</code>. If you don’t add this key, your app will crash as soon as you try and access an <code class="language-plaintext highlighter-rouge">MPMediaQuery</code> with the following message:</p>
-
-<blockquote>
-  <p><em>This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSAppleMusicUsageDescription key with a string value explaining to the user how the app uses this data.</em></p>
-</blockquote>
-
-<p>With the <code class="language-plaintext highlighter-rouge">NSAppleMusicUsageDescription</code> key in place, you will now be given a standard permission dialogue when you first try and access the users media library. If the user chooses “Don’t Allow”, then the media query will fail and any subsequent calls will request in the <code class="language-plaintext highlighter-rouge">query.items</code> property being nil. If they choose “OK”, then nothing happens (as execution of the code is not suspended and there is no callback). To fix this, we need to use the <code class="language-plaintext highlighter-rouge">MPMediaLibrary.authorizationStatus()</code> and <code class="language-plaintext highlighter-rouge">requestAuthorization((MPMediaLibraryAuthorizationStatus) -&gt; Void)</code> APIs that were added in iOS 9.3 to do something like this:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">buttonPressed</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">MPMediaLibrary</span><span class="o">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
-        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="o">.</span><span class="n">authorized</span> <span class="p">{</span>
-            <span class="k">self</span><span class="o">.</span><span class="nf">runMediaLibraryQuery</span><span class="p">()</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">self</span><span class="o">.</span><span class="nf">displayMediaLibraryError</span><span class="p">()</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">runMediaLibraryQuery</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">MPMediaQuery</span><span class="o">.</span><span class="nf">songs</span><span class="p">()</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">items</span><span class="p">,</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">first</span> <span class="p">{</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Title: </span><span class="se">\(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">displayMediaLibraryError</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">String</span>
-    <span class="k">switch</span> <span class="kt">MPMediaLibrary</span><span class="o">.</span><span class="nf">authorizationStatus</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="o">.</span><span class="nv">restricted</span><span class="p">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="s">"Media library access restricted by corporate or parental settings"</span>
-    <span class="k">case</span> <span class="o">.</span><span class="nv">denied</span><span class="p">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="s">"Media library access denied by user"</span>
-    <span class="k">default</span><span class="p">:</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="s">"Unknown error"</span>
-    <span class="p">}</span>
-    
-    <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"Error"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
-    <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span>
-    <span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>You first need to request authorization and then run your code only if the status is <code class="language-plaintext highlighter-rouge">authorized</code>. If not, then you should display an error specific to whether or not the request was <code class="language-plaintext highlighter-rouge">denied</code> or <code class="language-plaintext highlighter-rouge">restricted</code> (usually by corporate or parental controls).</p>
-
-<p>I’ve put an <a href="https://github.com/bendodson/media-library-access-in-ios-10">example project on GitHub</a> which uses the code above by way of demonstration.</p>
-
-<p>I’m extremely grateful to everyone that has helped share my posts about this issue and to the engineers at Apple for fixing this privacy flaw. I’ll update this post should anything change between now and the expected public release of iOS 10 in September.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:proof" role="doc-endnote">
-      <p>Whilst I had no concrete proof of this at the time of writing those articles, it <a href="https://twitter.com/rosyna/status/743398363496751104">looks like I was right that this was a widespread problem</a>. <a href="#fnref:proof" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:fixed" role="doc-endnote">
-      <p>I don’t want to take all the credit for this but I honestly don’t think this would have been fixed if I hadn’t raised the issue repeatedly over the last 7 months. <a href="#fnref:fixed" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:permissiontext" role="doc-endnote">
-      <p>In earlier builds of iOS 10 you’d be asked “<em>[App Name] Would Like to Access Apple Music</em>” (as shown in screenshots above) but as of iOS 10 beta 4 this has been changed to the more appropriate “<em>[App Name] Would Like to Access Apple Music and Your Media Library</em>”. <a href="#fnref:permissiontext" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/07/20/talking-shop-with-ben-dodson/">Talking Shop with Ben Dodson</a></h1>
-			
-			<time datetime="2016-07-20" pubdate=""><a href="/weblog/2016/07/20/talking-shop-with-ben-dodson/">July 20, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently interviewed by the lovely folks at <a href="http://cushionapp.com/">Cushion</a><sup id="fnref:cushion" role="doc-noteref"><a href="#fn:cushion" class="footnote" rel="footnote">1</a></sup> as part of their <a href="http://cushionapp.com/talking-shop/">Talking Shop series</a> about my life as a freelancer. You can <a href="http://cushionapp.com/talking-shop/ben-dodson/">read the full interview on their website</a> but I’ve also put their questions and my answers below:</p>
-
-<h3 id="how-did-you-get-your-start">How did you get your start?</h3>
-
-<blockquote>
-  <p>I started off strictly as a web developer, moving from agency to agency, not really enjoying what I was doing. At the same time, Apple had just released the iPhone and, shortly afterwards, the App Store. I thought iOS development looked fun, so I quit my job and started teaching myself how to do it.</p>
-</blockquote>
-
-<h3 id="where-did-your-first-clients-come-from">Where did your first clients come from?</h3>
-
-<blockquote>
-  <p>I had been freelancing as a web developer on the side for a number of years, so I had a few clients through that. Coincidentally, when I decided to freelance full-time, a friend from Twitter reached out and asked if I would be interested in appearing on The Gadget Show. For the segment the show wanted a freelance developer and a small company to build two separate apps, then see which was more popular. At the time, I had never built an app, so naturally, I said yes. It forced me to learn the ropes pretty quickly! I cobbled this app together and it ended up doing really well, scoring a feature from the App Store. From there, clients just kept coming.</p>
-</blockquote>
-
-<h3 id="what-type-of-projects-do-you-work-on-now">What type of projects do you work on now?</h3>
-
-<blockquote>
-  <p>Now there’s also the iPad, Apple Watch, Apple TV, so I work on a variety of projects — everything from little apps to find the best steak restaurant nearby to bigger ones for clients like L’Oreal and Glenfiddich.</p>
-</blockquote>
-
-<h3 id="what-does-your-day-to-day-look-like">What does your day-to-day look like?</h3>
-
-<blockquote>
-  <p>At this point, I try to exclusively work from home. In the beginning, clients would insist on coming to their office. Those days would always be spent in meetings, talking about nothing, and not getting much done. Nowadays, I push for a video call in lieu of all that. I have clients I’ve never even spoken to, that I work with via email or Slack. They’re the best.</p>
-</blockquote>
-
-<h3 id="what-has-been-the-greatest-challenge-of-kind-of-being-a-freelancer">What has been the greatest challenge of kind of being a freelancer?</h3>
-
-<blockquote>
-  <p>For me, it’s been time management. It’s so easy to procrastinate. Then you hit a deadline and realize that you’ve done nothing, you have to tell the client, but you don’t want to tell the client, so things get worse quickly. The biggest challenge for me was getting to a point where I can switch my work mode on and off.</p>
-</blockquote>
-
-<h3 id="whats-next-for-you">What’s next for you?</h3>
-
-<blockquote>
-  <p>A few years ago, I had my own app, an iPhone game called WallaBee. For about three and a half years, I focused on that and was extremely adamant about not hiring anyone else. In retrospect, some help might have made sense, but I was worried about being able to pay someone reliably month to month. It was a lot of fun, but eventually, I burned out and sold it.</p>
-</blockquote>
-
-<h3 id="ultimately-id-like-to-do-something-like-that-again-but-at-the-moment-i-enjoy-freelancing">Ultimately, I’d like to do something like that again, but at the moment, I enjoy freelancing.</h3>
-
-<blockquote>
-  <p>It’s a constant battle between doing things that you want to do, but not earning any money, and doing the things that are less enjoyable, but make money.</p>
-</blockquote>
-
-<h3 id="im-sure-that-statement-resonates-with-a-lot-of-freelancers">I’m sure that statement resonates with a lot of freelancers.</h3>
-
-<blockquote>
-  <p>When I was young and single, it was easy to spend twenty hours a day working on my pet project for no pay. The money earned mattered less because at the end of the day, it was just me. But when you have a family with mouths to feed and bills to pay, you find yourself taking less of those risks and opting for projects that provide a bit more security.</p>
-</blockquote>
-
-<h3 id="what-advice-would-you-give-to-someone-just-starting-out">What advice would you give to someone just starting out?</h3>
-
-<blockquote>
-  <p>Keep it simple. I spent a long time researching and reading up on various how-to-get-things-done philosophies, buying every to-do list manager there was. Now I just have a basic list, make my own invoices, and track everything else in Cushion. If you spend a fortune on loads of tools and to-do lists and all that, you end up spending more time tweaking your setup for productivity than actually being productive.</p>
-</blockquote>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:cushion" role="doc-endnote">
-      <p>If you’re a freelancer, you should definitely check out <a href="http://cushionapp.com/">Cushion</a>. It’s an awesome online tool for keeping track of your clients and scheduling - I’ve been using it for nearly a year and it has helped me avoid overbooking myself. I’m super excited for their invoicing tools which they are launching soon. <a href="#fnref:cushion" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">Creating passwordless user accounts within iOS apps</a></h1>
-			
-			<time datetime="2016-07-10" pubdate=""><a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">July 10, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m currently in the process of writing an app which will store some information for each user on a server; the stored data should be available to the user on all of their devices. Usually there are two ways of dealing with this:</p>
-
-<ol>
-  <li>
-    <p>Build a user access system such that the user has to register to use the service. They’ll need to log in to the app (usually with email address and password) on each of their devices.</p>
-  </li>
-  <li>
-    <p>Use CloudKit to store all of the information in an Apple provided database.</p>
-  </li>
-</ol>
-
-<p>The first option is overkill for this fairly simple app<sup id="fnref:overkill" role="doc-noteref"><a href="#fn:overkill" class="footnote" rel="footnote">1</a></sup> and the second is too restrictive as it means I need to use Apple’s specific data modelling system. However, there is a third way which uses a bit of each of them…</p>
-
-<p>When a user is logged in to an Apple account on their device<sup id="fnref:appleaccount" role="doc-noteref"><a href="#fn:appleaccount" class="footnote" rel="footnote">2</a></sup>, they are automatically signed into the iCloud system. With CloudKit, every app gets its own identifier based on both the CloudKit container and user account which doesn’t change. By retrieving this identifier, you can be 100% sure of the user that is using your app without knowing anything personal about them and without requiring them to manually log into your app.</p>
-
-<p>To get the identifier, you first need to enable CloudKit within the iCloud section of the Capabilities panel in Xcode (which will require updating your provisioning profile). Then, it is a simple case of importing the CloudKit framework and using the following code:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">container</span> <span class="o">=</span> <span class="kt">CKContainer</span><span class="o">.</span><span class="nf">defaultContainer</span><span class="p">()</span>
-<span class="n">container</span><span class="o">.</span><span class="n">fetchUserRecordIDWithCompletionHandler</span> <span class="p">{</span> <span class="p">(</span><span class="n">recordID</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="k">let</span> <span class="nv">recordID</span> <span class="o">=</span> <span class="n">recordID</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="s">")
-        return
-    }
-    
-    NSLog("</span><span class="kt">Identifier</span><span class="p">:</span> <span class="p">\(</span><span class="n">recordID</span><span class="o">.</span><span class="n">recordName</span><span class="p">)</span><span class="s">")    
-}</span></code></pre></figure>
-
-<p>The identifier returned will be 34 characters long and look something like this:</p>
-
-<p><code class="language-plaintext highlighter-rouge">_e990774f93dd6625b11af6d40fceb310</code></p>
-
-<p>Once you have that, you can then send it to your server to match it against whatever content you want to link to this particular user. Now whenever they use your app on any device with the same Apple account, they’ll have access to everything without the need for a manual account creation process and without having to hand over any personal information. The entire process is completely silent and is very secure as the identifier is generated from both the Apple account and your CloudKit container - it can’t be used by other apps nor can it be reverse-engineered to give you personal details of the user.</p>
-
-<p>I find the code above a bit messy to be used multiple times throughout an application (not to mention the <code class="language-plaintext highlighter-rouge">import CloudKit</code> requirement) and so I’ve wrapped this up in a very basic Swift class that can be called as such:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kt">AppleCloudIdentifier</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-    <span class="k">guard</span> <span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="p">}</span>
-    
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"Cloud identifier: </span><span class="se">\(</span><span class="n">identifier</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>I’ve named it <code class="language-plaintext highlighter-rouge">AppleCloudIdentifier</code> and the code is <a href="https://github.com/bendodson/AppleCloudIdentifier">available on GitHub</a>.</p>
-
-<p><strong>UPDATE [3rd May 2019]:</strong> I needed use of this in a recent project and so I’ve updated the code to make use of Swift 5 and the new <code class="language-plaintext highlighter-rouge">Result</code> type.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:overkill" role="doc-endnote">
-      <p>It’ll also lead to a sharp drop-off in users as people don’t like having to create multiple accounts all over the place. You could implement something like Facebook Login but then you still have an issue in that you are requiring a fair amount of personal information upfront which you probably don’t need. <a href="#fnref:overkill" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:appleaccount" role="doc-endnote">
-      <p>I’ll hazard a guess that 99.9% of iOS devices are logged into an Apple account. They need to be in order to download apps, send iMessages, create backups, etc, so very unlikely you wouldn’t be. <a href="#fnref:appleaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">The Divide #14 - WWDC 2016, 'iTunes with tabs'</a></h1>
-			
-			<time datetime="2016-06-15" pubdate=""><a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">June 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The <a href="http://thedivide.co.uk/episodes/14">14th episode of The Divide podcast</a> is now available in which we take look at the new announcements about watchOS, tvOS, macOS, and iOS in a special episode almost as long as the WWDC keynote itself. We also have a brief chat about the latest news from E3 and Chris gets upset about the Stay Puft Marshmallow Man.</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/06/07/ios-10-wishlist/">iOS 10 Wishlist</a></h1>
-			
-			<time datetime="2016-06-07" pubdate=""><a href="/weblog/2016/06/07/ios-10-wishlist/">June 07, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently interviewed by Fast Company for an article they wrote about iOS features they’d like to see at WWDC this year. A couple of my suggestions were <a href="http://www.fastcompany.com/3060377/wwdc/10-ios-features-wed-love-to-see-apple-announce-at-wwdc">featured in the article</a> but I thought I’d publish my full iOS 10 wishlist.</p>
-
-<h3 id="system-defaults">System Defaults</h3>
-<p>One of the things that I feel has been long missing from iOS is the ability to choose a default app for certain tasks such as email, web browser, phone, or notes. I would love to see a way for developers to make their app conform to some set of standards that would allow them to be selected as a default app. For example, Skype could conform to the “phone app” standard so when you tap a phone number in your mail app it’ll launch Skype and dial the number rather than using the Phone app. Similarly, email links could go to Polymail and web links to Chrome.</p>
-
-<h3 id="siri-api">Siri API</h3>
-<p>I’ve long wanted a full API for Siri but so far there hasn’t even been a stepping stone. I imagine the first phase would go hand in hand with the System Defaults plan I outlined and that apps that adopt a certain standard would be able to show up in Siri. For example, if Spotify conformed to being a “music app” then saying “<em>Hey Siri, Play C’est La Via by B*Witched</em>” would start that track playing in Spotify rather than Music.</p>
-
-<h3 id="control-center-buttons">Control Center Buttons</h3>
-<p>When you swipe up from the bottom of the screen on iOS, you get Control Center which gives you quick access to certain features (like WiFi), controls (for music / video), and apps (Torch, Timer, etc). I’d like the ability to a) use 3D touch to get more options when using the features section (so I can choose a new WiFi network) and b) be able to choose the apps and features that show up in that area. I never need quick access to the calculator.</p>
-
-<h3 id="carplay">CarPlay</h3>
-<p>I’ve been using CarPlay for around a year now (via an after market <a href="http://www.alpine.co.uk/p/Products/digital-media-receiver-4660/ilx-700">Alpine iLX-700</a>) and I absolutely love it. However, 3rd party apps are limited to a few selected audio apps like Spotify and Overcast which use a simple template that doesn’t work very well. I’d like to see support for any 3rd party app to use CarPlay and for it to use UIKit so that any interface can be displayed. <a href="https://twitter.com/bendodson/status/712573913977524224">I noticed in March</a> that iOS 9.3 added a <code class="language-plaintext highlighter-rouge">UIUserInterfaceIdiom</code> for CarPlay so hopefully this is coming.</p>
-
-<h3 id="airplay">AirPlay</h3>
-<p>I have a number of AirPlay devices around the house and one of the things that frustrates me most is that I can’t use Siri to control them. I’d like to be able to say “Hey Siri, play my cooking playlist in the kitchen” and have it just work. I’ve been able to <a href="https://bendodson.com/weblog/2016/05/24/homekit-and-airplay/">hack this functionality together</a> via some Applescript and a fake HomeKit setup on my Mac called Homebridge but it’d be nice to have it built in natively. Also, iTunes on the Mac can AirPlay to multiple speakers at once whereas iOS can’t.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/25/divide-13-consoles/">The Divide #13 - Consoles</a></h1>
-			
-			<time datetime="2016-05-25" pubdate=""><a href="/weblog/2016/05/25/divide-13-consoles/">May 25, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The <a href="http://thedivide.co.uk/episodes/13">13th episode of The Divide podcast</a> is now available in which we discuss video game consoles from our first tentative steps in the 8-bit era to the almost HD consoles of the modern day. We also discuss the Flic button, Day of the Tentacle, the Nvidia GTX 1080, Stellaris, and our predictions for WWDC.</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/24/homekit-and-airplay/">HomeKit, AirPlay, and controlling iTunes with Siri</a></h1>
-			
-			<time datetime="2016-05-24" pubdate=""><a href="/weblog/2016/05/24/homekit-and-airplay/">May 24, 2016</a></time>
-    	</header>
-    	<div>
-			<p>A few days ago I wrote an article about <a href="https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/">getting my Flic button to work with HomeKit</a>. Since then, I’ve had a few requests from people wondering how I was getting iTunes to work with HomeKit such that it could start a playlist on some AirPlay speakers. Today I’ve <a href="https://www.npmjs.com/~bendodson#packages">released a couple of HomeBridge plugins to NPM</a> and I’ll detail how I’ve got my system working.</p>
-
-<p>First of all, my entire setup is powered by the awesome <a href="https://github.com/nfarina/homebridge">Homebridge</a> system which I’ve written about <a href="https://www.google.co.uk/#q=site:bendodson.com+homebridge">at great length</a>. I found a plugin from <a href="https://github.com/dansays">Dan Budiac</a> called <a href="https://github.com/dansays/homebridge-applescript">homebridge-applescript</a> which allowed you to run a line of applescript via a system of fake switches (so a different script could be called when the switch is turned on and off). This is great for simple one-liners (like “<code class="language-plaintext highlighter-rouge">tell application iTunes to pause</code>”) but I needed something a bit longer for dealing with AirPlay. I <a href="https://github.com/bendodson/homebridge-applescript">forked Dan’s project</a> to create my own Homebridge plugin that would work with a path to an AppleScript file rather than a single line of AppleScript:</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-	</span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFile"</span><span class="p">,</span><span class="w">
-	</span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kitchen Music"</span><span class="p">,</span><span class="w">
-	</span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/kitchenMusic.applescript"</span><span class="p">,</span><span class="w">
-	</span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/stopMusic.applescript"</span><span class="w">
-</span><span class="p">}</span></code></pre></figure>
-
-<p>This allowed me to then use my existing <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">alarm clock script</a> in order to make iTunes connect to my kitchen speakers and play a specific playlist<sup id="fnref:twoplaylists" role="doc-noteref"><a href="#fn:twoplaylists" class="footnote" rel="footnote">1</a></sup> when my “kitchen speakers” switch is turned on and disconnect from AirPlay and pause iTunes when it is turned off.</p>
-
-<p>This worked well but it has a few problems as the music is coming from a Mac in a different room; there is no way to change the volume, skip a track, or do a basic play / pause toggle<sup id="fnref:playpause" role="doc-noteref"><a href="#fn:playpause" class="footnote" rel="footnote">2</a></sup> without going upstairs to do it manually on iTunes. After thinking about it for a little while, I was able to get the track skipping and play /pause done fairly easily. First of all, I use the following config:</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-    </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFile"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Music Play Pause Control"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/playMusic.applescript"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/pauseMusic.applescript"</span><span class="w">
-</span><span class="p">}</span><span class="err">,</span><span class="w">
-</span><span class="p">{</span><span class="w">
-    </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFile"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Music Track Control"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/nextTrack.applescript"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/previousTrack.applescript"</span><span class="w">
-</span><span class="p">}</span></code></pre></figure>
-
-<p><em>I won’t detail the AppleScript for each of these as they are fairly basic.</em></p>
-
-<p>Next, I used the ‘Scenes’ feature of HomeKit to set up named scenes that related to each toggle. For example, “iTunes next track” is a scene that ensures the “Music Track Control” accessory is turned on whereas “iTunes previous track” ensures that accessory is off. The play / pause controls work in a similar way. Once activated, this meant I could say things like “<em>Hey Siri, iTunes next track</em>” or “<em>Hey Siri, pause iTunes</em>”.</p>
-
-<p>Whilst scenes can be incredibly useful due to the ability to use any text you want, they can’t be used for something like volume where you want to use a specific amount<sup id="fnref:volumeamount" role="doc-noteref"><a href="#fn:volumeamount" class="footnote" rel="footnote">3</a></sup>. Unfortunately HomeKit doesn’t have the concept of speakers so there isn’t a way to naturally create an accessory that deals with volume so I improvised and created a fake lightbulb that controlled an AppleScript via the brightness property; <a href="https://github.com/bendodson/homebridge-applescript-file-lightbulb">homebridge-applescript-file-lightbulb</a><sup id="fnref:naming" role="doc-noteref"><a href="#fn:naming" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-    </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ApplescriptFileLightbulb"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iTunes volume"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"off"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"brightness"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/bendodson/Dropbox/Scripts/volume.applescript"</span><span class="w">
-</span><span class="p">}</span></code></pre></figure>
-
-<p>The <code class="language-plaintext highlighter-rouge">volume.applescript</code> file looks like this:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">on</span> <span class="nb">run</span><span class="w"> </span><span class="nv">argv</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">v</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">argv</span><span class="w">
-	</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="na">sound</span><span class="w"> </span><span class="na">volume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">v</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="nb">run</span></code></pre></figure>
-
-<p>With this in place, I can say “<em>Hey Siri, set iTunes volume to 50%</em>” and it will work. This is because lightbulbs have a brightness setting and Siri interprets “<em>set [name] to [percentage]</em>” as being “<em>change the brightness of this device</em>” just in this case we are hitting an AppleScript with our brightness value.
-<img src="https://bendodson.s3.amazonaws.com/weblog/2016/siri-itunes-volume.jpg" width="375" height="375" />
-This has been a fun little exercise in trying to hack HomeKit into what I want to use it for. I’m hopeful that iOS 10 will add native support for HomeKit speakers as then this could be done without reverting to AppleScript and I’d be able to stream from my iPhone via Siri but it’s pretty cool for the time being.</p>
-
-<p>You can find both of my Homebridge plugins on <a href="https://www.npmjs.com/~bendodson#packages">NPM</a> and <a href="https://github.com/bendodson/">GitHub</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:twoplaylists" role="doc-endnote">
-      <p>Actually my own setup has two playlists. I have a playlist for Monday through Saturday with my music but on Sunday my wife gets up first so I have a different playlist for her. The code for that is <code class="language-plaintext highlighter-rouge">if weekday of (current date) is Sunday then</code> <a href="#fnref:twoplaylists" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:playpause" role="doc-endnote">
-      <p>At first I’d get around this by just using “<em>turn off kitchen music</em>” followed by “<em>turn on kitchen music</em>” as the playlist was shuffled but hardly an ideal solution. <a href="#fnref:playpause" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:volumeamount" role="doc-endnote">
-      <p>I could have done the same as the track control AppleScript and had a “iTunes volume up” and “iTunes volume down” scene to increase or decrease by 10% each time but that would be a pain if you wanted to change the volume by a large amount. <a href="#fnref:volumeamount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:naming" role="doc-endnote">
-      <p>I shouldn’t be allowed to name things. <a href="#fnref:naming" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/8/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/6/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 7 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/08/18/brapp-ui-and-location-updates/">Brapp: Summer Updates</a>
+						
+					</h2>
+					<time datetime="2016-08-18"><a href="/weblog/2016/08/18/">August 18, 2016</a></time>
+				</header>
+
+				
+				<p>Over the summer, I’ve continued working with Brapp on 3 big releases which added several new features and UI updates.</p>
+
+				
+					<a href="/weblog/2016/08/18/brapp-ui-and-location-updates/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/08/11/moonlight-tvos/">Moonlight tvOS for Apple TV 4</a>
+						
+					</h2>
+					<time datetime="2016-08-11"><a href="/weblog/2016/08/11/">August 11, 2016</a></time>
+				</header>
+
+				
+				<p>A few nights ago I was attempting to finish playing Day of the Tentacle on my PC via a Steam Link in my bedroom. For some reason, whilst it all loaded correctly, it was really jerky to play with a severe delay between controller input and response on the sc...</p>
+
+				
+					<a href="/weblog/2016/08/11/moonlight-tvos/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/08/05/divide-15-virtually-reality/">The Divide #15 - Virtually Reality</a>
+						
+					</h2>
+					<time datetime="2016-08-05"><a href="/weblog/2016/08/05/">August 5, 2016</a></time>
+				</header>
+
+				
+				<p>After a short summer break we’re back with episode 15 of The Divide podcast which is all about virtual reality. John has a fancy new HTC Vive, I’m trying to convince myself I don’t need one, and Chris just wants to be on the bridge with Captain Janeway…</p>
+
+				
+					<a href="/weblog/2016/08/05/divide-15-virtually-reality/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/">Media Library privacy flaw fixed in iOS 10</a>
+						
+					</h2>
+					<time datetime="2016-08-02"><a href="/weblog/2016/08/02/">August 2, 2016</a></time>
+				</header>
+
+				
+				<p>As I’ve mentioned many times before, iOS had a pretty terrible privacy flaw in that apps didn’t need any permissions in order to read through your media library. This was an issue as it meant you could be fingerprinted easily and tracked across various apps...</p>
+
+				
+					<a href="/weblog/2016/08/02/media-library-privacy-flaw-fixed-in-ios-10/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/07/20/talking-shop-with-ben-dodson/">Talking Shop with Ben Dodson</a>
+						
+					</h2>
+					<time datetime="2016-07-20"><a href="/weblog/2016/07/20/">July 20, 2016</a></time>
+				</header>
+
+				
+				<p>I was recently interviewed by the lovely folks at Cushion1 as part of their Talking Shop series about my life as a freelancer. You can read the full interview on their website but I’ve also put their questions and my answers below: If you’re a freelancer, y...</p>
+
+				
+					<a href="/weblog/2016/07/20/talking-shop-with-ben-dodson/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/">Creating passwordless user accounts within iOS apps</a>
+						
+					</h2>
+					<time datetime="2016-07-10"><a href="/weblog/2016/07/10/">July 10, 2016</a></time>
+				</header>
+
+				
+				<p>I’m currently in the process of writing an app which will store some information for each user on a server; the stored data should be available to the user on all of their devices. Usually there are two ways of dealing with this:</p>
+
+				
+					<a href="/weblog/2016/07/10/passwordless-user-accounts-within-ios-apps/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/">The Divide #14 - WWDC 2016, 'iTunes with tabs'</a>
+						
+					</h2>
+					<time datetime="2016-06-15"><a href="/weblog/2016/06/15/">June 15, 2016</a></time>
+				</header>
+
+				
+				<p>The 14th episode of The Divide podcast is now available in which we take look at the new announcements about watchOS, tvOS, macOS, and iOS in a special episode almost as long as the WWDC keynote itself. We also have a brief chat about the latest news from E...</p>
+
+				
+					<a href="/weblog/2016/06/15/divide-14-wwdc-2016-itunes-with-tabs/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/06/07/ios-10-wishlist/">iOS 10 Wishlist</a>
+						
+					</h2>
+					<time datetime="2016-06-07"><a href="/weblog/2016/06/07/">June 7, 2016</a></time>
+				</header>
+
+				
+				<p>I was recently interviewed by Fast Company for an article they wrote about iOS features they’d like to see at WWDC this year. A couple of my suggestions were featured in the article but I thought I’d publish my full iOS 10 wishlist.</p>
+
+				
+					<a href="/weblog/2016/06/07/ios-10-wishlist/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/25/divide-13-consoles/">The Divide #13 - Consoles</a>
+						
+					</h2>
+					<time datetime="2016-05-25"><a href="/weblog/2016/05/25/">May 25, 2016</a></time>
+				</header>
+
+				
+				<p>The 13th episode of The Divide podcast is now available in which we discuss video game consoles from our first tentative steps in the 8-bit era to the almost HD consoles of the modern day. We also discuss the Flic button, Day of the Tentacle, the Nvidia GTX...</p>
+
+				
+					<a href="/weblog/2016/05/25/divide-13-consoles/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/24/homekit-and-airplay/">HomeKit, AirPlay, and controlling iTunes with Siri</a>
+						
+					</h2>
+					<time datetime="2016-05-24"><a href="/weblog/2016/05/24/">May 24, 2016</a></time>
+				</header>
+
+				
+				<p>A few days ago I wrote an article about getting my Flic button to work with HomeKit. Since then, I’ve had a few requests from people wondering how I was getting iTunes to work with HomeKit such that it could start a playlist on some AirPlay speakers. Today ...</p>
+
+				
+					<a href="/weblog/2016/05/24/homekit-and-airplay/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/8/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/6/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

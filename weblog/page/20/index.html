@@ -9,488 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/20/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/20/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/20/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/20/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/03/03/analyzing-the-ipad3-invite/">Analyzing the iPad 3 invite</a></h1>
-			
-			<time datetime="2012-03-03" pubdate=""><a href="/weblog/2012/03/03/analyzing-the-ipad3-invite/">March 03, 2012</a></time>
-    	</header>
-    	<div>
-			<p>A lot has been made in the Apple press recently about the invite to the Apple Media Event on 7th March which is widely expected to introduce the iPad 3. Specifically, the invite appears to show an iPad with an improved screen and no home button:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3-invite.jpg" alt="iPad 3 Invite" /></p>
-
-<p>Obviously there will be a “Retina Display” in the iPad 3 (I’ll eat my iPad 2 if there isn’t) but the lack of a home button is something that has floated around before, mainly due to the gestures built into iOS 5 that allow you to close apps with a 4/5 finger grab. I only ever use the gestures to get around on my iPad but I don’t really think the home button would be completely removed. For a start it has too many purposes:</p>
-
-<ul>
-  <li>Closes apps (can be done with a gesture)</li>
-  <li>Lets you access the multi-tasking tray (can also be done with a gesture)</li>
-  <li>Allows screenshots to be taken (press at the same time as the power button)</li>
-  <li>Access to Siri (on the iPhone 4S at least - one assumes the same will happen in the iPad 3)</li>
-  <li>Accessibility shortcuts (triple tap to invert colours for example)</li>
-  <li>Force restart the device (hold at the same time as the power button for a while)</li>
-</ul>
-
-<p>Whilst some of these things could be done in other ways, I just don’t buy the idea that they would remove it - doing things with gestures is great but they are more like keyboard shortcuts for power users than an intuitive way to navigate.</p>
-
-<p>With the above in mind, it was obvious to me that the invite was showing an iPad 3 in landscape and I set out to prove this with some judicious screenshotting (thanks home button) and photoshopping. However, it didn’t quite work out as I expected…</p>
-
-<p>As Apple have very helpfully used the “bubble” background on the iPad in their invite, it should be quite trivial to work out the placement of the icons by mapping them to the unique bubble clusters in the image. For example. there is a unique cluster next to the calendar icon:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/invite-cluster.jpg" alt="iPad 3 Invite Bubble Cluster" /></p>
-
-<p>From the invite, we know that there are at least 3 icons showing in the “dock” – Maps, Calendar, and Keynote – and you can only have a maximum of 6 icons. I screenshotted the iPad in both orientations with all the possible combinations of 3, 4, 5, and 6 icons and only one came out close to the bubble layout of the invite:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad-portrait.jpg" alt="iPad 3 Invite Mockup - Portrait" /></p>
-
-<p>Hmm, that scuppered my landscape theory. Let’s take a closer look at the calendar icon when it’s in this formation:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/icon-segment.jpg" alt="iPad 3 Invite Mockup - Portrait" /></p>
-
-<p>I’ve also done some basic distortion in photoshop to change the angles so that it matches (roughly) the perspective of the Apple invite:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/icon-segment-skewed.jpg" alt="iPad 3 Invite Mockup - Portrait" /></p>
-
-<p>I’m pretty confident of the location as it’s one of the only possibilities that causes the page control (the little dots and the search icon) to be cut off when photographed at that angle.</p>
-
-<p>If you look at the two side by side, we can see that the bubble cluster is a pretty good match, but it isn’t exact:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/invite-cluster.jpg" alt="iPad 3 Invite Bubble Cluster" /> <img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/mockup-cluster.jpg" alt="iPad 3 Invite Mockup Bubble Cluster" /></p>
-
-<p>The icons in the invite are actually slightly bigger than those on the iPad 2.</p>
-
-<p>So what does this all mean? I have a number of theories:</p>
-
-<ol>
-  <li>The iPad 3 has no home button and its icon layout is slightly different</li>
-  <li>This isn’t the iPad 3 - it’s a different device (i.e. a 7 inch iPad hence the slightly different icon arrangement)</li>
-  <li>It’s a photoshopped invite and means nothing - there won’t be any big surprises</li>
-</ol>
-
-<p>If I was a betting man I’d go with option 3. Whilst it’s intriguing to disect these invites to see if they have any deeper meaning, the reality is that it’s probably been photoshopped together with a few mistakes (the bubbles not matching) and something to get the blogosphere worked up (no home button). I highly doubt that the iPad 3 will lose the home button and I have my reservations that a smaller form factor will be announced (despite the fact that I’d prefer a smaller iPad).</p>
-
-<p>In terms of the announcement, my predictions are:</p>
-
-<ul>
-  <li>iPad 3 with “Retina Display” that is 2048x1536 with the same @2x syntax for developers to make their apps compatible. It will be slightly more expensive than the iPad 2 (say an extra $50-70) but the iPad 2 will see a price drop to something like $399 or $429.</li>
-  <li>Apple TV with 1080p output (the invite says “something to see” and “something to touch” - Apple TV and iPad 3)</li>
-  <li>Updated iTunes content to accomodate a 1080p Appple TV and an iPad that is beyond 1080p.</li>
-  <li>iOS 5.1 with 3rd party Siri APIs.</li>
-</ul>
-
-<p>I guess we’ll see on March 7th!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">I've been looking forward to this day for a long time</a></h1>
-			
-			<time datetime="2012-02-16" pubdate=""><a href="/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">February 16, 2012</a></time>
-    	</header>
-    	<div>
-			<p>Today has seen the culmination of several months of work and several years of planning. I launched my latest app, <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a>, which I like to call “The ultimate collectables game”. It’s a mixup of several ideas from things such as Gowalla, Pokémon, PackRat, and Baseball Trading cards (or Football stickers if you’re in the UK).</p>
-
-<p>I’m not going to do a big post about it now as you can find out all the details at <a href="http://wallabeegame.com/">wallabeegame.com</a> (or just <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">download the app</a>) but I did want to give a few shout outs.</p>
-
-<p>Firstly, this app wouldn’t be possible without <a href="http://twitter.com/al86shaw">Alan Shaw</a> and <a href="http://twitter.com/lonelycoo">Simon Wicks</a> who have both invested a huge amount of time in this project. They’ve put up with my constant changes and demands as well as suggesting many great ideas that I wouldn’t have come up with on my own. I’m proud to be launching this app with such great co-partners.</p>
-
-<p>Secondly I’d like to thank <a href="http://karategraphics.com/">Andrew Cameron of Karate Grafika</a> who designed the beautiful icons you’re hopefully collecting today. We spent a lot of time searching for the right designer and we’re overwhelmed with the amount of positive reviews we’ve received for Andy’s work. Andy is the ‘secret sauce’ of our app and we’re very lucky to be working with him.</p>
-
-<p>Finally, I’d like to thank <a href="http://twitter.com/ericl">Eric Longstaff</a> who has taken on the role of Community Manager and is replying to people on our <a href="http://support.wallabeegame.com">support forum</a> almost has quickly as they can submit questions! It’s great to have someone with so much charisma on our team who believes in the project and wants to make sure that everybody else is enjoying it.</p>
-
-<p>It’s been a wild ride getting to this point and I really hope that people see the amount of time and effort we’ve spent in trying to get the little details right. We know that there is further work to be done and we have an ambitious roadmap. Version 1.0.1 (coming soon) will add localisation support for 5 languages and a big v1.1 update at the end of March which will introduce a heap of social features. We are essentially a startup but I want to make it clear that our entire focus is on delighting our players - we’ve invested in the most expensive package GetSatisfaction had so we can keep on top of our community and we’re absolutely committed to getting things right.</p>
-
-<p>A few people have pointed out that we’re just using the ideas of Gowalla and PackRat and putting them together. I want to confront that issue head on. Yes, their are similarities, but we believe the devil is in the detail.</p>
-
-<ol>
-  <li>We are focussed on a single thing; items. We have a location database (built up from data aquired from Gowalla for my <a href="http://itunes.apple.com/us/app/highlights/id428756645?mt=8">Highlights app</a> - incidentally, this database is not a wholesale copy but something that has been carefully curated and augmented with data from a number of other platforms over a period of 12 months) and we allow players and developers to add to this database but it’s not our key focus. We are fundamentally not a check-in service.</li>
-  <li>We don’t just want to build a community of players, we also want to build a community of developers. That’s why we launched 3 full APIs with our app that you can interact with today. These include real time notifications and access to all of our high-resolution item artwork. If you build something on our platform, we’ll promote it. You can find out more in our <a href="http://wallabeegame.com/developers/">Developer Portal</a></li>
-  <li>The most important thing, the item that is at the core of who we are, is that we are dedicated to the player. We promise to listen, adapt, and make changes that the community wants rather than just blazing our own trail. We will never fundamentally change our product on a whim when we know that it’s not what our community wants. We built this app because it’s the app we wanted to use. We will never deviate from that course or that core belief.</li>
-</ol>
-
-<p>I sincerely hope that you’ll enjoy using WallaBee. It’s been my dream for the past few years and, whilst this this is just the start,  I treasure it as the biggest moment of my career.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="http://mclov.in/2012/02/08/path-uploads-your-entire-address-book-to-their-servers.html" class="external">Path uploads your entire iPhone address book to their servers</a></h1>
-			
-			<time datetime="2012-02-07" pubdate=""><a href="/weblog/2012/02/07/path-uploads-your-entire-iphone-address-book-to-their-servers/">February 07, 2012</a></time>
-    	</header>
-    	<div>
-			<p>Some great finds by <a href="http://mclov.in/">Arun Thampi</a>:</p>
-
-<blockquote>
-  <p>Upon inspecting closer, I noticed that my entire address book (including full names, emails and phone numbers) was being sent as a plist to Path. Now I don’t remember having given permission to Path to access my address book and send its contents to its servers, so I created a completely new “Path” and repeated the experiment and I got the same result – my address book was in Path’s hands.</p>
-</blockquote>
-
-<p>I always wondered how Path managed to match me up so quickly to my friends when the only thing I’d given it was my email address. Turns out that it uploads your entire phone book and then matches names / email addresses to give you recommendations. It’s incredibly slick, but it is a privacy concern.</p>
-
-<p><a href="http://mclov.in/2012/02/08/path-uploads-your-entire-address-book-to-their-servers.html#dsq-comment-432202082">The CEO of Path replied</a> to the post with:</p>
-
-<blockquote>
-  <p>Arun, thanks for pointing this out. We actually think this is an important conversation and take this very seriously. We upload the address book to our servers in order to help the user find and connect to their friends and family on Path quickly and effeciently as well as to notify them when friends and family join Path. Nothing more.</p>
-
-  <p>We believe that this type of friend finding &amp; matching is important to the industry and that it is important that users clearly understand it, so we proactively rolled out an opt-in for this on our Android client a few weeks ago and are rolling out the opt-in for this in 2.0.6 of our iOS Client, pending App Store approval.</p>
-</blockquote>
-
-<p>At least they are going to make it opt-in but the various commentors on that article do point out that a hash table would have avoided this whole scenario. I’m glad that I finally know how Path were doing that matching though - it’s been bugging me for weeks…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/01/31/calling-all-beta-testers/">Calling all beta testers</a></h1>
-			
-			<time datetime="2012-01-31" pubdate=""><a href="/weblog/2012/01/31/calling-all-beta-testers/">January 31, 2012</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that my biggest app yet is going to be available in mid-February. It’s currently running in a closed beta but I’m now looking to expand the beta testing pool significantly in the run up to launch.</p>
-
-<p>If you have some spare time and would like to help me out (as well as maybe getting some free stuff once it launches) then please fill out my <a href="https://docs.google.com/a/bendodson.com/spreadsheet/viewform?formkey=dG9vLXluM3RwNnZYNDRGendxWXBfTEE6MQ">beta tester application form</a>. Based on previous betas, I expect interest to be high so I’ve had to implement a cap on how many people I can accept. Please bear in mind that beta testing can take a lot of time (as you’ll be required to feedback on each build that is sent out) so if you don’t have the time please don’t apply as your position could go to somebody else who is available.</p>
-
-<p>If your application is successful, I’ll be in touch by the 3rd of February.</p>
-
-<p>I can’t wait to show you all what I’ve been working on for the past 6 months. More details will be available soon…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/01/31/whats-happening-with-ios-5-1/">What's happening with iOS 5.1?</a></h1>
-			
-			<time datetime="2012-01-31" pubdate=""><a href="/weblog/2012/01/31/whats-happening-with-ios-5-1/">January 31, 2012</a></time>
-    	</header>
-    	<div>
-			<p>iOS 5.1 Beta 1 was released to developers back in November 2011. Since then there have only been 2 additional betas (the last of which was just over 3 weeks ago) but not one of them has added anything worthy of a 5.x update. There are only two additions of note for developers.</p>
-
-<p><a href="http://www.macrumors.com/2012/01/09/apple-seeds-ios-5-1-beta-3-to-developers/">MacRumors reports</a>:</p>
-
-<blockquote>
-  <p>iOS 5.1 introduces a new API to mark files or directories that should not be backed up. For NSURL objects, add the NSURLIsExcludedFromBackupKey attribute to prevent the corresponding file from being backed up.</p>
-</blockquote>
-
-<p>Whilst <a href="http://www.anandtech.com/show/5158/apple-seeds-ios-51-beta-to-developers">AnandTech reports</a>:</p>
-
-<blockquote>
-  <p>On supported devices, iOS automatically inserts recognized phrases into the current text view when the user has chosen dictation input. The new UIDictationPhrase class (declared in UITextInput.h) provides you with a string representing a phrase that a user has dictated. In the case of ambiguous dictation results, the new class provides an array containing alternative strings. New methods in the UITextInput protocol allow your app to respond to the completion of dictation.</p>
-</blockquote>
-
-<p>Neither of these things are worthy of a 5.x update as the first is just a reworking of a bug fix in 5.0.1 and the second doesn’t really have much of a practical use. If we look back at previous .x updates, Apple always puts something in that will appeal (and can be marketed) to the end user:</p>
-
-<ul>
-  <li><strong>iOS 4.1</strong> - GameCenter, HDR Photo Capture, iTunes Ping (haha), HD Video Uploads</li>
-  <li><strong>iOS 4.2</strong> - AirPrint, AirPlay, Fonts for Notes (it’s a big deal), Voice Memos App - was also the release that bought iOS 4 to the iPad</li>
-  <li><strong>iOS 4.3</strong> - Personal Hotspot, AirPlay in 3rd Party Apps, Home Sharing, 2x faster JavaScript in Safari, Mute Switch preference for iPad</li>
-</ul>
-
-<p>These are all big updates and carry a number of new features which end users can relate to (i.e. they are not all dependent on developers integrating a new API). That’s what I don’t understand about iOS 5.1 so far – there are no end user features and the new bits that are there are very minor API updates that most developers won’t use.</p>
-
-<p>In addition to these rather minor updates, there is also the question of timing. iOS 5.1 has been with developers for over 2 months with a very slow release cycle.</p>
-
-<p>So what’s happening?</p>
-
-<p>My theory (and this is all speculation) is that iOS 5.1 does indeed add something big but we won’t see it until mid-February when the iPad 3 is announced. This is because the iPad 3 will come with iOS 5.1 pre-installed and so a number of the new features will be directly tied to that. As soon as the event is over, developers will be given a 5.1 GM along with around 3 weeks to submit apps to the App Store if they want to update to the new features.</p>
-
-<p>My current guess is that Siri will be prominent in iOS 5.1 as the introduction of the iPad 3 means there will be another device out there with Siri support (and that’s if they don’t open Siri up to the iPad 2 / iPhone 4). A 3rd party API for Siri will allow all kinds of amazing apps to appear (take a look at my <a href="https://bendodson.com/weblog/2011/12/06/hows-the-london-underground-ask-siri/">Tube Updates plugin for SiriProxy</a> for example) and will look great during the iPad 3 announcement keynote when Scott Forstall gets a number of prominent development studios to show off what they’ve done in 2 weeks of having access to the API.</p>
-
-<p>However, Siri APIs do not a .x release make as that isn’t enough to make most people upgrade (such as the iPhone 4 and iPad 2 which I doubt are going to get Siri). A few other things I would hope to see in iOS 5.1 are:</p>
-
-<ul>
-  <li><strong>Widgets</strong> - the ability for developers to create Notification Center widgets such as the Weather and Stocks ones which come preinstalled. This is an area when Android is nominally “winning” and is something which should have been in iOS 5 in my opinion.</li>
-  <li><strong>Facebook Integration</strong> - I’m not a big fan of Facebook but I can see it getting iOS level integration similar to Twitter.</li>
-  <li><strong>Improved Siri</strong> - Aside from 3rd party dev support, allowing things like “read my mail” or “open this app”. I’d really like a “lower brightness” command.</li>
-  <li><strong>iBooks</strong> - Not really a big announcement but <a href="https://bendodson.com/weblog/2012/01/30/retina-display-graphics-reappear-in-ibooks-2/">I speculated yesterday that iBooks might become part of the core OS</a>.</li>
-</ul>
-
-<p>Aside from that I can’t really think of anything they can add to this release. I’d like to see a new maps app without Google (Apple have aquired enough mapping companies) and profiles on the iPad (so you can have multiple accounts) but I think these are more likely for iOS 6.0. Not related to iOS 5.1, but I’d also like to see iMessages bought over to the Mac App Store as well.</p>
-
-<p>One thing is for certain though – iOS 5.1 beta 3 is a long way off from what iOS 5.1 will actually be. It just isn’t a 5.x update at the moment but I’m certain all will be revealed at the iPad 3 keynote sometime in mid-February. If you’ve got any ideas for what you expect to see in iOS 5.1 <a href="https://bendodson.com/contact/">send me an email</a> or <a href="http://twitter.com/bendodson">tweet at @bendodson</a> and I’ll add the best ideas to the list.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="http://thenextweb.com/apple/2012/01/19/high-res-images-in-ibooks-2-are-no-accident-theyre-for-the-ipad-3s-retina-display/?utm_source=Cocoa+Controls&utm_campaign=c6f905118a-Cocoa_Controls_Update1_16_2012&utm_medium=email" class="external">Retina display graphics reappear in iBooks 2</a></h1>
-			
-			<time datetime="2012-01-30" pubdate=""><a href="/weblog/2012/01/30/retina-display-graphics-reappear-in-ibooks-2/">January 30, 2012</a></time>
-    	</header>
-    	<div>
-			<p>Matthew Panzarino for TNW:</p>
-
-<blockquote>
-  <p>Now, with the release of the iBooks 2 application, the Retina-ready images are on display yet again, but our source says it is highly doubtful that including them this time is an accident.</p>
-
-  <p>These images would display correctly on a screen 2048×1536 pixels in dimension (double the res of the iPad 2′s screen) at a PPI of 260. That is lower than the iPhone 4/4S display, which clocks in at just over 300 PPI, but should still qualify as a Retina display due to the viewing distance to the iPad being greater.</p>
-</blockquote>
-
-<p>These @2x files appeared in a version of iBooks during August 2010 but turned out to be a red herring (or an accident as TNWs source puts it). However, with rumours ramping up for a March launch of the iPad 3, it’s highly likely that these retina display graphics are now needed.</p>
-
-<p>The thing that confuses me is that iBooks doesn’t come pre-installed on iOS so Apple could easily push out a v2.0.1 safe in the knowledge that a non-retina version wouldn’t end up on the new iPad. This is undoubtedly what will happen with the iWorks suite of apps (a minor update to add retina compatibility) so why add @2x versions of UI components to iBooks now?</p>
-
-<p>In my opinion, this was either a mistake (again) or Apple are planning on having iBooks installed by default on the iPad 3.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/01/29/a-sneak-peek-at-atomix-magazine-v2/">A Sneak Peek at Atomix Magazine v2.0</a></h1>
-			
-			<time datetime="2012-01-29" pubdate=""><a href="/weblog/2012/01/29/a-sneak-peek-at-atomix-magazine-v2/">January 29, 2012</a></time>
-    	</header>
-    	<div>
-			<p>I’ve long been interested in magzines on the iPad and how they can be adapted to make best use of the medium. I was therefore very excited when <a href="http://atomixmag.com/">Atomix Magazine</a> first launched in April last year as it was made exclusively for iPad and is focussed on videogames. At the time, most iPad magazines were using the <a href="http://www.adobe.com/solutions/digital-publishing.html">Adobe publishing system</a> which allows publishers to simply export their InDesign files to a custom iPad app. Whilst it works as a basic system for getting content to the iPad (which is better than no content), it is lacking when you consider that most magazines are at different physical sizes to the iPad. This means that unless publishers put the work in to rescale their content (and most don’t - I’m looking at you Future Publishing), then you end up needing to zoom in and pan around to read the content. Atomix was different in that the entire magazine was designed solely for the iPad and should have done away with these problems.</p>
-
-<p>The content itself was absolutely fantastic but there were a number of issues I had with the app itself. In the first few issues they decided to go with a weird parralex background system which meant that the text scrolled differently to the background. You’d actually scroll – sometimes making the text unreadable – and then the background image would rubber band to where it should be. This was eventually sorted but then there were problem with fitting content onto a page (as shown in the image below). Whilst there were dividing lines which looked kind of like page breaks, the content would run to maybe 140% of the iPad height which meant you’d read one column, scroll to keep reading, then have to scroll back up to read the next column. These issues nearly made me give up on Atomix purely because reading it was so frustrating.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/01/atomix-pagination.jpg" alt="Bad page layout in Atomix Magazine" /></p>
-
-<p>These layout problems were solved late last year (along with some problems relating to downloads) but by that point another bone of contention had cropped up; Newsstand. For those that don’t know, Newsstand was a system introduced with iOS 5 which basically made any magazine app able to show its latest issue as an app icon. This meant that you could see when a new issue was available and there were a number of useful additions such as the ability for new issues to download automatically in the background if you had a subscription. Atomix didn’t have Newsstand support when iOS 5 launched which I felt was unfortunate considering that iOS 5 had been in beta for nearly 3 months (plenty of time to integrate the new APIs for an app which is only available on iPad). Other readers obviously felt the same as the <a href="http://twitter.com/#!/atomixmag/">@AtomixMag</a> twitter account was always bombarded with people looking for an update on Newsstand support.</p>
-
-<p>Fortunately, this is now being implemented in version 2.0 of the app which will be available tomorrow. The Newsstand support extends not only to moving the app to the Newsstand folder, but also to implementing background downloads if you opt for a subscription. This is a great feature as issues can sometimes take a while to download (they’re around 300MB on average). Aside from Newsstand support, the app has been updated so that issues open a lot faster, has better graphics when you run or close an issue, and has a new download system meaning that any old issues you try to download will auto-resume if you close the app.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/01/atomix-newsstand.jpg" alt="Atomix Magazine with Newsstand support" /></p>
-
-<p>Aside from the new version of the app and a new issue of the magazine coming tomorrow, Atomix also promised a “<a href="http://twitter.com/#!/atomixmag/status/162949681381519361">big announcement</a>” related to the publication. It turns out that this announcement relates to pricing in that Atomix Magazine will be free from now on! With Newsstand support, you are able to take out a free subscription that will work for future issues as well as allowing you to download previous issues free of charge. For this to work, you have to agree to pass on your personal information (a requisite for free subscriptions from Apple) but Atomix has said that they won’t actually store the information that is sent to them as they don’t need it.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/01/atomix-subscription.jpg" alt="Free subscription to Atomix Magazine" /></p>
-
-<p>I’ve been reading the new issue of the magazine today and I have to say that the whole app does feel a lot snappier and easier to read. Proper paging has been implemented so that all of the content fits nicely into the space and the virtual layout works nicely. You scroll from left to right to go through the different stories but then these are paged vertically so you have to scroll down to read. Some articles have more content underneath so you scroll left to right to read it like a regular magazine but you are prevented from going to the next story unless you scroll to the top of the article. Overall I find it works very well and gives you a good overview of how pages are connected, something that is often a problem in tablet magazines. If I had one criticism, it’s that there is no indication of how far through the magazine you are and I’m hopeful this is something they will look to implement in future versions.</p>
-
-<p>Whilst I was loathe to recommend it a few months ago, this update now makes Atomix a shining example of how iPad magazines should be. It doesn’t try to add too much interactivity but instead focusses on great content laid out in the best way possible with a few interactive elements that delight rather than annoy. If you are an app developer, I would urge you to download Atomix and compare it with a magazine such as Edge, a magazine that could have got it right but instead opted for the lazy InDesign route. The differences should be clear. With Apple promoting Newsstand in a big way, I would expect more magazine publishers to follow Atomix example and go down the bespoke app route.</p>
-
-<p>If you’re a fan of video games, then you should definitely <a href="http://itunes.apple.com/gb/app/atomix-mag/id429125775?mt=8">download this magazine</a>. You won’t be disappointed.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2012/01/atomix-issue.jpg" alt="v2.0 of Atomix Magazine" /></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/01/26/bendodsoncom-gets-an-update/">BenDodson.com gets an update</a></h1>
-			
-			<time datetime="2012-01-26" pubdate=""><a href="/weblog/2012/01/26/bendodsoncom-gets-an-update/">January 26, 2012</a></time>
-    	</header>
-    	<div>
-			<p>The last time my website got a major upgrade was back on the <a href="https://bendodson.com/weblog/2009/04/26/london-underground-tube-updates-api-is-live/">26th April 2009</a> when I moved from a self-built system to Wordpress (for my blog at least). Since then there have been a few minor design tweaks and a few page changes but the majority has stayed the same.</p>
-
-<p>Today I’ve put live a big update that covers the design, content, and functionality of the site. The main reasons for a change were two-fold; to help me update the site more frequently and to ensure a better reading experience for visitors, regardless of device.</p>
-
-<h2 id="design">Design</h2>
-
-<p>The design changes are actually fairly minimal. I’ve put in a nicer font with more spacing and I’ve removed some unnecessary sidebars to make the site full width - it should be a lot more comfortable to read in a traditional browser. However, the biggest change is the introduction of a mobile stylesheet which still shows the full content of the site but rendered in a much nicer way. Needless to say, this has been optimised for iPhone but it should work on any mobile device.</p>
-
-<h2 id="content">Content</h2>
-
-<p>Managing the content on my site has always been a bit of a chore from a UX view as it caters to very different audiences. You might want to <a href="https://bendodson.com/contact/contract-ios/">hire me</a>, look at <a href="https://bendodson.com/apps/">my apps</a>, play with some of <a href="https://bendodson.com/projects/">my projects</a>, or simply <a href="https://bendodson.com/weblog/">read my blog</a>. You might have come here looking for a <a href="https://bendodson.com/projects/browser-extensions/">Firefox extension</a>, to <a href="https://bendodson.com/weblog/2011/06/09/airplay-mirroring-tv-out-and-the-apple-tv-as-a-games-console/">read a post about the Apple TV</a>, or because you want to see <a href="https://bendodson.com/work/apps/">my portfolio</a>. Regardless, I’ve done a slight reorganisation so that the main pieces of the site are all readily accessible. This was mainly done by separating <a href="https://bendodson.com/apps/">my apps</a> from <a href="https://bendodson.com/projects/">my projects</a> and restructuring the <a href="https://bendodson.com/work/">work section</a>.</p>
-
-<p>As more and more people have come to my site, the number of emails I have to deal with has increased dramatically. I’m always keen to hear from people and so <a href="https://bendodson.com/weblog/2010/11/04/contact-forms/">I had my email addresses displayed loud and proud</a> on my contact page. This hasn’t changed but I have introduced some new pages called “Guidelines” which might help you if your enquiry fits into a particular area. For example, if you’re <a href="https://bendodson.com/contact/contract-ios/">contacting me about a contract position</a>, you’ll be able to see my day rate and the projects I enjoy so that you can be sure I’m the right person for the job. Whilst I expect to receive significantly less enquiries, I’m hopeful that those I do receive (particularly for work) are more fruitful for both parties.</p>
-
-<p>Finally, <a href="https://bendodson.com/weblog/">my blog</a> has been updated so that I can now link to external sites that I find interesting and just add a comment to them (similar to the linked lists on <a href="http://daringfireball.net/">Daring Fireball</a>). Quite often I see an interesting topic that I’d like to comment on that is too big for Twitter but too small for a full blown blog post. Now that I can link to external stories more easily I should be able to keep the weblog posts more regular.</p>
-
-<p>If you’re wondering about comments, I don’t allow them on my website and I haven’t done for over a year now. Keeping on top of moderation, etc, was providing too much of a hassle and I prefer the one-to-one contact of email or the public sharing of Twitter which ensures that I can actually reply (most people didn’t sign up for email alerts on comments). However, I do frequently update my posts to include any interesting comments people send to me so please do <a href="https://bendodson.com/contact/">get in touch</a> if you have something to add.</p>
-
-<h2 id="functionality">Functionality</h2>
-
-<p>This is where the biggest update has come. I’ve long been getting bored with Wordpress and have always found it a bit of a chore to put posts out. Also, the site was quite slow but the various caching plugins I found weren’t quite doing it for me. To that end, the entire site has been replaced with completely static HTML (aside from some of the project pages). I write all my blog posts in Markdown and these are now pushed through <a href="https://github.com/mojombo/jekyll">Jekyll</a> to be converted to pure HTML. However the coolest bit (for me) is that I’m running a Dropbox instance on my server - this means that whenever I compile the site with Jekyll on one of my macs, all of the generated files are automatically synced to my server and then through a symlink to my web directory. In short, I can post entries more quickly and they will load much faster for you.</p>
-
-<p>Anyway, I hope you enjoy the new site. If you find any problems please <a href="https://bendodson.com/contact/">let me know</a>.</p>
-
-<p><strong>One More Thing</strong> - I almost forgot! <a href="https://github.com/bendodson">All of my code samples and snippets are now available on GitHub</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="http://lew.io/headers.php" class="external">UK Carrier O2 sends your phone number to every website you visit</a></h1>
-			
-			<time datetime="2012-01-25" pubdate=""><a href="/weblog/2012/01/25/uk-carrier-o2-sends-your-phone-number-to-every-website-you-visit/">January 25, 2012</a></time>
-    	</header>
-    	<div>
-			<p>Lewis Peckover:</p>
-
-<blockquote>
-  <p>If you’re on O2’s UK mobile network (not ADSL), you’ll (probably) see a line beginning with <code class="language-plaintext highlighter-rouge">x-up-calling-line-id</code> - followed by your mobile phone number in plain text</p>
-</blockquote>
-
-<p>Looks like O2 is sending users mobile phone numbers in plain text over HTTP headers to every site they visit whilst using their network. At the moment the issue appears to be limited to certain APNS on the UK O2 network.</p>
-
-<p>When asked about it, <a href="https://twitter.com/o2/status/161872584634408960">O2 responded with</a>:</p>
-
-<blockquote>
-  <p>The mobile number in the HTML is linked to how the site determines that your browsing from a mobile device</p>
-</blockquote>
-
-<p>As Lewis points out, a “<a href="https://twitter.com/lewispeckover/status/161879864159383552">User-agent header ID’s the device</a>” so this seems a slightly odd stance (particularly as it isn’t happening on all mobile devices).</p>
-
-<p><strong>Update:</strong> O2 say that it’s a technical error and that this header should only be sent to whitelisted servers. It does beg the question, which servers are whitelisted? Presumably just O2’s own websites but it’s still not good to be sending information like this in plaintext.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/12/12/how-not-to-ask-for-an-ios-app-review-a-review-of-jumpship-thrust-control-2/">How not to ask for an iOS app review - A review of Jumpship Thrust Control 2</a></h1>
-			
-			<time datetime="2011-12-12" pubdate=""><a href="/weblog/2011/12/12/how-not-to-ask-for-an-ios-app-review-a-review-of-jumpship-thrust-control-2/">December 12, 2011</a></time>
-    	</header>
-    	<div>
-			<p><strong>Note:</strong> The CEO of Monkeybin emailed me with a few corrections to this piece. Be sure to read the updates at the bottom of the page.</p>
-<p>I get contacted by quite a few developers of iOS apps asking for me to write a review up on my blog. Occasionally I agree and I'm always completely honest and independent in my thoughts. If I don't like the app, I say so and this is either met with annoyance ("we only wanted you to publish a good review") or with good grace ("thanks for your honest review - we've taken your criticisms on board and aim to fix them for the next release"). Today, I received an email from <a href="http://monkeybin.no/">Monkeybin Studios</a> asking me to review their game "<a href="http://itunes.apple.com/gb/app/jumpship-thrust-control/id422849746?mt=8">Jumpship Thrust Control</a>". Be careful what you wish for, it might just come true...</p>
-<p>This was a bit of an odd one (as you'll see in a moment) so I think I'll review the app by listing the email that was sent below and then dissecting each section. This will hopefully serve as a) a review of the app and b) as a lesson on how not to ask for iOS app reviews (not just from me, but from any blog or review site).</p>
-<blockquote>
-	<p>Hi Fellow Gamer!</p>
-	<p>Please find attached details of Jumpship Thrust Control 2 - a new game on the scene for iPhone and iPad users - we’d love it if you can review it on your site.</p>
-</blockquote>
-<p>Sounds interesting - maybe I'll review it. Shame they didn't include a download link to the game though as it's actually version 2.0 of an app called "JumpShip Thrust Control". The first time I searched for it (copying and pasting the name), iTunes couldn't find it. Also, there is no detail here (or later in the email) of pricing information. I've no idea if this is a paid app (in which case, where is free promotional code so I can download it) or a free app. Turns out this is a free app and you can use In-App Purchases to unlock later levels. If you are asking for a review of your app, be sure to include pricing information (as it's a key review metric) as well as any promotional codes so that a reviewer can use the full app.</p>
-<blockquote>
-	<p>Give it a try – we promise the top-notch graphics and the old school side-scroller “action” nature of the game will have you hooked. It’s a throwback to the days of Atari and Commodore 64 video gaming but with 2012 style graphics!</p>
-</blockquote>
-<p>2012 style graphics you say? An interesting pitch when games like Infinity Blade II came out in 2011. By way of demonstration, here is a screenshot of the app:</p>
-<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0095.png" alt="IMG_0095.PNG" title="IMG_0095.PNG" border="0" /></p>
-<p>I think that pretty much speaks for itself. An oil type background (looks alright) with some clipart stuck on top. The only bit that I could claim is even modern is that the flames at the back move a little bit but I believe this is a fairly simple effect to do with Cocos2D so we shouldn't put too much stock in it.</p>
-<blockquote>
-	<p>When I say “new game” Jumpship Thrust Control is actually a completely re-vamped and much improved version of an existing game from the team at Monkeybin Studios; you have to steer a spaceship through many different types of beautiful but hazardous terrain, navigating many evil obstacles in the way!</p>
-</blockquote>
-<p>When I first read this sentence, I thought "ah good, at least they admit it's a rip-off game" but then they go on to say that it's a remake of one of their old games! I think you'll find that this exact game mechanic has been popularised oh so many times before. Here's a small history of these games:</p>
-<ul>
-<li><a href="http://en.wikipedia.org/wiki/Super_Cobra">Super Cobra</a> (Atari game from 1983 - the original game of this type I believe)
-<li><a href="http://www.helicoptergame.net/">Helicopter Game</a> (Flash game made in 2004 - the most well known on the internet)</li>
-<li><a href="http://itunes.apple.com/gb/app/helicopter/id322998366?mt=8">Helicopter</a> (iPhone version of the above two games - blatant copying in 2009)</li>
-</ul>
-<p>That's just a very quick run through how this game has appeared over the years but there are hundreds of copies with different types of vehicle ranging from tractors to spaceships. This is just another one of those that doesn't even try to avoid the obvious link in that the first level is "cave" where every helicopter version of this genre starts. Why is a spaceship in a cave (and <a href="http://starwars.wikia.com/wiki/Exogorth">are they sure it's a cave</a>?). They could have at least tried a funny parody to make this game different in the same way that <a href="http://itunes.apple.com/gb/app/baby-monkey-going-backwards/id447960108?mt=8">Baby Monkey (Going Backwards On A Pig)</a> did with the platforming genre, but no, it's just a shameless copy.</p>
-<blockquote>
-	<p>Gamers said the previous version was too difficult and there was nothing to cater for the serious gamers over the casual gamers.</p>
-</blockquote>
-<p>Let's clarify something here; there are casual gamers and there are serious gamers. Serious gamers play on the PS3 and Xbox, casual games play on the Wii and on mobile phones (with the possible exception of Infinity Blade II which is console quality on the iPhone). This is a casual game by the fact that it's horribly repetitive and is the sort of thing you play on the tube when you've finished reading the paper.</p>
-<blockquote>
-	<p>The many improvements in the new version include 3 different player modes (beginner, intermediate and expert) plus 5 new terrains to master and easier controls for the spaceship; there’s also a training mode built in to get you up to speed with controlling the spaceship before you try the beginners’ level for real.</p>
-</blockquote>
-<p>New terrains and level difficulty does not a "serious gamer" game make. If they'd wanted to make it more competitive they should have put in some sort of peer-to-peer mechanic where two people start at the same time on different devices and the first one to die loses. If they'd wanted to make it more engaging over a long time period (rather than a pick up and play kind of game) then they should have put in a levelling system with spaceship upgrades (which you could charge real money for with In-App Purchasing). Adding a difficulty level isn't going to make all the Battlefield 3 and Skyrim players drop their controllers and pick up this app instead.</p>
-<blockquote>
-	<p>Just to make your life easier, we attach a couple of reviews we have already written that highlight some of the key features of the game. Perhaps you can cut and paste some of the comments and claim them as your own review?! (Just thinking of your time. :))</p>
-</blockquote>
-<p>This was the part of the email where I made up my mind to do a review of the app. You can download and read their prewritten reviews: <a href="https://bendodson.s3.amazonaws.com/jumpship-review-1.doc">review #1</a> and <a href="https://bendodson.s3.amazonaws.com/jumpship-review-2.doc">review #2</a>.</p>
-<p>It's difficult to know where to start but this is sort of behaviour is what I hate about the app industry in many ways. There are thousands of apps out there but they are hard to find unless you get coverage in the right places. That does not mean you email blogs with pre-written reviews asking them to "claim them as your own". Just don't do it. If you want to have your app reviewed, you have to accept that people may not like it sometimes. Take their criticism, and improve your app. It's insulting to be given pre-written content as you're basically saying to the reviewer "we don't trust your judgement or other write-ups - just use our content".</p>
-<p>That's not to say you shouldn't provide text to a reviewer, but it should be done as a press release. That way, they can pick and choose any interesting elements (e.g. "this is the first game to use x feature") and write it into their review without physically copying / pasting. You can also include reviews from other real people that show off good features of your app, particularly if you've had good press coverage from other outlets. But don't ever write your own reviews and ask people to use them. That is incredibly underhand and doesn't do either the journalism or app development industries any favours.</p>
-<blockquote>
-	<p>Thanks in advance for taking a look at our game and Happy Jumpshipping!</p>
-</blockquote>
-<p>I've got a few thoughts on the app which I haven't covered above so I'll quickly list them:</p>
-<p><strong>Levels</strong> - there is only 1 level included with the game followed by 4 trial levels that you get a little distance with before being asked to make an In-App Purchase. There is also a boss level which can be purchased. Both In-App Purchases cost 69p which is fair enough but this isn't detailed anywhere in the app description. The description says "5 great new landscape levels", the "what's new" text says "5 NEW LEVELS", and the email I got said "5 new terrains to master". At no point does it say you'll need to purchase these until you're in the game. It's a free game, so it's understandable you'll have to pay at some point, but it's deceptive to list "5 levels" everywhere when you are actually only getting one with your download.</p>
-<p><strong>Bugs</strong> - it's buggy as hell. On my second go on the first level, my ship would no longer blow up. Here's a photo of something that just shouldn't happen on a game thats main bit of code is "if ship hits wall, ship explodes".</p>
-<p><img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/12/IMG_0103.png" alt="IMG_0103.PNG" title="IMG_0103.PNG" border="0" /></p>
-<p>As well as that issue, the UI would freeze if I closed the app and came back to it whilst it was on the pause menu. Music would still play but I couldn't touch anything so had to force quit the app. That would be annoying if you were on a high-score streak and got a text message or a phone call.</p>
-<p><strong>Training</strong> - training mode is apparently designed to be a place where you can't crash in order to get you used to the game. They don't tell you this anywhere in the app though so you'd be forgiven for wondering what is going on as the game never ends, you can't crash, and no power-ups or walls appear anywhere.</p>
-<p><strong>Power-ups</strong> - there are power ups littered through the game (with icons that look like they were plucked from windows 95) but no description of what they do. You have to learn by trial and error that a blue orb means you can delete a bit of level or that something that looks like a move cursor is actually a power up to shrink you temporarily.</p>
-<h3>Summary</h3>
-<p>Overall the game is just plain awful. When you take into account the deception around In-App Purchases and that they are trying to get reviewers to post pre-written reviews, it becomes a despicable game. Very little thought has gone into gameplay or design and the only reason I even downloaded it was as an example of how to demonstrate what not to do.</p>
-<p>In terms of how you should market your apps, I can strongly recommend putting together a good media pack such as the one outlined by <a href="http://retrodreamer.com/blog/2011/08/how-to-media-kits-retro-dreamer-style/">Retro Dreamer</a> (linked to from <a href="http://iosdevweekly.com/issues/4/">iOS Dev Weekly Issue 4</a>, a must subscription for iOS developers). I have a <a href="http://highlightsapp.com/files/media-kit.zip">media kit</a> for my apps such as <a href="http://itunes.apple.com/gb/app/highlights/id428756645?mt=8">Highlights</a> which has some screenshots, information, and release notes that allow any reviewers to have a complete overview of the app. If you follow that guide, you'll find you get a lot more responses from app reviewers than if you follow the example taken by Monkeybin Studios.</p>
-<p><strong>Update (12th December 2011):</strong> I replied to the email to let them know I'd put this review up and got the following response:</p>
-<blockquote>
-	<p>Hi Ben,</p>
-	<p>Thanks for your review. We respect your opinion and we have taken notes of our mistakes and your sugesstions. Hopefully we'll do better in future. We respect your judgment, pre-written reviews were just because of the fact that many webmasters may receive hundreds of emails daily and they may not find a time to write for every one.</p>
-	<p>Anyways, Thanks again!</p>
-</blockquote>
-<p>I have respect for a company that actually replies to negative criticism so that's good at least. I still think the app can be vastly improved and hopefully we'll see that happen in this case at some point.</p>
-<p><strong>Update (15th December 2011):</strong> Today I received an email from the CEO of Monkeybin to let me know that the person who contacted me regarding writing a review was not in fact an employee of Monkeybin but instead a freelancer who had operated outside of their remit.</p>
-<blockquote>
-	<p>Hi Ben,</p>
-	<p>My name is Haakon Langaas Lageng, and I am the CEO at Monkeybin. You have been in touch with <strong>***</strong>, and I would like to point out that <strong>***</strong> is not a Monkeybin employee.</p>
-	<p>We hired them as a freelancing marketing manager to do the promotions for JumpShip Thrust Control, and it got out of hand. They were free to do the promotions the way they thought would be best, since we were pressed on time doing other projects. It resulted in methods that is not up to Monkeybin's ethics or standards, and not how we want to be perceived by the gaming community.</p>
-	<p>As the CEO of Monkeybin, this is of course completely my responsibility. Unfortunately, what was happening here slipped my eyes. I found out only yesterday what has been going on.</p>
-	<p>I just saw on your site that <strong>***</strong> sent you an "explanation" on the 12th December, and I am sorry they got around doing that before I put the brakes on.</p>
-	<p>If you are going to publish what I just wrote here, please omit <strong>***</strong> name. They made some bad judgements, yes, but in the end, as I said, it is all my responsibility.</p>
-	<p>Thank you for your time.</p>
-</blockquote>
-<p>It takes a lot of guts for a CEO to claim ultimate responsibility for an error by a contractor rather than trying to use it as an excuse and I applaud Haakon for it. Let this be a lesson to everybody that you should fully research anybody you ask to promote apps for you and ensure you stay on top of what is being done in your companies name.</p>
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/21/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/19/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 20 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/03/03/analyzing-the-ipad3-invite/">Analyzing the iPad 3 invite</a>
+						
+					</h2>
+					<time datetime="2012-03-03"><a href="/weblog/2012/03/03/">March 3, 2012</a></time>
+				</header>
+
+				
+				<p>A lot has been made in the Apple press recently about the invite to the Apple Media Event on 7th March which is widely expected to introduce the iPad 3. Specifically, the invite appears to show an iPad with an improved screen and no home button:</p>
+
+				
+					<a href="/weblog/2012/03/03/analyzing-the-ipad3-invite/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">I've been looking forward to this day for a long time</a>
+						
+					</h2>
+					<time datetime="2012-02-16"><a href="/weblog/2012/02/16/">February 16, 2012</a></time>
+				</header>
+
+				
+				<p>Today has seen the culmination of several months of work and several years of planning. I launched my latest app, WallaBee, which I like to call “The ultimate collectables game”. It’s a mixup of several ideas from things such as Gowalla, Pokémon, PackRat, a...</p>
+
+				
+					<a href="/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="http://mclov.in/2012/02/08/path-uploads-your-entire-address-book-to-their-servers.html" class="external">Path uploads your entire iPhone address book to their servers</a>
+						
+					</h2>
+					<time datetime="2012-02-07"><a href="/weblog/2012/02/07/">February 7, 2012</a></time>
+				</header>
+
+				
+				<p>Some great finds by Arun Thampi:</p>
+
+				
+					<a href="http://mclov.in/2012/02/08/path-uploads-your-entire-address-book-to-their-servers.html" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/01/31/calling-all-beta-testers/">Calling all beta testers</a>
+						
+					</h2>
+					<time datetime="2012-01-31"><a href="/weblog/2012/01/31/">January 31, 2012</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that my biggest app yet is going to be available in mid-February. It’s currently running in a closed beta but I’m now looking to expand the beta testing pool significantly in the run up to launch.</p>
+
+				
+					<a href="/weblog/2012/01/31/calling-all-beta-testers/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/01/31/whats-happening-with-ios-5-1/">What's happening with iOS 5.1?</a>
+						
+					</h2>
+					<time datetime="2012-01-31"><a href="/weblog/2012/01/31/">January 31, 2012</a></time>
+				</header>
+
+				
+				<p>iOS 5.1 Beta 1 was released to developers back in November 2011. Since then there have only been 2 additional betas (the last of which was just over 3 weeks ago) but not one of them has added anything worthy of a 5.x update. There are only two additions of ...</p>
+
+				
+					<a href="/weblog/2012/01/31/whats-happening-with-ios-5-1/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="http://thenextweb.com/apple/2012/01/19/high-res-images-in-ibooks-2-are-no-accident-theyre-for-the-ipad-3s-retina-display/?utm_source=Cocoa+Controls&utm_campaign=c6f905118a-Cocoa_Controls_Update1_16_2012&utm_medium=email" class="external">Retina display graphics reappear in iBooks 2</a>
+						
+					</h2>
+					<time datetime="2012-01-30"><a href="/weblog/2012/01/30/">January 30, 2012</a></time>
+				</header>
+
+				
+				<p>Matthew Panzarino for TNW:</p>
+
+				
+					<a href="http://thenextweb.com/apple/2012/01/19/high-res-images-in-ibooks-2-are-no-accident-theyre-for-the-ipad-3s-retina-display/?utm_source=Cocoa+Controls&utm_campaign=c6f905118a-Cocoa_Controls_Update1_16_2012&utm_medium=email" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/01/29/a-sneak-peek-at-atomix-magazine-v2/">A Sneak Peek at Atomix Magazine v2.0</a>
+						
+					</h2>
+					<time datetime="2012-01-29"><a href="/weblog/2012/01/29/">January 29, 2012</a></time>
+				</header>
+
+				
+				<p>I’ve long been interested in magzines on the iPad and how they can be adapted to make best use of the medium. I was therefore very excited when Atomix Magazine first launched in April last year as it was made exclusively for iPad and is focussed on videogam...</p>
+
+				
+					<a href="/weblog/2012/01/29/a-sneak-peek-at-atomix-magazine-v2/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/01/26/bendodsoncom-gets-an-update/">BenDodson.com gets an update</a>
+						
+					</h2>
+					<time datetime="2012-01-26"><a href="/weblog/2012/01/26/">January 26, 2012</a></time>
+				</header>
+
+				
+				<p>The last time my website got a major upgrade was back on the 26th April 2009 when I moved from a self-built system to Wordpress (for my blog at least). Since then there have been a few minor design tweaks and a few page changes but the majority has stayed t...</p>
+
+				
+					<a href="/weblog/2012/01/26/bendodsoncom-gets-an-update/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="http://lew.io/headers.php" class="external">UK Carrier O2 sends your phone number to every website you visit</a>
+						
+					</h2>
+					<time datetime="2012-01-25"><a href="/weblog/2012/01/25/">January 25, 2012</a></time>
+				</header>
+
+				
+				<p>Lewis Peckover:</p>
+
+				
+					<a href="http://lew.io/headers.php" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2011/12/12/how-not-to-ask-for-an-ios-app-review-a-review-of-jumpship-thrust-control-2/">How not to ask for an iOS app review - A review of Jumpship Thrust Control 2</a>
+						
+					</h2>
+					<time datetime="2011-12-12"><a href="/weblog/2011/12/12/">December 12, 2011</a></time>
+				</header>
+
+				
+				<p>Note: The CEO of Monkeybin emailed me with a few corrections to this piece. Be sure to read the updates at the bottom of the page. I get contacted by quite a few developers of iOS apps asking for me to write a review up on my blog. Occasionally I agree and ...</p>
+
+				
+					<a href="/weblog/2011/12/12/how-not-to-ask-for-an-ios-app-review-a-review-of-jumpship-thrust-control-2/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/21/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/19/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

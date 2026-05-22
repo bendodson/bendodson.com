@@ -9,543 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/6/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/6/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/6/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/6/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/12/12/booktrim/">Booktrim for iPhone</a></h1>
-			
-			<time datetime="2016-12-12" pubdate=""><a href="/weblog/2016/12/12/booktrim/">December 12, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m very pleased to announce the launch of a recent client app I developed; <a href="https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8">Booktrim</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/booktrim.jpg" width="800" height="574" /></p>
-
-<p><a href="https://www.booktrim.com/">Booktrim</a> is a hassle-free app that allows customers to quickly browse barbershops, book a haircut, and pay right from their iPhone. I built the app in Swift and made use of AutoLayout to ensure that everything scales beautifully across the various iPhone Sizes and I worked closely with Trim Ventures’ API developer in order to ensure best practices. I was also instrumental in the design of the application and making sure that the user experience was optimised for making quick appointments on the go.</p>
-
-<p>Once the app was completed, I was asked to build <a href="https://itunes.apple.com/gb/app/trimbook-update-manage-your/id1175348893?ls=1&amp;mt=8">TRIMbook</a>, an app for barbers which allows them to manage their appointments and availability. Once again, the app was built with Swift and I was key in both designing the UI and ensuring the API was being used efficiently. I worked closely with the Trim Ventures team to publish both apps on the App Store and also to run wider beta tests via TestFlight prior to launch.</p>
-
-<p>This was an interesting project to work on and I think the end product works well. You can <a href="https://itunes.apple.com/gb/app/booktrim-hassle-free-haircuts/id1130340847?mt=8">download Booktrim from the App Store</a> or <a href="https://www.booktrim.com/">learn more on their website</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/11/15/dont-be-the-idea-person/">Don't be the idea person</a></h1>
-			
-			<time datetime="2016-11-15" pubdate=""><a href="/weblog/2016/11/15/dont-be-the-idea-person/">November 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been a fan of <a href="http://dilbert.com/">Dilbert</a> since the mid-‘90s<sup id="fnref:dilbert" role="doc-noteref"><a href="#fn:dilbert" class="footnote" rel="footnote">1</a></sup> and this week a lot of my friends (and some clients) sent me this strip from <a href="http://dilbert.com/strip/2016-11-13">November 13th</a>:</p>
-
-<p><a href="http://dilbert.com/strip/2016-11-13"><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dilbert.jpg" width="800" /></a></p>
-
-<p>Like most things, it’s funny because it’s true. I get several of these types of pitches per week and they never fail to amuse me. I’ve <a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">written about this in detail</a> previously but I still get people who believe they have the next big idea and that it is worth something.</p>
-
-<p>Ideas are worth nothing. Absolutely nothing. It is implementation that is worth something.</p>
-
-<p>The analogy that I always like to use is that of an architect and a builder. Most software developers are builders that take some detailed plans and create to that specification. The “idea person” should be an architect with a clear vision and enough knowledge to know what can and can’t be done. Unfortunately this is rarely the case. Your typical “build my app idea” guy will have no knowledge of what can and can’t be done and therefore no understanding of the time and complexity there is in turning it into a reality. They just assume that they were the first person to think of a life changing idea and that it will be easy money for whoever builds it. It would be like delivering your kids drawing of a house to a builder and expecting them to have it built, for free, by next week<sup id="fnref:incomplete" role="doc-noteref"><a href="#fn:incomplete" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>If you want to be taken seriously, do your research. Speak to developers and find out what is and what isn’t possible as the vast number of ideas I receive just aren’t possible given the constraints of software on iOS<sup id="fnref:apple" role="doc-noteref"><a href="#fn:apple" class="footnote" rel="footnote">3</a></sup>. Then, once you’ve understood the process, either pay a developer for a basic MVP<sup id="fnref:mvp" role="doc-noteref"><a href="#fn:mvp" class="footnote" rel="footnote">4</a></sup> or pitch to investors to get enough funding to build one.</p>
-
-<p>Don’t ever be “the idea person” and don’t ever expect other people to work for you for free. The world does not work that way.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:dilbert" role="doc-endnote">
-      <p>I have around 14 compendium books of the strips; my favourite is entitled “<a href="https://www.amazon.co.uk/Still-Pumped-Using-Mouse-Paperback/dp/B00YDK6RF0/">Still Pumped From Using The Mouse</a>” (a reference to a calendar they were making about software developers). <a href="#fnref:dilbert" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:incomplete" role="doc-endnote">
-      <p>“Oh, and by the way, there is a pool at the back and another floor but I didn’t draw that part” <a href="#fnref:incomplete" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:apple" role="doc-endnote">
-      <p>“Can you give me the details for Apple then as this should really be installed by default on every phone - it’s a billion dollar idea”. Genuine email I received when I pointed out an idea wasn’t possible. <a href="#fnref:apple" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:mvp" role="doc-endnote">
-      <p>“Minimum Viable Product”, basically a step above a prototype that you can use to gauge interest from consumers and investors. The bare minimum you need to launch. <a href="#fnref:mvp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">Updates to iTunes Artwork Finder</a></h1>
-			
-			<time datetime="2016-11-08" pubdate=""><a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">November 08, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Last week, my <a href="https://bendodson.com/projects/itunes-artwork-finder/">iTunes Artwork Finder</a> script stopped working due to some <a href="https://forums.developer.apple.com/message/192916">changes by Apple</a> with regards to rate limiting. In the past, searching for something on my site would cause my server to send a request to Apple and get the data back but with so many people using it my server would get blocked within a few seconds.</p>
-
-<p>After a brief shutdown<sup id="fnref:thanks" role="doc-noteref"><a href="#fn:thanks" class="footnote" rel="footnote">1</a></sup>, I’m happy to say that my iTunes Artwork Finder is now back up and running again thanks to a few tweaks. Now, instead of sending all requests from my server, it works like this:</p>
-
-<ol>
-  <li>When you enter a search term (i.e. “Fall out boy” albums in United Kingdom), that is sent to my server where I’ll generate the correct URL that is needed for Apple’s servers</li>
-  <li>Your browser then takes that URL to make the request directly to Apple</li>
-  <li>When the data is returned from Apple, the browser then sends it to my server for processing</li>
-  <li>Results are then displayed!</li>
-</ol>
-
-<p>This means that there are now 3 network requests instead of 1 but the crucial part is that all requests to Apple’s servers are now made from your own browser so the rate limiting shouldn’t be a problem<sup id="fnref:ratelimit" role="doc-noteref"><a href="#fn:ratelimit" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>Whilst not an ideal solution, it does work and means I can keep everything running for a bit longer. I’m hopeful that Apple will alter how their rate limiting works as at the moment it seems a bit broken, especially with it being required for several apps with the new <a href="https://bendodson.com/weblog/2016/02/23/details-on-ios-9-3-media-library-additions/">Apple Music APIs</a>.</p>
-
-<p>The code for the artwork finder is <a href="https://github.com/bendodson/itunes-artwork-finder">available on GitHub</a> although this uses the old PHP request system rather than my new version as that should be more than good enough for personal usage<sup id="fnref:personalusage" role="doc-noteref"><a href="#fn:personalusage" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p>If you run into any problems, <a href="https://bendodson.com/contact/">please get in touch</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:thanks" role="doc-endnote">
-      <p>During which I received around 80 emails hoping that it would come back online - thanks! It’s nice to know that so many people use the site; I have no analytics on my website so seeing so many people get in touch made me realise how big it has become. <a href="#fnref:thanks" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:ratelimit" role="doc-endnote">
-      <p>Unless you try and do around 50 searches in short succession in which case you’ll need to wait a bit before you can make more requests. <a href="#fnref:ratelimit" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:personalusage" role="doc-endnote">
-      <p>And if you want to do more than just personal usage you should <a href="https://bendodson.com/contact/">speak to me</a> first as I don’t really want people to create entire duplicates of my own project. <a href="#fnref:personalusage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/29/dimensions/">Vortech</a></h1>
-			
-			<time datetime="2016-10-29" pubdate=""><a href="/weblog/2016/10/29/dimensions/">October 29, 2016</a></time>
-    	</header>
-    	<div>
-			<p><strong>Update <em>(9th Nov 2016):</em></strong> I’ve updated this article to reflect the new name for the app, Vortech. Whilst submitting a v1.0.1 update (adding support for some extra figures), Apple took issue with the name Dimensions so I had to change it…</p>
-
-<p>I’m very happy to announce that my latest self-published app, <a href="https://dodoapps.io/vortech/">Vortech</a>, is now <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">available on the App Store</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/dimensions.jpg" width="800" height="542" /></p>
-
-<p>Vortech is a character and ability tracker for the videogame LEGO Dimensions. It allows you to easily see all 52 currently available characters (waves 1-6) and 73 abilities and track them in your own collection. Whilst there are other tracking apps available (namely the official LEGO Dimensions app), these tend not to be as easy to use and they don’t allow you to cross-reference the special abilities and powers of characters.</p>
-
-<p>I built the app as I would occassionally come across something that required a special ability and the game might show me a character with that ability. However, as I have a fairly large collection already, it is likely I have a character with the ability and just need to look up which one has it. For example, I might find an area in a level which requires the Sonar Smash ability and the game might show me the character Benny (from The LEGO Movie) as someone with this ability; with my app, I can quickly see who else has that abilty and find I have Marty McFly (from Back To The Future) who will do just as well!</p>
-
-<p>The entire app is built using Swift 3.0 and I use <a href="http://realm.io">Realm</a> as a mobile database containing all of the character information that I scraped from the official LEGO Dimensions website<sup id="fnref:legoscraper" role="doc-noteref"><a href="#fn:legoscraper" class="footnote" rel="footnote">1</a></sup>. I added a few nice touches such as Peek &amp; Pop support for 3D Touch enabled devices and taptic feedback for the iPhone 7 models. The app is completely free and contains no in-app purchases, adverts, or analytics tracking – it doesn’t even require an internet connection!</p>
-
-<p>You can download <a href="https://itunes.apple.com/us/app/vortech-ability-tracker-for/id1170285044?ls=1&amp;mt=8">Vortech on the App Store</a> and learn more about it on my <a href="https://dodoapps.io/vortech/">Dodo Apps website</a>.</p>
-
-<p>If you find Vortech useful, I’m always grateful for a review on the App Store. If you run into any issues or have feature requests, you can <a href="https://bendodson.com/contact/">contact me directly</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:legoscraper" role="doc-endnote">
-      <p>I built a custom scraper using PHP to periodically check the LEGO website and extract the image, abilities, and other information about each character. This then sends me a Slack notification at which point I can regenerate a JSON file and image bundle which I then include within the app. I’d thought about doing push notifications and remote updates for the app but as this is just a free hobby app (and the information only updates every few months) I figured doing it through the App Store will be fine for now. <a href="#fnref:legoscraper" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/27/kylo-ben/">Kylo Ben</a></h1>
-			
-			<time datetime="2016-10-27" pubdate=""><a href="/weblog/2016/10/27/kylo-ben/">October 27, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I have three main hobbies; coding, video games, and LEGO. With the first, I’m fortunate to have a flexible job that allows me to code on tons of different and varied projects every day. With the last, I’ve literally run out of space for the models I already have (most of which are over 2000 bricks in size). Video games, then, are really my main hobby. In the last year I’ve <a href="http://connectingtohost.com/">started a podcast on co-operative gaming</a>, built a powerful gaming PC, and spent somewhere in the region of 900 hours playing games. Today I’m happy to announce a new website I’ve been working on dedicated to my gaming hobby; it’s called <a href="http://kyloben.co.uk">Kylo Ben</a>:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/kylo-ben.jpg" width="800" height="400" /></p>
-
-<p>Kylo Ben is divided into several different sections:</p>
-
-<h3 id="articles">Articles</h3>
-
-<p>I’m currently varying between reviews, things I’m excited about, and general thought pieces on the industry. So far, I have published:</p>
-
-<ul>
-  <li>A look ahead at the <a href="http://kyloben.co.uk/titanfall-2-achievements">achievements in Titanfall 2</a> (compared to Titanfall)</li>
-  <li>A review of minimalistic transport sim, <a href="http://kyloben.co.uk/mini-metro-review">Mini Metro</a></li>
-  <li>A piece about <a href="http://kyloben.co.uk/my-first-steam-refund">my first refund on Steam</a> in 11 years</li>
-  <li>Some thoughts on the <a href="http://kyloben.co.uk/thoughts-on-the-nintendo-switch">Nintendo Switch</a> announcement</li>
-  <li>A review of the <a href="http://kyloben.co.uk/lego-dimensions-doctor-who">Doctor Who LEGO Dimensions level pack</a></li>
-  <li>A roundup of the <a href="http://kyloben.co.uk/humble-monthly-october-2016">games in the October Humble Bundle</a></li>
-</ul>
-
-<p>I’m trying to write new pieces every couple of days and it has proven to be a good way to practice my writing and get some long form thoughts out that don’t fit neatly into a 140 character tweet. It also means I can keep these game centric pieces away from my more work-oriented blog here at <a href="https://bendodson.com/">bendodson.com</a>.</p>
-
-<h3 id="about">About</h3>
-
-<p>I’ve listed a few things about my current gaming setups on my <a href="http://kyloben.co.uk/about/">about page</a>. It details the components in my gaming PC, my current console and mobile gaming systems, and a look through the various consoles I’ve owned since I started gaming in 1991.</p>
-
-<h3 id="games">Games</h3>
-
-<p>I have a single page which lists all of the games I currently own on both Steam and my Xbox One. Each game has more details including purchase date, last played, total gaming time, and a short note about where I’m currently at with the game. I also list any articles related to that game for easy reference (and vice versa). For example, here is the entry for <a href="http://kyloben.co.uk/games/mini-metro">Mini Metro</a>.</p>
-
-<h3 id="gaming-time">Gaming Time</h3>
-
-<p>This is perhaps my biggest achievement; a complete log of time spent on each game. The page updates daily and will list each game I’ve played over the last 2 months along with duration and a link through to more details. This is done through a combination of two custom scripts I wrote to scrape both my Steam library and Xbox Live / Windows 10 account periodically for changes. It’s been fascinating for me to see exactly how long I’ve spent on certain games (*cough* <a href="http://kyloben.co.uk/games/peggle-2">Peggle 2</a> *cough*) and will allow me to easily write a regular piece on games I’ve played over the previous month.</p>
-
-<p>I’m really excited to be writing regularly about my biggest hobby and I’m looking forward to posting frequently for the foreseeable future. I have a few extra things to announce soon including some apps and game mods so <a href="https://twitter.com/bendodson">follow me on Twitter</a> for the latest updates. Alternatively, there is an <a href="http://kyloben.co.uk/rss.xml">RSS feed available</a> for Kylo Ben which will keep you up to date on any new articles. If you have any thoughts or suggestions for improvements, please <a href="https://bendodson.com/contact">get in touch</a>.</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/10/12/working-remotely/">Working Remotely</a></h1>
-			
-			<time datetime="2016-10-12" pubdate=""><a href="/weblog/2016/10/12/working-remotely/">October 12, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently asked by <a href="http://remote.co/">Remote.co</a> to take part in a new Q&amp;A section about remote workers. You can <a href="https://remote.co/remote-workers/ben-dodson/">read the full Q&amp;A on their website</a> but I’ve put some of their questions and my answers below:</p>
-
-<h2 id="what-advice-would-you-give-someone-considering-going-remote">What advice would you give someone considering going remote?</h2>
-<blockquote>
-  <p>Discipline. It takes a lot of discipline to work remotely as you’ll find that it is very easy to put off a piece of work when you’re sitting at home. There are no firewalls stopping you from accessing Facebook and Twitter, the Xbox might be sat saying “just one more game”, and before you know it a month has passed and you’ve done nothing.</p>
-</blockquote>
-
-<h2 id="how-do-you-avoid-becoming-distracted-when-working-remotely">How do you avoid becoming distracted when working remotely?</h2>
-<blockquote>
-  <p>I have a pair of noise-cancelling headphones that I bought for working in an open-plan office but they work at home for me as the act of putting them on puts me into “work mode”. The only problem was that if the doorbell went (sidenote: great advantage of working from home is you never miss an Amazon delivery) I wouldn’t hear it; I fixed that by hooking it up to a Philips Hue lightbulb on my desk so I get a visual alert.</p>
-</blockquote>
-
-<h2 id="do-you-have-a-dedicated-home-office">Do you have a dedicated home office?</h2>
-<blockquote>
-  <p>I do have a dedicated room for work. I have a small desk with a 5k iMac and an external 1080p monitor in portrait mode (I find this better for webpages and iPhone simulators). Apart from the computer, my desk only has space for my tea and water and a Blue Yeti microphone I use for podcasting and Skype. I have lots of bookshelves (mainly full of LEGO) and a small orchid by the window.</p>
-</blockquote>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/office.jpg" width="800" height="600" /></p>
-
-<h2 id="whats-the-hardest-part-about-working-with-a-traditional-team-while-youre-remote-how-do-you-overcome-it">What’s the hardest part about working with a traditional team while you’re remote? How do you overcome it?</h2>
-<blockquote>
-  <p>I find the hardest thing is that traditional teams will want to have meetings all the time. They also want you to pop into the office fairly frequently for reasons unknown to me. I’m pretty good at telling prospective clients that I only work remotely and that I don’t do daily catch up calls; I get a good handle for the project and then do a week or two of work before sending over a build for feedback.</p>
-</blockquote>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">MailRoute blacklisting via email</a></h1>
-			
-			<time datetime="2016-09-15" pubdate=""><a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">September 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been using <a href="http://mailroute.net/">MailRoute</a> on and off for the past few years<sup id="fnref:sanebox" role="doc-noteref"><a href="#fn:sanebox" class="footnote" rel="footnote">1</a></sup> in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their website. Whilst you can whitelist domains easily from the daily digest of caught spam, there is no feature that lets you forward spam to them in order to have it blacklisted (despite people, including me, <a href="https://support.mailroute.net/entries/23555217-Blacklist-by-email">requesting it since 2013</a>). After having a look at the <a href="https://support.mailroute.net/forums/21682281-API">MailRoute API</a>, I decided it was time to fix this myself.</p>
-
-<p>There are several components in getting this working.</p>
-
-<ol>
-  <li>I created a new email address with <a href="http://gmail.com">Gmail</a> which will catch my forwarded spam<sup id="fnref:gmailspam" role="doc-noteref"><a href="#fn:gmailspam" class="footnote" rel="footnote">2</a></sup>.</li>
-  <li>I set up an account with <a href="http://context.io">Context.io</a> and connected it to the gmail account<sup id="fnref:gmailaccount" role="doc-noteref"><a href="#fn:gmailaccount" class="footnote" rel="footnote">3</a></sup>.</li>
-  <li>I put the following code <a href="https://github.com/bendodson/mailroute-blacklist-with-contextio">available on GitHub</a> on a 15 minute CRON job</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-
-<span class="k">require_once</span> <span class="s1">'OAuth.php'</span><span class="p">;</span>
-
-<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_KEY'</span><span class="p">,</span> <span class="s1">'your-contextio-consumer-key'</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_SECRET'</span><span class="p">,</span> <span class="s1">'your-contextio-consumer-secret'</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_USER_ID'</span><span class="p">,</span> <span class="s1">'your-contextio-user-id'</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'CONTEXT_TRASH_NAME'</span><span class="p">,</span> <span class="s1">'[Gmail]/Trash'</span><span class="p">);</span> <span class="c1">// change if not using Gmail</span>
-
-<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_USER'</span><span class="p">,</span> <span class="s1">'your-mailroute-username'</span><span class="p">);</span> <span class="c1">// should be your email address</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_API_KEY'</span><span class="p">,</span> <span class="s1">'your-mailroute-api-key'</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'MAILROUTE_EMAIL_ACCOUNT_ID'</span><span class="p">,</span> <span class="s1">'your-mailroute-email-id'</span><span class="p">);</span> <span class="c1">// numeric - can be found in admin.mailroute.net network traffic</span>
-
-<span class="nv">$whitelist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'sending@example.com'</span><span class="p">];</span> <span class="c1">// add the email address you are forwarding from or you'll blacklist yourself...</span>
-
-<span class="nv">$inbox</span> <span class="o">=</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages'</span><span class="p">);</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$inbox</span> <span class="k">as</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$message</span><span class="o">-&gt;</span><span class="p">{</span><span class="s1">'message_id'</span><span class="p">};</span>
-    <span class="nv">$body</span> <span class="o">=</span> <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/body'</span><span class="p">);</span>
-    <span class="nv">$content</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'&lt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">'&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nv">$body</span><span class="o">-&gt;</span><span class="n">bodies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">));</span>
-    <span class="nv">$emails</span> <span class="o">=</span> <span class="nf">extractEmailAddresses</span><span class="p">(</span><span class="nv">$content</span><span class="p">);</span>
-    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$emails</span> <span class="k">as</span> <span class="nv">$email</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$email</span><span class="p">,</span> <span class="nv">$whitelist</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nf">performRequest</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="s1">'https://admin.mailroute.net/api/v1/wblist/'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'email_account'</span> <span class="o">=&gt;</span> <span class="s1">'/api/v1/email_account/'</span><span class="mf">.</span><span class="no">MAILROUTE_EMAIL_ACCOUNT_ID</span><span class="mf">.</span><span class="s1">'/'</span><span class="p">,</span> <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span> <span class="s1">'wb'</span> <span class="o">=&gt;</span> <span class="s1">'b'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'Authorization: ApiKey '</span><span class="mf">.</span><span class="no">MAILROUTE_USER</span><span class="mf">.</span><span class="s1">':'</span><span class="mf">.</span><span class="no">MAILROUTE_API_KEY</span><span class="p">]);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="nf">performOAuthRequest</span><span class="p">(</span><span class="s1">'PUT'</span><span class="p">,</span> <span class="s1">'https://api.context.io/lite/users/'</span><span class="mf">.</span><span class="no">CONTEXT_USER_ID</span><span class="mf">.</span><span class="s1">'/email_accounts/0/folders/inbox/messages/'</span><span class="mf">.</span><span class="nv">$id</span><span class="p">,</span> <span class="p">[</span><span class="s1">'new_folder_id'</span> <span class="o">=&gt;</span> <span class="no">CONTEXT_TRASH_NAME</span><span class="p">]);</span>
-<span class="p">}</span>
-
-<span class="k">echo</span> <span class="s1">'DONE!'</span><span class="p">;</span>
-
-
-
-<span class="c1">// CURL</span>
-
-<span class="k">function</span> <span class="n">performOAuthRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
-    <span class="nv">$signatureMethod</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OAuthSignatureMethod_HMAC_SHA1</span><span class="p">();</span>
-    <span class="nv">$oauthConsumer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OAuthConsumer</span><span class="p">(</span><span class="no">CONTEXT_KEY</span><span class="p">,</span> <span class="no">CONTEXT_SECRET</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">);</span>
-    <span class="nv">$oauthRequest</span> <span class="o">=</span> <span class="nc">OAuthRequest</span><span class="o">::</span><span class="nf">from_consumer_and_token</span><span class="p">(</span><span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
-    <span class="nv">$oauthRequest</span><span class="o">-&gt;</span><span class="nf">sign_request</span><span class="p">(</span><span class="nv">$signatureMethod</span><span class="p">,</span> <span class="nv">$oauthConsumer</span><span class="p">,</span> <span class="kc">NULL</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nf">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$oauthRequest</span><span class="p">,</span> <span class="nv">$params</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">function</span> <span class="n">performRequest</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="nv">$params</span><span class="o">=</span><span class="p">[],</span> <span class="nv">$headers</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
-    <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
-
-    <span class="nv">$headers</span><span class="p">[]</span> <span class="o">=</span> <span class="s1">'Content-Type: application/json'</span><span class="p">;</span>
-    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$httpMethod</span><span class="p">,</span> <span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">]))</span> <span class="p">{</span>
-        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="nv">$httpMethod</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nv">$httpMethod</span> <span class="o">!=</span> <span class="s1">'GET'</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$params</span><span class="p">));</span>
-    <span class="p">}</span>
-    <span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-    <span class="nv">$httpcode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLINFO_HTTP_CODE</span><span class="p">);</span>
-    <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
-<span class="p">}</span>
-
-
-
-<span class="c1">// Email parsing</span>
-
-<span class="k">function</span> <span class="n">extractEmailAddresses</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nv">$emails</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
-   <span class="nv">$string</span> <span class="o">=</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="nv">$string</span><span class="p">);</span>
-
-   <span class="k">foreach</span><span class="p">(</span><span class="nb">preg_split</span><span class="p">(</span><span class="s1">'/ /'</span><span class="p">,</span> <span class="nv">$string</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$token</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$email</span> <span class="o">=</span> <span class="nb">filter_var</span><span class="p">(</span><span class="nv">$token</span><span class="p">,</span> <span class="no">FILTER_VALIDATE_EMAIL</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$email</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span> 
-            <span class="nv">$emails</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$email</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nb">array_unique</span><span class="p">(</span><span class="nv">$emails</span><span class="p">);</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>Now all you need to do is forward any spam you receive to the Gmail account you set up. Every 15 minutes, the CRON job will run and check the inbox for any emails. When it finds some, it will parse them for email addresses and blacklist them with MailRoute before deleting them.</p>
-
-<p>In an ideal world, MailRoute would implement a custom email address for blacklisting but this seems to be working for now.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:sanebox" role="doc-endnote">
-      <p>I stopped using MailRoute a while back and was using the black hole feature of <a href="http://sanebox.com/">Sanebox</a> but I’ve just stopped using them as found the free service <a href="http://followupthen.com/">FollowUpThen</a> - I was getting a lot of spam after the switch off so decided to re-activate MailRoute this week. I use <a href="http://fastmail.fm">Fastmail</a> for my email in case you were wondering. <a href="#fnref:sanebox" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:gmailspam" role="doc-endnote">
-      <p>As you’ll be forwarding emails to Gmail, you’ll want to disable its spam filter as otherwise your emails won’t end up in the inbox for processing by Context. To do this, you’ll need to set up a new rule which matches the email ‘@’ and ensures it never goes to spam. <a href="#fnref:gmailspam" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:gmailaccount" role="doc-endnote">
-      <p>Whilst I could connect Context to my personal email and just move things into a folder for blacklisting, I don’t trust services with access to my email account, certainly not services that are free and are using the data. <a href="#fnref:gmailaccount" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/09/14/pocket-rocket-for-ios-10-with-imessage-app/">Pocket Rocket for iOS 10 (now with an iMessage app)</a></h1>
-			
-			<time datetime="2016-09-14" pubdate=""><a href="/weblog/2016/09/14/pocket-rocket-for-ios-10-with-imessage-app/">September 14, 2016</a></time>
-    	</header>
-    	<div>
-			<p>To coincide with the release of iOS 10, I’m happy to announce a free update is available for my app <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">Pocket Rocket</a> which includes several new features:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-ipad.jpg" width="800" height="500" /></p>
-
-<p>First of all, I’ve added an optional tile-based interface which uses an image from the article or a <a href="https://bendodson.com/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">random colour</a> if one isn’t available. You can long press a tile to get options for sharing, archiving, and deleting the article and tapping will open the article up in Safari or the in-app browser as per your settings. Next, I added the ability to share articles directly from Pocket Rocket; whether you are using the old list view or the new tile-based one, just long press on an article and you’ll be given a share option which uses the standard iOS share sheet so you can transfer the URL to any compatible app.</p>
-
-<p>Finally, I added an iOS 10 iMessage app so you can share articles directly within iMessage:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-imessage.jpg" width="800" height="500" /></p>
-
-<p>This was a really interesting feature for me as it let me get to grips with the new APIs that allow apps to hook into iMessage. There are a few interesting niggles for developers when writing these apps<sup id="fnref:niggles" role="doc-noteref"><a href="#fn:niggles" class="footnote" rel="footnote">1</a></sup> but on the whole it is fairly simple and includes a lot more power than I thought they would<sup id="fnref:imessagepower" role="doc-noteref"><a href="#fn:imessagepower" class="footnote" rel="footnote">2</a></sup>. With Pocket Rocket, you get a list of all of your articles; you can then tap to include them in your message and send them. Once received, you can tap to have the article open up in a webview directly within iMessage.</p>
-
-<p>I think iMessage apps are going to be a huge deal so I’m excited that Pocket Rocket is one of the first apps available on the iMessage store.</p>
-
-<p>You can <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">get Pocket Rocket for free on the App Store</a>. If you have any feature requests or feedback, please <a href="https://bendodson.com/contact/">get in touch</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:niggles" role="doc-endnote">
-      <p>For example, there is no standard way of seeing when someone tapped a link which is… irritating. Instead you have to work out if a particular message is selected (which happens for a variety of reasons) and then be clever about what you present. <a href="#fnref:niggles" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:imessagepower" role="doc-endnote">
-      <p>I’ve seen one app that lets you use the camera within iMessage - pretty cool! <a href="#fnref:imessagepower" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">Generating a random colour, with a seed, in Swift 3</a></h1>
-			
-			<time datetime="2016-09-10" pubdate=""><a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">September 10, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been working on some iOS 10 updates to <a href="https://dodoapps.io/pocket-rocket/">Pocket Rocket</a><sup id="fnref:imessageapp" role="doc-noteref"><a href="#fn:imessageapp" class="footnote" rel="footnote">1</a></sup> which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pocket articles and many of them do not have images associated with them. In order to break things up, I decided I’d like a random colour for the background of each article:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/pocket-rocket-colors.jpg" width="800" height="500" /></p>
-
-<p>As each article is <code class="language-plaintext highlighter-rouge">UICollectionViewCell</code>, setting a random background colour is not suitable as when you scroll and the cells are re-used the backgrounds will change. Whilst that could be fixed fairly easily, I also want the colours to persist with the article between app launches and also be the same in the iPad app and the iMessage extension. This means I need to generate a random colour with a seed so that colours generated with the same seed will always be the same.</p>
-
-<p>Thankfully this is fairly easy if we use the <code class="language-plaintext highlighter-rouge">srand48</code> and <code class="language-plaintext highlighter-rouge">drand48</code> functions:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">randomColor</span><span class="p">(</span><span class="nv">seed</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIColor</span> <span class="p">{</span>
-    
-    <span class="k">var</span> <span class="nv">total</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="k">in</span> <span class="n">seed</span><span class="o">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="kt">Int</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
-    <span class="p">}</span>
-    
-    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
-    
-    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">g</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
-    
-    <span class="nf">srand48</span><span class="p">(</span><span class="n">total</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">b</span> <span class="o">=</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="nf">drand48</span><span class="p">())</span>
-    
-    <span class="k">return</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>We start by taking a string (in my case an article title) and turning it into an integer by getting the sum of the unicode scalar values of each character. Next, we seed the <code class="language-plaintext highlighter-rouge">drand48</code> function by using <code class="language-plaintext highlighter-rouge">srand48</code> with our Int along with a multiplier or division so that the red, green, and blue values are all different. Finally, we compile the UIColor together.</p>
-
-<p>I’ve put together a <a href="https://bendodson.s3.amazonaws.com/RandomColorWithSeed.playground.zip">Swift Playground demonstrating this</a> using the last few headlines from <a href="http://daringfireball.net">Daring Fireball</a>:</p>
-
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2016/random-color-with-seed.jpg" width="800" height="500" /></p>
-
-<p>As you can see, each article title results in a different colour; the same string will always result in the same colour being generated. Be aware that this is not collision free as it is just a basic addition of scalar values – a string such as “ben” and “neb” will result in the same colours. This isn’t an issue for my usage and still serves as an interesting way of seeding random colours.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:imessageapp" role="doc-endnote">
-      <p>Specifically an <a href="https://twitter.com/bendodson/status/774265987231281152">iMessage app</a>. <a href="#fnref:imessageapp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/08/23/tips-for-remote-working/">Tips for Remote Working</a></h1>
-			
-			<time datetime="2016-08-23" pubdate=""><a href="/weblog/2016/08/23/tips-for-remote-working/">August 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently asked by <a href="http://inc.com/">Inc.com</a> to contribute to a feature asking several successful remote workers to share their favourite tips and tools to sustain productivity when working remotely. You can <a href="http://www.inc.com/stacey-macnaught/successful-remote-workers-share-their-productivity-secrets.html">read the full article on their website</a> but I’ve also put their questions and my answers below:</p>
-
-<h3 id="how-long-have-you-worked-remotely">How long have you worked remotely?</h3>
-
-<blockquote>
-  <p>Around 6 years</p>
-</blockquote>
-
-<h3 id="what-does-a-typical-day-look-like-for-you">What does a typical day look like for you?</h3>
-
-<blockquote>
-  <p>I’ll wake up and go and deal with my dogs first thing around 6.30am whilst getting breakfast ready for my wife. Once she has left, I’ll read and deal with any overnight emails before doing a concentrated burst of work until around 1pm. After lunch, I’ll typically go for a walk and do a bit more work before playing some video games on my PC before my wife gets home. We’ll then walk the dogs, cook some dinner, and generally watch TV. Once she falls asleep, I’ll either do some more work or play some video games depending on how busy my schedule is.</p>
-</blockquote>
-
-<h3 id="whats-the-one-tip-or-tool-youd-give-to-anyone-looking-to-get-started-remote-working-to-keep-productive">What’s the one tip or tool you’d give to anyone looking to get started remote working to keep productive?</h3>
-
-<blockquote>
-  <p>Develop a schedule and stick to it. The hardest thing in the world is finding the motivation to start on a new project but once you’ve done 10 minutes of work you’ll be raring to go on the next 10 minutes and the next. To work remotely, you need the self-control to work when you don’t want to, the passion in your work to keep going, and the common sense to know when a 30 minute break is going to actually help rather than hinder you.</p>
-</blockquote>
-
-<blockquote>
-  <p>With regards to tools, I can strongly recommend <a href="http://cushionapp.com/">Cushion</a> as an incredible way of managing your schedule, invoices, and expenses; it’ll make sure you don’t get overbooked (a big no-no) and also help you manage your finances better.</p>
-</blockquote>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/7/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/5/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 6 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/12/12/booktrim/">Booktrim for iPhone</a>
+						
+					</h2>
+					<time datetime="2016-12-12"><a href="/weblog/2016/12/12/">December 12, 2016</a></time>
+				</header>
+
+				
+				<p>I’m very pleased to announce the launch of a recent client app I developed; Booktrim.</p>
+
+				
+					<a href="/weblog/2016/12/12/booktrim/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/11/15/dont-be-the-idea-person/">Don't be the idea person</a>
+						
+					</h2>
+					<time datetime="2016-11-15"><a href="/weblog/2016/11/15/">November 15, 2016</a></time>
+				</header>
+
+				
+				<p>I’ve been a fan of Dilbert since the mid-‘90s1 and this week a lot of my friends (and some clients) sent me this strip from November 13th: I have around 14 compendium books of the strips; my favourite is entitled “Still Pumped From Using The Mouse” (a refer...</p>
+
+				
+					<a href="/weblog/2016/11/15/dont-be-the-idea-person/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/">Updates to iTunes Artwork Finder</a>
+						
+					</h2>
+					<time datetime="2016-11-08"><a href="/weblog/2016/11/08/">November 8, 2016</a></time>
+				</header>
+
+				
+				<p>Last week, my iTunes Artwork Finder script stopped working due to some changes by Apple with regards to rate limiting. In the past, searching for something on my site would cause my server to send a request to Apple and get the data back but with so many pe...</p>
+
+				
+					<a href="/weblog/2016/11/08/updates-to-itunes-artwork-finder/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/10/29/dimensions/">Vortech</a>
+						
+					</h2>
+					<time datetime="2016-10-29"><a href="/weblog/2016/10/29/">October 29, 2016</a></time>
+				</header>
+
+				
+				<p>Update (9th Nov 2016): I’ve updated this article to reflect the new name for the app, Vortech. Whilst submitting a v1.0.1 update (adding support for some extra figures), Apple took issue with the name Dimensions so I had to change it…</p>
+
+				
+					<a href="/weblog/2016/10/29/dimensions/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/10/27/kylo-ben/">Kylo Ben</a>
+						
+					</h2>
+					<time datetime="2016-10-27"><a href="/weblog/2016/10/27/">October 27, 2016</a></time>
+				</header>
+
+				
+				<p>I have three main hobbies; coding, video games, and LEGO. With the first, I’m fortunate to have a flexible job that allows me to code on tons of different and varied projects every day. With the last, I’ve literally run out of space for the models I already...</p>
+
+				
+					<a href="/weblog/2016/10/27/kylo-ben/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/10/12/working-remotely/">Working Remotely</a>
+						
+					</h2>
+					<time datetime="2016-10-12"><a href="/weblog/2016/10/12/">October 12, 2016</a></time>
+				</header>
+
+				
+				<p>I was recently asked by Remote.co to take part in a new Q&amp;A section about remote workers. You can read the full Q&amp;A on their website but I’ve put some of their questions and my answers below:</p>
+
+				
+					<a href="/weblog/2016/10/12/working-remotely/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/">MailRoute blacklisting via email</a>
+						
+					</h2>
+					<time datetime="2016-09-15"><a href="/weblog/2016/09/15/">September 15, 2016</a></time>
+				</header>
+
+				
+				<p>I’ve been using MailRoute on and off for the past few years1 in an effort to reduce the amount of spam in my inbox but there is one missing feature that always drives me nuts; there is no way to blacklist an email address or domain without going to their we...</p>
+
+				
+					<a href="/weblog/2016/09/15/mailroute-blacklisting-via-email/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/09/14/pocket-rocket-for-ios-10-with-imessage-app/">Pocket Rocket for iOS 10 (now with an iMessage app)</a>
+						
+					</h2>
+					<time datetime="2016-09-14"><a href="/weblog/2016/09/14/">September 14, 2016</a></time>
+				</header>
+
+				
+				<p>To coincide with the release of iOS 10, I’m happy to announce a free update is available for my app Pocket Rocket which includes several new features:</p>
+
+				
+					<a href="/weblog/2016/09/14/pocket-rocket-for-ios-10-with-imessage-app/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/">Generating a random colour, with a seed, in Swift 3</a>
+						
+					</h2>
+					<time datetime="2016-09-10"><a href="/weblog/2016/09/10/">September 10, 2016</a></time>
+				</header>
+
+				
+				<p>I’ve been working on some iOS 10 updates to Pocket Rocket1 which led me to trying to solve an interesting problem; how do you generate a random colour, with a seed, in Swift? The reason for this dilemma is that I’m going to start showing a grid view of Pock...</p>
+
+				
+					<a href="/weblog/2016/09/10/generating-random-colour-with-seed-in-swift/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/08/23/tips-for-remote-working/">Tips for Remote Working</a>
+						
+					</h2>
+					<time datetime="2016-08-23"><a href="/weblog/2016/08/23/">August 23, 2016</a></time>
+				</header>
+
+				
+				<p>I was recently asked by Inc.com to contribute to a feature asking several successful remote workers to share their favourite tips and tools to sustain productivity when working remotely. You can read the full article on their website but I’ve also put their...</p>
+
+				
+					<a href="/weblog/2016/08/23/tips-for-remote-working/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/7/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/5/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

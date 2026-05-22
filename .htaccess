@@ -1,17 +1,43 @@
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+ErrorDocument 503 /500.html
+ErrorDocument 504 /500.html
+
 RewriteEngine On
-RewriteCond %{HTTP:X-Forwarded-Port} !=443
-RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
 
-RewriteCond %{HTTP_HOST} ^www.bendodson.com [NC]
-RewriteRule ^(.*)$ https://bendodson.com/$1 [L,R=301]
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,N]
 
-RewriteRule ^.well-known/host-meta(.*)$ https://mastodon.bendodson.com/.well-known/host-meta$1 [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.bendodson\.com$ [NC]
+RewriteRule ^(.*)$ https://bendodson.com/$1 [R=301,L]
 
-Header always set Strict-Transport-Security "max-age=31536000"
+RewriteRule ^\.well-known/host-meta(.*)$ https://mastodon.bendodson.com/.well-known/host-meta$1 [R=301,L]
 
-<ifModule mod_headers.c>
-<filesMatch ".(html)$">
-Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform" 
-Header set Pragma "no-cache" 
-</filesMatch>
-</ifModule>
+RewriteRule ^code/?$ /projects/ [R=301,L]
+RewriteRule ^code/browser-extensions/?$ /projects/#browserextensions [NE,R=301,L]
+RewriteRule ^projects/browser-extensions/?$ /projects/#browserextensions [NE,R=301,L]
+RewriteRule ^code/itunes-artwork-finder/?$ /projects/itunes-artwork-finder/ [R=301,L]
+RewriteRule ^contact/contract-ios/?$ /contact/contract-guidelines/ [R=301,L]
+RewriteRule ^xboxssd/?$ /weblog/2015/06/19/using-an-ssd-with-xbox-one/ [R=301,L]
+RewriteRule ^weblog/2016/10/29/vortech/?$ /weblog/2016/10/29/dimensions/ [R=301,L]
+
+<IfModule mod_headers.c>
+	Header always set Strict-Transport-Security "max-age=31536000"
+
+	<FilesMatch "\.html$">
+		Header set Cache-Control "public, max-age=0, must-revalidate"
+		Header unset Pragma
+		Header unset Expires
+	</FilesMatch>
+
+	<FilesMatch "^(robots\.txt|sitemap\.xml|rss\.xml)$">
+		Header set Cache-Control "public, max-age=3600, must-revalidate"
+		Header unset Pragma
+		Header unset Expires
+	</FilesMatch>
+
+	<FilesMatch "\.(css|js|mjs|png|jpe?g|gif|svg|webp|avif|ico|woff2?)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+		Header unset Pragma
+	</FilesMatch>
+</IfModule>

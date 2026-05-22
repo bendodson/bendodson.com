@@ -9,73 +9,152 @@
 	
 	
 	
+	
 
 	<title>Using a physical button (Flic) with HomeKit scenes and triggers</title>
 	<meta name="description" content="When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things1. It is now possible to write apps that interact with physical objects via such things as IFTTT or dedicated APIs for devices like the Philips Hue. I’ve personally been very interested in the HomeKit...">
-	<link rel="canonical" href="https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2016/05/18/using-a-button-with-homekit-scenes/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Using a physical button (Flic) with HomeKit scenes and triggers">
 	<meta property="og:description" content="When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things1. It is now possible to write apps that interact with physical objects via such things as IFTTT or dedicated APIs for devices like the Philips Hue. I’ve personally been very interested in the HomeKit...">
-	<meta property="og:url" content="https://bendodson.com/weblog/2016/05/18/using-a-button-with-homekit-scenes/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2016/05/18/using-a-button-with-homekit-scenes/">
 	<meta property="og:type" content="article">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2016/05/18/using-a-button-with-homekit-scenes/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2016/05/18/using-a-button-with-homekit-scenes/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "Using a physical button (Flic) with HomeKit scenes and triggers",
+			"description": "When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things1. It is now possible to write apps that interact with physical objects via such things as IFTTT or dedicated APIs for devices like the Philips Hue. I’ve personally been very interested in the HomeKit...",
+			"url": "http://localhost:4000/weblog/2016/05/18/using-a-button-with-homekit-scenes/",
+			"datePublished": "2016-05-18T17:30:00+01:00",
+			"dateModified": "2016-05-18T17:30:00+01:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">Using a physical button (Flic) with HomeKit scenes and triggers</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2016-05-18" pubdate=""><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">May 18, 2016</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff" role="doc-noteref"><a href="#fn:stuff" class="footnote" rel="footnote">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
+<article class="post-page content-page">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2016-05-18">May 18, 2016</time></p>
+		<h1>Using a physical button (Flic) with HomeKit scenes and triggers</h1>
+		
+		
+	</header>
 
-<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing" role="doc-noteref"><a href="#fn:phrasing" class="footnote" rel="footnote">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
+	<div class="post-content">
+		<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff"><a href="#fn:stuff" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
+
+<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing"><a href="#fn:phrasing" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
 
 <p>Over the past few months, I’ve been <a href="https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/">dabbling with HomeKit scenes</a> so that I can control groups of devices all at once like so:</p>
 
@@ -99,11 +178,11 @@
 
 <p>This has been working well but I frequently forget to use scenes as many of these things can be controlled in other ways. For example, I might turn off the downstairs lights with my Hue Dimmer Switch and then turn off the bedside table lamp via the Hue today widget which means I forget to activate the security cameras. The eventual solution I’ve come up with is a simple push button (from <a href="http://flic.io/">Flic</a>) stuck under my bedside table that toggles between my <em>Good Morning</em> and <em>Good Night</em> scenes. In this article, I’ll tell you how I did it!</p>
 
-<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy" role="doc-noteref"><a href="#fn:biy" class="footnote" rel="footnote">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code class="language-plaintext highlighter-rouge">manager:didReceiveButtonDown</code> request.</p>
+<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy"><a href="#fn:biy" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code class="language-plaintext highlighter-rouge">manager:didReceiveButtonDown</code> request.</p>
 
-<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground" role="doc-noteref"><a href="#fn:homekitforeground" class="footnote" rel="footnote">4</a></sup>.</p>
+<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground"><a href="#fn:homekitforeground" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>.</p>
 
-<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild" role="doc-noteref"><a href="#fn:rebuild" class="footnote" rel="footnote">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
+<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild"><a href="#fn:rebuild" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
 
 <p>I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; <code class="language-plaintext highlighter-rouge">ws_morning</code> and <code class="language-plaintext highlighter-rouge">ws_evening</code>. I then set up two triggers within HomeKit; <code class="language-plaintext highlighter-rouge">WebSocket Morning</code> (which triggers the <em>Good Morning</em> scene when the <code class="language-plaintext highlighter-rouge">ws_morning</code> switch turns on) and <code class="language-plaintext highlighter-rouge">WebSocket Evening</code> (which triggers the <em>Good Night</em> scene when the <code class="language-plaintext highlighter-rouge">ws_evening</code> switch turns on). The only change I needed to make to my scenes was to ensure that both <code class="language-plaintext highlighter-rouge">ws_morning</code> and <code class="language-plaintext highlighter-rouge">ws_evening</code> are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.</p>
 
@@ -192,53 +271,41 @@
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:stuff" role="doc-endnote">
+    <li id="fn:stuff">
       <p>Ugh what a horrible expression. I renamed it the <em>Internet of Stuff</em> on <a href="https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/">episode 7 of The Divide</a>. <a href="#fnref:stuff" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:phrasing" role="doc-endnote">
+    <li id="fn:phrasing">
       <p><a href="https://bendodson.s3.amazonaws.com/phrasing.png"><em>Phrasing</em></a> <a href="#fnref:phrasing" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:biy" role="doc-endnote">
+    <li id="fn:biy">
       <p>“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. <a href="#fnref:biy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:homekitforeground" role="doc-endnote">
+    <li id="fn:homekitforeground">
       <p>Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a <code class="language-plaintext highlighter-rouge">com.apple.developer.homekit.background-mode</code> entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. <a href="#fnref:homekitforeground" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:rebuild" role="doc-endnote">
+    <li id="fn:rebuild">
       <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2016/05/19/great-british-bee-count-2016/" title="Next Article" class="pagination-next">Great British Bee Count 2016 &raquo;</a>
-    
-	 
-		<a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/" title="Previous Article" class="pagination-previous">&laquo; Fetching RSS Feeds for Steam game updates</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/" class="post-pagination-previous">&lt; Fetching RSS Feeds for Steam game updates</a>
+	
+
+	
+		<a href="/weblog/2016/05/19/great-british-bee-count-2016/" class="post-pagination-next">Great British Bee Count 2016 &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

@@ -9,624 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/9/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/9/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/9/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/9/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/08/start-me-up-interview/">'Start Me Up' Interview</a></h1>
-			
-			<time datetime="2016-04-08" pubdate=""><a href="/weblog/2016/04/08/start-me-up-interview/">April 08, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I was recently interviewed by <a href="http://thestartmeup.org/">Start Me Up</a> about my work as a freelance app developer. You can <a href="http://thestartmeup.org/app-developer/">read the full article on their website</a> but I’ve also put their questions and my answers below:</p>
-
-<h3 id="what-do-you-do-for-work">What do you do for work?</h3>
-<blockquote>
-  <p>I’m a freelance app developer for my own company, Dodo Apps.</p>
-</blockquote>
-
-<h3 id="in-which-country-are-you-based">In which country are you based?</h3>
-<blockquote>
-  <p>The UK.</p>
-</blockquote>
-
-<h3 id="how-long-have-you-been-doing-what-youre-doing">How long have you been doing what you’re doing?</h3>
-<blockquote>
-  <p>Around 8 years.</p>
-</blockquote>
-
-<h3 id="how-did-you-make-the-transition-from-full-time-education-to-working-in-your-sector">How did you make the transition from full-time education to working in your sector?</h3>
-<blockquote>
-  <p>My degree was in Politics and Philosophy so it shouldn’t have been a straightforward transition into the development industry. However, a few months after graduating, I found an advert for a job on Gumtree, interviewed in London, and then was given the job the day after.</p>
-</blockquote>
-
-<h3 id="describe-your-career-progression-to-date-how-did-you-make-progress-after-getting-your-foot-in-the-door">Describe your career progression to date. How did you make progress after getting your foot in the door?</h3>
-<blockquote>
-  <p>My first job in the industry was as a Junior Developer for a digital agency in London and I worked on website code (HTML, PHP, and JavaScript). Within a few months, I was promoted to Senior Developer and then Development Manager in charge of the entire department due to a combination of constant learning (I read a ton of coding and management books) and people leaving the company. A year or so later, I moved to basically the same job at a different agency but I didn’t enjoy it - too many meetings, not enough actual work!</p>
-</blockquote>
-
-<blockquote>
-  <p>It was around that time (early-2009) that the App Store was gaining traction and I was starting to tinker with iOS development in my spare time. I made the decision to quit my job and go freelance and I’ve been doing it ever since. The actual step of going freelance was as simple as buying 2 books on app development (which were leaving presents from my previous job) and updating my website where I was already doing a bit of web development freelance on the side. My “big break” happened a few weeks later when Channel 4 asked me to appear on the Gadget Show and build an app for them - I agreed (despite having no clue what I was doing) and that helped me get more hits to my website and pick up some big clients like Sainsburys.</p>
-</blockquote>
-
-<h3 id="since-leaving-full-time-education-have-you-pursued-any-professional-qualifications-do-you-need-to-in-order-to-succeed-in-your-sector">Since leaving full-time education, have you pursued any professional qualifications? Do you need to in order to succeed in your sector?</h3>
-<blockquote>
-  <p>I’m often keen to go out and get some more qualifications but I don’t need them. My degree is in Politics and Philosophy but I’ve never lost a client because I wasn’t qualified - a good portfolio to show you have the skills is worth more than any qualification.</p>
-</blockquote>
-
-<h3 id="describe-a-typical-day-in-your-job">Describe a typical day in your job.</h3>
-<blockquote>
-  <p>I work from home, so my day tends to vary massively depending on my mood so I’ll describe the ideal I shoot for.</p>
-</blockquote>
-
-<blockquote>
-  <p>My wife has to head off to work at around 7am, so we typically get up just after 6am. As soon as she’s gone and I’ve finished clearing up breakfast, I’ll head into my home office and try and get a few development tasks done for my current client before checking email. I’ll typically break at around 9-10am to check email and update my todo list for the day and then I’ll continue on coding until lunchtime.</p>
-</blockquote>
-
-<blockquote>
-  <p>I like to get out of the house every day and so I’ll usually go for a walk after lunch and then do any non-development tasks that need doing; I tend to be tired in the afternoons so I get easier stuff done like replying to emails, doing my accounts etc - it’s not a good idea to do coding when you’re tired! My wife will get home around 5pm so I typically stop work at 4pm and play on the Xbox for a bit before she gets back.</p>
-</blockquote>
-
-<blockquote>
-  <p>When I had an online game that I managed (WallaBee), I used to work pretty much every evening and at weekends as most of my players were based in the US. Since I sold that business, I strictly do work from 7am-4pm on weekdays and I rarely check or reply to email outside of those hours. It has been a huge improvement to have that work/life balance back and means I typically get more done in my working hours as I’m refreshed.</p>
-</blockquote>
-
-<h3 id="what-qualities-are-needed-to-succeed-in-your-sector">What qualities are needed to succeed in your sector?</h3>
-<blockquote>
-  <p>There are two key things in my opinion; creativity and good time keeping. Developers need to be incredibly logical, but I find that you’ll do better the more creative you are, as you’ll typically find solutions to problems more quickly (and the majority of development work is problem solving). Good time keeping is essential, especially as a freelancer, as you need to be able to accurately say how long something will take so you can get paid fairly but also so you don’t end up with more work than you can actually do.</p>
-</blockquote>
-
-<h3 id="do-you-have-any-experience-interviewing-candidates-for-roles-what-do-you-look-for-when-employing-people">Do you have any experience interviewing candidates for roles? What do you look for when employing people?</h3>
-<blockquote>
-  <p>As a Development Manager, I interviewed around 150 people (70 of them for one job). I only look for one thing in an interview; potential. Development is a rapidly evolving business and so the way that things are done can change quickly; I always wanted to hire people who could adapt and that wanted to learn rather than those that looked good on paper but then were stuck doing something a certain way. In 3 years, I don’t think I ever hired someone with a degree in Computer Science for that reason.</p>
-</blockquote>
-
-<h3 id="what-qualifications-do-people-in-your-sector-typically-have">What qualifications do people in your sector typically have?</h3>
-<blockquote>
-  <p>Most people will have a degree in Computer Science (or similar) but I think this is pointless. Most institutions will be teaching something that is already several years old and buy the time you come to get a job the technology will be outdated. I personally prefer to hire interesting people that have a lot of extra-curricular activity on their CV than someone with a degree. The best thing I did at university was to join lots of societies and start learning coding to build their websites; that gave me a portfolio I could get an actual job with.</p>
-</blockquote>
-
-<blockquote>
-  <p>In terms of app development, more and more people are self-learning and so you don’t need a degree at all, especially if you are going to freelance.</p>
-</blockquote>
-
-<h3 id="how-rigid-is-the-hierarchy-in-your-sector-is-it-possible-to-accelerate-your-career-with-hard-work-and-initiative">How rigid is the hierarchy in your sector? Is it possible to accelerate your career with hard work and initiative?</h3>
-<blockquote>
-  <p>Absolutely - my own progression from Junior Developer to Development Manager (in the space of a year) was nothing to do with time at the company or ticking boxes, it was purely based on demonstrating I could do the job.</p>
-</blockquote>
-
-<blockquote>
-  <p>One of my favourite anecdotes is something I started doing after my promotion to Senior Developer. The kitchen in our office was on the top floor next to the Sales Team and so whenever I’d go and get a cup of tea I’d chat to them and ask how their deals were going. One guy was showing me all his stats and pipeline deals and then stopped and said “wait, you’re not my boss!” - I smiled and said “not yet”.</p>
-</blockquote>
-
-<blockquote>
-  <p>The point was that after a short period of time, I was able to appear more like a manager and this ended up with me getting a management job relatively quickly. Another important factor was that I used to spend a lot of time reading books about management whilst commuting. This helped as, once I had a team to manage, I already had a lot of systems to put in place to demonstrate I could do the job.</p>
-</blockquote>
-
-<h3 id="does-your-sector-allow-a-healthy-lifestyle-with-time-for-family-exercise-and-relaxation">Does your sector allow a healthy lifestyle, with time for family, exercise and relaxation?</h3>
-<blockquote>
-  <p>It really depends on the company you work for. As a freelancer, I have an awful lot of time as I choose when I work (and if I decide I want the day off, I just do it). When I worked for a company, there was no reason you couldn’t do all of these things but I had a fairly long commute which limited my free time.</p>
-</blockquote>
-
-<h3 id="does-your-job-involve-travel-if-so-list-some-of-the-places-youve-visited">Does your job involve travel? If so, list some of the places you’ve visited.</h3>
-<blockquote>
-  <p>It can do although I prefer not to do too much; I rarely meet my clients in person as I find that working in their office or travelling for meetings is a waste of my time. Most of my current clients are based in the US which is great as then I only have to do the occasional Skype call - my favourites are the ones that I just speak with via email.</p>
-</blockquote>
-
-<blockquote>
-  <p>That said, I have travelled to Norway, Sweden, and Spain in order to meet with clients or do presentations at conferences. There is a lot of potential for travel in the industry especially to the US.</p>
-</blockquote>
-
-<h3 id="how-do-you-regard-earning-potential-in-your-sector-relative-to-other-sectors-that-require-similar-levels-of-expertise-are-people-in-your-industry-underpaid-overpaid-or-fairly-paid">How do you regard earning potential in your sector, relative to other sectors that require similar levels of expertise? Are people in your industry underpaid, overpaid, or fairly paid?</h3>
-<blockquote>
-  <p>I think most people in my industry are overpaid. It’s very easy to drag a project out for a very very long time and get paid a large daily rate, especially when working for a large client. I had a lucrative contract with a big brand that was being paid at £500 per day and after 3 days of nothing but meetings I quit. They hired someone else and after 8 months they released an app that was utterly terrible and would take a developer around 1 week to build. Nice work if you can get it, but it’s not for me, which is why I won’t take on a project longer than 2 months.</p>
-</blockquote>
-
-<h3 id="describe-the-outlook-for-your-sector-is-it-growing-or-struggling">Describe the outlook for your sector? Is it growing or struggling?</h3>
-<blockquote>
-  <p>There’s actually two sides to it, depending on if you are working for a client or building your own apps. If you are doing client work, business is booming; everybody wants an app at the moment and so there are plenty of contracts available. However, if you want to build your own apps, it’s incredibly difficult to get recognised and very hard to charge the right price so you can recoup your development costs. It can be a real struggle.</p>
-</blockquote>
-
-<h3 id="have-you-had-a-mentor-if-so-explain-how-youve-benefited">Have you had a mentor? If so, explain how you’ve benefited.</h3>
-<blockquote>
-  <p>Nope.</p>
-</blockquote>
-
-<h3 id="list-any-books-that-have-influenced-your-career">List any books that have influenced your career.</h3>
-<blockquote>
-  <p>I started off doing app development thanks to the Apress series of development books - they were excellent at the time but I feel you’d be better off using online tutorials nowadays. Getting Things Done was a big influence for me in time management and my fairly ruthless approach to dealing with clients can be traced back to The Prince by Machiavelli, one of my favourite philosophy books.</p>
-</blockquote>
-
-<h3 id="list-any-online-articles-or-videos-that-have-influenced-your-career">List any online articles or videos that have influenced your career.</h3>
-<blockquote>
-  <p>I don’t think I have any, apart from my own blog which seems a bit egotistical even for me.</p>
-</blockquote>
-
-<h3 id="what-are-your-go-to-websites-for-news-and-information-on-your-sector">What are your “go to” websites for news and information on your sector?</h3>
-<blockquote>
-  <p>I follow a lot of websites via RSS. I’d say my top ones are <a href="http://daringfireball.net/">Daring Fireball</a>, <a href="http://9to5mac.com">9to5Mac</a>, <a href="http://macrumors.com/">MacRumors</a>, and <a href="http://macstories.net">MacStories</a>. I tend to get a general feel for the sector via Twitter, either in the few other developers that I follow or from people messaging me about interesting stuff.</p>
-</blockquote>
-
-<h3 id="one-piece-of-advice-for-someone-seeking-to-break-into-your-sector">One piece of advice for someone seeking to break into your sector?</h3>
-<blockquote>
-  <p>Ignore everyone and do what excites you. There is no point in getting into an industry if you’re not passionate about it - if you are adaptable and willing to learn, you’ll succeed. Also, don’t use a recruiter (they’re awful) - apply for a position directly and demonstrate a lot of knowledge about the business.</p>
-</blockquote>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/06/divide-11-3d-printing/">The Divide #11 - 3D Printing</a></h1>
-			
-			<time datetime="2016-04-06" pubdate=""><a href="/weblog/2016/04/06/divide-11-3d-printing/">April 06, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 11th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss 3D printing with a focus on John’s experience of the Da Vinci AIO 1.0. In addition, Chris has some updates on DC Rebirth, John is interested in the Xbox One development kit, and I propose an experiment in the measurement of canine happiness…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/23/homekit-wink-and-canary/">HomeKit, Wink, and Canary</a></h1>
-			
-			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/homekit-wink-and-canary/">March 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>A couple of weeks ago I took the plunge and bought a <a href="https://canary.is">Canary</a>, an internet-connected personal security camera and air quality monitoring system. It has been working great so far and comes with a decent iPhone app that allows you to control the camera and have it activate automatically based on location. There are three different operating modes; armed, disarmed, and privacy. Whilst armed, you’ll get a notification when any activity is detected whereas disarmed will still record and store any video when there is motion but it won’t notify you<sup id="fnref:disarmed" role="doc-noteref"><a href="#fn:disarmed" class="footnote" rel="footnote">1</a></sup>. Privacy completely shuts off the camera and microphone.</p>
-
-<p>For the simple reason that I don’t want everything that happens in my living room whilst I’m in it to be streamed to a 3rd party server, I have set the iPhone app to switch between armed and privacy modes; this means that if nobody is in the house, it automatically arms itself but will shut off the camera and microphone as soon as a family member gets back home. The problem with this is that the camera is then in privacy mode when we go to bed as obviously our phones are still in the house; if somebody breaks in, we won’t have any video evidence. I can open the iOS app and manually arm the Canary but <a href="https://en.wikipedia.org/wiki/Sod%27s_law">Sod’s Law</a> means I’ll probably get an intruder on the night I forget to do that<sup id="fnref:morning" role="doc-noteref"><a href="#fn:morning" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>My first thought was a scheduling system could be put in place to automatically arm and disarm the Canary if I’m in the house but the app doesn’t have that functionality and there is no public API. I then discovered that Canary have partnered with <a href="http://www.wink.com">Wink</a>, a platform that allows multiple devices to connect together so you can do things like have the lights turn on when motion is detected. This is really useful and does allow for the sort of scheduling I’d envisioned, but then I came up with a better solution; tying it into my existing HomeKit routine.</p>
-
-<p>I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">blogged about HomeKit before</a> and specifically about <a href="https://github.com/nfarina/homebridge">Homebridge</a> which allows you to get non-HomeKit enabled devices to work with the system. Canary is not a HomeKit enabled device and with no open API it wasn’t possible for me to write a plugin. However, Wink does have an <a href="https://github.com/KraigM/homebridge-wink">existing Homebridge plugin</a> allowing you to control most devices connected to Wink via HomeKit. Unfortunately, HomeKit doesn’t support cameras and so neither does that Wink plugin. Back to the drawing board!</p>
-
-<p>After a bit of tinkering, I realised I could just re-purpose an existing supported HomeKit protocol; locks. In HomeKit, locks are basic binary operators that are either “secured” or “unsecured”. This works perfectly for my Canary as I could denote it as a doorlock and then have “secured” equal “armed”, and “unsecured” equal “privacy”. After a few minutes, I managed to fork the existing plugin and create a <a href="https://github.com/bendodson/homebridge-wink">new version with this hack in place</a>. Once downloaded, you just need to add the following platform in your Homebridge config file:</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-    </span><span class="nl">"platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"homebridge-wink.Wink"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wink"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"quirky_wink_android_app"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e749124ad386a5a35c0ab554a4f2c045"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR-WINK-USERNAME-HERE"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR-WINK-PASSWORD-HERE"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"hide_groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="nl">"hide_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-</span><span class="p">}</span></code></pre></figure>
-
-<p><em>(Sidenote: most of my time tonight was spent trying to find a client_id and client_secret to use for the config. To get these, you usually have to email Wink with response times being around 7-10 days. I decided to rip it out of the Android app instead…)</em></p>
-
-<p>Once you restart Homebridge, any of your Canary devices in Wink should show up in HomeKit automatically. You can then say something like “Hey Siri, lock the living room” to arm the Canary. I personally like to use HomeKit scenes which allow me to control the Canary automatically with my existing “good morning” and “good night” Siri phrases. I find this much more reliable than a schedule as I already use these phrases every time I go to bed and wake up in order to turn my lights on and off (whereas a schedule might turn the camera on whilst we’re still awake or turn it off before we get up).</p>
-
-<p>Hopefully in the future we’ll see a public API for Canary and support for cameras in HomeKit so I can make this slightly less hacky but it works for now and means I’ll no longer forget to disable privacy mode at night. If you’re interested in trying this setup yourself, <a href="https://github.com/bendodson/homebridge-wink">check out the plugin on GitHub</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:disarmed" role="doc-endnote">
-      <p>The use case for this is things like capturing a babies first steps, the sort of thing you could easily miss but can easily find in the 12-hour log of a practically always-on camera. <a href="#fnref:disarmed" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:morning" role="doc-endnote">
-      <p>And I often forget to turn it off when I get up which means my wife and I get a notification of me groggily letting the dogs out every morning. <a href="#fnref:morning" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">The Divide #10 - Let us loop you in. Again.</a></h1>
-			
-			<time datetime="2016-03-23" pubdate=""><a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">March 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 10th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we discuss Apple’s ‘Let us loop you in’ event<sup id="fnref:wrong" role="doc-noteref"><a href="#fn:wrong" class="footnote" rel="footnote">1</a></sup>. Chris has a rant about his internet provider (before promptly being disconnected), I talk about Twilight Princess HD, and John gets excited about a box of replacement Apple Pencil nibs…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:wrong" role="doc-endnote">
-      <p>Where my big prediction of “there will be an updated processor for the Apple Watch” proved utterly incorrect. <a href="#fnref:wrong" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/21/what-to-expect-from-loop-you-in-apple-event/">What to expect from the 'Let us loop you in' Apple event</a></h1>
-			
-			<time datetime="2016-03-21" pubdate=""><a href="/weblog/2016/03/21/what-to-expect-from-loop-you-in-apple-event/">March 21, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Later today, Apple will be holding a special event entitled ‘<a href="http://www.apple.com/apple-events/march-2016/">Let us loop you in</a>’. I don’t often post my predictions for such events but I’m intrigued by this one as all rumours seem to suggest there is very little to announce.</p>
-
-<p>It is clear from supply chain rumours and other sources that there will be two hardware releases; an iPhone SE<sup id="fnref:iphonese" role="doc-noteref"><a href="#fn:iphonese" class="footnote" rel="footnote">1</a></sup> and an iPad Pro in a 9.7” form factor. Neither of these are terribly exciting nor worthy of a big event as they are things we’ve seen before in sizes we’ve seen before. It will not be easy to talk for 15-20 minutes on each of these devices as it’ll essentially be “this thing we made 6 months ago is now available in a smaller size you are familiar with”.</p>
-
-<p>So what else is there? Apple Watch bands seem to be a certainty with a black milanese loop, some new sports bands, and a NATO-style nylon band<sup id="fnref:excited" role="doc-noteref"><a href="#fn:excited" class="footnote" rel="footnote">2</a></sup>. As watchOS 2.2 will likely be released today, there will probably be some shiny new watch faces which haven’t been present in the betas over the past couple of months. Speaking of software updates, there is also iOS 9.3 coming today (which was publicised heavily by Apple on a <a href="http://www.apple.com/uk/ios/preview/">special website</a>) and a minor update to the Apple TV OS both of which I expect to be showcased.</p>
-
-<p>Whilst that could be everything, it seems very lacklustre for an event; everything here could be done by press release which leads me to think there may be more.</p>
-
-<p>First of, I’m hopeful that there will be a minor Apple Watch hardware revision. There would be no new features or any changes to the design, but the internal S1 chip would be replaced with a faster S2 chip. There is no doubt in my mind that the Apple Watch is being held back by its slow processor and so this would be a good upgrade until a hardware refresh comes before Christmas. I have a couple of reasons for believing this might happen:</p>
-
-<ul>
-  <li>
-    <p>One of the main features of watchOS 2.2 is that you can pair multiple watches to an iPhone. This doesn’t seem like it would be necessary until there are two versions of watch hardware. In my own case, I would likely buy a 2nd generation Apple Watch Sport for everyday use and then use my 1st generation Apple Watch if I was dressing up. Whilst you could argue that some people may have multiple watches already, it seems like odd timing when this multiple watch support could have been earlier.</p>
-  </li>
-  <li>
-    <p>There haven’t been any leaks from the supply chain but I believe that is because it would just be a case of changing the <a href="https://en.wikipedia.org/wiki/Apple_S1">fully integrated chip</a> inside. There would be no external changes, no massive shipments (like with iPhone), and even the packaging would likely give nothing away as the product name would be the same. I believe Apple could maintain secrecy of a chip change for the Apple Watch in a way that isn’t possible for other hardware updates.</p>
-  </li>
-</ul>
-
-<p>Some people are hoping for Mac updates, especially to the MacBook, MacBook Air, Mac Mini, and Mac Pro, but I do not believe these will make an appearance until WWDC at the earliest. All of them require significant hardware changes which would have leaked through the supply chain, especially as they’d all have exterior changes<sup id="fnref:designchanges" role="doc-noteref"><a href="#fn:designchanges" class="footnote" rel="footnote">3</a></sup>. I’m in the market for a Mac Mini so I’d love to be wrong about this, but I think these updates are a few months away yet.</p>
-
-<p>This leaves the one thing that Apple are incredibly good at keeping completely secret; software. As nearly all of their software is written in Cupertino, they can keep a very tight lid on it and prevent leaks in a way that is almost impossible with hardware. There have been a few rumours that iTunes may <em>finally</em> be getting a makeover; whilst I think that is ultimately coming<sup id="fnref:itunes" role="doc-noteref"><a href="#fn:itunes" class="footnote" rel="footnote">4</a></sup>, I think it far more likely that the Apple Music part of iTunes and the Music app on iOS will be getting minor design changes in order to avoid some of the many UX problems that have been evident since its debut last year. This would fit in well with iOS 9.3 which is otherwise fairly light on features<sup id="fnref:93features" role="doc-noteref"><a href="#fn:93features" class="footnote" rel="footnote">5</a></sup> for something that is likely to get a lot of stage time. Aside from that obvious issue, I have no idea what software they could be announcing<sup id="fnref:software" role="doc-noteref"><a href="#fn:software" class="footnote" rel="footnote">6</a></sup> but I’m fairly confident there will be <em>something</em>.</p>
-
-<p>The only other thing to mention is that I’m fairly confident Tim Cook will mention the current fight with the FBI over encryption at the beginning of the keynote. I also expect numerous mentions to privacy and encryption throughout.</p>
-
-<p>A note for those in the UK: Whilst Apple events typically happen at 6pm for us, this event falls within the 2 weeks after the US has moved their clocks back for Daylight Saving Time but the UK hasn’t. This means the event is at 5pm UK time. You can <a href="http://www.apple.com/apple-events/march-2016/">watch it on Apple’s website</a>.</p>
-
-<h2 id="update">Update</h2>
-
-<p>I thought I should come back and update where I was right and wrong on these predictions…</p>
-
-<h3 id="right">Right</h3>
-
-<ul>
-  <li>New Apple Watch bands</li>
-  <li>watchOS, tvOS, and iOS updates coming today</li>
-  <li>CareKit</li>
-  <li>No Mac’s</li>
-  <li>FBI mention about privacy</li>
-</ul>
-
-<h3 id="wrong">Wrong</h3>
-
-<ul>
-  <li>No new Apple Watch internal hardware (just a price drop)</li>
-  <li>No update to Apple Music</li>
-  <li>iPhone SE did get the front-facing flash of the 6s</li>
-  <li>Whilst not specifically mentioned, I expected the iPad Pro 9.7” to be exactly the same as the 12.9” one; it’s actually got a much better screen and cameras (although slower clock speed and less RAM)</li>
-</ul>
-
-<h3 id="conclusion">Conclusion</h3>
-
-<p>You can hear me discuss the event in detail in <a href="http://thedivide.co.uk/">Episode 10 of The Divide</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:iphonese" role="doc-endnote">
-      <p>Basically an iPhone 6s (minus 3D touch and front-facing flash) in an iPhone 5 size. <a href="#fnref:iphonese" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:excited" role="doc-endnote">
-      <p>This is the only thing I can see myself buying from this event at present. <a href="#fnref:excited" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:designchanges" role="doc-endnote">
-      <p>The Mac Mini, MacBook Air, and Mac Pro are all due a design refresh. The MacBook, at just a year old, is unlikely to change much but I imagine they will give in and add a 2nd USB-C port possibly at the expense of the 3.5mm audio jack which is in their crosshairs on the iPhone. <a href="#fnref:designchanges" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:itunes" role="doc-endnote">
-      <p>I mean it has to, right? I know I’ve been saying that every year since the iPhone came out but surely it has to come soon… <a href="#fnref:itunes" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:93features" role="doc-endnote">
-      <p>When your 2nd headline feature is “you can secure your notes with TouchID” then it evidentally isn’t as big a release as it is made out to be. <a href="#fnref:93features" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:software" role="doc-endnote">
-      <p>Although an iMessage upgrade and new health apps would be my educated guesses. <a href="#fnref:software" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/15/show-me-the-next/">Show Me The Next</a></h1>
-			
-			<time datetime="2016-03-15" pubdate=""><a href="/weblog/2016/03/15/show-me-the-next/">March 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>An iOS app I worked on for <a href="http://thebrowser.com/">The Browser</a> has gone live in the App Store today; <a href="https://itunes.apple.com/us/app/show-me-the-next/id1079373733?ls=1&amp;mt=8">Show Me The Next</a>:
-<img src="https://bendodson.s3.amazonaws.com/apps/show-me-the-next.jpg" width="800" height="468" /></p>
-
-<p>The concept is very simple; an app with curated articles that you read through at random with a simple swipe. No going back, no list no images, no videos, and no tracking; just fast offline access to interesting articles.</p>
-
-<p>I made a quick mockup and then I added some extra features such as the ability to share articles, alter the font size, and change screen brightness<sup id="fnref:clientrequest" role="doc-noteref"><a href="#fn:clientrequest" class="footnote" rel="footnote">1</a></sup>. I also built a simple CMS so that the articles embedded in the app could be updated remotely. The app is built using Swift 2.1, runs on all devices with iOS 9 or above, and is optimised for all the various shapes and sizes including iPad split screens.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/smtn-logo.jpg" width="800" height="468" />
-As well as completely designing the app and the functionality, I was also asked to design the app icon and logo with a simple single sentence brief: <em>“I admire the art of <a href="https://en.wikipedia.org/wiki/Piet_Mondrian">Mondrian</a>“</em>. I took inspiration from the work <em><a href="https://en.wikipedia.org/wiki/Piet_Mondrian#/media/File:Piet_Mondriaan,_1930_-_Mondrian_Composition_II_in_Red,_Blue,_and_Yellow.jpg">Composition II in Red, Blue, and Yellow</a></em> and used the same colours and textures with lines to shape the letters SMTN. It was a fun design experiment and something a bit different for me!</p>
-
-<p>Show Me The Next is a free app and is <a href="https://itunes.apple.com/us/app/show-me-the-next/id1079373733?ls=1&amp;mt=8">available on the App Store</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:clientrequest" role="doc-endnote">
-      <p>The client did not ask for these additions but I often like to add extra functionality free of charge when I feel it is of benefit to the app. <a href="#fnref:clientrequest" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/15/music-tracker-1-3/">Music Tracker v1.3</a></h1>
-			
-			<time datetime="2016-03-15" pubdate=""><a href="/weblog/2016/03/15/music-tracker-1-3/">March 15, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m very happy to announce that v1.3 of <a href="https://dodoapps.io/music-tracker/">Music Tracker</a> is now available as a free update.
-<img src="https://bendodson.s3.amazonaws.com/weblog/2016/music-tracker-5c.jpg" width="800" height="400" /></p>
-
-<p>In this version, I’ve focused on speed and stability. The original scanning engine has been completely rewritten from the ground up and now runs faster and for larger libraries than ever before.</p>
-
-<p>Previously, the app would wake up once an hour and have around 30 seconds in order to scan the library, look for additions, changes, and deletions, and then save all of that information locally. This worked great for small libraries on newer devices like the iPhone 6s but didn’t work so well on an iPhone 5s with a library of over 75000 songs. The reason for this is that iOS limits the amount of time an app can run in the background<sup id="fnref:sensible" role="doc-noteref"><a href="#fn:sensible" class="footnote" rel="footnote">1</a></sup>; if the entirity of the process wasn’t complete in the time allowed, then it would simply fail. This meant that customers with large libraries were typically seeing no updates as the app wasn’t able to get through the entirity of the library within the 30 second window allowed.</p>
-
-<p>To fix this, I rewrote the scanning engine to be faster but to also work in batches. If iOS terminates the Music Tracker process (as it is taking too long) then the current state is saved and will pick up from where it left off the next time the process is restarted<sup id="fnref:process" role="doc-noteref"><a href="#fn:process" class="footnote" rel="footnote">2</a></sup>. This means that huge libraries can now be scanned correctly as they are broken up over a few passes rather than trying to do it all at once. A nice side benefit of this is that the app can now handle older hardware<sup id="fnref:hardware" role="doc-noteref"><a href="#fn:hardware" class="footnote" rel="footnote">3</a></sup> which previously was too slow to handle even small libraries in a single pass.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/music-tracker-sync.jpg" width="800" height="400" />
-In order to accomodate this new multi-pass scanning engine, I’ve also changed the way in which manual updates are performed within the app. Previously you could “pull to refresh” on the main activity page; this gave you a little spinner icon and not much detail as to what was happening. In v1.3, there is a refresh icon in the top right hand corner that will take you to a new page which details exactly what is going on and shows a progress bar so you can see that it is actually working.</p>
-
-<p>If you have already purchased Music Tracker, you should see v1.3 as a free update within the App Store; you can check which version you have installed by going to the settings page within the app. If you don’t yet have Music Tracker, you can get it on the <a href="https://itunes.apple.com/us/app/music-tracker-automatic-tracking/id1062583712?ls=1&amp;mt=8">App Store</a>. For more details about the app, you can view the <a href="https://dodoapps.io/music-tracker/">official website at Dodo Apps</a>.</p>
-
-<p>One final thing: on the <a href="https://dancounsell.com/articles/a-better-format-for-press-kits">advice of Dan Counsell</a>, I’ve changed my <a href="https://dodoapps.io/music-tracker/media-kit/">press media kit</a> to be a standard HTML page with full access to everything the old zip download contained including details of the app, screenshots, icons, and mockup images. This makes it easier for the many iOS journalists who have switched to using something like the iPad Pro as their main work machine which doesn’t handle zip files particularly well. You can <a href="https://dodoapps.io/music-tracker/media-kit/">check out the online media kit</a> or <a href="https://bendodson.s3.amazonaws.com/dodo/music-tracker-media-kit.zip">download the media kit as a zip file</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:sensible" role="doc-endnote">
-      <p>This is a sensible thing; tasks should not be allowed to run for large periods of time in the background otherwise they’ll kill your battery. <a href="#fnref:sensible" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:process" role="doc-endnote">
-      <p>Music Tracker typically wakes up every hour to check for changes. <a href="#fnref:process" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:hardware" role="doc-endnote">
-      <p>Previously the app was only available on devices with a 64-bit chip. Music Tracker now runs on any device capable of running iOS 9.0 which means the iPhone 4s, iPhone 5, and iPhone 5c are now supported. <a href="#fnref:hardware" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/11/brapp-v2/">Brapp 2.0</a></h1>
-			
-			<time datetime="2016-03-11" pubdate=""><a href="/weblog/2016/03/11/brapp-v2/">March 11, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Over the last couple of months, I’ve been working with <a href="https://www.brapp.tv">Brapp</a> on their <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">v2.0 release</a> which adds a ton of new features for video makers, producers, and music lovers.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-audio.jpg" width="800" height="542" /></p>
-
-<p>For video makers, there is a huge improvement to the record and upload flow allowing for studio grade Audio FX such as Pump (compression), EQ, bpm centric Delays, and Reverb<sup id="fnref:anotherdev" role="doc-noteref"><a href="#fn:anotherdev" class="footnote" rel="footnote">1</a></sup> with adjustments occuring in real time. You can tap on the camera view to adjust exposure and light balance and the recording quality has been improved. Finally, you can now save videos locally complete with a watermark with your name and the beat creator if applicable.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-beat-trim.jpg" width="800" height="450" /></p>
-
-<p>For producers, there is now a systemwide ability to import beats from any app that displays media files. Just tap the share icon and choose the new “Copy to Brapp” option. This will take you to a new editing page that lets you trim the beat to a minute or less in length and add optional fades in or out. The trim page was particularly difficult to build (as you have real time scrubbing and fades, waveform generation, and the ability to move the waveform before you even get to outputting these to a single audio file) but the end result works beautifully.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/brapp-profile.jpg" width="800" height="450" /></p>
-
-<p>In addition to these big features, there are 100s<sup id="fnref:literally" role="doc-noteref"><a href="#fn:literally" class="footnote" rel="footnote">2</a></sup> of smaller changes including:</p>
-
-<ul>
-  <li>The new profile system makes it possible to hide reposts on a profile so you can just check out their beats and videos.</li>
-  <li>Search is more powerful than ever.</li>
-  <li>It is easier to find new people to follow in the new Explore section.</li>
-  <li>You can now see trending hashtags as they happen in Search &gt; Videos/Beats.</li>
-  <li>Certified. OGs on Brapp will now have the Certified icon by their name<sup id="fnref:certified" role="doc-noteref"><a href="#fn:certified" class="footnote" rel="footnote">3</a></sup>.</li>
-  <li>It is now easier to find beats that are used in videos.</li>
-  <li>It is now easier to save beats you like with the new “Save Beat” button.</li>
-  <li>You now get notifications on reposts, so you can see when your followers react to your reposts.</li>
-  <li>Check out your Mug Shot in Profile &gt; Settings.</li>
-  <li>You can now see all the beats and videos you have Liked in Settings &gt; My Likes.</li>
-  <li>It is now easier to Invite friends to Brapp via Facebook or SMS.</li>
-  <li>Lots of stability and speed improvements.</li>
-</ul>
-
-<p>Finally, previous versions of the app were written in Swift 1.2 using Xcode 6.4 and the iOS 8 SDK. With this build, I migrated it to Swift 2.1 using Xcode 7 and the iOS 9 SDK. This means, among other things, that there is now San Francisco rather than Helvetica Neue throughout!</p>
-
-<p>As ever, Brapp has been a really fun project to work on. I can’t say enough good things about the people behind it and I really believe this app is going to be a big deal. If you haven’t checked it out yet, you can <a href="https://itunes.apple.com/us/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">get Brapp for free on the App Store</a>. You can also read about the <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">initial build and release</a> and the <a href="https://bendodson.com/weblog/2015/11/27/brapp-v1.1/">v1.1 update last November</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:anotherdev" role="doc-endnote">
-      <p>The audio filters were written by <a href="http://bangmeansdoit.co.uk/en/">David Gibson</a>; I did the integration with the Brapp project and UI. <a href="#fnref:anotherdev" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:literally" role="doc-endnote">
-      <p>Literally. <a href="#fnref:literally" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:certified" role="doc-endnote">
-      <p>I am currently certified though I don’t think I will be for long bearing in mind I only have two ‘raps’ and I’m miming in both of them. I did record some sick beats during development but I deleted them pretty quick after recording! <a href="#fnref:certified" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/10/sunday-isnt-special/">Sunday Isn't Special</a></h1>
-			
-			<time datetime="2016-03-10" pubdate=""><a href="/weblog/2016/03/10/sunday-isnt-special/">March 10, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Last night, the <a href="http://www.bbc.co.uk/news/uk-politics-35768674">Government lost a vote</a> in the House of Commons to change Sunday Trading Laws in the UK. I don’t usually blog about politics<sup id="fnref:politics" role="doc-noteref"><a href="#fn:politics" class="footnote" rel="footnote">1</a></sup> but Sunday Trading has been a big issue for me and, as a freelancer, I am incredibly disappointed that there will be no change in this ridiculously outdated law.</p>
-
-<p>As it stands, there are restrictions on trading for shops over 280m². They may only open for 6 consecutive hours between 10am and 6pm<sup id="fnref:mostshops" role="doc-noteref"><a href="#fn:mostshops" class="footnote" rel="footnote">2</a></sup> and there are restrictions on loadings and deliveries. There are some exceptions (such as registered pharmacies, service station outlets, and farms) but pretty much all retail ceases in the UK at 4pm on a Sunday; go to any major supermarket at 3.50pm on a Sunday and you’ll find it packed as people rush to make their purchases before closing time. This is only a fairly recent development though; prior to 1994, the vast majority of shops couldn’t open at all on a Sunday! Thatcher tried to change this in 1986 but was defeated by Labour (protecting workers rights) and her own MPs (concerned with church attendence)<sup id="fnref:thatcher" role="doc-noteref"><a href="#fn:thatcher" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p>In his July budget after the 2015 election, George Osborne announced that the Government wanted to devolve control of Sunday Trading restrictions to local councils so they could decide whether shops could remain open for longer. I personally would have preferred a complete abolition of these rules (as happened during the <a href="http://www.bbc.co.uk/news/uk-18942729">run-up to the 2012 Olympic Games</a>) but would have been happy with at least some move in the right direction. However, the vote was lost last night with Labour, the SNP, and 27 Conservative MPs voting against the motion.</p>
-
-<p>I find this completely unbelievable in the modern age and massively hypocritical on the part of the SNP when Scotland have no restrictions on Sunday Trading<sup id="fnref:snp" role="doc-noteref"><a href="#fn:snp" class="footnote" rel="footnote">4</a></sup>. Opposition gathered around a “Keep Sunday Special” motto but to my mind there is absolutely nothing special about Sunday. In the past, you could argue on religious grounds but that is irrelevant in the UK today when Atheism has overtaken Christianity<sup id="fnref:religion" role="doc-noteref"><a href="#fn:religion" class="footnote" rel="footnote">5</a></sup> and the number of actual practicing Christians is on a massive decline (just look at Church attendance).</p>
-
-<p>Commenting on the vote yesterday, Mike Cherry, the policy director of the Federation of Small Businesses, said:</p>
-
-<blockquote>
-  <p>The current system can be seen as a great British compromise which allows families to spend time together, employees to work if they wish to, and provides much needed support for smaller retailers within their communities.</p>
-</blockquote>
-
-<p>This is absolutely crazy. Families are not spending more time together because of these restrictions and Government should not be restricting free trade on this basis. It also isn’t supporting smaller retailers as large supermarkets have opened small stores on high streets to get around these restrictions. There is already sufficient protections<sup id="fnref:protection" role="doc-noteref"><a href="#fn:protection" class="footnote" rel="footnote">6</a></sup> against working on Sundays for workers which would not have changed with this bill. All this has done is penalise workers who wish to work longer hours on a Sunday and consumers (many of whom may also work on a Sunday) from making their purchases.</p>
-
-<p>Consider a nurse, police officer, retail employee, or even a freelancer; if they finish their shift at 6pm on a Sunday, then they can’t go and do a weekly supermarket shop because the size of the store is deemed too big. I often work on a Sunday and then have to dash off to the local supermarket at 3.30pm when I realise I haven’t got any food for the evening. Whilst there are smaller newsagents or even smaller versions of supermarkets such as Tesco Metro, these often charge higher prices or don’t have the same amount of choice.</p>
-
-<p>There is also the issue of online shopping; it is perfectly acceptable for somebody to make a purchase online at 7pm on a Sunday night but it isn’t legal for a retailer to sell them something from a physical building larger than 280m² outside of specific hours.</p>
-
-<p>At a time when the economy needs a boost and there are regular complaints about a lack of jobs, it seems to me utterly stupid that there is a law preventing large retailers from creating more jobs. Whilst a separate issue, I’ve never understood why banks aren’t open after around 1pm on a Saturday; there are plenty of people who need work and it seems to me that opening for more hours would solve this.</p>
-
-<p>Whilst I identify as a Conservative, I’m really more of a Libertarian. I believe the Government should have as little to do with people as possible and this is one of those areas where it really shows; a Government should not be able to stop a shop from selling goods at a certain time because of the size of the building it operates from. Scottish politicians should not be able to prevent shops in England from creating more jobs.</p>
-
-<p>Sunday isn’t special. It is no different from any other day, especially if you are a shift worker or a freelancer that works whenever they can.</p>
-
-<p>It is time for Sunday Trading restrictions to be totally abolished.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:politics" role="doc-endnote">
-      <p>I have a degree in Politics and have a number of strongly-held views but I don’t like to discuss them on my website which is really to advertise my freelance services. I do tweet about politics regularly though at <a href="https://twitter.com/bendodson">@bendodson</a>. <a href="#fnref:politics" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:mostshops" role="doc-endnote">
-      <p>Most shops tend to open 10am-4pm although some will be 11am-5pm or even midday-6pm. <a href="#fnref:mostshops" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:thatcher" role="doc-endnote">
-      <p>When I was studying Politics at A-Level, I couldn’t believe that Thatcher’s government had only lost 4 votes in 11 years and one was about the trivial issue of Sunday Trading. <a href="#fnref:thatcher" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:snp" role="doc-endnote">
-      <p>Incidentally, I believe this should have been voted on separately to the Enterprise Bill in order to trigger the ‘English Votes for English Laws’ procedure which would have prevented the SNP from having any say over this. <a href="#fnref:snp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:religion" role="doc-endnote">
-      <p>The <a href="http://www.natcen.ac.uk/media/893167/religious-affiliation-british-social-attitudes.pdf">BSA survery in 2014</a> showed 49% identified as “no religion” with Christianity coming in at 42%. <a href="#fnref:religion" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:protection" role="doc-endnote">
-      <p>Specifically, staff can “opt out” of working on Sundays even if they had previously agreed in their contract to work on those days. You also can’t be dismissed for not working on a Sunday. The <a href="https://www.gov.uk/sunday-working">Sunday Working</a> page on the gov.uk website has all of the information. <a href="#fnref:protection" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/03/02/board-game-tangents/">The Divide #9 - Board Game Tangents</a></h1>
-			
-			<time datetime="2016-03-02" pubdate=""><a href="/weblog/2016/03/02/board-game-tangents/">March 02, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Also known as “MithRail: One does not simply ride to Mordor”, the 9th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available. This week, we discuss board games including such gems as 1861: The Railways of the Russian Empire, Terra Mystica, Takenoko, and Betrayal at the House on the Hill. We also have time to mention Super Hot, Deadpool, the HTC Vive, and some PC games that I’ve supported on Kickstarter!</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/10/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/8/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 9 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/08/start-me-up-interview/">'Start Me Up' Interview</a>
+						
+					</h2>
+					<time datetime="2016-04-08"><a href="/weblog/2016/04/08/">April 8, 2016</a></time>
+				</header>
+
+				
+				<p>I was recently interviewed by Start Me Up about my work as a freelance app developer. You can read the full article on their website but I’ve also put their questions and my answers below:</p>
+
+				
+					<a href="/weblog/2016/04/08/start-me-up-interview/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/06/divide-11-3d-printing/">The Divide #11 - 3D Printing</a>
+						
+					</h2>
+					<time datetime="2016-04-06"><a href="/weblog/2016/04/06/">April 6, 2016</a></time>
+				</header>
+
+				
+				<p>The 11th episode of The Divide podcast is now available in which we discuss 3D printing with a focus on John’s experience of the Da Vinci AIO 1.0. In addition, Chris has some updates on DC Rebirth, John is interested in the Xbox One development kit, and I p...</p>
+
+				
+					<a href="/weblog/2016/04/06/divide-11-3d-printing/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/23/homekit-wink-and-canary/">HomeKit, Wink, and Canary</a>
+						
+					</h2>
+					<time datetime="2016-03-23"><a href="/weblog/2016/03/23/">March 23, 2016</a></time>
+				</header>
+
+				
+				<p>A couple of weeks ago I took the plunge and bought a Canary, an internet-connected personal security camera and air quality monitoring system. It has been working great so far and comes with a decent iPhone app that allows you to control the camera and have...</p>
+
+				
+					<a href="/weblog/2016/03/23/homekit-wink-and-canary/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/23/divide-10-loop-you-in-again/">The Divide #10 - Let us loop you in. Again.</a>
+						
+					</h2>
+					<time datetime="2016-03-23"><a href="/weblog/2016/03/23/">March 23, 2016</a></time>
+				</header>
+
+				
+				<p>The 10th episode of The Divide podcast is now available in which we discuss Apple’s ‘Let us loop you in’ event1. Chris has a rant about his internet provider (before promptly being disconnected), I talk about Twilight Princess HD, and John gets excited abou...</p>
+
+				
+					<a href="/weblog/2016/03/23/divide-10-loop-you-in-again/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/21/what-to-expect-from-loop-you-in-apple-event/">What to expect from the 'Let us loop you in' Apple event</a>
+						
+					</h2>
+					<time datetime="2016-03-21"><a href="/weblog/2016/03/21/">March 21, 2016</a></time>
+				</header>
+
+				
+				<p>Later today, Apple will be holding a special event entitled ‘Let us loop you in’. I don’t often post my predictions for such events but I’m intrigued by this one as all rumours seem to suggest there is very little to announce.</p>
+
+				
+					<a href="/weblog/2016/03/21/what-to-expect-from-loop-you-in-apple-event/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/15/show-me-the-next/">Show Me The Next</a>
+						
+					</h2>
+					<time datetime="2016-03-15"><a href="/weblog/2016/03/15/">March 15, 2016</a></time>
+				</header>
+
+				
+				<p>An iOS app I worked on for The Browser has gone live in the App Store today; Show Me The Next:</p>
+
+				
+					<a href="/weblog/2016/03/15/show-me-the-next/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/15/music-tracker-1-3/">Music Tracker v1.3</a>
+						
+					</h2>
+					<time datetime="2016-03-15"><a href="/weblog/2016/03/15/">March 15, 2016</a></time>
+				</header>
+
+				
+				<p>I’m very happy to announce that v1.3 of Music Tracker is now available as a free update.</p>
+
+				
+					<a href="/weblog/2016/03/15/music-tracker-1-3/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/11/brapp-v2/">Brapp 2.0</a>
+						
+					</h2>
+					<time datetime="2016-03-11"><a href="/weblog/2016/03/11/">March 11, 2016</a></time>
+				</header>
+
+				
+				<p>Over the last couple of months, I’ve been working with Brapp on their v2.0 release which adds a ton of new features for video makers, producers, and music lovers.</p>
+
+				
+					<a href="/weblog/2016/03/11/brapp-v2/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/10/sunday-isnt-special/">Sunday Isn't Special</a>
+						
+					</h2>
+					<time datetime="2016-03-10"><a href="/weblog/2016/03/10/">March 10, 2016</a></time>
+				</header>
+
+				
+				<p>Last night, the Government lost a vote in the House of Commons to change Sunday Trading Laws in the UK. I don’t usually blog about politics1 but Sunday Trading has been a big issue for me and, as a freelancer, I am incredibly disappointed that there will be...</p>
+
+				
+					<a href="/weblog/2016/03/10/sunday-isnt-special/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/03/02/board-game-tangents/">The Divide #9 - Board Game Tangents</a>
+						
+					</h2>
+					<time datetime="2016-03-02"><a href="/weblog/2016/03/02/">March 2, 2016</a></time>
+				</header>
+
+				
+				<p>Also known as “MithRail: One does not simply ride to Mordor”, the 9th episode of The Divide podcast is now available. This week, we discuss board games including such gems as 1861: The Railways of the Russian Empire, Terra Mystica, Takenoko, and Betrayal at...</p>
+
+				
+					<a href="/weblog/2016/03/02/board-game-tangents/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/10/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/8/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

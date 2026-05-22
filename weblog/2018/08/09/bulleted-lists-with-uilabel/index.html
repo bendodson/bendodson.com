@@ -9,73 +9,157 @@
 	
 	
 	
+	
 
 	<title>Scalable bulleted lists with UILabel or UITextView</title>
 	<meta name="description" content="How to create bulleted lists in UILabel / UITextView that scale dependent on font size without any 3rd party code.">
-	<link rel="canonical" href="https://bendodson.com/weblog/2018/08/09/bulleted-lists-with-uilabel/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2018/08/09/bulleted-lists-with-uilabel/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Scalable bulleted lists with UILabel or UITextView">
 	<meta property="og:description" content="How to create bulleted lists in UILabel / UITextView that scale dependent on font size without any 3rd party code.">
-	<meta property="og:url" content="https://bendodson.com/weblog/2018/08/09/bulleted-lists-with-uilabel/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2018/08/09/bulleted-lists-with-uilabel/">
 	<meta property="og:type" content="article">
 	
-		<meta property="og:image" content="https://bendodson.s3.amazonaws.com/weblog/2018/bulleted-list-scale.jpg">
+		<meta property="og:image" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAxOC9idWxsZXRlZC1saXN0LXNjYWxlLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTIwMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+		<meta property="og:image:secure_url" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAxOC9idWxsZXRlZC1saXN0LXNjYWxlLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTIwMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+		<meta property="og:image:alt" content="Scalable bulleted lists with UILabel or UITextView">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2018/08/09/bulleted-lists-with-uilabel/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2018/08/09/bulleted-lists-with-uilabel/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "Scalable bulleted lists with UILabel or UITextView",
+			"description": "How to create bulleted lists in UILabel / UITextView that scale dependent on font size without any 3rd party code.",
+			"url": "http://localhost:4000/weblog/2018/08/09/bulleted-lists-with-uilabel/",
+			"datePublished": "2018-08-09T15:30:00+01:00",
+			"dateModified": "2018-08-09T15:30:00+01:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAxOC9idWxsZXRlZC1saXN0LXNjYWxlLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTIwMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19"
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">Scalable bulleted lists with UILabel or UITextView</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2018-08-09" pubdate=""><a href="/weblog/2018/08/09/bulleted-lists-with-uilabel/">August 09, 2018</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p>I’ve recently been implementing auto-renewable subscriptions for a client and came across the need to create a bulleted list of notes<sup id="fnref:iapnotes" role="doc-noteref"><a href="#fn:iapnotes" class="footnote" rel="footnote">1</a></sup>. There are numerous tutorials available that show how you can do this but all of the ones I found had a flaw of some kind be it using fixed values for bullet widths or not taking variable font sizes from Dynamic Type into consideration.</p>
+<article class="post-page content-page has-post-dek">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2018-08-09">August 9, 2018</time></p>
+		<h1>Scalable bulleted lists with UILabel or UITextView</h1>
+		
+			<p class="post-dek">How to create bulleted lists in UILabel / UITextView that scale dependent on font size without any 3rd party code.</p>
+		
+		
+	</header>
+
+	<div class="post-content">
+		<p>I’ve recently been implementing auto-renewable subscriptions for a client and came across the need to create a bulleted list of notes<sup id="fnref:iapnotes"><a href="#fn:iapnotes" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. There are numerous tutorials available that show how you can do this but all of the ones I found had a flaw of some kind be it using fixed values for bullet widths or not taking variable font sizes from Dynamic Type into consideration.</p>
 
 <p>Here, then, is a quick primer on how you can add correctly aligned bullets to a list be it in a UILabel or UITextView and have it scale correctly dependent on the users text size preferences.</p>
 
@@ -118,7 +202,7 @@
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2018/bulleted-list-scale.jpg" width="800" height="463" alt="Bulleted List for UILabel and UITextView" /></p>
 
-<p>The first thing to determine is the bullet you want to use. I like to have a • (press <code class="language-plaintext highlighter-rouge">option + 8</code>) with two spaces afterwards. We store this in a variable and then build a <code class="language-plaintext highlighter-rouge">String</code> array with which we’ll populate each line of our list<sup id="fnref:localise" role="doc-noteref"><a href="#fn:localise" class="footnote" rel="footnote">2</a></sup>. These are then mapped to append the bullet we chose to the front of each string.</p>
+<p>The first thing to determine is the bullet you want to use. I like to have a • (press <code class="language-plaintext highlighter-rouge">option + 8</code>) with two spaces afterwards. We store this in a variable and then build a <code class="language-plaintext highlighter-rouge">String</code> array with which we’ll populate each line of our list<sup id="fnref:localise"><a href="#fn:localise" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. These are then mapped to append the bullet we chose to the front of each string.</p>
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">bullet</span> <span class="o">=</span> <span class="s">"•  "</span>        
 <span class="k">var</span> <span class="nv">strings</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">]()</span>
@@ -139,7 +223,7 @@
 
 <p>Finally we join our string with line breaks (<code class="language-plaintext highlighter-rouge">strings.joined(separator: "\n\n")</code>) and create an attributed string with the attributes including the new paragraph style.</p>
 
-<p>This all works but there are two more things you’ll need to do to support dynamic font scaling. First of all you’ll want to ensure that the ‘Automatically Adjusts Font’ checkbox is selected in Interface Builder for your label or text view<sup id="fnref:automaticallyadjusts" role="doc-noteref"><a href="#fn:automaticallyadjusts" class="footnote" rel="footnote">3</a></sup>. Secondly, you’ll want to be notified when the content size changes (i.e. when the user goes to the Settings app and increases or decreases the text size) by subscribing to the <code class="language-plaintext highlighter-rouge">UIContentSizeCategoryDidChange</code> notification and regenerating your label. I prefer to do this in a method named <code class="language-plaintext highlighter-rouge">updateUI</code> but your personal preference may vary.</p>
+<p>This all works but there are two more things you’ll need to do to support dynamic font scaling. First of all you’ll want to ensure that the ‘Automatically Adjusts Font’ checkbox is selected in Interface Builder for your label or text view<sup id="fnref:automaticallyadjusts"><a href="#fn:automaticallyadjusts" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. Secondly, you’ll want to be notified when the content size changes (i.e. when the user goes to the Settings app and increases or decreases the text size) by subscribing to the <code class="language-plaintext highlighter-rouge">UIContentSizeCategoryDidChange</code> notification and regenerating your label. I prefer to do this in a method named <code class="language-plaintext highlighter-rouge">updateUI</code> but your personal preference may vary.</p>
 
 <p>The nice thing about this setup is that it is entirely fluid, doesn’t require any 3rd party dependencies, and can be used with any mixture of bullet types be they a single character, a word, or even emoji:</p>
 
@@ -149,47 +233,35 @@
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:iapnotes" role="doc-endnote">
+    <li id="fn:iapnotes">
       <p>Sourced from the <a href="http://davidbarnard.com/post/164337147440/testing-auto-renewable-subscriptions-on-ios">excellent tutorial</a> by David Barnard. <a href="#fnref:iapnotes" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:localise" role="doc-endnote">
+    <li id="fn:localise">
       <p>Don’t forget to use <code class="language-plaintext highlighter-rouge">NSLocalizedString</code> - I didn’t bother for the sake of brevity in this article. <a href="#fnref:localise" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:automaticallyadjusts" role="doc-endnote">
+    <li id="fn:automaticallyadjusts">
       <p>Alternatively you can use the <code class="language-plaintext highlighter-rouge">adjustsFontForContentSizeCategory</code> boolean on <code class="language-plaintext highlighter-rouge">UILabel</code> and <code class="language-plaintext highlighter-rouge">UITextView</code>. <a href="#fnref:automaticallyadjusts" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2018/09/10/building-a-twitch-panel-extension/" title="Next Article" class="pagination-next">Building a Twitch Panel Extension &raquo;</a>
-    
-	 
-		<a href="/weblog/2018/07/02/solcaster/" title="Previous Article" class="pagination-previous">&laquo; Solcaster</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2018/07/02/solcaster/" class="post-pagination-previous">&lt; Solcaster</a>
+	
+
+	
+		<a href="/weblog/2018/09/10/building-a-twitch-panel-extension/" class="post-pagination-next">Building a Twitch Panel Extension &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

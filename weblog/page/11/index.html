@@ -9,438 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/11/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/11/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/11/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/11/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/13/calm-radio-for-apple-tv/">Calm Radio for Apple TV</a></h1>
-			
-			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/calm-radio-for-apple-tv/">January 13, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m very pleased to announce that my first tvOS app for a client has gone live in the Apple TV App Store; <a href="https://itunes.apple.com/us/app/calm-radio-online-streaming/id918425515?ls=1&amp;mt=8">Calm Radio</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/calm-radio.jpg" width="800" height="574" /></p>
-
-<p><a href="https://calmradio.com/">Calm Radio</a> is an ubiquitous online radio service with over 150 channels dedicated to specific genres of music and relaxation such as meditation, piano, jazz, latin, and so on. It is free to listen to (with no account) but you can remove ads from the stream and get access to special features with a paid account.</p>
-
-<p>With the Apple TV, I wanted to make the app fit in like a first class citizen of the platform and so I did all of the design and UX work myself with a focus on real time blurs and gradients. As you navigate around the huge array of channels, the background will subtley shift to softer versions of the key colours used in the artwork.</p>
-
-<p>When you select a channel, you are shown a now playing page that has the title, artist, album, and artwork of the currently playing music. The background is a soft version of the channel artwork but you can choose one of 12 high definition videos to play in the background instead. These videos are looped and blended with the background gradient in order to keep the experience consistent and relaxing.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/calm-radio-atmospheres.jpg" width="800" height="426" /></p>
-
-<p>You can choose up to 3 atmospheres (such as wind, rain, waterfalls, crickets, etc) to mix with the currently playing channel and they appear underneath the artwork of the currently playing track. I designed an intuitive and simple UI for this so that listeners could change the volume of each individual atmosphere relative to the channel without using sliders<sup id="fnref:sliders" role="doc-noteref"><a href="#fn:sliders" class="footnote" rel="footnote">1</a></sup> or cluttering the interface.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/calm-radio-top-shelf.jpg" width="800" height="426" /></p>
-
-<p>Finally, I wanted to use as many tvOS features as possible and so I built in support for the “Top Shelf” allowing you to see and play various channels direct from the TV home screen.</p>
-
-<p>This has been a great project to work on and I’ve learned a huge amount about the Apple TV and the ‘Focus Engine’ that powers it<sup id="fnref:simulator" role="doc-noteref"><a href="#fn:simulator" class="footnote" rel="footnote">2</a></sup>. It’s been a lot of fun to do my own UX and design work and I think it’s turned out really well; the client was so pleased with it that I’ve been hired to rebuild their existing universal iPhone and iPad app to make it match this design!</p>
-
-<p>You can <a href="https://itunes.apple.com/us/app/calm-radio-online-streaming/id918425515?ls=1&amp;mt=8">download Calm Radio from the Apple TV App Store</a><sup id="fnref:calmradioapp" role="doc-noteref"><a href="#fn:calmradioapp" class="footnote" rel="footnote">3</a></sup> or <a href="https://calmradio.com/">learn more on their website</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:sliders" role="doc-endnote">
-      <p>There is no UISlider in tvOS for the simple reason that a slider would be very difficult to navigate away from with the UIFocusEngine. <a href="#fnref:sliders" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:simulator" role="doc-endnote">
-      <p>Along with a <a href="https://bendodson.com/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">handy tip on how to use your Apple TV Siri Remote with the Xcode Simulator</a> <a href="#fnref:simulator" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:calmradioapp" role="doc-endnote">
-      <p>That link will take you to the iOS app as there is no way to link to the tvOS App Store as far as I’m aware. You’ll need to search “calm radio” on your Apple TV App Store to download the app. <a href="#fnref:calmradioapp" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">The Divide #6 - The 'JJ Abrams' of game lists</a></h1>
-			
-			<time datetime="2016-01-13" pubdate=""><a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">January 13, 2016</a></time>
-    	</header>
-    	<div>
-			<p>This week we’re back on schedule and episode 6 of <a href="http://thedivide.co.uk/">The Divide</a> is now available. Chris, John, and myself discuss over 40 games that are being released this year and pick out a few of our favourites including Crackdown 3, Final Fantasy XV, Zelda, Mass Effect, Street Fighter V, and Yooka-Laylee. We also spend some time discussing the Oculus Rift pre-order and I have a bit of a rant about the rumoured removal of the audio headphone jack from the next iPhone<sup id="fnref:headphone" role="doc-noteref"><a href="#fn:headphone" class="footnote" rel="footnote">1</a></sup>. Finally, Chris is still upset with JJ Abrams…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a></p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:headphone" role="doc-endnote">
-      <p>Short version: I’m cool with it being removed. <a href="#fnref:headphone" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">Fixing emoji footnote arrow bug in Jekyll</a></h1>
-			
-			<time datetime="2016-01-11" pubdate=""><a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">January 11, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been using <a href="http://jekyllrb.com">Jekyll</a> as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes<sup id="fnref:footnotes" role="doc-noteref"><a href="#fn:footnotes" class="footnote" rel="footnote">1</a></sup>, the return arrow (↩︎) is converted into an emoji (<a href="http://emojipedia.org/leftwards-arrow-with-hook/️">↩️</a>) on iOS and in some RSS readers. Obviously this isn’t desirable and so after a bit of digging I was able to find a fix.</p>
-
-<p>Firstly, this isn’t an issue with Jekyll but with <a href="http://kramdown.gettalong.org">kramdown</a> which does the Markdown conversion. Thankfully, there is a config option in kramdown 1.8.0 and above<sup id="fnref:kramdown" role="doc-noteref"><a href="#fn:kramdown" class="footnote" rel="footnote">2</a></sup> that lets you specify the text you want to use for the footnote return link and you can set it as unicode to stop it being converted to emoji. Just add the following to your <code class="language-plaintext highlighter-rouge">_config.yml</code> file:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kramdown:
-  	  footnote_backlink: "&amp;#8617;&amp;#xfe0e;"
-</code></pre></div></div>
-
-<p>Regenerate your site and you should find that the emoji arrow is now back to a ↩︎.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:footnotes" role="doc-endnote">
-      <p>like this one! <a href="#fnref:footnotes" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:kramdown" role="doc-endnote">
-      <p>You may need to run <code class="language-plaintext highlighter-rouge">gem update kramdown</code> if you installed Jekyll a while ago. <a href="#fnref:kramdown" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/08/dodo-apps/">Dodo Apps</a></h1>
-			
-			<time datetime="2016-01-08" pubdate=""><a href="/weblog/2016/01/08/dodo-apps/">January 08, 2016</a></time>
-    	</header>
-    	<div>
-			<p>After <a href="https://bendodson.com/weblog/2015/09/25/the-times-they-are-a-changin/">selling WallaBee last year</a>, I changed my company name to <strong>Dodo Apps Ltd</strong>. Now that I’m publishing my own apps again (in addition to my freelance work), it seemed time for me to make a few changes to my website.</p>
-
-<p>Today I’ve updated bendodson.com so that my <a href="https://bendodson.com/clients/">client work</a> and my <a href="https://bendodson.com/apps/">self-published apps</a> are now in separate sections<sup id="fnref:photos" role="doc-noteref"><a href="#fn:photos" class="footnote" rel="footnote">1</a></sup>. I have also created a new site at <a href="https://dodoapps.io">dodoapps.io</a> to advertise my own apps that are currently available in the App Store<sup id="fnref:musictracker" role="doc-noteref"><a href="#fn:musictracker" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>I am currently available for freelance work from February 2016. For more details, please <a href="/contact/">contact me</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:photos" role="doc-endnote">
-      <p>My more recent apps also have some nice photos or screenshots to show them off a bit better. <a href="#fnref:photos" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:musictracker" role="doc-endnote">
-      <p>Including a sneak peek of my upcoming “Music Tracker” app… <a href="#fnref:musictracker" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</a></h1>
-			
-			<time datetime="2016-01-06" pubdate=""><a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">January 06, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attributes<sup id="fnref:udra" role="doc-noteref"><a href="#fn:udra" class="footnote" rel="footnote">1</a></sup>. However, this doesn’t work for the CALayer properties <code class="language-plaintext highlighter-rouge">shadowColor</code> and <code class="language-plaintext highlighter-rouge">borderColor</code> as they expect a CGColor rather than a UIColor.</p>
-
-<p>To fix this in a recent project, <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">I created a very basic CALayer extension</a> (in Swift) that adds UIColor accessors so you can set them via the User Defined Runtime Attributes as so:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib.png" width="750" height="300" /></p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/calayer-cgcolor-for-ib-example.png" width="600" height="140" /></p>
-
-<p>You can <a href="https://github.com/bendodson/calayer-cgcolor-for-ib-swift">get the extension on GitHub</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:udra" role="doc-endnote">
-      <p>You basically just set <code class="language-plaintext highlighter-rouge">layer.cornerRadius</code> as the key path and use an NSNumber within the User Defined Runtime attributes and then Interface Builder will handle the rest - no more filling your code with <code class="language-plaintext highlighter-rouge">button.layer.cornerRadius = 8</code>, etc. <a href="#fnref:udra" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/">The Divide #5 - 'Jar Jar Abrams', a Star Wars special!</a></h1>
-			
-			<time datetime="2016-01-04" pubdate=""><a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/">January 04, 2016</a></time>
-    	</header>
-    	<div>
-			<p>After a slight delay in recording, Episode 5 of <a href="http://thedivide.co.uk/">The Divide</a> is now available. As a New Year treat, this show is a 2 hour special all about Star Wars. We discuss the original trilogy, the prequel trilogy, some of our favourite Star Wars video games and comics, and then dive into Episode VII, ‘The Force Awakens’ (there are numerous spoilers but we confined them all to the last half hour or so and there is a big warning before we start). We also discuss one of my favourite oddities in the re-release versions, the addition of CGI rocks to Episode IV:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/star-wars.jpg" width="700" height="598" /></p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">iOS developers don't work for free</a></h1>
-			
-			<time datetime="2015-12-22" pubdate=""><a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">December 22, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Over the years, I’ve received a lot of emails offering me the chance to work on an exciting new project for free in return for some equity. This is an excerpt from one I got yesterday:</p>
-
-<blockquote>
-  <p>We are currently developing a [redacted] site with some developers who are dragging their heels and would like to to jump ship.  They are more web developers and not used to app coding.  They have been working for free in returning for an equity share in the company.<sup id="fnref:dismissed" role="doc-noteref"><a href="#fn:dismissed" class="footnote" rel="footnote">1</a></sup></p>
-
-  <p>We have pitched to a few venture capitalist who like the idea but need to see a minimum viable product out in the market place.</p>
-
-  <p>Is this something you would entertain… work for free now but get a percentage of the company?</p>
-</blockquote>
-
-<p>I write back to (nearly) every email I receive so I used my standard “<em>sorry, I don’t ever work on an equity basis <a href="https://bendodson.com/contact/">as per my website</a></em>” reply. However, it’s starting to irritate me just how many of these emails I get per day, the fact they don’t read the clear disclaimer on <a href="https://bendodson.com/contact/">my contact page</a>, and the mindset that they must have to think that someone is going to work for free for a potential kickback later. Hopefully this post will clear up why I, and most other iPhone developers, will not work for free on your project<sup id="fnref:series" role="doc-noteref"><a href="#fn:series" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p><strong>Short version:</strong>
-We have mouths to feed the same as anyone else.</p>
-
-<p><strong>Long version:</strong> 
-There is a huge amount of paid work available to freelance developers and it pays incredibly well<sup id="fnref:paid" role="doc-noteref"><a href="#fn:paid" class="footnote" rel="footnote">3</a></sup>. Some might say that developers are risk averse and so of course they’d choose paid work over the risky equity venture but that isn’t really true — being a freelancer is already incredibly risky with the fact you have to find work and hope that the client does pay on time and as agreed. That said though, choosing equity over money is one step too far on the risk ladder; the chance of it succeeding is very small and you’ll end up working on it for much longer than you anticipated.</p>
-
-<p>For example, lets say you’re a developer charging around £500 a day for your services. To get a project to MVP status, you’re likely going to need to work for 1-2 months so you’re looking at around £10-20k of lost revenue. At this point, you need to make back at least that sizeable amount of money in order to break even. However, as the MVP continues, there will be bugs and new features to be added and you’ll be expected to add them for free; after all, you’ve been doing it for so long by now and if the project needs to switch developers then it’ll most likely die and you’ll end up with nothing. You will keep working for free until the project does eventually fail; you might get some small amount back but the real likelihood is that you’ll end up with nothing but a portfolio piece and the realisation that you should have filled the last 6 months with paid work.</p>
-
-<p>This isn’t hypothetical; whilst I don’t ever work for equity, I’ve worked on a freelance basis on projects who did have other developers working for equity. They were hardly ever available after the project launched (as they needed to work on other projects to put food on the table) and when they were available they did a poor job as they were doing it in their spare time and they’d lost any passion they had for the business. The project folded after 9 months and they got around £1500 for their troubles.</p>
-
-<p>Even if a project does succeed and you do own a portion of the company, it is still going to be a very long time until you see any monetary reward for that. A company only pays it’s shareholders when it is profitable and most startups aggressively use any money they make to grow further; it will likely be years until you get anything. Of course, they might sell to another company and you’ll get a big windfall payment<sup id="fnref:divide" role="doc-noteref"><a href="#fn:divide" class="footnote" rel="footnote">4</a></sup> but that is highly unlikely.</p>
-
-<p>The biggest issue I have with ‘CEOs’ saying “<em>work for free now but get a percentage of the company</em>” is the hypocrisy of it. They are putting all of the risk of the business on the developers shoulders and bearing very little of it themselves. Most of these people with nothing but an idea are working in a full-time job and continue to do so during the life of the project as they don’t need to do much during development; if it fails, they don’t really lose much whereas a developer loses everything.</p>
-
-<p>My one piece of advice for other freelancers and for people looking to hire them is <strong>“if the project owner isn’t willing to use savings or a loan to pay for a developer, then they are showing that they think the project is too risky”.</strong> When I built WallaBee, I insisted that all contractors were paid at market rate<sup id="fnref:wallabeepaid" role="doc-noteref"><a href="#fn:wallabeepaid" class="footnote" rel="footnote">5</a></sup> and did so with loans and money from my own freelancing<sup id="fnref:lost" role="doc-noteref"><a href="#fn:lost" class="footnote" rel="footnote">6</a></sup>. If you are trying to get an app built and you don’t do the same, you will not succeed.</p>
-
-<p>This is why I do not work for equity. It isn’t just the fact that I’ll lose money, it’s that I don’t want to work for a business that treats professionals in this way<sup id="fnref:hailo" role="doc-noteref"><a href="#fn:hailo" class="footnote" rel="footnote">7</a></sup>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:dismissed" role="doc-endnote">
-      <p>By this point I’ve already dismissed the project out of hand even if they are paying; I don’t work on projects started by other developers and I don’t work for people who treat developers who work for free like crap. I can’t ever imagining being this dismissive of people who have given their time for free and are presumably leaving with nothing. <a href="#fnref:dismissed" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:series" role="doc-endnote">
-      <p>This should really be considered part 1 of a series entitled <em>‘So you want an iOS developer?’</em>. Later articles in the series will be <em>‘Why iOS developers won’t sign an NDA’</em> and <em>‘Why you should pay your invoice when you receive it, not 60 days later’</em>. <a href="#fnref:series" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:paid" role="doc-endnote">
-      <p>I charge near the higher end as my portfolio and experience allows but even at the lower end you’re still talking £300-350 per day! <a href="#fnref:paid" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:divide" role="doc-endnote">
-      <p>As we discussed on this weeks episode of <a href="https://bendodson.com/weblog/2015/12/16/the-divide-4-getting-into-code/"><em>The Divide</em></a> <a href="#fnref:divide" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:wallabeepaid" role="doc-endnote">
-      <p>One of my freelancers wanted to have equity and I said no. In my opinion, only founders should have equity tied up in a startup as then they are the ones that succeed or fail; contractors should always be paid. <a href="#fnref:wallabeepaid" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:lost" role="doc-endnote">
-      <p>I haven’t made back the money I invested in that business yet but I do have equity in the company that bought it; that is a scenario where equity can be appropriate. <a href="#fnref:lost" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:hailo" role="doc-endnote">
-      <p>I have form in this belief. Many, many years ago, I was offered the chance to work on a project by a guy who was happy boasting about the millions he made from a previous project. We agreed my freelance rate and when we’d start. He changed the start date and I found other work. He then wanted to move the start date back and was very annoyed when he found out I’d taken other work; he then went on to try and negotiate my day rate down. I walked away at that point as I don’t work for boastful millionaires who look to save £20 a day on an already low freelance rate. That company was <a href="https://www.hailoapp.com">Hailo</a> and became wildly successful. I don’t ever regret not working for them (though I probably should regret not asking them for equity). <a href="#fnref:hailo" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/20/pocket-rocket/">Pocket Rocket, read your Pocket articles quickly in Safari on iOS</a></h1>
-			
-			<time datetime="2015-12-20" pubdate=""><a href="/weblog/2015/12/20/pocket-rocket/">December 20, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Ever since <a href="https://bendodson.com/weblog/2015/09/25/the-times-they-are-a-changin/">I sold WallaBee</a>, I’ve been splitting my time between client work<sup id="fnref:clients" role="doc-noteref"><a href="#fn:clients" class="footnote" rel="footnote">1</a></sup>, my Xbox One, and doing small apps that help improve my life in little ways. Today, Apple finally approved<sup id="fnref:appstore" role="doc-noteref"><a href="#fn:appstore" class="footnote" rel="footnote">2</a></sup> my first self-published app in a long time, <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">Pocket Rocket</a>:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/pocket-rocket.jpg" width="800" height="500" /></p>
-
-<p>I save most articles that I want to read at a later date with <a href="https://getpocket.com/">Pocket</a> but I hate their mobile apps. Tapping an article will load their own reader view<sup id="fnref:broken" role="doc-noteref"><a href="#fn:broken" class="footnote" rel="footnote">3</a></sup> and it’s an extra step to jump to Safari. In addition, their apps aren’t updated for split screen support or new device sizes and so the experience is pretty poor. With Pocket Rocket, I wanted to do one thing; have my Pocket queue load up and then when you tap on an article it should load in Safari. I prefer using Safari as then you get to see the article as intended and with content blockers most pages load quickly. I got the basic version working within in an hour and it worked well enough for my needs; then, when I got the iPad Pro, I realised this could be a useful app for other people as it dramatically improves the reading experience especially when used in split screen mode.</p>
-
-<p>Pocket Rocket is completely free with no ads or tracking<sup id="fnref:noads" role="doc-noteref"><a href="#fn:noads" class="footnote" rel="footnote">4</a></sup>. It runs on any device capable of running iOS 9 and is a fully adaptive so it looks great no matter what screen-size you have. Due to this adaptability, it works in all split-screen modes on applicable iPads and that is the way I tend to use it. You can swipe on an article to archive or delete it upon reading. There is also a settings panel so you can choose whether links open in Safari or via an in-app browser (with the option to enable a reader view<sup id="fnref:reader" role="doc-noteref"><a href="#fn:reader" class="footnote" rel="footnote">5</a></sup> on launch if you want).</p>
-
-<p>You can <a href="https://itunes.apple.com/us/app/pocket-rocket-quickly-read/id1062699303?ls=1&amp;mt=8">get Pocket Rocket for free on the App Store</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:clients" role="doc-endnote">
-      <p>Of which I’ve done a lot; recently launched apps include <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">Brapp</a>, <a href="https://bendodson.com/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp’d</a>, and <a href="https://bendodson.com/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles</a> with two more apps awaiting approval from Apple… <a href="#fnref:clients" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:appstore" role="doc-endnote">
-      <p>I won’t go into details as Apple specifically request people don’t, but it has been one of the longest and most painful App Store review processes to date. I don’t know if they’ve been having a bad month but a number of my projects have had a rough ride through the review process for no good reason lately. <a href="#fnref:appstore" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:broken" role="doc-endnote">
-      <p>I hate their reader view as it often misses text or puts pull quotes in the wrong places. In addition, the scrolling was completely broken on the iPhone 6S for a few weeks. <a href="#fnref:broken" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:noads" role="doc-endnote">
-      <p>Literally nothing leaves your device apart from when you log in with Pocket (and that is a secure connection with Pocket’s servers via OAuth so I see nothing); I don’t want to know anything about you and respect your privacy. This also isn’t a money-making exercise so the whole thing is free with no In-App Purchases. <a href="#fnref:noads" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:reader" role="doc-endnote">
-      <p>The reader view is only available in the in-app browser, powered by SFSafariViewController, as there is no URL scheme for opening Safari with reader view enabled. I’ve submitted a Radar (<a href="https://openradar.appspot.com/radar?id=5024178285576192">rdar://23684808</a>) <a href="#fnref:reader" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles Apple Watch app</a></h1>
-			
-			<time datetime="2015-12-17" pubdate=""><a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">December 17, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">Natural Cycles</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-app.jpg" width="800" height="450" /></p>
-
-<p><a href="https://www.naturalcycles.com/en/">Natural Cycles</a> is a popular iPhone and Android app that allows you to track your fertility or plan a pregnancy. It can tell you when you are fertile, when you are ovulating, when your next period is due, when you are pregnant, and the progress of your pregnancy. I was hired as a freelance Swift developer to build an Apple Watch app that would be bundled in with their big v2.0 update and would allow viewing and logging of this critical information. The app allows you to see your current fertility level, body temperature, and progress of your period as well as viewing messages from Natural Cycles. In addition, you can quickly update your current body temperature and menstrual flow within the app:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-log.jpg" width="800" height="450" /></p>
-
-<p>As well as the core Apple Watch app, I also added support for Notifications and Glances making for an even quicker way to view your information:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-glance.jpg" width="800" height="450" /></p>
-
-<p>My favourite feature, however, is the addition of full text Complications so you can see your current body temperature and fertility status on your watch face:<sup id="fnref:fertility" role="doc-noteref"><a href="#fn:fertility" class="footnote" rel="footnote">1</a></sup></p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/nc-complication.jpg" width="800" height="450" /></p>
-
-<p>The project was quite difficult (but rewarding!) for a few reasons. Firstly, the design was very ambitious when watchOS severely limits the amount of customisation that can be performed. Secondly, the iOS app was a Cordova app<sup id="fnref:cordova" role="doc-noteref"><a href="#fn:cordova" class="footnote" rel="footnote">2</a></sup> rather than a native app which meant I had to write a JavaScript plugin and set up some build scripts in order for the native Swift watchOS code to be able to speak with the iPhone. There was also a requirement to make the app as easy as possible to update (i.e. updating the iOS app shouldn’t break the watchOS app) and so I built everything such that the phone takes care of all logic and a lot of the UI so the watch app can be altered without going through the App Store review process.</p>
-
-<p>This was a really exciting project to work on and I’m very happy with the end results. You can <a href="https://itunes.apple.com/us/app/naturalcycles/id765535549?ls=1&amp;mt=8">download Natural Cycles from the App Store</a> or <a href="https://www.naturalcycles.com/en/">learn more on their website</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:fertility" role="doc-endnote">
-      <p>This did lead to an awkward situation when I’d left the complication enabled on my Mickey Mouse face that I use at weekends; the weekend after testing was complete, I switched to my Mickey Mouse face to be greeted with the words “Not Fertile” underneath his tapping foot! <a href="#fnref:fertility" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:cordova" role="doc-endnote">
-      <p>I don’t usually work on non-native apps but I was willing to make an exception as the bulk of code I’d write would be fully native (as there is no way to write non-native apps on the Apple Watch due to the lack of a UIWebView) <a href="#fnref:cordova" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/16/the-divide-4-getting-into-code/">The Divide #4 - Getting into code</a></h1>
-			
-			<time datetime="2015-12-16" pubdate=""><a href="/weblog/2015/12/16/the-divide-4-getting-into-code/">December 16, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Episode 4 of <a href="http://thedivide.co.uk/">The Divide</a>, a podcast I co-host, has just gone live. This week, we discuss the routes we all took to becoming software developers. We take a look at how the programmer market is evolving while sharing our experiences of how we learned to code and we close with some musings and tips on where new coders might start to learn how to join the digital gold rush. <a href="http://twitter.com/Lord_Chancellor">Chris</a> also shares a harrowing tale of how Captain Janeway wouldn’t look at him…</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a></p>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/12/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/10/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 11 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/01/13/calm-radio-for-apple-tv/">Calm Radio for Apple TV</a>
+						
+					</h2>
+					<time datetime="2016-01-13"><a href="/weblog/2016/01/13/">January 13, 2016</a></time>
+				</header>
+
+				
+				<p>I’m very pleased to announce that my first tvOS app for a client has gone live in the Apple TV App Store; Calm Radio.</p>
+
+				
+					<a href="/weblog/2016/01/13/calm-radio-for-apple-tv/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/">The Divide #6 - The 'JJ Abrams' of game lists</a>
+						
+					</h2>
+					<time datetime="2016-01-13"><a href="/weblog/2016/01/13/">January 13, 2016</a></time>
+				</header>
+
+				
+				<p>This week we’re back on schedule and episode 6 of The Divide is now available. Chris, John, and myself discuss over 40 games that are being released this year and pick out a few of our favourites including Crackdown 3, Final Fantasy XV, Zelda, Mass Effect, ...</p>
+
+				
+					<a href="/weblog/2016/01/13/divide-6-upcoming-video-games-of-2016/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/">Fixing emoji footnote arrow bug in Jekyll</a>
+						
+					</h2>
+					<time datetime="2016-01-11"><a href="/weblog/2016/01/11/">January 11, 2016</a></time>
+				</header>
+
+				
+				<p>I’ve been using Jekyll as my static blog generator for a few years now but noticed a minor annoyance a few days ago; whenever I use footnotes1, the return arrow (↩︎) is converted into an emoji (↩️) on iOS and in some RSS readers. Obviously this isn’t desira...</p>
+
+				
+					<a href="/weblog/2016/01/11/fixing-emoji-footnote-arrow-in-jekyll/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/01/08/dodo-apps/">Dodo Apps</a>
+						
+					</h2>
+					<time datetime="2016-01-08"><a href="/weblog/2016/01/08/">January 8, 2016</a></time>
+				</header>
+
+				
+				<p>After selling WallaBee last year, I changed my company name to Dodo Apps Ltd. Now that I’m publishing my own apps again (in addition to my freelance work), it seemed time for me to make a few changes to my website.</p>
+
+				
+					<a href="/weblog/2016/01/08/dodo-apps/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/">Swift extension to make CALayer borderColor and shadowColor work with Interface Builder</a>
+						
+					</h2>
+					<time datetime="2016-01-06"><a href="/weblog/2016/01/06/">January 6, 2016</a></time>
+				</header>
+
+				
+				<p>I’ve been using Interface Builder in more projects over the past few months due to the benefits of AutoLayout. This has led to me shifting more standard UI code (i.e. colors, borders, shadows, etc) into Interface Builder via the User Defined Runtime Attribu...</p>
+
+				
+					<a href="/weblog/2016/01/06/swift-extension-calayer-uicolor-interface-builder/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/">The Divide #5 - 'Jar Jar Abrams', a Star Wars special!</a>
+						
+					</h2>
+					<time datetime="2016-01-04"><a href="/weblog/2016/01/04/">January 4, 2016</a></time>
+				</header>
+
+				
+				<p>After a slight delay in recording, Episode 5 of The Divide is now available. As a New Year treat, this show is a 2 hour special all about Star Wars. We discuss the original trilogy, the prequel trilogy, some of our favourite Star Wars video games and comics...</p>
+
+				
+					<a href="/weblog/2016/01/04/the-divide-5-jar-jar-abrams-star-wars-special/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/">iOS developers don't work for free</a>
+						
+					</h2>
+					<time datetime="2015-12-22"><a href="/weblog/2015/12/22/">December 22, 2015</a></time>
+				</header>
+
+				
+				<p>Over the years, I’ve received a lot of emails offering me the chance to work on an exciting new project for free in return for some equity. This is an excerpt from one I got yesterday:</p>
+
+				
+					<a href="/weblog/2015/12/22/ios-developers-dont-work-for-free/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/20/pocket-rocket/">Pocket Rocket, read your Pocket articles quickly in Safari on iOS</a>
+						
+					</h2>
+					<time datetime="2015-12-20"><a href="/weblog/2015/12/20/">December 20, 2015</a></time>
+				</header>
+
+				
+				<p>Ever since I sold WallaBee, I’ve been splitting my time between client work1, my Xbox One, and doing small apps that help improve my life in little ways. Today, Apple finally approved2 my first self-published app in a long time, Pocket Rocket: Of which I’ve...</p>
+
+				
+					<a href="/weblog/2015/12/20/pocket-rocket/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/">Natural Cycles Apple Watch app</a>
+						
+					</h2>
+					<time datetime="2015-12-17"><a href="/weblog/2015/12/17/">December 17, 2015</a></time>
+				</header>
+
+				
+				<p>I’m very proud to announce that my first Apple Watch app for a client has gone live in the App Store; Natural Cycles.</p>
+
+				
+					<a href="/weblog/2015/12/17/natural-cycles-apple-watch-app/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/16/the-divide-4-getting-into-code/">The Divide #4 - Getting into code</a>
+						
+					</h2>
+					<time datetime="2015-12-16"><a href="/weblog/2015/12/16/">December 16, 2015</a></time>
+				</header>
+
+				
+				<p>Episode 4 of The Divide, a podcast I co-host, has just gone live. This week, we discuss the routes we all took to becoming software developers. We take a look at how the programmer market is evolving while sharing our experiences of how we learned to code a...</p>
+
+				
+					<a href="/weblog/2015/12/16/the-divide-4-getting-into-code/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/12/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/10/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

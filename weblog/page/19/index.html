@@ -9,550 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/19/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/19/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/19/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/19/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">Syncing the WallaBee Store</a></h1>
-			
-			<time datetime="2013-01-22" pubdate=""><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">January 22, 2013</a></time>
-    	</header>
-    	<div>
-			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
-
-<p>If you’ve played <a href="http://wallabeegame.com/">WallaBee</a> you’ll know that one of the key areas of the app is the Store, a place where you can buy items with the app currency you collect. The Store has a 3 x 4 grid of items with a timer under each; when the timer runs out, a new item is displayed for purchase. This all sounds straightforward, but when the WallaBee API started getting 3 million hits per day, the Store was one of the first areas to suffer. In this article, I want to run through a few of the problems I experienced when building it the first time, and go into details on the improvements I’ve just added in v1.1.5 of the app which will be available this week.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2013/01/store.jpg" alt="The WallaBee Store" /></p>
-
-<h2 id="the-original-plan">The Original Plan</h2>
-
-<p>In my mind, the Store was going to be fairly simple. It had to be the same for everybody so I’d set up a CRON job that would populate a database table with the upcoming items. Every minute, a check would be performed and items would be added to make sure there was something in every spot until the next time the script ran. Every item had a start and end time that was fixed but had a random amount of seconds (between 10 and 45) so that each item would ‘run out’ at different times. Whenever a player visted the Store, an API call would retrieve the items at each position and do some basic math to work out how long it would be until the position needed to be restocked. Finally, there was an API call to reload just a single position which would be called when an item ran out and a new one was needed. Simple!</p>
-
-<p>The problem with this is that WallaBee became popular and the database bore the brunt when a new item was released and the players descended on the Store. This meant that, when a position needed restocking, there could be thousands of requests in the same second all asking the database to tell them what that item should be. Those kinds of numbers don’t work well (it’s basically a denial of service attack) and so the Store would gradually become emptier and emptier as the network activity indicator struggled and the database slowly spat out what items should be where. Another issue was timing; there was a slight overlap between expiration and start times of items and so clever developers could look and work out when a new item was appearing in the Store upto 15 seconds before the item appeared (leading to an unfair advantage). In addition, if the network connection was slow, some players could be behind the live Store by 10 seconds or so meaning they would be at a disadvantage when something new appeared.</p>
-
-<p>Clearly there was work to be done.</p>
-
-<h2 id="the-problems">The Problems</h2>
-<p>I had three key problems to solve.</p>
-
-<ol>
-  <li>The Store had to be synced for everybody. I wouldn’t accept more than a 500ms gap between players regardless of their connection speed.</li>
-  <li>It had to be secure with no chance of seeing what item was coming in advance, even if you sniffed the network traffic with something like <a href="http://www.charlesproxy.com">Charles</a>.</li>
-  <li>It needed to be fast. This meant no database calls and as few API calls as possible, especially during peak times.</li>
-</ol>
-
-<p>In addition, the solution needed to be scalable as I would be adding multiple stores in the next major version of the app. The app would have to be able to display around 80 items at a time rather than 12.</p>
-
-<h2 id="the-new-plan">The New Plan</h2>
-<p>My solution was that the server would generate a physical file every minute that showed all of the updates for the next 10 minutes. When a device requested the Store, it would download this file (no database calls) along with a synchronisation timestamp. This file would be unpacked on the device and each item would be stored locally so that the Store could continue on without making any network calls. At some random point before the 10 minutes was up, the device would request the next 10 minutes worth of data and unpack it silently in the background.</p>
-
-<p>Whilst it sounded good on paper, it would require a lot of work to get everything working correctly. Each piece is inter-connected but I’ll try and explain the general timeline of how it works along with a bit of code.</p>
-
-<h2 id="store-generation">Store Generation</h2>
-
-<p>The first thing that needs to happen is that the server has to generate 10 minutes worth of items. I created a new table that would hold the item objects and wrote a basic CRON job that went through each position and randomly chose an item<sup id="fnref:random" role="doc-noteref"><a href="#fn:random" class="footnote" rel="footnote">1</a></sup> along with a random shelf life between 45 seconds and 4 minutes. This runs every minute and ensures that there is always 10 minutes worth of items coming up. A separate CRON job then runs and compiles these items into a single JSON file which is then encrypted with a military grade cipher (more on that shortly). This file is stored locally and updated every minute. The end result is that you can request the file at any time and always be sure that you have the next 10 minutes worth of items.</p>
-
-<h2 id="encryption">Encryption</h2>
-
-<p>One of the key things I wanted to ensure was that the Store was secure as I wouldn’t want anybody to sniff the network traffic and see that a new item was coming out in 7 minutes time (it should always be a surprise). To that end, the file is encrypted using <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES-256</a> before being encoded in Base64 for easy transporting. To do this in PHP is fairly simple:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="nv">$json</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
-<span class="nv">$offset</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="p">(</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$json</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span><span class="p">);</span>
-<span class="nv">$key</span> <span class="o">=</span> <span class="err">‘</span><span class="no">YOURPASSWORDHERE</span><span class="err">’</span> <span class="mf">.</span> <span class="nb">str_repeat</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="mh">0x00</span><span class="p">),</span> <span class="mi">16</span><span class="p">);</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$json</span> <span class="mf">.</span> <span class="nb">str_repeat</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="nv">$offset</span><span class="p">),</span> <span class="nv">$offset</span><span class="p">);</span>
-<span class="nv">$encryptedData</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">mcrypt_encrypt</span><span class="p">(</span><span class="no">MCRYPT_RIJNDAEL_128</span><span class="p">,</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="s1">'cbc'</span><span class="p">));</span></code></pre></figure>
-
-<p>The thing that most people miss off is the padding as the data to encrypt has to be a multiple of 16 characters and the characters you use for the padding follow a specific rule; they use the character code of the number of characters you need to pad (for example, if you have to use 7 characters of padding, you’d do it with 7 x chr(7). Another key thing was to use ‘cbc’ as the mode as the default ‘ecb’ found on many tutorials doesn’t work well on the iPhone.</p>
-
-<p>Speaking of iOS, decrypting this file is fairly simple using the <a href="https://github.com/AlanQuatermain/aqtoolkit/tree/master/CommonCrypto">NSData Category from the CommonCrypto section of aqtoolkit</a>; it’ll be decoded into NSData which can then be turned into an NSString before using the native JSON library to convert it into an NSDictionary.</p>
-
-<h2 id="time-synchronisation">Time Synchronisation</h2>
-
-<p>The other key feature that needed to be implemented was that the iOS device should be synced to the server time so that all players would be shown the items at the correct times; we don’t want players to be behind or ahead even though the API would stop anybody from purchasing an item that isn’t released yet.</p>
-
-<p>I looked into a number of options for time syncing but many of them use the built-in clock on the iPhone. This is no good as a player could simply advance their clock manually to see future items. Instead I opted to have the main Store file return a Unix timestamp of the time of the request. This is simple in PHP:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REQUEST_TIME'</span><span class="p">];</span></code></pre></figure>
-
-<p>The issue with this is that the time of the request will vary depending on how slow the uplink connection is on the device, and we need a way of accurately monitoring how long it took to download so we can add an offset.</p>
-
-<p>I’ve been using <a href="https://github.com/MugunthKumar/MKNetworkKit">MKNetworkKit</a> for my iOS networking needs (although I’m planning on switching to <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> in the next release) and it provides a useful block-based method on network operations called onUploadProgressChanged. This provides a double which tells you, as a percentage, how much of your upload is done. When it gets to 1.0, that means you have successfully ‘hit’ the API which should tally up to the $_SERVER[‘REQUEST_TIME’] on the server side<sup id="fnref:accuracy" role="doc-noteref"><a href="#fn:accuracy" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>Now we know exactly what time we hit the server, we need to start some form of timer so we can see how long it takes until the download completes. To do this, we use CACurrentMediaTime()<sup id="fnref:mediatime" role="doc-noteref"><a href="#fn:mediatime" class="footnote" rel="footnote">3</a></sup>. This returns a CFTimeInterval which is roughly the amount of time since your device was rebooted; think of it as a UNIX timestamp that resets every time you start up your phone. I get the current media time upon the successful upload completion, and when the download is complete I get it again and subtract the difference (so I can see, for instance, that the download has taken 572.42ms). We then add this to the timestamp retrieved from the server to get the current server time; we’re now in sync!</p>
-
-<h2 id="rendering-the-ui">Rendering the UI</h2>
-
-<p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref:nstimer" role="doc-noteref"><a href="#fn:nstimer" class="footnote" rel="footnote">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
-
-<figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span> <span class="p">(</span><span class="n">_tickTimer</span><span class="p">)</span> <span class="p">{</span>
-	<span class="p">[</span><span class="n">_tickTimer</span> <span class="nf">invalidate</span><span class="p">];</span>
-<span class="p">}</span>
-<span class="n">self</span><span class="p">.</span><span class="n">tickTimer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="n">userInfo</span><span class="o">:</span><span class="nb">nil</span> <span class="n">repeats</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
-<span class="p">[[</span><span class="n">NSRunLoop</span> <span class="nf">mainRunLoop</span><span class="p">]</span> <span class="nf">addTimer</span><span class="p">:</span><span class="n">_tickTimer</span> <span class="nf">forMode</span><span class="p">:</span><span class="n">NSRunLoopCommonModes</span><span class="p">];</span></code></pre></figure>
-
-<p>We now have a timer that ticks every second but I found it important to use our old friend CACurrentMediaTime() again rather than incrementing a timestamp. The reason for this is that the user may switch tabs, receive a phone call, or leave the app. In those situations, you need to be ready to resume when they come back and, presuming that they’re within the window of how much data you have loaded, you can just kick off without reloading everything. The problem is, if you increment the timer every tick, you’ll start deviating from the start time if you jump back and forth between tabs as the timestamp is always rounded. By storing the CACurrentMediaTime() and the original timestamp when you start your first timer, you can be 100% accurate on your times by working out the number of seconds between now and the original CACurrentMediaTime() and adding them to your timestamp.</p>
-
-<p>With every ‘tick’ we need to update the UI. This is fairly straightforward and is a case of looking at each position, working out the percentage remaining, and applying that to the progress bar. When an item is due to run out, simply fade it out a second before it expires and on the next tick fade it back in. This leads to seamless animations where before there was a fade out, network request, then gradual fade in. The results were so stark in comparison that I had to slow down the change animation as, without the network lag, it was too quick!</p>
-
-<p>One final improvement I made was that the ‘ticks’ only happen when you are viewing the Store. Previously, the Store would continuously update in the background (including network requests) leading to a waste of CPU and battery life and making the rest of the app feel sluggish. Now, as soon as you navigate away, the timer is invalidated and nothing is updated. When you come back, the UI is refreshed and the timer is restarted (accurately as mentioned above).</p>
-
-<p>The only thing we need to remember to do periodically is update our local store. When the Store is first loaded, I choose a random time between 6 and 9 minutes to perform an update. This is to try and spread out the number of requests to the Store file as typically we get 50x more users online when a new item comes out. If they all reloaded the Store at the exact same times we’d have hundreds of API requests in the same second still (admittedly it’s less of an issue as they aren’t hitting the database but it pays to spread the load). If the network connection fails or there is a server problem, the Store will try and reload after 5 seconds until such a time that it gets data. Crucially, the Store will keep going until it runs out of items at which point it stays bare until it gets back on track. To account for any deviations, the time sync is also performed on these updates.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>The new Store is far superior to the old one in every way. The server is more stable, the data is more secure, and the UI is much snappier. With the changes to the way the Store UI was rendered, the rest of the app feels faster as well and load on the server during peak times should be substantially reduced. Crucially, an issue that has been present for a while with crashes when switching between apps has finally been resolved now that the NSTimer code has been rewritten.</p>
-
-<p>It’s been quite a journey getting to this point but I’ve enjoyed learning about time syncing, encryption, and keeping time on iOS. As with many things, this is a progressive update and is a reminder that there is always more to learn.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:random" role="doc-endnote">
-      <p>Ok, when I say “randomly chose an item” it’s a bit more complex than that. Items are weighted based on release time, set, pricing, and so on and there are a number of custom overrides (i.e. Christmas is weighted down so you hardly see those items whilst the One Set To Rule Them All is weighted up as it is a huge collection and takes people longer to complete). In future versions, there will be multiple stores that each have their own rules (i.e. there might be a Store which only has items that are over 6 months old or only items from a particular series of sets). <a href="#fnref:random" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:accuracy" role="doc-endnote">
-      <p>It’s not exact but it’s within ~200ms which is accurate enough for this. <a href="#fnref:accuracy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:mediatime" role="doc-endnote">
-      <p>CACurrentMediaTime() is specifically designed for gaming where you need to have time independent of the system clock and that doesn’t need to be reconciled with an actual world time. For example, the early versions of Tiny Tower had a bug in which you could move your system clock forward in order to get around things like “wait 3 hours for restocking”. They now start a CACurrentMediaTime() when you open the app and this is used to track time.. every second, it is checked and the overall time spent is worked out so it knows when 3 hours has passed, not when the timezone says 3 hours has passed. <a href="#fnref:mediatime" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:nstimer" role="doc-endnote">
-      <p>I hadn’t realised this in the previous version and I had an NSTimer for each position of the Store! This lead to a large number of unexplained crashes as memory ran out. Lesson learned. <a href="#fnref:nstimer" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/20/lego-lotr-video-game/">LEGO: Lord of the Rings (Xbox 360)</a></h1>
-			
-			<time datetime="2013-01-20" pubdate=""><a href="/weblog/2013/01/20/lego-lotr-video-game/">January 20, 2013</a></time>
-    	</header>
-    	<div>
-			<p>One of the things I’ve wanted to do this year is to finally finish a few of the games I have lying around and publish a few short reviews of them. I’m not going to bother giving them a score but I will give an overview, a few pros and cons, and my final verdict which should boil down to whether you should buy it or not. I’ll only review games that I have either completed or abandoned (if they were that bad). I’ve just completed playing ‘LEGO: Lord of the Rings’ on the Xbox 360 so I’ll start there…</p>
-
-<h2 id="overview">Overview</h2>
-<p>The LEGO games have been a big success over the past few years starting with ‘LEGO: Star Wars’ nearly 8 years ago. I first started playing them around 4 years ago with ‘LEGO: Harry Potter (Years 1-4)’ and instantly fell in love with a game that is fundamentally about collecting things. Sure you get to go around and smash stuff up (and very occassionally build things) but the basic aim is to collect special bricks, characters, and other unlockables.</p>
-
-<p>‘LEGO: Lord of the Rings’ (I’m just going to call it LOTR from now on) is no different but they have mixed things up in several ways. Firstly, the graphics are much improved on older LEGO titles with decent shading, textures, and shadows. I had doubts after playing ‘LEGO: Batman 2’ (the most recent title prior to this one) as that game was generally made up of dark areas with an irritating jagged rain effect and looked terrible. Luckily LOTR doesn’t suffer from that problem. Also similar to ‘LEGO: Batman 2’ is the inclusion of proper voice acting for the characters. In previous LEGO games, the characters would mumble and use a mixture of gestures, props, and expressions to get the point across. Whilst this could be a lot of fun, it could be confusing if you weren’t intimately familiar with the plots they were acting out. Several people had doubts about giving the LEGO cast voices but it actually works incredibly well, particularly as they are using the voice recordings from the films (although I noticed a lot of them weren’t from the published films so may be from the cutting room floor).</p>
-
-<p>Another big change is the inclusion of a roaming world. Rather than having a central hub area (Port Royal in Pirates of the Caribbean, Hogwarts in Harry Potter, Gotham City in Batman), you are free to traverse the entirity of Middle Earth. You can walk from The Shire to Mordor (there’s a predictable achievement if you do it as Boromir) and simply activate the 18 plot levels as and when you get to key areas. The scale and depth is absolutely perfect and you’ll be wandering around for hours between levels as you get sidelined by shiny objects in the distance.</p>
-
-<p>Speaking of getting sidelined, LOTR includes a new feature in the form of quests. As you walk around Middle Earth, you’ll encounter random characters who need a specific item. Your job is to retrieve it for them in return for either a Mithril or Red Brick (there are 250 Mithril Bricks to collect that can be used to forge new items and there are 20 Red Bricks that function as cheats such as 2x multipliers on studs, the game currency). Unfortunately, as the quests aren’t part of the films, they have drafted in some pretty bad voice acting for these sections. It is a great addition though and makes getting the Red Bricks slightly harder than in previous games. The items you can collect sometimes have a useful property as they will generally mimic some character skill. For example, one of Frodo’s skills is that he can use the Light of Eärendil to illuminate areas you couldn’t otherwise explore, but there are several items that also perform that task. Any character can use the items you’ve collected in Free Play mode (a mode where you play a level with any characters and items you’ve unlocked) which means that you can access hidden collectibles without necessarily having unlocked the appropriate character. I tended to always unlock the characters so never really used the item system, but there are a few places where you are forced to such as when you are Frodo wearing The Ring on the Amon Hen level.</p>
-
-<h2 id="pros">Pros</h2>
-<ul>
-  <li>The ability to walk around all of Middle Earth with seamless transitions between key locations.</li>
-  <li>Full voice acting provided by the film cast.</li>
-  <li>New quest system adds some extra challenges.</li>
-  <li>An incredible number of different abilities across characters (my favourite is definitely Gimli; you have to toss him to break certain walls).</li>
-  <li>All of the key scenes from the films acted out in LEGO form (Helm’s Deep is simply stunning).</li>
-  <li>A good number of non-plot achievements i.e. “They’ve taken the hobbits to Isengard” which you unlock by going to Isengard as every playable hobbit (which includes Bilbo and Rosie).</li>
-  <li>I’m not really sure if I should list this as a ‘pro’ but there isn’t any online multiplayer. Instead, there is a fantastic 2-player local co-op with an intelligent split-screen and the ability for player 2 to drop in and out at will. I think this is a ‘pro’ as it encourages people to play together rather than via the internet. It also means there aren’t any irritating ‘multiplayer only’ achievements making it perfectly feasible to get 1000g playing solo.</li>
-  <li>Around 40-60 hours of gameplay to get all achievements and 100% game completion.</li>
-</ul>
-
-<h2 id="cons">Cons</h2>
-<ul>
-  <li>The quest feature isn’t explained very well. I had to look online to work out that you get the items they ask for in the levels, not in Middle Earth (this wasn’t helped by the fact that the first person you meet asking for one tells you the item is ‘on the road’ when it means ‘on the road in that level you just did’).</li>
-  <li>The voice acting on the item quests is truly awful. Admittedly, the text they’ve got to work with is awful as well.</li>
-  <li>Changing between characters whilst in Middle Earth can be a bit of a pain. You always have 2 characters in play but if you change the 1st one to be the 2nd one, it switches to them rather than changing your character. For example, you have Sam standing in Minas Tirith and you’ve just climbed to the top of the White Tower as Legolas when you realise you need Sam to light the flame. When you go to character selection and change to Sam, it swaps to the other player rather than changing Legolas to Sam. It can also happen randomly if you’ve used the character you want with the other player recently.</li>
-  <li>Some of the jumping puzzles when roaming Middle Earth are damn near impossible due to glitchy camera angles.</li>
-</ul>
-
-<h2 id="squee-moments">Squee Moments</h2>
-<ul>
-  <li>The 3 film cameos from Peter Jackson are all in the game (he’s usually holding an Oscar).</li>
-  <li>Tom Bombadil is an unlockable character.</li>
-  <li>You not only get to fight the Balrog whilst falling in Khazad-dûm (as per the opening of The Two Towers) but you also get to kill him on top of a snowy peak later on.</li>
-</ul>
-
-<h2 id="verdict">Verdict</h2>
-<p>You should buy this game. Definitely. Like all LEGO games, it appeals to every age group and has a lot more depth than you would think. As a Lord of the Rings fan, I found this to be a stunningly good use of the license rather than a shameless cash-in like a lot of the Lord of the Rings games. It’s evident that the developers working on it were huge fans as well.</p>
-
-<p>Highly recommended!</p>
-
-<h2 id="one-more-thing">One More Thing</h2>
-<p>Whilst I’m talking about LEGO Lord of the Rings, I found <a href="http://www.flickr.com/photos/92099762@N05/8390728187/in/photostream">some interesting leaks</a> online about the second wave of LEGO sets that are due to launch sometime around Q1/2 this year. Practically confirmed so far are:</p>
-
-<ul>
-  <li>Wizard Battle (Gandalf and Saruman)</li>
-  <li>The Council of Elrond</li>
-  <li><a href="http://www.flickr.com/photos/92099762@N05/8390693767/in/photostream/">The Black Gate</a> (including a Mouth of Sauron minifig)</li>
-  <li>Pirate Ship Ambush</li>
-  <li><a href="http://www.clickabrick.co.uk/2013/01/10237-tower-of-orthanc-confirmed.html#.UPwcZqWIFcw">The Tower of Orthanc</a> - Oh. Hell. Yes.</li>
-</ul>
-
-<p>There are <a href="http://www.thebrickfan.com/lego-lord-of-the-rings-2013-set-rumors/">also rumours</a> of a Treebeard and Balrog set - there haven’t been any leaked images of these so we’ll see but a LEGO Balrog has been on a lot of wishlists since the license was first announced.</p>
-
-<p>In the mean time, I think I’m going to attempt to build this <a href="http://leonardoslegos.blogspot.co.uk/p/project-lego-tower-of-orthanc.html">fan-made 1.8 metre high Tower of Orthanc</a>…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="http://disneyparks.disney.go.com/blog/2013/01/taking-the-disney-guest-experience-to-the-next-level/" class="external">Disney MyMagic+</a></h1>
-			
-			<time datetime="2013-01-08" pubdate=""><a href="/weblog/2013/01/08/disney-mymagic/">January 08, 2013</a></time>
-    	</header>
-    	<div>
-			<p>Exciting news from <a href="http://disneyparks.disney.go.com/blog/2013/01/taking-the-disney-guest-experience-to-the-next-level/">Disney</a>:</p>
-
-<blockquote>
-  <p>Linking the entire MyMagic+ experience together is an innovative piece of technology we developed called the MagicBand. Worn on the wrist, it will serve as a guest’s room key, theme park ticket, access to FastPass+ selections, PhotoPass card and optional payment account all rolled into one. We’ve began testing certain aspects of MyMagic+ in Florida last month and the early reactions we’ve gotten have been fantastic.</p>
-</blockquote>
-
-<p>At present, if you stay at a Walt Disney World Resort (which you really should), you get a plastic card which acts as a room card, charge card, dining plan card, and theme park ticket. It can also be used on their cruise ship to access your room and make purchases if you add that to your holiday. With this update, they’re giving all guests an RFID wristband which they can then use for the same things as well as verifing FastPass tickets (no more annoying paper receipts) and using the PhotoPass service. It’s a great new feature and I can’t wait to see it roll out.</p>
-
-<p>In addition, it sounds like they’re making an iOS app that you’ll be able to book dinner reservations and, more exciting, FastPass tickets through. It’s going to be a good year to go to Walt Disney World!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/08/freelance-availability/">Freelance availability</a></h1>
-			
-			<time datetime="2013-01-08" pubdate=""><a href="/weblog/2013/01/08/freelance-availability/">January 08, 2013</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been neglecting this website of late as I’ve been working fulltime on <a href="http://wallabeegame.com/">WallaBee</a> for the past few months. However, I’m currently available for a short (&lt; 3 month) freelance iOS contract or project ideally on a remote basis although I can obviously travel for key meetings, etc. If you have something you think may be of interest, then <a href="/contact/">please get in touch</a>.</p>
-
-<p>I’ll be getting around to updating this website more fully at some point but you can always follow me on <a href="http://alpha.app.net/bendodson">App.net</a> or <a href="http://twitter.com/bendodson">Twitter</a> or read my personal blog at <a href="https://bendodson.com/">bendodson.com</a>.</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/06/passwords-and-encryption/">Passwords and Encryption</a></h1>
-			
-			<time datetime="2013-01-06" pubdate=""><a href="/weblog/2013/01/06/passwords-and-encryption/">January 06, 2013</a></time>
-    	</header>
-    	<div>
-			<p>I’d been thinking for a while that my password setup wasn’t particularly secure; a fairly basic 10 character password with a mixture of uppercase, lowercase, and some digits that I used on every website and rarely changed (maybe once a year). I’d been reading about <a href="http://agilebits.com/onepassword">1Password</a> but could never really be bothered to make the switch. I had some spare time over the Christmas holidays so I finally got around to changing over to a much more secure system. This entry is a roundup of the process I went through.</p>
-
-<h2 id="using-a-password-manager">Using a password manager</h2>
-<p>The first thing to do was switch to a system of having a different password for every website. The reason for this is that a single breach of one account will lead to vulnerabilities in the others (and there are a lot of websites and apps out there that store your password in an unencrypted form). Each password should also be very secure.</p>
-
-<p>To do this, you really need a password manager; an app that will store all of your passwords for you. After a bit of research, I found <a href="http://agilebits.com/onepassword">1Password</a> to be the most suitable for my needs. As well as storing passwords, it can also generate secure passwords (easily variable by length and number of digits and symbols) and store items such as license keys and credit card numbers. There is also a companion iOS app (very important) with cloud syncing and you can even open the database securely on other machines as the file itself has a web version of the app built in! The main thing though is that it is incredibly secure. I have a lot of trust for a company that is <a href="http://blog.agilebits.com/2012/07/31/1password-is-ready-for-john-the-ripper/">willing to publish exactly how they store passwords</a> and can reliabily demonstrate how difficult it would be to crack (not impossible, but incredibly difficult).</p>
-
-<p>I downloaded the <a href="https://agilebits.com/downloads/1Password/Mac">30 day trial of the Mac app</a> and came across my first decision; what to use for a master password? The core database is secure from automated attacks so the weakest link is going to be the password I choose for it. Obviously I shouldn’t use a basic password as I had before but it needs to be something I can remember (but not be directly related to me - after all, you’re most likely to be hacked by people that know you). Enter an excellent password generation system called <a href="http://world.std.com/~reinhold/diceware.html">Diceware</a>, a completely random way of creating a password. It works by giving you a list of words with a 5-digit code next to each one. You roll 5 six-sided dice and the result is your first word (i.e. if you rolled 1,6,3,2,2 then you’d look up 16322 in the <a href="http://world.std.com/%7Ereinhold/diceware.wordlist.asc">Diceware wordlist</a> and come up with ‘celia’. You repeat this process until you have a string of random words such that you get a password like ‘celia autumn well stern romeo veil’. As they are based on real words, you can remember them quite easily by linking them as a sentence or story. For additional security, you can mix it with your own system of punctuation or spacing so you end up with a possibility such as ‘Celia Autumn. well stern. Romeo:veil’ which would be a difficult password to crack but not too bad to remember. If you don’t like the idea of using a list such as Diceware, you could choose random words from a book with dice to choose the page number, line number, and word. For more ideas and an indepth look at generating a secure master password, read “<a href="http://blog.agilebits.com/2011/06/21/toward-better-master-passwords/">Toward Better Master Passwords</a>” from the AgileBits blog (I’d also recommend this <a href="http://xkcd.com/936/">xkcd comic on password strength</a>).</p>
-
-<p>With a master password chosen, I found it beneficial to type it out 50 times to get my fingers used to it. I had no problem remembering my password after that so I never had to write it down anywhere, something which may be a good idea for helping you to remember for the first few days but just seems a bit lax to me. Next, I went through the websites I used most often and updated their passwords with newly generated ones. I’m still stumbling across websites that I haven’t updated so I just make sure to create a new password for any website when I next use it.</p>
-
-<p>Finally, I purchased the iOS app and set up syncing via Dropbox. This ensures that I can always access the core database i.e. from another machine. The iOS app works very well and whilst it can be a pain to have to type in my mammoth password and then copy / paste whenever I want to do something such as purchasing an app, I deem it a worthwhile inconvenience.</p>
-
-<p>After 2 weeks of using 1Password, I’ve found it to be an incredibly useful solution. I assumed that the hassle of typing in my master password to get to my other passwords would be a hassle but overall I’m actually faster at accessing sites than before. This is mainly because I have different email addresses or usernames for each website or account. That information is now stored along with the password so I never enter the wrong details (or have to go through the time consuming ‘recover password’ options). I tried using the Safari extension for a while (which enables automatic form population) but ultimately found this to be distracting (prompting when I didn’t want it to) so uninstalled it.</p>
-
-<h2 id="encrypting-insecure-apps">Encrypting insecure apps</h2>
-<p>Whilst I was on a security warpath, I decided to try and do something about securing apps that have very poor or no built-in security. The main two offenders for me are <a href="http://dayoneapp.com">Day One</a> and <a href="http://www.jumsoft.com/money/">Money</a> both of which store their (sensitive) data in a completely accessible format. Whilst Day One does provide a password option, that is just for the app; you can read the XML files directly from the hard drive. As I store both of these databases in Dropbox (for easy syncing and backup), I wanted something a bit more secure.</p>
-
-<p>That’s when I found <a href="https://agilebits.com/knox">Knox</a> which happens to be made by  AgileBits, the same people behind 1Password. Knox is an encryption utility that allows you to create secure ‘vaults’. These vaults are secured by password and when unlocked take the form of a mounted disk image. You can put anything you want in them, and when you eject them they become a single encrypted file.</p>
-
-<p>In my setup, I created a new vault for each app, secured it with a ridiculously secure password (stored in 1Password), and then moved the database for each app into the mounted vault. Whenever I want to use the app, I unlock the appropriate vault and then launch the app from the vault itself. Once I’ve added my diary entry or transactions, I quit the app, and then close down Knox. The advantage to this is that if you open up either app without the vault unlocked, it can’t find the database so it creates a new one (meaning anyone trying to look at my transactions will just get a blank app).</p>
-
-<p>The only issue I had with this set up is that I didn’t want to store the raw database files in iCloud or Dropbox (I do keep the Knox vault files in Dropbox though). This means that I lose the option to sync with a companion device so I can’t update Day One or Money via their companion iOS apps. This is more frustrating for Money (as I’m more likely to want to add a transaction at the point of purchase) but isn’t a dealbreaker for my usage. I’d rather have my transaction history secure and accessible on one machine than insecure and synced on all my devices.</p>
-
-<h2 id="locking-down-my-laptop">Locking down my laptop</h2>
-<p>The next thing for me to do was to increase the security on my MacBook which I use as my main machine. OS X has a lot of built-in security options that aren’t enabled by default. The first one I enabled was ‘FileVault’ which automatically encrypts your hard drive. The issue with it is that if you forget your main OS X password then there is no recovery for the files on the machine unless you have a special code that you are given at the time of enabling. I stored this in 1Password for extra security but as everything important in my machine is backed up on Dropbox (and also via Time Machine which you can also encrypt) I don’t feel it’s a big issue for the extra security it affords.</p>
-
-<p>The other setting I enabled was ‘Empty Trash Securely’ which you can enable in ‘Finder Preferences’. This basically performs a government style wipe on files as they are deleted from Trash meaning they are effectively shredded rather than just deleted. Emptying the Trash takes longer as a result but, again, it’s a worthwhile trade off.</p>
-
-<p>Finally, 1Password obviously can’t store my MacBook login (as you can only access it when logged in unless you visually copied it from an iOS device each time) so I needed to choose a new secure password for that. In my opinion, the password should be different to the 1Password master password but just as secure so Diceware combined with personal alterations is a good choice.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-<p>This new set up is obviously much more secure than what I was doing previously but I was struck by one fairly big problem; password resets. For instance, my Amazon password is very secure (so secure I don’t even know what it is) but it can be reset by answering security questions which are usually of the order of date of birth and Mother’s maiden name. By their very nature, a security question is a very personal thing (“what was your first pets name?”) so anybody that knows me (or can do a basic Google search) would be able to reset my accounts. That is partly how <a href="http://www.wired.com/gadgetlab/2012/08/apple-amazon-mat-honan-hacking/">Mat Honan of Wired</a> was successfully hacked last August.</p>
-
-<p>The best defence (in my opinion) against something like that is to fudge the security questions. If you accept the premise that your 1Password account is secure, then you don’t have need for the security questions (as you’ll never lose the password) so you should just fill them in with rubbish. Alternatively, create lies that you store in your 1Password account. If a website forces you to store something like “first pets name” then choose a random word from the Diceware list (i.e. ‘Celia’) and note that down against the account in 1Password. This is particularly useful for over-the-phone accounts (i.e. trying to reset iCloud) as anybody trying to breach your account will think they know the correct answer (my first pet was called ‘Chip’ to save you searching) but you’ve outsmarted them with a lie. When you need to verify yourself, you can simply look up the ‘correct’ answer from your secure 1Password database. As AgileBits point out ‘<a href="http://blog.agilebits.com/2011/06/21/toward-better-master-passwords/"><em>there are more ways to lie than to tell the truth</em></a>’.</p>
-
-<p>Nothing is ever going to be 100% secure, but these new changes should significantly reduce the chances of having my data or identity stolen. Hopefully the steps I’ve outlined above will make you think about how you are securing your information and help make you a bit more secure this year.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/12/29/dryathlon/">Dryathlon</a></h1>
-			
-			<time datetime="2012-12-29" pubdate=""><a href="/weblog/2012/12/29/dryathlon/">December 29, 2012</a></time>
-    	</header>
-    	<div>
-			<p>A couple of weeks ago, I saw an advert in GQ which caught my eye; the nation’s first “<a href="http://www.dryathlon.org/">Dryathlon</a>”. Created by Cancer Research UK, the idea is to give up alcohol for the month of January in order to raise money to help beat cancer.</p>
-
-<p>I’ve lost several family and friends to cancer so I decided to accept the challenge and give up all drinking in January. As many of you will know, I enjoy the odd bottle or three of red wine; by using the <a href="http://www.dryathlon.org.uk">calculator on their website</a>, it turns out that I spend around £198 per month on alcohol so I’ll be donating that amount to the fund at the end of the month.</p>
-
-<p>In addition, I’ve made <a href="http://www.justgiving.com/dryathlete-simon-wicks">Simon</a> and <a href="http://www.justgiving.com/dryathlete-alan-shaw">Alan</a> at <a href="http://wallabeegame.com/">WallaBee</a> join in and we’ve had a <a href="http://wallabeegame.com/blog/2012/12/29/dryathlon/">custom item designed</a> that can only be obtained by making a donation. The item will be available on a donation-only basis for 2 weeks or until we hit <a href="http://www.justgiving.com/teams/wallabee/">our team target</a> of £1000. After that point, it will be available in our Store for 10,000hc until the end of January; for every one of those items purchased, we’ll be donating an extra £1.</p>
-
-<p>My personal target is to raise £500 for Cancer Research so, if you are able to, please consider <a href="http://www.justgiving.com/dryathlete-ben-dodson">making a donation</a>. I’ll buy you a drink in February…</p>
-
-<p><a href="http://www.justgiving.com/dryathlete-ben-dodson">Donate Now!</a></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/12/28/cleaning-up-my-web-presence/">Cleaning Up My Web Presence</a></h1>
-			
-			<time datetime="2012-12-28" pubdate=""><a href="/weblog/2012/12/28/cleaning-up-my-web-presence/">December 28, 2012</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been running <a href="https://bendodson.com/">BenDodson.com</a> for 6 years. It originally started as a website to showcase my portfolio whilst doing some freelance work and slowly grew into a blog about web development, coding, and eventually iOS and general Apple speculation. Last year, I decided I wanted to split out into having separate personal and professional websites and so the content was moved to <a href="http://bendodsonapps.com/">BenDodsonApps.com</a> and this site became a standard Wordpress blog for me to post various bits and pieces that interested me.</p>
-
-<p>The problem is that I’ve never really liked it.</p>
-
-<p>Wordpress is too bloated for what I need and was only chosen because it’s easy to get templates for it. I haven’t updated the blog in ages purely because I don’t like the layout or design and couldn’t build up the enthusiasm to change it when I had far more pressing things to do. A few days off at Christmas seemed like the perfect opportunity to change that so today I’ve built the new BenDodson.com; I’ve ditched Wordpress for a static HTML 5 site compiled from Markdown files with Jekyll (read more about it on my <a href="/about/">about page</a>) and the design has been stripped back to be purely about the text. In addition, all previous content has been removed (my very old posts are still available on <a href="http://bendodsonapps.com/">BenDodsonApps.com</a>) so that I can have a clean break on a new weblog. It’s intended to be a place for longer posts on topics that interest me (everything from why I hate android to why I love LEGO) as well as a place for interesting links.</p>
-
-<p>Before I started on the new site, I sat down and took stock of all the places that I have a “web presence” with a view to working out a better way to do things going forward.</p>
-
-<p>The current line up (and proposed plan) is as follows:</p>
-
-<h2 id="personal-private">Personal (Private)</h2>
-<ul>
-  <li><strong>Facebook</strong> - A necessary evil and a way to stay in touch with family and close friends. If I haven’t met you in person, you won’t be on my Facebook.</li>
-  <li><strong>Day One</strong> - My private journal.</li>
-</ul>
-
-<h2 id="personal-public">Personal (Public)</h2>
-<ul>
-  <li><strong><a href="https://bendodson.com/">BenDodson.com</a></strong> - This website, a personal blog devoted to the topics that interest me.</li>
-  <li><strong><a href="http://alpha.app.net/bendodson/">App.net (@BenDodson)</a></strong> - Microblog that I’ll use to post random thoughts (and links) to on an increasingly infrequent basis.</li>
-  <li><strong><a href="http://twitter.com/bendodson/">Twitter (@BenDodson)</a></strong> - This will simply syndicate whatever is on App.net but it’s a good way for people to get in touch. I expect to stop using Twitter by the end of 2013 in favour of App.net.</li>
-  <li><strong><a href="http://instagram.com/bendodson/">Instagram</a></strong> - I stopped using Flickr a while back (and I don’t have a decent camera so it’ll stay deactivated for a while) so this is a good stopgap for sharing photos taken from my phone.</li>
-  <li><strong><a href="https://foursquare.com/bendodson/">Foursquare</a></strong> - I’m planning on deactivating this as I don’t share my location much these days. Maybe 2013 will be the year that I finally build the Gowalla successor that everyone has asked me to. We’ll see.</li>
-</ul>
-
-<h2 id="business">Business</h2>
-<ul>
-  <li><strong><a href="http://bendodsonapps.com/">BenDodsonApps.com</a></strong> - My professional website with my portfolio and work-orientated blog. Will be getting an update soon.</li>
-  <li><strong><a href="http://tubeupdates.com/">TubeUpdates.com</a></strong> - My TubeUpdates API. Might discontinue this at some point soon as TfL provide something similar these days.</li>
-  <li><strong><a href="http://wikilocation.org/">WikiLocation.org</a></strong> - My WikiLocation API. No plans to discontinue this as it doesn’t take up much of my time.</li>
-  <li><strong><a href="http://twitter.com/bendodsonapps/">Twitter (@BenDodsonApps)</a></strong> - I’ve not posted anything on this for months but may start it up again as @BenDodson becomes more personal.</li>
-  <li><strong><a href="http://twitter.com/wikilocation/">Twitter (@WikiLocation)</a></strong> - Yet another Twitter account that doesn’t get many posts (mainly because WikiLocation doesn’t get updated very often). I think this will get merged into @BenDodsonApps.</li>
-</ul>
-
-<p>That’s quite a lot of accounts and I’m sure I’m missing some of the other things that I’ve stopped using like Last.fm, Flickr, and Tumblr. This also doesn’t include all of the WallaBee social sites that I run such as Twitter (one for the app, one for the APIs), App.net, Google+, Facebook, and Tumblr.</p>
-
-<p>One of the things I’ve noticed most over the past 6 years is that people really don’t give a shit about what other people are doing; they <em>think</em> that people care about what they’re doing though. The ‘lifestream’ was all the rage when I started this site and I naively signed up for every new service and posted everything I was doing in the misguided belief that people actually bothered reading it. As we come to the end of 2012, I’ve realised that there is far too much crap on the internet that I just don’t care about, and I’ve been adding to it by checking in on everything from places to music to wine and everything inbetween. That’s why I’ve taken a good look at my web presence and attempted to strip it back to work and pleasure. Microblogging is going on the back burner and I’ll be partaking in a lot less “social” networking.</p>
-
-<p>From now on, BenDodson.com will be a more wordy diary type affair with entries that reflect my mood and opinion. We’ll see how long it lasts…</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/03/16/iphone-apps-on-the-new-ipad/">iPhone apps on the new iPad</a></h1>
-			
-			<time datetime="2012-03-16" pubdate=""><a href="/weblog/2012/03/16/iphone-apps-on-the-new-ipad/">March 16, 2012</a></time>
-    	</header>
-    	<div>
-			<p>I received a new iPad today (along with a 1080p Apple TV) and whilst I don’t want to review it in detail (there are plenty of other reviews) I will say that the screen is absolutely incredible. Whilst most 3rd party apps are not retina-ready yet, those that are look stunning. I actually used my iPad to answer my emails today as it looked so much crisper than my iMac!</p>
-
-<p>Anyway, one of the things that has interested me is how iPhone apps would look on the new iPad. Bearing in mind that there are 4x as many pixels, I assumed that Apple would use retina versions of iPhone apps scaled up. As you might recall, the original iPad and iPad 2 would use regular iPhone apps and scale them rather than using the retina equivelants (something <a href="https://bendodson.com/weblog/2011/06/10/does-ios-5-finally-allow-retina-display-iphone-apps-to-run-unscaled-on-the-ipad/">I’ve written about before</a>). I could understand this for imagery but the keyboard and text looked horrible when scaled making any app that wasn’t a game pretty much unusable at 2x mode on an iPad.</p>
-
-<p>Fortunately this has changed with the new iPad. Apps are stills scaled, but the fonts are much crisper as is the keyboard.</p>
-
-<p>To demonstrate, I’ve tested a couple of apps on iOS 5.1 on both the iPad 2 and new iPad and listed some screenshots below. These have been scaled down to fit the page so you will need to click / tap each one to load up the fullsize versions. You won’t notice the difference (aside from some colour improvements) unless you view at fullsize as they look pretty similar when scaled down.</p>
-
-<p>The new iPad is on the left - iPad 2 is on the right.</p>
-
-<h2 id="wallabee">WallaBee</h2>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/wallabee-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/wallabee-1-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/wallabee-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/wallabee-1-thumb.jpg" alt="" /></a></p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/wallabee-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/wallabee-2-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/wallabee-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/wallabee-2-thumb.jpg" alt="" /></a></p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/wallabee-3.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/wallabee-3-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/wallabee-3.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/wallabee-3-thumb.jpg" alt="" /></a></p>
-
-<h2 id="spotify">Spotify</h2>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/spotify-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/spotify-1-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/spotify-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/spotify-1-thumb.jpg" alt="" /></a></p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/spotify-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/spotify-2-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/spotify-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/spotify-2-thumb.jpg" alt="" /></a></p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/spotify-3.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/spotify-3-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/spotify-3.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/spotify-3-thumb.jpg" alt="" /></a></p>
-
-<h2 id="foursquare">Foursquare</h2>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/foursquare-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/foursquare-1-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/foursquare-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/foursquare-1-thumb.jpg" alt="" /></a></p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/foursquare-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/foursquare-2-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/foursquare-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/foursquare-2-thumb.jpg" alt="" /></a></p>
-
-<h2 id="path">Path</h2>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/path-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/path-1-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/path-1.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/path-1-thumb.jpg" alt="" /></a></p>
-
-<p><a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/path-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad3/path-2-thumb.jpg" alt="" /></a> <a href="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/path-2.PNG"><img src="https://bendodson.s3.amazonaws.com/weblog/2012/03/ipad2/path-2-thumb.jpg" alt="" /></a></p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/03/14/ios-5-1-location-services-bug/">iOS 5.1 Location Services Bug</a></h1>
-			
-			<time datetime="2012-03-14" pubdate=""><a href="/weblog/2012/03/14/ios-5-1-location-services-bug/">March 14, 2012</a></time>
-    	</header>
-    	<div>
-			<p>Whilst using the public version of iOS 5.1 I’ve noticed an interesting bug with one of my apps. <a href="http://itunes.apple.com/gb/app/wallabee/id479211430?mt=8">WallaBee</a> uses Location Services but as all good apps should it makes a point of stopping location monitoring after a certain amount of inactivity (to save battery) and also when the app goes into the background. Location monitoring starts up again as soon as you go back to the foreground or navigate to a page that will require more precise location monitoring.</p>
-
-<p>On iOS 5.0.*, closing the app would lead to the Location Services indicator disappearing immediately. On iOS 5.1, Location Services stays active for ~10 seconds after it’s been told explicitly to stop monitoring. Initially I thought this might be a problem with the code I’d written but, after some testing on multiple devices and with multiple apps, it turns out this is an issue that affects all location based apps on iOS 5.1.</p>
-
-<p>It isn’t really a big issue but it is fairly annoying, particularly as some apps do keep monitoring your location in the background so you end up trying to work out what is still running only to realise it’s the OS not giving up when it should do. It’s particularly annoying as an app developer - v1.0.3 of WallaBee came out on the day iOS 5.1 was released and I’ve now had 3 enquries as to why Location Services is less efficient in the new version (whereas it’s actually much more efficient in the app).</p>
-
-<p>In terms of why iOS 5.1 is doing this, I can only assume that Location Services is told to turn off after the full amount of background task allowance has been used. If an app doesn’t ask to run in the background, it has around 10 seconds after being closed to do any tidying up (i.e. saving documents, closing network connections) before the OS forcably terminates it. This seems to be the case with Location Services as if you close the app and then force quit, the service is stopped (suggesting ownership is with the app, not the OS).</p>
-
-<p>It’s probably an oversight on Apple’s part (as I can’t think of a good reason why this would be built-in) but I thought I’d put up a post on the issue for any other developers who run into the problem and for anyone using my apps and wondering why Location Services is still active once the app is closed.</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2012/03/13/the-curious-case-of-the-new-ipad/">The curious case of "the new iPad"</a></h1>
-			
-			<time datetime="2012-03-13" pubdate=""><a href="/weblog/2012/03/13/the-curious-case-of-the-new-ipad/">March 13, 2012</a></time>
-    	</header>
-    	<div>
-			<p>The strangest thing that happened at the iPad announcement last week turned out not to be the lack of Siri, presence of a home button, or uninteresting iOS 5.1 update, but instead the name; “the new iPad” rather than the universally predicted “iPad 3” (or late runner “iPad HD”). Based on this news, most people seem to think that there is a convergence with other product names in that everything will end up as just “iPad”, “MacBook Air”, “iPod Nano”, etc. In particular, people are predicting that the iPhone 5 (which would actually be the iPhone 6 - drives me crazy!) will now be launched as “the new iPhone”.</p>
-
-<p>I don’t think this is correct.</p>
-
-<p>I’ve tried explaining it on Twitter but 140 characters ain’t a lot of room to play with so I thought I’d lay some thoughts out on Apple’s naming conventions in this post. I’ll also try and second guess some of Apple’s future product announcements based purely on naming.</p>
-
-<h2 id="ipod">iPod</h2>
-
-<p>The iPod is the pure example of the new iPad naming philosophy as they have always just been known as individual products. i.e. iPod, iPod Nano, iPod Shuffle, etc. Every year (pretty much) a new device is launched that immediately replaces the old ones. If you look at something like the iPod Nano, there have now been six of them (all in various shapes and sizes) but you can only ever buy the latest version. In support documents, they are simply referred to by generation i.e. this case will work with “iPod Nano (6th generation)”.</p>
-
-<h2 id="mac">Mac</h2>
-
-<p>The Mac lineup is slightly different to the iPod lineup in that there are more customisations that can be made. You can change processors, RAM, hard drives, screen sizes, etc but fundamentally there is only one product per line. When a new product is released, the old one is immediately unavailable. The naming is also slightly different - rather than referring to the latest Mac mini as “Mac mini (10th Generation)” it is referred to by date making the latest one “Mac mini (Mid 2011)”. This works because the Mac line can be updated multiple times per year with processor bumps, etc, so it makes sense to refer to its launch date rather than its generation. This is the same naming convention that a lot of Apple’s software uses such as iWork ‘09. Whilst iTunes isn’t named after a year (it’s just a version) you could add “20” in front to make them year based as they have been annual since v8.0 came out in 2008.</p>
-
-<p>As regards the future of the Mac lineup, there are currently 5 products; MacBook Air, MacBook Pro, Mac mini, iMac, and Mac Pro. I believe that convergence is going to happen on the MacBook Air / Pro lineup as it makes sense that Apple will make the Pro thinner, lighter, and will remove the optical drive. This is further evidenced by the fact that the MacBook itself was removed a while ago leaving the name free. In future, if you want an Apple laptop, you’ll just get “MacBook” - it could be any size from 11”-17” with various configurations but it will be one line. It’s also fairly likely that the Mac Pro will be removed for a slightly beefier iMac leading to just 3 lines; MacBook, Mac mini, iMac. That’s just pure speculation but it makes complete sense to me. If you want portable computing, you choose iPad or MacBook but you choose Mac mini or iMac for desktop computing.</p>
-
-<h2 id="ipad">iPad</h2>
-
-<p>The iPad lineup should have been simple - a single product that gets updated yearly and will always be known as “iPad”. However, Apple threw a spanner in the works by calling the second generation the “iPad 2”. There was no need to do this when the iPad 2 was the same price as the iPad and completely replaced it as per the iPod lineup but now they are stuck with it. By naming the iPad 3 “the new iPad”, it looks like they are trying to go back to that model but there is a big issue with that; the iPad 2 is still available for sale at a $100 discount. In Apple’s defence they’ve done a pretty good job of making this work with the structure of their website showing only “iPad” and then the “iPad 2” is a small button at the bottom. There is also a comparison chart which very quickly shows that “the new iPad” is newer than the “iPad 2”. It’s hardly an ideal situation though.</p>
-
-<p>So why have they done it? Whilst the iPad 2 could have been completely removed and replaced by the new iPad (which would make the naming all work out nicely) they wanted to keep selling the iPad 2 at a discount as it beats the competition quite nicely. The only real competitor to the iPad has been the Kindle Fire so by making the entry-level iPad slightly cheaper they can appeal to some of the people that might have been stuck choosing between the two. They couldn’t retroactively rename the iPad 2 so they were stuck with the name.</p>
-
-<p>My feeling on this is that the iPad 2 is going to be removed from sale before the end of 2012 and replaced by a smaller form factor (say 8”) and given a new line; “iPad Nano” or “iPad Mini”. This will get Apple to a good place where they have a cheaper iPad and the premium iPad and two simple lines that can be updated in the same way as the iPod lineup. I say this as if the iPad 2 was going to stick around for a full year I think the new iPad would have been called “iPad 2 Pro” as that’s essentially what it is - same form factor, better screen.</p>
-
-<h2 id="iphone">iPhone</h2>
-
-<p>This is the real issue - what will the new iPhone be called. Based on my tweet yesterday, most people think it will be called “the new iPhone” to follow the iPad example. I highly doubt it. The difference with the iPhone to all of Apple’s other products is that they keep selling the old models for up to 2 years. Just look at the lineup now; “iPhone 3GS”, “iPhone 4”, “iPhone 4S”. If the next iPhone is referred to simply as “the new iPhone” then you’ll end up with “iPhone 4”, “iPhone 4S”, “iPhone”. That might work, but in 2013 you’d have “iPhone 4S”, “iPhone”, “iPhone” and that’s where it falls apart.</p>
-
-<p>This is a tricky one for Apple and I don’t really have the answer. Let’s take a look at possible names for the next generation iPhone:</p>
-
-<ul>
-  <li><em>iPhone 5</em> - it’s the 6th generation iPhone so that won’t work.</li>
-  <li><em>iPhone 6</em> - Original, 3G, 3GS, 4, 4S, 6. Doesn’t really work as a numbering system but I wouldn’t rule it out.</li>
-  <li><em>iPhone 4G</em> - yesterday I thought this was a pretty good idea. Then I remembered that iOS 5.1 now refers to HSDPA+ as “4G” so I don’t think this can be used anymore.</li>
-  <li><em>iPhone LTE</em> - it’ll definitely have LTE integrated and iPhone’s have been named after their wireless tech before. However, LTE isn’t available around the world like 3G was so I don’t think they’ll go for this.</li>
-  <li><em>iPhone HD</em> - no. Just no.</li>
-  <li><em>the new iPhone</em> - I don’t think they can pull that trick twice.</li>
-  <li><em>iPhone 2012</em> - maybe.</li>
-</ul>
-
-<p>It’s a difficult situation and there is no obvious choice. I can see it going a number of ways though:</p>
-
-<ol>
-  <li>The long rumoured “iPhone Nano” makes an appearance leading Apple to create just two lines; iPhone and iPhone Nano. iPhone 4/4S won’t be sold at a discount (they’ll just disappear) meaning that Apple can refer to the iPhone 6 as just “iPhone”. I don’t think they can do this if they continue selling the 4/4S though.</li>
-  <li>iPhone changes to a year numbering system much like the Mac lineup - whilst you would just have “2012” instead of “mid 2012” it might work and allows you to distinguish between multiple versions easily. Not the tidiest of solutions though - “iPhone ‘12” or “iPhone 2012” doesn’t have the same simplicity as “iPhone 6” or “iPhone”</li>
-  <li>Apple name it “iPhone LTE” - it might not be available everywhere but at least it distinguishes. Might have an issue in 2013 though - LTES won’t work and there won’t be another wireless technology to use.</li>
-  <li>Apple choose something that isn’t in that list perhaps naming it after a design element with something like “iPhone Curve” (though obviously not “Curve” - RIM would have a fit if they’re still around)</li>
-</ol>
-
-<h2 id="summary">Summary</h2>
-
-<p>Whilst nearly all of the Apple product line has converged to yearly updates that replace the previous model, the iPad 2 has caused a problem in that it’s still hanging around at a discount. I’m fairly sure this is going to be replaced by a mini or a nano at some point in the near future thus ending this particular story.</p>
-
-<p>The iPhone, however, is a completely different story and I’m confident that Apple won’t name the next model “the new iPhone” unless they stop selling 3 versions of iPhone at the same time. That is doable (if a new line appears in the way I expect it to for the iPad) but I think it more likely that they will name the next iPhone after something about the device that we don’t know about yet; design, haptic touch, etc.</p>
-
-<p>As usual, time will tell. Apple have a habit of choosing things that you wouldn’t expect.</p>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/20/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/18/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 19 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/01/22/syncing-the-wallabee-store/">Syncing the WallaBee Store</a>
+						
+					</h2>
+					<time datetime="2013-01-22"><a href="/weblog/2013/01/22/">January 22, 2013</a></time>
+				</header>
+
+				
+				<p>Update: It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. Check this update for a better solution.</p>
+
+				
+					<a href="/weblog/2013/01/22/syncing-the-wallabee-store/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/01/20/lego-lotr-video-game/">LEGO: Lord of the Rings (Xbox 360)</a>
+						
+					</h2>
+					<time datetime="2013-01-20"><a href="/weblog/2013/01/20/">January 20, 2013</a></time>
+				</header>
+
+				
+				<p>One of the things I’ve wanted to do this year is to finally finish a few of the games I have lying around and publish a few short reviews of them. I’m not going to bother giving them a score but I will give an overview, a few pros and cons, and my final ver...</p>
+
+				
+					<a href="/weblog/2013/01/20/lego-lotr-video-game/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="http://disneyparks.disney.go.com/blog/2013/01/taking-the-disney-guest-experience-to-the-next-level/" class="external">Disney MyMagic+</a>
+						
+					</h2>
+					<time datetime="2013-01-08"><a href="/weblog/2013/01/08/">January 8, 2013</a></time>
+				</header>
+
+				
+				<p>Exciting news from Disney:</p>
+
+				
+					<a href="http://disneyparks.disney.go.com/blog/2013/01/taking-the-disney-guest-experience-to-the-next-level/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/01/08/freelance-availability/">Freelance availability</a>
+						
+					</h2>
+					<time datetime="2013-01-08"><a href="/weblog/2013/01/08/">January 8, 2013</a></time>
+				</header>
+
+				
+				<p>I’ve been neglecting this website of late as I’ve been working fulltime on WallaBee for the past few months. However, I’m currently available for a short (&lt; 3 month) freelance iOS contract or project ideally on a remote basis although I can obviously tra...</p>
+
+				
+					<a href="/weblog/2013/01/08/freelance-availability/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2013/01/06/passwords-and-encryption/">Passwords and Encryption</a>
+						
+					</h2>
+					<time datetime="2013-01-06"><a href="/weblog/2013/01/06/">January 6, 2013</a></time>
+				</header>
+
+				
+				<p>I’d been thinking for a while that my password setup wasn’t particularly secure; a fairly basic 10 character password with a mixture of uppercase, lowercase, and some digits that I used on every website and rarely changed (maybe once a year). I’d been readi...</p>
+
+				
+					<a href="/weblog/2013/01/06/passwords-and-encryption/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/12/29/dryathlon/">Dryathlon</a>
+						
+					</h2>
+					<time datetime="2012-12-29"><a href="/weblog/2012/12/29/">December 29, 2012</a></time>
+				</header>
+
+				
+				<p>A couple of weeks ago, I saw an advert in GQ which caught my eye; the nation’s first “Dryathlon”. Created by Cancer Research UK, the idea is to give up alcohol for the month of January in order to raise money to help beat cancer.</p>
+
+				
+					<a href="/weblog/2012/12/29/dryathlon/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/12/28/cleaning-up-my-web-presence/">Cleaning Up My Web Presence</a>
+						
+					</h2>
+					<time datetime="2012-12-28"><a href="/weblog/2012/12/28/">December 28, 2012</a></time>
+				</header>
+
+				
+				<p>I’ve been running BenDodson.com for 6 years. It originally started as a website to showcase my portfolio whilst doing some freelance work and slowly grew into a blog about web development, coding, and eventually iOS and general Apple speculation. Last year,...</p>
+
+				
+					<a href="/weblog/2012/12/28/cleaning-up-my-web-presence/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/03/16/iphone-apps-on-the-new-ipad/">iPhone apps on the new iPad</a>
+						
+					</h2>
+					<time datetime="2012-03-16"><a href="/weblog/2012/03/16/">March 16, 2012</a></time>
+				</header>
+
+				
+				<p>I received a new iPad today (along with a 1080p Apple TV) and whilst I don’t want to review it in detail (there are plenty of other reviews) I will say that the screen is absolutely incredible. Whilst most 3rd party apps are not retina-ready yet, those that...</p>
+
+				
+					<a href="/weblog/2012/03/16/iphone-apps-on-the-new-ipad/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/03/14/ios-5-1-location-services-bug/">iOS 5.1 Location Services Bug</a>
+						
+					</h2>
+					<time datetime="2012-03-14"><a href="/weblog/2012/03/14/">March 14, 2012</a></time>
+				</header>
+
+				
+				<p>Whilst using the public version of iOS 5.1 I’ve noticed an interesting bug with one of my apps. WallaBee uses Location Services but as all good apps should it makes a point of stopping location monitoring after a certain amount of inactivity (to save batter...</p>
+
+				
+					<a href="/weblog/2012/03/14/ios-5-1-location-services-bug/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2012/03/13/the-curious-case-of-the-new-ipad/">The curious case of "the new iPad"</a>
+						
+					</h2>
+					<time datetime="2012-03-13"><a href="/weblog/2012/03/13/">March 13, 2012</a></time>
+				</header>
+
+				
+				<p>The strangest thing that happened at the iPad announcement last week turned out not to be the lack of Siri, presence of a home button, or uninteresting iOS 5.1 update, but instead the name; “the new iPad” rather than the universally predicted “iPad 3” (or l...</p>
+
+				
+					<a href="/weblog/2012/03/13/the-curious-case-of-the-new-ipad/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/20/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/18/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

@@ -9,516 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/14/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/14/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/14/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/14/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/07/07/adding-exercise-data-to-activity/">Adding Exercise Data To Activity</a></h1>
-			
-			<time datetime="2015-07-07" pubdate=""><a href="/weblog/2015/07/07/adding-exercise-data-to-activity/">July 07, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been using the health features of the Apple watch <a href="https://bendodson.com/weblog/2015/05/26/working-out-with-apple-watch/">a lot recently</a> but today is the first time it has stopped me from doing a specific exercise. I was planning on going for a swim but obviously I don’t want to do that with my watch on. I assumed I’d be able to either enter the workout directly into the Health app (or use a 3rd party app to add the data to HealthKit) and that would then count as part of my 30 minutes of exercise on the Apple Watch; unfortunately this is not the case.</p>
-
-<p>I’ve tried with manual data entry and 3rd party apps<sup id="fnref:healththird" role="doc-noteref"><a href="#fn:healththird" class="footnote" rel="footnote">1</a></sup> but there is no way for workout data not created on the Apple Watch to be used as part of your Activity… yet. On checking the WWDC keynote, <a href="https://www.youtube.com/watch?v=02H3vfFW3xg&amp;t=1h31m53s">Kevin Lynch mentions that this feature is coming as part of watchOS 2</a>. Specifically he says that “workouts with these [native on the Apple Watch] apps will count” - I’m assuming that any app that uses HealthKit will actually count but we’ll see. I’m not going to install a potentially buggy watchOS 2 on my Apple Watch one week before Apple Pay comes to the UK!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:healththird" role="doc-endnote">
-      <p>I even built my own basic app to add data into HealthKit with the “user entered” flag set to false in the hope that this was the piece that meant the Apple Watch ignored it. <a href="#fnref:healththird" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/06/23/since-an-nsdate-extension-in-swift/">Since, an NSDate Extension in Swift</a></h1>
-			
-			<time datetime="2015-06-23" pubdate=""><a href="/weblog/2015/06/23/since-an-nsdate-extension-in-swift/">June 23, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve just <a href="https://github.com/bendodson/nsdate-since-swift">committed a very simple NSDate extension</a> that gives you a human readable version of the time difference between the date and now (i.e. “2 hours ago”, “just now”, or “last week”). I needed this functionality in a project I’m currently working on but existing solutions I found were all Objective-C and fairly complex. I try not to add any complex 3rd party dependencies when I don’t have to (especially as I don’t want an Objective-C bridging header) so I built this in a few minutes to give me the basic functionality I required. You can <a href="https://github.com/bendodson/nsdate-since-swift">check it out on GitHub</a>.</p>
-
-<p>In many ways, this sums up how I feel about some development today. Many developers will either embed a 3rd party solution without thinking about it (giving you licensing and support issues in the future) or they’ll spend hours crafting the perfect solution that will give you to-the-second precision with unit tests and a whole host of other stuff you probably don’t need<sup id="fnref:craft" role="doc-noteref"><a href="#fn:craft" class="footnote" rel="footnote">1</a></sup>. Sometimes you just need the simplest thing that works so you can move onto more important things.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:craft" role="doc-endnote">
-      <p>An <a href="http://thenextweb.com/apple/2011/10/24/steve-jobs-obsession-with-the-quality-of-the-things-unseen/">oft-mentioned story about Steve Jobs</a> regards how his father would spend as much time making the back of a cabinet (which you’d never see) look as good as the front as a sign of good craftsmanship. This has its place but its important to remember that “<a href="http://www.folklore.org/StoryView.py?story=Real_Artists_Ship.txt">real artists ship</a>”; I’d rather have a project that is live and performing than spend hours crafting the “perfect” piece of code. <a href="#fnref:craft" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/06/19/using-an-ssd-with-xbox-one/">Using an SSD with the Xbox One</a></h1>
-			
-			<time datetime="2015-06-19" pubdate=""><a href="/weblog/2015/06/19/using-an-ssd-with-xbox-one/">June 19, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I love my Xbox One but the one big issue I have with it is loading times. This is mainly due to the spinning hard drive<sup id="fnref:gross" role="doc-noteref"><a href="#fn:gross" class="footnote" rel="footnote">1</a></sup> inside and the huge amount of data it is expected to push for some of the bigger open world games like GTA V or The Witcher 3. In an effort to speed this up (and because the 500GB hard drive is almost full), I’ve upgraded my Xbox One with an external SSD<sup id="fnref:internal" role="doc-noteref"><a href="#fn:internal" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<h2 id="process">Process</h2>
-
-<p>The process is actually incredibly simple. You’ll need the following two things:</p>
-
-<ul>
-  <li>
-    <p>An mSATA SSD that is at least 256GB in size. I went for a <a href="http://www.amazon.co.uk/gp/product/B00K64I1ZG/ref=as_li_tl?ie=UTF8&amp;camp=1634&amp;creative=6738&amp;creativeASIN=B00K64I1ZG&amp;linkCode=as2&amp;tag=bendodsoncom-21&amp;linkId=WXUCET2UPLRQ45JG">256GB model from Transcend</a>.</p>
-  </li>
-  <li>
-    <p>A USB 3.0 enclosure for the SSD. You’ll want one that has UASP support like <a href="http://www.amazon.co.uk/gp/product/B00RNECU36/ref=as_li_tl?ie=UTF8&amp;camp=1634&amp;creative=6738&amp;creativeASIN=B00RNECU36&amp;linkCode=as2&amp;tag=bendodsoncom-21&amp;linkId=2PBC3FWRNMFY46HQ">this one from ZTC</a>. Do not get one from Sabrent<sup id="fnref:sabrent" role="doc-noteref"><a href="#fn:sabrent" class="footnote" rel="footnote">3</a></sup>!</p>
-  </li>
-</ul>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/ssd-and-enclosure.jpg" width="800" /></p>
-
-<p>Once you have these, it’s a simple case of plugging the SSD into the enclosure and attaching the USB cable. This leaves you with an incredibly small device which can then be plugged into any of the 3 USB 3.0 ports on the Xbox One:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/ssd-for-xbox-one.jpg" width="800" /></p>
-
-<p>As soon as you turn the Xbox One on, you’ll be alerted that a new media device has been attached and given the option to format it for games and give it a name. When you have done this, you’ll be able to copy games and apps by going to their individual storage settings and choosing the move option.</p>
-
-<h2 id="results">Results</h2>
-
-<p>I’ve only put 3 games on the SSD so far but they are all dramatically faster for loading and saving. I’ve put a few benchmarks below:</p>
-
-<h3 id="gta-v">GTA V</h3>
-<p>This is by far my slowest game. Testing was from a cold startup (which automatically loads your previous save point) to the point at which the game was playable:</p>
-
-<ul>
-  <li><strong>Internal HDD</strong> - 2 minutes 31 seconds</li>
-  <li><strong>External SSD</strong> - 1 minute 9 seconds</li>
-</ul>
-
-<p>SSD produces a 60% reduction in loading time.</p>
-
-<h3 id="the-witcher-3-wild-hunt">The Witcher 3: Wild Hunt</h3>
-
-<p>The first test was from a cold start to the opening menu.</p>
-
-<ul>
-  <li><strong>Internal HDD</strong> - 40s</li>
-  <li><strong>External SSD</strong> - 28s</li>
-</ul>
-
-<p>SSD produces a 30% reduction in loading time (although that seemed to be as quick as it could go due to the logos and publisher videos at startup).</p>
-
-<p>The second test was from resuming a game from the main menu.</p>
-
-<ul>
-  <li><strong>Internal HDD</strong> - 1 minute 21 seconds</li>
-  <li><strong>External SSD</strong> - 46 seconds</li>
-</ul>
-
-<p>SSD produces a 57% reduction in loading time.</p>
-
-<h3 id="lego-jurassic-world">LEGO Jurassic World</h3>
-
-<p>For this test, I timed from the loading of the last save point on the main menu.</p>
-
-<ul>
-  <li><strong>Internal HDD</strong> - 37 seconds</li>
-  <li><strong>External HDD</strong> - 37 seconds</li>
-</ul>
-
-<p>It looks like LEGO Jurassic World’s loading sequence is limited to 37 seconds in order to show 3 pieces of dinosaur trivia at 12 seconds each. Playing through the game though, the time it takes to start a story and fast travel to new locations seems much faster.</p>
-
-<p>Overall, it seems that the SSD offers around a 55-60% reduction in speed unless there is something specifically limiting the load time (i.e. videos or placeholder content). I’m planning on just using the external drive for single player games at the moment as there isn’t much benefit in loading the Titanfall or Halo online textures any quicker when the limiting factor is the broadband connection along with everyone else. For me, the SSD option is definitely worth the cost for the big open world games that have a heavy loading time penalty when you die (looking at you GTA V) - it has also increased my overall storage space by 50% which is useful when some games are in the 100s of GB.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:gross" role="doc-endnote">
-      <p>Gross! One day I’ll look forward to telling my kids we used to store data on discs spinning at 7200rpm - it’ll be baffling to them. <a href="#fnref:gross" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:internal" role="doc-endnote">
-      <p>As far as I’m aware, doing it internally would be slightly faster but would definitely invalidate any warranty! <a href="#fnref:internal" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:sabrent" role="doc-endnote">
-      <p>The first enclosure I got was the <a href="http://www.amazon.co.uk/gp/product/B00LRZPNHM/ref=as_li_tl?ie=UTF8&amp;camp=1634&amp;creative=6738&amp;creativeASIN=B00LRZPNHM&amp;linkCode=as2&amp;tag=bendodsoncom-21&amp;linkId=SS2QV56CLPEMMOBV">EC-UKMS from Sabrent</a> which was advertised as having UASP. It doesn’t and led to a 70% <em>decrease</em> in speed over the internal HDD with a load time of over 4 minutes for GTA V! This is the first product I’ve actually left a review for on Amazon as the title and images are blatent lies. <a href="#fnref:sabrent" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/29/glenfiddich-residence-changhi/">Glenfiddich Residence Changhi</a></h1>
-			
-			<time datetime="2015-05-29" pubdate=""><a href="/weblog/2015/05/29/glenfiddich-residence-changhi/">May 29, 2015</a></time>
-    	</header>
-    	<div>
-			<p>An iPad app I worked on a little while ago has recently gone live at a popup store in Changhi Airport: <strong>Glenfiddich Residence</strong>. This was a little different to the work I usually do as it isn’t for distribution on the App Store or ad hoc for enterprise but for a single iPad locked in a display stand. The app is part of a large installation to showcase a limited edition of Glenfiddich which is available exclusively at Changhi Airport. The single cask<sup id="fnref:cask" role="doc-noteref"><a href="#fn:cask" class="footnote" rel="footnote">1</a></sup> that has been selected by Glenfiddich is on display within a specially constructed glass chamber that showcases the weather and atmospheric conditions of the distillery in Dufftown, Scotland.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/glenfiddich-cask.jpg" width="600" /></p>
-
-<p>The iPad app allows for customers to see the current conditions in Dufftown including temperature, wind speed and direction, weather conditions, and the local time. This is paired with multiple sound effects which match with the weather conditions<sup id="fnref:weather" role="doc-noteref"><a href="#fn:weather" class="footnote" rel="footnote">2</a></sup>. The app also talks with a control PC via a direct socket connection over WiFi in order to control the weather effects within the chamber simulating morning fog, wind, and even rain!</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/glenfiddich-app.jpg" width="800" /></p>
-
-<p>There is a continuous slideshow of images from around the distillery and nearly everything is animated to entice customers to interact with it. All conditions are in realtime from a weather station near the distillery.</p>
-
-<p>The final aspect is the “start movie” button which reduces the weather effects and begins playback of a video from the Glenfiddich Malt Master on a 1080p portrait screen inside the glass chamber. This video gives an overview of the distillery and details on the bottles from the limited edition cask that are available at the store.</p>
-
-<p>The app is written entirely in Swift 1.2 and the iPad is locked down with Guided Access to prevent customers accessing anything else.</p>
-
-<p>This was a really exciting project to work on as it is very different to the usual iOS apps I do. If you’re visiting Changhi Airport or passing through, be sure to visit the Glenfiddich Residence; I believe it will be there for the next year.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:cask" role="doc-endnote">
-      <p>Cask #8247 with a 1992 Glenfiddich to be precise. <a href="#fnref:cask" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:weather" role="doc-endnote">
-      <p>For example, a thunder storm with a strong wind will have a very different array of sounds to a sunny day with no wind. <a href="#fnref:weather" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/26/working-out-with-apple-watch/">Working out with Apple Watch</a></h1>
-			
-			<time datetime="2015-05-26" pubdate=""><a href="/weblog/2015/05/26/working-out-with-apple-watch/">May 26, 2015</a></time>
-    	</header>
-    	<div>
-			<p>In an effort to get fitter, I’ve been using the two exercise apps available on the Apple Watch; Workout and Activity. It seemed strange to me that they were separate apps (which also feed into the Activity and Health apps on the iPhone) but after a bit of time with them I’m starting to understand the distinction.</p>
-
-<h2 id="activity">Activity</h2>
-
-<p>The Apple Watch tries to get you active by introducing you to the three activity circles; Move, Exercise, and Stand.</p>
-
-<ul>
-  <li><strong>Move</strong>: This is basically active calories and is a measurement of how much movement you’ve done. Your goal is based on height and weight but mine started off at 410 calories.</li>
-  <li><strong>Exercise</strong>: I’m not 100% sure on how this is calculated but it seems to be doing anything that gets your heart rate up. The goal is 30 minutes per day.</li>
-  <li><strong>Stand</strong>: This is designed to make you stand up for at least 1 minute every hour. If you get to 50 minutes past the hour and you haven’t stood up, you get a little reminder. The goal is 12 instances of standing for 1 minute per hour (so standing up for 12 minutes in a row won’t complete the circle - has to be at least 1 minute for 12 hours).</li>
-</ul>
-
-<p>Along with the goals, there are also awards to motivate you to complete your circles each day. These look really nice<sup id="fnref:olympics" role="doc-noteref"><a href="#fn:olympics" class="footnote" rel="footnote">1</a></sup> and they use a decent curve so you start off getting quite a lot of achievements in order to make you persist with it. I’ve got most of them now so the next major ones are more tricky ones like “reach your move goal 100 times” or “complete your circles for every day of a month”.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/awards.jpg" width="800" /></p>
-
-<h2 id="activity-complication">Activity Complication</h2>
-
-<p>The nice thing about the circular design they’ve gone for is that it fits nicely as a complication on the watch face. I alternate between two watch faces — <em>Simple</em> in the week, <em>Mickey</em> at the weekends — and Activity is the only complication I have active (aside from the date). It highlights the best use of a complication in that I can quickly glance at my watch without touching it and see how far I am for each of my goals; if I want to see specifics, I can tap the complication to go into the Activity app proper. I used to use a FitBit<sup id="fnref:fitbit" role="doc-noteref"><a href="#fn:fitbit" class="footnote" rel="footnote">2</a></sup> but the problem with those is that you either had to use the iPhone app to see how far you’d got or tap multiple times to go through the different views (steps, distance, calories, etc). With the Apple Watch, I can see the 3 important things without getting my phone out and that is a big advantage in my opinion<sup id="fnref:advantage" role="doc-noteref"><a href="#fn:advantage" class="footnote" rel="footnote">3</a></sup>. It is very motivating as you can see how close you are to completing a circle throughout the day.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/activity-complication.jpg" width="700" /></p>
-
-<h2 id="workout">Workout</h2>
-
-<p>This is the app to use when you are doing a proper piece of exercise. There are presets for things like Running, Walking<sup id="fnref:walking" role="doc-noteref"><a href="#fn:walking" class="footnote" rel="footnote">4</a></sup>, Cycling, etc, but I’ve been using the Elliptical whilst on my Crosstrainer. I’m desperately unfit so I only do a 15-minute session each day (along with a brisk walk to get to my 30 minutes of Exercise) but the app is quite good at prompting me to extend my session on the next day. You get tapped when you’re at the halfway point and you can check your heart rate and calories burned during the workout. Speaking of heart rate, the Apple Watch does continuously track your heart rate throughout the day at intervals of around 10-20 minutes (it seems to check more the more movement you are doing). However, if you are doing a workout, it constantly checks your heart rate in order to more accurately see how many calories are being burned. I like to listen to music whilst I’m exercising so I have a pair of Bluetooth headphones which I pair to the watch (not my phone) and then I listen to a playlist I have synced across. This means I can exercise without my phone. I haven’t tried this on a run but my wife has and on doing a few runs with and without her phone the measurements are pretty accurate (on an 8 mile run, the distance was only off by 0.05 miles compared to GPS). When you finish a workout, you are given the option to “save” or “discard” it - this was slightly confusing as when you press “save” you are taken back to the app carousel and there is no way of seeing those stats again on the watch<sup id="fnref:save" role="doc-noteref"><a href="#fn:save" class="footnote" rel="footnote">5</a></sup>. It turns out the workout is actually saved to the Activity app on the iPhone:</p>
-
-<h2 id="activity-iphone-app">Activity iPhone App</h2>
-
-<p>The Activity app on the iPhone only appears once you have paired an Apple Watch. It works the same as the Activity app on the watch in that you have your 3 circles but the difference is that you can see historical data here, review your achievements, and see more numbers and graphs. The History window shows your circles at a glance but if you pull from the left you can see how your daily move goal has changed over time (so in the screenshots below you can see how this week the watch asked me if I wanted to increase my daily move goal from 410 calories to 450 calories):</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/activity-app.jpg" width="800" /></p>
-
-<p>You can also look at your day and your workouts in more detail such as this elliptical workout I did at lunchtime today:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/workout.jpg" width="800" /></p>
-
-<p>I tweeted about this over the weekend but one of the most motivating things for me has been the “Avg Heart Rate” on the above screen. Each day over the past week, that number has decreased with the same 15 minute workout which shows (I think) an improvement in my overall fitness.</p>
-
-<h2 id="health-iphone-app">Health iPhone App</h2>
-
-<p>The final part of the fitness puzzle is the Health app on the iPhone. This came as part of iOS 8 and is a way for you to store all of your health data securely. There are loads of apps which can read and write to this store and the Apple Watch is no exception. By default, it will populate the Flights Climbed, Steps, Walking + Running Distance, Active Calories, Workouts, and Heart Rate sections. You can choose to display each of these as graphs within the app although I’m hoping for more control over this in future versions as you can’t view specific dates, only “Today”, “Week”, “Month”, and “Year”. This is one of those areas where the continuous heart rate monitoring is really nice as you can get an overall picture of how much you are fluctuating throughout the day - whilst there are plenty of heart rate monitors available on the market, one you don’t have to think about that is constantly monitoring will always win out (and it is incredibly accurate).</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/health-app.jpg" width="800" /></p>
-
-<p><em>(A small aside, my Apple Watch has just told me to stand up. The nice thing about it doing it 10 minutes before the hour is up is that I often have things scheduled on the hour like phone calls. It’s turned into a nice reminder that I should go and get a drink<sup id="fnref:water" role="doc-noteref"><a href="#fn:water" class="footnote" rel="footnote">6</a></sup> and have a stretch before next hour of work. It is definitely one of those small things I didn’t think about when the Apple Watch was announced but it is the thing that has changed my behaviour more than anything else.)</em></p>
-
-<p>In conclusion, I’ve found the Apple Watch to be a much better fitness companion than I expected. My assumption was that it would cater for those that like to do running and cycling but wouldn’t do much for the more casual exerciser. In actual fact, it has made me more aware of how little movement I was doing and also helped motivate me more to do things as simple as standing every hour. The majority of its features can be done on other devices, such as the FitBit, but the tight integration is key. The heart rate monitoring showing up in the Health app satisfies the stats nerd part of me whilst the simplicity of 3 goals per day has definitely made me more likely to succeed as I don’t want to break the streak I’m on. If you’ve got the Apple Watch and haven’t explored the exercise parts, I’d definitely recommend giving it a go; once you’ve done it for a day or two, you’ll find it very hard to stop!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:olympics" role="doc-endnote">
-      <p>Apparently they were inspired by Olympic medals. They do look really nice especially when animating - the black background definitely helps make them stand out more than something like Game Center achievements. <a href="#fnref:olympics" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:fitbit" role="doc-endnote">
-      <p>I started with the FitBit One, then went up to the Flex, and eventually the Charge. <a href="#fnref:fitbit" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:advantage" role="doc-endnote">
-      <p>A summary of the Apple Watch could really be “something that makes interactions quicker” - it isn’t necessary but it feels so good to be able to get things done quickly. “But it only takes 5 seconds to get your phone out and check it” I hear you cry; true, but those instances add up. Like I say, it isn’t necessary but it’s definitely nice. <a href="#fnref:advantage" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:walking" role="doc-endnote">
-      <p>I did this a few times whilst walking the dogs but I don’t log them anymore - a walk isn’t really a workout in my eyes. Also, you still get credit towards your Exercise ring if you go for a walk but don’t activate a workout - it knows when you are walking briskly and so that does count as exercise. <a href="#fnref:walking" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:save" role="doc-endnote">
-      <p>It’ll show you how long your last workout was and when it was when you open the Workout app but you can’t see calories burned, average heart rate, etc. <a href="#fnref:save" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:water" role="doc-endnote">
-      <p>I’ve also been trying to drink the recommended amount of water per day so this has been a good point to go and top up my water. I’ve been using the <a href="http://waterminderapp.com">WaterMinder app</a> to keep track of this as they have a nice Apple Watch app which follows a similar circular goal design. <a href="#fnref:water" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/22/using-stripe-for-iap/">Using Stripe for In-App Purchases</a></h1>
-			
-			<time datetime="2015-05-22" pubdate=""><a href="/weblog/2015/05/22/using-stripe-for-iap/">May 22, 2015</a></time>
-    	</header>
-    	<div>
-			<p>When I launched <a href="http://wallabeegame.com/unique/">Unique Items</a> for WallaBee a few years ago, I didn’t completely grasp how popular they’d be. Within a few weeks, we had hundreds of orders (all processed through PayPal) and ended up with a year-long backlog which has only now been cleared. In anticipation of allowing players to commission these items again, I’ve been looking at payment providers and settled on <a href="http://stripe.com/">Stripe</a> now that they’ve fully launched in the UK. After having a quick look at their docs, I realised it was going to be insanely easy to integrate their SDK into a website and that is when I started thinking about using them for In-App Purchases (IAP).</p>
-
-<p>Apple allow developers to use their StoreKit to create In-App Purchases but it comes at a steep price: 30% of all sales. For that 30%, you get simplicity and ease of use for the customer who can just tap a button, type in their iTunes password, and buy any digital content upto $999. This is what we’ve been using with WallaBee for over 3 years but with several issues arising lately<sup id="fnref:storekit" role="doc-noteref"><a href="#fn:storekit" class="footnote" rel="footnote">1</a></sup> I thought I might have a go at creating a way for players to buy our in-game currency and lock mechanisms on our website. After a couple of hours, I had a <a href="https://store.wallabeegame.com/">fully functioning site</a> which does just that with full integration with Stripe. Players log in and then click a button to begin using Checkout, Stripe’s own JavaScript based checkout system which will either operate in an overlay on desktop or open in a new window on mobile. The card form is incredibly simple (and no doubt well tested) and allows customers to pay within seconds. It also has the ability to remember a customer so later purchases will be quicker.</p>
-
-<p>The end result so far has been that 50% of our players have chosen to purchase online<sup id="fnref:incentive" role="doc-noteref"><a href="#fn:incentive" class="footnote" rel="footnote">2</a></sup> which adds up to a sizeable increase in income as Stripe charge roughly 4-5% once currency conversion (if necessary) is taken into account. Another nice benefit is that Stripe pay you daily for transactions 7 days ago - that means the sales from today will be in our account next week whereas with Apple we have to wait as long as 2 months for a transaction to be paid. We also get more control over the refund process as at the moment anybody can ask Apple for a refund and will usually get it - we don’t get notified when that happens so it means some players can get purchases for free<sup id="fnref:theft" role="doc-noteref"><a href="#fn:theft" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p>The only issue with this is that it has to be completely confined to the web and we’re not allowed to add a buy button or similar to the app to direct people to the purchase site as per <a href="https://developer.apple.com/app-store/review/guidelines/#purchasing-currencies">rule 11.13 of the App Store Guidelines</a>:</p>
-
-<blockquote>
-  <p><em><strong>11.13</strong>: Apps that link to external mechanisms for purchases or subscriptions to be used in the App, such as a “buy” button that goes to a web site to purchase a digital book, will be rejected</em></p>
-</blockquote>
-
-<p>It is permissable to sell content for your apps online, you’re just not allowed to have any buttons linking to the site within the app. This means that we’ll need to keep both the Apple IAP system and our Stripe online system running separately but so far the results look good. If you have some form of gaming app that relies on IAP, you’d be crazy not to look at doing something similar.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:storekit" role="doc-endnote">
-      <p>It seems to be that if Apple changes it’s ToS, players who make a purchase are then asked to verify their agreement and end up getting charged without having the charge hit my servers so they end up getting nothing. There is also a complex dance to verify everything with a successful purchase going to my server, my server verifying with Apple, Apple replying that it’s all ok, and then me adding the purchase to the database - if a connection is dropped at any point, then customer ends up with nothing. <a href="#fnref:storekit" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:incentive" role="doc-endnote">
-      <p>No doubt helped by the 5% discount we added whilst trialling it. <a href="#fnref:incentive" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:theft" role="doc-endnote">
-      <p>I’ve not seen many instances of this but it has happened and there isn’t anything we can do about it as Apple don’t say who has been refunded, just that a refund has occurred. <a href="#fnref:theft" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/20/itunes-artwork-finder-source-code/">iTunes Artwork Finder Source Code</a></h1>
-			
-			<time datetime="2015-05-20" pubdate=""><a href="/weblog/2015/05/20/itunes-artwork-finder-source-code/">May 20, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I had an email this morning from a developer who wanted to connect directly to my <a href="https://bendodson.com/code/itunes-artwork-finder/">iTunes Artwork Finder</a> in order to power their own artwork finding app. This seemed like a good time to point out that there is no need to do this<sup id="fnref:servers" role="doc-noteref"><a href="#fn:servers" class="footnote" rel="footnote">1</a></sup> as I have the source code freely available for everyone on <a href="https://github.com/bendodson/itunes-artwork-finder">GitHub</a>.</p>
-
-<p>If you’re a developer and you want to use my API for iTunes Artwork, please instead get the source code and host it on your own server. You can get the code from <a href="https://github.com/bendodson/itunes-artwork-finder">https://github.com/bendodson/itunes-artwork-finder</a></p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:servers" role="doc-endnote">
-      <p>And I’d prefer that people didn’t for two reasons; it costs me money in bandwidth to hit the iTunes Search API on your behalf and it is more likely to result in my IP addresses being banned by Apple which would take the service down for everyone. <a href="#fnref:servers" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/19/monthyearpickerview-swift/">A Month-Year UIPickerView Written In Swift</a></h1>
-			
-			<time datetime="2015-05-19" pubdate=""><a href="/weblog/2015/05/19/monthyearpickerview-swift/">May 19, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve just shared some code on GitHub which may be useful to somebody; <a href="https://github.com/bendodson/MonthYearPickerView-Swift">MonthYearPickerView-Swift</a>. It’s a basic UIPickerView subclass that allows you to choose just a month and year in a scrolling picker. This is useful for things such as expiration dates on credit cards. It uses a simple block-based callback to let you know once a date has been selected and may be a good way of seeing how to make other custom pickers if you are new to iOS or Swift.</p>
-
-<p>Check out <a href="https://github.com/bendodson/MonthYearPickerView-Swift">MonthYearPickerView-Swift on GitHub</a>.</p>
-
-<p><strong>Update (2015-10-07):</strong> The project has been updated to support Swift 2.0 and is compatible with Storyboards and Xib files. I’ve added tags to the repository so you can choose if you want the Swift 1.2 or Swift 2.0 version.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/05/tv-for-the-uk-politics-fan/">TV for the UK politics fan</a></h1>
-			
-			<time datetime="2015-05-05" pubdate=""><a href="/weblog/2015/05/05/tv-for-the-uk-politics-fan/">May 05, 2015</a></time>
-    	</header>
-    	<div>
-			<p>With just 1 day left until the 2015 General Election, I thought it might be fun to put together a list of some of my favourite TV shows that show how UK politics works:</p>
-
-<h2 id="blackadder">Blackadder</h2>
-<p>One of the finest episodes is the series 3 opener, “Dish and Dishonesty”, which covers the by-election of “Dunny-on-the-Wold” as Blackadder attempts to stop Pitt the Younger from striking the Prince from the civil list. Every line is a winner but my one of my favourites has to be “Marvelous thing, democracy. Look at Manchester: population, 60,000; electoral roll, 3”. Also notable for the fact that the “Standing-At-The-Back-Dressed-Stupidly-And-Looking-Stupid Party” appear to be wearing UKIP colours.</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/Eb25pO04yls" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="the-thick-of-it">The Thick Of It</h2>
-<p>This is really just a modern version of “Yes, Minister” (which I’ll come to) covering the last Labour Government with the more recent series looking at the current coalition. Made famous by Peter “Doctor Who” Capaldi’s sweary Malcolm Tucker character, it’s a very accurate portrayal of how UK politics has been for the last few years with special advisors holding much of the power. One of the best episodes for me involves the minister going on a factory visit<sup id="fnref:factory" role="doc-noteref"><a href="#fn:factory" class="footnote" rel="footnote">1</a></sup> and being accosted by a worker unhappy with the state of the NHS…</p>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/4rcivx8NW6U" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="yes-minister">Yes, Minister</h2>
-<p>Made during the 80s, “Yes, Minister” was a comedy portrayal of the struggle between ministers and their civil servants. Every episode is fantastic, as is the related series “Yes, Prime Minister”, with the witty dialogue of Sir Humphrey Appleby providing the best laughs. I particularly like one episode in which Sir Humphrey is pointing out that a British democracy exists solely to keep the important things in life out of the hands of ordinary people such as Radio 3, the countryside, the Royal Opera House, and “<a href="https://www.youtube.com/watch?v=gmOvEwtDycs&amp;t=2m29s">the universities; both of them</a>”:</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/gmOvEwtDycs" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="to-play-the-king">To Play The King</h2>
-<p>Without a doubt, House of Cards is one of the best series to come out of the UK. Whilst the US version is also incredibly good, nothing compares to the asides that Ian Richardson does to camera throughout<sup id="fnref:fu" role="doc-noteref"><a href="#fn:fu" class="footnote" rel="footnote">2</a></sup>. I think the second of the trilogy, “To Play The King”, is best with Urquhart pitted against a new King (played by Michael Kitchen) who is not pleased with the old-fashioned Tory values of the PM. Probably the most true-to-life portrayal of the Conservative Party during the late 80s, early 90s. Just fantastic.</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/nKhL1pQceHw" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="absolute-power">Absolute Power</h2>
-<p>I stumbled upon “Absolute Power” completely by chance when browsing iTunes a few years ago. Only 2 series were made but they feature Stephen Fry and Martin Bird as the heads of a London PR agency. In my favourite episode, “Tory Women”, Fry performs a makeover on a female Conservative shadow minister (played by Rebecca Front who went on to be the minister in season 3 of “The Thick of It”) and comes up with <a href="https://www.youtube.com/watch?v=babNH28wgsA&amp;t=6m21s">the following immortal line</a> about Neil Kinnock:</p>
-
-<blockquote>
-  <p>“If the British public were forced at gunpoint to appoint a new Prime Minister and they could only choose between Jeffrey Archer and Neil Kinnock, who would they pick do you think? A convicted crook and mythomaniac or a sincere and dedicated socialist? They’d choose Archer every time, and why? Because Kinnock is Kinnock and there’s something about that poor bastard that makes you just want to run shrieking from the room. And you’re the same.”</p>
-</blockquote>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/babNH28wgsA" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="the-new-statesman">The New Statesman</h2>
-<p>After the success of “The Young Ones”, Rik Mayall wanted to do something which was more “grown up” and eventually persuaded ITV to produce “The New Statesman”. Whilst I don’t think you could really call it “grown up”, it’s certainly a hilarious alternative view on Conservative MPs. Mayall plays “Alan B’stard”, a Tory MP with the largest majority in the House of Commons. There’s innuendo, slapstick violence, and an awful lot of truth in this series. My favourite episode<sup id="fnref:stormtrooper" role="doc-noteref"><a href="#fn:stormtrooper" class="footnote" rel="footnote">3</a></sup> features both Stephen Fry and Hugh Laurie in an excellent scene in a restaurant:</p>
-
-<iframe width="640" height="480" src="https://www.youtube.com/embed/cz1rhLnCrJQ" frameborder="0" allowfullscreen=""></iframe>
-
-<h2 id="ballot-monkeys">Ballot Monkeys</h2>
-<p>The newest item to my list, “Ballot Monkeys” is an ambitious programme being aired this year on Channel 4. It was advertised as being “so topical we haven’t written it yet” and that is certainly true - each episode is produced on the day it airs with the plots (such as they are) being directly influenced by the news events of the day. The first two episodes aired a week apart but it is now on every night until election night. The series follows each of the 4 main parties in this election (Labour, Conservative, Lib Dem, and UKIP) on their respective “Battle Buses” with both candidates and media advisors discussing the topics of the day. It’s already led to some of the funniest political comedy I’ve seen in years with the Lib Dems desperately searching through a paper for any mention of themselves<sup id="fnref:libdem" role="doc-noteref"><a href="#fn:libdem" class="footnote" rel="footnote">4</a></sup>, the Labour social media campaigner creating fake tweets from “Milifans”, and the UKIP candidate who doesn’t trust their new bus driver<sup id="fnref:terrorist" role="doc-noteref"><a href="#fn:terrorist" class="footnote" rel="footnote">5</a></sup>:</p>
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/yexneLKGous" frameborder="0" allowfullscreen=""></iframe>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:factory" role="doc-endnote">
-      <p>“<a href="https://www.youtube.com/watch?v=Eb25pO04yls&amp;t=15m30s">I love this bloody factory</a>” <a href="#fnref:factory" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:fu" role="doc-endnote">
-      <p>“Did you enjoy my little speech? I thought my “deep personal wound” was a rather good touch. I am in fact extremely angry with His Majesty and I intend to do him harm. I feel exhilarated. Prospect of a fight, of course, with the odds unfairly weighted in my favour. Next to a small war, there’s nothing quite like a general election to stiffen the sinews and summon up the blood.” <a href="#fnref:fu" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:stormtrooper" role="doc-endnote">
-      <p>I can’t fail to love an episode with the lines “we’re Thatcher’s stormtroopers and we’re in a hurry” or “indeed I do remember the Falklands, made a fortune!” <a href="#fnref:stormtrooper" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:libdem" role="doc-endnote">
-      <p>And a brilliant comparison to a Grand National horse that “didn’t win, but came in the top 4 with odds of 300-1… only slightly better than our odds” <a href="#fnref:libdem" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:terrorist" role="doc-endnote">
-      <p>“Terrorists eat biscuits too” <a href="#fnref:terrorist" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/05/04/the-correct-way-to-watch-star-wars/">The Correct Way To Watch Star Wars</a></h1>
-			
-			<time datetime="2015-05-04" pubdate=""><a href="/weblog/2015/05/04/the-correct-way-to-watch-star-wars/">May 04, 2015</a></time>
-    	</header>
-    	<div>
-			<p>May 4th has got a bit out of hand now that it seems to be celebrated as an actual holiday every year. That said, I do like to watch Star Wars fairly regularly<sup id="fnref:regularly" role="doc-noteref"><a href="#fn:regularly" class="footnote" rel="footnote">1</a></sup> and so I often get a Tatooine style yearning at this time. However, the question that used to always pop up was “which order do you watch them in”<sup id="fnref:prequel" role="doc-noteref"><a href="#fn:prequel" class="footnote" rel="footnote">2</a></sup>. It used to be that I’d do the old “IV, V, VI, I, II, III” sequence but that was until I learned about the “<a href="http://www.nomachetejuggling.com/2011/11/11/the-star-wars-saga-suggested-viewing-order/">Machete Order</a>”:</p>
-
-<blockquote>
-  <p>Next time you want to introduce someone to Star Wars for the first time, watch the films with them in this order: IV, V, II, III, VI</p>
-
-  <p>Notice something? Yeah, Episode I is gone.</p>
-</blockquote>
-
-<p>The <a href="(http://www.nomachetejuggling.com/2011/11/11/the-star-wars-saga-suggested-viewing-order/)">full post</a> explains it more thoroughly (along with benefits and drawbacks) but the basic idea is that you treat episodes II and III as flashbacks whilst The Phantom Menace is relegated to being an “expanded universe” kind of deal similar to The Clone Wars animated series or video games like The Force Unleashed. I’ve watched the films in this order a couple of times now and it really does work a lot better. It also works great if you are introducing the films to someone for the first time (i.e. kids).</p>
-
-<p>I’m probably not going to watch them this year, but if you do, give the Machete Order a try. You won’t regret it.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:regularly" role="doc-endnote">
-      <p>Maybe not annually like I do with Lord of the Rings, but at least every two years. <a href="#fnref:regularly" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:prequel" role="doc-endnote">
-      <p>There is no question of not watching the prequel trilogy. I’m just going to go out and say it; Episode II is amazing (especially if you are a politics geek like me). So there. <a href="#fnref:prequel" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/15/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/13/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 14 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/07/07/adding-exercise-data-to-activity/">Adding Exercise Data To Activity</a>
+						
+					</h2>
+					<time datetime="2015-07-07"><a href="/weblog/2015/07/07/">July 7, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve been using the health features of the Apple watch a lot recently but today is the first time it has stopped me from doing a specific exercise. I was planning on going for a swim but obviously I don’t want to do that with my watch on. I assumed I’d be a...</p>
+
+				
+					<a href="/weblog/2015/07/07/adding-exercise-data-to-activity/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/06/23/since-an-nsdate-extension-in-swift/">Since, an NSDate Extension in Swift</a>
+						
+					</h2>
+					<time datetime="2015-06-23"><a href="/weblog/2015/06/23/">June 23, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve just committed a very simple NSDate extension that gives you a human readable version of the time difference between the date and now (i.e. “2 hours ago”, “just now”, or “last week”). I needed this functionality in a project I’m currently working on bu...</p>
+
+				
+					<a href="/weblog/2015/06/23/since-an-nsdate-extension-in-swift/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/06/19/using-an-ssd-with-xbox-one/">Using an SSD with the Xbox One</a>
+						
+					</h2>
+					<time datetime="2015-06-19"><a href="/weblog/2015/06/19/">June 19, 2015</a></time>
+				</header>
+
+				
+				<p>I love my Xbox One but the one big issue I have with it is loading times. This is mainly due to the spinning hard drive1 inside and the huge amount of data it is expected to push for some of the bigger open world games like GTA V or The Witcher 3. In an eff...</p>
+
+				
+					<a href="/weblog/2015/06/19/using-an-ssd-with-xbox-one/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/29/glenfiddich-residence-changhi/">Glenfiddich Residence Changhi</a>
+						
+					</h2>
+					<time datetime="2015-05-29"><a href="/weblog/2015/05/29/">May 29, 2015</a></time>
+				</header>
+
+				
+				<p>An iPad app I worked on a little while ago has recently gone live at a popup store in Changhi Airport: Glenfiddich Residence. This was a little different to the work I usually do as it isn’t for distribution on the App Store or ad hoc for enterprise but for...</p>
+
+				
+					<a href="/weblog/2015/05/29/glenfiddich-residence-changhi/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/26/working-out-with-apple-watch/">Working out with Apple Watch</a>
+						
+					</h2>
+					<time datetime="2015-05-26"><a href="/weblog/2015/05/26/">May 26, 2015</a></time>
+				</header>
+
+				
+				<p>In an effort to get fitter, I’ve been using the two exercise apps available on the Apple Watch; Workout and Activity. It seemed strange to me that they were separate apps (which also feed into the Activity and Health apps on the iPhone) but after a bit of t...</p>
+
+				
+					<a href="/weblog/2015/05/26/working-out-with-apple-watch/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/22/using-stripe-for-iap/">Using Stripe for In-App Purchases</a>
+						
+					</h2>
+					<time datetime="2015-05-22"><a href="/weblog/2015/05/22/">May 22, 2015</a></time>
+				</header>
+
+				
+				<p>When I launched Unique Items for WallaBee a few years ago, I didn’t completely grasp how popular they’d be. Within a few weeks, we had hundreds of orders (all processed through PayPal) and ended up with a year-long backlog which has only now been cleared. I...</p>
+
+				
+					<a href="/weblog/2015/05/22/using-stripe-for-iap/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/20/itunes-artwork-finder-source-code/">iTunes Artwork Finder Source Code</a>
+						
+					</h2>
+					<time datetime="2015-05-20"><a href="/weblog/2015/05/20/">May 20, 2015</a></time>
+				</header>
+
+				
+				<p>I had an email this morning from a developer who wanted to connect directly to my iTunes Artwork Finder in order to power their own artwork finding app. This seemed like a good time to point out that there is no need to do this1 as I have the source code fr...</p>
+
+				
+					<a href="/weblog/2015/05/20/itunes-artwork-finder-source-code/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/19/monthyearpickerview-swift/">A Month-Year UIPickerView Written In Swift</a>
+						
+					</h2>
+					<time datetime="2015-05-19"><a href="/weblog/2015/05/19/">May 19, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve just shared some code on GitHub which may be useful to somebody; MonthYearPickerView-Swift. It’s a basic UIPickerView subclass that allows you to choose just a month and year in a scrolling picker. This is useful for things such as expiration dates on ...</p>
+
+				
+					<a href="/weblog/2015/05/19/monthyearpickerview-swift/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/05/tv-for-the-uk-politics-fan/">TV for the UK politics fan</a>
+						
+					</h2>
+					<time datetime="2015-05-05"><a href="/weblog/2015/05/05/">May 5, 2015</a></time>
+				</header>
+
+				
+				<p>With just 1 day left until the 2015 General Election, I thought it might be fun to put together a list of some of my favourite TV shows that show how UK politics works:</p>
+
+				
+					<a href="/weblog/2015/05/05/tv-for-the-uk-politics-fan/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/05/04/the-correct-way-to-watch-star-wars/">The Correct Way To Watch Star Wars</a>
+						
+					</h2>
+					<time datetime="2015-05-04"><a href="/weblog/2015/05/04/">May 4, 2015</a></time>
+				</header>
+
+				
+				<p>May 4th has got a bit out of hand now that it seems to be celebrated as an actual holiday every year. That said, I do like to watch Star Wars fairly regularly1 and so I often get a Tatooine style yearning at this time. However, the question that used to alw...</p>
+
+				
+					<a href="/weblog/2015/05/04/the-correct-way-to-watch-star-wars/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/15/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/13/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

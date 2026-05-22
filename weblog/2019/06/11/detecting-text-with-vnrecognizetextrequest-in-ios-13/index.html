@@ -9,73 +9,157 @@
 	
 	
 	
+	
 
 	<title>Detecting text with VNRecognizeTextRequest in iOS 13</title>
 	<meta name="description" content="Vision gets an update in iOS 13 with a quick way to perform OCR. Let&#39;s test it out by scanning some Magic The Gathering cards!">
-	<link rel="canonical" href="https://bendodson.com/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Detecting text with VNRecognizeTextRequest in iOS 13">
 	<meta property="og:description" content="Vision gets an update in iOS 13 with a quick way to perform OCR. Let&#39;s test it out by scanning some Magic The Gathering cards!">
-	<meta property="og:url" content="https://bendodson.com/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">
 	<meta property="og:type" content="article">
 	
-		<meta property="og:image" content="https://bendodson.s3.amazonaws.com/weblog/2019/mtg-components.jpg">
+		<meta property="og:image" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAxOS9tdGctY29tcG9uZW50cy5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+		<meta property="og:image:secure_url" content="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAxOS9tdGctY29tcG9uZW50cy5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+		<meta property="og:image:alt" content="Detecting text with VNRecognizeTextRequest in iOS 13">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "Detecting text with VNRecognizeTextRequest in iOS 13",
+			"description": "Vision gets an update in iOS 13 with a quick way to perform OCR. Let's test it out by scanning some Magic The Gathering cards!",
+			"url": "http://localhost:4000/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/",
+			"datePublished": "2019-06-11T09:30:00+01:00",
+			"dateModified": "2019-06-11T09:30:00+01:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJ3ZWJsb2cvMjAxOS9tdGctY29tcG9uZW50cy5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ=="
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">Detecting text with VNRecognizeTextRequest in iOS 13</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2019-06-11" pubdate=""><a href="/weblog/2019/06/11/detecting-text-with-vnrecognizetextrequest-in-ios-13/">June 11, 2019</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p>At WWDC 2017, Apple introduced the Vision framework alongside iOS 11. Vision was designed to help developers classify and identify things such as objects, horizontal planes, barcodes, facial expressions, and text. However, the text detection only recognized where text was displayed, not the actual content of the text<sup id="fnref:textrecog11" role="doc-noteref"><a href="#fn:textrecog11" class="footnote" rel="footnote">1</a></sup>. With the introduction of iOS 13 at WWDC last week, this has thankfully been solved with some updates to the Vision framework adding genuine text recognition.</p>
+<article class="post-page content-page has-post-dek">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2019-06-11">June 11, 2019</time></p>
+		<h1>Detecting text with VNRecognizeTextRequest in iOS 13</h1>
+		
+			<p class="post-dek">Vision gets an update in iOS 13 with a quick way to perform OCR. Let's test it out by scanning some Magic The Gathering cards!</p>
+		
+		
+	</header>
+
+	<div class="post-content">
+		<p>At WWDC 2017, Apple introduced the Vision framework alongside iOS 11. Vision was designed to help developers classify and identify things such as objects, horizontal planes, barcodes, facial expressions, and text. However, the text detection only recognized where text was displayed, not the actual content of the text<sup id="fnref:textrecog11"><a href="#fn:textrecog11" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. With the introduction of iOS 13 at WWDC last week, this has thankfully been solved with some updates to the Vision framework adding genuine text recognition.</p>
 
 <p>To test this out, I’ve built a very basic app that can recognise a Magic The Gathering card and retrieve some pertinent information from it, namely the title, set code, and collector number. Here’s an example card and the highlighted text I would like to retrieve.</p>
 
@@ -102,7 +186,7 @@
 
 <figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">requests</span> <span class="o">=</span> <span class="p">[</span><span class="n">textDetectionRequest</span><span class="p">]</span>
 <span class="k">let</span> <span class="nv">imageRequestHandler</span> <span class="o">=</span> <span class="kt">VNImageRequestHandler</span><span class="p">(</span><span class="nv">cgImage</span><span class="p">:</span> <span class="n">cgImage</span><span class="p">,</span> <span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[:])</span>
-<span class="kt">DispatchQueue</span><span class="o">.</span><span class="nf">global</span><span class="p">(</span><span class="nv">qos</span><span class="p">:</span> <span class="o">.</span><span class="n">userInitiated</span><span class="p">)</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+<span class="kt">DispatchQueue</span><span class="o">.</span><span class="nf">global</span><span class="p">(</span><span class="nv">qos</span><span class="p">:</span> <span class="o">.</span><span class="n">userInitiated</span><span class="p">)</span><span class="o">.</span><span class="k">async</span> <span class="p">{</span>
     <span class="k">do</span> <span class="p">{</span>
         <span class="k">try</span> <span class="n">imageRequestHandler</span><span class="o">.</span><span class="nf">perform</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
     <span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="p">{</span>
@@ -204,9 +288,9 @@ TN &amp; 0 2017 Wizards of the Coast
 1.0
 (0.5428387324015299, 0.21133480072021482, 0.19361832936604817, 0.011657810211181618)</code></pre></figure>
 
-<p>That is incredibly good! Every piece of text that has been recognized has been separated into it’s own bounding box and returned as a result with most garnering a 1.0 confidence rating. Even the very small copyright text is mostly correct<sup id="fnref:mostlycorrect" role="doc-noteref"><a href="#fn:mostlycorrect" class="footnote" rel="footnote">2</a></sup>. This was all done on a 3024x4032 image weighing in at 3.1MB and it would be even faster if I resized the image first. It is also worth noting that this process is far quicker on the new A12 Bionic chips that have a dedicated Neural Engine; it runs just fine on older hardware but will take seconds rather than milliseconds.</p>
+<p>That is incredibly good! Every piece of text that has been recognized has been separated into it’s own bounding box and returned as a result with most garnering a 1.0 confidence rating. Even the very small copyright text is mostly correct<sup id="fnref:mostlycorrect"><a href="#fn:mostlycorrect" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. This was all done on a 3024x4032 image weighing in at 3.1MB and it would be even faster if I resized the image first. It is also worth noting that this process is far quicker on the new A12 Bionic chips that have a dedicated Neural Engine; it runs just fine on older hardware but will take seconds rather than milliseconds.</p>
 
-<p>With the text recognized, the last thing to do is to pull out the pieces of information I want. I won’t put all the code here but the key logic is to iterate through each bounding box and determine the location so I can pick out the text in the lower left hand corner and that in the top left hand corner whilst ignoring anything further along to the right. The end result is a scanning app that can pull out exactly the information I need in under a second<sup id="fnref:scryfall" role="doc-noteref"><a href="#fn:scryfall" class="footnote" rel="footnote">3</a></sup>.</p>
+<p>With the text recognized, the last thing to do is to pull out the pieces of information I want. I won’t put all the code here but the key logic is to iterate through each bounding box and determine the location so I can pick out the text in the lower left hand corner and that in the top left hand corner whilst ignoring anything further along to the right. The end result is a scanning app that can pull out exactly the information I need in under a second<sup id="fnref:scryfall"><a href="#fn:scryfall" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>.</p>
 
 <p><img src="https://bendodson.s3.amazonaws.com/weblog/2019/mtg-recognized.jpg" alt="iOS app to detect Magic The Gathering cards with iOS 13 Vision Framework" width="800" height="500" /></p>
 
@@ -214,47 +298,35 @@ TN &amp; 0 2017 Wizards of the Coast
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:textrecog11" role="doc-endnote">
+    <li id="fn:textrecog11">
       <p>This seemed odd to be me at the time and still does now. Sure it was nice to be able to see a bounding box around individual bits of text but then having to pull them out and OCR them yourself was a pain. <a href="#fnref:textrecog11" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:mostlycorrect" role="doc-endnote">
+    <li id="fn:mostlycorrect">
       <p>Although, ironically, the confidence is 1.0 but it put TN instead of ™ and 0 instead of ©. A high confidence does not mean the parser is correct! <a href="#fnref:mostlycorrect" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:scryfall" role="doc-endnote">
+    <li id="fn:scryfall">
       <p>In reality I only need the set number and set code; these can then be used with an API call to <a href="https://scryfall.com/">Scryfall</a> to fetch all of the other possible information about this card including game rulings and monetary value. <a href="#fnref:scryfall" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/" title="Next Article" class="pagination-next">Customising a website for iOS 13 / macOS Mojave Dark Mode &raquo;</a>
-    
-	 
-		<a href="/weblog/2019/06/06/uktvplay-for-tvos/" title="Previous Article" class="pagination-previous">&laquo; UKTV Play for Apple TV</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2019/06/06/uktvplay-for-tvos/" class="post-pagination-previous">&lt; UKTV Play for Apple TV</a>
+	
+
+	
+		<a href="/weblog/2019/06/12/website-dark-mode-ios-13-macos-mojave/" class="post-pagination-next">Customising a website for iOS 13 / macOS Mojave Dark Mode &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

@@ -9,71 +9,150 @@
 	
 	
 	
+	
 
 	<title>Syncing the WallaBee Store</title>
 	<meta name="description" content="Update: It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. Check this update for a better solution.">
-	<link rel="canonical" href="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/2013/01/22/syncing-the-wallabee-store/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Syncing the WallaBee Store">
 	<meta property="og:description" content="Update: It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. Check this update for a better solution.">
-	<meta property="og:url" content="https://bendodson.com/weblog/2013/01/22/syncing-the-wallabee-store/">
+	<meta property="og:url" content="http://localhost:4000/weblog/2013/01/22/syncing-the-wallabee-store/">
 	<meta property="og:type" content="article">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		},
+		
+		{
+			"@type": "BlogPosting",
+			"@id": "http://localhost:4000/weblog/2013/01/22/syncing-the-wallabee-store/#article",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "http://localhost:4000/weblog/2013/01/22/syncing-the-wallabee-store/"
+			},
+			"isPartOf": {
+				"@id": "http://localhost:4000/#website"
+			},
+			"headline": "Syncing the WallaBee Store",
+			"description": "Update: It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. Check this update for a better solution.",
+			"url": "http://localhost:4000/weblog/2013/01/22/syncing-the-wallabee-store/",
+			"datePublished": "2013-01-22T11:00:00+00:00",
+			"dateModified": "2013-01-22T11:00:00+00:00",
+			"inLanguage": "en-GB",
+			"author": {
+				"@id": "http://localhost:4000/#person"
+			},
+			"publisher": {
+				"@id": "http://localhost:4000/#organization"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">Syncing the WallaBee Store</a></h1>
+		<main class="site-main">
 			
-			<time datetime="2013-01-22" pubdate=""><a href="/weblog/2013/01/22/syncing-the-wallabee-store/">January 22, 2013</a></time>
-    	</header>
-    	
-	    	<div id="newsletter">
-				<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-				<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
 
-			</div>
-    	
-    	<div>
-			<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
+<article class="post-page content-page">
+	<header class="post-header">
+		<p class="post-date"><time datetime="2013-01-22">January 22, 2013</time></p>
+		<h1>Syncing the WallaBee Store</h1>
+		
+		
+	</header>
+
+	<div class="post-content">
+		<p><strong>Update:</strong> It turns out CACurrentMediaTime() has a significant bug in that it doesn’t count up when an iPhone is in standby mode. <a href="https://bendodson.com/weblog/2013/01/29/ca-current-media-time/">Check this update</a> for a better solution.</p>
 
 <p>If you’ve played <a href="http://wallabeegame.com/">WallaBee</a> you’ll know that one of the key areas of the app is the Store, a place where you can buy items with the app currency you collect. The Store has a 3 x 4 grid of items with a timer under each; when the timer runs out, a new item is displayed for purchase. This all sounds straightforward, but when the WallaBee API started getting 3 million hits per day, the Store was one of the first areas to suffer. In this article, I want to run through a few of the problems I experienced when building it the first time, and go into details on the improvements I’ve just added in v1.1.5 of the app which will be available this week.</p>
 
@@ -105,7 +184,7 @@
 
 <h2 id="store-generation">Store Generation</h2>
 
-<p>The first thing that needs to happen is that the server has to generate 10 minutes worth of items. I created a new table that would hold the item objects and wrote a basic CRON job that went through each position and randomly chose an item<sup id="fnref:random" role="doc-noteref"><a href="#fn:random" class="footnote" rel="footnote">1</a></sup> along with a random shelf life between 45 seconds and 4 minutes. This runs every minute and ensures that there is always 10 minutes worth of items coming up. A separate CRON job then runs and compiles these items into a single JSON file which is then encrypted with a military grade cipher (more on that shortly). This file is stored locally and updated every minute. The end result is that you can request the file at any time and always be sure that you have the next 10 minutes worth of items.</p>
+<p>The first thing that needs to happen is that the server has to generate 10 minutes worth of items. I created a new table that would hold the item objects and wrote a basic CRON job that went through each position and randomly chose an item<sup id="fnref:random"><a href="#fn:random" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> along with a random shelf life between 45 seconds and 4 minutes. This runs every minute and ensures that there is always 10 minutes worth of items coming up. A separate CRON job then runs and compiles these items into a single JSON file which is then encrypted with a military grade cipher (more on that shortly). This file is stored locally and updated every minute. The end result is that you can request the file at any time and always be sure that you have the next 10 minutes worth of items.</p>
 
 <h2 id="encryption">Encryption</h2>
 
@@ -131,13 +210,13 @@
 
 <p>The issue with this is that the time of the request will vary depending on how slow the uplink connection is on the device, and we need a way of accurately monitoring how long it took to download so we can add an offset.</p>
 
-<p>I’ve been using <a href="https://github.com/MugunthKumar/MKNetworkKit">MKNetworkKit</a> for my iOS networking needs (although I’m planning on switching to <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> in the next release) and it provides a useful block-based method on network operations called onUploadProgressChanged. This provides a double which tells you, as a percentage, how much of your upload is done. When it gets to 1.0, that means you have successfully ‘hit’ the API which should tally up to the $_SERVER[‘REQUEST_TIME’] on the server side<sup id="fnref:accuracy" role="doc-noteref"><a href="#fn:accuracy" class="footnote" rel="footnote">2</a></sup>.</p>
+<p>I’ve been using <a href="https://github.com/MugunthKumar/MKNetworkKit">MKNetworkKit</a> for my iOS networking needs (although I’m planning on switching to <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> in the next release) and it provides a useful block-based method on network operations called onUploadProgressChanged. This provides a double which tells you, as a percentage, how much of your upload is done. When it gets to 1.0, that means you have successfully ‘hit’ the API which should tally up to the $_SERVER[‘REQUEST_TIME’] on the server side<sup id="fnref:accuracy"><a href="#fn:accuracy" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>.</p>
 
-<p>Now we know exactly what time we hit the server, we need to start some form of timer so we can see how long it takes until the download completes. To do this, we use CACurrentMediaTime()<sup id="fnref:mediatime" role="doc-noteref"><a href="#fn:mediatime" class="footnote" rel="footnote">3</a></sup>. This returns a CFTimeInterval which is roughly the amount of time since your device was rebooted; think of it as a UNIX timestamp that resets every time you start up your phone. I get the current media time upon the successful upload completion, and when the download is complete I get it again and subtract the difference (so I can see, for instance, that the download has taken 572.42ms). We then add this to the timestamp retrieved from the server to get the current server time; we’re now in sync!</p>
+<p>Now we know exactly what time we hit the server, we need to start some form of timer so we can see how long it takes until the download completes. To do this, we use CACurrentMediaTime()<sup id="fnref:mediatime"><a href="#fn:mediatime" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. This returns a CFTimeInterval which is roughly the amount of time since your device was rebooted; think of it as a UNIX timestamp that resets every time you start up your phone. I get the current media time upon the successful upload completion, and when the download is complete I get it again and subtract the difference (so I can see, for instance, that the download has taken 572.42ms). We then add this to the timestamp retrieved from the server to get the current server time; we’re now in sync!</p>
 
 <h2 id="rendering-the-ui">Rendering the UI</h2>
 
-<p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref:nstimer" role="doc-noteref"><a href="#fn:nstimer" class="footnote" rel="footnote">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
+<p>We have the next 10 minutes worth of items stored locally and we know the exact server time, now we just need to render the UI. To do this, we’ll need a timer that runs continuously in the background to tell us what the current time is; we use this to get our items from our local store and render the progress bars underneath each shelf. The obvious choice is NSTimer, but there are a few gotchas. Firstly, if you create an NSTimer which is targetting ‘self’, you’ll create a retain loop; the view controller will never be released until the timer is invalidated<sup id="fnref:nstimer"><a href="#fn:nstimer" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. Secondly, I’m using a UIScrollView with the store and any touches caused the NSTimer to pause (which may account for the time discrepency in older versions). To fix that, you need to add your timer to the main run loop as so:</p>
 
 <figure class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="k">if</span> <span class="p">(</span><span class="n">_tickTimer</span><span class="p">)</span> <span class="p">{</span>
 	<span class="p">[</span><span class="n">_tickTimer</span> <span class="nf">invalidate</span><span class="p">];</span>
@@ -161,50 +240,38 @@
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:random" role="doc-endnote">
+    <li id="fn:random">
       <p>Ok, when I say “randomly chose an item” it’s a bit more complex than that. Items are weighted based on release time, set, pricing, and so on and there are a number of custom overrides (i.e. Christmas is weighted down so you hardly see those items whilst the One Set To Rule Them All is weighted up as it is a huge collection and takes people longer to complete). In future versions, there will be multiple stores that each have their own rules (i.e. there might be a Store which only has items that are over 6 months old or only items from a particular series of sets). <a href="#fnref:random" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:accuracy" role="doc-endnote">
+    <li id="fn:accuracy">
       <p>It’s not exact but it’s within ~200ms which is accurate enough for this. <a href="#fnref:accuracy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:mediatime" role="doc-endnote">
+    <li id="fn:mediatime">
       <p>CACurrentMediaTime() is specifically designed for gaming where you need to have time independent of the system clock and that doesn’t need to be reconciled with an actual world time. For example, the early versions of Tiny Tower had a bug in which you could move your system clock forward in order to get around things like “wait 3 hours for restocking”. They now start a CACurrentMediaTime() when you open the app and this is used to track time.. every second, it is checked and the overall time spent is worked out so it knows when 3 hours has passed, not when the timezone says 3 hours has passed. <a href="#fnref:mediatime" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
-    <li id="fn:nstimer" role="doc-endnote">
+    <li id="fn:nstimer">
       <p>I hadn’t realised this in the previous version and I had an NSTimer for each position of the Store! This lead to a large number of unexplained crashes as memory ran out. Lesson learned. <a href="#fnref:nstimer" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
     </li>
   </ol>
 </div>
 
-		</div>
-	</article>
-</section>
-
-<section id="pagination">
-	 
-		<a href="/weblog/2013/01/29/ca-current-media-time/" title="Next Article" class="pagination-next">‘CACurrentMediaTime()’ &raquo;</a>
-    
-	 
-		<a href="/weblog/2013/01/20/lego-lotr-video-game/" title="Previous Article" class="pagination-previous">&laquo; LEGO: Lord of the Rings (Xbox 360)</a>
-    
-</section>
-
-<section id="newsletter-section">
-	<div id="newsletter">
-		<p>Want to keep up to date? Sign up to <a href="https://newsletter.bendodson.com/">my free newsletter</a> which will give you exclusive updates on all of my projects along with early access to future apps.</p>
-		<form class="newsletter-form" action="https://buttondown.com/api/emails/embed-subscribe/bendodson" method="post">
-	<input class="newsletter-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required>
-	<input type="hidden" name="embed" value="1">
-	<input type="hidden" name="tag" value="The Dodo Developer Newsletter">
-	<input type="hidden" name="tag" value="New Products and Offers">
-	<input class="newsletter-submit" type="submit" value="Subscribe">
-</form>
-
 	</div>
-</section>
+</article>
+
+<nav class="post-pagination content-page" aria-label="Article navigation">
+	
+		<a href="/weblog/2013/01/20/lego-lotr-video-game/" class="post-pagination-previous">&lt; LEGO: Lord of the Rings (Xbox 360)</a>
+	
+
+	
+		<a href="/weblog/2013/01/29/ca-current-media-time/" class="post-pagination-next">‘CACurrentMediaTime()’ &gt;</a>
+	
+</nav>
+
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

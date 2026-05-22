@@ -9,585 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/5/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/5/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/5/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/5/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/06/16/flawless/">Flawless</a></h1>
-			
-			<time datetime="2017-06-16" pubdate=""><a href="/weblog/2017/06/16/flawless/">June 16, 2017</a></time>
-    	</header>
-    	<div>
-			<p>One of the great things about Twitter is the way it can connect you to other developers. For many years, I’ve been chatting with <a href="https://twitter.com/LisaDziuba">Lisa Dziuba</a> and she got in touch with me last year along with her colleague <a href="https://twitter.com/ahmed_sulajman">Ahmed Sulaiman</a> to tell me about a new app they were working on, <a href="https://flawlessapp.io">Flawless</a>, which has now officially launched.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/flawless.jpg" width="800" height="450" /></p>
-
-<p>Flawless is an absolute godsend for developers working on pixel perfect designs. It is a plugin for the iOS simulator that allows you to compare what is rendering on screen with a static image via various different modes and a slider for opacity. In this way, you can make sure that what you have built matches the image precisely. The app is a plugin for the simulator itself so you don’t need to add any extra code or frameworks to your project. It also works with static images<sup id="fnref:plugin" role="doc-noteref"><a href="#fn:plugin" class="footnote" rel="footnote">1</a></sup> so you don’t need to worry how your designs are provided be that by Sketch, Photoshop, or other<sup id="fnref:indesign" role="doc-noteref"><a href="#fn:indesign" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>I’ve been lucky enough to be both a beta tester and to be interviewed by Lisa and Ahmed about my workflows to help them tweak the app. If you are an app developer that has to work to a fixed design, you should definitely check it out. Flawless is <a href="https://gum.co/SyRKm">available for macOS</a> at the bargain price of $15<sup id="fnref:price" role="doc-noteref"><a href="#fn:price" class="footnote" rel="footnote">3</a></sup> and you can find out more (and get a free trial) on their website at <a href="https://flawlessapp.io">flawlessapp.io</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:plugin" role="doc-endnote">
-      <p>I believe the original idea was to be integrated with Sketch but after they spoke with me and many other developers who don’t work exclusively with Sketch they decided to pivot to being an iOS simulator plugin instead. <a href="#fnref:plugin" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:indesign" role="doc-endnote">
-      <p>I have one client who provides me designs via InDesign and he is also the most likely to create a GitHub issue for a dividing line being 0.5px out of alignment - love ya Niki 👊 <a href="#fnref:indesign" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:price" role="doc-endnote">
-      <p>This has saved me so many subsequent bug follow ups that $15 is almost criminally low. <a href="#fnref:price" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/05/19/gbbc-2017/">Great British Bee Count 2017</a></h1>
-			
-			<time datetime="2017-05-19" pubdate=""><a href="/weblog/2017/05/19/gbbc-2017/">May 19, 2017</a></time>
-    	</header>
-    	<div>
-			<p>For the past couple of years, I have worked with Two Thirds Water on the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count</a> iOS app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2017:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/gbbc-2017.jpg" width="800" height="500" /></p>
-
-<p>The main update has been a completely new design which fits the more modern “flat” design which was made popular by iOS 7 whilst also putting the navigation within easy thumb reach even on plus-sized devices. There are also many new functionality changes such as an improved bee picker and fact files on each type of bee that can give you a lot more information.</p>
-
-<p>As I also needed to migrate the app to Swift 3.1, I took the decision to completely rebuild the app from scratch<sup id="fnref:scratch" role="doc-noteref"><a href="#fn:scratch" class="footnote" rel="footnote">1</a></sup> so I could make use of some newer iOS features such as stack views and improved auto layout constraints. I also made improvements to the way in which content is stored on the device locally in a Realm database making the whole app feel even faster whilst increasing the reliability of sending count information in the background<sup id="fnref:background" role="doc-noteref"><a href="#fn:background" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:scratch" role="doc-endnote">
-      <p>This was a decision the client was not made aware of and whilst it cost me more time (as I worked to a fixed budget) the end result is an app I can be really proud of. I’d much rather spend a bit more time and money from my own pocket to make something perfect than try and hack something together quickly especially if it is a full redesign of an existing app. Due to changes in the Swift language and a move away from separate xib files to storyboards, I was able to reduce the overall file size by 20% and the amount of code by 45%. <a href="#fnref:scratch" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:background" role="doc-endnote">
-      <p>For example, if you try and submit a count when you have no network connection, the app can automatically upload this information once connectivity is restored even if it is no longer in the foreground. <a href="#fnref:background" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/05/10/reaction-cam/">Reaction Cam</a></h1>
-			
-			<time datetime="2017-05-10" pubdate=""><a href="/weblog/2017/05/10/reaction-cam/">May 10, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m very pleased to announce the release of a new client app I’ve been working on over the past couple of months: <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/reactioncam.jpg" width="800" height="426" /></p>
-
-<p>I was hired by Elliott Brock to build Reaction Cam, an easy-to-use app that allows you to quickly record and share your reaction to anything from video to content in a browser. Due to the limitations of iOS sandboxing, this was an immense technical challenge but the end result is incredibly slick with the power to record a reaction and the content on screen at the same time. Once recording is complete, you can edit your reaction and the content by trimming and rotating as well as swapping what is used as the “picture in picture” recording (or disabling it altogether)<sup id="fnref:pip" role="doc-noteref"><a href="#fn:pip" class="footnote" rel="footnote">1</a></sup>. A single file is exported at the end of the process for easy sharing with friends on social media.</p>
-
-<p>Supported media for reacting to includes video (both saved on device and online), photos (complete with a swipeable scrolling interface), and a full browser for viewing everything from tweets to blog posts. In addition to the app, I also built an API and an admin system so that Elliott could handpick recommended videos to react to as well as publishing some of the reactions that had been recorded with the app.</p>
-
-<p>I was given a very loose spec and so I designed the app and worked out all of the UX myself; I even designed the app icon! Reaction Cam is built in Swift 3.1 and makes use of the latest features in iOS 10 to allow it to run quickly on all of the various iOS devices with full scaling support for every screen size.</p>
-
-<p>I really enjoyed working with Elliott on Reaction Cam and hope that people will find it to be a best-in-class app for reaction recording. You can download <a href="https://bendodson.s3.amazonaws.com/app-store.png">Reaction Cam on the App Store</a> and learn more about it on the <a href="http://reactioncamtv.moonfruit.com/">Reaction Cam website</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:pip" role="doc-endnote">
-      <p>Unlike some other reaction apps, I actually record both the front-facing camera and the content onscreen to separate files rather than simply outputting the front-facing camera into the page and capturing just what is on screen. This is massively important as it allows for editing such as swapping which video is shown in the smaller view (i.e. you might want your reaction to be more prominent), it allows you to move the smaller view around, and it means you can disable one or the other after recording. Of course, capturing both live video and the content on screen separately is a technical challenge but I’m very happy I was able to maintain a 30fps recording from both streams even on the oldest supported device (an iPhone 5). <a href="#fnref:pip" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/03/27/alcopath/">AlcoPath</a></h1>
-			
-			<time datetime="2017-03-27" pubdate=""><a href="/weblog/2017/03/27/alcopath/">March 27, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app I’ve been working on for the past few weeks: <a href="https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8">AlcoPath</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/alcopath.jpg" width="800" height="426" /></p>
-
-<p>I worked on AlcoPath for <a href="http://www.orbismedia.co.uk">Orbis Media</a> as a freelance iOS developer. The app was designed in consultation with the the Nottinghamshire Healthcare NHS Foundation Trust and features a WEKP Cognitive Assessment (incorporating 6CIT, Ataxia test, Opthalmoplegia test, and other associated risk factors) to diagnose Wernicke’s encephalopathy, a Withdrawal Assessment for Alcohol using a revised CIWA-Ar scale, and industry recommended pathways all in-line with NICE Guidance.</p>
-
-<p>The app is available for free and can be used by clinical staff on both iPhone and iPad thanks to a scaling interface suitable for all device sizes. An A4-sized PDF can be generated with the personalised results of each assessment and this can be printed directly from the app. Push notifications were also integrated to inform users quickly of any updates.</p>
-
-<p>In order to render the various assessment questions efficiently and accurately, I built a local PHP-based tool to input the various questions and output a JSON file that the app would then interpret to build each question and the various ways of answering be that with a toggle, multiple selection, or text entry. This prevented the need for the app to connect to an online database but also enabled me to make prompt updates should new questions need to be added or existing questions be edited in the future.</p>
-
-<p>It was a great experience working with Orbis Media on this app and the feedback from clinicians has been great so far. You can download <a href="https://itunes.apple.com/gb/app/alcopath/id1189149217?mt=8">AlcoPath on the App Store</a> and learn more about it at <a href="http://www.alcopath.co.uk/">AlcoPath.co.uk</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">Building tools for Kylo Ben</a></h1>
-			
-			<time datetime="2017-02-23" pubdate=""><a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">February 23, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been running my <a href="https://kyloben.co.uk/">Kylo Ben</a> website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interesting links I’ve found, my articles, podcasts, game releases, games I’ve played, and games I’ve purchased which means an average post will take between 1.5 to 2 hours to write. Being a developer means I can build my own digital tools to help me out and so last week I built a few little tools to help cut that time dramatically.</p>
-
-<p>One of the bigger pieces of the weekly roundup is a list of interesting news that has happened in the world of video games. Initially I would copy and paste the URLs of interesting links I found and save them into the Notes app<sup id="fnref:pocket" role="doc-noteref"><a href="#fn:pocket" class="footnote" rel="footnote">1</a></sup> on iOS or Mac. This worked fine but it was a little clunky and getting the data back out took time as I’d need to open each one to see what it was and then add Markdown syntax to each URL I wanted to use. To solve this, I wrote an iOS app and a macOS app that would provide extensions for URLs allowing me to quickly save them to my database.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-ios-extension.jpg" width="800" height="600" alt="[app name] would like to access Apple Music" /></p>
-
-<p>The iOS app is purely a blank view controller with a bundled share extension that looks a little like this<sup id="fnref:codequality" role="doc-noteref"><a href="#fn:codequality" class="footnote" rel="footnote">2</a></sup>:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">ShareViewController</span><span class="p">:</span> <span class="kt">SLComposeServiceViewController</span> <span class="p">{</span>
-
-    <span class="k">override</span> <span class="kd">func</span> <span class="nf">isContentValid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kc">true</span>
-    <span class="p">}</span>
-
-    <span class="k">override</span> <span class="kd">func</span> <span class="nf">didSelectPost</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="nv">item</span> <span class="o">=</span> <span class="n">extensionContext</span><span class="p">?</span><span class="o">.</span><span class="n">inputItems</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSExtensionItem</span><span class="p">,</span> <span class="k">let</span> <span class="nv">itemProvider</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">attachments</span><span class="p">?</span><span class="o">.</span><span class="n">first</span> <span class="k">as?</span> <span class="kt">NSItemProvider</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="n">itemProvider</span><span class="o">.</span><span class="nf">hasItemConformingToTypeIdentifier</span><span class="p">(</span><span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">itemProvider</span><span class="o">.</span><span class="nf">loadItem</span><span class="p">(</span><span class="nv">forTypeIdentifier</span><span class="p">:</span> <span class="n">kUTTypeURL</span> <span class="k">as</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">shareURL</span> <span class="o">=</span> <span class="n">url</span> <span class="k">as?</span> <span class="kt">URL</span> <span class="p">{</span>
-                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">shareURL</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">textView</span><span class="o">.</span><span class="n">text</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">UIAlertController</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"ERROR"</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="s">"That didn't work: </span><span class="se">\(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="se">)</span><span class="s">"</span><span class="p">,</span> <span class="nv">preferredStyle</span><span class="p">:</span> <span class="o">.</span><span class="n">alert</span><span class="p">)</span>
-                                <span class="n">controller</span><span class="o">.</span><span class="nf">addAction</span><span class="p">(</span><span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="s">"OK"</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="k">in</span>
-                                    <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-                                <span class="p">}))</span>
-                                <span class="k">self</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="k">self</span><span class="o">.</span><span class="n">extensionContext</span><span class="o">!.</span><span class="nf">completeRequest</span><span class="p">(</span><span class="nv">returningItems</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-                            <span class="p">}</span>
-                        <span class="p">})</span>
-                    <span class="p">}</span>
-                <span class="p">})</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">override</span> <span class="kd">func</span> <span class="nf">configurationItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="p">}</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>This is paired with an <code class="language-plaintext highlighter-rouge">NSExtensionActivationSupportsWebURLWithMaxCount</code> entry in the Info.plist file so that it will activate whenever I try and share a URL anywhere within iOS. If I’m in an app reading an article that I want to save, I simply tap the share icon and then choose the Kylo Ben app from the list as shown in the screenshot above. The URL and title will then be sent to my server for retrieval later on.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/kylo-ben-safari-extension.jpg" width="800" height="86" alt="[app name] would like to access Apple Music" /></p>
-
-<p>I’ve written a number of Safari extensions in JavaScript before but El Capitan added the option to write native extension in Swift via a Safari Extension bundled with your macOS app. To avoid having to make AJAX calls in JavaScript<sup id="fnref:ajax" role="doc-noteref"><a href="#fn:ajax" class="footnote" rel="footnote">3</a></sup>, I chose to build a simple macOS app with a Safari Extension that looks like this:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">class</span> <span class="kt">SafariExtensionHandler</span><span class="p">:</span> <span class="kt">SFSafariExtensionHandler</span> <span class="p">{</span>
-    
-    <span class="k">override</span> <span class="kd">func</span> <span class="nf">toolbarItemClicked</span><span class="p">(</span><span class="k">in</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">SFSafariWindow</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">window</span><span class="o">.</span><span class="n">getActiveTab</span> <span class="p">{</span> <span class="p">(</span><span class="n">tab</span><span class="p">)</span> <span class="k">in</span>
-            <span class="n">tab</span><span class="p">?</span><span class="o">.</span><span class="nf">getActivePage</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="k">in</span>
-                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">getPropertiesWithCompletionHandler</span><span class="p">({</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="k">in</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="p">,</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">url</span> <span class="p">{</span>
-                        <span class="k">let</span> <span class="nv">title</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">title</span> <span class="p">??</span> <span class="s">"Unknown Title"</span>
-                        <span class="kt">APIClient</span><span class="o">.</span><span class="nf">post</span><span class="p">(</span><span class="s">"save"</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="s">"url"</span><span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">absoluteString</span><span class="p">,</span> <span class="s">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">],</span> <span class="nv">onCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span> <span class="k">in</span>
-                            <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-                                <span class="kt">NSLog</span><span class="p">(</span><span class="s">"PROBLEM! </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                                <span class="n">page</span><span class="p">?</span><span class="o">.</span><span class="nf">reload</span><span class="p">()</span>
-                            <span class="p">}</span>
-                        <span class="p">})</span>
-                    <span class="p">}</span>
-                <span class="p">})</span>
-            <span class="p">})</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-<span class="p">}</span></code></pre></figure>
-
-<p>When I click on the controller icon, the method above is called and the URL and title are sent to my server; once completed, the page reloads to show me it has been successful. I spent a long time trying to just get a simple alert to display on either success or failure but I couldn’t get it to work correctly. It is possible to interact with JavaScript and I was able to log to the console but any alert would silently fail. If anybody has any tips on that, I’d <a href="https://bendodson.com/contact/">love to know how to improve it</a>.</p>
-
-<p>The basic template of my weekly update is the same every week and I used to use a number of custom MySQL queries to pull out the various information I needed and then write it up manually. Now that I have my links stored in my database, I decided to write a PHP script to generate as much of my update as possible so all I need to do is fill in some of the blanks that aren’t automatically provided (i.e. upcoming game release dates) and write my own thoughts and opinions around the news articles. I have a basic PHP script which runs a number of MySQL queries and then generates a Markdown document like this:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text">Introduction...
-
-###News
-
-[Final Fantasy 15's PS4 Pro Update Out Now, Improves Frame Rate And More - GameSpot](http://www.gamespot.com/articles/final-fantasy-15s-ps4-pro-update-out-now-improves-/1100-6448025/)
-
-[New PlayStation 4 Pro patch for Final Fantasy XV makes it look worse | Ars Technica](https://arstechnica.com/gaming/2017/02/new-playstation-4-pro-patch-for-final-fantasy-xv-makes-it-look-worse/#p3)
-
-[This tiny Nintendo Switch feature is already making fans super happy - Polygon](http://www.polygon.com/2017/2/20/14668988/nintendo-switch-click-sound-effect-joy-con)
-
-[Alto's Odyssey awaits, Summer 2017](http://blog.builtbysnowman.com/post/157488116747/altos-odyssey-summer-2017)
-
-[never gonna give you up - What’s In the Box?2?! Take 2](http://tyrod.com/post/157494246009/whats-in-the-box2-take-2)
-
-[Steam Community :: Group Announcements :: Orwell](http://steamcommunity.com/games/491950/announcements/detail/484538095747263770)
-
-[Nintendo tag teams with John Cena for living room-inspired Switch demos - Polygon](http://www.polygon.com/2017/2/21/14682742/nintendo-switch-john-cena)
-
-[Look What Mega Bloks Is Doing To Pokémon ](http://kotaku.com/look-what-mega-bloks-done-to-pokemon-1792555348)
-
-[Pillars of Eternity 2 campaign clears $3 million - Polygon](http://www.polygon.com/2017/2/21/14689394/pillars-of-eternity-2-deadfire-funded-3-million-fig)
-
-[Take a look at how itty-bitty the Nintendo Switch cartridge is - Polygon](http://www.polygon.com/2017/2/21/14691596/nintendo-switch-cartridge-size-comparison)
-
-[Australia Is Coming To Civilization VI](http://kotaku.com/australia-is-coming-to-civilization-vi-1792599435)
-
-[Rocket League Original Minis toys expanding with light-up cars - Polygon](http://www.polygon.com/2017/2/21/14692528/rocket-league-original-minis-light-up-cars)
-
-[Hot and heavy Mass Effect pack comes to Cards Against Humanity - Polygon](http://www.polygon.com/2017/2/22/14698798/cards-against-humanity-mass-effect-pack)
-
-And finally, 
-
-###My Posts
-- Making the earth move with Stagehand — "I really like the premise of a "reverse platformer" but there simply isn't enough content to keep me coming back when it is stood next to _Tiny Wings_, _Alto's Adventure_, and _Super Mario Run_" [[link](https://kyloben.co.uk/stagehand-review)]
-
-###Podcasts
-- Podcast #xx: Title [[link]()]
-- Another Podcast #xx: Title [[link]()]
-
-###Upcoming Game Releases
-- _Game Title #1_ (date - platforms) [[link]()]
-- _Game Title #2_ (date - platforms) [[link]()]
-- _Game Title #3_ (date - platforms) [[link]()]
-- _Game Title #4_ (date - platforms) [[link]()]
-- _Game Title #5_ (date - platforms) [[link]()]
-
-###Gaming Time
-This week I spent 9.6 hours playing six different games:
-
-- **Stagehand** (0.5hrs): Text...
-- **Rocket League** (0.6hrs): Text...
-- **Pokémon Moon** (0.7hrs): Text...
-- **Forza Horizon 3** (1.1hrs): Text...
-- **SteamWorld Heist** (2.8hrs): Text...
-- **Night in the Woods** (3.9hrs): Text...
-
-This week I added 2 new games to my library: _Crusader Kings II_, _Night in the Woods_.
-
-Details on games I'm planning on playing this week...
-
-Until next time, have a great week!
-
----
-
-_Did you enjoy this weekly roundup? Make sure you don't miss one by subscribing to [Kylo Ben Weekly](https://kyloben.co.uk/weekly) - it's this post in email form every Monday!_</code></pre></figure>
-
-<p>The news URLs are simply pulled from the database and wrapped up so that each link uses the title of the page as provided by the macOS and iOS extensions. I will nearly always change the link title (as it’ll be part of a sentence) but it allows me to quickly see what an article is about without needing to open it up and re-read it. The “my posts” section requires no editing at all as it pulls the title, link, and a pull quote directly from the articles I’ve published in the previous week. The podcasts and upcoming game release sections can’t be automatically populated (yet) so I just use placeholder text for these to reduce the amount of effort required. The final section on my gaming time uses a number of queries to get the exact amount of time I’ve spent playing in the past week, adds placeholders for each game so I can write about them, and then lists out any new games I’ve added to my library; all of this is thanks to some scripts I wrote a while back that scrape my Steam and Xbox One libraries to track changes and allow me to render a page showing <a href="https://kyloben.co.uk/gaming-time/">my gaming time</a> for the past few months.</p>
-
-<p>Once I’ve finished writing, the Markdown file is uploaded to my server and the weekly update will then appear on the website. I then use Byword’s “copy as HTML” feature to generate a HTML version and use that with Mailchimp to write and send out the <a href="https://kyloben.co.uk/weekly">email version</a> of the update.</p>
-
-<p>With these tools, I can now write my weekly update pretty quickly and only have to focus on what I want to say rather than spending time on copying, pasting, and formatting. If you’re interested in video games, <a href="https://kyloben.co.uk/weekly">sign up to the weekly email</a> as it is the best way to get a digest of what has been happening over the past week as well as seeing what new games are arriving.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:pocket" role="doc-endnote">
-      <p>I could have used a service like Pocket to do this but then I’d have to either use two Pocket accounts or fill my personal account with links that I don’t want to read later. <a href="#fnref:pocket" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:codequality" role="doc-endnote">
-      <p>This is not what I would call production code quality so don’t just wildly copy and paste this into an app or you’ll likely regret it. Works well enough for my own personal use though! <a href="#fnref:codequality" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:ajax" role="doc-endnote">
-      <p>Which is a nightmare when you start hitting cross domain restrictions. <a href="#fnref:ajax" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">Proposal for an Erase Data Passcode</a></h1>
-			
-			<time datetime="2017-02-16" pubdate=""><a href="/weblog/2017/02/16/erase-data-passcode-proposal/">February 16, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Last month, US-born NASA scientist Sidd Bikkannavar was detained by Customs and Border Patrol agents and told he would not be released <a href="http://www.theverge.com/2017/2/12/14583124/nasa-sidd-bikkannavar-detained-cbp-phone-search-trump-travel-ban">until he gave the agents the passcode to his phone</a>. They then took his phone (containing sensitive information from NASA) for 30 minutes before returning it and letting him go. He doesn’t know what information was taken at that point although popular consensus is that the entire device could be cloned within that time period.</p>
-
-<p>Many articles have been written about this but the one that caught my eye was by Quincy Larson of <a href="http://freecodecamp.com">freeCodeCamp</a> entitled “<em>I’ll never bring my phone on an international flight again. Neither should you.</em>”</p>
-
-<blockquote>
-  <p>When you travel internationally, you should leave your mobile phone and laptop at home. You can rent phones at most international airports that include data plans.</p>
-
-  <p>If you have family overseas, you can buy a second phone and laptop and leave them there at their home.</p>
-
-  <p>If you’re an employer, you can create a policy that your employees are not to bring devices with them during international travel. You can then issue them “loaner” laptops and phones once they enter the country.</p>
-
-  <p>Since most of our private data is stored in the cloud — and not on individual devices — you could also reset your phone to its factory settings before boarding an international flight. This process will also delete the keys necessary to unencrypt any residual data on your phone (iOS and Android fully encrypt your data).</p>
-
-  <p>This way, you could bring your physical phone with you, then reinstall apps and re-authenticate with them once you’ve arrived. If you’re asked to hand over your unlocked phone at the border, there won’t be any personal data on it. All your data will be safe behind the world-class security that Facebook, Google, Apple, Signal, and all these other companies use.</p>
-
-  <p>Is all this inconvenient? Absolutely. But it’s the only sane course of action when you consider the gravity of your data falling into the wrong hands.</p>
-</blockquote>
-
-<p>I’ve seen similar <a href="https://twitter.com/eagle8/status/831827723039416321">responses on Twitter</a> including one that you should use a burner phone with a different sim. This is all massively inconvenient, even if you follow the “wipe everything and reinstall once you’ve landed” method; bear in mind that the average iPhone takes hours to re-download all of its data<sup id="fnref:downloaddata" role="doc-noteref"><a href="#fn:downloaddata" class="footnote" rel="footnote">1</a></sup> at a point when you likely need to get maps, book transport, etc.</p>
-
-<p>My suggestion is much simpler; Apple (and other handset manufacturers) should introduce an <em>Erase Data Passcode</em>. This would be a user-defined passcode<sup id="fnref:touchid" role="doc-noteref"><a href="#fn:touchid" class="footnote" rel="footnote">2</a></sup> that when entered immediately performs a secure wipe of the device in a similar way in which the existing “Erase Data” option works<sup id="fnref:erasedata" role="doc-noteref"><a href="#fn:erasedata" class="footnote" rel="footnote">3</a></sup>. It would be expected that the device would disable power-off options during the secure wipe so that the only way to stop it would be to remove the battery (which in most circumstances would take considerable time at which point the data would be erased).</p>
-
-<p>This is a solution that would also work in other cases such as theft, muggings, or a jealous partner. Whilst Apple have long had the option to remotely wipe your device via iCloud.com this has become far less easy to do quickly if you have 2-Factor Authentication enabled<sup id="fnref:2fa" role="doc-noteref"><a href="#fn:2fa" class="footnote" rel="footnote">4</a></sup> as you may not have access to your own devices.</p>
-
-<p>I’ve filed a Radar on this issue (<a href="rdar://30553231">rdar://30553231</a>) and would urge any other Apple customers that deem this to be a good idea to duplicate it. Apple goes to extraordinary lengths to protect user data and fight for the privacy of its customers but all of that is pointless if you are compelled to give up the keys to your device<sup id="fnref:xkcd" role="doc-noteref"><a href="#fn:xkcd" class="footnote" rel="footnote">5</a></sup>. It is also pointless to have such powerful devices if we need to reset them every time we travel.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:downloaddata" role="doc-endnote">
-      <p>This is especially true if you are data roaming as you usually get the slower speeds not to mention that airports generally have congested networks due to the volume of people. Finally, iOS 10 does a load of additional stuff during the first few days of a new device (like Machine Learning on your entire Photos library) which will cause further battery drain / wear and tear on components. <a href="#fnref:downloaddata" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:touchid" role="doc-endnote">
-      <p>And optional fingerprint for TouchID devices (i.e. my right thumb unlocks the phone, left thumb wipes it) <a href="#fnref:touchid" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:erasedata" role="doc-endnote">
-      <p>This is an option within <code class="language-plaintext highlighter-rouge">Settings &gt; Touch ID &amp; Passcode</code> that will trigger an automatic secure wipe of the device if your passcode has been entered incorrectly ten times. I’ve always wanted an option to reduce this to three times. <a href="#fnref:erasedata" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:2fa" role="doc-endnote">
-      <p>You have 2-Factor Authentication enabled, right? No!?! Go do that now. <a href="#fnref:2fa" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:xkcd" role="doc-endnote">
-      <p>As usual, <a href="https://xkcd.com/538/">XKCD sums this up nicely</a>. <a href="#fnref:xkcd" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/26/the-checked-shirt-episode-1/">The Checked Shirt #1 - Lost AirPods, iOS 10.3 beta, App Store changes, and Invoicing</a></h1>
-			
-			<time datetime="2017-01-26" pubdate=""><a href="/weblog/2017/01/26/the-checked-shirt-episode-1/">January 26, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce a new podcast I’m doing fortnightly with <a href="https://twitter.com/jasonkneen">Jason Kneen</a>; The Checked Shirt.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2017/thecheckedshirt.jpg" width="800" height="500" /></p>
-
-<p>Every fortnight we’ll be producing a 1-2 hour show around the topics of freelance life, technology (specifically Apple), and gaming. Our first episode is available now in which we discuss the AirPods (and how easy it is to lose them), the new changes in iOS 10.3, the ability for developers to leave reviews on the App Store, invoices with <a href="http://cushionapp.com/">Cushion</a>, and lots of other fun stories and anecdotes.</p>
-
-<p>You can get The Checked Shirt from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/us/podcast/the-checked-shirt/id1199021663?mt=2">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1199021663/the-checked-shirt">Overcast</a></li>
-  <li><a href="http://bouncingfish.com/podcasts/tcs/feed.xml">RSS</a> (for other podcast readers)</li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/thecheckedshirt">@thecheckedshirt</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">Syncing Apple Music with Spotify</a></h1>
-			
-			<time datetime="2017-01-25" pubdate=""><a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">January 25, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called <em><a href="https://open.spotify.com/user/bendodson/playlist/0FAo3YjdmPjZSHtLMKnJMS">Ben Dodson’s Definitive Hits Collection</a></em> which contained nearly 45 hours of songs I thought were particularly good<sup id="fnref:criteria" role="doc-noteref"><a href="#fn:criteria" class="footnote" rel="footnote">1</a></sup>. On most Tuesday nights, my friend and <a href="http://connectingtohost.co.uk/">podcast</a> co-host <a href="http://johnwordsworth.com/">John Wordsworth</a> and I play a few rounds of <a href="https://kyloben.co.uk/games/rocket-league">Rocket League</a> and we will regularly have the Definitive Hits on whilst we play. There are two issues with this:</p>
-
-<ol>
-  <li>As I use Apple Music now, I don’t pay for a Spotify premium account and so I have to put up with adverts (which are utterly terrible).</li>
-  <li>They aren’t in sync so we might be humming (or badly singing) along to a song that the other person isn’t listening to.</li>
-</ol>
-
-<p>Now I could just recreate the playlist in Apple Music to solve the Spotify ads issue but we still wouldn’t be in sync. As we’re both developers, we decided to remedy this problem with a fairly convoluted solution…</p>
-
-<p>The basic idea is that John acts as the host with the playlist on Spotify (on macOS) playing into his headphones. He has written an app that checks if the track has changed and, if it has, sends the track information to my server. I then use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to look up the song and find the correct identifier which is then sent to an app on my iPhone via push notification to start the song playing on Apple Music.</p>
-
-<p>I’ll run through each piece and go over the challenges that were encountered.</p>
-
-<h3 id="retrieving-track-details-from-spotify">Retrieving track details from Spotify</h3>
-
-<p>I hadn’t heard of it before but Apple has provided a tool called <a href="https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptX/Concepts/scripting_bridge.html">Scripting Bridge</a> since macOS 10.5 which allows you to interface with AppleScript from other programming languages such as Python and Ruby. With this, John was able to write an app that polls Spotify regularly<sup id="fnref:polling" role="doc-noteref"><a href="#fn:polling" class="footnote" rel="footnote">2</a></sup> to see if the track has changed. If a change is detected, the title, artist name, and album name are all sent to my server so I can begin the process of matching the song on iTunes. In future, we may add more information (track number on the album, duration, etc) in order to try and match better but this is working well enough currently.</p>
-
-<h3 id="finding-a-track-on-apple-music">Finding a track on Apple Music</h3>
-
-<p>The next step is for the server to take the information that has been sent and use the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to try and find a match. This is fairly straightforward and a first draft would send a request like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://itunes.apple.com/search?entity=song&amp;term=never+gonna+give+you+up+rick+astley&amp;country=gb
-</code></pre></div></div>
-
-<p>Unfortunately the iTunes API does not allow you to search multiple terms (i.e. <code class="language-plaintext highlighter-rouge">artist=rick+astley title=never+gonna+give+you+up</code>) so everything has to be concatenated together which leads to an issue; sometimes the song you expect is not the one you get. For example, consider the song <em>She Looks So Perfect</em> by “5 Seconds of Summer”; If you search for this, the first result on the iTunes API will actually be a the “Ash Demo Vocal” version of the song which is not the one we want. To resolve this, we started sending the album information (in addition to title and artist name) so I could match that manually by iterating through the results; I then only choose the first result if there isn’t a song in the list with the same title and album name.</p>
-
-<p>The next issue I encountered involves the <a href="https://en.wikipedia.org/wiki/Romanization_of_Belarusian">Romanization of Belarusian</a>; the track <a href="https://en.wikipedia.org/wiki/Belarus_in_the_Eurovision_Song_Contest_2013"><em>Solayoh</em></a> is rightly attributed to Alyona Lanskaya on Spotify but Apple Music uses Romanization so it becomes Alena Lanskaya. If you search <code class="language-plaintext highlighter-rouge">term=solayoh+alyona+lanskaya</code> then you get no results. To fix this issue, if no results are returned from the iTunes API then I then do a search for the title alone and return the first result as that works in 99% of cases.</p>
-
-<p>The final issue on the API side revolves around remastered tracks. The song <em>A Horse with No Name</em> is listed as <em>A Horse with No Name - 2006 Remastered Version</em> on Spotify but Apple Music doesn’t include that suffix even though they have the exact same version of the album. To fix this, if there are no results returned (again)  then I split the string by non-alphanumeric characters and just try the first part in the lookup. Again, this seems to work in 99% of cases.</p>
-
-<p>Once I have a track, I take the identifier and send it within a push notification along with the server time before I started making API calls (you’ll see why shortly). I use a silent push notification via the <code class="language-plaintext highlighter-rouge">content_available</code> flag as I want to wake the app up and run some code but not actually display anything to the end user.</p>
-
-<h3 id="the-ios-app">The iOS App</h3>
-
-<p>The final piece of the puzzle is an iOS app with a fairly minimal interface<sup id="fnref:switch" role="doc-noteref"><a href="#fn:switch" class="footnote" rel="footnote">3</a></sup>…</p>
-
-<p><img src="http://bendodson.s3.amazonaws.com/weblog/2017/music-sync.jpg" width="800" height="500" /></p>
-
-<p>The key thing for the iOS app to do is to play the track that comes from the push notification. This is fairly easy with an <code class="language-plaintext highlighter-rouge">MPMusicPlayerController</code> but we run into problems when the app is in the background as whilst the app will wake up from the silent push it isn’t allowed to play music.</p>
-
-<p>That said, we can enable the background audio capability that allows us to control audio from the background but it only works if audio is already playing. To remedy this, I play a 5 minute track from the album “<a href="https://itun.es/gb/6K_2v"><em>Silent Tracks of Various Useful Lengths</em></a>” (id #366737838) on repeat so that the app is continuously playing music… it just happens to be silent music<sup id="fnref:silent" role="doc-noteref"><a href="#fn:silent" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<p>Once a silent push is received, it starts to play the track but it also adds the 5 minute silent track to the queue. This is important as it prevents the background audio from terminating should I have a different length of music to Spotify or if a push is delayed due to network reasons. In essence, a normal track will be played followed by a track of silence whilst it waits for the next notification.</p>
-
-<p>The final issue to solve is one of latency; there is a lot of latency inherent in this setup as we are polling Spotify, sending data to a server, doing one or more lookups against the iTunes API, relying on a push notification, and finally buffering the song in Apple Music! In order to keep us roughly in sync, the app will connect with my server when enabled and fetch the server time so that it can keep time<sup id="fnref:clock" role="doc-noteref"><a href="#fn:clock" class="footnote" rel="footnote">5</a></sup>. When the push notification comes in, it contains a timestamp from when the server was first hit by the macOS app and I can then calculate the offset in order to skip into the track a bit.</p>
-
-<p>For example, lets suppose John starts listening to <em>C’est La Vie</em> by B*Witched<sup id="fnref:classic" role="doc-noteref"><a href="#fn:classic" class="footnote" rel="footnote">6</a></sup> and his app hits my server at 1485359762 seconds from the unix epoch. This is recorded and sent in the push notification along with ID #298026101. If that process takes 3 seconds, then the iPhone app will know the server time is now 1485359765 and can work out that it needs to skip forward 3 seconds in the song in order to keep me in sync.</p>
-
-<p>Amazingly, this crazy system actually works and we are able to have our playlist synced and ad free on two completely separate streaming services. I built my portion of the project as an iOS app as Windows does not have access to Apple Music yet I play Rocket League on the PC; in order to actually hear the audio, I wear a single AirPod in my right ear underneath my Turtle Beach X10 Headset so I can hear the music but still get the audio from the game and Skype.</p>
-
-<p>It was only after we’d got it working that we realised we could have just set up some form of streaming radio server but that likely wouldn’t have been as much fun…</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:criteria" role="doc-endnote">
-      <p>The actual criteria to add songs is simple; I either have to use the phrase “it’s a classic” to be able to describe the song or it has to be “catchy as f**k”. <a href="#fnref:criteria" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:polling" role="doc-endnote">
-      <p>An improvement would be to hook into some sort of notification so that the app can be told when Spotify changes track rather than polling every second but this works well enough for now. <a href="#fnref:polling" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:switch" role="doc-endnote">
-      <p>The switch simply activates the app as I’m using various background modes and don’t want my phone to randomly start playing music if John is listening to Spotify whilst we aren’t gaming! <a href="#fnref:switch" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:silent" role="doc-endnote">
-      <p>I was originally planning on using the track <a href="https://en.wikipedia.org/wiki/4′33″"><em>4′33″</em></a> until I found the album of silent audio. <a href="#fnref:silent" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:clock" role="doc-endnote">
-      <p>Originally I would get the timestamp and then start counting it up with an uptime C method. This had some issues when the device was in standby so I made it simpler and I just work out the offset between the system clock and the server date; then, when I want to know what time it would be on the server, I can just add the offset to the system clock. <a href="#fnref:clock" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:classic" role="doc-endnote">
-      <p>It’s a classic. <a href="#fnref:classic" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/18/apples-new-app-prices/">Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</a></h1>
-			
-			<time datetime="2017-01-18" pubdate=""><a href="/weblog/2017/01/18/apples-new-app-prices/">January 18, 2017</a></time>
-    	</header>
-    	<div>
-			<p>Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p price point or drop it down to 49p. I was <a href="http://www.bbc.co.uk/news/technology-38650296">asked about this by BBC News</a> and gave this quote:</p>
-
-<blockquote>
-  <p>I don’t think many publishers will respond to that change. It’s just throwing money away and there’s no reason to give people in the UK a discount. I certainly won’t be discounting my own apps.</p>
-</blockquote>
-
-<p>I stick by that today as I don’t see why developers should be penalised for Apple adjusting to economic conditions; it is a change in price that UK users will get used to in the same way they did when the lowest tier changed from 59p to 69p and then again to 79p. This is especially true bearing in mind that the US App Store doesn’t have sales tax included whereas the UK does have VAT (so at current exchange rates a $0.99 app would work out around £0.96).</p>
-
-<p>The key thing though, and something I didn’t clock onto fully until looking again at the charts today, is that Alternative Price Tier A and B doesn’t apply just to the UK; they change prices in many places such as China, Australia, and Canada but maintain them in other places such as Japan and Denmark. If you went for Tier A you’d be reducing the price of your app by 50% in the UK but reducing it by a whopping 83% in China! There are also a few odd choices such as Canada’s pricing being $1.39 at Tier 1 (which is $0.99 in the USA) but it drops to $0.99 for both the A and B Alternate Tiers.</p>
-
-<p>If you are a worldwide developer wondering about which tier to choose, I would urge you to stick with the basic Tier 1 pricing. If you choose something like Alternate Tier B to maintain the old price for the UK, you could be dropping prices dramatically in other regions as well. I’m not sure why Apple decided to introduce these tiers but they are not helpful to developers, especially at a time when we should be trying to get away from the bargain basement $0.99 apps that are so prevelant.</p>
-
-<p>If Apple want to reduce prices further, perhaps they should start by lowering their 30% cut?</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2017/01/10/sporta/">Sporta 2.0</a></h1>
-			
-			<time datetime="2017-01-10" pubdate=""><a href="/weblog/2017/01/10/sporta/">January 10, 2017</a></time>
-    	</header>
-    	<div>
-			<p>I’m pleased to announce the release of a new client app I worked on late last year: <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/apps/sporta.jpg" width="800" height="511" /></p>
-
-<p>Sporta is an app to keep football fans up to date with the latest matches via local notifications in advance of a game. You simply select which teams you are interested in from the Premier League, Sky Bet Championship, The FA Cup, the Scottish Premiership, or international matches featuring England, Scotland, Wales, or Ireland. You can then choose a reminder time prior to the match (from 5 minutes up to 1 week) and the app will automatically send you a local notification to remind you about the match with details of kick off time, the teams involved, and the venue.</p>
-
-<p>I was originally contacted by the creator to update the existing version of Sporta but I found that the code wasn’t suitable for me to work with due to a combination of out-dated code and offshore developers with poor documentation. Instead, I proposed that re-building the app from scratch with Swift 3 and modern iOS updates (such as AutoLayout to work on all sizes of iPhone and the new permissions systems for notifications introduced in iOS 10) would actually be faster than trying to untangle what was there. I was quickly able to recreate the app and scale it for different iPhone sizes whilst adding an intelligent system for keeping the app constantly up to date; the API for the match updates is called periodically using a combination of Background App Refresh and silent push notifications to ensure that data is always up to date and notifications will always fire at the right time even if the phone happens to be offline<sup id="fnref:offline" role="doc-noteref"><a href="#fn:offline" class="footnote" rel="footnote">1</a></sup>. Finally, I used the <a href="http://realm.io">Realm mobile database</a> in order to store the match data and be able to quickly execute queries such as “<em>fetch all fixtures that contain teams x, y, and z as either the home or away team</em>”.</p>
-
-<p>This was a really fun project to work on and I’m particularly pleased with how reliable the notifications are. If you are a football fan, you can download <a href="https://itunes.apple.com/gb/app/sporta/id945757003?mt=8">Sporta on the App Store</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:offline" role="doc-endnote">
-      <p>The naïve way of doing this would have been to use standard push notifications from a server at the appropriate times but these are not guaranteed to be delivered quickly or at all. Also, you’d need to send data from the phone if you changed your team selection or notification period whereas with the local database system I created you can do that entirely offline and it’ll just work (as I store all upcoming fixtures locally on the device). <a href="#fnref:offline" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/6/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/4/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 5 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/06/16/flawless/">Flawless</a>
+						
+					</h2>
+					<time datetime="2017-06-16"><a href="/weblog/2017/06/16/">June 16, 2017</a></time>
+				</header>
+
+				
+				<p>One of the great things about Twitter is the way it can connect you to other developers. For many years, I’ve been chatting with Lisa Dziuba and she got in touch with me last year along with her colleague Ahmed Sulaiman to tell me about a new app they were ...</p>
+
+				
+					<a href="/weblog/2017/06/16/flawless/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/05/19/gbbc-2017/">Great British Bee Count 2017</a>
+						
+					</h2>
+					<time datetime="2017-05-19"><a href="/weblog/2017/05/19/">May 19, 2017</a></time>
+				</header>
+
+				
+				<p>For the past couple of years, I have worked with Two Thirds Water on the Great British Bee Count iOS app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2017:</p>
+
+				
+					<a href="/weblog/2017/05/19/gbbc-2017/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/05/10/reaction-cam/">Reaction Cam</a>
+						
+					</h2>
+					<time datetime="2017-05-10"><a href="/weblog/2017/05/10/">May 10, 2017</a></time>
+				</header>
+
+				
+				<p>I’m very pleased to announce the release of a new client app I’ve been working on over the past couple of months: Reaction Cam.</p>
+
+				
+					<a href="/weblog/2017/05/10/reaction-cam/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/03/27/alcopath/">AlcoPath</a>
+						
+					</h2>
+					<time datetime="2017-03-27"><a href="/weblog/2017/03/27/">March 27, 2017</a></time>
+				</header>
+
+				
+				<p>I’m pleased to announce the release of a new client app I’ve been working on for the past few weeks: AlcoPath.</p>
+
+				
+					<a href="/weblog/2017/03/27/alcopath/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/02/23/building-tools-for-kylo-ben/">Building tools for Kylo Ben</a>
+						
+					</h2>
+					<time datetime="2017-02-23"><a href="/weblog/2017/02/23/">February 23, 2017</a></time>
+				</header>
+
+				
+				<p>I’ve been running my Kylo Ben website about video games since October 2016 and this year I decided to start doing a weekly update about gaming news and what I’ve been playing. Whilst it is fun to do, it is very time consuming as I need to collate interestin...</p>
+
+				
+					<a href="/weblog/2017/02/23/building-tools-for-kylo-ben/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/02/16/erase-data-passcode-proposal/">Proposal for an Erase Data Passcode</a>
+						
+					</h2>
+					<time datetime="2017-02-16"><a href="/weblog/2017/02/16/">February 16, 2017</a></time>
+				</header>
+
+				
+				<p>Last month, US-born NASA scientist Sidd Bikkannavar was detained by Customs and Border Patrol agents and told he would not be released until he gave the agents the passcode to his phone. They then took his phone (containing sensitive information from NASA) ...</p>
+
+				
+					<a href="/weblog/2017/02/16/erase-data-passcode-proposal/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/01/26/the-checked-shirt-episode-1/">The Checked Shirt #1 - Lost AirPods, iOS 10.3 beta, App Store changes, and Invoicing</a>
+						
+					</h2>
+					<time datetime="2017-01-26"><a href="/weblog/2017/01/26/">January 26, 2017</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce a new podcast I’m doing fortnightly with Jason Kneen; The Checked Shirt.</p>
+
+				
+					<a href="/weblog/2017/01/26/the-checked-shirt-episode-1/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/">Syncing Apple Music with Spotify</a>
+						
+					</h2>
+					<time datetime="2017-01-25"><a href="/weblog/2017/01/25/">January 25, 2017</a></time>
+				</header>
+
+				
+				<p>Before Apple Music launched in April 2015 I was a longtime Spotify user and subscriber. I maintained a playlist I affectionately called Ben Dodson’s Definitive Hits Collection which contained nearly 45 hours of songs I thought were particularly good1. On mo...</p>
+
+				
+					<a href="/weblog/2017/01/25/syncing-apple-music-with-spotify/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/01/18/apples-new-app-prices/">Some thoughts on Apple's new Alternative Tier A and B pricing strategy for apps</a>
+						
+					</h2>
+					<time datetime="2017-01-18"><a href="/weblog/2017/01/18/">January 18, 2017</a></time>
+				</header>
+
+				
+				<p>Apple increased their prices for apps in the UK yesterday due to the current changes in the GBP vs USD exchange rate. One of the interesting changes that came with this were two new “alternate tiers” which would allow developers to maintain the previous 79p...</p>
+
+				
+					<a href="/weblog/2017/01/18/apples-new-app-prices/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2017/01/10/sporta/">Sporta 2.0</a>
+						
+					</h2>
+					<time datetime="2017-01-10"><a href="/weblog/2017/01/10/">January 10, 2017</a></time>
+				</header>
+
+				
+				<p>I’m pleased to announce the release of a new client app I worked on late last year: Sporta.</p>
+
+				
+					<a href="/weblog/2017/01/10/sporta/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/6/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/4/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

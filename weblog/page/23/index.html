@@ -9,625 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/23/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/23/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/23/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/23/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 23 of 26)</span></h1>
+		
+	</header>
 
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/01/12/ios-4-3/">iOS 4.3</a></h1>
-			
-			<time datetime="2011-01-12" pubdate=""><a href="/weblog/2011/01/12/ios-4-3/">January 12, 2011</a></time>
-    	</header>
-    	<div>
-			<p>As I <a href="https://bendodson.com/weblog/2011/01/11/thoughts-on-the-verizon-iphone-4/">predicted yesterday</a>, iOS 4.3 has now become available for developers with the hotspot functionality demoed on the Verizion iPhone 4 now available to all.  It works by replacing the previous &quot;Internet Tethering&quot; functionality with everything being included under one banner.  This means you can now tether your iPhone via Bluetooth, USB, or WiFI (along with 5 other devices).  The carrier support is exactly the same as for internet tethering so if you are already paying for that (or get it for free), then you will be able to use the new hotspot functionality free of charge.</p>
-<img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/01/IMG_0161-333x500.png" alt="" title="iOS 4.3 Personal Hotspot" width="333" height="500" class="aligncenter size-medium wp-image-467" />
-<p>Unfortunately, I can't demo the hotspot at the moment as I don't currently pay for tethering.  The reason for this is that my carrier (O2) charges an extra £7.50 per month for an extra 500MB to use for data tethering.  You can't use the data allowance you already have.  This is in stark contrast to Android in which you can use the device as a Wi-Fi hotspot with no charge at all - it just shares your existing connection.  I was rather hoping that Apple would move away from this money-grabbing opportunity for the carriers but it seems not. </p>
-<p>In addition to this change, there is also an update for AirPlay relating specifically to the Apple TV.  As I tweeted previously, you could enable AirPlay video streaming in 3rd party apps due to a private method on the MPMoviePlayerController class.  However, Apple have now made this public with an update for the AppleTV as well.  This means that 3rd party apps can now stream video to the AppleTV which is great news for apps such as MLB (which mean I can stream video from my iPad to my AppleTV - no more baseball games on the iPhone for me!).  Other changes are mainly cosmetic with a slight rearrangement of the settings panel and some new multi-touch gestures for the iPad.  Interestingly, Apple have responded to the controversy around the reassigning of the "orientation lock" button in iOS 4.2 on the iPad by now enabling you to choose whether you want it to act as a silent switch or an orientation lock.</p>
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2011/01/12/ios-4-3/">iOS 4.3</a>
+						
+					</h2>
+					<time datetime="2011-01-12"><a href="/weblog/2011/01/12/">January 12, 2011</a></time>
+				</header>
 
-<p>All of these changes are things I'd predicted but I'm really glad to see Apple have implemented them.  Video streaming over AirPlay and Hotspot on the iPhone are two great new features.  Roll on iOS 5.0!</p>
-
-<p>If you have any specific questions about iOS 4.3, either get in touch via <a href="/contact/">email</a> or chat to me on <a href="http://twitter.com/bendodson">Twitter</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/01/11/thoughts-on-the-verizon-iphone-4/">Thoughts on the Verizon iPhone 4</a></h1>
-			
-			<time datetime="2011-01-11" pubdate=""><a href="/weblog/2011/01/11/thoughts-on-the-verizon-iphone-4/">January 11, 2011</a></time>
-    	</header>
-    	<div>
-			<p>Verizon have <a href="http://www.verizonwireless.com/b2c/splash/iphone.jsp">just announced</a> that they'll be selling a CDMA version of the iPhone 4 from February 10th.  On the face of it, this news is only really exciting to US customers who don't like AT&T isn't it? Well, yes and no.  As an iPhone developer, this news is of great importance to me as more iPhones being sold means more people who can buy apps.  That's a good thing!  However, for everyone else, the Verizon iPhone 4 has some new features that may make it into the current GSM models of the iPhone.  It also points to some interesting changes possibly coming to iOS to combat the increasing functionality that Android offers.   
-The iPhone 4 that has been shown today is different to the existing iPhone 4 in two key ways; an antenna redesign and a new "hotspot" feature.</p>
-
-<h3>Antenna Redesign</h3>
-<img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/01/cdma-vs-gsm.jpg" alt="" title="iPhone 4: CDMA vs GSM" width="600" height="500" class="size-full wp-image-456" />
-
-<p>In the photo I've put together above, the current GSM version of the iPhone 4 is on the left whilst the new CDMA version is on the right.  You can see on the old version that there are gaps for the antenna in the bottom corners of the phone and at the top next to the headphone jack.  On the new version, however, there are a total of 4 antenna breaks with one in each corner.  Not only does it look nicer, but I'm willing to bet it's been redesigned to fix the Antennagate problem that plaqued the iPhone 4 upon its release.  Now that a new case has been designed, it's not beyond reason to think that Apple might silently make any new iPhone 4s they are shipping use this new case design, especially if it improves performance.  Alternatively, I would expect the iPhone 5 to have the same basic design as the iPhone 4 but just have a speed boost internally (similar to the iPhone 3GS to the iPhone 3G) so this new design may be suitable for that.  Time will tell I suppose!</p>
-
-<h3>Hotspot</h3>
-
-<p>The most exciting news for most commentators is that the new iPhone 4 has a feature called Hotspot <a href="http://www.apple.com/pr/library/2011/01/11iphone.html">"allowing customers to use iPhone 4 to connect up to five Wi-Fi enabled devices"</a>.  This is something that Android has been doing for a little while and a feature I use frequently on my Nexus S.  With the current iPhone 4, you can tether via USB or Bluetooth but you generally have to pay extra for the privilege (which is a little excessive considering you've already paid for the data).  It hasn't been confirmed or denied by Apple, but I wonder if we might not see this functionality introduced worldwide by adding it to the next version of iOS.  I have long suspected that iOS would get an upgrade to 4.3 at some point in late January or February and so this would fit in well with the launch date of the new Verizon iPhone 4 (in that it could come bundled with iOS 4.3).  Complete conjecture for the time being but it's an interesting idea and shows that Apple is willing to go head to head with Android on features.</p>
-
-<p><strong>Update:</strong> <a href="http://www.engadget.com/2011/01/11/verizon-iphone-4-will-have-3g-mobile-hotspot/">Engadget report</a> that the Verizon iPhone that they got to play with after the announcement was running a bespoke build of iOS 4.2.5 and that the Hotspot functionality is built into iOS as "Personal Hotspot".  I definitely think this is a contender for inclusion publicly in iOS 4.3</p>
-
-<p><strong>Update:</strong> <a href="http://www.macrumors.com/2011/01/11/ios-4-3-to-bring-mobile-hotspots-to-gsm-iphones-pending-carrier-support/">Mac Rumors</a> is now reporting that iOS 4.3 will bring hotspot support to the GSM iPhone 4 but activating it will require carrier support (and potentially charges).</p>
-
-<p><strong>Update:</strong> As I predicted, Apple have release iOS 4.3 to developers with the new hotspot functionality in place.  It replaces the existing internet tethering feature so still costs money on some carriers (alas).  For more information, read my <a href="https://bendodson.com/weblog/2011/01/12/ios-4-3/">full article on iOS 4.3</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">The AirPlay Alarm Clock: Turning an Apple TV or Airport Express into an Alarm Clock with AppleScript</a></h1>
-			
-			<time datetime="2011-01-10" pubdate=""><a href="/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">January 10, 2011</a></time>
-    	</header>
-    	<div>
-			<p><strong>This article is now outdated and the code no longer works with modern versions of iTunes. Please read my <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">updated article</a> to see how to create an AirPlay alarm clock with iTunes 11 and iTunes 12.</strong></p>
-<p><strong>Original article:</strong></p>
-
-<p>I was recently reading through some of my old blog posts when I discovered an article that is still fairly popular about <a href="https://bendodson.com/weblog/2008/09/08/control-mac-mini-from-iphone-with-waking-sleeping-audio-video/">controlling a mac mini via an iPhone</a>.  I had an old mac mini lying around and so installed it in my bedroom as a device which basically acted as an iTunes library and alarm clock.  Times have changed though and I no longer have a mac mini in my bedroom; I have an Apple TV.  With the recent news about iPhone alarm clocks failing to go off (again) and lots of hacking projects with AirPlay to try and stream more than just YouTube videos, I decided to work on something this evening I've been thinking about for a little while; turning my Apple TV into an Alarm Clock.  The basic idea is that at a set time in the morning, the Apple TV will wake itself up automatically and start playing a set playlist from my shared iTunes library.  The first step would be to get audio playlists working, but the ultimate goal would be to have video alarms as well.  Thanks to a bit of AppleScript, I've managed to cook up a basic app to do just that.</p>
-
-<p>So, how does one go about creating an AirPlay Alarm Clock?  First of all, you will need a mac that is turned on with a shared iTunes library of content. The "turned on" bit can be automated from System Settings i.e. your machine can be asleep but told to wake up 5 minutes before your alarm is due to go off if you want to save energy.  You will also need an AirPlay compatible device - this can be a set of speakers plugged into an Airport Express, one of the new AirPlay compatible iHome speaker systems, or an Apple TV.  Please note that video playback will obviously only work on the Apple TV although you will get the audio from the video if you select an audio-only device.  Once you've got those, you'll need to make a small tweak to your OS X setup: if you go into System Preferences and then Universal Access, you'll need to enable access for assistive devices - this is so AppleScript can make keypresses on your behalf.</p>
-
-<p>Ok, on to the code:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">AppleTVName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Bedroom Apple TV"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Alarm"</span><span class="w">
-
-</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="na">visible</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
-                </span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">view</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-
-	</span><span class="k">tell</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-		</span><span class="nv">click</span><span class="w"> </span><span class="nb">button</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-		</span><span class="na">key code</span><span class="w"> </span><span class="mi">125</span><span class="w"> </span><span class="nv">using</span><span class="w"> </span><span class="p">{</span><span class="nv">command</span><span class="w"> </span><span class="nv">down</span><span class="p">}</span><span class="w">
-		</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-		</span><span class="nv">keystroke</span><span class="w"> </span><span class="nb">return</span><span class="w">
-
-		</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-
-		</span><span class="k">tell</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"Multiple Speakers"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-			</span><span class="nb">activate</span><span class="w">
-			</span><span class="nv">click</span><span class="w"> </span><span class="nb">button</span><span class="w"> </span><span class="mi">2</span><span class="w">
-			</span><span class="k">tell</span><span class="w"> </span><span class="nv">table</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">scroll</span><span class="w"> </span><span class="nv">area</span><span class="w"> </span><span class="mi">1</span><span class="w">
-				</span><span class="nb">activate</span><span class="w">
 				
-				</span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">every</span><span class="w"> </span><span class="nv">row</span><span class="p">)</span><span class="w">
-					</span><span class="k">set</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">rows</span><span class="w">
-					</span><span class="k">if</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w">
-						</span><span class="k">tell</span><span class="w"> </span><span class="nv">group</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">row</span><span class="w"> </span><span class="nv">i</span><span class="w">
-							</span><span class="nb">activate</span><span class="w">
-							</span><span class="k">if</span><span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">AppleTVName</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w">
-								</span><span class="k">set</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">1</span><span class="w">
-								</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
-							</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-						</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-					</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-				</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+				<p>As I predicted yesterday, iOS 4.3 has now become available for developers with the hotspot functionality demoed on the Verizion iPhone 4 now available to all. It works by replacing the previous &quot;Internet Tethering&quot; functionality with everything be...</p>
+
 				
-				</span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">every</span><span class="w"> </span><span class="nv">row</span><span class="p">)</span><span class="w">
-					</span><span class="k">set</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">rows</span><span class="w">
-					</span><span class="k">if</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w">
-						</span><span class="k">tell</span><span class="w"> </span><span class="nv">group</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">row</span><span class="w"> </span><span class="nv">i</span><span class="w">
-							</span><span class="nb">activate</span><span class="w">
-							</span><span class="k">if</span><span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="ow">does not equal</span><span class="w"> </span><span class="nv">AppleTVName</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w">
-								</span><span class="k">set</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">0</span><span class="w">
-								</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-							</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-						</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-					</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-				</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
+					<a href="/weblog/2011/01/12/ios-4-3/" class="read-more">Read article &gt;</a>
 				
-			</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-		</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-
-	</span><span class="k">tell</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"Multiple Speakers"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-		</span><span class="nb">activate</span><span class="w">
-		</span><span class="nv">click</span><span class="w"> </span><span class="nb">button</span><span class="w"> </span><span class="mi">3</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">shuffle</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="nb">play</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
-
-<p>I'll explain all of that in a bit more detail shortly, but for those of you that want to get cracking, you can copy and paste that into the AppleScript Editor that comes free with every copy of OS X.  You'll want to tweak the first two lines so that the variables match the name of your device and your playlist.  Once that is done, you can save the script as an application.  To get the alarm to play automagically in the mornings, you can open up iCal and create a new event (it can be recurring if you want a daily alarm).  In the "alarm" section, there is a little known entry called "run script" which you can use to run an AppleScript at a specified time relative to the alarm.  If you choose the script you saved, then it will automatically run at the allotted time.  Simple!</p>
-
-<p><strong>Warning:</strong> This script is currently set to shuffle your playlist so that you don't get the same song every morning.  However, if you want to playback video, you have to disable the shuffling as iTunes doesn't like playing shuffled video playlists over AirPlay for some reason.  To do that, you need to edit the 3rd line from the bottom in the AppleScript to say "<code>set shuffle of playlist PlaylistName to 0</code>".</p>
-
-<p>If you're a geeky sort of person, you'll probably want to know how all of that script works.  Here is a quick breakdown of each section:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">AppleTVName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Bedroom Apple TV"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Alarm"</span><span class="w">
-
-</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="na">visible</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
-                </span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">view</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span></code></pre></figure>
-
-<p>The first step is to setup some variables in order to make it as easy as possible to change later on.  The first is the name of your device (as listed in iTunes) and the second is the name of your chosen playlist.  The next two lines tell iTunes to activate (basically open it if it's closed, or bring it to the front if it's already open) and then a short delay to make sure everything has caught up.  You'll notice the line "delay 0.2" in quite a lot of places in this code.  It is there to delay all activity by 0.2 seconds and is required as AppleScript can sometimes run quicker than the buttons it's pressing - by adding the delays every so often, it ensures that you aren't trying to access windows or menus which haven't yet appeared.  If the script isn't working for some reason and you have an old machine, try increasing the delay timeouts first of all as these are usually the culprit.  The next couple of lines force iTunes to make the main window prominent (in case we have any sub-windows hanging around) and also to display the playlist we want to play prominently.  The first version of this script didn't have that and everything generally worked fine so long as the last screen you looked at on iTunes was a music page.  I left a TV show list open and found it no longer worked (caused an error with the button handling) so I've added this section to ensure you are always on the correct page.</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-	</span><span class="nv">click</span><span class="w"> </span><span class="nb">button</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="na">key code</span><span class="w"> </span><span class="mi">125</span><span class="w"> </span><span class="nv">using</span><span class="w"> </span><span class="p">{</span><span class="nv">command</span><span class="w"> </span><span class="nv">down</span><span class="p">}</span><span class="w">
-	</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-	</span><span class="nv">keystroke</span><span class="w"> </span><span class="nb">return</span></code></pre></figure>
-
-<p>This section controls the little AirPlay button in the bottom right hand corner of iTunes.  You can usually target buttons with their names rather than their index position but the AirPlay button is a special case as it has a different name depending on which device you have selected.  I have 4 different AirPlay devices in my house so rather than writing a big if statement to check for each name and then press accordingly, I instead target the button by it's numerical index.  You can find out the index of UI elements by using the fantastic <a href="http://pfiddlesoft.com/uibrowser/">UI Browser</a> tool - it's a little bit pricey but worth the money if you are planning on doing a lot of AppleScripting.  Once we've told iTunes to click on the button, we use key code 125 (which means the down key) in conjunction with the command button to jump down the entire context list to the "Multiple Speakers..." option.  Originally, I wanted to read the list of devices, iterate through them, and then select the one we wanted but I had a lot of problems getting AppleScript to correctly read the context menu so went for this slightly more longwinded approach instead.  Once the "Multiple Speakers..." option is selected, we hit return to make it open the window.</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"Multiple Speakers"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="nb">activate</span><span class="w">
-	</span><span class="nv">click</span><span class="w"> </span><span class="nb">button</span><span class="w"> </span><span class="mi">2</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nv">table</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">scroll</span><span class="w"> </span><span class="nv">area</span><span class="w"> </span><span class="mi">1</span><span class="w">
-		</span><span class="nb">activate</span></code></pre></figure>
-
-<p>This section is now specifically targeting the "Multiple Speakers" window which we just opened.  The activate command allows us to start interacting with it, and by using UI Browser, we find that button 2 is the maximum volume setting.  I decided to set this manually here (rather than using the existing volume) just in case I had it set really quiet (or muted) for any reason.  This ensures that the music will always come through at it's maximum volume.  The next section lets us select the table listing which shows each device that we are about to iterate through.</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">every</span><span class="w"> </span><span class="nv">row</span><span class="p">)</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">rows</span><span class="w">
-	</span><span class="k">if</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w">
-		</span><span class="k">tell</span><span class="w"> </span><span class="nv">group</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">row</span><span class="w"> </span><span class="nv">i</span><span class="w">
-			</span><span class="nb">activate</span><span class="w">
-			</span><span class="k">if</span><span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">AppleTVName</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w">
-				</span><span class="k">set</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">1</span><span class="w">
-				</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
-			</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-		</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
-
-</span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">every</span><span class="w"> </span><span class="nv">row</span><span class="p">)</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">rows</span><span class="w">
-	</span><span class="k">if</span><span class="w"> </span><span class="nv">rowcount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w">
-		</span><span class="k">tell</span><span class="w"> </span><span class="nv">group</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">row</span><span class="w"> </span><span class="nv">i</span><span class="w">
-			</span><span class="nb">activate</span><span class="w">
-			</span><span class="k">if</span><span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="ow">does not equal</span><span class="w"> </span><span class="nv">AppleTVName</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w">
-				</span><span class="k">set</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">checkbox</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">0</span><span class="w">
-				</span><span class="nb">delay</span><span class="w"> </span><span class="mf">0.2</span><span class="w">
-			</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-		</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span></code></pre></figure>
-
-<p>I'm a big fan of the DRY (don't repeat yourself) principle of coding so you may wonder why there are two loops here which are essentially the same.  The first goes through the list and turns the checkbox on for the device we want to play our alarm through.  The second goes through the same list again, but turns off any devices that aren't our chosen alarm device.  My first thought was to do one loop that went through and turned the checkbox on if the device was correct or off it wasn't.  The problem with that approach is that you can't turn off the Computer audio until you've selected another device.  Therefore, you have to go through once to turn on the chosen device and then through again to turn the others (if they were enabled) off.  A little tedious but this is a bit hacky anyway!  I've updated the delay in the first loop from 0.2 to 0.5 as I found that a 0.2 delay would occasionally not be enough time for an AirPlay speaker to be selected before the next loop comes in and turns of the Computer.  This led to an alert in the script (thus pausing everything not leading to playback) which is obviously not ideal in an alarm clock...</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="s2">"Multiple Speakers"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="nb">activate</span><span class="w">
-	</span><span class="nv">click</span><span class="w"> </span><span class="nb">button</span><span class="w"> </span><span class="mi">3</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
-
-<p>Just for the sake of tidiness, this tell will close the "Multiple Speakers" window we opened.</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">shuffle</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="nb">play</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
-
-<p>This final section tells iTunes to shuffle our playlist (remember to turn the shuffle off &mdash; set shuffle of playlist PlaylistName to 0 &mdash; if you are going to send video via AirPlay) and then play it.</p>
-
-<p>And there you have it! A small piece of AppleScript to enable audio and video alarms over AirPlay.  If you have any comments or suggestions, please <a href="/contact/">get in touch</a>.</p>
-
-<p><strong>Update [11th Jan 2011]:</strong> I've amended two sections of the code.  Firstly, I've added a line near the top which ensures that the playlist you want to play is selected and displayed as the main view.  Previous versions worked perfectly when I tested them as I was in the "Music" section of iTunes but if you are in a video section (e.g. left on a TV show page) then there would be an error as it couldn't find the AirPlay button (as the index was different).  The second change is a delay in the looping section has been increased from 0.2 to 0.5 as occasionally it took slightly longer than 0.2 seconds to select an AirPlay speaker. This caused a problem as the script would alert causing everything to pause.  Both lines have been amended in the code at the top of the page and in the analysis afterwards.</p>
-
-<p><strong>Update [25th Oct 2011]:</strong> The button codes have changed in iTunes 10.4 and 10.5 so I've updated the above script so it will continue to work. The key part was changing <code>click button 8 of window "iTunes" of application process</code> to <code>click button 10 of window "iTunes" of application process</code>. Thanks to Thomas Engbjerg for letting me know it was broken!</p>
-
-<p><strong>Update [25th Jan 2012]:</strong> I've added this code to <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">GitHub</a> for easier managing. If something should break in the future (looking at you iTunes 10.6) then a fix will be put up there.</p>
-
-<p><strong>Update [15th Mar 2012]:</strong> iTunes 10.6 did break as expected - needed to add a <code>delay 0.2</code> before the call to speak with the <code>"Multiple Speakers"</code> window due to some newly introduced lag. Updated here and on <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">GitHub</a>.</p>
-
-<p><strong>Update [12th May 2016]:</strong> This article is now outdated and the code no longer works with modern versions of iTunes. Please read my <a href="https://bendodson.com/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">updated article</a> to see how to create an AirPlay alarm clock with iTunes 11 and iTunes 12.</p>
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/01/09/the-coversutra-saga/">The CoverSutra Saga</a></h1>
-			
-			<time datetime="2011-01-09" pubdate=""><a href="/weblog/2011/01/09/the-coversutra-saga/">January 09, 2011</a></time>
-    	</header>
-    	<div>
-			<p>A few people have started asking me for my opinion on the fast-growing story about CoverSutra, a mac application for which the developer promised free updates until version 3.0 several years ago but then switched to be exclusive on the Mac App Store with a new 2.x version which old customers would have to rebuy.  I have mixed opinions about this but it gives me some scope to talk not only about the Mac App Store, but also about selling on the internet in general and the lack of understanding by a large amount of the commenting world.</p>
-
-<p>Looking at the issue at hand first of all, it is essential that you go to the <a href="http://www.sophiestication.com/blog/">Sophiestication Blog</a> and <a href="http://www.sophiestication.com/blog/coversutra-2-5/">read the article</a> that sparked this all off.  The basic details are that version 2.5 was a new update that was to be exclusive on the App Store yet this reneged on a previous promise (made several years ago apparently) that all updates would be free until version 3.0 - users that bought a version recently would now not be able to upgrade to 2.5 without paying $5 on the App Store.  At first glance, the fault would appear to lie with the developer and, to be fair, that is still my general opinion.  A lot of people have backed the developer purely because of the horrendous abuse that she has suffered on her blog (which I'll come to shortly) but that is to forgive something because of abuse after the fact which, in this case, is actually immaterial.  She promised a free update until version 3.0 and didn't deliver it so in a way people are allowed to be pissed especially when she remarks that "a migration from the previous standalone version is sadly not possible.... however I lowered the price to $4.99 so there's no reason not to pick up a copy for new features".  This was excaberated by her fanning the flames in the comments by telling everyone to "chill down" and so on.</p>
-
-<p>As the comments got worse (and needlessly aggressive in tone), it became apparent that a lot of the problem was people not understanding why they couldn't get updates through the Mac App Store and that the developer had forgotten the previous promise that was made.  I'll come to the Mac App Store shortly but the issue of a promise could have been dealt with in a far more dignified way.  Upon being reminded about the promise, she should have instantly made a simple apology and outlined what had happened.  Instead, she told an already riled crowd to "calm down" and made the situation far worse.  In essence, the initial promise should never have been made.  Upon it's revelation, the 2.5 version should have been recompiled to be distributed through the Sparkle system she was using.</p>
-
-<blockquote><p>It‘s true that I could have made version 2.5 available through the legacy Sparkle updater. But maintaining two builds, one for the App Store and one with the serial number checks, was too time consuming for me. Precious time better spend on the actual update and my other apps.</p></blockquote>
-
-<p>I have to disagree with this assessment.  I agree wholeheartedly that maintaining two distribution channels is difficult and, if I were to launch a mac application tomorrow, I would only choose the Mac App Store.  However, if you have an update system in place, there is not much effort involved to publish an update through it (as that is the essence of the system).  This does not mean she would need to sell version 2.5 on her website, just push an update through her existing system for the old users.  That would have solved all the problems and taken considerably less effort than it's now going to take to "restore sanity" to her users.</p>
-
-<p>It's very easy at this point to blame the Mac App Store for this issue.  After all, if Apple allowed upgrade pricing then this wouldn't be happening.  I disagree with this also as the Mac App Store is not trying to be the all encompassing place for mac software as is highlighted by their terms of what is and isn't allowed in the store.  They are creating a store for certain kinds of apps sold in the way in which Apple sells its own apps.  iLife for example comes out almost every year but there is no upgrade pricing - it's priced cheap (for mass consumption) and a new version is something worth buying so you pay for it.  You don't pay for the *.x releases mid-cycle (as these are bug fixes and tiny new features) but the next version generally adds a great deal.  You could say "I've been a customer for x years - I <em>deserve</em> a lower price due to customer loyalty" but I don't think that's true.  This seems to be the same philosophy that Apple are trying to encourage in the Mac App Store, namely price your apps low but customers have to buy again when a new version comes out. Conversely, your version updates had better be good as your customers won't be happy if you put out a new version that they have to pay for again but doesn't add anything good.</p>
-
-<p>Paying for new versions of things is something that we, as customers, should be used to.  After all, when Sonic the Hedgehog 2 came out on the Mega Drive, we didn't complain that we already owned Sonic the Hedgehog 1 and version 2 only added new levels and a new character so why should we pay full price?  You buy the next version again as it adds new things that you want.  This is exactly the same in desktop apps as it is for mobile apps or computer games.  The pricing actually becomes immaterial compared to the philosophy of "buy new versions of apps". If your app is priced well, then people will pay for the new version.  If they don't, then you got the money for the old version and you've learned that the features you added in your new version aren't actually as good as you thought they were.  Do some market research, start work on a new version, and hope that they'll pay next time.</p>
-
-<p>This is something that we need to get used to.  As an app developer myself, it appalls me that people think that having paid $5 for an app they should get free upgrades for life.  That isn't sustainable, economical, or fair to developers.  However, the onus is also on us, the developers, to make each version so good that people will pay for $5 again for each new version.</p>
-
-<p>So, going back to the CoverSutra story, I agree with the developer on one hand but disagree on the other; I agree that going the Mac App Store route is the best way and that each new version should be charged for separately.  I do disagree however with her going Mac App Store exclusive on updates for her previous customers when she had promised free upgrades for a certain period of time.  She didn't need to make that promise but she did (presumably to make more sales at the time) so those free updates need to happen.</p>
-
-<p>My final thought on all this is about commenting on the internet in general.  As you may have noticed, my website has recently been redesigned and one of the features I've redeveloped is the blog.  It no longer has a commenting system.  This is by design as I've noticed the deterioration of comments over the last couple of years.  The facelessness of the internet means that people now act in a way that they wouldn't in a normal conversation.  The comments on Sophia's blog are nothing short of sickening regardless of the rights or wrongs of the decision taken and that is exactly one of the reasons why I won't let people comment on my blog anymore.  I've never attracted such aggression before but the fact that it seems to be slowly becoming the norm on the internet troubles me. If people want to reply to my blog posts, they can contact me on Twitter (where I can reply directly knowing that they've heard back from me - commenting systems don't always inform the commentator of a reply), post a reply on their own blog, or email me directly.  That way, they aren't anonymous (leading to more reasonable discourse) and I can reply back to them.</p>
-
-<p>One of my big hopes for 2011 is that iTunes will add a "reply" feature to commentators so that we don't get the same level of abuse and stupid comments on the reviews of Mac and iPhone apps as that is going downhill currently - many people leave comments on apps saying "this doesn't work" but without the power to reply it's near impossible to let someone know a problem has been fixed.  Most developers do want to help and aren't trying to screw the customer over but with the anonymous reviews and comments left by the countless numbers of people with bad attitudes, it's very easy to stop caring about the customer.  I can't help but think that the whole CoverSutra thing wouldn't have exploded as much as it did if Sophia had comments disabled on her blog...</p>
-
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2011/01/07/my-take-on-microsofts-keynote-at-ces-2011/">My take on Microsoft's Keynote at CES 2011</a></h1>
-			
-			<time datetime="2011-01-07" pubdate=""><a href="/weblog/2011/01/07/my-take-on-microsofts-keynote-at-ces-2011/">January 07, 2011</a></time>
-    	</header>
-    	<div>
-			<p>Tonight I did two things I didn't think would ever happen; I stayed up until 2:30am to watch Steve Ballmer give a presentation and I installed Silverlight on my Macbook Air.  Why you ask?  As someone in the "mobile development space", I felt it was my duty to not just focus on Apple's keynotes (fantastic though they are) and instead take a listen to a few other CEO's, especially when they could be announcing something important in the area of tablet PCs.  Last year, Steve Ballmer famously introduced "slates" to the world at a time when Apple hadn't yet launched a tablet and all the rumour blogs were pointing at the possible name for a new device being the iSlate.  It struck me then that by suddenly calling the tablets he was announcing slates (when nobody had previously) that Ballmer was just doing some showboating as he was launching something before Apple.  However, the iPad (I like to imagine Steve Jobs put out the iSlate name purely to fool Ballmer whilst all along knowing he was going to call it the iPad) launched shortly afterwards to international success.  In the year since, no other tablet has gained as much media attention or sales.  The HP slates that Ballmer announced at CES 2010 have conveniently never materialised.  So, I was curious to see if slates would be making a comeback and if we'd actually see an iPad-killer.  As an iPad developer, I thought it best that I see the competition as it happened rather than waiting until morning for the news.  </p>
-
-<p>Aside from any tablet announcements, I was also curious about what was happening with Windows Phone 7 and any news about upcoming games for the Kinect.  I know very little about Windows Phone 7 (about from the UI looks a bit better than Android's) so any extra knowledge would be an asset.  The Kinect, on the other hand, is a device I've owned since day one and absolutely love - I'm just keen to know what they are bringing to it apart from fitness and dance games.</p>
-
-<h3>Opening</h3>
-<p>It's 2:30am. I refresh Safari and nothing. 2:35am. Nothing. 2:40am. Nothing.  Finally, at 2:47am, somebody from CES comes out after showing off a video to showcase CES that looks like it was made pre-2000.  It was a seriously bad video with the only indication it was new being that it had a song that's only just been in the charts as a backing track.  It was painful.  The only thing more painful was the guy introducing who seemed to speak corporate bullshit (I have no idea what half his sentences meant) and the odd reference to a book he'd written that he was trying to plug.  This was topped only by his introduction for Steve Ballmer in which he called the Microsoft CEO "focused".  In any case, the music started and we all expected Steve to come <a href="http://www.youtube.com/watch?v=wvsboPUjrGc">bounding out like a maniac as per usual</a>but he didn't.  I was genuinely surprised to find Steve behaving and sounding a little bit like a normal person throughout!  Anyway, he briefly talks about how successful Microsoft has been in the past year (let's face it, we needed reminding) and how he wanted to talk about Kinect, Windows Phone 7, and then Windows itself.  I'll give you my opinion of each in the same order.</p>
-
-<h3>Kinect</h3>
-
-<p>I love the Kinect. It's a fantastic device and some of the homebrew apps that people have written to use it have been <a href="http://vimeo.com/17095170">truly inspiring</a>.  For all that, the launch titles were fairly unimpressive with the most popular games being Kinect Adventures (that comes free with it), Dance Central (dance game from the people behind Rock Band), and Your Shape: Fitness Evolved (which has an amazing UI and gives you the socially awkward power of laughing at anyone who still uses Wii Fit).  However, this isn't gaming for the masses; this is trying to be a Nintendo Wii with an albeit better controller.  I should point out at this point that Steve did put a lot of emphasis into the marketing slogan of "You... are....... the................. controller" as if we haven't heard it a million times already.  Anyway, were we going to find out about some awesome new software for the Kinect.</p>
-
-<p>Umm... no.</p>
-
-<p>The first "big" announcement was that the Netflix interface would now be controllable with the Kinect. I already thought it was but then I'm not in the US so I don't get to see any Netflix interface!  Next up was that Hulu would be coming to the Kinect.  Now that is a good announcement, but alas, it's US only as well so not terribly exciting for me personally.  There was some talk about some more ESPN stuff including some very awkward "trash talk" about a college football game and then that was it for the live demo.  And then Steve came back onstage but this time in the form of his Xbox avatar in order to tell us about Avatar Kinect.  When I'd first heard the name Avatar Kinect about 3 hours before the presentation, I assumed it was going to be some amazing Kinect powered tie-in with the 3D film Avatar. How wrong I was!</p>
-
-<img src="https://bendodson.s3.amazonaws.com/old-weblog/2011/01/Avatar_Kinect_Tailgate_06_web-500x281.jpg" alt="" title="Avatar Kinect" width="500" height="281" class="aligncenter size-medium wp-image-431" />
-
-<p>Avatar Kinect is a free piece of software that will be available in a future Xbox update.  It allows you to use your Xbox Avatar to talk to friends by putting you in a number of different settings with your friends Avatars (e.g. a news desk or a car park) where you can then chat or record movies, etc.  The technology is pretty clever in that it will do lip syncing and animate facial features (Steve showed this off with his eyebrows) but I can't help but feel that you'd use the app once to try it out and then never use it again.  Why would you chat with your friends through your avatar when you have a proper webcam built into the Kinect and the software to use it?  It was hardly earth-shattering news so the Xbox portion of the evening was pretty disappointing.</p>
-
-<h3>Windows Phone 7</h3>
-
-<p>As I said earlier, I don't know a huge amount about Windows Phone 7 so I was kind of looking forward to seeing this section to try and understand it a bit better.  The first thing that Steve points out is that the Windows Phone 7 is actually really good, it's just not very popular as people haven't seen it.  We are encouraged that by showing it to people, they really like it and thing it's better than other phones on the market.  This smacks of Project Mojave to me - to those that don't remember, Project Mojave was a Microsoft marketing experiment in which they tried to combat the negative tide of opinion about Windows Vista by putting focus groups together to try the next version of Windows (naming it Windows Mojave) but instead gave them Windows Vista.  This led to lots of video of people saying "this is great" and "so much better than Vista" before then being told the truth.  The end result was supposed to be that Vista is great and people need to use it rather than bitch about it but the actual feeling you got from it was that Microsoft has a real problem with it's marketing department.  This appears to be true of Windows Phone 7 as well if the only reason it isn't the biggest selling phone of the year is because people haven't used it or don't know about it.</p>
-
-<p>In any case, now was the time to show it off.  So, did they do a Steve Jobs style gradual walkthrough or a nice video to show off it's strengths?  No.  They got a "chief goatherder for two, young, rambunctious kids" who seemed to be on some medical grade drugs to do it.  Words can't describe how off-putting Liz Sloan is so I'm just going to embed the 8 minute segment she did below.  If you can get through 30 seconds without wanting to scream then you did better than me.</p>
-
-<iframe width="640" height="360" src="http://www.youtube.com/embed/rsl97vZHOJk?rel=0" frameborder="0" allowfullscreen></iframe>
-
-<p>Firstly, her presentational style is such that I quickly forgot about the phone as I was concentrating on her so much trying to work out just what she was on.  That isn't good for a phone which is described as "a good phone if you show it to someone" as we weren't seeing the phone, just her.  Other things that riled me were that she thinks it's a "great phone for people like us" whilst talking to the audience but she actually means "people like her".  The audience wasn't made up of busy mums who want to get tasks done on their phone quickly - it was made up of tech nerds who were going to a 4 day conference about technology.  These are the kind of people that want to get lost in their phones every day and never come out.  In addition, her description of copy and paste (a feature which is a long time coming - yes, I know it took a while on the iPhone as well but you don't launch an "iPhone killer" without it) was borderline patronising and nearly every task she did I could do at the same speed on an iPhone or Android phone so I don't follow the supposed speed increase which she was talking about.  The stat of "5500 apps in our store" was also repeated far too much - that isn't a figure to be proud of.</p>
-
-<p>The best piece for me though was a dig at Google that went all wrong.  Liz tried to point out that Bing on the Windows Phone 7 pushes the most relevant pieces to the top so you don't have to hunt around to find information.  The demonstration given was a search for "Miami Heat" which then showed the score from last night at the top of the search results "instead of a lot of blue links that then brings me to the answer" (read Google Search Results).  I thought this a little odd so I searched for "Miami Heat" in Google and, as I suspected, the scores for the last 3 games were shown right up top.  Liz passionately explains how this breakthrough (*cough*) also worked for things like stocks and weather which I'm pretty sure show up in Google in the same way as well (along with cinema times, maths calculations, and a host of other things).</p>
-
-<p>All in all, the Windows Phone 7 segment was pretty terrible.  The highlight was probably Steve showing off how Xbox Live works on the phone and the announcement of a pinball game that connects with Fable 3 to give you gold.  This was however quickly marred by a video showing how great games are on Windows Phone 7 that mainly featured iOS games which have been ported...</p>
-
-
-<h3>Windows</h3>
-
-<p>And so we got to the final round; Windows itself.  Unfortunately Microsoft had already announced the biggest thing some 4 hours earlier which was that Windows was now being rebuilt to work on SoC processors (estimated time: 18-24 months) but that didn't stop them giving us another 15 minute demo of what that looks like.  Aside from that, there was very little to say.  A few laptops and tablets were briefly demoed and I'd like to talk about two of them which caught my eye; the <a href="http://www.acer.com/iconia/">Acer Iconia</a> and the <a href="http://www.microsoft.com/windows/buy/featured/asus.aspx">ASUS EEE Slate EP121</a> (just rolls of the tongue that one).</p>
-
-<p><strong>Acer Iconia</strong> - this new Windows 7 laptop looks a little like a large Nintendo DS due to it's dual screen setup but unlike the DS, both screens are touch-enabled.  The demo looked ok apart from a few UI issues such as tapping the tilted screen (remember Steve Jobs saying how they'd never do this as every time they tested it people hated it?) and having a folder stretch over both screens leading to a big plastic bar half way between your viewing area.  However, the thing that irritated me the most was the gesture to bring up the onscreen keyboard.  Since seeing the demo, I've asked a few people "what do you think Microsoft would choose a suitable gesture for bringing up a keyboard"?  Most people said a swipe up or even a two or three fingered swipe in a direction.  Instead, Microsoft decided that a 10-fingered gesture (must be the world's first) was best - you have to push all 10 of your digits onto the lower screen at the same time to bring up the keyboard.  Without having used the Iconia myself I can't really comment on how it works but I can't imagine that typing on a glass display is going to be particularly good for long usage.  The iPad is great but you wouldn't use it to type an essay and entering any text is really a bit of a chore - I would hate to have that as my main input option on what is supposed to be a fully fledged PC, not just a tablet for light app usage.  Having said that, it's a very different concept and I'm going to be interested to see consumer feedback on the dual-screen approach.</p>
-
-<p><strong>ASUS EEE Slate EP121</strong> - This was the main tablet that was shown off and is actually a full PC inside a 12.1" tablet form factor. It's running an Intel Core i5 and can have upto 4 gigs of RAM in it.  They seem to have hedged their bets for input methods by bundling it with both a wireless keyboard and a stylus but you can also use normal touch and a virtual keyboard.  The thing that struck me was a) it looks heavy and too bulky to be a convenient tablet and b) the input methods don't look good.  If you have a tablet, you shouldn't need a physical keyboard.  Yes, you can get them for the iPad but why would you?  If you need to do a lot of typing you are probably better off with a real laptop rather than a tablet device.  The demo showed an excel spreadsheet being controlled with touch at one point (with a pinch gesture to zoom) and then using a stylus to edit a spreadsheet.  I can't imagine anything worse than trying to fill in a spreadsheet on a 12.1" tablet with a stylus but there you are. I haven't used it, so again I'm speculating, but I have a feeling that this device is going to get very hot and run out of battery very quickly (they say 3+ hours on their website!).  For $100 less than the asking price (which is $1,099), you could get an 11" MacBook Air with a higher screen resolution, longer battery, far less weight, and a much smaller form factor.  A MacBook Air could also run Windows 7 if that's what you want!</p>
-
-<h3>Summary</h3>
-<p>The keynote ended with a look at the Microsoft Surface which is now in a smaller form factor, is slightly cheaper,  and has support for 20 fingers in multitouch gestures rather than 10. That was pretty much all I could glean about it!  I do like the Surface but I wish they'd spent as much time as they have on that working on a truly mobile tablet OS rather than trying to shoehorn Windows 7 onto every device.  Windows 7 may be good for some tasks (I don't like it personally) but it is not a suitable OS for a tablet in the same way that OS X wouldn't have worked on a tablet.  Android made a similar decision when they tried to put a mobile phone OS onto a tablet.  Apple made the right choice by making an optimised OS for it and that is why it has succeeded and other tablets have failed (although it will be interesting to see how the new Android 3.0 UI, supposedly optimised for tablets, will work out).</p>
-
-<p>Overall I was pretty disappointed with the Microsoft Keynote.  Sure there were some interesting ideas being floated with the dual-screen Acer laptop and the Windows for SoC announcement but the majority was just rehashing things that have already been demoed or shown off in the past and irritating people showing off features that most mobile phones now have. Microsoft have a lot of catching up to do in the mobile world and I think this year is going to hit them pretty hard. </p>
-
-
-
-
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2010/11/04/contact-forms/">Contact Forms</a></h1>
-			
-			<time datetime="2010-11-04" pubdate=""><a href="/weblog/2010/11/04/contact-forms/">November 04, 2010</a></time>
-    	</header>
-    	<div>
-			<p>Over the last 14 years, I have witnessed the internet expanding rapidly and becoming massively commercialised. With this kind of rampant upscaling, there is always a point at which there are enough people using the system that want to exploit it in some way, usually for monetary gain. With the internet, this has been done rather crudely with the invent of <strong>spam email</strong>. There are large numbers of servers whose primary aim is to crawl the internet searching for an email address. They then generate a list of these email addresses and sell them to companies who will send out mass emails trying to entice people to buy something or other.</p>
-
-<p>As this problem has increased (apparently over 85% of all emails sent are spam), web developers have panicked and come up with all sorts of stupid methods to try and prevent it. Most developers won’t output their email address in plain text on a website (or with a mailto link) but instead choose to try and hide it by doing something along the lines of “ben [at] bendodson [dot] com”. This is highly inaccessible and is a real pain to try and decipher sometimes – and besides, a human spammer could read it anyway! Other developers will set up a contact form and then protect it by means of a Captcha system or some other horrendously inaccessible device. These systems are incredibly difficult and time-consuming for able-bodied people to use let alone those with poor eye sight or other disabilities. Even so, these systems have become prevalent across the internet and show no signs of slowing down. Some contact forms now ask basic mathematic questions to prove you’re human completely over looking the fact that every one of these systems can eventually be thwarted as spam-bot developers adapt to them.</p>
-
-<p>The real problem I have with all of these systems is that they impose limits on web users and slow them down. They pass all responsibility to the user and treat them like spam until proven innocent (by means of a test) rather than just accepting that these things happen and using an automated system that can filter spam from real conversation.
-Therefore, I’ve decided to take a stand against this and publish my email address loud and clear with a link that will open it in your email client of choice. If I get spammed, it really doesn’t bother me – I have a “junk mail” folder which has protected my inbox for a very long time and will continue to do so. Please feel free to <a href="/contact/">contact me</a>  – I look forward to hearing from you soon!</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2009/12/05/why-i-built-an-item-finder-for-gowalla/">Why I built an Item Finder for Gowalla</a></h1>
-			
-			<time datetime="2009-12-05" pubdate=""><a href="/weblog/2009/12/05/why-i-built-an-item-finder-for-gowalla/">December 05, 2009</a></time>
-    	</header>
-    	<div>
-			<p>Last Thursday, I expanded my <a href="http://gowallatools.com/">Gowalla Tools</a> website (a companion site for the popular geo-location game <a href="http://gowalla.com/">Gowalla</a>) to include a new feature known as the Item Finder.  It works by displaying a list of spots in any area you choose, and them removing those that don't have items you are missing from your vault.  I always knew that this would be a controversial feature and that I'd need to write a piece explaining why I had built it - now that a few people have complained that it is "changing the core nature of the game", it is probably an apt time to publish my opinion on why this is not the case.</p>
-
-<p>Ever since I began work on my Gowalla Tools project, people have consistently been in contact to ask me to make an item finder.  They were frustrated that it seemed so difficult to find existing items in their areas when they were so abundant in other areas.  For example, in the UK it's very difficult to find a "Cowboy Hat" as these are only available in spots marked as "Saloons" (of which we have very few).  However, a few of these rare items have made it to our shores thanks to random items being seeded into new packs (meaning new players have a chance of having a rare item such as this available to them from the start) which are then dropped at locations to make them founded spots.</p>
-
-<p>In the first version of Gowalla Tools, I added a feature which allowed you to see what items were available at any spot you chose.  This was not exactly game changing as you could work this out yourself on the Gowalla website by seeing what items had been dropped and picked up until you ended up knowing what was there - my site simply did it faster.  When I was initially asked to add a search feature, I was hesitant as I felt it took a lot away from the game and made it simply an item collection game similar to Packrat (which is how the vast majority of players came to find Gowalla) rather than a game about going to places.  I actually felt so strongly about changing the game into item collection that I edited the first draft so that items appeared in a popup window rather than inline - this meant it took a good 3 seconds or so before you could view the items at a spot and thus made it so that you couldn't just click around and see what was there.  Aside from my issues around gameplay, there were technical constraints as searching that many spots would place heavy demand on both mine and Gowalla's servers so I ruled it out.</p>
-
-<p>It was a month or so later that I suddenly started to hit a brick wall with items.  I was missing around 10 items all of which were proving to be incredibly elusive as they were created mainly for the Texas area (e.g. Longhorn).  I realised I was spending a lot of time on the Gowalla Tools map clicking around trying to find out what items were available in my area and found quite a few items I had been missing that way.  Gowalla also stepped up their game and introduced version 1.3 of their app which allowed you to vault items from within the application - they were starting to take items more seriously so my site needed to do similarly.</p>
-
-<p>I started to get underway with a brand new site and introduced the <strong>13 days of Gowalla Tools Christmas</strong> - a daring attempt to build 13 new tools for the site within the 25 days leading up to Christmas.  The first tool was obvious to me; the map needed to be radically overhauled and easier to search and view spots.  I improved the item offering quickly by showing you what items were at a spot and highlighted those items that were missing from your vault.  On day 2, I added the item search.  It didn't work the same way as many people had hoped (e.g. type in "Longhorn" and it'll show you all the spots that exists) due to the technical constraints.  However, it did allow you to load all the spots in your area and then remove all but those that had items you needed.</p>
-
-<p>Initial feedback was excellent and I had felt that my compromise between ease of use and item searching had been well balanced.  However, I was recently alerted to a <a href="http://getsatisfaction.com/gowalla/topics/friend_only_spots#reply_1644265">post</a> on <a href="http://getsatisfaction.com/gowalla/">GetSatisfaction</a> (and several tweets) that felt that the new feature was game changing for Gowalla and was tantamount to cheating.</p>
-
-<p>I disagree.</p>
-
-<p>My main reason for playing Gowalla is nothing to do with items - it's about finding new places and visiting those places.  It's about finding interesting spots in your neighbourhood that you may never have known were there and then going out and visiting them.  In my opinion, items were added in order to lure more people from Packrat and to make it seem more like a game but the key thing is locations.  Yes it could be perceived that the Gowalla Tools Item Finder makes it unfair to those that knew where items were previously who are now unable to get them as somebody else has now found them, but that's all part of the game.  You can't pick up items unless you are checked in at a location so if you don't go there, you can't have it.  If someone else gets there first, then the item is theirs!</p>
-
-<p>The one thing that has annoyed me from the start about Gowalla is the rights that people have given themselves in terms of "that item is mine" or "I'm going to create that spot so you can't".  There are no "rules" in Gowalla apart from "first come, first served".  The claim that this is game changing is ruled out completely by the fact that Gowalla are fully aware of the Gowalla Tools website and support it (with many of their developers retweeting and using the functionality).  I speak with the developers frequently to let them know when I'm releasing new tools that I feel conflict with the core gameplay or could interfere with their servers (e.g. by placing too much demand).  I would of course remove any tool they felt violated these rules and as yet no request has been made - only encouragement  to do more!</p>
-
-<p>On the positive side, there are a lot of people using the Item Finder in the way I intended.  I received a lot of tweets yesterday from people thanking me as they had found an item at a spot and were now going their specially to get it.  Some people were travelling up to an hour out of their way to get an item and I think that's great!  They were playing the game, going outside to new places rather than waiting and hoping that nobody would know an item they would quite like was there.</p>
-
-<p>The item Finder does not change the core gameplay of Gowalla in any way - it adds to it by showing you spots that are of interest to you.  There are people who are affected (namely those on the Android platform) but unfortunately that is a shortcoming on Gowalla's part in not implementing the same level of gameplay for all users.  They shouldn't have launched the Android version without all the core game components but this does not mean that Gowalla Tools should be limited.  There are several people on devices that can't play Gowalla who would like to - should we horde items away for them?  Of course not!  Items can still be obtained in the traditional ways and as yet they aren't limited to batches in the same way Packrat items are so I don't see the problem.</p>
-
-<p>Over the coming weeks I'll be releasing more tools that push forward this key feature of getting out there and discovering new places and todays new tool (Flickr Integration) hopefully expands this more by giving you more visual information about a place before you get there.  I stick firmly by my decision to release the item finder and I hope that the majority of you will agree with me.</p>
-
-<p>Now get out there and start Gowalla'ing!</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2009/10/31/the-apple-magic-mouse-necessary-upgrade-or-expensive-luxury/">The Apple Magic Mouse: Necessary upgrade or expensive luxury?</a></h1>
-			
-			<time datetime="2009-10-31" pubdate=""><a href="/weblog/2009/10/31/the-apple-magic-mouse-necessary-upgrade-or-expensive-luxury/">October 31, 2009</a></time>
-    	</header>
-    	<div>
-			<p>Apple recently announced the introduction of their latest peripheral, <a href="http://www.apple.com/uk/magicmouse/">the Magic Mouse</a> (so called due to <a href="http://www.macworld.com/article/143202/2009/10/mightymouse_trademark.html">trademark problems</a> with the existing "Mighty Mouse" name).  The new mouse offers the same multitouch features as found in the trackpads of recent MacBooks and of course the iPhone and iPod Touch. But is it any good?</p>
-<h3>Previous Apple Mice</h3>
-
-<p>The previous model (the "Mighty Mouse") was a complete disaster in my opinion and the only Apple product apart from the Tiger Xserve that I have never been able to defend (even as a devout fanboy).  The main problem was that the scroll button (or 'nipple') would get clogged with dirt so easily that it would invariably stop working after a couple of weeks heavy usage.  The official Apple solution to this (which has since been pulled from the KnowledgeBase) was to turn it upside down and bang it in your palm!  Whilst it had a couple of benefits in terms of OS X integration (such as activating Exposé by squeezing) these features quite often generated more problems than they solved (such as activating Exposé by accidental squeezing).  So how does the Magic Mouse differ?</p>
-
-<h3>Design</h3>
-
-<p>The Magic Mouse has no buttons, no squeezing, and no cable.  Like the unibody MacBooks, it has gone for a simple look using the minimum number of parts; one piece of aluminium and one piece of glass.  It is incredibly short (in terms of height) compared to other mice whilst being slightly longer than others.  With no distinguishing buttons and a symmetrical shape, the only visual aid to placing it the right way round is the standard Apple logo displayed on the top.  In my opinion, the design is beautiful yet simplistic (as you would expect from any recent Apple product) but would look at home in a museum of modern art.  Not many people care about the aesthetics of a mouse (which is strange considering it's prominent location in most homes) but now I've had this on my desk, I'd find it very difficult to go back to something uglier.</p>
-
-<p>Before you've even got it to your desk you are struck by the beauty of the device.  The packaging is incredibly similar to the new iPods (which makes a lot of sense) but it still amazed me to see just how little packaging was used.</p>
-
-<img src="http://farm3.static.flickr.com/2455/4061085886_937419aed9.jpg" alt="Apple Magic Mouse packaging" />
-
-<p>It is difficult not to pick up the Magic Mouse in the Apple Store and not be impressed with the way it is packaged.  This is how all packaging should be in the modern world - I'm not talking just about technology (although there is large scope for improvement) but in everything from food to clothing.  Smaller packaging means not only that you can put more product in a store but also that you save fuel from transportation (as you can move more units in the same lorries / boats leading to less trips) and minimise wasteful plastic packaging.  I was impressed when I found out that the mouse came with batteries (very rare these days) but even more impressed when I discovered they were already in the device which was simply turned off.  This saves a huge amount of space and more plastic.</p>
-
-<h3>Functionality</h3>
-
-<p>As other commentators have noted, there is no "wow" moment with this mouse.  By this, they mean that the majority of Apple products have that initial euphoria when you use it for the first time (e.g. when you first unlock the iPhone or when you lift the MacBook out of it's stunning packaging) but this mouse doesn't have that.  You just use it.  However, what it does have is a strange sensation roughly after an hours use when you try to go back to using a normal mouse.  You find the scrolling isn't as intuitive and that you've been using the multitouch features without even thinking about it.  It is a very easy mouse to get used to and it is that which provides the "wow" as you realise you have been completely taken in.</p>
-
-<p>In terms of setup, it's a standard bluetooth mouse so a quick trip to the "mouse" page in Settings will have it set up in know time.  As of the time of writing, you need to download an update via "Software Update" to take advantage of the multitouch gestures but when OS X 10.6.2 is released it will be built into the OS by default.  The only negative here is that the update is 62MB which is a little excessive - this is most likely due to the videos that show you how to use the gestures in a similar way to the videos found on the MacBooks to show you how to use the trackpad.  In any case, setup is quick and painless.</p>
-
-<p>At present, there are very few actual uses of the multitouch.  Clicking is performed by a physical click (not just tapping as per the trackpads) but there is only one button.  The multitouch comes into play by detecting where your finger is on the surface and then linking that up to whether it is a primary or secondary click - this is very useful if you are left-handed or ambidextrous (as I am) as you can quickly switch the mouse to your other hand and it still feels comfortable thanks to the symmetrical design.  The only other two uses are scrolling (a simple case of moving your finger around on the surface - you can go up, down, left, right, and diagonal which is useful for zooming in photos, etc) and the two finger swipe which lets you go backwards and forwards through browser history and photos.  Apple also point out you can zoom into a page by holding the control button on the keyboard and swiping your finger up and down but this has always been possible by holding control and using a scroll wheel so I wouldn't describe it as a unique function.</p>
-
-<h3>Criticism</h3>
-
-<p>There appear to be two main criticisms of this device if you read the forums or the reviews pages on the Apple Store; size and functionality.</p>
-
-<p>A lot of people have found the size uncomfortable as it's so much shorter than previous mice.  However, I note that most of these reviews were from people going to their local Apple Store and trying it rather than at home.  I had read these reviews and so when I got to the store I made a point of squatting down to try it as the benches in the store are very low (meaning you're not holding the mouse as you normally would).  This made a huge difference to how it sat in my hand and so I think a lot of these reviews just stem from this problem.  I would never buy a mouse that cost this much money without trying it out first but it is important that you try and recreate how you would use it as much as possible.</p>
-
-<p>The second problem of functionality is much more valid in my mind.  For a multitouch device, this mouse uses a woeful amount of multitouch features.  When it was first announced I was expecting all the features of my trackpad such as pinch, rotating, zooming, 3-4 fingered swiping, and maybe a few extras as well.  Without this option (and the customisation that goes with it) there are just too few buttons for a lot of consumers.  The squeeze buttons on the Mighty Mouse may have been annoying to some but at least it gave you a way to control Exposé from your mouse - something that can save a lot of time over the course of a day.  Likewise with no middle button control you can't get to your dashboard or spaces easily (or use it like a PC mouse for opening new tabs in browsers).</p>
-
-<p>My theory on this lack of functionality is that Apple know they are going to get negative reviews that focus intently on this issue.  They will therefore release an update in a month or so which fixes it and adds full multitouch support which will then write off all of the negative reviews.  In this way, they are able to choose the negative issue that people will focus on safe in the knowledge they can resolve it later on and make it seem that everybody loves the device.  People who had an issue with the device can't then say "x is bad about it" as their original review will have focused on the multitouch issue as the only negative.  From what I've seen of Apple's marketing machine (one of the best in the world to my mind) and my studies of politics, this is exactly the kind of controlled negativity that I would expect.  I guess we'll see if I'm right in a month or so!</p>
-
-<h3>Conclusion</h3>
-
-<p>So is the mouse worth £55 (or $69 - strange currency conversion there...) - at the moment I would say no simply due to the lack of features supported by the multitouch.  If these are corrected in a future update (and I'm confident they will be) then this will be one of the finest mice on the market, but at the moment it feels as if it's full potential is being restricted.  There is no question that this is a beautiful device, but the functionality needs to match the aesthetics before I can fully endorse it.</p>
-
-<p><strong>Update - 11th Nov 2009:</strong> I was recommended <a href="http://blog.boastr.net/?page_id=195">BetterTouchTool</a> by <a href="http://twitter.com/ricklecoat">@ricklecoat</a> which is a free app that enables some extra features of the mouse.  For instance, my Magic Mouse now reveals my desktop when I slide two fingers up / down and does Exposé when I tap (yes tap, not click) with three fingers.  Has improved my productivity no end!</p>
-
-<h3>Gallery</h3>
-
-<p>I've put together a few shots of the unpacking of the Magic Mouse as well as comparing it with a few of my older mice. Check it out <a href="http://www.flickr.com/photos/bendodson/sets/72157622701686080/">on Flickr</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2009/10/16/how-to-pitch-an-app-idea-to-an-iphone-developer/">How to pitch an app idea to an iPhone developer</a></h1>
-			
-			<time datetime="2009-10-16" pubdate=""><a href="/weblog/2009/10/16/how-to-pitch-an-app-idea-to-an-iphone-developer/">October 16, 2009</a></time>
-    	</header>
-    	<div>
-			<p>Thanks to my appearance on The Gadget Show <a href="https://bendodson.com/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/">earlier this week</a>, I've been inundated with people emailing me with ideas for iPhone applications.  The majority of them have no understanding of the development aspects (which is fair enough) but have ideas for apps they want me to build, usually with payment via the profit made.  I've had quite a few interesting ones come through, but some have been suggested with very little thought or realism applied.  I decided to create this article to show prospective idea senders how an idea should be presented along with a few answers to common questions I've received</p>
-<h3>Research your idea</h3>
-<p>There is nothing worse than replying to 2 or 3 emails in which the sender is being cagey about their "brilliant new idea" only to discover (often after spending time signing, scanning, and sending an NDA) that it is actually an idea for which there  are over 250 apps available on the store.  The key thing before contacting a developer is to make sure that your idea has not been done already.  If it has, then either think of something else or find a unique selling point in your app that will make it stand out from the crowd.</p>
-
-<h3>Make sure your app is relevant</h3>
-
-<p>So your idea hasn't been done before?  The App Store has been open for over a year with over 65,000 applications so the next question should be "why hasn't it been done".  There are three answers to this question: it's impossible, it's not a good idea, or it's unique.  </p>
-
-<p><strong>Impossible:</strong> When I say "impossible", I mean that you've come up with something that the iPhone SDK won't allow (it may still be a good idea).  For example, you may have an idea to download soundclips off the internet and store them in the iPod library.  A good idea in theory but the iPod library only has read access so you are limited to what you can do.  There are several rules within the iPhone SDK which limit what can be done so be prepared that your idea may not be possible within those confines - there may, however, be workarounds (e.g. in the example above you could build a custom application to play the soundclips you've downloaded).</p>
-
-<p><strong>Bad Idea:</strong> The most common bad ideas I've had sent tend to be duplicating the functionality of an existing website into an iPhone app.  You might have a killer idea on your website and be the market leader in a certain arena.  This does not mean that converting it directly to the iPhone is going to be a good idea.  If your idea is working on a website already, then it is already accessible from an iPhone (provided it's not made in flash) so there is little benefit to making a custom application apart from it'll look slightly better.  It may be that there are a huge number of potential iPhone users who are put off by your website running on the device.  In that case, you should consider making a web app.  This is a way of using standard HTML and CSS to make a website look like an iPhone application but takes no extra knowledge than that of building your regular site.  I've built a few web apps myself and found it to be incredibly easy if you are using something like <a href="http://code.google.com/p/iphone-universal/">UiUiKit</a>.</p>
-
-<p><strong>Unique:</strong> You've checked the App Store and found no trace of your idea, you are certain it's possible to do with the features of the device, and it's not a simple port of an existing website into an application. In that case your app is probably a unique endeavour and should definitely be pursued!</p>
-
-<h3>Know your audience</h3>
-
-<p>When I've been pitching for web development work in the past, I've often had clients say to me "we should definitely make an iPhone app for this as well" to which I usually reply "why".  There is an unhealthy obsession at the moment with making applications simply for the fact that it shows you are modern.  However, you can easily spend a large sum of money building an application for a small bit of street cred only to find out that none of your target audience actually use iPhones (or wouldn't use your application anyway).</p>
-
-<p>If your idea is simply duplicating functionality of your website, then you shouldn't make it an iPhone application (or even a web app) unless more than 20% of your visitors are using an iPhone or you've had a lot of people ask for an app.  You wouldn't suddenly start supporting Internet Explorer 5.5 on the mac again but quite often you'll find more people visiting your website with that than with an iPhone yet people will often overlook simple statistics to try and seem more modern.</p>
-
-<p>Don't make custom apps or websites for devices or browsers that your users aren't using!</p>
-
-<h3>Understanding development costs</h3>
-
-<p>An iPhone app is not an easy thing to build and so, like a house or a website, you are paying for the expertise of the developer you commission to create your application.  If you believe your idea is unique and you are going to make a large profit from it, then you need to pay your developer for the application in a one-off fee the same way that you would pay a builder or any other tradesman.  <strike>However, if you don't have the finance to pay to have your idea built, then some developers will be open to the idea of building the idea for you for free but then taking a percentage of the profit that comes in from selling the app.</strike></p>
-
-<p><strike>Negotiating for development costs is often very similar to the Dragon's Den program in that you will negotiate in terms of equity (how much of the profit you are willing to share) in order to get an expert to build the application.  However, where this often falls down is with prospective clients offering around 20% equity.  If you come to the table with nothing but an idea (and aren't planning on doing any designing, building, or marketing) then you can't expect to find a developer that will build your app and agree to taking a small percentage.</strike></p>
-
-<p><strike>In my own case, I prefer to be paid for the application but I will occasionally deal in terms of equity if I think the idea is good enough.  Having said that, I refuse to take less than 50% if I'm expected to build an application from the ground up with no other form of payment - most other developers are the same.</strike></p>
-
-<p><strong>Update, December 22nd 2015:</strong> Whilst this was the case in 2009, it certainly isn't the case in 2015 and the vast majority of developers will not work for any form of equity. Please ready my new article <a href="https://bendodson.com/weblog/2015/12/22/ios-developers-dont-work-for-free/"><strong>iOS developers don't work for free</strong></a>.</p>
-
-<p>It is important to note that it is not possible to give a straight up cost for an application before you've heard the idea.  I've received several enquiries of the sort "can you tell me how much it'll cost to get an app built".  Pricing is generally based on the amount of time required so if you want a basic utility then it will cost a great deal less than a complex 3D game.  Bear in mind that you may be asking your developer to build a website or server software to run your applications (if you plan on using push notifications for example) and so these should be factored into your financial calculations.</p>
-
-<p><strong>Note:</strong> with all applications, Apple takes approximately 30% of the sale of each application to cover the costs of the App Store.  This means that for every 59p sale, you keep approximately 42p.  You are paid at the end of each month by Apple but you are paid by territory and if you haven't earned over $150 in that territory then the amount rolls over to the next month that you do.  For example, if you made $100 in one month in the USA, then you are under the $150 threshold.  That rolls over to the next month.  If you then made another $100 you would be over the threshold so at the end of that month you'd be sent $200.  When you are negotiating with an iPhone developer, be sure to clarify if they are talking of their percentage in terms of sales price (before Apple takes it's 30% cut) or profit (after Apple has taken it's cut).</p>
-
-<h3>Building an app on your own</h3>
-
-<p>Apple provides all of the tools you need to make an iPhone application via it's developer website at <a href="http://developer.apple.com/iphone/">http://developer.apple.com/iphone/</a> although you will need to be using a mac with an intel processor.  You can't build iPhone applications on windows.</p>
-
-<p>With the free SDK that Apple provides, you can use all of the features of the iPhone and test them in the iPhone Simulator that is also provided.  You can't, however, run the code on your own device or submit it to the App Store.  To do that, you'll need to get a developer license which costs $99 per year and can be purchased through the developer website above.  Once you have the license, you'll be able to generate provisioning profiles for your apps which will enable it to run on your own device or up to 100 other devices (e.g. friends, colleagues, testers).</p>
-
-<p>All apps are written in Objective-C so I'd highly recommend you buy a book on the subject.  If you are coming from a web-based background (e.g. PHP, Ruby, JavaScript, .net) then I'd also recommend you start by learning C before moving onto Objective-C.  You may be raring to jump into the SDK and start using things like the accelerometer and location services, but if you don't know how an array or a dictionary works, then you'll never be able to build an app that works well.</p>
-
-<h3>Getting your apps into the App Store</h3>
-
-<p>The only things you need are your completed application code (that should have been tested extensively in both the simulator and on actual devices) and a developer license.  Once you have these, you are able to generate the correct certificates to publish your application to the App Store.  You will be asked to supply not only text such as descriptions, app title, and keywords, but also screenshots and a 512x512px image of your application icon for use in Apple's promotional materials so make sure you have these available.</p>
-
-<p>The actual process for submission has been under a lot of criticism but basically you submit your app and then wait for a while (usually around 14 days - Apple have placed an indicator of queue length on the iTunes submission portal now) to find out if your app has been rejected or accepted.  If it's been rejected then they should supply you with information about what is wrong and how to fix it.  If it's been accepted, then congratulations, your app is ready for prime time!</p>
-
-<p><strong>Note:</strong> a common question seems to be "can I submit an app with your developer license".  If we were to assume that I built you an iPhone app, then yes I could submit it to the app store using my license saving you $99.  However, this would mean the app appeared under my company name rather than your own and all payments for the app would go into my bank account.  Whilst this is possible, most clients would prefer that their company name is displayed and that all finance goes through them.</p>
-
-<h3>Copyright and other legalities</h3>
-
-<p>When Apple checks the application in it's approval process, it does not take into account copyright or any other legalities of that type.  This means that technically you could steal an idea such as "Super Mario Bros", make a duplicate app, and then submit it.  However, you are still liable for breaches of copyright and so could be sued by the correct copyright holders and have to repay damages.  The basic rule of thumb is don't use copyright images, text, or music, and don't mimic other peoples ideas or intellectual property.</p>
-
-<h3>Contacting a developer</h3>
-
-<p>If after reading all of the above you are pleased with your idea and want to get an iPhone developer on board, you will need to contact them with the following pieces of information:</p>
-
-<ul><li>A detailed explanation of your idea - if you are not comfortable with giving up your idea, then get the developer to sign a Non-Disclosure Agreement (or NDA) which will prevent them from stealing the idea.  It is worth pointing out to the developer that you have already done your research and know that your idea is unique before asking them to sign anything as you will be more likely to get a favourable response.</li>
-<li>What you are looking for - you'll need to detail what you need the developer to do (e.g. build the app, suggest changes, recommend a designer, etc) and also if you are looking to pay outright for the code or enter into a profit-share agreement (and the potential terms of such an agreement).</li></ul>
-
-<p>I reply to all emails that I receive but many developers will not get back to you if the two points above are not fulfilled.  The more detail you supply, the more likely it is that a developer will want to work with you and form a professional relationship as it shows that you are serious and have researched your idea rather than being someone interested in simply making a quick bit of cash by copying an existing flash game.</p>
-
-<h3>Summary</h3>
-
-<p>I hope that this article has given you a quick insight into how you can make your ideas more appealing to an iPhone developer and answers some of the more common questions about the process. If you have further questions, please feel free to leave them in the comments below or <a href="https://bendodson.com/contact/">contact me</a>.  I'll be updating this article as and when other common questions come in.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/">Social Beacon: Developing An iPhone App for "The Gadget Show"</a></h1>
-			
-			<time datetime="2009-10-14" pubdate=""><a href="/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/">October 14, 2009</a></time>
-    	</header>
-    	<div>
-			<p><strong>You can <a href="http://fwd.five.tv/gadget-show/videos/challenge/apps-complete">watch the Gadget Show episode online</a> and <a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=326303505&mt=8">download Social Beacon from the App Store</a></strong>.</p>
-
-<p>A couple of months ago, I was asked if I'd like to appear on Channel Five's "<a href="http://fwd.five.tv/gadget-show">The Gadget Show</a>" to take part in a challenge about iPhone applications with Jason Bradbury and Suzi Perry.  I had only been developing iPhone apps for a short while but decided to enter into the spirit of the challenge by jumping head first into some of the trickier aspects of the iPhone SDK.  The show and results of the challenge <a href="http://fwd.five.tv/gadget-show/videos/challenge/apps-complete">aired last night</a> so I thought it was time for me to do a write up of the application and the process of building it.</p>
-<h3>The Early Stages</h3>
-
-<p>My day-to-day job involves me working as a freelance PHP developer but I'm a huge Apple fan and have owned every iteration of the iPhone.  It wasn't long before I started toying with the idea of building iPhone apps, but the programming language was different to anything I'd ever done before.  As a PHP developer, I found it very hard initially learning how to code in Objective-C (the coding language for iPhone apps).  However, I purchased a couple of books including the excellent "<a href="http://www.pragprog.com/titles/amiphd/iphone-sdk-development">iPhone SDK Development</a>" and "<a href="http://www.amazon.co.uk/Learn-Objective-C-Mac-Knaster-Dalrymple/dp/1430218150/ref=sr_1_3?ie=UTF8&s=books&qid=1255475410&sr=1-3">Learn Objective-C on the Mac</a>" and it wasn't too long before I became an iPhone developer.</p>
-
-<p>After making it on to the App Store with <a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=321813152&mt=8">Magnetic Flux & Metal Detector</a> [iTunes Link], I was asked if I'd be interested in making the iPhone Application for "The Gadget Show".  The initial concept was fairly simple: an application that allowed you to quickly choose from a list of questions to build a sentence which could be sent to your social networks.  I agreed immediately and began working with my friend <a href="http://www.lizahayes.co.uk">Liza Hayes</a> on the design but hadn't realised exactly what I'd let myself in for.</p>
-
-<p>In order to work as expected, the application would need to access an SQLite database on the device, be able to store custom sentences input by the user to that database, be able to build a sentence based on building an SQL query, and use the networking features of the iPhone to post to both Facebook and Twitter.  I had done a lot of work with Facebook Connect and the Twitter API in my web development work and I knew that Facebook had a custom integration of its API for the iPhone.  Even so, the networking problems were going to be tricky to overcome.  To add to all of this, Jason suggested that he'd like a way to show off the accelerometer in the iPhone, and I was interested in the settings panes and how we could make the app easily customisable.</p>
-
-<h3>Developing the app</h3>
-
-<p>The iPhone 3.0 OS had just been released, yet as a registered iPhone developer I was working on iPhone 3.1 so there were enumerable problems in switching my Xcode environment and devices back and forth between the two versions.  This was compounded with problems with Facebook Connect in that it had been written for the 2.1 OS and so was not 100% compatible with 3.0 leading to some caffeine fuelled Googling!</p>
-
-<p>We had decided that the accelerometer could be used in what Jason called "Fingerless Functionality" whereby you could shake the phone left and right to navigate around the Social Beacon wheel, and then tip the phone up and down to progress backwards and forwards through the option.  A simple shake of the phone would be enough to regenerate a sentence.  These parts were all very straightforward (especially the shake, which can be detected with one line of code in OS 3.0) yet we came to a usability problem once we thought about sending the message.  We couldn't use the shake or the down gesture, as these were used for regenerating the sentence on the final screen, so we needed to find another fingerless input method to post the message.  The answer eventually came in the guise of the microphone: we could detect sound so that blowing into the mic would blow your message to the internet!  Of course, this meant learning yet another aspect of the SDK that I had previously left untouched -- Core Audio -- but I'm always up for a challenge!</p>
-
-<h3>Distribution and the App Store</h3>
-
-<p>With various bugs overcome and a final test version working on my device, we were ready to distribute the app via the App Store.  You may have heard some of the horror stories from the App Store -- it can take a very long time and you end up being rejected without reason -- but I have to say that I found the process to work incredibly well.  It took 14 days from submission before Apple got back to us to say that the Application had been rejected due to a bug in the networking code (if you weren't connected to the internet the app would hang, or worse, say that the message had been sent).  They were incredibly helpful and gave a detailed explanation of the problem as well as including some sample code to show how the networking portion could be handled better.  After a couple of hours fixing it up, we resubmitted and the app was available around the world a few days later.</p>
-
-<p>We were of course competing against Suzi's "<a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=326437408&mt=8">Biker Blast-Off!</a> [iTunes Link]" which was distributed at the same time, but crucially neither app was publicised on either Twitter or any other medium without mentioning the other with the same weight (so we'd invite people to try both apps).  Within 3 days, Social Beacon was in the top 20 free social media applications whilst Biker Blast-Off was climbing up the overall free application charts worldwide and racking up a huge number of downloads.  Interestingly, as both of our apps climbed higher, the reviews became more negative and I realised that this was true of nearly every app in the store.  It seems that even if you are willing to give away a free product which could easily be charged for, people will still rip the idea to pieces (some comments on the game even saying "you'd need to pay me to play this game" - no pleasing some people!).</p>
-
-<h3>The Aftermath</h3>
-<img src="https://bendodson.s3.amazonaws.com/old-weblog/2009/10/Screen-shot-2009-10-13-at-22.26.33.png" alt="Jason Bradbury and Ben Dodson" title="Jason Bradbury and Ben Dodson" width="511" height="288" class="featured" />
-<p>The show was aired last night (and is available to <a href="http://fwd.five.tv/gadget-show/videos/challenge/apps-complete">watch online</a>) and has the full story as well as the final figures and the winner of the challenge, but the story of the apps continues.  Since the show, both applications have now shot back up into the charts with both apps appearing in the top 10 free applications in the UK App Store.  Social Beacon is currently sitting pretty at spot number 4 and I couldn't be happier with it.</p>
-
-<p>A big thank you to the Gadget Show team (especially <a href="http://twitter.com/colbyrne">Colin Byrne</a>, <a href="http://twitter.com/ChrisPyUK">Chris Payne</a>, and <a href="http://jasonbradbury.com/">Jason Bradbury</a>) and to <a href="http://www.lizahayes.co.uk/">Liza Hayes</a> for her fantastic design work.  It was a great experience and it looks like I'm going to be developing iPhone applications for a long time to come!</p>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/24/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/22/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2011/01/11/thoughts-on-the-verizon-iphone-4/">Thoughts on the Verizon iPhone 4</a>
+						
+					</h2>
+					<time datetime="2011-01-11"><a href="/weblog/2011/01/11/">January 11, 2011</a></time>
+				</header>
+
+				
+				<p>Verizon have just announced that they'll be selling a CDMA version of the iPhone 4 from February 10th. On the face of it, this news is only really exciting to US customers who don't like AT&T isn't it? Well, yes and no. As an iPhone developer, this news is ...</p>
+
+				
+					<a href="/weblog/2011/01/11/thoughts-on-the-verizon-iphone-4/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">The AirPlay Alarm Clock: Turning an Apple TV or Airport Express into an Alarm Clock with AppleScript</a>
+						
+					</h2>
+					<time datetime="2011-01-10"><a href="/weblog/2011/01/10/">January 10, 2011</a></time>
+				</header>
+
+				
+				<p>This article is now outdated and the code no longer works with modern versions of iTunes. Please read my updated article to see how to create an AirPlay alarm clock with iTunes 11 and iTunes 12. Original article:</p>
+
+				
+					<a href="/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2011/01/09/the-coversutra-saga/">The CoverSutra Saga</a>
+						
+					</h2>
+					<time datetime="2011-01-09"><a href="/weblog/2011/01/09/">January 9, 2011</a></time>
+				</header>
+
+				
+				<p>A few people have started asking me for my opinion on the fast-growing story about CoverSutra, a mac application for which the developer promised free updates until version 3.0 several years ago but then switched to be exclusive on the Mac App Store with a ...</p>
+
+				
+					<a href="/weblog/2011/01/09/the-coversutra-saga/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2011/01/07/my-take-on-microsofts-keynote-at-ces-2011/">My take on Microsoft's Keynote at CES 2011</a>
+						
+					</h2>
+					<time datetime="2011-01-07"><a href="/weblog/2011/01/07/">January 7, 2011</a></time>
+				</header>
+
+				
+				<p>Tonight I did two things I didn't think would ever happen; I stayed up until 2:30am to watch Steve Ballmer give a presentation and I installed Silverlight on my Macbook Air. Why you ask? As someone in the "mobile development space", I felt it was my duty to...</p>
+
+				
+					<a href="/weblog/2011/01/07/my-take-on-microsofts-keynote-at-ces-2011/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2010/11/04/contact-forms/">Contact Forms</a>
+						
+					</h2>
+					<time datetime="2010-11-04"><a href="/weblog/2010/11/04/">November 4, 2010</a></time>
+				</header>
+
+				
+				<p>Over the last 14 years, I have witnessed the internet expanding rapidly and becoming massively commercialised. With this kind of rampant upscaling, there is always a point at which there are enough people using the system that want to exploit it in some way...</p>
+
+				
+					<a href="/weblog/2010/11/04/contact-forms/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2009/12/05/why-i-built-an-item-finder-for-gowalla/">Why I built an Item Finder for Gowalla</a>
+						
+					</h2>
+					<time datetime="2009-12-05"><a href="/weblog/2009/12/05/">December 5, 2009</a></time>
+				</header>
+
+				
+				<p>Last Thursday, I expanded my Gowalla Tools website (a companion site for the popular geo-location game Gowalla) to include a new feature known as the Item Finder. It works by displaying a list of spots in any area you choose, and them removing those that do...</p>
+
+				
+					<a href="/weblog/2009/12/05/why-i-built-an-item-finder-for-gowalla/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2009/10/31/the-apple-magic-mouse-necessary-upgrade-or-expensive-luxury/">The Apple Magic Mouse: Necessary upgrade or expensive luxury?</a>
+						
+					</h2>
+					<time datetime="2009-10-31"><a href="/weblog/2009/10/31/">October 31, 2009</a></time>
+				</header>
+
+				
+				<p>Apple recently announced the introduction of their latest peripheral, the Magic Mouse (so called due to trademark problems with the existing "Mighty Mouse" name). The new mouse offers the same multitouch features as found in the trackpads of recent MacBooks...</p>
+
+				
+					<a href="/weblog/2009/10/31/the-apple-magic-mouse-necessary-upgrade-or-expensive-luxury/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2009/10/16/how-to-pitch-an-app-idea-to-an-iphone-developer/">How to pitch an app idea to an iPhone developer</a>
+						
+					</h2>
+					<time datetime="2009-10-16"><a href="/weblog/2009/10/16/">October 16, 2009</a></time>
+				</header>
+
+				
+				<p>Thanks to my appearance on The Gadget Show earlier this week, I've been inundated with people emailing me with ideas for iPhone applications. The majority of them have no understanding of the development aspects (which is fair enough) but have ideas for app...</p>
+
+				
+					<a href="/weblog/2009/10/16/how-to-pitch-an-app-idea-to-an-iphone-developer/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/">Social Beacon: Developing An iPhone App for "The Gadget Show"</a>
+						
+					</h2>
+					<time datetime="2009-10-14"><a href="/weblog/2009/10/14/">October 14, 2009</a></time>
+				</header>
+
+				
+				<p>You can watch the Gadget Show episode online and download Social Beacon from the App Store. A couple of months ago, I was asked if I'd like to appear on Channel Five's "The Gadget Show" to take part in a challenge about iPhone applications with Jason Bradbu...</p>
+
+				
+					<a href="/weblog/2009/10/14/social-beacon-developing-an-iphone-app-for-the-gadget-show/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/24/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/22/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

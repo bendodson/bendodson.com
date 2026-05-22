@@ -9,752 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/8/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/8/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/8/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/8/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/19/great-british-bee-count-2016/">Great British Bee Count 2016</a></h1>
-			
-			<time datetime="2016-05-19" pubdate=""><a href="/weblog/2016/05/19/great-british-bee-count-2016/">May 19, 2016</a></time>
-    	</header>
-    	<div>
-			<p><a href="https://bendodson.com/weblog/2015/05/01/great-british-bee-count-app/">Last year</a> I worked on rebuilding the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count iPhone app</a> for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2016:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/gbbc-2016.jpg" width="800" height="500" /></p>
-
-<p>There are several updates including a redesigned bee picker, more details of the bees, and a list of plants suitable for attracting bees sponsored by Waitrose. The app is also now universal with support for both the iPhone and iPad<sup id="fnref:ipaduniversal" role="doc-noteref"><a href="#fn:ipaduniversal" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<p>You can check out the <a href="https://itunes.apple.com/gb/app/great-british-bee-count/id880987608?mt=8">Great British Bee Count on the App Store</a> (it’s free) or <a href="http://www.foe.co.uk/page/join-great-british-bee-count-today">learn more about the bee cause</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:ipaduniversal" role="doc-endnote">
-      <p>This came about due to a restriction in the App Store. If you search for an iPhone-only app on the iPad, you have to manually select “iPhone-only” when searching which nobody in their right mind does (as iPhone apps run on iPad just fine in a scaled mode). To make it so that searching “Great British Bee Count” on the iPad App Store would show the app, it had to be a universal app but the client didn’t want to have a custom design for the iPad but continue to use the iPhone scaling. There isn’t an elegant way to do that (as turning on Universal mode will cause AutoLayout to treat the iPad like an iPad) so I solved this by writing a custom view controller that would take the iPhone 4s XIB files and then simply scale them upwards with an affine transform. I also added an extra border on the sides that matches the yellow background to avoid the black boxing that the previous version had. This works great on all iPads (including the iPad Pro) but the text on some items is quite blurry on the non-retina iPad 2 due to a bug within the Apple Frameworks; it’s intelligent enough to use the retina imagery so that images look smooth but not on text apparently. <a href="#fnref:ipaduniversal" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">Using a physical button (Flic) with HomeKit scenes and triggers</a></h1>
-			
-			<time datetime="2016-05-18" pubdate=""><a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">May 18, 2016</a></time>
-    	</header>
-    	<div>
-			<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things<sup id="fnref:stuff" role="doc-noteref"><a href="#fn:stuff" class="footnote" rel="footnote">1</a></sup>. It is now possible to write apps that interact with physical objects via such things as <a href="http://ifttt.com/">IFTTT</a> or dedicated APIs for devices like the <a href="https://meethue.com/">Philips Hue</a>. I’ve personally been very interested in the <a href="http://www.apple.com/uk/ios/homekit/">HomeKit initiative</a> from Apple although it hasn’t really taken off yet.</p>
-
-<p>Whilst I have a lot of internet connected devices, I currently own just a single HomeKit-compatible device; an <a href="https://www.elgato.com/en/eve/eve-door-window">Elgato eve door &amp; window</a> that lets me ask Siri if my back door is currently open<sup id="fnref:phrasing" role="doc-noteref"><a href="#fn:phrasing" class="footnote" rel="footnote">2</a></sup>. Luckily there is the <a href="https://github.com/nfarina/homebridge">Homebridge</a> project (which I’ve <a href="https://bendodson.com/weblog/2015/12/01/homekit-christmas-tree-with-siri/">written about previously</a>) that allows me to connect all of those together and use them as if they were native HomeKit devices.</p>
-
-<p>Over the past few months, I’ve been <a href="https://bendodson.com/weblog/2016/03/23/homekit-wink-and-canary/">dabbling with HomeKit scenes</a> so that I can control groups of devices all at once like so:</p>
-
-<blockquote>
-  <p><strong>Good Morning</strong></p>
-
-  <ul>
-    <li>Turns on downstairs lights</li>
-    <li>Starts playing my “morning” playlist in kitchen via AirPlay</li>
-    <li>Disables security cameras</li>
-  </ul>
-
-  <p><strong>Good Night</strong></p>
-
-  <ul>
-    <li>Turns off all lights (including bedside table lamp)</li>
-    <li>Stops any playing music</li>
-    <li>Enables security cameras</li>
-  </ul>
-</blockquote>
-
-<p>This has been working well but I frequently forget to use scenes as many of these things can be controlled in other ways. For example, I might turn off the downstairs lights with my Hue Dimmer Switch and then turn off the bedside table lamp via the Hue today widget which means I forget to activate the security cameras. The eventual solution I’ve come up with is a simple push button (from <a href="http://flic.io/">Flic</a>) stuck under my bedside table that toggles between my <em>Good Morning</em> and <em>Good Night</em> scenes. In this article, I’ll tell you how I did it!</p>
-
-<p>First of all, you are going to need a <a href="http://flic.io/">Flic</a>. I did a lot of research on “smart buttons” and this one was far and away the best<sup id="fnref:biy" role="doc-noteref"><a href="#fn:biy" class="footnote" rel="footnote">3</a></sup>. It’s small, has a changeable battery (that lasts 18 months), looks good, and it has an iOS SDK complete with background Bluetooth LE support so you can wake your app up even if it is inactive. The amount of code necessary to support Flic is ridiculously small; you can take a look at <a href="https://flic.io/partners/developers/ios-tutorial">their iOS tutorial</a> to see it in more detail but essentially you will be kicking your user to the Flic app in order to assign a button to the app. Once you’re back, it’s a simple case of activating a singleton and listening for a <code class="language-plaintext highlighter-rouge">manager:didReceiveButtonDown</code> request.</p>
-
-<p>With the button tested and working, I set to work on adding HomeKit support to my app. This is relatively straightforward although you do need to create a dedicated provisioning profile in order to add the necessary entitlements to your project. Within a few minutes, I had a toggle in my app that would toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. That was when disaster struck; the HomeKit APIs do not work when your app is not in the foreground<sup id="fnref:homekitforeground" role="doc-noteref"><a href="#fn:homekitforeground" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<p>This threw me for a little while until I decided that my app would simply have to connect directly to my mac and interface with the Homebridge software that was basically powering everything<sup id="fnref:rebuild" role="doc-noteref"><a href="#fn:rebuild" class="footnote" rel="footnote">5</a></sup>. After a quick search, I found <a href="https://github.com/cflurin/homebridge-websocket">Homebridge-websocket</a>, a plugin that basically adds a custom websocket server as a platform to HomeKit. You can create accessories (like a switch) within the websocket server and then you’ll get callbacks when they are turned on and off.</p>
-
-<p>I planned to make use of this via a HomeKit property known as “triggers”. A trigger is basically a way for HomeKit to monitor a specific device for a specific value (i.e. when a switch is “on”). As soon as it sees that value, it will activate a chosen scene. I set this up by creating two new switches within Homebridge-websocket; <code class="language-plaintext highlighter-rouge">ws_morning</code> and <code class="language-plaintext highlighter-rouge">ws_evening</code>. I then set up two triggers within HomeKit; <code class="language-plaintext highlighter-rouge">WebSocket Morning</code> (which triggers the <em>Good Morning</em> scene when the <code class="language-plaintext highlighter-rouge">ws_morning</code> switch turns on) and <code class="language-plaintext highlighter-rouge">WebSocket Evening</code> (which triggers the <em>Good Night</em> scene when the <code class="language-plaintext highlighter-rouge">ws_evening</code> switch turns on). The only change I needed to make to my scenes was to ensure that both <code class="language-plaintext highlighter-rouge">ws_morning</code> and <code class="language-plaintext highlighter-rouge">ws_evening</code> are set to “off” when either is activated; this ensures that I can always turn them from “off” to “on” and thus cause the trigger.</p>
-
-<p>The final step was to update my iOS app to talk to the websocket server instead of to Homebridge. I found a simple drop-in framework named <a href="https://github.com/daltoniam/Starscream">Starscream</a> which allowed me to connect to the server and send commands which led me to this code for the entire project:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">UIKit</span>
-<span class="kd">import</span> <span class="kt">Starscream</span>
-
-<span class="k">let</span> <span class="nv">ipAddress</span> <span class="o">=</span> <span class="s">"192.168.1.100:4050"</span>
-<span class="k">let</span> <span class="nv">flicAppKey</span> <span class="o">=</span> <span class="s">"Your-Flic-App-Key"</span>
-<span class="k">let</span> <span class="nv">flicAppSecret</span> <span class="o">=</span> <span class="s">"Your-Flic-App-Secret"</span>
-
-<span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">SCLFlicButtonDelegate</span><span class="p">,</span> <span class="kt">SCLFlicManagerDelegate</span><span class="p">,</span> <span class="kt">WebSocketDelegate</span> <span class="p">{</span>
-
-    <span class="k">let</span> <span class="nv">socket</span> <span class="o">=</span> <span class="kt">WebSocket</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"ws://</span><span class="se">\(</span><span class="n">ipAddress</span><span class="se">)</span><span class="s">/"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
-    
-    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
-        <span class="n">socket</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
-        <span class="kt">SCLFlicManager</span><span class="o">.</span><span class="nf">configureWithDelegate</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="n">defaultButtonDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">appID</span><span class="p">:</span> <span class="n">flicAppKey</span><span class="p">,</span> <span class="nv">appSecret</span><span class="p">:</span> <span class="n">flicAppSecret</span><span class="p">,</span> <span class="nv">backgroundExecution</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">setupFlic</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">SCLFlicManager</span><span class="o">.</span><span class="nf">sharedManager</span><span class="p">()?</span><span class="o">.</span><span class="nf">grabFlicFromFlicAppWithCallbackUrlScheme</span><span class="p">(</span><span class="s">"sceneControl"</span><span class="p">)</span>
-    <span class="p">}</span>
-    
-    <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">toggle</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">socket</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
-    <span class="p">}</span>
-    
-
-    <span class="c1">// MARK: Flic Manager</span>
-    
-    <span class="kd">func</span> <span class="nf">flicManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt">SCLFlicManager</span><span class="p">,</span> <span class="n">didGrabFlicButton</span> <span class="nv">button</span><span class="p">:</span> <span class="kt">SCLFlicButton</span><span class="p">?,</span> <span class="n">withError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-            <span class="kt">NSLog</span><span class="p">(</span><span class="s">"ERROR: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">flicButton</span><span class="p">(</span><span class="nv">button</span><span class="p">:</span> <span class="kt">SCLFlicButton</span><span class="p">,</span> <span class="n">didReceiveButtonDown</span> <span class="nv">queued</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">age</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nf">toggle</span><span class="p">()</span>
-    <span class="p">}</span>
-    
-    
-    <span class="c1">// MARK: Websocket Delegate</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidConnect</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="nv">defaults</span> <span class="o">=</span> <span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span>
-        <span class="k">let</span> <span class="nv">last</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="nf">stringForKey</span><span class="p">(</span><span class="s">"last_status"</span><span class="p">)</span>
-        <span class="k">let</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">last</span> <span class="o">==</span> <span class="s">"ws_morning"</span> <span class="p">?</span> <span class="s">"ws_evening"</span> <span class="p">:</span> <span class="s">"ws_morning"</span>
-        <span class="k">let</span> <span class="nv">params</span> <span class="o">=</span> <span class="p">[</span><span class="s">"topic"</span><span class="p">:</span> <span class="s">"setValue"</span><span class="p">,</span> <span class="s">"payload"</span><span class="p">:</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s">"characteristic"</span><span class="p">:</span> <span class="s">"On"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">bool</span><span class="p">:</span> <span class="kc">true</span><span class="p">)]]</span>
-        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">NSJSONSerialization</span><span class="o">.</span><span class="nf">dataWithJSONObject</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="kt">PrettyPrinted</span><span class="p">)</span>
-        <span class="k">if</span> <span class="k">let</span> <span class="nv">string</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">socket</span><span class="o">.</span><span class="nf">writeString</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-            <span class="n">socket</span><span class="o">.</span><span class="nf">disconnect</span><span class="p">()</span>
-            <span class="n">defaults</span><span class="o">.</span><span class="nf">setObject</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="s">"last_status"</span><span class="p">)</span>
-            <span class="n">defaults</span><span class="o">.</span><span class="nf">synchronize</span><span class="p">()</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidDisconnect</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidReceiveData</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">,</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    
-    <span class="kd">func</span> <span class="nf">websocketDidReceiveMessage</span><span class="p">(</span><span class="nv">socket</span><span class="p">:</span> <span class="kt">WebSocket</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></figure>
-
-<p><strong>Note: this is just a personal project that I built as quickly as possible. By nature, it is a fairly dirty hack. You shouldn’t write professional apps like this.</strong></p>
-
-<p>With this code in place, I can now press my Flic button (stuck to the underside of my bedside table) and it will toggle between my <em>Good Morning</em> and <em>Good Night</em> scenes. This is the full process of what is going on:</p>
-
-<ul>
-  <li>Press the Flic button</li>
-  <li>Wakes up the iOS app (if terminated or backgrounded) and hits the <code class="language-plaintext highlighter-rouge">toggle</code> function</li>
-  <li>App sends a websocket command to the Homebridge-websocket server</li>
-  <li>Server turns on a fake switch</li>
-  <li>HomeKit notices that the fake switch has been turned on so fires trigger to run appropriate scene</li>
-  <li>Scene activates or deactivates various accessories and then switches the fake switch back off ensuring it is ready for next button press</li>
-</ul>
-
-<p>This is a long way away from the process I’d envisioned (press button, wake up app, toggle scene with HomeKit API) but it has been a fun challenge finding a way to get it work. I now have a physical button that controls multiple aspects of my home with a single press - it’s pretty cool!</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:stuff" role="doc-endnote">
-      <p>Ugh what a horrible expression. I renamed it the <em>Internet of Stuff</em> on <a href="https://bendodson.com/weblog/2016/01/27/divide-7-mind-missiles-internet-of-stuff/">episode 7 of The Divide</a>. <a href="#fnref:stuff" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:phrasing" role="doc-endnote">
-      <p><a href="https://bendodson.s3.amazonaws.com/phrasing.png"><em>Phrasing</em></a> <a href="#fnref:phrasing" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:biy" role="doc-endnote">
-      <p>“Why not just build your own with a Raspberry Pi or similar?”. Because I can’t be bothered; the cost of my time to do that is more than the cost of buying an incredibly well put together button that already does exactly what I want. <a href="#fnref:biy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:homekitforeground" role="doc-endnote">
-      <p>Probably for a very good reason, you likely don’t want an app reading information about or controlling your HomeKit devices when you aren’t literally using the app. It’s a bit of a pain though for a simple app like this. I did manage to find a <code class="language-plaintext highlighter-rouge">com.apple.developer.homekit.background-mode</code> entitlement but there is no way to generate a provisioning profile that uses it. Maybe Apple will add this in a future version of iOS but I wouldn’t count on it. <a href="#fnref:homekitforeground" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:rebuild" role="doc-endnote">
-      <p>Technically, as all of my devices have their own APIs I could have just built my app to directly talk to Hue, Canary, iTunes, etc and rebuild my scenes that way. That idea didn’t sit well with me though as it’d be a lot more work and effectively duplicating what I already have. Similarly, I could have just used the native IFTTT support with the Flic to turn on or off some of my devices but that would add more latency and I don’t want to trust my connected home to something that has to be connected online; the beauty of HomeKit is that it works locally. <a href="#fnref:rebuild" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">Fetching RSS Feeds for Steam game updates</a></h1>
-			
-			<time datetime="2016-05-17" pubdate=""><a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">May 17, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m currently in the process of switching from my Xbox One to a gaming PC<sup id="fnref:gamingpc" role="doc-noteref"><a href="#fn:gamingpc" class="footnote" rel="footnote">1</a></sup> and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their individual pages in order to view the release notes of what has changed (and that is if I even notice a game has been updated). What I really want is a single page that shows me all the patch notes in date order and sends me a notification when something updates.</p>
-
-<p>A quick search found <a href="http://www.getoffmalawn.com/steamnews">SteamNews</a>, a website that aims to turn Steam Community pages into RSS feeds. However, a lot of games are missing and it doesn’t solve the problem of fetching the feeds for my account; I’d still need to go through and add them manually. I also don’t like relying on 3rd party services which I can’t install on my own server.</p>
-
-<p>After a bit of exploring on the Steam pages, I found that most games have an RSS feed of their news page; this, combined with my publicly available profile page listing my owned games, has led me to write a basic PHP script to loop through my games, find the matching RSS feed, and then add it to my Feedbin account:</p>
-
-<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
-
-<span class="nb">define</span><span class="p">(</span><span class="s1">'FEEDBIN_USERNAME'</span><span class="p">,</span> <span class="s1">'your username here'</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'FEEDBIN_PASSWORD'</span><span class="p">,</span> <span class="s1">'your password here'</span><span class="p">);</span>
-<span class="nb">define</span><span class="p">(</span><span class="s1">'STEAM_ID'</span><span class="p">,</span> <span class="s1">'your steam id here i.e. bendodson'</span><span class="p">);</span>
-
-<span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nc">Goutte\Client</span><span class="p">;</span>
-
-<span class="nv">$html</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'http://steamcommunity.com/id/'</span><span class="mf">.</span><span class="no">STEAM_ID</span><span class="mf">.</span><span class="s1">'/games/?tab=all'</span><span class="p">);</span>
-
-<span class="nv">$match</span> <span class="o">=</span> <span class="s2">"rgGames = "</span><span class="p">;</span>
-<span class="nv">$start</span> <span class="o">=</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$match</span><span class="p">)</span> <span class="o">+</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$match</span><span class="p">);</span>
-<span class="nv">$json</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="nb">strtok</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="nv">$start</span><span class="p">),</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-<span class="nv">$array</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
-
-<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
-<span class="k">if</span> <span class="p">(</span><span class="nv">$games</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nv">$games</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="p">}</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nv">$unsubscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="n">appid</span><span class="mf">.</span><span class="s1">'-0'</span><span class="p">;</span>
-	<span class="nv">$subscribed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="n">appid</span><span class="mf">.</span><span class="s1">'-1'</span><span class="p">;</span>
-	<span class="nv">$failed</span> <span class="o">=</span> <span class="nv">$game</span><span class="o">-&gt;</span><span class="n">appid</span><span class="mf">.</span><span class="s1">'-x'</span><span class="p">;</span>
-	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$unsubscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$subscribed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$failed</span><span class="p">,</span> <span class="nv">$games</span><span class="p">))</span> <span class="p">{</span>
-		<span class="nv">$games</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$unsubscribed</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
-
-<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
-<span class="nv">$index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$games</span> <span class="k">as</span> <span class="nv">$game</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">list</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subscribed</span><span class="p">)</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="nv">$game</span><span class="p">);</span>
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$subscribed</span> <span class="o">==</span> <span class="s1">'0'</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">);</span>
-	<span class="p">}</span>
-	<span class="nv">$index</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">echo</span> <span class="s1">'Done'</span><span class="p">;</span>
-
-
-<span class="k">function</span> <span class="n">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span> <span class="p">{</span>
-
-	<span class="nv">$key</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">''</span> <span class="o">?</span> <span class="nv">$id</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
-	<span class="nv">$feedURL</span> <span class="o">=</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">''</span> <span class="o">?</span> <span class="s1">'http://steamcommunity.com/games/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/rss/'</span> <span class="o">:</span> <span class="nv">$url</span><span class="p">;</span>
-	<span class="k">echo</span> <span class="s1">'Subscribing to '</span><span class="mf">.</span><span class="nv">$feedURL</span><span class="mf">.</span><span class="s1">'&lt;br&gt;'</span><span class="p">;</span>
-	<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">"feed_url"</span> <span class="o">=&gt;</span> <span class="nv">$feedURL</span><span class="p">]);</span>
-
-	<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/json; charset=utf-8'</span><span class="p">]);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.feedbin.com/v2/subscriptions.json'</span><span class="p">);</span>    	
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERPWD</span><span class="p">,</span> <span class="no">FEEDBIN_USERNAME</span> <span class="mf">.</span> <span class="s2">":"</span> <span class="mf">.</span> <span class="no">FEEDBIN_PASSWORD</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-	<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
-	<span class="nv">$output</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-	<span class="nv">$statusCode</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLINFO_HTTP_CODE</span><span class="p">);</span>
-	<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">404</span> <span class="o">&amp;&amp;</span> <span class="nv">$url</span> <span class="o">==</span> <span class="s1">''</span><span class="p">)</span> <span class="p">{</span>
-
-		<span class="nv">$success</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-
-		<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Client</span><span class="p">();</span>
-		<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'http://steamcommunity.com/app/'</span><span class="mf">.</span><span class="nv">$id</span><span class="mf">.</span><span class="s1">'/allnews/'</span><span class="p">);</span>
-		<span class="nv">$elements</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">filter</span><span class="p">(</span><span class="s1">'#apphub_InitialContent .Announcement_Card:first-child'</span><span class="p">);</span>
-		<span class="k">if</span> <span class="p">(</span><span class="nv">$elements</span><span class="o">-&gt;</span><span class="nb">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$elements</span><span class="o">-&gt;</span><span class="nf">attr</span><span class="p">(</span><span class="s1">'data-modal-content-url'</span><span class="p">);</span>
-			<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Client</span><span class="p">();</span>
-				<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-				<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="nf">selectLink</span><span class="p">(</span><span class="s1">'Subscribe to RSS Feed'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">attr</span><span class="p">(</span><span class="s1">'href'</span><span class="p">);;</span>
-				<span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
-					<span class="nv">$success</span> <span class="o">=</span> <span class="nf">subscribeWithSteamIDAtIndex</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$index</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
-				<span class="p">}</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-
-		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$success</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
-			<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="mf">.</span><span class="s1">'-x'</span><span class="p">;</span>
-			<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>			
-			<span class="k">echo</span> <span class="s1">'Failed&lt;br&gt;&lt;br&gt;'</span><span class="p">;</span>
-		<span class="p">}</span>
-
-
-	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span><span class="p">)</span> <span class="p">{</span>
-
-		<span class="nv">$subscription</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$output</span><span class="p">);</span>
-		<span class="nv">$post</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">([</span><span class="s2">"feed_id"</span> <span class="o">=&gt;</span> <span class="nv">$subscription</span><span class="o">-&gt;</span><span class="n">feed_id</span><span class="p">,</span> <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"Steam Games"</span><span class="p">]);</span>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
 		
-		<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type: application/json; charset=utf-8'</span><span class="p">]);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_URL</span><span class="p">,</span> <span class="s1">'https://api.feedbin.com/v2/taggings.json'</span><span class="p">);</span>    	
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span> 
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_USERPWD</span><span class="p">,</span> <span class="no">FEEDBIN_USERNAME</span> <span class="mf">.</span> <span class="s2">":"</span> <span class="mf">.</span> <span class="no">FEEDBIN_PASSWORD</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-		<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="no">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
-		<span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
-		<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+			<h1>Latest Articles <span>(page 8 of 26)</span></h1>
+		
+	</header>
 
-	<span class="p">}</span>
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/19/great-british-bee-count-2016/">Great British Bee Count 2016</a>
+						
+					</h2>
+					<time datetime="2016-05-19"><a href="/weblog/2016/05/19/">May 19, 2016</a></time>
+				</header>
 
-	<span class="k">if</span> <span class="p">(</span><span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">201</span> <span class="o">||</span> <span class="nv">$statusCode</span> <span class="o">==</span> <span class="mi">302</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nv">$games</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">));</span>
-		<span class="nv">$games</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="mf">.</span><span class="s1">'-1'</span><span class="p">;</span>
-		<span class="nb">file_put_contents</span><span class="p">(</span><span class="s1">'games.txt'</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="nv">$games</span><span class="p">));</span>
-		<span class="k">echo</span> <span class="s1">'Subscribed!&lt;br&gt;&lt;br&gt;'</span><span class="p">;</span>
-		<span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-	<span class="p">}</span>
+				
+				<p>Last year I worked on rebuilding the Great British Bee Count iPhone app for Friends of the Earth. Today, an updated version of the app has gone live to support this years count which runs from 19th May until 30th June 2016:</p>
 
-	<span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure>
+				
+					<a href="/weblog/2016/05/19/great-british-bee-count-2016/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/">Using a physical button (Flic) with HomeKit scenes and triggers</a>
+						
+					</h2>
+					<time datetime="2016-05-18"><a href="/weblog/2016/05/18/">May 18, 2016</a></time>
+				</header>
 
-<p>There is a fair amount going on in this script<sup id="fnref:goodpractice" role="doc-noteref"><a href="#fn:goodpractice" class="footnote" rel="footnote">2</a></sup> but the basic overview is:</p>
+				
+				<p>When I started out as a web developer I was fascinated by APIs; the ability to hook into other data sources or update other applications from my own had huge potential that is finally being realised with the Internet of Things1. It is now possible to write ...</p>
 
-<ol>
-  <li>
-    <p>Fetch a list of owned games from the public profile of the entered Steam ID. Most of the Steam pages are built with Javascript but this page fortunately has the entire library as JSON within the page. After a simple bit of extraction, I have a full list of every game owned.</p>
-  </li>
-  <li>
-    <p>Update a local text file<sup id="fnref:database" role="doc-noteref"><a href="#fn:database" class="footnote" rel="footnote">3</a></sup> – games.txt – with a list of games. I store each game as an ID followed by a hyphen and a flag to denote whether the game is unsubscribed, subscribed, or failed. For example, if I’m subscribed to the <a href="http://store.steampowered.com/app/359320/">Elite: Dangerous game</a>, the text file will contain 359320-1 as the game ID is 359320.</p>
-  </li>
-  <li>
-    <p>Just to be a pain, Steam doesn’t have a standard format for it’s RSS feeds. Whilst most of them contain the game ID, some of them don’t. The first step is to go with the usual URL and then if that fails we’ll use <a href="https://github.com/FriendsOfPHP/Goutte">Goutte</a> to manually scrape the news page and then the first news item in order to grab the correct RSS feed. For example, the game ID of <a href="http://store.steampowered.com/app/240/">Counter-Strike: Source</a> is 240 so the script will first try <code class="language-plaintext highlighter-rouge">http://steamcommunity.com/games/240/rss/</code> but when that fails it’ll crawl through some pages to discover the correct URL is <code class="language-plaintext highlighter-rouge">http://steamcommunity.com/games/CSS/rss/</code> - there seems to be no logic as to which games have a shorthand name and which don’t and there isn’t an easy way to work out what the name would be.</p>
-  </li>
-  <li>
-    <p>Once I have a valid RSS feed, it is subscribed to via the <a href="https://github.com/feedbin/feedbin-api">Feedbin API</a>. As an added bonus, I also tag the subscription “Steam Games” so they show up all together in my RSS reader of choice, <a href="http://reederapp.com/mac/">Reeder</a>: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-feeds.jpg" width="800" height="559" alt="Steam RSS feeds in Reeder via Feedbin" /></p>
-  </li>
-  <li>
-    <p>Sometimes, the process might fail as in the case of <a href="http://steamcommunity.com/app/4540/allnews/">Titan Quest</a> which has no updates and thus no RSS feed. If that happens, the game is marked in the text file so that it can be safely ignored. In my own version of the script, I added Slack integration so I get a notification when a game fails so I check to see if it is a simple case of no feed or if my script has broken: <img src="https://bendodson.s3.amazonaws.com/weblog/2016/steam-rss-slack.jpg" width="700" height="200" alt="Steam RSS feed failure in Slack" /></p>
-  </li>
-</ol>
+				
+					<a href="/weblog/2016/05/18/using-a-button-with-homekit-scenes/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/">Fetching RSS Feeds for Steam game updates</a>
+						
+					</h2>
+					<time datetime="2016-05-17"><a href="/weblog/2016/05/17/">May 17, 2016</a></time>
+				</header>
 
-<p>I have the script set up on a cron so if I purchase a new game the RSS feed for it should appear in Feedbin within the hour<sup id="fnref:twentyfour" role="doc-noteref"><a href="#fn:twentyfour" class="footnote" rel="footnote">4</a></sup>.</p>
+				
+				<p>I’m currently in the process of switching from my Xbox One to a gaming PC1 and have been spending a lot of time curating my Steam collection on my Mac. One thing I’ve noticed recently is that I often see games being updated but then have to go to their indi...</p>
 
-<p>One idea I dabbled with was fetching the feeds myself and building a single large RSS feed that I could subscribe to. There are a few issues there though:</p>
+				
+					<a href="/weblog/2016/05/17/fetching-rss-feeds-for-steam-game-updates/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">AirPlay Alarm Clock with iTunes 12</a>
+						
+					</h2>
+					<time datetime="2016-05-12"><a href="/weblog/2016/05/12/">May 12, 2016</a></time>
+				</header>
 
-<ul>
-  <li>
-    <p>It would require me to constantly fetch each feed which could be huge if I own hundreds of games. I already pay for my RSS subscription service (Feedbin) so why add more complexity when they can do that for me?</p>
-  </li>
-  <li>
-    <p>I’d be sacrificing some customisation. If I’m not interested in a specific game, I can simply remove the feed from Feedbin. My script doesn’t check subscriptions so it won’t try and re-add it.</p>
-  </li>
-  <li>
-    <p>There is no benefit to one large RSS feed. If I was doing this as a commercial service (i.e. a hosted page where you enter your username and I give you a single feed) then it may make sense but I’m not interested in doing that<sup id="fnref:youngmansgame" role="doc-noteref"><a href="#fn:youngmansgame" class="footnote" rel="footnote">5</a></sup>.</p>
-  </li>
-</ul>
+				
+				<p>A few years ago, I wrote a convoluted AppleScript that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was ...</p>
 
-<p>I’ve put all of the <a href="https://github.com/bendodson/Steam-RSS">code on GitHub</a> in case it is of interest to anyone.</p>
+				
+					<a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/05/04/divide-12-reboots/">The Divide #12 - Reboots</a>
+						
+					</h2>
+					<time datetime="2016-05-04"><a href="/weblog/2016/05/04/">May 4, 2016</a></time>
+				</header>
 
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:gamingpc" role="doc-endnote">
-      <p>The main reasons being far higher resolution and quality, cheaper games, and virtual reality. I’ll miss Xbox achievements but the boost in visual quality more than makes up for that (and with controller support and a SteamLink, I can still play most games on my sofa with an Xbox One Elite Controller). <a href="#fnref:gamingpc" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:goodpractice" role="doc-endnote">
-      <p>Please do not look at this and assume this is any way good practice. This is a very fast and loose piece of coding in order to achieve a specific goal as quickly as possible; most of it will break if Steam update their HTML pages (very likely). <a href="#fnref:goodpractice" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:database" role="doc-endnote">
-      <p>“Why not use a database” - I couldn’t be bothered to set one up. A basic text file does the job. <a href="#fnref:database" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:twentyfour" role="doc-endnote">
-      <p>“Within the hour” - can you tell I’ve been rewatching 24 lately? <a href="#fnref:twentyfour" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:youngmansgame" role="doc-endnote">
-      <p>When I was younger, that is exactly what I would have done but as I’ve grown older I’ve realised that hosting stuff for free is a massive headache. Much better to stick the code on GitHub and let people use it on their own if they want. <a href="#fnref:youngmansgame" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
+				
+				<p>The 12th episode of The Divide podcast is now available in which we have a lengthy discussion on reboots, particularly in movie franchises like Spiderman, Batman, and that film by that director we’re not allowed to mention in front of Chris. In addition, we...</p>
 
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">AirPlay Alarm Clock with iTunes 12</a></h1>
+				
+					<a href="/weblog/2016/05/04/divide-12-reboots/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">Emoji flags from ISO 3166-1 country codes (in Swift)</a>
+						
+					</h2>
+					<time datetime="2016-04-26"><a href="/weblog/2016/04/26/">April 26, 2016</a></time>
+				</header>
+
+				
+				<p>I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of importe...</p>
+
+				
+					<a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/23/iphone-7-headphone-predictions/">iPhone 7 headphone predictions</a>
+						
+					</h2>
+					<time datetime="2016-04-23"><a href="/weblog/2016/04/23/">April 23, 2016</a></time>
+				</header>
+
+				
+				<p>I don’t tend to make many Apple predictions but I’ve been meaning to write about the rumour of the lack of a headphone port on the iPhone 7 for some time. It seems almost certain that the iPhone 7 will drop the 3.5mm headphone jack in favour of using the pr...</p>
+
+				
+					<a href="/weblog/2016/04/23/iphone-7-headphone-predictions/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/18/clinix/">Clinix</a>
+						
+					</h2>
+					<time datetime="2016-04-18"><a href="/weblog/2016/04/18/">April 18, 2016</a></time>
+				</header>
+
+				
+				<p>An iPhone app I worked on throughout 2015 has finally gone live in the App Store today; Clinix:</p>
+
+				
+					<a href="/weblog/2016/04/18/clinix/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/16/connecting-to-host/">Connecting To Host</a>
+						
+					</h2>
+					<time datetime="2016-04-16"><a href="/weblog/2016/04/16/">April 16, 2016</a></time>
+				</header>
+
+				
+				<p>I’m very happy to announce that a new podcast I’ve been working on with John Wordsworth has gone live today; Connecting To Host.</p>
+
+				
+					<a href="/weblog/2016/04/16/connecting-to-host/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2016/04/13/thoughts-on-ringtones/">Thoughts on ringtones</a>
+						
+					</h2>
+					<time datetime="2016-04-13"><a href="/weblog/2016/04/13/">April 13, 2016</a></time>
+				</header>
+
+				
+				<p>Today I spent a little bit of time making a new iPhone message tone1 and it reminded me of how terrible the entire ringtone system is on iOS. I have a number of specific issues: It’s Han Solo shouting ‘BEN!!’ from Star Wars: The Force Awakens &#8617;&#xfe0e;</p>
+
+				
+					<a href="/weblog/2016/04/13/thoughts-on-ringtones/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/9/" class="pagination-previous">&lt; Older Articles</a>
+		
+
+		
 			
-			<time datetime="2016-05-12" pubdate=""><a href="/weblog/2016/05/12/airplay-alarm-clock-with-itunes-12/">May 12, 2016</a></time>
-    	</header>
-    	<div>
-			<p>A few years ago, <a href="https://bendodson.com/weblog/2011/01/10/the-airplay-alarm-clock-turning-an-apple-tv-or-airport-express-into-an-alarm-clock-with-applescript/">I wrote a convoluted AppleScript</a> that allowed me to use my Apple TV as an alarm clock. It worked by waking up iTunes, selecting a playlist, shuffling it, and then playing it via AirPlay. Unfortunately, it stopped working when iTunes 11 was released due to a number of changes to AppleScript support; there were also changes to OS X which prevented AppleScripts from launching via Calendar alerts.</p>
-
-<p>Fast forward to today and I found myself needing this script again for a new project<sup id="fnref:homekitproject" role="doc-noteref"><a href="#fn:homekitproject" class="footnote" rel="footnote">1</a></sup>. After a bit of hacking around, I’ve managed to get the script fully updated for iTunes 12:</p>
-
-<figure class="highlight"><pre><code class="language-applescript" data-lang="applescript"><span class="k">set</span><span class="w"> </span><span class="nv">AirplayDeviceName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Kitchen"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="s2">"Morning"</span><span class="w">
-</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayVolume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">100</span><span class="w">
-
-</span><span class="nb">activate</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="na">visible</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">true</span><span class="w">
-		</span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">view</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="nb">front</span><span class="w"> </span><span class="nb">browser</span><span class="w"> </span><span class="na">window</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"System Events"</span><span class="w">
-	</span><span class="k">tell</span><span class="w"> </span><span class="nv">process</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">exists</span><span class="w"> </span><span class="k">then</span><span class="w">
-		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Songs"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Controls"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
-		</span><span class="nv">click</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"On"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="s2">"Shuffle"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="s2">"Controls"</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="na">menu</span><span class="w"> </span><span class="nv">bar</span><span class="w"> </span><span class="mi">1</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="k">get</span><span class="w"> </span><span class="na">name</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="p">)</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayDevices</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">(</span><span class="k">get</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="p">)</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="p">{}</span><span class="w">
-	</span><span class="k">repeat</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">length</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w">
-		</span><span class="k">if</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayNames</span><span class="w"> </span><span class="k">as </span><span class="nc">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">AirplayDeviceName</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nb">item</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nv">AirplayDevices</span><span class="w">
-	</span><span class="k">end</span><span class="w"> </span><span class="k">repeat</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nv">current</span><span class="w"> </span><span class="nv">AirPlay</span><span class="w"> </span><span class="nv">devices</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">AirplayToPlay</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span><span class="w">
-
-</span><span class="k">tell</span><span class="w"> </span><span class="nb">application</span><span class="w"> </span><span class="s2">"iTunes"</span><span class="w">
-	</span><span class="nb">play</span><span class="w"> </span><span class="nv">playlist</span><span class="w"> </span><span class="nv">PlaylistName</span><span class="w">
-	</span><span class="k">set</span><span class="w"> </span><span class="nb">the</span><span class="w"> </span><span class="na">sound</span><span class="w"> </span><span class="na">volume</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="nv">AirplayVolume</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">tell</span></code></pre></figure>
-
-<p>The script is significantly smaller thanks to some new AirPlay APIs within iTunes and I’ve updated it to allow for simple changing of volume. It should work in all versions of iTunes 11 and iTunes 12.</p>
-
-<p>In order to get this working as an alarm, we have to jump through a number of hoops on OS X El Capitan. Firstly, we need to save our AppleScript as an application (after you’ve made any adjustments to your Airplay device name, playlist name, and the volume you want). You can do this by opening it within Script Editor and then choosing <em>File &gt; Export</em>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/airplay-alarm-export.jpg" width="800" height="800" alt="Export AppleScript as Application" /></p>
-
-<p><strong>If you haven’t disabled the GateKeeper restrictions on your Mac, you will need to either Code Sign this app or grant an exception within the Security &amp; Privacy settings after you have first tried to open it.</strong></p>
-
-<p>With the alarm exported, we now need to open up Automator and create a new <em>Calendar Alarm</em>. Find the <em>Launch Application</em> action and set that up to point to your newly exported alarm app. Finally, save this and you’ll find a new entry has appeared in your calendar; it will launch immediately thus starting off the iTunes alarm process. Simply copy and paste this alarm entry (or make it recurring) in order to set it to whatever times you want.</p>
-
-<p>I’m going to continue playing around with different ways to launch the alarm but for now this works in much the same way as my old script did.</p>
-
-<p>The full code (and previous version) is <a href="https://github.com/bendodson/Apple-TV-Alarm-Clock">available on GitHub</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:homekitproject" role="doc-endnote">
-      <p>I’m experimenting with some HomeKit APIs with the aim being that my “Good morning” scene can be activated by a physical button and will not only turn on my lights and disable my security camera but also start playing my morning playlist in the kitchen. This is what I do for fun. <a href="#fnref:homekitproject" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/05/04/divide-12-reboots/">The Divide #12 - Reboots</a></h1>
+				<a href="/weblog/page/7/" class="pagination-next">Newer Articles &gt;</a>
 			
-			<time datetime="2016-05-04" pubdate=""><a href="/weblog/2016/05/04/divide-12-reboots/">May 04, 2016</a></time>
-    	</header>
-    	<div>
-			<p>The 12th episode of <a href="http://thedivide.co.uk/">The Divide podcast</a> is now available in which we have a lengthy discussion on reboots, particularly in movie franchises like Spiderman, Batman, and that film by that director we’re not allowed to mention in front of Chris. In addition, we address some board game follow-up, tell you how to test a HTC Vive in the UK, and get all excited at the prospect of a new Red Dead Redemption game!</p>
-
-<p>You can get The Divide from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1063410638/the-divide">Overcast</a></li>
-  <li><a href="http://thedivide.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://thedivide.co.uk/">The Divide website</a></li>
-</ul>
-
-<p>Don’t forget to leave a review on iTunes and follow us on Twitter via <a href="http://twitter.com/PodcastDivide">@PodcastDivide</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">Emoji flags from ISO 3166-1 country codes (in Swift)</a></h1>
-			
-			<time datetime="2016-04-26" pubdate=""><a href="/weblog/2016/04/26/emoji-flags-from-iso-3166-country-codes-in-swift/">April 26, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m working on a personal project currently that works heavily with country codes and the selection of countries. To make it look better, I wanted to use a flag icon for each country in the list. In the past, this would have been done with a load of imported images named something like “gb.png” but luckily there is a modern solution; emoji!</p>
-
-<p>As of iOS 9.0, every ISO 3166-1 country now has a corresponding emoji flag<sup id="fnref:flags" role="doc-noteref"><a href="#fn:flags" class="footnote" rel="footnote">1</a></sup>. The way to build them is also incredibly simple as you basically put the two letters together as joined Unicode characters. <a href="https://esham.io/2014/06/unicode-flags">Benjamin Esham explains it</a> like this:</p>
-
-<blockquote>
-  <p>What they did is both crazy and genius. Instead of assigning a codepoint to each flag, which is the obvious way to do it (and the way the rest of the emoji are encoded), the standard defines twenty-six “regional indicator symbols”, from U+1F1E6 REGIONAL INDICATOR SYMBOL LETTER A to U+1F1FF REGIONAL INDICATOR SYMBOL LETTER Z. In order to include a country’s flag in your text, you first look up the country’s two-letter ISO 3166-1 code and then write the two regional indicator symbols corresponding to those letters. A font with support for that flag treats the two-codepoint sequence as a ligature, replacing the combination with a single pictogram.</p>
-</blockquote>
-
-<blockquote>
-  <p>Let’s take the United States as an example. Its ISO 3166-1 two-letter code is “us”, so we need to use the codepoints U+1F1FA REGIONAL INDICATOR SYMBOL LETTER U and U+1F1F8 REGIONAL INDICATOR SYMBOL LETTER S. Combining these gives a symbol that renders in your browser as 🇺🇸.</p>
-</blockquote>
-
-<p>Armed with this information, it is easy to write a basic function to turn a code like “us” into the corresponding flag emoji:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">func</span> <span class="nf">emojiFlag</span><span class="p">(</span><span class="n">countryCode</span> <span class="nv">countryCode</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">string</span> <span class="o">=</span> <span class="s">""</span>
-    <span class="k">var</span> <span class="nv">country</span> <span class="o">=</span> <span class="n">countryCode</span><span class="o">.</span><span class="n">uppercaseString</span>
-    <span class="k">for</span> <span class="n">uS</span> <span class="k">in</span> <span class="n">country</span><span class="o">.</span><span class="n">unicodeScalars</span> <span class="p">{</span>
-        <span class="n">string</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">UnicodeScalar</span><span class="p">(</span><span class="mi">127397</span> <span class="o">+</span> <span class="n">uS</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">string</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>A great way of testing this is with an Xcode Playground which will allow you to quickly see the output like such:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/flag-playground.jpg" width="800" height="419" /></p>
-
-<p>If you use an incorrect code such as “en”<sup id="fnref:england" role="doc-noteref"><a href="#fn:england" class="footnote" rel="footnote">2</a></sup> then you’ll be given back the letters within boxes.</p>
-
-<p>You can <a href="https://github.com/bendodson/flag-emoji-from-country-code">download my example playground from GitHub</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:flags" role="doc-endnote">
-      <p>Most were supported in iOS 8.3 but hidden from the emoji keyboard; iOS 9.0 added an extra 40 to complete the set including such places as Antarctica and Taiwan. They also added support for the EU flag. <a href="#fnref:flags" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:england" role="doc-endnote">
-      <p>England is not an iOS 3166-1 country and so there is no “en” code. There is a proposal for subdivisions to be supported so something like “gb-eng” would work but it is not accepted yet and iOS has no flags for places like England, Wales, or Scotland. <a href="#fnref:england" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/23/iphone-7-headphone-predictions/">iPhone 7 headphone predictions</a></h1>
-			
-			<time datetime="2016-04-23" pubdate=""><a href="/weblog/2016/04/23/iphone-7-headphone-predictions/">April 23, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I don’t tend to make many Apple predictions but I’ve been meaning to write about the rumour of the lack of a headphone port on the iPhone 7 for some time. It seems almost certain that the iPhone 7 will drop the 3.5mm headphone jack in favour of using the proprietary lightning port and this has caused a lot of consternation in the tech press. This is understandable as there are several issues with doing this:</p>
-
-<ol>
-  <li>
-    <p>You wouldn’t be able to use headphones you already own (potentially very expensive headphones).</p>
-  </li>
-  <li>
-    <p>If you were using lightning headphones, you wouldn’t be able to charge your phone at the same time.</p>
-  </li>
-  <li>
-    <p>Whilst Bluetooth is an option, it can have lag (only annoying on video) and you have to remember to charge them.</p>
-  </li>
-</ol>
-
-<p>The solution to the first problem is very simple; there will be an adapter accessory<sup id="fnref:adapterprice" role="doc-noteref"><a href="#fn:adapterprice" class="footnote" rel="footnote">1</a></sup> to allow you to plug 3.5mm headphones into the lightning port. I personally don’t have a problem with this; if you have expensive headphones and an expensive phone, the cost of buying an adapter is negligible really and it is unlikely to add any bulk as it’ll just be extending the cord that you’ll already be using. You are unlikely to buy an adapter to use the existing bundled EarPods as it is certain that Apple would bundle in some lightning powered EarPods so really the adapter is for those with existing expensive 3.5mm based headphones.</p>
-
-<p>However, the other two issues are more problematic. There is an issue that you may very well want to charge your iPhone whilst listening to music via headphones and Bluetooth does suck when you are watching video as it is often out of sync by a few milliseconds. I own a pair of Beats Studio Wireless which connect either via Bluetooth or via a 3.5mm cable; I regularly use the cable when watching Netflix in bed as I find the lag incredibly irritating<sup id="fnref:audiolag" role="doc-noteref"><a href="#fn:audiolag" class="footnote" rel="footnote">2</a></sup>. In addition, I can charge my phone at the same time.</p>
-
-<p>Some people have proposed that the iPhone 7 could get conductive charging much like the Apple Watch but this seems highly unlikely to me; the amount of space required to do that is huge (compared to a 3.5mm jack) and it charges very slowly, especially with an iPhone 6 Plus sized battery.</p>
-
-<p>I have two predictions which I believe solve these issues:</p>
-
-<ol>
-  <li>
-    <p>The bundled headphones will be lightning but will have some sort of lightning passthrough so you can continue to power your device or use any other lightning accessory at the same time.</p>
-  </li>
-  <li>
-    <p>There will be wireless headphones that will work with some new proprietary sync method<sup id="fnref:airplay" role="doc-noteref"><a href="#fn:airplay" class="footnote" rel="footnote">3</a></sup> but can also work with a lightning cable for both listening and charging. They would be called “AirPods” and would either be bundled as the lightning headphones or be available separately for something like £79 / $99. A <a href="http://9to5mac.com/2016/04/21/apple-wireless-headphones-lightning-headphones/">recent patent</a> that was unearthed would seem to indicate this as a solid option. Extra points to Apple if it is a custom wireless solution and it works with the Apple Watch 2.</p>
-  </li>
-</ol>
-
-<p>Both of these proposals get around the charging issue and the Bluetooth lag issue. I think it more likely that we’ll get basic lightning headphones included and then have to pay for the fancier lightning / wireless ones but it isn’t outside the realm of possibility that they could be bundled. That said, I also wouldn’t put it past Apple to say “you can use headphones or you can charge your phone” similar to the “charge or use peripheral” attitude to the solo USB-C port on the MacBook<sup id="fnref:macbook" role="doc-noteref"><a href="#fn:macbook" class="footnote" rel="footnote">4</a></sup>.</p>
-
-<p>The only thing that seems certain is that the 3.5mm port will not be available; you’ll need to use either an adapter or whatever new headphones Apple release.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:adapterprice" role="doc-endnote">
-      <p>Likely priced at $29.99 / £24.99 because they can. You’ll get a cheap version on Amazon for $9.99 / £6.99 within a month. <a href="#fnref:adapterprice" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:audiolag" role="doc-endnote">
-      <p>I couldn’t care less about audio lag for listening to music or podcasts as it really doesn’t matter and isn’t noticeable; it only affects video as 50ms of lag will mean that the actors lips don’t move precisely with their voice which is offputting. <a href="#fnref:audiolag" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:airplay" role="doc-endnote">
-      <p>They would probably use the “AirPlay” brand. <a href="#fnref:airplay" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:macbook" role="doc-endnote">
-      <p>Which I own and have had no issues with. Interesting that it retains a 3.5mm jack though when a USB-C port on both sides would make more sense to my mind. <a href="#fnref:macbook" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/18/clinix/">Clinix</a></h1>
-			
-			<time datetime="2016-04-18" pubdate=""><a href="/weblog/2016/04/18/clinix/">April 18, 2016</a></time>
-    	</header>
-    	<div>
-			<p>An iPhone app I worked on throughout 2015 has finally gone live in the App Store today; <a href="https://appstore.com/clinix">Clinix</a>:
-<img src="https://bendodson.s3.amazonaws.com/apps/clinix.jpg" width="800" height="426" /></p>
-
-<p>I worked with <a href="http://clinix.co.uk/">Clinix</a> throughout 2015 as the exclusive iOS developer on their medical app. Clinix is a doctor-patient video consultation platform targeted primarily at the NHS. It provides patients with an Electronic Medical Records system that syncs automatically with their GP records. You can view and update allergies, medical history, and medications as well as make video appointments with your GP.</p>
-
-<p>The app was built using Swift and interfaces with the OpenTok video APIs. I helped with the initial design of the PHP-based API and was integral in making UX decisions throughout the app.</p>
-
-<p>Clinix is a free app and is <a href="https://appstore.com/clinix">available on the App Store</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/16/connecting-to-host/">Connecting To Host</a></h1>
-			
-			<time datetime="2016-04-16" pubdate=""><a href="/weblog/2016/04/16/connecting-to-host/">April 16, 2016</a></time>
-    	</header>
-    	<div>
-			<p>I’m very happy to announce that a new podcast I’ve been working on with <a href="http://twitter.com/johnwordsworth">John Wordsworth</a> has gone live today; <a href="http://connectingtohost.com/">Connecting To Host</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2016/connectingtohost.jpg" width="800" height="600" /></p>
-
-<p>Connecting To Host is a (mostly) weekly podcast where we discuss video games from a strictly co-op / multiplayer point of view. We’ve released three episodes today:</p>
-
-<ul>
-  <li>
-    <p><em>FORCED</em>: Specifically built for co-operative action, FORCED is an arcade RPG which takes you through a number of challenging arenas. Join us and find out more about “The Orb” and “Marking up Enemies”, two strong mechanics that make FORCED a fun little online game.</p>
-  </li>
-  <li>
-    <p><em>Torchlight II</em>: Join us as we talk about our co-operative experience working through Torchlight II, an action RPG developed by Runic Games that was originally released at the end of 2012.</p>
-  </li>
-  <li>
-    <p><em>Titanfall</em>: With the recent announcement of Titanfall 2 for Xbox One, PC, and PS4, we thought we would go back in time and talk about the original Titanfall and what it brought to the multiplayer shooter genre.</p>
-  </li>
-</ul>
-
-<p>I’m really excited about this podcast and think it’ll be a great way for people to get co-op specific reviews from two long time game players who spend several hours a week playing online together.</p>
-
-<p>You can get Connecting To Host from these fine outlets:</p>
-
-<ul>
-  <li><a href="https://itunes.apple.com/gb/podcast/connecting-to-host/id1103906371?mt=2">iTunes</a></li>
-  <li><a href="https://overcast.fm/itunes1103906371/connecting-to-host">Overcast</a></li>
-  <li><a href="http://www.connectingtohost.co.uk/shows/itunes.xml">RSS</a> (for other podcast readers)</li>
-  <li><a href="http://connectingtohost.com/">Connecting To Host website</a></li>
-</ul>
-
-<p>If you enjoy the podcast, please consider leaving a review on iTunes or letting us know on Twitter via <a href="http://twitter.com/cthcast">@CTHCast</a>; you can also suggest games you’d like us to review!</p>
-
-<p>Our next episode will be on Saturday 23rd April 2016 and is all about <a href="http://offworldgame.com">Offworld Trading Company</a>…</p>
-
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2016/04/13/thoughts-on-ringtones/">Thoughts on ringtones</a></h1>
-			
-			<time datetime="2016-04-13" pubdate=""><a href="/weblog/2016/04/13/thoughts-on-ringtones/">April 13, 2016</a></time>
-    	</header>
-    	<div>
-			<p>Today I spent a little bit of time making a new iPhone message tone<sup id="fnref:hanoldbuddy" role="doc-noteref"><a href="#fn:hanoldbuddy" class="footnote" rel="footnote">1</a></sup> and it reminded me of how terrible the entire ringtone system is on iOS. I have a number of specific issues:</p>
-
-<p><strong>Overpriced</strong> - most ringtones cost the same as a full song despite the fact they are shorter than the free preview on iTunes or they are a couple seconds of audio from a TV show or film. The pricing hasn’t changed since the ringtone store was launched in iOS 3 but the quality has definitely deteriorated with a number of dubious looking alert tones ripped from TV shows or YouTube videos.</p>
-
-<p><strong>DRM</strong> - as well as being shorter than a full song for the same price, they are subject to DRM whereas music is not. They’re also in a proprietary format so you can’t re-use them on non-Apple devices.</p>
-
-<p><strong>iTunes</strong> - you can create your own ringtones using GarageBand<sup id="fnref:garagebandmac" role="doc-noteref"><a href="#fn:garagebandmac" class="footnote" rel="footnote">2</a></sup> but the only way to get them onto your iPhone or iPad is to do a sync with iTunes. Eugh! We were supposed to have moved away from this when iOS 6 cut the iTunes cord but I couldn’t find any other way to get the *.m4r file over to iOS (I tried messaging it to myself and using Dropbox but neither option allowed you to then save it to your settings).</p>
-
-<p><strong>iCloud</strong> - for some bizarre reason, ringtones are not synced via iCloud in the UK so if you haven’t backed them up you’ll lose them when setting up a new device. There is no option to redownload them from iTunes and if you purchase one you’ve previously downloaded you will be charged (you don’t even get a “you’ve previously purchased this” dialogue like you do with music, tv shows, and movies). I’ve purchased a few tones in the past<sup id="fnref:tones" role="doc-noteref"><a href="#fn:tones" class="footnote" rel="footnote">3</a></sup> but none of them are available to me unless I pay again.</p>
-
-<p>I don’t have a solution to this (apart from killing the ringtone store and allowing you to just use MP3 files) but it is an area of the iOS ecosystem that is definitely showing it’s age. At the moment, you either have the expense and DRM protected (with no redownloads) way of purchasing or you can jump through hoops making your own and trying to get them onto your device. I’m not sure how either is seen as acceptable.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:hanoldbuddy" role="doc-endnote">
-      <p>It’s <a href="https://twitter.com/bendodson/status/720231111352328193">Han Solo shouting ‘BEN!!’</a> from <em>Star Wars: The Force Awakens</em> <a href="#fnref:hanoldbuddy" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:garagebandmac" role="doc-endnote">
-      <p>I’m specifically referring to GarageBand on the mac although I believe it is also possible with GarageBand for iOS. <a href="#fnref:garagebandmac" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:tones" role="doc-endnote">
-      <p>I used to have the T-Rex Roar from Jurassic Park as the alert for my wife but she didn’t care for it; I now have Lando Calrissian saying “Hello, what have we here?” <a href="#fnref:tones" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	
+		
+	</nav>
 </section>
 
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/9/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/7/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
-
+		</main>
 		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>

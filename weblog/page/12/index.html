@@ -9,543 +9,323 @@
 	
 	
 	
+	
 
 	<title>Ben Dodson's Blog &mdash; Freelance Swift and Apple Platforms Developer</title>
-	<meta name="description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<link rel="canonical" href="https://bendodson.com/weblog/page/12/">
+	<meta name="description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	
+	<link rel="canonical" href="http://localhost:4000/weblog/page/12/">
 	<meta property="og:site_name" content="Ben Dodson">
 	<meta property="og:title" content="Ben Dodson&#39;s Blog - Freelance Swift and Apple Platforms Developer">
-	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, iOS development, Apple platforms, independent apps, freelancing, and technical experiments.">
-	<meta property="og:url" content="https://bendodson.com/weblog/page/12/">
+	<meta property="og:description" content="The weblog of Ben Dodson, covering Swift, Apple platforms, independent apps, freelancing, and technical experiments.">
+	<meta property="og:url" content="http://localhost:4000/weblog/page/12/">
 	<meta property="og:type" content="website">
 	
 
 	
 
+	
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700' rel='stylesheet' type='text/css'>
-	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, iOS Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-21.css" />
-	<link rel="stylesheet" href="/highlight-2018-02-23.css" />
-	<link rel="icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/favicon.ico">
-	<link rel="apple-touch-icon" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-iphone-retina.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://bendodson.s3.amazonaws.com/bendodson.com/touch-icon-ipad-retina.png">
+
+
+
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "http://localhost:4000/#person",
+			"name": "Ben Dodson",
+			"url": "http://localhost:4000/",
+			"image": "https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2MDAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==",
+			"email": "ben@bendodson.com",
+			"jobTitle": "Freelance Apple Platforms Developer",
+			"worksFor": {
+				"@id": "http://localhost:4000/#organization"
+			},
+			"sameAs": ["https://newsletter.bendodson.com/","https://github.com/bendodson/","https://mastodon.bendodson.com/@ben"]
+		},
+		{
+			"@type": "Organization",
+			"@id": "http://localhost:4000/#organization",
+			"name": "Dodo Apps Ltd",
+			"url": "http://localhost:4000/",
+			"identifier": "07856552"
+		},
+		{
+			"@type": "WebSite",
+			"@id": "http://localhost:4000/#website",
+			"url": "http://localhost:4000/",
+			"name": "Ben Dodson",
+			"description": "Ben Dodson is a UK-based freelance app developer and consultant specialising in native iOS, iPadOS, macOS, watchOS, and tvOS apps.",
+			"inLanguage": "en-GB",
+			"publisher": {
+				"@id": "http://localhost:4000/#person"
+			}
+		}
+	]
+}
+</script>
+
+
+	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
+	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
+	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLXJldGluYS5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMCwiZml0IjoiaW5zaWRlIiwid2l0aG91dEVubGFyZ2VtZW50Ijp0cnVlfX19">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxNTIsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC1yZXRpbmEucG5nIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxODAsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 </head>
 <body>
 
 	<div id="wrapper">
 
-		<header>
-			<hgroup>
-				<h1><a href="/">Ben Dodson</a></h1>
-				<h2>Freelance iOS, macOS, Apple Watch, and Apple TV Developer</h2>
-			</hgroup>
-			<nav>
+		<header class="site-header">
+			<a href="/" class="site-identity">
+				
+
+
+
+
+
+
+
+
+<img src="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=" srcset="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 100w, https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW4tZG9kc29uLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjAwLCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0= 200w" sizes="100px" alt="" width="100" height="100" loading="eager" decoding="async">
+
+				<span>
+					<strong>Ben Dodson</strong>
+					<em>Freelance Apple Platforms Developer</em>
+				</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				
+				
+				
 				<ul>
-					<li><a href="/">Home</a></li><li><a href="/weblog/">Blog</a></li><li><a href="/about/">About</a></li><li><a href="/clients/">Portfolio</a></li><li><a href="/apps/">My Apps</a></li><li><a href="/projects/">Projects</a></li><li><a href="/contact/">Contact</a></li>
+					<li><a href="/about/">About</a></li>
+					<li><a href="/weblog/" aria-current="page">Weblog</a></li>
+					<li><a href="/clients/">Portfolio</a></li>
+					<li><a href="/apps/">Apps</a></li>
+					<li><a href="/projects/">Projects</a></li>
+					<li><a href="/contact/">Contact</a></li>
 				</ul>
-				<div class="divider"></div>
 			</nav>
 		</header>
 
-		<section id="posts">
-
-	
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/14/steve-jobs-introduces-the-ipad-at-death-star-briefing/">Steve Jobs introduces the iPad at Death Star briefing</a></h1>
-			
-			<time datetime="2015-12-14" pubdate=""><a href="/weblog/2015/12/14/steve-jobs-introduces-the-ipad-at-death-star-briefing/">December 14, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been re-watching Star Wars<sup id="fnref:machete" role="doc-noteref"><a href="#fn:machete" class="footnote" rel="footnote">1</a></sup> this weekend in preparation for <em>The Force Awakens</em> and a special episode of <a href="https://bendodson.com/weblog/2015/12/02/introducing-the-divide/">The Divide</a> we are recording after Christmas. When it got to the Death Star briefing sequence towards the end of <em>A New Hope</em>, I was reminded of an excellent video that came out after the original iPad announcement with a mashup of that sequence and Steve Jobs voiceover. I had a quick look for it and couldn’t find it as for some reason it had been <a href="https://www.youtube.com/watch?v=jbHF63b7g50">removed from YouTube</a><sup id="fnref:legal" role="doc-noteref"><a href="#fn:legal" class="footnote" rel="footnote">2</a></sup>. After much searching, I eventually found a copy online but I’ve extracted it and saved it here to avoid it disappearing again in the future:</p>
-
-<video width="512" height="288" controls="">
-  <source src="https://bendodson.s3.amazonaws.com/star-wars-ipad.mp4" type="video/mp4" />
-  (It looks like your browser doesn't suppoer HTML5 video)
-</video>
-
-<p>I absolutely love this video and wish I knew who created it.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:machete" role="doc-endnote">
-      <p>In <a href="https://bendodson.com/weblog/2015/05/04/the-correct-way-to-watch-star-wars/">Machete Order</a>, obviously (although I’m tempted to re-watch <em>The Phantom Menace</em> after <a href="https://www.reddit.com/comments/3qvj6w">this theory</a> that Jar-Jar is a Sith master…) <a href="#fnref:machete" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:legal" role="doc-endnote">
-      <p>It doesn’t look like a takedown notice so maybe the account was deleted for some other video and this disappeared along with it. <a href="#fnref:legal" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">Using the Siri Remote with the Apple TV Simulator</a></h1>
-			
-			<time datetime="2015-12-09" pubdate=""><a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">December 09, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’ve been working on a tvOS app for a client recently which has led to a lot of time spent building to both the Apple TV hardware and simulator. Whilst the simulator is very good for basic testing, the simulated remote can be a bit tricky to use and so I was very pleased to discover today that the physical Siri Remote can be used with the Apple TV Simulator on El Capitan. All you have to do is pair your Siri Remote to your Mac and it’ll work in the simulator just like it does with the real thing.</p>
-
-<p>The full set of steps are as follows:</p>
-
-<ol>
-  <li>
-    <p>Unpair your remote from your existing Apple TV (if applicable) by holding down the menu button and volume up button for around 5-10 seconds whilst the Apple TV is unplugged or otherwise out of Bluetooth range<sup id="fnref:pairing" role="doc-noteref"><a href="#fn:pairing" class="footnote" rel="footnote">1</a></sup>.</p>
-  </li>
-  <li>
-    <p>Open up the Bluetooth settings panel in OS X; you should see a device with no details other than a mac address. Pair it.</p>
-  </li>
-  <li>
-    <p>Profit! Your Siri Remote is now paired and can be used in the simulator.</p>
-  </li>
-</ol>
-
-<p>I have a 1080p external monitor plugged into my iMac 5k and so if I run the Apple TV simulator on that in fullscreen mode it feels almost exactly like using the real hardware. This could be a good stop gap for those on a budget as you could just <a href="http://www.apple.com/uk/shop/product/MLLC2ZM/A/siri-remote">buy a Siri Remote</a> for testing rather than the whole Apple TV<sup id="fnref:budget" role="doc-noteref"><a href="#fn:budget" class="footnote" rel="footnote">2</a></sup>. You should always test your apps on real hardware of course but this is a useful trick nonetheless.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:pairing" role="doc-endnote">
-      <p>Otherwise it’ll just unpair and repair very quickly - a frustrating way to spend 15 minutes on a Wednesday morning! <a href="#fnref:pairing" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:budget" role="doc-endnote">
-      <p>Or for developers who simply don’t want a second Apple TV. I’ve been moving mine between my office and living room for the past week and considered getting a second “development only” Apple TV to avoid this minor irritation; buying just a second remote seems a wiser investment. <a href="#fnref:budget" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/02/introducing-the-divide/">Introducing 'The Divide'</a></h1>
-			
-			<time datetime="2015-12-02" pubdate=""><a href="/weblog/2015/12/02/introducing-the-divide/">December 02, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">The Divide</a>, a new podcast I’ve been working on recently, is now available on <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">iTunes</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/the-divide.jpg" width="800" height="606" /></p>
-
-<p>Every two weeks, myself, <a href="http://misterford.co.uk/">Mr Christopher Ford</a>, and <a href="http://johnwordsworth.com/">Dr John Wordsworth</a> will discuss a particular topic that is of interest to us for around an hour. The topics of our first three shows (which are available now) are:</p>
-
-<ul>
-  <li>
-    <p><strong>Episode 1, The Phantom Keeper</strong>: A round-table discussion of our favourite PC games with each of us allowed to bring two for consideration</p>
-  </li>
-  <li>
-    <p><strong>Three Geeks and a Toddler</strong>: A debate about our current computer setup and whether we can see a tablet replacing our laptops</p>
-  </li>
-  <li>
-    <p><strong>Fitting in with all of the stereotypes</strong>: We discuss media in the digital age including films, tv, music, magazines, books, and comics.</p>
-  </li>
-</ul>
-
-<p>You can <a href="https://itunes.apple.com/gb/podcast/the-divide/id1063410638">subscribe on iTunes</a>, <a href="https://overcast.fm/itunes1063410638/the-divide">listed online with Overcast</a>, or by directing your podcast app of choice<sup id="fnref:overcast" role="doc-noteref"><a href="#fn:overcast" class="footnote" rel="footnote">1</a></sup> to <a href="http://thedivide.co.uk/shows/itunes.xml">our XML Feed</a>. Alternatively, you can download the MP3 files directly from <a href="http://thedivide.co.uk/">The Divide website</a>.</p>
-
-<p>These first few episodes, whilst not perfect<sup id="fnref:perfect" role="doc-noteref"><a href="#fn:perfect" class="footnote" rel="footnote">2</a></sup>, have been a lot of fun to record and hopefully you’ll enjoy them. If you have feedback, questions, or want to suggest a topic, you can chat to us on <a href="https://twitter.com/PodcastDivide">Twitter via @PodcastDivide</a>. Our next episode should go live on Wednesday 16th December.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:overcast" role="doc-endnote">
-      <p>I personally use <a href="https://overcast.fm">Overcast</a>. <a href="#fnref:overcast" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:perfect" role="doc-endnote">
-      <p>There are a few minor mic issues which we’ve fixed now and our second episode has an unscheduled drop-in from a hungry toddler. <a href="#fnref:perfect" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">HomeKit enabled Christmas tree lights with Siri control</a></h1>
-			
-			<time datetime="2015-12-01" pubdate=""><a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">December 01, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Every year we seem to buy a bigger Christmas tree. This year is no exception and it is now proving difficult to maneuver around it to turn the lights on and off. To fix this, I’ve connected my lights up to a <a href="http://www.belkin.com/uk/F7C027/p/P-F7C027/">Belkin WeMo</a> and I’m running the excellent <a href="https://github.com/nfarina/homebridge">Homebridge</a><sup id="fnref:luke" role="doc-noteref"><a href="#fn:luke" class="footnote" rel="footnote">1</a></sup> server so that I can control it all via Siri:</p>
-
-<iframe width="800" height="450" src="https://www.youtube.com/embed/xBuMQ-PMyeY?rel=0" frameborder="0" allowfullscreen=""></iframe>
-
-<p>To get this up and running on your own machine, you’ll need to do the following in the Mac Terminal:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-brew <span class="nb">install </span>node
-<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> homebridge
-<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> homebridge-wemo
-homebridge</code></pre></figure>
-
-<p>This will install brew, install node, install Homebridge, install the WeMo plugin for Homebridge, and then attempt to run Homebridge (which will fail as you have no config file). Next, you’ll want to go to <code class="language-plaintext highlighter-rouge">~/.homebridge</code> and create a config.json file that looks like this:</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-    </span><span class="nl">"bridge"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebridge"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CC:22:3D:E3:CE:30"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">51826</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"pin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"031-45-154"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    
-    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an example configuration file with all supported devices. You can use this as a template for creating your own configuration file containing devices you actually own."</span><span class="p">,</span><span class="w">
-
-    </span><span class="nl">"accessories"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"accessory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WeMo"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Christmas Tree"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This shim supports Belkin WeMo devices on the same network as this server. You can create duplicate entries for this device and change the 'name' attribute to reflect what device is plugged into the WeMo, for instance 'Air Conditioner' or 'Coffee Maker'. This name will be used by Siri. Make sure to update the 'wemo_name' attribute with the EXACT name of the device in the WeMo app itself. This can be the same value as 'name' but it doesn't have to be."</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"wemo_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Christmas Tree"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span></code></pre></figure>
-
-<p>The important part is to make sure that the <code class="language-plaintext highlighter-rouge">wemo_name</code> matches the name of your device within the WeMo app; the <code class="language-plaintext highlighter-rouge">name</code> attribute is what you want your device to be called on HomeKit. Run the <code class="language-plaintext highlighter-rouge">homebridge</code> command again and you should see that your device is found and Homebridge is running.</p>
-
-<p>Next, you’ll need to get a HomeKit enabled app to run all of this. My recommendation is to use the one that Apple provides to developers, <a href="https://developer.apple.com/library/ios/samplecode/HomeKitCatalog/Introduction/Intro.html">HomeKit Catalog</a>, although that will require you to know how to sideload apps from Xcode. Alternatively you can download the <a href="https://itunes.apple.com/app/elgato-eve/id917695792">Elgato Eve app</a>. Once you have an app, you’ll need to add the Homebridge using the pin that is in your config file. You can play around with the app and create rooms, scenes, zones, etc, but for now the basic commands should work. If you can turn your device on and off via the HomeKit enabled app, you will be able to activate Siri and say “<em>turn on the Christmas tree</em>”, “<em>turn off the Christmas tree</em>”, and “<em>is the Christmas tree on?</em>”.</p>
-
-<p>Added bonus: if you have an Apple TV, you are signed into iCloud, and you use iCloud keychain, then you’ll be able to use all of these voice commands when you’re outside of your house! It’s a pretty useful way to activate these devices and I have several of them dotted around my home<sup id="fnref:straighteners" role="doc-noteref"><a href="#fn:straighteners" class="footnote" rel="footnote">2</a></sup>. Homebridge also supports many other services such as Philips Hue (without the need for their HomeKit bridge) and you can write your own plugins very easily<sup id="fnref:prismatik" role="doc-noteref"><a href="#fn:prismatik" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p>My next task is to dig out some code I wrote last year to turn the tree lights on and off automatically depending on if I’m in the house using an iBeacon…</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:luke" role="doc-endnote">
-      <p>Hat tip to <a href="http://lukeredpath.co.uk/">Luke Redpath</a> for introducing me to Homebridge. <a href="#fnref:luke" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:straighteners" role="doc-endnote">
-      <p>After my wife asked me for the 62nd time if she’d left her straighteners plugged in whilst we were driving in the car, I set up the plug near her dresser with a WeMo so she can use Siri to ask “<em>are my straighteners turned on?</em>” and “<em>turn off the straighteners</em>” if need be! <a href="#fnref:straighteners" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:prismatik" role="doc-endnote">
-      <p>I’ve written a <a href="https://github.com/bendodson/homebridge-prismatik">very basic plugin</a> for the <a href="http://lightpack.tv/">Prismatik Light Pack</a>. <a href="#fnref:prismatik" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/11/27/brapp-v1.1/">Brapp v1.1</a></h1>
-			
-			<time datetime="2015-11-27" pubdate=""><a href="/weblog/2015/11/27/brapp-v1.1/">November 27, 2015</a></time>
-    	</header>
-    	<div>
-			<p>A big update I worked on for <a href="https://www.brapp.tv">Brapp</a> went live today on the App Store. It’s the first major update for the app and adds the following:</p>
-
-<blockquote>
-  <ul>
-    <li>You can now adjust audio levels of yourself and the beat after recording. Sweet.</li>
-    <li>You can now rotate videos after recording so you’re not sideways when you don’t want to be.</li>
-    <li>We’ve added 5 new video filters! Ice, Whitewash, Planet Rock, Purple Haze and Blackout.</li>
-    <li>We’ve added controls for brightness and video filter intensity so there are infinite variations.</li>
-    <li>The new video player is faster, smoother, lighter to control and does not overlay on top of videos.</li>
-    <li>Producer’s names now show on videos made on their beats.</li>
-    <li>The new beat player shows real waveforms because real waveforms rule.</li>
-    <li>You can now loop beats by pressing the ∞ button.</li>
-    <li>Spins now show on beats! Spins are all the plays of a beat INCLUDING plays of videos made on them.</li>
-    <li>You can now filter your Saved Beats by title, producer name, #hashtag and bpm.</li>
-    <li>You can now edit info on your beats &amp; videos. Phew.</li>
-    <li>When you make a video you can see it’s progress as it uploads, you no longer have to wait hopingly!</li>
-    <li>When you tap the beat icon on any video it shows you the beat, now it also shows you all the other - videos made on that beat on the same page.</li>
-    <li>When commenting on a beat/video it won’t stop playing what you are listening to.</li>
-    <li>You can tap profile pictures to make them big.</li>
-    <li>It is now easier to find your Facebook and Twitter friends, and connect with popular users on Brapp.</li>
-    <li>And there’s a heap of other handsome UI, UX and stability updates. P.s. We’re just getting started!</li>
-  </ul>
-</blockquote>
-
-<p>If you haven’t checked it out yet, you can get Brapp for free on <a href="https://itunes.apple.com/gb/app/brapp-rap-sing-or-dance-to/id1022327727?mt=8">the App Store</a>. You can also <a href="https://bendodson.com/weblog/2015/09/25/brapp-the-rap-app/">read about the initial build and release</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp'd, an app for sharing personal messages</a></h1>
-			
-			<time datetime="2015-11-19" pubdate=""><a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">November 19, 2015</a></time>
-    	</header>
-    	<div>
-			<p>I’m happy to announce that an iPhone app I’ve been working on since September this year has gone live in the App Store; <a href="https://itunes.apple.com/gb/app/chippd/id570739404?mt=8">Chipp’d v2.0</a>.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/chippd-app.jpg" width="800" /></p>
-
-<p>Chipp’d is an app that works with real world products (available at <a href="http://www.johnlewis.com/search?Ntt=chipp%27d">John Lewis</a>) to let you share secrets or private messages with your friends. You simply scan the QR code on the sticker, create your secret (with video, audio, photos, and text), and send the sticker or card; your friend will then be able to see that secret when they scan it with the app or any other QR scanner.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/chippd-code.jpg" width="600" /></p>
-
-<p>It is also possible to share secrets for free using the app via auto-generated URLs that can be sent via email or SMS.</p>
-
-<p>I was the sole iOS developer on the project and worked closely with the CTO of Chipp’d to integrate their existing API into the product on an incredibly agressive timescale<sup id="fnref:timescale" role="doc-noteref"><a href="#fn:timescale" class="footnote" rel="footnote">1</a></sup>. Everything was written in Swift 2.0 and used AutoLayout for flexible layouts on all iPhone screen sizes. I’m particularly proud of the QR scanner which I custom built when it transpired that the products that had been printed and shipped to distributors were too light for a conventional QR scanner to detect; I used GPUImage to manipulate the live video feed with multiple filters per second in order to quickly scan at different brightnesses and solve the issue before it caused major problems.</p>
-
-<p>You can check out <a href="https://itunes.apple.com/gb/app/chippd/id570739404?mt=8">Chipp’d on the App Store</a> (it’s free) and you can purchase the stickers and cards to use with it at <a href="http://www.johnlewis.com/search?Ntt=chipp%27d">John Lewis</a>.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:timescale" role="doc-endnote">
-      <p>The stickers and cards were printed, sitting in a warehouse, and about to be available for sale from John Lewis for Christmas 2015! <a href="#fnref:timescale" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">A simple Audio Recorder controller in Swift (for iPhone)</a></h1>
-			
-			<time datetime="2015-10-20" pubdate=""><a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">October 20, 2015</a></time>
-    	</header>
-    	<div>
-			<p>iOS provides a number of useful modal views within it’s system frameworks with everything from sending email to taking photos or video. However, there is still not a standard way to perform what is a fairly basic task; recording a voice memo.</p>
-
-<p>I had a need for such a feature on a project recently and so I put together <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController</a>. It’s a basic modal view controller that allows you to record, playback, re-record, and save audio locally in mp4 format.</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/audiorecorderviewcontroller.jpg" width="800" /></p>
-
-<p>Usage is insanely simple and modelled on such classes as <code class="language-plaintext highlighter-rouge">UIImagePickerController</code>:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">presentAudioRecorder</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">AudioRecorderViewController</span><span class="p">()</span>
-    <span class="n">controller</span><span class="o">.</span><span class="n">audioRecorderDelegate</span> <span class="o">=</span> <span class="k">self</span>
-    <span class="nf">presentViewController</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">audioRecorderViewControllerDismissed</span><span class="p">(</span><span class="n">withFileURL</span> <span class="nv">fileURL</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">?)</span> <span class="p">{</span>
-    <span class="c1">// do something with fileURL</span>
-    <span class="nf">dismissViewControllerAnimated</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>Check out <a href="https://github.com/bendodson/AudioRecorderViewController-Swift">AudioRecorderViewController-Swift on GitHub</a>.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">HKHealthStore Extension, deleteSamplesOfType</a></h1>
-			
-			<time datetime="2015-10-06" pubdate=""><a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">October 06, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Following on from <a href="/weblog/2015/10/05/healthkit-radar-22977320/">my post yesterday</a> about the broken implementation of the <code class="language-plaintext highlighter-rouge">HKHealthStore</code> method <code class="language-plaintext highlighter-rouge">deleteObjectsOfType:predicate:withCompletion:</code>, I’ve put together <a href="https://gist.github.com/bendodson/c0f0a6a1f601dc4573ba">a gist</a> which provides a fixed method that works with <code class="language-plaintext highlighter-rouge">HKSampleType</code> objects; <code class="language-plaintext highlighter-rouge">deleteSamplesOfType:predicate:withCompletion:</code></p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="kd">import</span> <span class="kt">Foundation</span>
-<span class="kd">import</span> <span class="kt">HealthKit</span>
-
-<span class="kd">extension</span> <span class="kt">HKHealthStore</span> <span class="p">{</span>
-    
-    <span class="kd">func</span> <span class="nf">deleteSamplesOfType</span><span class="p">(</span><span class="nv">sampleType</span><span class="p">:</span> <span class="kt">HKSampleType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="kt">NSPredicate</span><span class="p">,</span> <span class="n">withCompletion</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
-        
-        <span class="k">let</span> <span class="nv">query</span> <span class="o">=</span> <span class="kt">HKSampleQuery</span><span class="p">(</span><span class="nv">sampleType</span><span class="p">:</span> <span class="n">sampleType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">limit</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">sortDescriptors</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-            
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
-                <span class="nf">completion</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
-                <span class="k">return</span>
-            <span class="p">}</span>
-            
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">objects</span> <span class="o">=</span> <span class="n">results</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="n">objects</span><span class="o">.</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
-                    <span class="nf">completion</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="k">self</span><span class="o">.</span><span class="nf">deleteObjects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-                        <span class="nf">completion</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="n">error</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="n">objects</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="n">error</span><span class="p">)</span>
-                    <span class="p">})</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nf">completion</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-            <span class="p">}</span>
-
-        <span class="p">}</span>
-        <span class="k">self</span><span class="o">.</span><span class="nf">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-    <span class="p">}</span>
-    
-<span class="p">}</span></code></pre></figure>
-
-<p>It simply uses the <code class="language-plaintext highlighter-rouge">NSPredicate</code> within a <code class="language-plaintext highlighter-rouge">HKSampleQuery</code> in order to find any objects that match the <code class="language-plaintext highlighter-rouge">HKSampleType</code> and then deletes them with the <code class="language-plaintext highlighter-rouge">HKHealthStore</code> method <code class="language-plaintext highlighter-rouge">deleteObjects:withCompletion:</code> - this correctly ensures that you are only deleting objects that match both the predicate and type.</p>
-
-<p>By way of example, this simply extends <code class="language-plaintext highlighter-rouge">HKHealthStore</code> so you can do something like this:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">NSDate</span><span class="p">()</span>
-
-<span class="k">let</span> <span class="nv">predicate</span> <span class="o">=</span> <span class="kt">HKQuery</span><span class="o">.</span><span class="nf">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="nf">beginningOfDay</span><span class="p">(),</span> <span class="nv">endDate</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">()</span><span class="o">.</span><span class="nf">endOfDay</span><span class="p">(),</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="kt">None</span><span class="p">)</span>
-
-<span class="k">let</span> <span class="nv">stepType</span> <span class="o">=</span> <span class="kt">HKQuantityType</span><span class="o">.</span><span class="nf">quantityTypeForIdentifier</span><span class="p">(</span><span class="kt">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">deleteSamplesOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"deleted </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> step objects: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">stepQuantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">countUnit</span><span class="p">(),</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">stepSample</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">healthStore</span><span class="o">.</span><span class="nf">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="p">}</span>
-<span class="p">})</span>
-
-
-<span class="k">let</span> <span class="nv">flightsType</span> <span class="o">=</span> <span class="kt">HKQuantityType</span><span class="o">.</span><span class="nf">quantityTypeForIdentifier</span><span class="p">(</span><span class="kt">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">deleteSamplesOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"deleted </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> flight objects: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">flightsQuantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">countUnit</span><span class="p">(),</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">flightsSample</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">healthStore</span><span class="o">.</span><span class="nf">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="p">}</span>
-<span class="p">})</span></code></pre></figure>
-
-<p>As a reminder, you can file a duplicate of (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) if you’d like to see the original bug fixed but in the meantime the above should allow you to carry on with your HealthKit app without worrying about deleting other data.</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a></h1>
-			
-			<time datetime="2015-10-05" pubdate=""><a href="/weblog/2015/10/05/healthkit-radar-22977320/">October 05, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Working with any code, it is inevitable that you’ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a “radar” so that they can track and hopefully fix any issues that arise. The issue is that the <a href="http://bugreport.apple.com/">Apple Bug Reporter</a> is locked down and non-searchable so you have no idea if anyone else has submitted the same issue. Apple supposedly collate all of the bugs and mark any issues as duplicates and then use the number submitted to gauge how important an issue is and prioritise it’s fix. This has led to sites like <a href="https://openradar.appspot.com/">Open Radar</a> that let developers copy and paste their bug reports so other developers can search and then simply submit new bugs as a duplicate.</p>
-
-<p>In any case, today I found an interesting bug in HealthKit. iOS 9 added a new method named <code class="language-plaintext highlighter-rouge">deleteObjectsOfType:predicate:withCompletion</code> which is supposed to let you delete any objects you have written to HealthKit nice and easily. For example, I might have an app which constantly checks your step count and flights climbed throughout the day and so it will want to delete any steps and flights from 00.00 to 23.59 before it adds the updated count. Unfortunately, the method doesn’t seem to respect the <code class="language-plaintext highlighter-rouge">type</code> parameter and so it will delete everything that matches your query regardless of what <code class="language-plaintext highlighter-rouge">HKObjectType</code> it is.</p>
-
-<p>For example, consider the following code:</p>
-
-<figure class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">NSDate</span><span class="p">()</span>
-
-<span class="k">let</span> <span class="nv">predicate</span> <span class="o">=</span> <span class="kt">HKQuery</span><span class="o">.</span><span class="nf">predicateForSamplesWithStartDate</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="nf">beginningOfDay</span><span class="p">(),</span> <span class="nv">endDate</span><span class="p">:</span> <span class="kt">NSDate</span><span class="p">()</span><span class="o">.</span><span class="nf">endOfDay</span><span class="p">(),</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="kt">None</span><span class="p">)</span>
-
-<span class="k">let</span> <span class="nv">stepType</span> <span class="o">=</span> <span class="kt">HKQuantityType</span><span class="o">.</span><span class="nf">quantityTypeForIdentifier</span><span class="p">(</span><span class="kt">HKQuantityTypeIdentifierStepCount</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">deleteObjectsOfType</span><span class="p">(</span><span class="n">stepType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"deleted </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> step objects: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="p">})</span>
-<span class="k">let</span> <span class="nv">stepQuantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">countUnit</span><span class="p">(),</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="mi">9800</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">stepSample</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">stepType</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">stepQuantity</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">saveObject</span><span class="p">(</span><span class="n">stepSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-<span class="p">}</span>
-
-<span class="k">let</span> <span class="nv">flightsType</span> <span class="o">=</span> <span class="kt">HKQuantityType</span><span class="o">.</span><span class="nf">quantityTypeForIdentifier</span><span class="p">(</span><span class="kt">HKQuantityTypeIdentifierFlightsClimbed</span><span class="p">)</span><span class="o">!</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">deleteObjectsOfType</span><span class="p">(</span><span class="n">flightsType</span><span class="p">,</span> <span class="nv">predicate</span><span class="p">:</span> <span class="n">predicate</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-    <span class="kt">NSLog</span><span class="p">(</span><span class="s">"deleted </span><span class="se">\(</span><span class="n">count</span><span class="se">)</span><span class="s"> flight objects: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-<span class="p">})</span>
-<span class="k">let</span> <span class="nv">flightsQuantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="kt">HKUnit</span><span class="o">.</span><span class="nf">countUnit</span><span class="p">(),</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="mi">15</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">flightsSample</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">flightsType</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">flightsQuantity</span><span class="p">,</span> <span class="nv">startDate</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="nv">endDate</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span>
-<span class="n">healthStore</span><span class="o">.</span><span class="nf">saveObject</span><span class="p">(</span><span class="n">flightsSample</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>The expected result is that you’ll end up with an entry for Step Count (9800 steps) and an entry for Flights Climbed (15). However, you’ll only get the Flights Climbed entry as the line <code class="language-plaintext highlighter-rouge">healthStore.deleteObjectsOfType(flightsType, predicate: predicate, withCompletion:...</code> will delete all entries that match the predicate, regardless of the <code class="language-plaintext highlighter-rouge">HKObjectType</code>. In addition, if you look at the headers for this method within the HealthKit framework, they don’t add up with what is expected:</p>
-
-<p><img src="https://bendodson.s3.amazonaws.com/weblog/2015/radar-22977320.png" width="800" /></p>
-
-<p>This suggests that this method was refactored at some point prior to release and has this rather serious bug. I’ve filed this as a radar (<a href="https://openradar.appspot.com/radar?id=5021999797633024">rdar://22977320</a>) but in the mean time you’ll need to do a manual search for objects with <code class="language-plaintext highlighter-rouge">HKSampleQuery</code> and delete them with a separate call if you want to avoid this.</p>
-
-<p><strong>Update:</strong> I’ve put together a fix for this issue with a new <code class="language-plaintext highlighter-rouge">HKHealthStore</code> method, <a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/"><code class="language-plaintext highlighter-rouge">deleteSamplesOfType:predicate:withCompletion:</code></a></p>
-
-<p><strong>Update:</strong> Whilst iOS 9.1 hasn’t fixed this issue, my bug report has today (23rd Oct 2015) been marked as a duplicate of issue 23097982 so looks like they may be getting around to fixing it. iOS 9.2 perhaps?</p>
-
-		</div>
-	</article>
-    
-	<article>
-		<header>
-     		
-				<h1><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">The Times They Are A-Changin'</a></h1>
-			
-			<time datetime="2015-09-25" pubdate=""><a href="/weblog/2015/09/25/the-times-they-are-a-changin/">September 25, 2015</a></time>
-    	</header>
-    	<div>
-			<p>Over three and a half years ago I <a href="/weblog/2012/02/16/ive-been-looking-forward-to-this-day-for-a-long-time/">announced the launch of WallaBee</a>, “the ultimate collectibles game for iOS”. Whilst it has been a labour of love for me for over the past four years, it has also been incredibly stressful and draining at times. Today I was very happy to announce that I’d <a href="http://wallabeegame.com/blog/sep-2015/wallazee">sold WallaBee to Munzee</a>. I won’t go into the details of how that will work for players (you can find out all about it on the <a href="http://wallabeegame.com/blog/">WallaBee Blog</a>) but I did want to talk a bit about how a relatively simple game became a huge business.</p>
-
-<p>I created WallaBee as it was a game I wanted to play<sup id="fnref:wanttoplay" role="doc-noteref"><a href="#fn:wanttoplay" class="footnote" rel="footnote">1</a></sup>. I’d built several iOS apps in the past (including several that were featured by Apple) and my day job previously had been as a PHP developer so it was fairly trivial for me to throw the basic building blocks together. Over a few months of testing and iteration the game went live; it was free but monetised by using In-App Purchases for in game currency as well as a pro subscription for $5 a month which gave additional benefits to players. The feedback was great and I iterated quickly to a v1.1 product which launched at Nonick 012 where WallaBee was voted the ‘Best European Gaming Startup of 2012’. Over the coming years I’d add extra bits of complexity and hidden secrets<sup id="fnref:skip" role="doc-noteref"><a href="#fn:skip" class="footnote" rel="footnote">2</a></sup> and generally expand things out.</p>
-
-<p>However, my big plan was to launch a version 2 product. I’d always considered v1.* to be a proof of concept and I had a ton of ideas for things I wanted to improve on. I pitched the idea to my co-founders in November 2012 and we showed off some screens and concepts to our players on April 1st 2013<sup id="fnref:aprilfool" role="doc-noteref"><a href="#fn:aprilfool" class="footnote" rel="footnote">3</a></sup>. It was around that time that the number of players was expanding rapidly and so I spent most of my time dealing with server issues and scalability. Over time, the fast iteration I’d started with slowed to a halt as I dealt with server scaling and that lead to issues when the innovation of iOS overtook us; for example, we didn’t implement AutoLayout and so weren’t equipped to deal with things like the iPhone 6 resolution change. This eventually led to nearly every issue needing the same solution; a complete rewrite of both the app and API. Unfortunately this was difficult to manage as all of my time as the sole developer was being taken up either trying to hold the server issues together enough for another release or dealing with player issues that crop up when you have thousands of people able to communicate with each other.</p>
-
-<p>After a while, it just wasn’t fun for me anymore so I made the decision that I would <a href="http://wallabeegame.com/blog/aug-2015/the-end">shut it down</a>. A few minutes after that announcement, Rob Vardeman from Munzee got in touch and asked if we could speak. I’d met him before when he was in London for a Munzee event and after a discussion, some emails, and a lot of thinking, I decided to let Munzee acquire the company so that they could continue to grow it in the way I had wanted to. I am confident that they will do an excellent job at maintaining the quirky side of WallaBee<sup id="fnref:cats" role="doc-noteref"><a href="#fn:cats" class="footnote" rel="footnote">4</a></sup> whilst also being able to add some amazing new features; I’m so sure of it that I have remained as a shareholder of the company.</p>
-
-<p>Based on my experiences, I have a few pieces of wisdom to share:</p>
-
-<ul>
-  <li>
-    <p>It’s fine to get something launched but don’t forget to put in the groundwork for scalability. If you don’t know what you’re doing, find someone who does.</p>
-  </li>
-  <li>
-    <p>Monetise your game from the start. We never had any issues but I see startups every day that get a big of investment and think that if they build it they can monetise it later; don’t do that. We launched with 30-day and 90-day subscriptions and most players bought a 90-day one straight off. It is much easier to alter your existing payment structure (as we did when we went from subscriptions to single payments for goods) than to try and add one when everything was free previously.</p>
-  </li>
-  <li>
-    <p>Never announce something before it is built. This is a lesson that few people have mastered as it is insanely difficult trying to keep something awesome from the people who are going to love it most; it is also easy to announce something as then you feel like it forces you to launch it by that date but it doesn’t work. Take a leaf out of Apple’s book and only announce something when it is done and going to ship within the next 2 weeks (and when it comes to software, announcing something that is available “Today” should be the rule).</p>
-  </li>
-  <li>
-    <p>Do not underestimate how difficult it is to manage a community of players or how crucial it is that you do. I frequently had to deal with issues such as bullying, stalking, and just generally petty squabbles. We had births, deaths, celebrations, and everything in between<sup id="fnref:death" role="doc-noteref"><a href="#fn:death" class="footnote" rel="footnote">5</a></sup>. There was also the inevitable bugs and server issues that required an apology. However, because of the way we handled those issues publicly and fairly, it cut us a lot of slack when things went wrong. A good community is the key thing for any social app and must be nurtured.</p>
-  </li>
-</ul>
-
-<p>So what now? Without WallaBee to manage over the past few weeks, I’ve found myself at a bit of a loose end with so much more free time! I’ve written three apps so far including a content blocker, an app based on HealthKit, and an app to let me fly my Bebop Drone with an iOS MFI controller<sup id="fnref:stevethree" role="doc-noteref"><a href="#fn:stevethree" class="footnote" rel="footnote">6</a></sup>; all of them will be available on the App Store at some point. I’m also collaborating on an Apple TV game with another developer which will hopefully be live in November. Beyond that I haven’t decided what the future has in store but I’m enjoying working on small, offline apps for the time being.</p>
-
-<p>The final thing to mention is a slight change to the way I do my freelance work. Due to WallaBee becoming my main business for a while, I changed my company name from Ben Dodson Apps Ltd to WallaBee Ltd. As Munzee are based in the US, they have no need for a UK Limited company and so they have simply purchased the rights and assets of the WallaBee app and brand. I’ve therefore changed the company name to Dodo Apps Ltd<sup id="fnref:dodo" role="doc-noteref"><a href="#fn:dodo" class="footnote" rel="footnote">7</a></sup> and that is what I’ll be using for all of my freelance business from now on.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:wanttoplay" role="doc-endnote">
-      <p>And the nice thing now is that I get to play it and enjoy it! <a href="#fnref:wanttoplay" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:skip" role="doc-endnote">
-      <p>One of our players, ‘SkipOkane’ put together <a href="http://skipslists.wikidot.com/stuff-to-try">a list of some of the secrets</a>. My favourite is probably the ‘Mirage’ item which would always appear as a #1 when you purchased it (although the ‘Boomerang’ item that comes back if you try and recycle it is a close second as is the jousting minigame…) <a href="#fnref:skip" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:aprilfool" role="doc-endnote">
-      <p>My reasoning was that if they hated it, we could pretend it was a joke. <a href="#fnref:aprilfool" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:cats" role="doc-endnote">
-      <p>They’ve done well so far; the first set they created is made entirely of dancing cats. I think it’s in safe hands! <a href="#fnref:cats" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:death" role="doc-endnote">
-      <p>I would never have believed that somebody would want to speak with me in the final weeks leading up to their death as they wanted to make arrangements for how their game items could be distributed. It’s humbling and hard to deal with. <a href="#fnref:death" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:stevethree" role="doc-endnote">
-      <p>I would love to do a Steve Jobs “<a href="https://www.youtube.com/watch?v=vZYlhShD2oQ&amp;t=2m19s">these are not 3 separate devices</a>” but they are. <a href="#fnref:stevethree" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-    <li id="fn:dodo" role="doc-endnote">
-      <p>I first used the name “Dodo Apps” when I was doing my A-Level IT course. I built a choral robe management system in Microsoft Access and had to choose a name for the about page; I chose “Dodo Apps” as I was a big fan of the dodo from Alice in Wonderland and because it used letters from my surname. <a href="#fnref:dodo" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p>
-    </li>
-  </ol>
-</div>
-
-		</div>
-	</article>
-    
-	
-</section>
-
-
-<section id="pagination">
-     
-    	<a href="/weblog/page/13/" title="Previous Page" class="pagination-previous">&laquo; Older Entries</a>
-     
-	
-    
-      
-      	<a href="/weblog/page/11/" title="Next Page" class="pagination-next">Newer Entries &raquo; </a>
-      
-    
-</section>
+		<main class="site-main">
+			<section id="posts" class="archive-page content-page">
+	<header class="archive-header">
+		<p class="archive-kicker">Weblog</p>
+		
+			<h1>Latest Articles <span>(page 12 of 26)</span></h1>
+		
+	</header>
+
+	<div class="weblog-feed">
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/14/steve-jobs-introduces-the-ipad-at-death-star-briefing/">Steve Jobs introduces the iPad at Death Star briefing</a>
+						
+					</h2>
+					<time datetime="2015-12-14"><a href="/weblog/2015/12/14/">December 14, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve been re-watching Star Wars1 this weekend in preparation for The Force Awakens and a special episode of The Divide we are recording after Christmas. When it got to the Death Star briefing sequence towards the end of A New Hope, I was reminded of an exce...</p>
+
+				
+					<a href="/weblog/2015/12/14/steve-jobs-introduces-the-ipad-at-death-star-briefing/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/">Using the Siri Remote with the Apple TV Simulator</a>
+						
+					</h2>
+					<time datetime="2015-12-09"><a href="/weblog/2015/12/09/">December 9, 2015</a></time>
+				</header>
+
+				
+				<p>I’ve been working on a tvOS app for a client recently which has led to a lot of time spent building to both the Apple TV hardware and simulator. Whilst the simulator is very good for basic testing, the simulated remote can be a bit tricky to use and so I wa...</p>
+
+				
+					<a href="/weblog/2015/12/09/using-the-siri-remote-with-the-apple-tv-simulator/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/02/introducing-the-divide/">Introducing 'The Divide'</a>
+						
+					</h2>
+					<time datetime="2015-12-02"><a href="/weblog/2015/12/02/">December 2, 2015</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that The Divide, a new podcast I’ve been working on recently, is now available on iTunes.</p>
+
+				
+					<a href="/weblog/2015/12/02/introducing-the-divide/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/">HomeKit enabled Christmas tree lights with Siri control</a>
+						
+					</h2>
+					<time datetime="2015-12-01"><a href="/weblog/2015/12/01/">December 1, 2015</a></time>
+				</header>
+
+				
+				<p>Every year we seem to buy a bigger Christmas tree. This year is no exception and it is now proving difficult to maneuver around it to turn the lights on and off. To fix this, I’ve connected my lights up to a Belkin WeMo and I’m running the excellent Homebri...</p>
+
+				
+					<a href="/weblog/2015/12/01/homekit-christmas-tree-with-siri/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/11/27/brapp-v1.1/">Brapp v1.1</a>
+						
+					</h2>
+					<time datetime="2015-11-27"><a href="/weblog/2015/11/27/">November 27, 2015</a></time>
+				</header>
+
+				
+				<p>A big update I worked on for Brapp went live today on the App Store. It’s the first major update for the app and adds the following:</p>
+
+				
+					<a href="/weblog/2015/11/27/brapp-v1.1/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/">Chipp'd, an app for sharing personal messages</a>
+						
+					</h2>
+					<time datetime="2015-11-19"><a href="/weblog/2015/11/19/">November 19, 2015</a></time>
+				</header>
+
+				
+				<p>I’m happy to announce that an iPhone app I’ve been working on since September this year has gone live in the App Store; Chipp’d v2.0.</p>
+
+				
+					<a href="/weblog/2015/11/19/chippd-app-for-sharing-personal-messages/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/">A simple Audio Recorder controller in Swift (for iPhone)</a>
+						
+					</h2>
+					<time datetime="2015-10-20"><a href="/weblog/2015/10/20/">October 20, 2015</a></time>
+				</header>
+
+				
+				<p>iOS provides a number of useful modal views within it’s system frameworks with everything from sending email to taking photos or video. However, there is still not a standard way to perform what is a fairly basic task; recording a voice memo.</p>
+
+				
+					<a href="/weblog/2015/10/20/a-simple-audio-recorder-controller-in-swift-for-iphone/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/">HKHealthStore Extension, deleteSamplesOfType</a>
+						
+					</h2>
+					<time datetime="2015-10-06"><a href="/weblog/2015/10/06/">October 6, 2015</a></time>
+				</header>
+
+				
+				<p>Following on from my post yesterday about the broken implementation of the HKHealthStore method deleteObjectsOfType:predicate:withCompletion:, I’ve put together a gist which provides a fixed method that works with HKSampleType objects; deleteSamplesOfType:p...</p>
+
+				
+					<a href="/weblog/2015/10/06/hkhealthstore-extension-deletesamplesoftype/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/10/05/healthkit-radar-22977320/">HealthKit Radar 22977320</a>
+						
+					</h2>
+					<time datetime="2015-10-05"><a href="/weblog/2015/10/05/">October 5, 2015</a></time>
+				</header>
+
+				
+				<p>Working with any code, it is inevitable that you’ll stumble across bugs. When this happens with iOS development, Apple ask developers to submit a “radar” so that they can track and hopefully fix any issues that arise. The issue is that the Apple Bug Reporte...</p>
+
+				
+					<a href="/weblog/2015/10/05/healthkit-radar-22977320/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+			<article class="post-preview">
+				<header>
+					<h2>
+						
+							<a href="/weblog/2015/09/25/the-times-they-are-a-changin/">The Times They Are A-Changin'</a>
+						
+					</h2>
+					<time datetime="2015-09-25"><a href="/weblog/2015/09/25/">September 25, 2015</a></time>
+				</header>
+
+				
+				<p>Over three and a half years ago I announced the launch of WallaBee, “the ultimate collectibles game for iOS”. Whilst it has been a labour of love for me for over the past four years, it has also been incredibly stressful and draining at times. Today I was v...</p>
+
+				
+					<a href="/weblog/2015/09/25/the-times-they-are-a-changin/" class="read-more">Read article &gt;</a>
+				
+			</article>
+		
+	</div>
+
+	<nav class="pagination" aria-label="Article pagination">
+		
+			<a href="/weblog/page/13/" class="pagination-previous">&lt; Older Articles</a>
+		
 
 		
+			
+				<a href="/weblog/page/11/" class="pagination-next">Newer Articles &gt;</a>
+			
+		
+	</nav>
+</section>
+
+		</main>
+		
 		<footer>
-			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY</p>
+			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
 		</footer>
 
 	</div>
