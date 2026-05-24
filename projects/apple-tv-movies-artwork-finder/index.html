@@ -73,7 +73,7 @@
 
 
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-22.css" />
+	<link rel="stylesheet" href="/styles-2026-05-24.css" />
 	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
 	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
@@ -123,10 +123,20 @@
 	<header class="tool-hero">
 		<p class="projects-kicker">Artwork Finder</p>
 		<h1>Apple TV Shows &amp; Movies Artwork Finder</h1>
-		<p>Find high-resolution Apple TV show and movie artwork in the new 2:3 portrait style used in iOS 26 and macOS Tahoe.</p>
+		<p>Find high-resolution tv show, box set, and movie artwork from Apple TV in the new 2:3 portrait style used in iOS 26 and macOS Tahoe.</p>
 	</header>
 
 	<section class="tool-search-panel" aria-label="Find artwork">
+		<div class="tool-feature-banner" id="boxSetFeatureBanner">
+			<div class="tool-feature-banner-copy">
+				<div class="tool-feature-heading">
+					<p class="tool-feature-label">New</p>
+					<h2>TV Seasons & Box Sets</h2>
+				</div>
+				<p>You can now view portrait season artwork for each TV show. I've also added a new option in the media dropdown to search for box set artwork in the new portrait style.</p>
+			</div>
+			<button type="button" class="tool-feature-close" id="dismissBoxSetBanner" aria-label="Dismiss box set announcement"></button>
+		</div>
 		<form action="" method="get" accept-charset="utf-8" id="iTunesSearch">
 			<div class="tool-query-row">
 				<input type="text" class="text" name="query" id="query" placeholder="Search for a show or movie" aria-label="Show or movie title">
@@ -137,6 +147,7 @@
 					<span class="tool-select-copy"><span>Media</span><span class="tool-select-value" aria-hidden="true"></span>
 			<select name="type" id="type">
 	            <option value="show">TV Shows</option>
+	            <option value="boxset">TV Box Sets</option>
 	            <option value="movie">Movies</option>
 	        </select>
 	        		</span>
@@ -301,7 +312,8 @@
 			<summary><span>Frequently Asked Questions</span></summary>
 			<div class="tool-disclosure-content">
 				<p><strong>Can I use your website with automation tools?</strong><br>I'd prefer you didn't as it will likely lead to your browser being blocked. If you have automation requirements, take a look at my <a href="https://bendodson.gumroad.com/l/apple-tv-artwork-shortcut">Hi-Res Apple TV Artwork Shortcut</a> which can be used within Apple Shortcuts to automate the fetching of both 2:3 and 16:9 artwork.</p>
-				<p><strong>How can I get artwork for each series of a TV show?</strong><br>Apple no longer provide individual artwork for each season of a TV show, just an image for the show as a whole. You may be able to get season-specific artwork with my <a href="/projects/apple-tv-movies-artwork-finder/pre-ios26/">previous artwork finder</a> but this will be in the older 16:9 style.</p>
+				<p><strong>How can I get artwork for each series of a TV show?</strong><br>Search for a TV show and use the “Season artwork” link below a result. When Apple provides season-specific assets, the tool will fetch and list the highest resolution versions it can find.</p>
+				<p><strong>How can I get Box Set artwork for a TV show?</strong><br>Choose “TV Box Sets” from the media selector. The tool will search for matching TV shows and return any complete-series or box set artwork it finds.</p>
 				<p><strong>What does the country selector do?</strong><br>It chooses which Apple Storefront is used for searching; effectively it changes the search results based on what country you search in as different countries have different TV shows and movies available in them. Generally you'll want to set this to be the same as the country you use for the TV app but the option is there to change it as you may be searching for shows that aren't available in your location.</p>
 				<p><strong>Why can't I find artwork for "insert name here"?</strong><br>The show or movie is likely not available directly within the Apple TV in the region you are searching for. Whilst this version of the artwork finder is able to access artwork from Apple TV+ and other services that connect to the Apple TV app (such as BBC iPlayer or Disney Plus), there are many streaming services that do not connect to Apple TV (i.e. Netflix) and therefore will not appear.</p>
 				<p><strong>How come artwork from Sweden is in English?</strong><br>When you perform a search against a specific country, you are only searching their catalogue; it doesn't make any difference to the language returned. I fetch your language from the browser or OS you are using and so that is used in conjunction with the search country to determine what artwork language you should see. For example, if I search "Harry Potter" in Sweden then I see English artwork as my OS language is set to English; if I set it to Swedish, then I see the Swedish artwork. However, if I have my language set to Swedish but search the USA store, then I get English results as the USA store only has US and Spanish artwork. It's a little confusing but to get localised results you'd need to have your OS or browser set to the language you want and search in a store that has that language within it.</p>
@@ -365,7 +377,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="/apple-tv-movies-2026-05-22.js"></script>
+<script src="/apple-tv-movies-2026-05-24.js"></script>
 
 		</main>
 		

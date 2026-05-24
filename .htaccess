@@ -11,6 +11,8 @@ RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,N]
 RewriteCond %{HTTP_HOST} ^www\.bendodson\.com$ [NC]
 RewriteRule ^(.*)$ https://bendodson.com/$1 [R=301,L]
 
+RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+
 RewriteRule ^\.well-known/host-meta(.*)$ https://mastodon.bendodson.com/.well-known/host-meta$1 [R=301,L]
 
 RewriteRule ^code/?$ /projects/ [R=301,L]
