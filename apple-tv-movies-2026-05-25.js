@@ -321,11 +321,18 @@ function renderSearchResults(results, type) {
 
     if (type === 'boxset') {
         $('<h2></h2>', { text: 'TV Box Sets' }).appendTo('#results');
-        renderImageGrid(results);
+        renderBoxSetResults(results);
         return;
     }
 
     renderImageGrid(results);
+}
+
+function renderBoxSetResults(results) {
+    var container = $('<div></div>', { class: 'artwork-card-grid boxset-artwork-grid' }).appendTo('#results');
+    for (var i = 0; i < results.length; i++) {
+        container.append(createBoxSetCard(results[i]));
+    }
 }
 
 function renderImageGrid(results) {
@@ -392,6 +399,28 @@ function createSeasonCard(season) {
     } else {
         $('<div></div>', { class: 'imglink artwork-placeholder' }).appendTo(card);
     }
+
+    var actions = $('<div></div>', { class: 'artwork-card-actions' }).appendTo(card);
+    for (var i = 0; i < artwork.length; i++) {
+        $('<a></a>', {
+            href: artwork[i].url,
+            target: '_blank',
+            rel: 'noopener',
+            text: artworkButtonLabel(artwork[i]),
+            class: 'artwork-action-button'
+        }).appendTo(actions);
+    }
+
+    return card;
+}
+
+function createBoxSetCard(result) {
+    var title = result.title || 'TV Box Set';
+    var artwork = Array.isArray(result.artwork) && result.artwork.length ? result.artwork : [result];
+    var primary = artwork[0];
+
+    var card = $('<article></article>', { class: 'artwork-card boxset-artwork-card' });
+    createImageLink(primary.url, title, primary).appendTo(card);
 
     var actions = $('<div></div>', { class: 'artwork-card-actions' }).appendTo(card);
     for (var i = 0; i < artwork.length; i++) {
