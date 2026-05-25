@@ -101,8 +101,18 @@
 </script>
 
 
+	<script>
+		(function() {
+			try {
+				var theme = window.localStorage.getItem("theme-preference");
+				if (theme === "dark" || theme === "light") {
+					document.documentElement.setAttribute("data-theme", theme);
+				}
+			} catch (error) {}
+		})();
+	</script>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-25.css" />
+	<link rel="stylesheet" href="/styles-2026-05-26.css" />
 	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
 	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
@@ -692,12 +702,97 @@
 
 		</main>
 		
-		<footer>
+		<footer class="site-footer">
 			<p>I perform all freelance work through my company <strong>Dodo Apps Ltd</strong> (07856552) registered at The Bristol Office, 2nd Floor, 5 High Street, Westbury on Trym, Bristol, England, BS9 3BY. I work remotely from an office in Leicestershire.</p>
+			<div class="theme-toggle-wrap">
+				<span class="theme-toggle-title">Theme</span>
+				<button type="button" class="theme-toggle" id="theme-toggle" data-theme-choice="auto" aria-label="Theme: automatic">
+					<svg class="theme-toggle-icon theme-toggle-icon-auto" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<rect x="3" y="4" width="18" height="13" rx="2"></rect>
+						<path d="M8 21h8"></path>
+						<path d="M12 17v4"></path>
+					</svg>
+					<svg class="theme-toggle-icon theme-toggle-icon-dark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path d="M20.2 14.2A7.2 7.2 0 0 1 9.8 3.8 8.5 8.5 0 1 0 20.2 14.2Z"></path>
+					</svg>
+					<svg class="theme-toggle-icon theme-toggle-icon-light" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<circle cx="12" cy="12" r="4"></circle>
+						<path d="M12 2v2"></path>
+						<path d="M12 20v2"></path>
+						<path d="m4.93 4.93 1.41 1.41"></path>
+						<path d="m17.66 17.66 1.41 1.41"></path>
+						<path d="M2 12h2"></path>
+						<path d="M20 12h2"></path>
+						<path d="m6.34 17.66-1.41 1.41"></path>
+						<path d="m19.07 4.93-1.41 1.41"></path>
+					</svg>
+					<span class="theme-toggle-label">Auto</span>
+				</button>
+			</div>
 		</footer>
 
 	</div>
 
+	<script>
+		(function() {
+			var button = document.getElementById("theme-toggle");
+			if (!button) {
+				return;
+			}
+
+			var labels = {
+				auto: "Auto",
+				dark: "Dark",
+				light: "Light"
+			};
+			var ariaLabels = {
+				auto: "Theme: automatic",
+				dark: "Theme: dark",
+				light: "Theme: light"
+			};
+			var order = ["auto", "dark", "light"];
+			var label = button.querySelector(".theme-toggle-label");
+
+			function getSavedTheme() {
+				try {
+					var saved = window.localStorage.getItem("theme-preference");
+					return saved === "dark" || saved === "light" ? saved : "auto";
+				} catch (error) {
+					return "auto";
+				}
+			}
+
+			function setTheme(theme) {
+				if (theme === "dark" || theme === "light") {
+					document.documentElement.setAttribute("data-theme", theme);
+				} else {
+					document.documentElement.removeAttribute("data-theme");
+				}
+
+				try {
+					if (theme === "auto") {
+						window.localStorage.removeItem("theme-preference");
+					} else {
+						window.localStorage.setItem("theme-preference", theme);
+					}
+				} catch (error) {}
+
+				button.setAttribute("data-theme-choice", theme);
+				button.setAttribute("aria-label", ariaLabels[theme]);
+				button.setAttribute("title", ariaLabels[theme]);
+				if (label) {
+					label.textContent = labels[theme];
+				}
+			}
+
+			setTheme(getSavedTheme());
+			button.addEventListener("click", function() {
+				var current = button.getAttribute("data-theme-choice") || "auto";
+				var next = order[(order.indexOf(current) + 1) % order.length];
+				setTheme(next);
+			});
+		})();
+	</script>
 
 </body>
 </html>
