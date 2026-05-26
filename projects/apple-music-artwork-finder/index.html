@@ -83,7 +83,7 @@
 		})();
 	</script>
 	<link rel="alternate" type="application/rss+xml" title="Ben Dodson, Freelance Apple Platforms Developer" href="https://bendodson.com/rss.xml" />
-	<link rel="stylesheet" href="/styles-2026-05-26.css" />
+	<link rel="stylesheet" href="/styles-2026-05-27.css" />
 	<link rel="icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL2Zhdmljb24uaWNvIn0=">
 	<link rel="apple-touch-icon" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBob25lLnBuZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NTcsImZpdCI6Imluc2lkZSIsIndpdGhvdXRFbmxhcmdlbWVudCI6dHJ1ZX19fQ==">
 	<link rel="apple-touch-icon" sizes="76x76" href="https://images.bendodson.com/eyJidWNrZXQiOiJiZW5kb2Rzb24iLCJrZXkiOiJiZW5kb2Rzb24uY29tL3RvdWNoLWljb24taXBhZC5wbmciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjc2LCJmaXQiOiJpbnNpZGUiLCJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWV9fX0=">
@@ -133,17 +133,168 @@
 	<header class="tool-hero">
 		<p class="projects-kicker">Artwork Finder</p>
 		<h1>Apple Music Artwork Finder</h1>
-		<p>Find and download high-resolution artwork for albums, playlists, stations, artists, music videos, and curators on Apple Music.</p>
+		<p>Search for album artwork by text, or paste an Apple Music URL to find high-resolution artwork for albums, playlists, stations, artists, music videos, and curators.</p>
 	</header>
 
 	<section class="tool-search-panel" aria-label="Find artwork">
 		<form action="" method="get" accept-charset="utf-8" id="apple-music">
-			<div class="tool-inline-search-row">
-				<input type="text" class="text" name="url" id="url" placeholder="Paste an Apple Music URL" aria-label="Apple Music URL">
-				<input type="submit" class="submit" value="Get the artwork">
+			<div class="music-search-tabs" role="tablist" aria-label="Search method">
+				<button type="button" class="music-search-tab" id="musicSearchTextTab" data-mode="text" role="tab" aria-controls="musicTextSearchPanel">Search by Text</button>
+				<button type="button" class="music-search-tab" id="musicSearchUrlTab" data-mode="url" role="tab" aria-controls="musicUrlSearchPanel">Search by URL</button>
+			</div>
+			<div id="musicTextSearchPanel" class="music-search-mode-panel" role="tabpanel" aria-labelledby="musicSearchTextTab">
+				<div class="music-text-search-row">
+					<input type="text" class="text" name="query" id="query" placeholder="Search for an album or artist" aria-label="Album search">
+					<label class="tool-select-field" for="music-storefront">
+						<span class="tool-select-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path></svg></span>
+						<span class="tool-select-copy"><span>Region</span><span class="tool-select-value" aria-hidden="true"></span>
+							<select name="storefront" id="music-storefront">
+								<option value="us">United States of America</option>
+								<option value="gb">United Kingdom</option>
+								<option value="dz">Algeria</option>
+								<option value="ao">Angola</option>
+								<option value="ai">Anguilla</option>
+								<option value="ag">Antigua &amp; Barbuda</option>
+								<option value="ar">Argentina</option>
+								<option value="am">Armenia</option>
+								<option value="au">Australia</option>
+								<option value="at">Austria</option>
+								<option value="az">Azerbaijan</option>
+								<option value="bh">Bahrain</option>
+								<option value="bd">Bangladesh</option>
+								<option value="bb">Barbados</option>
+								<option value="by">Belarus</option>
+								<option value="be">Belgium</option>
+								<option value="bz">Belize</option>
+								<option value="bm">Bermuda</option>
+								<option value="bo">Bolivia</option>
+								<option value="bw">Botswana</option>
+								<option value="br">Brazil</option>
+								<option value="vg">British Virgin Islands</option>
+								<option value="bn">Brunei</option>
+								<option value="bg">Bulgaria</option>
+								<option value="ca">Canada</option>
+								<option value="ky">Cayman Islands</option>
+								<option value="cl">Chile</option>
+								<option value="cn">China</option>
+								<option value="co">Colombia</option>
+								<option value="cr">Costa Rica</option>
+								<option value="ci">Cote D’Ivoire</option>
+								<option value="hr">Croatia</option>
+								<option value="cy">Cyprus</option>
+								<option value="cz">Czech Republic</option>
+								<option value="dk">Denmark</option>
+								<option value="dm">Dominica</option>
+								<option value="do">Dominican Rep.</option>
+								<option value="ec">Ecuador</option>
+								<option value="eg">Egypt</option>
+								<option value="sv">El Salvador</option>
+								<option value="ee">Estonia</option>
+								<option value="fi">Finland</option>
+								<option value="fr">France</option>
+								<option value="de">Germany</option>
+								<option value="gh">Ghana</option>
+								<option value="gr">Greece</option>
+								<option value="gd">Grenada</option>
+								<option value="gt">Guatemala</option>
+								<option value="gy">Guyana</option>
+								<option value="hn">Honduras</option>
+								<option value="hk">Hong Kong</option>
+								<option value="hu">Hungary</option>
+								<option value="is">Iceland</option>
+								<option value="in">India</option>
+								<option value="id">Indonesia</option>
+								<option value="ie">Ireland</option>
+								<option value="il">Israel</option>
+								<option value="it">Italy</option>
+								<option value="jm">Jamaica</option>
+								<option value="jp">Japan</option>
+								<option value="jo">Jordan</option>
+								<option value="kz">Kazakstan</option>
+								<option value="ke">Kenya</option>
+								<option value="kr">Korea, Republic Of</option>
+								<option value="kw">Kuwait</option>
+								<option value="lv">Latvia</option>
+								<option value="lb">Lebanon</option>
+								<option value="li">Liechtenstein</option>
+								<option value="lt">Lithuania</option>
+								<option value="lu">Luxembourg</option>
+								<option value="mo">Macau</option>
+								<option value="mk">Macedonia</option>
+								<option value="mg">Madagascar</option>
+								<option value="my">Malaysia</option>
+								<option value="mv">Maldives</option>
+								<option value="ml">Mali</option>
+								<option value="mt">Malta</option>
+								<option value="mu">Mauritius</option>
+								<option value="mx">Mexico</option>
+								<option value="md">Moldova, Republic Of</option>
+								<option value="ms">Montserrat</option>
+								<option value="np">Nepal</option>
+								<option value="nl">Netherlands</option>
+								<option value="nz">New Zealand</option>
+								<option value="ni">Nicaragua</option>
+								<option value="ne">Niger</option>
+								<option value="ng">Nigeria</option>
+								<option value="no">Norway</option>
+								<option value="om">Oman</option>
+								<option value="pk">Pakistan</option>
+								<option value="pa">Panama</option>
+								<option value="py">Paraguay</option>
+								<option value="pe">Peru</option>
+								<option value="ph">Philippines</option>
+								<option value="pl">Poland</option>
+								<option value="pt">Portugal</option>
+								<option value="qa">Qatar</option>
+								<option value="ro">Romania</option>
+								<option value="ru">Russia</option>
+								<option value="sa">Saudi Arabia</option>
+								<option value="sn">Senegal</option>
+								<option value="rs">Serbia</option>
+								<option value="sg">Singapore</option>
+								<option value="sk">Slovakia</option>
+								<option value="si">Slovenia</option>
+								<option value="za">South Africa</option>
+								<option value="es">Spain</option>
+								<option value="lk">Sri Lanka</option>
+								<option value="kn">St. Kitts &amp; Nevis</option>
+								<option value="lc">St. Lucia</option>
+								<option value="vc">St. Vincent &amp; The Grenadines</option>
+								<option value="sr">Suriname</option>
+								<option value="se">Sweden</option>
+								<option value="ch">Switzerland</option>
+								<option value="tw">Taiwan</option>
+								<option value="tz">Tanzania</option>
+								<option value="th">Thailand</option>
+								<option value="bs">The Bahamas</option>
+								<option value="tt">Trinidad &amp; Tobago</option>
+								<option value="tn">Tunisia</option>
+								<option value="tr">Turkey</option>
+								<option value="tc">Turks &amp; Caicos</option>
+								<option value="ug">Uganda</option>
+								<option value="ua">Ukraine</option>
+								<option value="ae">United Arab Emirates</option>
+								<option value="gb">United Kingdom</option>
+								<option value="us">United States of America</option>
+								<option value="uy">Uruguay</option>
+								<option value="uz">Uzbekistan</option>
+								<option value="ve">Venezuela</option>
+								<option value="vn">Vietnam</option>
+								<option value="ye">Yemen</option>
+							</select>
+						</span>
+					</label>
+					<input type="submit" class="submit" value="Get the artwork">
+				</div>
+			</div>
+			<div id="musicUrlSearchPanel" class="music-search-mode-panel" role="tabpanel" aria-labelledby="musicSearchUrlTab" hidden>
+				<div class="tool-inline-search-row">
+					<input type="text" class="text" name="url" id="url" placeholder="Paste an Apple Music URL" aria-label="Apple Music URL">
+					<input type="submit" class="submit" value="Get the artwork">
+				</div>
 			</div>
 		</form>
-		<p class="tool-version-note">Works with albums, playlists, stations, artists, music videos, and curators from Apple Music.</p>
+		<p class="tool-version-note">Text search is limited to albums. URL search works with albums, playlists, stations, artists, music videos, and curators from Apple Music.</p>
 	</section>
 
 	<section id="results" class="tool-results" aria-live="polite"></section>
@@ -152,7 +303,7 @@
 		<details class="tool-disclosure">
 			<summary><span>How to Use</span></summary>
 			<div class="tool-disclosure-content">
-				<p>Paste an Apple Music URL into the box above and this tool will fetch the highest-resolution artwork I can find. It can currently retrieve artwork for albums, playlists, stations, artists, music videos, and curators.</p>
+				<p>Search by album or artist name to browse album artwork, or paste an Apple Music URL to fetch additional artwork and metadata. URL search can currently retrieve artwork for albums, playlists, stations, artists, music videos, and curators.</p>
 				<p>For example, you can use album URLs such as <a href="https://itunes.apple.com/gb/album/f-k-a-silver-lining/1361152002?i=1361152127">Pray For The Wicked</a>, playlist URLs such as <a href="https://itunes.apple.com/gb/playlist/easy-hits/pl.725376c1e6b14915b7e27a919db39c52">Easy Hits</a>, station URLs such as <a href="https://itunes.apple.com/gb/station/charting-now/ra.985480047">Charting Now Radio</a>, artist URLs such as <a href="https://music.apple.com/gb/artist/paper-idol/1445149242">Paper Idol</a>, music video URLs such as <a href="https://music.apple.com/gb/music-video/cake-by-the-ocean/1444865551">Cake by the Ocean</a>, and curator URLs such as <a href="https://music.apple.com/us/curator/rap-life-radio-with-ebro-darden/1472071440">Rap Life Radio with Ebro Darden</a>.</p>
 			</div>
 		</details>
@@ -220,7 +371,7 @@
 </section>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="/apple-music-2026-05-22.js"></script>
+<script src="/apple-music-2026-05-27.js"></script>
 
 		</main>
 		
