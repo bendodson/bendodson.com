@@ -3005,6 +3005,101 @@ footer p {
 	font-family: var(--serif);
 }
 
+#apple-tv-genre-artwork-finder .genre-filter-row {
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+#apple-tv-genre-artwork-finder #results > h2 {
+	margin: clamp(24px, 5vw, 40px) 0 14px;
+	color: var(--text);
+	font-family: var(--serif);
+	font-size: clamp(1.45em, 3vw, 2em);
+	line-height: 1.1;
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+	align-items: stretch;
+	margin-top: clamp(18px, 4vw, 28px);
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-card {
+	display: grid;
+	grid-template-rows: auto auto;
+	gap: 10px;
+	align-content: start;
+	min-width: 0;
+	height: 100%;
+	padding: 12px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 8px;
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-image {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 2 / 3;
+	background: var(--input-background);
+	border: 1px solid var(--line);
+	border-radius: 8px;
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border: 0;
+	object-fit: cover;
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-image span {
+	position: absolute;
+	left: 14px;
+	right: 14px;
+	bottom: 14px;
+	z-index: 1;
+	color: #fff;
+	font-size: clamp(1em, 2vw, 1.25em);
+	font-weight: 800;
+	line-height: 1.1;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	padding: 8px 10px;
+	color: #fff;
+	background: var(--callout);
+	border: 1px solid var(--callout);
+	border-radius: 6px;
+	font-size: 0.78em;
+	font-weight: 800;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+}
+
+#apple-tv-genre-artwork-finder .genre-artwork-button:hover,
+#apple-tv-genre-artwork-finder .genre-artwork-button:focus {
+	color: #fff;
+	background: var(--link-hover);
+	border-color: var(--link-hover);
+}
+
 #apple-music-playlist-artwork .tool-search-panel input[type="submit"] {
 	width: auto;
 }
@@ -4151,14 +4246,16 @@ a.marker-pill:focus {
 
 @media (min-width: 900px) {
 	#apple-tv-movies-artwork-finder #newResults,
-	#apple-tv-movies-artwork-finder .artwork-card-grid {
+	#apple-tv-movies-artwork-finder .artwork-card-grid,
+	#apple-tv-genre-artwork-finder .genre-artwork-grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
 @media (min-width: 1180px) {
 	#apple-tv-movies-artwork-finder #newResults,
-	#apple-tv-movies-artwork-finder .artwork-card-grid {
+	#apple-tv-movies-artwork-finder .artwork-card-grid,
+	#apple-tv-genre-artwork-finder .genre-artwork-grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
@@ -4234,6 +4331,7 @@ a.marker-pill:focus {
 	.tool-query-row,
 	.tool-inline-search-row,
 	.tool-filter-row,
+	#apple-tv-genre-artwork-finder .genre-filter-row,
 	#apple-music-playlist-artwork .music-text-search-row,
 	.tool-feature-banner,
 	.tool-callout,
@@ -4332,7 +4430,8 @@ a.marker-pill:focus {
 
 @media (max-width: 640px) {
 	#apple-tv-movies-artwork-finder #newResults,
-	#apple-tv-movies-artwork-finder .artwork-card-grid {
+	#apple-tv-movies-artwork-finder .artwork-card-grid,
+	#apple-tv-genre-artwork-finder .genre-artwork-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
@@ -4381,6 +4480,7 @@ a.marker-pill:focus {
 @media (max-width: 480px) {
 	#apple-tv-movies-artwork-finder #newResults,
 	#apple-tv-movies-artwork-finder .artwork-card-grid,
+	#apple-tv-genre-artwork-finder .genre-artwork-grid,
 	#apple-music-playlist-artwork .music-album-grid {
 		grid-template-columns: 1fr;
 	}
