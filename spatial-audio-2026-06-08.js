@@ -1,4 +1,4 @@
-var endpoint = 'https://spatialaudio.dodoapps.io/api/';
+var endpoint = 'https://applemusic.bendodson.com/api/';
 var currentSearchId = 0;
 var currentRequest = null;
 var blockerTimer = null;
@@ -54,7 +54,8 @@ function createArtistCard(artist) {
     return $('<button></button>', {
         class: 'spatial-artist-card',
         type: 'button',
-        'data-artist-id': artist.id
+        'data-artist-id': artist.id,
+        'data-artist-name': artist.name
     }).append(
         $('<span></span>', { class: 'spatial-artist-avatar' }).append(
             $('<img>', {
@@ -207,7 +208,7 @@ function performSearch() {
     return false;
 }
 
-function fetchArtistTracks(artistId) {
+function fetchArtistTracks(artistId, artistName) {
     currentSearchId += 1;
     var searchId = currentSearchId;
     abortCurrentRequest();
@@ -218,7 +219,7 @@ function fetchArtistTracks(artistId) {
         type: 'GET',
         crossDomain: true,
         url: endpoint + 'tracks/',
-        data: { artistId: artistId },
+        data: { artistId: artistId, artistName: artistName },
         dataType: 'json',
         timeout: 15000
     }).done(function(data) {
@@ -248,6 +249,6 @@ $(document).ready(function() {
     });
 
     $('#results').on('click', '.spatial-artist-card', function() {
-        fetchArtistTracks($(this).attr('data-artist-id'));
+        fetchArtistTracks($(this).attr('data-artist-id'), $(this).attr('data-artist-name'));
     });
 });
