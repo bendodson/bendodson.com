@@ -277,33 +277,19 @@ function createAlbumCard(album) {
     })).appendTo(card);
 
     var actions = $('<div></div>', { class: 'music-album-card-actions' }).appendTo(card);
-    if (album.thumb) {
-        $('<a></a>', {
-            href: album.thumb,
-            target: '_blank',
-            rel: 'noopener',
-            text: 'Standard Resolution',
-            class: 'music-artwork-button'
-        }).appendTo(actions);
+    var standardButtons = createStandardArtworkButtonGroup(album);
+    if (standardButtons.children().length) {
+        standardButtons.appendTo(actions);
     }
 
     if (album.large) {
-        $('<a></a>', {
-            href: album.large,
-            target: '_blank',
-            rel: 'noopener',
-            text: 'High Resolution',
-            class: 'music-artwork-button'
-        }).appendTo(actions);
+        createArtworkButton(album.large, 'High Resolution', highResolutionNote(album)).appendTo(actions);
     }
 
     if (album.url) {
-        $('<a></a>', {
-            href: '#',
-            text: 'View More >',
-            class: 'music-artwork-button music-view-more',
-            'data-url': album.url
-        }).appendTo(actions);
+        createArtworkButton('#', 'View More >', '', 'music-view-more')
+            .attr('data-url', album.url)
+            .appendTo(actions);
     }
 
     return card;
@@ -336,20 +322,57 @@ function renderResults(data) {
     $('#results').empty().append(card);
 }
 
-function createArtworkLink(href, label, note) {
+function createArtworkLink(href, label, note, extraClass) {
     var item = $('<li></li>');
-    $('<a></a>', {
-        href: href,
-        target: '_blank',
-        rel: 'noopener',
-        text: label
-    }).appendTo(item);
+    createArtworkButton(href, label, note, extraClass).appendTo(item);
+    return item;
+}
 
-    if (note) {
-        $('<em></em>', { text: note }).appendTo(item);
+function createArtworkButton(href, label, note, extraClass) {
+    var attributes = {
+        href: href,
+        class: 'music-artwork-button' + (extraClass ? ' ' + extraClass : '')
+    };
+    if (href !== '#') {
+        attributes.target = '_blank';
+        attributes.rel = 'noopener';
     }
 
-    return item;
+    var link = $('<a></a>', attributes);
+
+    $('<span></span>', { text: label }).appendTo(link);
+    if (note) {
+        $('<small></small>', { text: note }).appendTo(link);
+    }
+
+    return link;
+}
+
+function createStandardArtworkButtonGroup(data) {
+    var group = $('<div></div>', { class: 'music-artwork-standard-row' });
+    var artwork600 = data.artwork600 || data.thumb;
+    if (artwork600) {
+        createArtworkButton(artwork600, '600px').appendTo(group);
+    }
+
+    if (data.artwork1000) {
+        createArtworkButton(data.artwork1000, '1000px').appendTo(group);
+    }
+
+    return group;
+}
+
+function createStandardArtworkListItem(data) {
+    var group = createStandardArtworkButtonGroup(data);
+    if (!group.children().length) {
+        return $();
+    }
+
+    return $('<li></li>').append(group);
+}
+
+function highResolutionNote(data) {
+    return data.width && data.height ? '(' + data.width + 'x' + data.height + 'px)' : '';
 }
 
 function createArtworkPreview(src, alt, width, height) {
@@ -390,23 +413,20 @@ function dimensionsFromArtworkUrl(url) {
 }
 
 function renderArtworkLinks(data) {
-    var videoNote = (data.type === 'music-videos') ? "Width may be listed incorrectly due to a bug on Apple’s servers but the image will not be distorted." : "";
     var list = $('<ul></ul>', { class: 'music-artwork-links' });
 
-    if (data.thumb) {
-        list.append(createArtworkLink(data.thumb, 'Standard Resolution (' + data.thumbWidth + 'x' + data.thumbHeight + 'px)', videoNote));
-    }
+    list.append(createStandardArtworkListItem(data));
 
     if (data.large) {
-        list.append(createArtworkLink(data.large, 'Highest Resolution (uncompressed jpg • ' + data.width + 'x' + data.height + 'px)'));
+        list.append(createArtworkLink(data.large, 'High Resolution', highResolutionNote(data)));
     }
 
     if (data.png) {
-        list.append(createArtworkLink(data.png, 'Highest Resolution (uncompressed png)'));
+        list.append(createArtworkLink(data.png, 'High Resolution PNG'));
     }
 
     if (data.banner) {
-        list.append(createArtworkLink(data.banner, 'Banner Image (uncompressed jpg)'));
+        list.append(createArtworkLink(data.banner, 'Banner Image'));
     }
 
     if (data.type === 'albums' || data.type === 'playlists' || data.type === 'artists') {
@@ -437,15 +457,12 @@ function renderDiscArtwork(discs) {
         }
 
         var list = $('<ul></ul>', { class: 'music-artwork-links' }).appendTo(card);
+        list.append(createStandardArtworkListItem(disc));
         if (disc.large) {
-            var largeDimensions = dimensionsFromArtworkUrl(disc.large);
-            var width = disc.width || largeDimensions.width;
-            var height = disc.height || largeDimensions.height;
-            var dimensions = width && height ? ' • ' + width + 'x' + height + 'px' : '';
-            list.append(createArtworkLink(disc.large, 'Highest Resolution (uncompressed jpg' + dimensions + ')'));
+            list.append(createArtworkLink(disc.large, 'High Resolution', highResolutionNote(disc)));
         }
         if (disc.png) {
-            list.append(createArtworkLink(disc.png, 'Highest Resolution (uncompressed png)'));
+            list.append(createArtworkLink(disc.png, 'High Resolution PNG'));
         }
     }
 
@@ -702,10 +719,11 @@ function urlForState(state) {
         return getBaseUrl() + '?' + $.param({ view: 'detail', url: state.url || '' });
     }
 
-    return getBaseUrl() + '?' + $.param({
+    var searchParams = {
         query: state.query || $('#query').val().trim(),
         storefront: state.storefront || getSelectedStorefront()
-    });
+    };
+    return getBaseUrl() + '?' + $.param(searchParams);
 }
 
 function getBaseUrl() {
