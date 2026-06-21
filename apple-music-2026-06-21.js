@@ -8,6 +8,7 @@ var appleMusicArtworkApiUrl = appleMusicArtworkApiBaseUrl + '/v1/artwork/apple-m
 var appleMusicAnimationApiUrl = appleMusicArtworkApiBaseUrl + '/v1/artwork/apple-music/animation';
 var searchModeStorageKey = 'apple-music-artwork-search-mode';
 var storefrontStorageKey = 'apple-music-artwork-storefront';
+var artworkSizeStorageKey = 'apple-music-artwork-size';
 var activeSearchMode = 'text';
 
 $(document).ready(function() {
@@ -15,15 +16,16 @@ $(document).ready(function() {
     initialiseSearchModeControls();
 
     var params = getSearchParameters();
+    initialiseArtworkSizeOption(params);
     if (params.url) {
         setSearchMode('url', { persist: false });
         $('#url').val(params.url);
-        fetchArtworkDetail(params.url, { historyMode: 'replace', scroll: false });
+        fetchArtworkDetail(params.url, { historyMode: 'replace', scroll: false, size: params.size });
     } else if (params.query) {
         setSearchMode('text', { persist: false });
         $('#query').val(params.query);
         setSelectedStorefront(params.storefront || getSelectedStorefront(), { persist: false });
-        performTextSearch(params.query, { historyMode: 'replace', scroll: false, storefront: getSelectedStorefront() });
+        performTextSearch(params.query, { historyMode: 'replace', scroll: false, storefront: getSelectedStorefront(), size: params.size });
     } else {
         setSearchMode(getDefaultSearchMode(), { persist: false });
         replaceHistoryState({ mode: 'empty' }, getBaseUrl());
@@ -45,7 +47,8 @@ $(document).ready(function() {
             persistMode: false,
             scrollToLoading: true,
             sourceQuery: $('#query').val().trim(),
-            sourceStorefront: getSelectedStorefront()
+            sourceStorefront: getSelectedStorefront(),
+            size: getArtworkSizeOption()
         });
         return false;
     });
@@ -82,6 +85,7 @@ function performSearch(options) {
 function performTextSearch(query, options) {
     options = options || {};
     var storefront = options.storefront || getSelectedStorefront();
+    var size = getArtworkSizeOption(options.size);
     setSearchMode('text', { persist: options.persistMode !== false });
     $('#query').val(query);
     setSelectedStorefront(storefront, { persist: true });
@@ -89,15 +93,18 @@ function performTextSearch(query, options) {
     var searchId = startSearch();
     showLoading('Searching Apple Music albums...', 'This can take a few moments as the page requests album results from Apple and prepares the artwork links.');
 
+    var payload = {
+        query: query,
+        storefront: storefront
+    };
+    appendArtworkSizeToPayload(payload, size);
+
     var request = trackRequest($.ajax({
         type: 'POST',
         crossDomain: true,
         url: appleMusicSearchApiUrl,
         contentType: 'application/json',
-        data: JSON.stringify({
-            query: query,
-            storefront: storefront
-        }),
+        data: JSON.stringify(payload),
         dataType: 'json',
         timeout: 15000
     }));
@@ -120,6 +127,7 @@ function performTextSearch(query, options) {
             mode: 'search',
             query: query,
             storefront: storefront,
+            size: size,
             results: albums
         }, options.historyMode || 'replace');
         scrollToResults(options);
@@ -137,6 +145,7 @@ function performTextSearch(query, options) {
 function fetchArtworkDetail(url, options) {
     options = options || {};
     var normalisedUrl = normaliseUrl(url);
+    var size = getArtworkSizeOption(options.size);
     setSearchMode('url', { persist: options.persistMode !== false });
     $('#url').val(normalisedUrl);
 
@@ -146,12 +155,15 @@ function fetchArtworkDetail(url, options) {
         scrollToResults(options);
     }
 
+    var payload = { url: normalisedUrl };
+    appendArtworkSizeToPayload(payload, size);
+
     var request = trackRequest($.ajax({
         type: 'POST',
         crossDomain: true,
         url: appleMusicArtworkApiUrl,
         contentType: 'application/json',
-        data: JSON.stringify({ url: normalisedUrl }),
+        data: JSON.stringify(payload),
         dataType: 'json',
         timeout: 15000
     }));
@@ -175,6 +187,7 @@ function fetchArtworkDetail(url, options) {
             url: normalisedUrl,
             sourceQuery: options.sourceQuery || '',
             sourceStorefront: options.sourceStorefront || '',
+            size: size,
             result: artwork
         }, options.historyMode || 'replace');
 
@@ -632,6 +645,36 @@ function updateStorefrontDisplay() {
     $('.tool-select-value').text(selected.length ? selected.text() : '');
 }
 
+function initialiseArtworkSizeOption(params) {
+    params = params || getSearchParameters();
+    var size = normaliseArtworkSize(params.size);
+    if (size) {
+        setStoredValue(artworkSizeStorageKey, size);
+    }
+}
+
+function getArtworkSizeOption(value) {
+    return normaliseArtworkSize(value) || normaliseArtworkSize(getStoredValue(artworkSizeStorageKey));
+}
+
+function normaliseArtworkSize(value) {
+    var text = String(value || '').trim();
+    if (!/^\d{1,5}$/.test(text)) {
+        return '';
+    }
+
+    var size = parseInt(text, 10);
+    return size >= 1 && size <= 10000 ? String(size) : '';
+}
+
+function appendArtworkSizeToPayload(payload, size) {
+    if (!size) {
+        return;
+    }
+
+    payload.size = size;
+}
+
 function getStoredValue(key) {
     try {
         return window.localStorage.getItem(key);
@@ -672,10 +715,11 @@ function restoreHistoryState(state) {
     }
 
     var params = getSearchParameters();
+    initialiseArtworkSizeOption(params);
     if (params.url) {
         setSearchMode('url', { persist: false });
         $('#url').val(params.url);
-        fetchArtworkDetail(params.url, { historyMode: 'replace', scroll: false });
+        fetchArtworkDetail(params.url, { historyMode: 'replace', scroll: false, size: params.size });
         return;
     }
 
@@ -683,7 +727,7 @@ function restoreHistoryState(state) {
         setSearchMode('text', { persist: false });
         $('#query').val(params.query);
         setSelectedStorefront(params.storefront || getSelectedStorefront(), { persist: false });
-        performTextSearch(params.query, { historyMode: 'replace', scroll: false, storefront: getSelectedStorefront() });
+        performTextSearch(params.query, { historyMode: 'replace', scroll: false, storefront: getSelectedStorefront(), size: params.size });
         return;
     }
 
@@ -716,14 +760,24 @@ function urlForState(state) {
     }
 
     if (state.mode === 'detail') {
-        return getBaseUrl() + '?' + $.param({ view: 'detail', url: state.url || '' });
+        var detailParams = { view: 'detail', url: state.url || '' };
+        appendArtworkSizeToUrlParams(detailParams, state.size);
+        return getBaseUrl() + '?' + $.param(detailParams);
     }
 
     var searchParams = {
         query: state.query || $('#query').val().trim(),
         storefront: state.storefront || getSelectedStorefront()
     };
+    appendArtworkSizeToUrlParams(searchParams, state.size);
     return getBaseUrl() + '?' + $.param(searchParams);
+}
+
+function appendArtworkSizeToUrlParams(params, size) {
+    size = normaliseArtworkSize(size);
+    if (size) {
+        params.size = size;
+    }
 }
 
 function getBaseUrl() {
