@@ -330,6 +330,7 @@ function renderResults(data) {
     if (data.type === 'albums') {
         card.append(renderDiscArtwork(data.discs));
         card.append(renderTracks(data));
+        card.append(renderAlbumMetadata(data));
     }
 
     $('#results').empty().append(card);
@@ -542,17 +543,43 @@ function renderTracks(data) {
         $('<td></td>', { text: track.duration }).appendTo(row);
     }
 
-    if (data.metadata) {
-        var metadata = $('<p></p>', { class: 'music-metadata' }).appendTo(section);
-        String(data.metadata).split('\n').forEach(function(line, index) {
-            if (index > 0) {
-                metadata.append('<br>');
+    return section;
+}
+
+function renderAlbumMetadata(data) {
+    var lines = [];
+    var genres = [];
+
+    if (Array.isArray(data.genres)) {
+        data.genres.forEach(function(genre) {
+            genre = String(genre || '').trim();
+            if (genre && genres.indexOf(genre) === -1) {
+                genres.push(genre);
             }
-            metadata.append(document.createTextNode(line));
         });
     }
 
-    return section;
+    if (genres.length) {
+        lines.push((genres.length === 1 ? 'Genre: ' : 'Genres: ') + genres.join(', '));
+    }
+
+    if (data.metadata) {
+        lines = lines.concat(String(data.metadata).split('\n'));
+    }
+
+    if (!lines.length) {
+        return $();
+    }
+
+    var metadata = $('<p></p>', { class: 'music-metadata' });
+    lines.forEach(function(line, index) {
+        if (index > 0) {
+            metadata.append('<br>');
+        }
+        metadata.append(document.createTextNode(line));
+    });
+
+    return metadata;
 }
 
 function initialiseSearchModeControls() {
