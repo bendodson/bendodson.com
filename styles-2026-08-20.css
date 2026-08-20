@@ -533,6 +533,164 @@ footer p {
 	border-bottom-color: currentColor;
 }
 
+.newsletter-confirm-page {
+	max-width: 760px;
+	padding: clamp(8px, 2vw, 20px) 0;
+}
+
+.newsletter-confirm-card {
+	padding: clamp(26px, 6vw, 52px);
+	text-align: center;
+	background: color-mix(in srgb, var(--callout) 5%, var(--surface));
+	border: 1px solid color-mix(in srgb, var(--callout) 22%, var(--line));
+	border-radius: 14px;
+}
+
+.newsletter-confirm-icon {
+	display: grid;
+	width: 72px;
+	height: 72px;
+	margin: 0 auto 22px;
+	color: #fff;
+	background: var(--callout);
+	border-radius: 50%;
+	place-items: center;
+}
+
+.newsletter-confirm-icon svg {
+	width: 38px;
+	height: 38px;
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.7;
+}
+
+.newsletter-confirm-kicker {
+	margin: 0 0 8px;
+	color: var(--detail-accent);
+	font-size: 0.78em;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.newsletter-confirm-card h1 {
+	margin: 0;
+	font-family: var(--serif);
+	font-size: clamp(2em, 5vw, 3.4em);
+	line-height: 1;
+}
+
+.newsletter-confirm-lede {
+	max-width: 610px;
+	margin: 18px auto 0;
+	color: var(--muted);
+	font-size: clamp(1em, 2vw, 1.15em);
+	line-height: 1.65;
+}
+
+.newsletter-confirm-steps {
+	display: grid;
+	gap: 0;
+	max-width: 590px;
+	margin: clamp(28px, 5vw, 40px) auto 0;
+	padding: 0;
+	text-align: left;
+	counter-reset: newsletter-confirm-step;
+	list-style: none;
+}
+
+.newsletter-confirm-steps li {
+	display: grid;
+	grid-template-columns: 38px minmax(0, 1fr);
+	column-gap: 14px;
+	padding: 17px 0;
+	counter-increment: newsletter-confirm-step;
+}
+
+.newsletter-confirm-steps li + li {
+	border-top: 1px solid var(--line);
+}
+
+.newsletter-confirm-steps li::before {
+	display: grid;
+	grid-row: 1 / span 2;
+	width: 32px;
+	height: 32px;
+	color: var(--callout-control-text);
+	background: var(--callout-control-background);
+	border: 1px solid color-mix(in srgb, var(--callout) 25%, var(--line));
+	border-radius: 50%;
+	font-size: 0.78em;
+	font-weight: 800;
+	content: counter(newsletter-confirm-step);
+	place-items: center;
+}
+
+.newsletter-confirm-steps strong {
+	font-family: var(--serif);
+	font-size: 1.05em;
+	line-height: 1.25;
+}
+
+.newsletter-confirm-steps span {
+	margin-top: 4px;
+	color: var(--muted);
+	font-size: 0.88em;
+	line-height: 1.45;
+}
+
+.newsletter-confirm-help {
+	max-width: 590px;
+	margin: 12px auto 0;
+	padding: 18px 20px;
+	text-align: left;
+	background: var(--surface);
+	border-left: 3px solid var(--callout);
+	border-radius: 6px;
+}
+
+.newsletter-confirm-help strong {
+	font-family: var(--serif);
+}
+
+.newsletter-confirm-help p {
+	margin: 4px 0 0;
+	color: var(--muted);
+	font-size: 0.88em;
+	line-height: 1.5;
+}
+
+.newsletter-confirm-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 22px;
+	align-items: center;
+	justify-content: center;
+	margin-top: clamp(26px, 4vw, 36px);
+	font-size: 0.85em;
+	font-weight: 700;
+}
+
+.newsletter-confirm-actions a {
+	color: var(--link);
+}
+
+.newsletter-confirm-actions .newsletter-confirm-home {
+	padding: 10px 16px;
+	color: var(--callout-control-text);
+	background: var(--callout-control-background);
+	border: 1px solid color-mix(in srgb, var(--callout) 25%, var(--line));
+	border-radius: 6px;
+}
+
+.newsletter-confirm-actions .newsletter-confirm-home:hover,
+.newsletter-confirm-actions .newsletter-confirm-home:focus {
+	background: var(--callout-control-hover);
+}
+
 .archive-breadcrumbs {
 	display: flex;
 	flex-wrap: wrap;
@@ -1055,6 +1213,43 @@ footer p {
 .post-newsletter button:hover,
 .post-newsletter button:focus {
 	background: var(--callout-control-hover);
+}
+
+.post-newsletter button:disabled,
+#newsletter button:disabled {
+	cursor: wait;
+	opacity: 0.7;
+}
+
+.newsletter-status:empty {
+	display: none;
+}
+
+.post-newsletter .newsletter-status.is-error,
+#newsletter .newsletter-status.is-error {
+	color: #fff;
+	font-size: 0.82em;
+	font-weight: 700;
+}
+
+.newsletter-confirmation {
+	display: grid;
+	gap: 8px;
+	outline: none;
+}
+
+.post-newsletter .newsletter-confirmation h3,
+#newsletter .newsletter-confirmation h3 {
+	margin: 0;
+	color: #fff;
+	font-family: var(--serif);
+	font-size: clamp(1.25em, 2.5vw, 1.55em);
+	line-height: 1.1;
+}
+
+.newsletter-confirmation strong {
+	color: #fff;
+	overflow-wrap: anywhere;
 }
 
 .post-newsletter .post-newsletter-proof {
