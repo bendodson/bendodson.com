@@ -228,7 +228,7 @@ function fetchArtistTracks(artistId, artistName) {
         }
 
         if (data.message) {
-            showMessage(data.message, 'Please try a different artist.');
+            showMessage('No Spatial Audio tracks found.', data.message);
             return;
         }
 
