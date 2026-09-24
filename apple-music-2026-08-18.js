@@ -6,6 +6,7 @@ var appleMusicArtworkApiBaseUrl = 'https://api.bendodson.com';
 var appleMusicSearchApiUrl = appleMusicArtworkApiBaseUrl + '/v1/artwork/apple-music/search';
 var appleMusicArtworkApiUrl = appleMusicArtworkApiBaseUrl + '/v1/artwork/apple-music/lookup';
 var appleMusicAnimationApiUrl = appleMusicArtworkApiBaseUrl + '/v1/artwork/apple-music/animation';
+var appleMusicArtistLogoApiUrl = appleMusicArtworkApiBaseUrl + '/v1/artwork/apple-music/artist-logo';
 var searchModeStorageKey = 'apple-music-artwork-search-mode';
 var storefrontStorageKey = 'apple-music-artwork-storefront';
 var artworkSizeStorageKey = 'apple-music-artwork-size';
@@ -191,8 +192,10 @@ function fetchArtworkDetail(url, options) {
             result: artwork
         }, options.historyMode || 'replace');
 
-        if (artwork.type === 'albums' || artwork.type === 'playlists' || artwork.type === 'artists') {
+        if (artwork.type === 'albums') {
             performAnimationSearch(normalisedUrl, searchId);
+        } else if (artwork.type === 'artists') {
+            performArtistLogoSearch(artwork.url || normalisedUrl, searchId);
         }
         scrollToResults(options);
     }).fail(function(request, status) {
@@ -204,6 +207,43 @@ function fetchArtworkDetail(url, options) {
     });
 
     return false;
+}
+
+function performArtistLogoSearch(url, searchId) {
+    var request = trackRequest($.ajax({
+        type: 'POST',
+        crossDomain: true,
+        url: appleMusicArtistLogoApiUrl,
+        contentType: 'application/json',
+        data: JSON.stringify({ url: url }),
+        dataType: 'json',
+        timeout: 15000
+    }));
+
+    request.done(function(data) {
+        if (!isCurrentSearch(searchId)) {
+            return;
+        }
+
+        var item = $('#artist-logo');
+        var logo = (data.data || data).logo;
+        item.empty();
+        if (logo && logo.url) {
+            $('<a></a>', {
+                href: logo.url,
+                target: '_blank',
+                rel: 'noopener',
+                text: 'Artist Logo (PNG, ' + logo.width + 'x' + logo.height + 'px)'
+            }).appendTo(item);
+        } else {
+            item.text('No artist logo could be found');
+        }
+    }).fail(function(_request, status) {
+        if (!isCurrentSearch(searchId) || status === 'abort') {
+            return;
+        }
+        $('#artist-logo').text('Artist logo search could not be completed');
+    });
 }
 
 function performAnimationSearch(url, searchId) {
@@ -443,10 +483,15 @@ function renderArtworkLinks(data) {
         list.append(createArtworkLink(data.banner, 'Banner Image'));
     }
 
-    if (data.type === 'albums' || data.type === 'playlists' || data.type === 'artists') {
+    if (data.type === 'albums') {
         $('<li></li>', {
             id: 'animated-artwork',
             text: 'Searching for animated artwork...'
+        }).appendTo(list);
+    } else if (data.type === 'artists') {
+        $('<li></li>', {
+            id: 'artist-logo',
+            text: 'Searching for an artist logo...'
         }).appendTo(list);
     }
 
@@ -735,8 +780,10 @@ function restoreHistoryState(state) {
         setSearchMode('url', { persist: false });
         $('#url').val(state.url || '');
         renderResults(state.result || {});
-        if (state.url && state.result && (state.result.type === 'albums' || state.result.type === 'playlists' || state.result.type === 'artists')) {
+        if (state.url && state.result && state.result.type === 'albums') {
             performAnimationSearch(state.url, currentSearchId);
+        } else if (state.url && state.result && state.result.type === 'artists') {
+            performArtistLogoSearch(state.result.url || state.url, currentSearchId);
         }
         return;
     }
