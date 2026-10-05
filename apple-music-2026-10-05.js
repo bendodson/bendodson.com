@@ -339,7 +339,7 @@ function createAlbumCard(album) {
         createArtworkButton(album.large, 'High Resolution', highResolutionNote(album)).appendTo(actions);
     }
 
-    if (album.url) {
+    if (album.url && album.source !== 'itunes') {
         createArtworkButton('#', 'View More >', '', 'music-view-more')
             .attr('data-url', album.url)
             .appendTo(actions);
